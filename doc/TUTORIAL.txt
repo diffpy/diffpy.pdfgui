@@ -15,7 +15,8 @@ Lesson 1:  Creating simple fit of Ni PDF
 
     2.  Create a new Fit:
         (a) Select "FITTING" in the left-most vertical tab.
-        (b) Click right mouse button and choose "New Fit" in the pop-up menu.
+        (b) Click right mouse button in the left panel and choose "New Fit" in
+            the pop-up menu.
 
     3.  Load structure model:
 
@@ -51,7 +52,7 @@ Lesson 1:  Creating simple fit of Ni PDF
     6.  Start the refinement:
         (a) Select "Fit 1" in the left panel.  The parameters panel shows list
             of used parameters and their initial values.
-        (b) Click the "wheel" icon on the toolbar and watch the fit progress
+        (b) Click the "gear" icon on the toolbar and watch the fit progress
             in the terminal window.
 
     7.  Plot the results:
@@ -79,46 +80,29 @@ Lesson 2:  Build structure model using crystal symmetry
             Rename "New Phase" to "Ni fcc".
 
     2.  Define asymmetric unit:
-        (a) Right click the header of empty atom list in the "Configure" page.
+        (a) Right click the header of the empty atoms grid in the "Configure" page.
         (b) Insert 1 atom using the popup menu.
         (c) Change the elem cell to "Ni".
-        (d) Select the u11-u33 cells and type "0.004".
+        (d) Select the u11-u33 cells and type "0.004" and press Enter.
 
     3.  Expand to all equivalent positions:
-        (a) Right click the first Ni atom and select "Expand space group"
-        (b) Select "Fm-3m" or just type 225 and hit "OK".
+        (a) Right click the first Ni atom and select "Expand space group". A
+            "Space Group Expansion" dialog should open.
+        (b) In the dialog, select Fm-3m or just type 225 in the "Space Group"
+            box and and hit "OK".
+        (c) You should now have four atoms in the atoms grid.
 
     4.  Generate symmetry constraints:
+        (a) Select the "Constraints" tab.
+        (b) Select all atoms. This can be done by dragging the mouse over the
+            atom names or by clicking on the "elem" header.
+        (c) Right click in a selected cell and select "Symmetry constraints."  A
+            "Space Group Constraints" dialog should open.
+        (d) "Fm-3m" should already appear in the "Space Group" box. If it does
+            not, select it as you did in step 3 and hit "OK".
+        (e) The u11-u33 cells should all read the same value.
 
-
-      Step 5.  Fit from previous fitting result
-      a) Select the title of the fitting-procedure that you want to continue from, click mouse's right button and
-         select 'copy' from the pop-up menu;
-      b) Deselect the title, click the right button of mouse, and choose 'Paste Fit' in the pop-up menu;
-      c) Entitle the new fit-procedure;
-      d) Select the 'parameter' in the left column of this fit
-      e) Select one constraint's initial value, and change it to "=FitName" if you want to use the fitted value from fit-procedure "FitName"
-      f) Select the title of fitting, and then click the 'wheel' icon on the tool bar above.
-
-         Example:  Use the result in 'fit 1' to start another fit
-      a) Select fit-procedure title 'fit 1', click mouse's right button and select 'copy' from the pop-up menu;
-      b) Deselect the title 'fit 1', click the right button of mouse, and choose 'Paste Fit' in the pop-up menu;
-      c) Entitle the new fit-procedure with 'fit 2';
-      d) Select the 'parameter' in the left column of 'fit 2';
-      e) Select one constraint's initial value, and change it to "=fit 1" if you want to use the fitted value from 'fit 1'
-      f) Select the title of 'fit 2', and then click the 'wheel' icon on the tool bar above.
-
-
-
-    Appendix
-    1. Make a new structure in PDFGUI
-       After the user starts the page for a new structure.  In the 'configuration' page,
-       a) move the mouse's cursor on "element" and then click the right button of mouse.
-          Choose "Insert atoms" and input the number of atoms.
-       b) The table will appear.  The user can insert the atom name (under "elem"), atom position (x, y, z)
-          thermal factor (u11, u22, u33, u12, u23, u13) and occupancy number (occ)
-
-
+    5. Continue the fit as in Lesson 1.
 
 Citations:
 1. Th. Proffen and S. J. L. Billinge, PDFFIT a program for full profile
@@ -130,12 +114,8 @@ Citations:
    nanostructure in crystals, J. Phys: Condens. Matter , submitted (2006)
 
 
-
 Related Documents:
    In the directory doc/ , the following documents can be found
-1. 99proffjac.pdf: PDFFIT a program for full profile structural refinement 
+1. Proffen-jac-1999.pdf: PDFFIT a program for full profile structural refinement 
    of the atomic pair distribution function
-
-2. JPCM_PDFFitGui.pdf:	Computer programs for studying nanostructure in crystals
-
-3. pdf_man.pdf:	The manual for PDFFIT 1.3
+2. Farrow-jpcm-subm.pdf:	Computer programs for studying nanostructure in crystals
