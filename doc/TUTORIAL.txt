@@ -1,0 +1,141 @@
+==============================================================================
+=                       Welcome to the PDFGui tutorial                       =
+==============================================================================
+
+Lesson 1:  Creating simple fit of Ni PDF
+
+  Input files:
+
+    tests/testdata/Ni_2-8.chi.gr    experimental X-ray PDF data
+    tests/testdata/Ni.stru          Ni f.c.c. structure in PDFfit format
+
+  Procedure:
+
+    1.  Open a terminal and type "pdfgui" to start the program.
+
+    2.  Create a new Fit:
+        (a) Select "FITTING" in the left-most vertical tab.
+        (b) Click right mouse button and choose "New Fit" in the pop-up menu.
+
+    3.  Load structure model:
+
+        (a) Place the cursor of the mouse onto the title of the Fit, click
+            the right button and choose "Insert Phase" in the pop-up menu.
+        (b) Click the "Open" button and load the Ni.stru file.
+
+        The right panel has 3 tabs for the initial configuration, constraints
+        panel for expressing structure properties as functions of tunable
+        parameters, and Results panel for refined structure.
+
+    4.  Load experimental PDF data:
+        (a) Select the title of "Fit 1", click the right button and choose
+            "Insert Data Set" in the pop-up menu.
+        (b) Load the "Ni_2-8.chi.gr" file.
+
+        Again, the right panel shows 3 tabs for properties of this dataset.
+
+    5.  Define what is refined:
+        (a) Click on the "Ni_2-8.chi.gr" data and select the "Constraints" tab.
+        (b) Type "@1" into "Scale Factor" edit box.
+        (c) Select the "Ni.stru" phase and its "Constraints" tab.
+        (d) Fill "a", "b", "c" boxes with "@5".
+
+        A refined variable can be expressed as math expression
+        f(@n1, @n2, @n3, ...) where
+            @n1  stands for fitted parameter and
+            n1, n2, ...   are arbitrary positive integers
+        This allows simple linking of related variables - for example, since
+        cell lengths a, b, c are all expressed as "@5", the refined structure
+        will remain cubic.
+
+    6.  Start the refinement:
+        (a) Select "Fit 1" in the left panel.  The parameters panel shows list
+            of used parameters and their initial values.
+        (b) Click the "wheel" icon on the toolbar and watch the fit progress
+            in the terminal window.
+
+    7.  Plot the results:
+        (a) Select "PLOTTING" in the left-most vertical tab.
+        (b) Select the "Ni_2-8.chi.gr" dataset
+        (c) Click the desired Y data (to select more, hold "Shift" or "Ctrl").
+        (d) Click "Plot" button.
+
+        A new window pops up with plots.  You can try out the buttons in
+        the toolbar below.
+
+    8.  Save your project for later use.
+
+------------------------------------------------------------------------------
+
+Lesson 2:  Build structure model using crystal symmetry
+
+  In the previous example the initial structure was defined by an existing
+  file.  However, PDFgui makes it very easy to build structure model from
+  scratch and constrain it with arbitrary crystal symmetry.
+
+    1.  Create blank structure:
+        (a) Click the FITTING tab
+        (b) Repeat steps 1-3a from Lesson 1, but choose the "New" button.
+            Rename "New Phase" to "Ni fcc".
+
+    2.  Define asymmetric unit:
+        (a) Right click the header of empty atom list in the "Configure" page.
+        (b) Insert 1 atom using the popup menu.
+        (c) Change the elem cell to "Ni".
+        (d) Select the u11-u33 cells and type "0.004".
+
+    3.  Expand to all equivalent positions:
+        (a) Right click the first Ni atom and select "Expand space group"
+        (b) Select "Fm-3m" or just type 225 and hit "OK".
+
+    4.  Generate symmetry constraints:
+
+
+      Step 5.  Fit from previous fitting result
+      a) Select the title of the fitting-procedure that you want to continue from, click mouse's right button and
+         select 'copy' from the pop-up menu;
+      b) Deselect the title, click the right button of mouse, and choose 'Paste Fit' in the pop-up menu;
+      c) Entitle the new fit-procedure;
+      d) Select the 'parameter' in the left column of this fit
+      e) Select one constraint's initial value, and change it to "=FitName" if you want to use the fitted value from fit-procedure "FitName"
+      f) Select the title of fitting, and then click the 'wheel' icon on the tool bar above.
+
+         Example:  Use the result in 'fit 1' to start another fit
+      a) Select fit-procedure title 'fit 1', click mouse's right button and select 'copy' from the pop-up menu;
+      b) Deselect the title 'fit 1', click the right button of mouse, and choose 'Paste Fit' in the pop-up menu;
+      c) Entitle the new fit-procedure with 'fit 2';
+      d) Select the 'parameter' in the left column of 'fit 2';
+      e) Select one constraint's initial value, and change it to "=fit 1" if you want to use the fitted value from 'fit 1'
+      f) Select the title of 'fit 2', and then click the 'wheel' icon on the tool bar above.
+
+
+
+    Appendix
+    1. Make a new structure in PDFGUI
+       After the user starts the page for a new structure.  In the 'configuration' page,
+       a) move the mouse's cursor on "element" and then click the right button of mouse.
+          Choose "Insert atoms" and input the number of atoms.
+       b) The table will appear.  The user can insert the atom name (under "elem"), atom position (x, y, z)
+          thermal factor (u11, u22, u33, u12, u23, u13) and occupancy number (occ)
+
+
+
+Citations:
+1. Th. Proffen and S. J. L. Billinge, PDFFIT a program for full profile
+   structural refinement of the atomic pair distribution function,
+   J. Appl. Crystallogr. 32, 572-575 (1999)
+
+2. C. L. Farrow, P. Juhas, J. W. Liu, D. Bryndin, J. Bloch, Th. Proffen
+   and S. J. L. Billinge, PDFfit2 and PDFgui: Computer programs for studying
+   nanostructure in crystals, J. Phys: Condens. Matter , submitted (2006)
+
+
+
+Related Documents:
+   In the directory doc/ , the following documents can be found
+1. 99proffjac.pdf: PDFFIT a program for full profile structural refinement 
+   of the atomic pair distribution function
+
+2. JPCM_PDFFitGui.pdf:	Computer programs for studying nanostructure in crystals
+
+3. pdf_man.pdf:	The manual for PDFFIT 1.3

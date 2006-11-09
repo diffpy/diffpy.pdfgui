@@ -1,0 +1,48 @@
+This program is part of the DiffPy and DANSE open-source projects at
+Michigan State University and is available subject to the conditions
+and terms laid out below.
+
+If you use this program to do productive scientific research that leads
+to publication, we ask that you acknowledge use of the program by citing
+the following paper in your publication:
+
+  1. Th. Proffen and S. J. L. Billinge, PDFFIT a program for full profile
+     structural refinement of the atomic pair distribution function,
+     J. Appl. Crystallogr. 32, 572-575 (1999)
+
+  2. C. L. Farrow, P. Juhas, J. W. Liu, D. Bryndin, J. Bloch, Th. Proffen
+     and S. J. L. Billinge, PDFfit2 and PDFgui: Computer programs for studying
+     nanostructure in crystals, J. Phys: Condens. Matter, submitted (2006)
+
+Copyright 2006, trustees of Michigan State University, all rights reserved.
+
+For more information please visit the project web-page:
+    http://danse.us/trac/diffraction
+or email Prof. Simon Billinge at billinge@pa.msu.edu
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions
+are met:
+
+  * Redistributions of source code must retain the above copyright
+    notice, this list of conditions and the following disclaimer.
+
+  * Redistributions in binary form must reproduce the above copyright
+    notice, this list of conditions and the following disclaimer in the
+    documentation and/or other materials provided with the distribution.
+
+  * Neither the name of MICHIGAN STATE UNIVERSITY nor the names of its
+    contributors may be used to endorse or promote products derived from
+    this software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+"AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT
+OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED
+TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
