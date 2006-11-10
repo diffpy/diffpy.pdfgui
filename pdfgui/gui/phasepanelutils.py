@@ -105,8 +105,14 @@ def refreshGrid(panel):
         panel.gridAtoms.SetColLabelValue(9, "u23")
         panel.gridAtoms.SetColLabelValue(10, "occ")
 
-        panel.gridAtoms.DeleteRows( numRows = panel.gridAtoms.GetNumberRows() )
-        panel.gridAtoms.InsertRows( numRows = len(panel.structure) )
+        # make sure grid has correct number of rows and blank it
+        natoms = len(panel.structure)
+        nrows = panel.gridAtoms.GetNumberRows()
+        if natoms > nrows:
+            panel.gridAtoms.InsertRows(numRows = natoms - nrows)
+        elif natoms < nrows:
+            panel.gridAtoms.DeleteRows(numRows = nrows - natoms)
+        panel.gridAtoms.ClearGrid()
         for atom in panel.structure:
             panel.gridAtoms.SetCellValue(i,0, str(atom.element)) # element
             panel.gridAtoms.SetCellValue(i,1, float2str(atom.xyz[0])) # x

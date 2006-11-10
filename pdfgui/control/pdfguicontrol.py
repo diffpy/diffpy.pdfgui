@@ -385,10 +385,13 @@ class PDFGuiControl:
                 for idx, par in clothed.parameters.iteritems():
                     inistr = par.initialStr()
                     if inistr[:1] == "=":
-                        name_idx = inistr[1:].rsplit(':', 1)
-                        ininame = name_idx[0]
-                        if len(name_idx) > 1:   srcparidx = name_idx[1]
-                        else:                   srcparidx = str(idx)
+                        iniwords = inistr[1:].split(':')
+                        if len(iniwords) == 1:
+                            ininame = iniwords[0]
+                            srcparidx = str(idx)
+                        else:
+                            ininame = ':'.join(iniwords[:-1])
+                            srcparidx = iniwords[-1]
                         newlinkedname = old2new[ininame]
                         par.setInitial("=%s:%s" % (newlinkedname, srcparidx))
             # finally we can put it in

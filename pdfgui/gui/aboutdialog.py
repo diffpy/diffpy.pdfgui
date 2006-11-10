@@ -88,7 +88,9 @@ class DialogAbout(wx.Dialog):
         strLabel = ", ".join(self.authors)
         
         # display version and svn revison numbers
-        version, revision  = __version__.rsplit('.', 1)
+        verwords = __version__.split('.')
+        version = '.'.join(verwords[:-1])
+        revision = verwords[-1]
         
         self.label_author.SetLabel(strLabel)
         self.label_version.SetLabel(version)

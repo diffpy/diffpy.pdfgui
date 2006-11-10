@@ -217,20 +217,20 @@ class PhaseConstraintsPanel(wx.Panel, PDFPanel):
             wobj.SetValue(s)
         
         ### update the grid ###
-        nAtoms = len(self.structure)
-        nRows = self.gridAtoms.GetNumberRows()
+        natoms = len(self.structure)
+        nrows = self.gridAtoms.GetNumberRows()
         self.gridAtoms.BeginBatch()
         # make sure grid has correct number of rows
-        if nAtoms > nRows:
-            self.gridAtoms.InsertRows(numRows = nAtoms - nRows)
-        elif nAtoms < nRows:
-            self.gridAtoms.DeleteRows(numRows = nRows - nAtoms)
+        if natoms > nrows:
+            self.gridAtoms.InsertRows(numRows = natoms - nrows)
+        elif natoms < nrows:
+            self.gridAtoms.DeleteRows(numRows = nrows - natoms)
 
         # start with clean grid
         self.gridAtoms.ClearGrid()
         
         # fill the first 'elem' column with element symbols
-        for row, atom in zip(range(nAtoms), self.structure):
+        for row, atom in zip(range(natoms), self.structure):
             self.gridAtoms.SetCellValue(row, 0, atom.element)
         
         # update constraints
@@ -244,7 +244,7 @@ class PhaseConstraintsPanel(wx.Panel, PDFPanel):
             if not barevar in bareAtomVarColumn:    continue
             column = bareAtomVarColumn[barevar]
             row = int(m.group(2)) - 1
-            if not 0 <= row < nAtoms:
+            if not 0 <= row < natoms:
                 raise ControlValueError, "Invalid variable index for %r" % var
             self.gridAtoms.SetCellValue(row, column, con.formula)
             barevar = re.sub(r'\(\d+\)$', '', var)
