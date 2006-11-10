@@ -1,6 +1,16 @@
 ==============================================================================
-=                       Welcome to the PDFGui tutorial                       =
+=                       Welcome to the PDFgui tutorial                       =
 ==============================================================================
+
+The latest version of this document is available online at
+
+    http://danse.us/trac/diffraction/browser/diffraction/pdfgui/trunk/doc
+
+Please, have your co-workers or students try it out and let us know if you
+have any comments.  We want to make it really easy for the new users to get
+started with PDFgui.
+
+------------------------------------------------------------------------------
 
 Lesson 1:  Creating simple fit of Ni PDF
 
@@ -15,8 +25,8 @@ Lesson 1:  Creating simple fit of Ni PDF
 
     2.  Create a new Fit:
         (a) Select "FITTING" in the left-most vertical tab.
-        (b) Click right mouse button in the left panel and choose "New Fit" in
-            the pop-up menu.
+        (b) Click right mouse button in the left panel and choose "New Fit"
+	    in the pop-up menu.
 
     3.  Load structure model:
 
@@ -82,7 +92,8 @@ Lesson 2:  Build structure model using crystal symmetry
             Rename "New Phase" to "Ni fcc".
 
     2.  Define asymmetric unit:
-        (a) Right click the header of the empty atoms grid in the "Configure" page.
+	(a) Right click the header of the empty atoms grid in the
+	    "Configure" page.
         (b) Insert 1 atom using the popup menu.
         (c) Change the elem cell to "Ni".
         (d) Select the u11-u33 cells and type "0.004" and press Enter.
@@ -91,18 +102,25 @@ Lesson 2:  Build structure model using crystal symmetry
         (a) Right click the first Ni atom and select "Expand space group". A
             "Space Group Expansion" dialog should open.
         (b) In the dialog, select Fm-3m or just type 225 in the "Space Group"
-            box and and hit "OK".
-        (c) You should now have four atoms in the atoms grid.
+            box and hit "OK".
+
+	You should now have four atoms in the atoms grid.
 
     4.  Generate symmetry constraints:
         (a) Select the "Constraints" tab.
         (b) Select all atoms. This can be done by dragging the mouse over the
             atom names or by clicking on the "elem" header.
-        (c) Right click in a selected cell and select "Symmetry constraints."  A
-            "Space Group Constraints" dialog should open.
+        (c) Right click in a selected cell and select "Symmetry constraints."
+	    A "Space Group Constraints" dialog should open.
         (d) "Fm-3m" should already appear in the "Space Group" box. If it does
             not, select it as you did in step 3 and hit "OK".
-        (e) The u11-u33 cells should all read the same value.
+
+	The u11-u33 cells should all read the same value.  The "x", "y" and
+	"z" cells should be all empty, because Ni atoms are at special
+	positions in Fm-3m.  You may try to select lower-symmetry space and
+	check what happens with the constraints.  The space group constraints
+	may be mixed by selecting different groups of atoms, for example when
+	only certain species show lowered symmetry.
 
     5. Continue the fit as in Lesson 1.
 
@@ -122,23 +140,23 @@ Lesson 3:  Multi-stage fitting
     3.  Paste the fit.
         (a) Right click in the empty space between the first fit in the fit
             tree.
-        (b) Select "Paste Fit." This will create "Fit 1_copy", a copy of "Fit 1"
-            in the fit tree.
+        (b) Select "Paste Fit." This will create "Fit 1_copy", a copy of
+	    "Fit 1" in the fit tree.
 
     4. Link the fits.
         (a) Click on "Fit 1_copy" in the fit tree. 
         (b) In the "Parameters" panel, select the entire "Initial" column.
         (c) Type "=Fit 1" and then press Enter. The "Initial" values of the
-            parametes should now read "=Fit1:n", where "n" is the index of the
+            parameters should now read "=Fit1:n", where "n" is the index of the
             parameter. 
 
             This is the linking syntax: "=name:index".  
             "name" is the name of another fit.  
             "index" is the index of a parameter in that fit. 
             If you omit "index", it will default to the index of the parameter
-            you are linking from.  A linked parameter uses the refined value of
-            the link as its initial value. This is useful when you are running
-            several related fits.
+            you are linking from.  A linked parameter uses the refined value
+	    of the link as its initial value. This is useful when you are
+	    running several related fits.
     
     5.  Add more fit parameters.
         (a) Select the "Constraints" tab of the  "Ni.stru" phase below 
@@ -152,18 +170,18 @@ Lesson 3:  Multi-stage fitting
             the "offset" in the plotting window to 0 to place the plots on top
             of each other.
 
-Citations:
-1. Th. Proffen and S. J. L. Billinge, PDFFIT a program for full profile
+------------------------------------------------------------------------------
+
+References:
+
+1. Proffen-jac-1999.pdf
+   Th. Proffen and S. J. L. Billinge, PDFFIT a program for full profile
    structural refinement of the atomic pair distribution function,
    J. Appl. Crystallogr. 32, 572-575 (1999)
 
-2. C. L. Farrow, P. Juhas, J. W. Liu, D. Bryndin, J. Bloch, Th. Proffen
+2. Farrow-jpcm-subm.pdf
+   C. L. Farrow, P. Juhas, J. W. Liu, D. Bryndin, J. Bloch, Th. Proffen
    and S. J. L. Billinge, PDFfit2 and PDFgui: Computer programs for studying
-   nanostructure in crystals, J. Phys: Condens. Matter , submitted (2006)
+   nanostructure in crystals, J. Phys: Condens. Matter, submitted (2006)
 
-
-Related Documents:
-   In the directory doc/ , the following documents can be found
-1. Proffen-jac-1999.pdf: PDFFIT a program for full profile structural refinement 
-   of the atomic pair distribution function
-2. Farrow-jpcm-subm.pdf:	Computer programs for studying nanostructure in crystals
+Last modified $Date$
