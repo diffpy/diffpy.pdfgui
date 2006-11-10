@@ -27,6 +27,7 @@ import sys
 import os
 import cPickle
 
+import diffpy
 from pdfgui.control.pdffitsandbox import PdfFitSandbox
 
 def main():

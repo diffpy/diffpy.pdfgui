@@ -22,6 +22,7 @@ import sys
 import os
 import unittest
 
+import diffpy
 from pdfgui.control.controlerrors import ControlRuntimeError
 from pdfgui.control.controlerrors import ControlKeyError
 from pdfgui.control.parameter import Parameter

@@ -21,6 +21,7 @@ __id__ = '$Id$'
 import os
 import unittest
 
+import diffpy
 from pdfgui.control.controlerrors import ControlRuntimeError
 
 # useful variables

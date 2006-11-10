@@ -361,8 +361,8 @@ class FitStructure(PDFStructure):
                 del self.constraints[var]
             elif mUij and (int(mUij.group(2)) - 1) in tobeconstrained:
                 del self.constraints[var]
-        # find the largest used parameter index
-        pidxused = [i for i in self.owner.updateParameters()]
+        # find the largest used parameter index; pidxused must have an element
+        pidxused = [i for i in self.owner.updateParameters()] + [0]
         # new parameters will start at the next decade
         firstpospar = firstUijpar = 10*(max(pidxused)/10) + 11
         # dictionary of parameter indices and their values

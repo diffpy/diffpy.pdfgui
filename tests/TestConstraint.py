@@ -22,6 +22,7 @@ import sys
 import os
 import unittest
 
+import diffpy
 from pdfgui.control.controlerrors import ControlSyntaxError
 from pdfgui.control.constraint import Constraint
 
