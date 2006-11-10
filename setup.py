@@ -9,7 +9,7 @@ Scripts:    pdfgui, pdfserver
 """
 
 # version
-__id__ = "$Id: setup.py 730 2006-10-28 20:30:18Z juhas $"
+__id__ = "$Id$"
 
 from distutils.core import setup
 import sys
