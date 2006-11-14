@@ -247,6 +247,7 @@ class MainPanel(wx.Panel):
         self.deleteId = wx.ID_DELETE    # Delete tree item
         self.copyId = wx.ID_COPY        # Copy a tree item
         self.pasteId = wx.ID_PASTE      # Paste a tree item into tree
+        self.pasteLinkId = wx.NewId()   # Paste and link a fit node
 
         # Misc. functions, these are exclusive to the main menu.
         self.newId = wx.ID_NEW          # Start a new Project
@@ -432,6 +433,9 @@ class MainPanel(wx.Panel):
         self.pasteItem = wx.MenuItem(self.editMenu, self.pasteId,
                 "&Paste Item\tCtrl+V", "", wx.ITEM_NORMAL)
         self.editMenu.AppendItem(self.pasteItem)
+        self.pasteLinkItem = wx.MenuItem(self.editMenu, self.pasteLinkId,
+                "&Paste Linked Fit", "", wx.ITEM_NORMAL)
+        self.editMenu.AppendItem(self.pasteLinkItem)
         self.editMenu.AppendSeparator()
         self.journalItem = wx.MenuItem(self.editMenu, wx.NewId(), 
                 "&Journal\tCtrl+j", "", wx.ITEM_NORMAL)
@@ -615,6 +619,7 @@ class MainPanel(wx.Panel):
         wx.EVT_MENU(self.frame, self.deleteId, self.onDelete)
         wx.EVT_MENU(self.frame, self.copyId, self.onCopy)
         wx.EVT_MENU(self.frame, self.pasteId, self.onPaste)
+        wx.EVT_MENU(self.frame, self.pasteLinkId, self.onPasteLink)
         wx.EVT_MENU(self.frame, self.journalItem.GetId(), self.onJournal)
         wx.EVT_MENU(self.frame, self.servItem.GetId(), self.onServerConfig)
         #wx.EVT_MENU(self.frame, self.prefItem.GetId(), self.onPreferences)
@@ -657,6 +662,7 @@ class MainPanel(wx.Panel):
         self.Bind(wx.EVT_MENU, self.onNewFit, id=self.newFitId)
         self.Bind(wx.EVT_MENU, self.onCopy, id=self.copyId)
         self.Bind(wx.EVT_MENU, self.onPaste, id=self.pasteId)
+        self.Bind(wx.EVT_MENU, self.onPasteLink, id=self.pasteLinkId)
         self.Bind(wx.EVT_MENU, self.onInsPhase, id=self.newPhaseId)
         self.Bind(wx.EVT_MENU, self.onInsData, id=self.newDataId)
         self.Bind(wx.EVT_MENU, self.onInsCalc, id=self.newCalcId)
@@ -1087,6 +1093,7 @@ class MainPanel(wx.Panel):
         selections = self.treeCtrlMain.GetSelections()
         if selections:
             node = self.treeCtrlMain.GetFitRoot(selections[0])
+            nodetype = self.treeCtrlMain.GetNodeType(node)
             if node in self.runningDict.values():
                 return
 
@@ -1098,6 +1105,7 @@ class MainPanel(wx.Panel):
             menu.AppendSeparator()
             menu.Append(self.copyId, "Copy")
             menu.Append(self.pasteId, "Paste")
+            menu.Append(self.pasteLinkId, "Paste Linked Fit")
             menu.Append(self.deleteId, "Delete")
             menu.AppendSeparator()
             menu.Append(self.newPhaseId, "Insert Phase")
@@ -1228,7 +1236,8 @@ class MainPanel(wx.Panel):
         additional logic, put that in a separate method.
         """
         # Start by refreshing the shared items. We don't need things to become
-        # perpetually disabled.
+        # perpetually disabled. All things are enabled by default. It is up to
+        # the logic below to disable them.
         menu.Enable(self.newFitId, True)
         menu.Enable(self.newPhaseId, True)
         menu.Enable(self.newDataId, True)
@@ -1236,15 +1245,13 @@ class MainPanel(wx.Panel):
         menu.Enable(self.deleteId, True)
         menu.Enable(self.copyId, True)
         menu.Enable(self.pasteId, True)
+        menu.Enable(self.pasteLinkId, True)
 
         # Get the selections off the tree
         selections = self.treeCtrlMain.GetSelections()
         node = None
         if selections:
             node = selections[0]
-            itemtype = self.treeCtrlMain.GetNodeType(node)
-        else:
-            itemtype = None
 
         phasesAtMax = False
         noPhases = False
@@ -1269,39 +1276,45 @@ class MainPanel(wx.Panel):
         # something in the clipboard
         pastename = ""
         clipbranchtype = None
-        ## No paste if nothing in the clipboard
         cdata = self.treeCtrlMain.GetClipboard()
+
+        ## No paste if nothing in the clipboard
         if cdata is None:
             menu.Enable(self.pasteId, False)
+            menu.Enable(self.pasteLinkId, False)
         else:
             clipbranchtype = cdata.type
-            ## Can always paste a fit
             if clipbranchtype == "fit":
                 pastename = "Fit"
-                menu.Enable(self.pasteId, True)
-            ## Can always paste a phase, but no more than 5.
+                # Check to see if the linking fit is still in the tree. If it is
+                # not, we disable pasteLink
+                fitname = cdata.name
+                fits = self.treeCtrlMain.GetChildren(self.treeCtrlMain.root)
+                fitnames = map(self.treeCtrlMain.GetItemText, fits)
+                if fitname not in fitnames:
+                    menu.Enable(self.pasteLinkId, False)
+            # pasteLink only if there's a fit in the clipboard
             elif clipbranchtype == "phase":
                 pastename = "Phase"
-                if phasesAtMax:
-                    menu.Enable(self.pasteId, False)
-            ## No paste of dataset except from a fit, dataset, or phase,
-             # unless that phase is within a fit.
+                menu.Enable(self.pasteLinkId, False)
             elif clipbranchtype == "dataset":
                 pastename = "Data Set"
-            ## Can always paste a calculation
+                menu.Enable(self.pasteLinkId, False)
             elif clipbranchtype == "calculation":
                 pastename = "Calculation"
+                menu.Enable(self.pasteLinkId, False)
             menu.SetLabel(self.pasteId, "Paste %s" % pastename)
 
-        # Enable/Disable certain entries based upon where we clicked.
+        # Disable certain entries based upon where we clicked.
         ## No copy, paste, or insert on multiple items.
         if len(selections) > 1:
             menu.Enable(self.copyId, False)
             menu.Enable(self.pasteId, False)
+            menu.Enable(self.pasteLinkId, False)
             menu.Enable(self.newDataId, False)
             menu.Enable(self.newPhaseId, False)
             menu.Enable(self.newCalcId, False)
-        ## Allow paste of fit or calculation if no items selected
+        ## Disallow paste of fit if no items selected
         elif not selections:
             menu.Enable(self.copyId, False)
             menu.Enable(self.deleteId, False)
@@ -1310,8 +1323,7 @@ class MainPanel(wx.Panel):
             menu.Enable(self.newCalcId, False)
             if clipbranchtype != 'fit':
                 menu.Enable(self.pasteId, False)
-            else:
-                menu.Enable(self.pasteId, True)
+                menu.Enable(self.pasteLinkId, False)
 
         return
 
@@ -1481,6 +1493,41 @@ class MainPanel(wx.Panel):
         if selections:
             ep = selections[0]
         newnode = self.treeCtrlMain.PasteBranch(ep)
+        self.treeCtrlMain.Expand(newnode)
+        self.treeCtrlMain.EditLabel(newnode)
+        self.treeCtrlMain.SelectItem(newnode)
+        self.treeCtrlMain.EnsureVisible(newnode)
+        self.needsSave()
+        return
+
+    def onPasteLink(self, event):
+        """Paste a copied fit and link it to the original.
+        
+        This should only be called on a 'fit' node, and only if the original
+        'fit' node, or at least one with the same name as the original still
+        exists in the tree.
+        """
+        selections = self.treeCtrlMain.GetSelections()
+        cdata = self.treeCtrlMain.GetClipboard()
+        fitname = cdata.name
+        fits = self.treeCtrlMain.GetChildren(self.treeCtrlMain.root)
+        fitnames = map(self.treeCtrlMain.GetItemText, fits)
+        if fitname not in fitnames: return
+
+        ep = None
+        if selections:
+            ep = selections[0]
+
+        newnode = self.treeCtrlMain.PasteBranch(ep)
+        # Now link the fit
+        newfit = self.treeCtrlMain.GetControlData(newnode)
+        oldparnames = cdata.parameters.keys()
+        for (parname, par) in newfit.parameters.items():
+            if parname in oldparnames:
+                parval = "=%s:%s" % (fitname, parname)
+                par.setInitial(parval)
+
+        # Make the node ready for editing
         self.treeCtrlMain.Expand(newnode)
         self.treeCtrlMain.EditLabel(newnode)
         self.treeCtrlMain.SelectItem(newnode)
