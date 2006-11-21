@@ -4,7 +4,7 @@
 
 The latest version of this document is available online at
 
-    http://danse.us/trac/diffraction/browser/diffraction/pdfgui/trunk/doc
+http://danse.us/trac/diffraction/browser/diffraction/diffpy/diffpy/pdfgui/doc
 
 Please, have your co-workers or students try it out and let us know if you
 have any comments.  We want to make it really easy for the new users to get
