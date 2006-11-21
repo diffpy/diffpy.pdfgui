@@ -21,7 +21,9 @@ import wx
 #from serverpanel import ServerPanel
 #from journalpanel import JournalPanel
 #from datasetconfigurepanel import DataSetConfigurePanel
-from fitnotebookpanel import FitNotebookPanel
+#from fitnotebookpanel import FitNotebookPanel
+#from rseriespanel import RSeriesPanel
+from temperatureseriespanel import TemperatureSeriesPanel
 
 class MyFrame(wx.Frame):
     def __init__(self, *args, **kwds):
@@ -32,7 +34,9 @@ class MyFrame(wx.Frame):
         #self.window_1 = ServerPanel(self, -1)
         #self.window_1 = JournalPanel(self, -1)
         #self.window_1 = DataSetConfigurePanel(self, -1)
-        self.window_1 = FitNotebookPanel(self, -1)
+        #self.window_1 = FitNotebookPanel(self, -1)
+        #self.window_1 = RSeriesPanel(self, -1)
+        self.window_1 = TemperatureSeriesPanel(self, -1)
 
         self.__set_properties()
         self.__do_layout()

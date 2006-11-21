@@ -190,19 +190,6 @@ class FitTree(wx.TreeCtrl):
         fp = self.GetFitRoot(node)
         return self.GetItemText(fp)
 
-    #def GetLastFit(self):
-    #    """Get the last fit in the fit tree.
-
-    #    This method is helpful in placing fits and calculations into the fit
-    #    tree.  This method depends on the fact that fits are placed before
-    #    calculations in the fit tree.
-    #    """
-    #    fits = self.GetChildren(self.root)
-    #    if fits:
-    #        return fits[-1]
-    #    else:
-    #        return None
-    
     def GetLastPhase(self, node):
         """Get the last phase child of the parent node.
 

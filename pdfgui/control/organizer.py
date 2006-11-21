@@ -97,6 +97,10 @@ class Organizer(PDFComponent):
         """
         objList = self.__findList(id)        
         return objList.index(id.name)
+
+    def hasStructures(self):
+        """Check to see if there are structures."""
+        return len(self.strucs) > 0
         
     def getStructure(self, pos):
         """get structure by position
@@ -106,6 +110,10 @@ class Organizer(PDFComponent):
         # The function can only be called by gui code. So don't catch IndexError
         # Any IndexError is a program bug thus should be propagated as is.
         return self.strucs[pos]
+
+    def hasDataSets(self):
+        """Check to see if there are datasets."""
+        return len(self.datasets) > 0
     
     def getDataSet(self, pos):
         """get dataset by position
@@ -116,6 +124,10 @@ class Organizer(PDFComponent):
         # Any IndexError is a program bug thus should be propagated as is.
         return self.datasets[pos]
         
+    def hasCalculations(self):
+        """Check to see if there are calculations."""
+        return len(self.calcs) > 0
+
     def getCalculation(self, pos):
         """get calculation by position
         

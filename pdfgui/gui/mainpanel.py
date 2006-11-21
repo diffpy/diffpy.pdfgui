@@ -34,6 +34,7 @@ from journalpanel import JournalPanel
 from phasenotebookpanel import PhaseNotebookPanel
 from plotpanel import PlotPanel
 from rseriespanel import RSeriesPanel
+from temperatureseriespanel import TemperatureSeriesPanel
 from serverpanel import ServerPanel
 from welcomepanel import WelcomePanel
 
@@ -102,7 +103,9 @@ class MainPanel(wx.Panel):
     "config"        --  This mode is used for preferences and server
                         configuration. It is essentially the same as
                         "addingdata".
-    "rseries"       --  The mode used when performing an r-series macro.
+    "rseries"       --  The mode used when configuring an r-series macro.
+    "tseries"       --  The mode used when configuring a temperature series
+                        macro.
 
     The mode determines how the tree and other widgets react to user
     interaction. The mode of the program is changed with the method setMode.
@@ -118,6 +121,7 @@ class MainPanel(wx.Panel):
                     * Miscellaneous panels:
                     "blank"         --  A blank panel
                     "rseries"       --  The r-series macro panel
+                    "tseries"       --  The temperature series macro panel
                     "welcome"       --  A welcome panel
 
                     * 'fitting' mode panels
@@ -326,6 +330,7 @@ class MainPanel(wx.Panel):
              "addphase"     :       AddPhasePanel(self.windowMain, -1),
              "serverconfig" :       ServerPanel(self.windowMain, -1),
              "rseries"      :       RSeriesPanel(self.windowMain, -1),
+             "tseries"      :       TemperatureSeriesPanel(self.windowMain, -1),
              }
 
         # Prepare the right pane. Display the welcome screen.
@@ -478,8 +483,11 @@ class MainPanel(wx.Panel):
         # Macros sub-menu
         self.macrosMenu = wx.Menu()
         self.rseriesItem = wx.MenuItem(self.macrosMenu, wx.NewId(),
-                "r-series", "", wx.ITEM_NORMAL) 
+                "r-Series", "", wx.ITEM_NORMAL) 
         self.macrosMenu.AppendItem(self.rseriesItem)
+        self.tseriesItem = wx.MenuItem(self.macrosMenu, wx.NewId(),
+                "Temperature Series", "", wx.ITEM_NORMAL) 
+        self.macrosMenu.AppendItem(self.tseriesItem)
         self.fitsMenu.AppendMenu(wx.NewId(), "Macros", self.macrosMenu)
         self.menuBar.Append(self.fitsMenu, "Fi&ts")
         # End Fits Menu
@@ -631,6 +639,7 @@ class MainPanel(wx.Panel):
         wx.EVT_MENU(self.frame, self.exportResId, self.onExportRes)
         wx.EVT_MENU(self.frame, self.impFitItem.GetId(), self.onImportScript)
         wx.EVT_MENU(self.frame, self.rseriesItem.GetId(), self.onRSeries)
+        wx.EVT_MENU(self.frame, self.tseriesItem.GetId(), self.onTSeries)
         ## Macros are inserted individually
 
         ## Phases Menu
@@ -725,6 +734,9 @@ class MainPanel(wx.Panel):
 
         "rseries" type:
         * Give the fit object to the panel
+
+        "tseries" type:
+        * Give the fit object to the panel
         """
         selections = self.treeCtrlMain.GetSelections()
         if len(selections) == 1:
@@ -735,7 +747,7 @@ class MainPanel(wx.Panel):
                 self.rightPanel.configuration = dataobject.initial
                 self.rightPanel.constraints = dataobject.constraints
                 self.rightPanel.results = dataobject.refined
-            if paneltype == 'dataset':
+            elif paneltype == 'dataset':
                 self.rightPanel.configuration = dataobject
                 self.rightPanel.constraints = dataobject.constraints
                 self.rightPanel.results = dataobject.refined
@@ -745,6 +757,8 @@ class MainPanel(wx.Panel):
             elif paneltype == 'calculation':
                 self.rightPanel.calculation = dataobject
             elif paneltype == 'rseries':
+                self.rightPanel.fit = dataobject
+            elif paneltype == 'tseries':
                 self.rightPanel.fit = dataobject
 
         return
@@ -774,6 +788,9 @@ class MainPanel(wx.Panel):
 
          "rseries" mode:
          * buttonFitting and buttonPlotting are disabled
+
+         "tseries" mode:
+         * buttonFitting and buttonPlotting are disabled
         """
         self.mode = mode
         if mode == 'fitting':
@@ -787,7 +804,8 @@ class MainPanel(wx.Panel):
             self.buttonFitting.Enable(True)
             self.buttonPlotting.SetValue(1)
             self.buttonFitting.SetValue(0)
-        elif mode in ["addingdata", "addingphase", "config", "rseries"]:
+        elif mode in ["addingdata", "addingphase", "config", "rseries",
+                "tseries"]:
             self.buttonFitting.Enable(False)
             self.buttonPlotting.Enable(False)
         return
@@ -933,6 +951,9 @@ class MainPanel(wx.Panel):
         
         "plotting" mode:
         * Only multiple selections of the same node type are allowed.
+
+        "rseries", "tseries" mode:
+        * The behavior is defined in the associated panel
         """
         # Make sure that the item is visible.
         node = event.GetItem()
@@ -993,6 +1014,9 @@ class MainPanel(wx.Panel):
         elif self.mode == "rseries":
             self.rightPanel.onTreeSelChanged(event)
 
+        elif self.mode == "tseries":
+            self.rightPanel.onTreeSelChanged(event)
+
         # update the toolbar
         self.updateToolbar()
         return
@@ -1011,11 +1035,14 @@ class MainPanel(wx.Panel):
 
          "rseries" mode:
             * can only select fit items
+
+         "tseries" mode:
+            * can only select fit items
         """
         node = event.GetItem()
         if self.mode in ["addingdata", "addingphase", "config"]:
             event.Veto()
-        elif self.mode == "rseries":
+        elif self.mode in ["rseries", "tseries"]:
             itemtype = self.treeCtrlMain.GetNodeType(event.GetItem())
             if itemtype != "fit":
                 event.Veto()
@@ -1859,6 +1886,13 @@ class MainPanel(wx.Panel):
         self.treeCtrlMain.UnselectAll()
         self.setMode("rseries")
         self.switchRightPanel("rseries")
+        return
+
+    def onTSeries(self, event):
+        """Open up the temperature series panel."""
+        self.treeCtrlMain.UnselectAll()
+        self.setMode("tseries")
+        self.switchRightPanel("tseries")
         return
 
     def onExportNewStruct(self, event):

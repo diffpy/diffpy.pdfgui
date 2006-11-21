@@ -29,7 +29,7 @@ class RSeriesPanel(wx.Panel, PDFPanel):
         wx.Panel.__init__(self, *args, **kwds)
         self.sizer_4_copy_staticbox = wx.StaticBox(self, -1, "fit minimum")
         self.sizer_4_staticbox = wx.StaticBox(self, -1, "fit maximum")
-        self.instructionsLabel = wx.StaticText(self, -1, "Select a fit from the tree on the left and set the first value, last value, and \nthe step size of the maximum and/or minimum of the fit range below. If \nyou have not set up a fit to be the template for the series, hit cancel, and \nrerun this macro once a fit has been created.")
+        self.instructionsLabel = wx.StaticText(self, -1, "Select a fit from the tree on the left and set the first value, last value, \nand the step size of the maximum and/or minimum of the fit range\nbelow. If you have not set up a fit to be the template for the series, hit\ncancel and rerun this macro once a fit has been created.")
         self.maxFirstLabel = wx.StaticText(self, -1, "first")
         self.maxFirstTextCtrl = wx.TextCtrl(self, -1, "")
         self.maxLastLabel = wx.StaticText(self, -1, "last")
@@ -48,14 +48,14 @@ class RSeriesPanel(wx.Panel, PDFPanel):
         self.__set_properties()
         self.__do_layout()
 
-        self.Bind(wx.EVT_BUTTON, self.onGo, id=wx.ID_OK)
+        self.Bind(wx.EVT_BUTTON, self.onOK, id=wx.ID_OK)
         self.Bind(wx.EVT_BUTTON, self.onCancel, id=wx.ID_CANCEL)
         # end wxGlade
         self.__customProperties()
 
     def __set_properties(self):
         # begin wxGlade: RSeriesPanel.__set_properties
-        self.instructionsLabel.SetFont(wx.Font(12, wx.DEFAULT, wx.NORMAL, wx.NORMAL, 0, "Sans"))
+        self.instructionsLabel.SetFont(wx.Font(10, wx.DEFAULT, wx.NORMAL, wx.NORMAL, 0, "Sans"))
         # end wxGlade
 
     def __do_layout(self):
@@ -109,7 +109,7 @@ class RSeriesPanel(wx.Panel, PDFPanel):
             textCtrl.SetValidator(TextValidator(FLOAT_ONLY))
         return
 
-    def onGo(self, event): # wxGlade: RSeriesPanel.<event_handler>
+    def onOK(self, event): # wxGlade: RSeriesPanel.<event_handler>
         """Add make a temperature series and add it to the project."""
         for (varname, ctrlname) in self.ctrlMap.items():
             textCtrl = getattr(self, ctrlname)
@@ -148,10 +148,15 @@ class RSeriesPanel(wx.Panel, PDFPanel):
         return
 
     def refresh(self):
-        """Block out 'Go' button if there is no fit."""
-        if self.fit is None:
-            self.goButton.Enable(False)
-        else:
+        """Block out OK button if there is no fit.
+
+        This also blocks OK if the fit has no datasets.
+        """
+        selections = self.treeCtrlMain.GetSelections()
+        if selections and self.fit and self.fit.hasDataSets() \
+                and self.fit.hasStructures():
             self.goButton.Enable()
+        else:
+            self.goButton.Enable(False)
         return
 # end of class RSeriesPanel

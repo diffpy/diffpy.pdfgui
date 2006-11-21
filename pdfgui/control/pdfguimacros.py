@@ -14,6 +14,8 @@
 
 """Methods for macros used in pdfgui."""
 from controlerrors import ControlValueError, ControlTypeError
+from fitdataset import FitDataSet
+import os, copy
 
 def makeRSeries(control, fit, maxfirst = None, maxlast = None, maxstep = None,
         minfirst = None, minlast = None, minstep = None):
@@ -162,6 +164,71 @@ def makeRSeries(control, fit, maxfirst = None, maxlast = None, maxstep = None,
 
     return [f.organization() for f in fits]
 
+
+# Temperature Series
+def makeTemperatureSeries(control, fit, paths, temperatures):
+    """Make a temperature series.
+    
+    control         --  pdguicontrol instance
+    fit             --  The template fit
+    paths           --  list of path names of new datasets
+    temperatures    --  list of temperatures corresponding to the datasets
+    
+    """
+
+    if len(fit.datasets) != 1:
+        message = "Can't apply macro to fits with multiple datasets."
+        raise ControlValueError(message)
+
+    fits = []
+    # holds all of the other information about the dataset
+    fitbasename = fit.name
+    fitnewname = fit.name
+    fitlastname = fit.name
+    dataset = fit.datasets[0]
+    for i in range(len(paths)):
+        filename = paths[i]
+        fitlastname = fitnewname
+
+        fitcopy = control.copy(fit)
+
+        # Get rid of the old dataset
+        temp = fitcopy.datasets[0]
+        fitcopy.remove(temp)
+
+        # Configure the new dataset
+        dsname = os.path.basename(filename)
+        newdataset = FitDataSet(dsname)
+        newdataset.readObs(filename)
+
+        newdataset.qsig = dataset.qsig
+        newdataset.qalp = dataset.qalp
+        newdataset.dscale = dataset.dscale
+        newdataset.fitrmin = dataset.fitrmin
+        newdataset.fitrmax = dataset.fitrmax
+        doping = dataset.metadata.get("doping")
+        if doping is None: doping = 0.0
+        newdataset.metadata["doping"] = doping
+        newdataset.constraints = copy.deepcopy(dataset.constraints)
+
+        # Set the chosen temperature
+        newdataset.metadata["temperature"] = temperatures[i]
+
+        # Add the dataset to the fitcopy
+        fitcopy.add(newdataset, None)
+
+        # Set the parameters to the previous fit's name, if one exists.
+        if fitlastname:
+            parval = "=%s" % fitlastname
+            for par in fitcopy.parameters.values():
+                par.setInitial(parval)
+
+        # Now paste the copy into the control.
+        fitnewname = "%s-%i" % (fitbasename, temperatures[i])
+        o = control.paste(fitcopy, new_name = fitnewname)
+        fits.append(o)
+
+    return [f.organization() for f in fits]
 
 if __name__ == "__main__":
     from pdfguicontrol import PDFGuiControl
