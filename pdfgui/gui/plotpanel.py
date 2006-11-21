@@ -178,7 +178,10 @@ class PlotPanel(wx.Panel, PDFPanel):
             if len(parents) == 1:
                 if 'temperature' in xdata: xdata.remove('temperature')
                 if 'doping' in xdata: xdata.remove('doping')
-                xdata.remove('index')
+                try:
+                    xdata.remove('index')
+                except ValueError:
+                    pass
             xdata.sort()
             self.xDataCombo.Clear()
 
