@@ -135,3 +135,4 @@ def refreshGrid(panel):
     panel.gridAtoms.ForceRefresh()
     return
         
+__id__ = "$Id$"

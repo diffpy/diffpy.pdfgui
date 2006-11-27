@@ -83,3 +83,4 @@ class FitNotebookPanel(wx.Panel, PDFPanel):
         panel.refresh()
 
 # end of class FitNotebookPanel
+__id__ = "$Id$"

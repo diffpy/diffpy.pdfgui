@@ -19,6 +19,7 @@
 import wx
 from Structure import SpaceGroups
 from copy import copy
+import math
 from pdfgui.control.controlerrors import *
 from pdfpanel import PDFPanel
 
@@ -107,7 +108,7 @@ class SGConstrainDialog(wx.Dialog, PDFPanel):
             self.sgComboBox.Append(name)
 
         self.spacegroup = SpaceGroups.GetSpaceGroup('P1')
-        self.offset = [0,0,0]
+        self.offset = [0.0,0.0,0.0]
         self.posflag = True
         self.tempflag = True
         self.structure = None
@@ -169,6 +170,7 @@ class SGConstrainDialog(wx.Dialog, PDFPanel):
             # make sure the value is meaningful
             try:
                 val = float(eval("1.0*"+val, dict(math.__dict__)))
+                print val
             except (NameError, TypeError, SyntaxError):
                 val = 0
             textctrl.SetValue("%s"%val)
@@ -253,3 +255,4 @@ class SGConstrainDialog(wx.Dialog, PDFPanel):
         return
 
 # end of class SGConstrainDialog
+__id__ = "$Id$"

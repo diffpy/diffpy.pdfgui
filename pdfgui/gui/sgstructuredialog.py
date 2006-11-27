@@ -223,5 +223,6 @@ class SGStructureDialog(wx.Dialog, PDFPanel):
         event.Skip()
         return
 
+__id__ = "$Id$"
 
 # end of class SGStructureDialog

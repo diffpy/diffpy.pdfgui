@@ -159,4 +159,6 @@ class RSeriesPanel(wx.Panel, PDFPanel):
         else:
             self.goButton.Enable(False)
         return
+
 # end of class RSeriesPanel
+__id__ = "$Id$"
