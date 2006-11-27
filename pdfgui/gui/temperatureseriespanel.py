@@ -101,9 +101,10 @@ class TemperatureSeriesPanel(wx.Panel, PDFPanel):
             temperature = float(text)
         except ValueError:
             event.Veto()
+            return
         if temperature <= 0:
             event.Veto()
-
+            return
         # update the internal information
         self.datasets[index][0] = temperature
         self.reverse = False
