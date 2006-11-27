@@ -25,6 +25,7 @@ ALPHA_ONLY = 1
 DIGIT_ONLY = 2
 FLOAT_ONLY = 3
 import wx
+import string
 
 class TextValidator(wx.PyValidator):
     """This validator is designed to check text input for wxTextCtrls. (It might

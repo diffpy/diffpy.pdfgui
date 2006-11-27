@@ -35,6 +35,7 @@ from phasenotebookpanel import PhaseNotebookPanel
 from plotpanel import PlotPanel
 from rseriespanel import RSeriesPanel
 from temperatureseriespanel import TemperatureSeriesPanel
+from dopingseriespanel import DopingSeriesPanel
 from serverpanel import ServerPanel
 from welcomepanel import WelcomePanel
 
@@ -106,6 +107,7 @@ class MainPanel(wx.Panel):
     "rseries"       --  The mode used when configuring an r-series macro.
     "tseries"       --  The mode used when configuring a temperature series
                         macro.
+    "dseries"       --  The mode used when configuring a doping series macro.
 
     The mode determines how the tree and other widgets react to user
     interaction. The mode of the program is changed with the method setMode.
@@ -122,6 +124,7 @@ class MainPanel(wx.Panel):
                     "blank"         --  A blank panel
                     "rseries"       --  The r-series macro panel
                     "tseries"       --  The temperature series macro panel
+                    "dseries"       --  The doping series macro panel
                     "welcome"       --  A welcome panel
 
                     * 'fitting' mode panels
@@ -331,6 +334,7 @@ class MainPanel(wx.Panel):
              "serverconfig" :       ServerPanel(self.windowMain, -1),
              "rseries"      :       RSeriesPanel(self.windowMain, -1),
              "tseries"      :       TemperatureSeriesPanel(self.windowMain, -1),
+             "dseries"      :       DopingSeriesPanel(self.windowMain, -1),
              }
 
         # Prepare the right pane. Display the welcome screen.
@@ -488,6 +492,9 @@ class MainPanel(wx.Panel):
         self.tseriesItem = wx.MenuItem(self.macrosMenu, wx.NewId(),
                 "Temperature Series", "", wx.ITEM_NORMAL) 
         self.macrosMenu.AppendItem(self.tseriesItem)
+        self.dseriesItem = wx.MenuItem(self.macrosMenu, wx.NewId(),
+                "Doping Series", "", wx.ITEM_NORMAL) 
+        self.macrosMenu.AppendItem(self.dseriesItem)
         self.fitsMenu.AppendMenu(wx.NewId(), "Macros", self.macrosMenu)
         self.menuBar.Append(self.fitsMenu, "Fi&ts")
         # End Fits Menu
@@ -640,6 +647,7 @@ class MainPanel(wx.Panel):
         wx.EVT_MENU(self.frame, self.impFitItem.GetId(), self.onImportScript)
         wx.EVT_MENU(self.frame, self.rseriesItem.GetId(), self.onRSeries)
         wx.EVT_MENU(self.frame, self.tseriesItem.GetId(), self.onTSeries)
+        wx.EVT_MENU(self.frame, self.dseriesItem.GetId(), self.onDSeries)
         ## Macros are inserted individually
 
         ## Phases Menu
@@ -737,6 +745,9 @@ class MainPanel(wx.Panel):
 
         "tseries" type:
         * Give the fit object to the panel
+
+        "dseries" type:
+        * Give the fit object to the panel
         """
         selections = self.treeCtrlMain.GetSelections()
         if len(selections) == 1:
@@ -759,6 +770,8 @@ class MainPanel(wx.Panel):
             elif paneltype == 'rseries':
                 self.rightPanel.fit = dataobject
             elif paneltype == 'tseries':
+                self.rightPanel.fit = dataobject
+            elif paneltype == 'dseries':
                 self.rightPanel.fit = dataobject
 
         return
@@ -791,6 +804,9 @@ class MainPanel(wx.Panel):
 
          "tseries" mode:
          * buttonFitting and buttonPlotting are disabled
+
+         "dseries" mode:
+         * buttonFitting and buttonPlotting are disabled
         """
         self.mode = mode
         if mode == 'fitting':
@@ -805,7 +821,7 @@ class MainPanel(wx.Panel):
             self.buttonPlotting.SetValue(1)
             self.buttonFitting.SetValue(0)
         elif mode in ["addingdata", "addingphase", "config", "rseries",
-                "tseries"]:
+                "tseries", "dseries"]:
             self.buttonFitting.Enable(False)
             self.buttonPlotting.Enable(False)
         return
@@ -952,7 +968,7 @@ class MainPanel(wx.Panel):
         "plotting" mode:
         * Only multiple selections of the same node type are allowed.
 
-        "rseries", "tseries" mode:
+        "rseries", "tseries", "dseries" mode:
         * The behavior is defined in the associated panel
         """
         # Make sure that the item is visible.
@@ -1011,10 +1027,7 @@ class MainPanel(wx.Panel):
             # Let the plotting panel take care of it from here.
             self.rightPanel.onTreeSelChanged(event)
 
-        elif self.mode == "rseries":
-            self.rightPanel.onTreeSelChanged(event)
-
-        elif self.mode == "tseries":
+        elif self.mode in ["rseries", "tseries", "dseries"]:
             self.rightPanel.onTreeSelChanged(event)
 
         # update the toolbar
@@ -1038,11 +1051,14 @@ class MainPanel(wx.Panel):
 
          "tseries" mode:
             * can only select fit items
+
+         "dseries" mode:
+            * can only select fit items
         """
         node = event.GetItem()
         if self.mode in ["addingdata", "addingphase", "config"]:
             event.Veto()
-        elif self.mode in ["rseries", "tseries"]:
+        elif self.mode in ["rseries", "tseries", "dseries"]:
             itemtype = self.treeCtrlMain.GetNodeType(event.GetItem())
             if itemtype != "fit":
                 event.Veto()
@@ -1893,6 +1909,13 @@ class MainPanel(wx.Panel):
         self.treeCtrlMain.UnselectAll()
         self.setMode("tseries")
         self.switchRightPanel("tseries")
+        return
+
+    def onDSeries(self, event):
+        """Open up the doping series panel."""
+        self.treeCtrlMain.UnselectAll()
+        self.setMode("dseries")
+        self.switchRightPanel("dseries")
         return
 
     def onExportNewStruct(self, event):

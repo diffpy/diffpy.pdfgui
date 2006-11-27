@@ -174,6 +174,7 @@ def makeTemperatureSeries(control, fit, paths, temperatures):
     paths           --  list of path names of new datasets
     temperatures    --  list of temperatures corresponding to the datasets
     
+    returns a list of the new fit organization objects
     """
 
     if len(fit.datasets) != 1:
@@ -225,6 +226,113 @@ def makeTemperatureSeries(control, fit, paths, temperatures):
 
         # Now paste the copy into the control.
         fitnewname = "%s-%i" % (fitbasename, temperatures[i])
+        o = control.paste(fitcopy, new_name = fitnewname)
+        fits.append(o)
+
+    return [f.organization() for f in fits]
+
+# Doping Series
+def makeDopingSeries(control, fit, base, dopant, paths, doping):
+    """Make a temperature series.
+    
+    control         --  pdguicontrol instance
+    fit             --  The template fit
+    base            --  Name of the base element
+    dopant          --  Name of the dopant element
+    paths           --  list of path names of new datasets
+    doping          --  list of doping values corresponding to the datasets
+    
+    returns a list of the new fit organization objects
+    """
+    from Structure.PeriodicTable import is_element
+
+    # Make sure that base and dopant are elements
+    base = base.title()
+    dopant = dopant.title()
+    if not is_element(base):
+        raise ControlValueError("'%s' is not an element!"%base)
+    if not is_element(dopant):
+        raise ControlValueError("'%s' is not an element!"%dopant)
+
+    # Make sure that base and dopant are in the structure file(s)
+    hasBase = False
+    hasDopant = False
+    for S in fit.strucs:
+        for atom in S:
+            if atom.element == base:
+                hasBase = True
+            if atom.element == dopant:
+                hasDopant = True
+        if hasBase and hasDopant: break
+
+    if not hasBase:
+        message = "The template structure does not contain the base atom."
+        raise ControlValueError(message)
+
+    if not hasDopant:
+        message = "The template structure does not contain the dopant atom."
+        raise ControlValueError(message)
+
+    # Make sure we're only replacing a single dataset
+    if len(fit.datasets) != 1:
+        message = "Can't apply macro to fits with multiple datasets."
+        raise ControlValueError(message)
+
+
+    fits = []
+    # holds all of the other information about the dataset
+    fitbasename = fit.name
+    fitnewname = fit.name
+    fitlastname = fit.name
+    dataset = fit.datasets[0]
+    for i in range(len(paths)):
+        filename = paths[i]
+        fitlastname = fitnewname
+
+        fitcopy = control.copy(fit)
+
+        # Get rid of the old dataset
+        temp = fitcopy.datasets[0]
+        fitcopy.remove(temp)
+
+        # Configure the new dataset
+        dsname = os.path.basename(filename)
+        newdataset = FitDataSet(dsname)
+        newdataset.readObs(filename)
+
+        newdataset.qsig = dataset.qsig
+        newdataset.qalp = dataset.qalp
+        newdataset.dscale = dataset.dscale
+        newdataset.fitrmin = dataset.fitrmin
+        newdataset.fitrmax = dataset.fitrmax
+        temperature = dataset.metadata.get("temperature")
+        if temperature is None: temperature = 300.0
+        newdataset.metadata["temperature"] = temperature
+        newdataset.constraints = copy.deepcopy(dataset.constraints)
+
+        # Set the chosen temperature
+        newdataset.metadata["doping"] = doping[i]
+
+        # Add the dataset to the fitcopy
+        fitcopy.add(newdataset, None)
+
+        # Update the doping information in the structures
+        for S in fitcopy.strucs:
+            for A in S:
+                if A.element == dopant:
+                    A.occupancy = doping[i]
+                if A.element == base:
+                    A.occupancy = 1-doping[i]
+
+
+        # Set the parameters to the previous fit's name, if one exists.
+        if fitlastname:
+            parval = "=%s" % fitlastname
+            for par in fitcopy.parameters.values():
+                par.setInitial(parval)
+
+        # Now paste the copy into the control.
+        fitnewname = "%s-%1.4f" % (fitbasename, doping[i])
         o = control.paste(fitcopy, new_name = fitnewname)
         fits.append(o)
 
