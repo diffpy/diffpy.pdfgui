@@ -281,4 +281,5 @@ class TemperatureSeriesPanel(wx.Panel, PDFPanel):
 
 # end of class TemperatureSeriesPanel
 
+__id__ = "$Id$"
 
