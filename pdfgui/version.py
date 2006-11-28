@@ -15,15 +15,13 @@
 """Definition of PDFgui __version__
 """
 
-# to update __version__ add hashmark below just before committing
-#####
-
 __id__ = "$Id$"
 
-__version__ = "0.9."
+try:
+    from diffpy.version import __svnrevision__
+except ImportError:
+    __svnrevision__ = "?"
 
-svnrevision = __id__.split()[2:3]
-if svnrevision:     __version__ += svnrevision[0]
-else:               __version__ += "?"
+__version__ = "0.9." + __svnrevision__
 
 # End of file
