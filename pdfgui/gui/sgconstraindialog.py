@@ -170,7 +170,6 @@ class SGConstrainDialog(wx.Dialog, PDFPanel):
             # make sure the value is meaningful
             try:
                 val = float(eval("1.0*"+val, dict(math.__dict__)))
-                print val
             except (NameError, TypeError, SyntaxError):
                 val = 0
             textctrl.SetValue("%s"%val)
