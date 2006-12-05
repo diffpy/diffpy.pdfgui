@@ -143,7 +143,15 @@ class PDFDataSet(PDFComponent):
                 start_data = 0
         header = datastring[:start_data]
         databody = datastring[start_data:].strip()
-        # parse header to get metadata
+        
+        # find where the metadata starts
+        metadata = ''
+        res = re.search(r'^#+\ +metadata\b\n', header, re.M)
+        if res:
+            metadata = header[res.end():]
+            header = header[:res.start()]   
+            
+        # parse header
         rx = { 'f' : r'[-+]?(\d+(\.\d*)?|\d*\.\d+)([eE][-+]?\d+)?' }
         # stype
         if re.search('(x-?ray|PDFgetX)', header, re.I):
@@ -180,6 +188,18 @@ class PDFDataSet(PDFComponent):
         res = re.search(regexp, header)
         if res:
             self.metadata['doping'] = float(res.groups()[0])
+            
+        # parsing gerneral metadata
+        if metadata:
+            regexp = r"\b(\w+)\ *=\ *(%(f)s)\b" % rx
+            while True:
+                res = re.search(regexp, metadata, re.M)
+                if res:
+                    self.metadata[res.groups()[0]] = float(res.groups()[1])
+                    metadata = metadata[res.end():]
+                else:
+                    break
+
         # read actual data - robs, Gobs, drobs, dGobs
         for line in databody.split("\n"):
             v = line.split()
