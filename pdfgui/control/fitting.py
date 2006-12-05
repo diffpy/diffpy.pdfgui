@@ -119,6 +119,7 @@ class Fitting(Organizer):
             gui = self.controlCenter.gui
             if gui:
                 gui.postEvent(gui.UPDATE, self)
+                gui.postEvent(gui.OUTPUT, None)
                 
     def __release(self):
         """release resources"""
@@ -594,6 +595,8 @@ class Fitting(Organizer):
         
         #update plots and structure renderer
         gui = self.controlCenter.gui
+        if gui:
+            gui.postEvent(gui.OUTPUT, None)
         try:
             if gui:
                 gui.lock()

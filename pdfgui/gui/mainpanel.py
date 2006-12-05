@@ -296,6 +296,7 @@ class MainPanel(wx.Panel):
         # Constants needed for communication with the control
         self.ERROR = 1
         self.UPDATE = 1<<1
+        self.OUTPUT = 1<<2
 
         # Needed for the error checker so it doesn't throw errors at quit time
         self.quitting = False
@@ -359,6 +360,9 @@ class MainPanel(wx.Panel):
 
         # Here we go
         self.switchRightPanel("welcome")
+        
+        import sys,cStringIO
+        sys.stdout = cStringIO.StringIO()
         return
 
     def __wrapEvents(self):
@@ -2105,6 +2109,8 @@ class MainPanel(wx.Panel):
             # job is a fitting or a calculation
             job = event.info
             self.updateFittingStatus(job)
+        elif event.type == self.OUTPUT:
+            self.updateOutput()
         return
 
     def updateFittingStatus(self, job):
@@ -2170,6 +2176,14 @@ class MainPanel(wx.Panel):
         #    self.updateToolbar()
         #    self.rightPanel.refresh()
         return
+        
+    def updateOutput(self):
+        '''redirect received stdout to window'''
+        import sys, cStringIO
+        outputwnd = self.dynamicPanels['fit'].outputPanel
+        outputwnd.outputCtrl.AppendText(sys.stdout.getvalue())
+        sys.stdout.close()
+        sys.stdout = cStringIO.StringIO()
 
 # end of class MainPanel
 
