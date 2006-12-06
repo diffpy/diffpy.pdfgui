@@ -184,7 +184,7 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
     def __customProperties(self):
         """Custom properties for the panel."""
         self.structure = None
-        self.constraints = None
+        self.constraints = {}
         self._row = 0
         self._col = 0
         self._focusedText = None
@@ -245,7 +245,6 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
 
     def restrictConstrainedParameters(self):
         """Set 'read-only' boxes that correspond to constrained parameters."""
-        if not self.constraints: return
 
         # First the TextCtrls
         for key, var in self.lConstraintsMap.iteritems():
@@ -273,12 +272,9 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
                     self.gridAtoms.SetReadOnly(i, j, True)
                     self.gridAtoms.SetCellBackgroundColour(i, j, 
                         wx.SystemSettings_GetColour(wx.SYS_COLOUR_BACKGROUND))
-
-                # This method is only called in refresh. Since this is when the
-                # grid get created, this 'else' is redundant.
-                #else:
-                #    self.gridAtoms.SetReadOnly(i, j, False)
-                #    self.gridAtoms.SetCellBackgroundColour(i, j, wx.NullColour)
+                else:
+                    self.gridAtoms.SetReadOnly(i, j, False)
+                    self.gridAtoms.SetCellBackgroundColour(i, j, wx.NullColour)
 
         return
     

@@ -270,7 +270,7 @@ class PhaseConstraintsPanel(wx.Panel, PDFPanel):
         if formula != "":
             self.constraints[var] = Constraint(formula)
         else:
-            self.constraints.pop(var)
+            self.constraints.pop(var, None)
         return
 
     def applyCellChange(self, i, j, value):
@@ -285,8 +285,8 @@ class PhaseConstraintsPanel(wx.Panel, PDFPanel):
         formula = value.strip()
         if formula != "":
             self.constraints[key] = Constraint(formula)
-        elif key in self.constraints:
-            self.constraints.pop(key)
+        else:
+            self.constraints.pop(key, None)
         return
 
 
