@@ -285,7 +285,7 @@ class PhaseConstraintsPanel(wx.Panel, PDFPanel):
         formula = value.strip()
         if formula != "":
             self.constraints[key] = Constraint(formula)
-        else:
+        elif key in self.constraints:
             self.constraints.pop(key)
         return
 
