@@ -12,7 +12,7 @@ class OutputPanel(wx.Panel,PDFPanel):
         wx.Panel.__init__(self, *args, **kwds)
         self.sizer_2_staticbox = wx.StaticBox(self, -1, "")
         self.outputLabel = wx.StaticText(self, -1, "PDFfit2 Output")
-        self.outputTextCtrl = wx.TextCtrl(self, -1, "", style=wx.TE_MULTILINE|wx.TE_READONLY)
+        self.outputTextCtrl = wx.TextCtrl(self, -1, "", style=wx.TE_MULTILINE|wx.TE_READONLY|wx.HSCROLL)
 
         self.__set_properties()
         self.__do_layout()

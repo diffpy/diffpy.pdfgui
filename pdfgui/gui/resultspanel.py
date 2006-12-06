@@ -26,7 +26,7 @@ class ResultsPanel(wx.Panel, PDFPanel):
         wx.Panel.__init__(self, *args, **kwds)
         self.sizer_2_staticbox = wx.StaticBox(self, -1, "")
         self.fitResLabel = wx.StaticText(self, -1, "Fit Summary")
-        self.resultsTextCtrl = wx.TextCtrl(self, -1, "Fit results will display here once the fit is complete.", style=wx.TE_MULTILINE|wx.TE_READONLY)
+        self.resultsTextCtrl = wx.TextCtrl(self, -1, "Fit results will display here once the fit is complete.", style=wx.TE_MULTILINE|wx.TE_READONLY|wx.HSCROLL)
 
         self.__set_properties()
         self.__do_layout()
