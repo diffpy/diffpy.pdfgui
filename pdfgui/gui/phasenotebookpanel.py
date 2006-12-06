@@ -51,7 +51,7 @@ class PhaseNotebookPanel(wx.Panel, PDFPanel):
         self.currentPage = "configuration"
         self._isotropic  = False
         self.configuration = None
-        self.constraints   = None
+        self.constraints   = {}
         self.results       = None
         self.mainPanel     = None
 

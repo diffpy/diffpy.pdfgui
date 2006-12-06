@@ -169,7 +169,7 @@ class PhaseConstraintsPanel(wx.Panel, PDFPanel):
     def __customProperties(self):
         """Custom properties for the panel."""
         self.structure = None
-        self.constraints = None
+        self.constraints = {}
         self._textctrls = ['textCtrlA', 'textCtrlB', 'textCtrlC',
                 'textCtrlAlpha', 'textCtrlBeta', 'textCtrlGamma',
                 'textCtrlScaleFactor', 'textCtrlDelta1', 'textCtrlDelta2',
