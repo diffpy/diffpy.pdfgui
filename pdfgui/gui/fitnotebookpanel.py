@@ -22,9 +22,6 @@ from parameterspanel import ParametersPanel
 from resultspanel import ResultsPanel
 from outputpanel import OutputPanel
 
-# TODO - When chaning this from wxglade, remove the ParametersPanel and
-# ResultsPanel class definitions that appear below.
-
 class FitNotebookPanel(wx.Panel, PDFPanel):
     def __init__(self, *args, **kwds):
         # begin wxGlade: FitNotebookPanel.__init__
@@ -33,6 +30,7 @@ class FitNotebookPanel(wx.Panel, PDFPanel):
         self.fitnotebook = wx.Notebook(self, -1, style=0)
         self.parametersPanel = ParametersPanel(self.fitnotebook, -1)
         self.resultsPanel = ResultsPanel(self.fitnotebook, -1)
+        self.outputPanel = OutputPanel(self.fitnotebook, -1)
 
         self.__set_properties()
         self.__do_layout()
@@ -52,14 +50,13 @@ class FitNotebookPanel(wx.Panel, PDFPanel):
         sizer_1 = wx.BoxSizer(wx.HORIZONTAL)
         self.fitnotebook.AddPage(self.parametersPanel, "Parameters")
         self.fitnotebook.AddPage(self.resultsPanel, "Results")
+        self.fitnotebook.AddPage(self.outputPanel, "Output")
         sizer_1.Add(self.fitnotebook, 1, wx.EXPAND, 0)
         self.SetAutoLayout(True)
         self.SetSizer(sizer_1)
         sizer_1.Fit(self)
         sizer_1.SetSizeHints(self)
         # end wxGlade
-        self.outputPanel = OutputPanel(self.fitnotebook, -1)
-        self.fitnotebook.AddPage(self.outputPanel, "Output")        
 
     def __customProperties(self):
         """Set the custom properties."""

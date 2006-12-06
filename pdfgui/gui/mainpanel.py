@@ -2181,7 +2181,7 @@ class MainPanel(wx.Panel):
         '''redirect received stdout to window'''
         import sys, cStringIO
         outputwnd = self.dynamicPanels['fit'].outputPanel
-        outputwnd.outputCtrl.AppendText(sys.stdout.getvalue())
+        outputwnd.outputTextCtrl.AppendText(sys.stdout.getvalue())
         sys.stdout.close()
         sys.stdout = cStringIO.StringIO()
 
