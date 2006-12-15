@@ -690,6 +690,8 @@ class Fitting(Organizer):
         if len(self.snapshots) == 0:
            return None 
         try:
+            # if it is a 'int', it must be parameter. So only fitting has its value.
+            if isinstance(name, int): id = self
             nameDict = self.dataNameDict[id._getStrId()]
             index = nameDict[name]
         except KeyError:

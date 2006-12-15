@@ -175,7 +175,9 @@ class PlotPanel(wx.Panel, PDFPanel):
             if len(fits) > 1:
                 for cdata in fits:
                     xdata.extend(cdata.getMetaDataNames())
+                    xdata.extend(cdata.getYNames())
                 xdata.append('index')
+                
             xdata = dict.fromkeys(xdata).keys()
 
             # Make the parameter entries a bit more presentable.
@@ -187,7 +189,12 @@ class PlotPanel(wx.Panel, PDFPanel):
                 return vals
                 
             xvals = _represent(xdata)
-                
+            try:
+                xvals.remove('rw')    
+            except:
+                pass
+            xvals.reverse()
+            
             # Fill the xDataCombo
             self.xDataCombo.Clear()
             for item in xvals:
