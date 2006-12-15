@@ -496,7 +496,7 @@ class Plotter(PDFComponent):
                 title += ' '+ ids[0].name + ':' 
             title += yLabel
             self.window.setTitle(self.name+' '+title, title)
-            self.window.setXLabel( xName )
+            self.window.setXLabel( _transName(xName) )
             self.window.setYLabel( yLabel )
             
             # show the graph

@@ -48,7 +48,7 @@ class OutputPanel(wx.Panel,PDFPanel):
 
     def refresh(self):
         pass
-
+__id__ = "$Id$"
 # end of class OutputPanel
 
 

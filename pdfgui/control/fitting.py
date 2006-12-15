@@ -627,7 +627,7 @@ class Fitting(Organizer):
         
         returns a name str list
         """
-        return self.getMetaDataNames()
+        return []
 
     def getData(self, name, step = -1 ):
         """get self's data member

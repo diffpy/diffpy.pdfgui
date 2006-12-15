@@ -165,28 +165,32 @@ class PlotPanel(wx.Panel, PDFPanel):
             if selectiontype == 'calculation':
                 xdata = []
             else:
-                xdata = ['step', 'index']
+                xdata = ['step',]
 
             for cdata in refs:
                 xdata.extend(cdata.getXNames())
+
+            fits = dict.fromkeys([self.treeCtrlMain.GetControlData(self.treeCtrlMain.GetFitRoot(sel))
+            for sel in selections])          
+            if len(fits) > 1:
+                for cdata in fits:
+                    xdata.extend(cdata.getMetaDataNames())
+                xdata.append('index')
             xdata = dict.fromkeys(xdata).keys()
 
-            # Remove 'doping' and 'temperature' to xDataCombo if there are not
-            # multiple selections with different fit parents.
-            parents = dict.fromkeys(map(self.treeCtrlMain.GetItemText,
-                    [self.treeCtrlMain.GetFitRoot(sel) for sel in selections]))
-            if len(parents) == 1:
-                if 'temperature' in xdata: xdata.remove('temperature')
-                if 'doping' in xdata: xdata.remove('doping')
-                try:
-                    xdata.remove('index')
-                except ValueError:
-                    pass
-            xdata.sort()
-            self.xDataCombo.Clear()
-
+            # Make the parameter entries a bit more presentable.
+            def _represent(mixedNames):
+                vals = ["@%i"%item for item in mixedNames if isinstance(item, int)]
+                others  = [item for item in mixedNames if not isinstance(item, int)]
+                vals.extend(others)
+                vals.sort()
+                return vals
+                
+            xvals = _represent(xdata)
+                
             # Fill the xDataCombo
-            for item in xdata:
+            self.xDataCombo.Clear()
+            for item in xvals:
                 self.xDataCombo.Append(item)
 
             # Y-DATA
@@ -195,11 +199,7 @@ class PlotPanel(wx.Panel, PDFPanel):
                 ydata.extend(cdata.getYNames())
             ydata = dict.fromkeys(ydata).keys()
 
-            # Make the parameter entries a bit more presentable.
-            yvals = ["@%i"%item for item in ydata if isinstance(item, int)]
-            yother = [item for item in ydata if not isinstance(item, int)]
-            yvals.extend(yother)
-            yvals.sort()
+            yvals = _represent(ydata)
 
             # Fill the List
             self.yDataList.DeleteAllItems()
@@ -271,6 +271,7 @@ class PlotPanel(wx.Panel, PDFPanel):
         selections = self.treeCtrlMain.GetSelections()
         refs = [self.treeCtrlMain.GetControlData(node) for node in selections]
         xval = self.xDataCombo.GetValue()
+        if xval[0] == '@': xval = int(xval[1:])
         temp = self.getSelectedYVals()
         # Clean up some formatting so the control can understand this.
         yvals = [ int(par[1:]) for par in temp if par[0] == '@']
