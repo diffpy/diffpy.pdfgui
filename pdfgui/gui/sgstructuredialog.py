@@ -209,12 +209,13 @@ class SGStructureDialog(wx.Dialog, PDFPanel):
         # check to see if the space group is consistant
         if not self.structure.isSpaceGroupPossible(self.spacegroup):
             message =  "The chosen space group is not consistent\n"
-            message += "with the lattice parameters."
+            message += "with the lattice parameters.\n"
+            message += "Would you like to proceed anyways?"
             d = wx.MessageDialog( self, message, 
-                    "Inconsistent space group", wx.OK|wx.CANCEL)
+                    "Inconsistent space group", wx.YES_NO)
             code = d.ShowModal()
-            if code == wx.ID_OK:
-                self.EndModal(code)
+            if code == wx.ID_YES:
+                self.EndModal(wx.ID_OK)
         else:
             self.EndModal(wx.ID_OK)
         return
