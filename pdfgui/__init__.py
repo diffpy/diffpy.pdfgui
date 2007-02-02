@@ -12,15 +12,15 @@
 #
 ########################################################################
 
-"""PDFGui application
+"""PDFgui application
 Functions:
-    main()      PDFGui driver
+    main()      PDFgui driver
 """
 
 from version import __version__
 
 def main():
-    """PDFGui kick starter.
+    """PDFgui kick starter.
     Command line options and arguments can be passed via cmdopts
     and cmdargs variables in pdfgui.gui.pdfguiglobals module.
     """

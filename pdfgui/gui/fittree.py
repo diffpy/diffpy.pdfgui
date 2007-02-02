@@ -12,7 +12,7 @@
 #
 ########################################################################
 
-"""This module contains the FitTree object designed for use in PDFGui.
+"""This module contains the FitTree object designed for use in PDFgui.
 
 Classes:
     FitTree         --  A tree specific to orgainizing data for pdffit

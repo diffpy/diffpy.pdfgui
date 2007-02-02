@@ -151,7 +151,7 @@ class Calculation(PDFComponent):
         lines.extend([
             'History written: ' + time.ctime(),
             'produced by ' + getuser(),
-            '##### PDFGui calculation' ])
+            '##### PDFgui calculation' ])
         # stype
         if self.stype == 'X':
             lines.append('stype=X  x-ray scattering')

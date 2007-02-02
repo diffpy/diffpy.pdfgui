@@ -255,7 +255,7 @@ class FitDataSet(PDFDataSet):
         lines.extend([
             'History written: ' + time.ctime(),
             'produced by ' + getuser(),
-            '##### PDFGui fit' ])
+            '##### PDFgui fit' ])
         # stype
         if self.stype == 'X':
             lines.append('stype=X  x-ray scattering')

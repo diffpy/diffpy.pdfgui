@@ -31,7 +31,7 @@ class PDFGuiFrame(wx.Frame):
     def __set_properties(self):
         # This is now done in the main panel so that the filename of the current
         # file can be displayed correctly.
-        #self.SetTitle("PDFGui")
+        #self.SetTitle("PDFgui")
         pass
 
     def __do_layout(self):
@@ -58,7 +58,7 @@ class PDFGuiApp(wx.App):
 # end of class PDFGuiApp
 
 def main():
-    """PDFGui main kick starter.
+    """PDFgui main kick starter.
     Command line options and arguments can be passed via
     cmdopts and cmdargs variables in pdfguiglobals module.
     """

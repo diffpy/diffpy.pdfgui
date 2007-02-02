@@ -35,7 +35,7 @@ class ErrorReportDialog(wx.Dialog):
         # begin wxGlade: ErrorReportDialog.__init__
         kwds["style"] = wx.DEFAULT_DIALOG_STYLE|wx.RESIZE_BORDER|wx.MAXIMIZE_BOX|wx.MINIMIZE_BOX|wx.THICK_FRAME
         wx.Dialog.__init__(self, *args, **kwds)
-        self.label_header = wx.StaticText(self, -1, " PDFGui has encountered a problem. We are sorry for the inconvenience.")
+        self.label_header = wx.StaticText(self, -1, " PDFgui has encountered a problem. We are sorry for the inconvenience.")
         self.label_text = wx.StaticText(self, -1, "To help us improve this software, please provide at least a short summary of the problem. When you click the Send Error Report button, the short summary, full description, error log and the version of the software will be sent to developers.")
         self.label_view_ticket = wx.StaticText(self, -1, " You can view current bug reports and feature requests ")
         self.ticketlink = wx.lib.hyperlink.HyperLinkCtrl(self, -1, "here", URL=_ticketURL)
@@ -62,7 +62,7 @@ class ErrorReportDialog(wx.Dialog):
         
     def __set_properties(self):
         # begin wxGlade: ErrorReportDialog.__set_properties
-        self.SetTitle("Problem Report for PDFGui")
+        self.SetTitle("Problem Report for PDFgui")
         self.SetSize((870, 642))
         self.label_text.SetMinSize((640, 54))
         self.button_send.Enable(False)
@@ -108,7 +108,7 @@ class ErrorReportDialog(wx.Dialog):
         # if we are in feature request mode, modify the panel
         if not self.errorReport:
             self.SetTitle('Feature Request')
-            self.label_header.SetLabel(" Share you thoughts about PDFGui!")
+            self.label_header.SetLabel(" Share you thoughts about PDFgui!")
             self.label_text.SetLabel("To help us improve this software, please provide at least a short summary of the problem. When you click the Send Report button, the short summary, full description and the version of the software will be sent to developers.")
             self.label_log.SetLabel("")
             self.text_ctrl_log.Hide()
@@ -120,7 +120,7 @@ class ErrorReportDialog(wx.Dialog):
         import urllib2, urllib
         
         description = self.text_ctrl_description.GetValue().strip()
-        description += "\n\n\n\'\'\'PDFGui version " + __version__ + "\'\'\'\n\n"
+        description += "\n\n\n\'\'\'PDFgui version " + __version__ + "\'\'\'\n\n"
         if self.errorReport:
             description += '{{{\n' + self.text_ctrl_log.GetValue().strip() + '\n}}}'
         
@@ -137,7 +137,7 @@ class ErrorReportDialog(wx.Dialog):
                        'action' :'create',
                        'status' : 'new' 
                      }
-        headers = {'User-agent':'PDFGui (compatible; MSIE 5.5; WindowsNT)'}
+        headers = {'User-agent':'PDFgui (compatible; MSIE 5.5; WindowsNT)'}
         tracurl = 'http://danse.us/trac/diffraction/newticket'
         
         try:

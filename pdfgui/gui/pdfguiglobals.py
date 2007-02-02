@@ -12,12 +12,12 @@
 #
 ########################################################################
 
-"""This module contains gloabal parameters needed by PDFGui."""
+"""This module contains gloabal parameters needed by PDFgui."""
 
 import os.path
 
 # Name of the program
-name = "PDFGui"
+name = "PDFgui"
 # Maximum number of files to be remembered
 MAXMRU = 5
 # The location of the configuration file
