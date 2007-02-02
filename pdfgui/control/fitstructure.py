@@ -206,7 +206,8 @@ class FitStructure(PDFStructure):
         acd = self._popAtomConstraints()
         # get unique, reverse sorted indices
         ruindices = dict.fromkeys(indices).keys()
-        ruindices.sort(reverse=True)
+        ruindices.sort()
+        ruindices.reverse()
         for i in ruindices:
             self.initial.pop(i)
         self._restoreAtomConstraints(acd)
