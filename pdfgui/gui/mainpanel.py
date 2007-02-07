@@ -365,6 +365,37 @@ class MainPanel(wx.Panel):
         sys.stdout = cStringIO.StringIO()
         return
 
+    def _exceptionWrapper(func):
+        """Method for wrapping instance method."""
+        import traceback
+        from pdfgui.control.controlerrors import ControlError
+        def _f(self, *args, **kwargs):
+            try:
+                return func(*args, **kwargs)
+            except ControlError, e:
+                message = str(e)
+                if not self.quitting:
+                    self.showMessage(message, 'Oops!')
+                else:
+                    raise
+            except:
+                # do not catch when requested in dbopts
+                if pdfguiglobals.dbopts.noerrordialog:
+                    raise
+                msglines = traceback.format_exception(*sys.exc_info())
+                message = "".join(msglines)
+                if not self.quitting:
+                    dlg = ErrorReportDialog(self)
+                    dlg.text_ctrl_log.SetValue(message)
+                    dlg.ShowModal()
+                    dlg.Destroy()        
+                else:
+                    raise
+                
+                return
+
+        return _f
+
     def __wrapEvents(self):
         """This method wraps all of the event to handle exceptions."""
         import traceback
@@ -574,9 +605,11 @@ class MainPanel(wx.Panel):
 
     def __setupToolBar(self):
         """This sets up the tool bar in the parent window."""
-        self.toolBar = wx.ToolBar(self, -1, 
-                style=wx.TB_HORIZONTAL|wx.TB_3DBUTTONS)
-        self.frame.SetToolBar(self.toolBar)
+        #self.toolBar = wx.ToolBar(self, -1, 
+        #        style=wx.TB_HORIZONTAL|wx.TB_3DBUTTONS)
+        #self.frame.SetToolBar(self.toolBar)
+        # Added for window's compatibility
+        self.toolBar = self.frame.CreateToolBar()
         self.toolBar.AddLabelTool(self.newId, "New Project",
                 wx.ArtProvider.GetBitmap(wx.ART_NEW, wx.ART_TOOLBAR), 
                 wx.NullBitmap, wx.ITEM_NORMAL,
