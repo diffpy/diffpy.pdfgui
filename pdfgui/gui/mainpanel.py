@@ -365,37 +365,6 @@ class MainPanel(wx.Panel):
         sys.stdout = cStringIO.StringIO()
         return
 
-    def _exceptionWrapper(func):
-        """Method for wrapping instance method."""
-        import traceback
-        from pdfgui.control.controlerrors import ControlError
-        def _f(self, *args, **kwargs):
-            try:
-                return func(*args, **kwargs)
-            except ControlError, e:
-                message = str(e)
-                if not self.quitting:
-                    self.showMessage(message, 'Oops!')
-                else:
-                    raise
-            except:
-                # do not catch when requested in dbopts
-                if pdfguiglobals.dbopts.noerrordialog:
-                    raise
-                msglines = traceback.format_exception(*sys.exc_info())
-                message = "".join(msglines)
-                if not self.quitting:
-                    dlg = ErrorReportDialog(self)
-                    dlg.text_ctrl_log.SetValue(message)
-                    dlg.ShowModal()
-                    dlg.Destroy()        
-                else:
-                    raise
-                
-                return
-
-        return _f
-
     def __wrapEvents(self):
         """This method wraps all of the event to handle exceptions."""
         import traceback
@@ -429,7 +398,8 @@ class MainPanel(wx.Panel):
 
             return _f
 
-        funcNames = [item for item in dir(self) if item[:1] != '_']
+        funcNames = [item for item in dir(self) if item[:1] != '_' and item not
+                in dir(wx.Panel)]
         for name in funcNames:
             if hasattr( getattr(self, name), '__call__'):
                 setattr(self, name, _funcBuilder(name))

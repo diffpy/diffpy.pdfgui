@@ -44,6 +44,7 @@ class PDFPanel(object):
         import traceback
         from errorreportdialog import ErrorReportDialog
         import pdfguiglobals
+        import wx
 
         # get access to controlerrors.py
         import sys,os
@@ -79,7 +80,8 @@ class PDFPanel(object):
 
             return _f
 
-        funcNames = [item for item in dir(self) if item[:1] != '_']
+        funcNames = [item for item in dir(self) if item[:1] != '_' and item not
+                in dir(wx.Panel)]
         # filter out non-functions
         for name in funcNames:
             if hasattr( getattr(self, name), '__call__'):
