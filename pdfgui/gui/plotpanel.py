@@ -21,16 +21,6 @@ from wxExtensions.listctrls import KeyEventsListCtrl
 from wxExtensions.validators import TextValidator, FLOAT_ONLY
 import sys
 from pdfpanel import PDFPanel
-import os.path
-from pdfguiglobals import iconsDir
-
-# TODO - After changing the panel with wxglade, some things must be changed by
-# hand.
-# 1) The declaration of the quickPlotButton does not know where the icons are
-# kept. Replace the declaration with the following lines.
-#       qpicon = wx.Bitmap(os.path.join(iconsDir,"datasetitem.png"))
-#       self.quickPlotButton = wx.BitmapButton(self, -1, qpicon)
-
 
 class PlotPanel(wx.Panel, PDFPanel):
     def __init__(self, *args, **kwds):
@@ -38,11 +28,8 @@ class PlotPanel(wx.Panel, PDFPanel):
         # begin wxGlade: PlotPanel.__init__
         kwds["style"] = wx.TAB_TRAVERSAL
         wx.Panel.__init__(self, *args, **kwds)
-        self.sizer_3_staticbox = wx.StaticBox(self, -1, "X")
         self.sizer_4_staticbox = wx.StaticBox(self, -1, "Y")
-        self.sizer_7_staticbox = wx.StaticBox(self, -1, "Quick Plot")
-        qpicon = wx.Bitmap(os.path.join(iconsDir,"datasetitem.png"))
-        self.quickPlotButton = wx.BitmapButton(self, -1, qpicon)
+        self.sizer_3_staticbox = wx.StaticBox(self, -1, "X")
         self.xDataText = wx.StaticText(self, -1, "Select x data")
         self.xDataCombo = wx.ComboBox(self, -1, choices=[], style=wx.CB_DROPDOWN|wx.CB_READONLY)
         self.yDataList = KeyEventsListCtrl(self, -1, style=wx.LC_REPORT|wx.SUNKEN_BORDER)
@@ -55,7 +42,6 @@ class PlotPanel(wx.Panel, PDFPanel):
         self.__set_properties()
         self.__do_layout()
 
-        self.Bind(wx.EVT_BUTTON, self.onQuickPlot, self.quickPlotButton)
         self.Bind(wx.EVT_BUTTON, self.onPlot, self.plotButton)
         self.Bind(wx.EVT_BUTTON, self.onReset, self.resetButton)
         # end wxGlade
@@ -64,8 +50,6 @@ class PlotPanel(wx.Panel, PDFPanel):
     def __set_properties(self):
         # begin wxGlade: PlotPanel.__set_properties
         self.SetSize((450, 600))
-        self.quickPlotButton.SetSize(self.quickPlotButton.GetBestSize())
-        self.xDataCombo.SetSelection(-1)
         self.offsetLabel.SetToolTipString("The vertical gap between stacked plots")
         self.plotButton.SetToolTipString("Plot the selected data")
         self.plotButton.SetDefault()
@@ -79,9 +63,6 @@ class PlotPanel(wx.Panel, PDFPanel):
         sizer_6 = wx.BoxSizer(wx.HORIZONTAL)
         sizer_4 = wx.StaticBoxSizer(self.sizer_4_staticbox, wx.HORIZONTAL)
         sizer_3 = wx.StaticBoxSizer(self.sizer_3_staticbox, wx.HORIZONTAL)
-        sizer_7 = wx.StaticBoxSizer(self.sizer_7_staticbox, wx.HORIZONTAL)
-        sizer_7.Add(self.quickPlotButton, 1, wx.ALL|wx.ADJUST_MINSIZE, 5)
-        sizer_1.Add(sizer_7, 0, wx.EXPAND, 0)
         sizer_3.Add(self.xDataText, 0, wx.ALL|wx.ALIGN_CENTER_VERTICAL|wx.ADJUST_MINSIZE, 5)
         sizer_3.Add((1, 1), 1, wx.ADJUST_MINSIZE, 0)
         sizer_3.Add(self.xDataCombo, 1, wx.ALL|wx.ADJUST_MINSIZE, 5)
@@ -120,7 +101,6 @@ class PlotPanel(wx.Panel, PDFPanel):
 
     def enableWidgets(self, on=True):
         """Enable or disable the widgets."""
-        self.quickPlotButton.Enable(on)
         self.xDataCombo.Enable(on)
         self.yDataList.Enable(on)
         self.offsetTextCtrl.Enable(on)
@@ -135,16 +115,6 @@ class PlotPanel(wx.Panel, PDFPanel):
 
         if selections:
             self.enableWidgets()
-
-            # QUICKPLOT
-            # Disable quickplot if there is more than one tree node selected or if
-            # any selected node is not a 'dataset' node.
-            if len(selections) != 1:
-                self.quickPlotButton.Enable(False)
-            elif self.treeCtrlMain.GetNodeType(selections[0]) != 'dataset':
-                self.quickPlotButton.Enable(False)
-            else:
-                self.quickPlotButton.Enable(True)
 
             selectiontype = self.treeCtrlMain.GetNodeType(selections[0])
             # Since 'dataset' and 'calculation' items are treated the same, just
@@ -193,7 +163,7 @@ class PlotPanel(wx.Panel, PDFPanel):
                 xvals.remove('rw')    
             except:
                 pass
-            xvals.reverse()
+            xvals.sort()
             
             # Fill the xDataCombo
             self.xDataCombo.Clear()
@@ -214,6 +184,8 @@ class PlotPanel(wx.Panel, PDFPanel):
                 self.yDataList.InsertStringItem(sys.maxint, str(val))
             self.yDataList.makeIDM()
             self.yDataList.initializeSorter()
+            if yvals:
+                self.yDataList.Select(0)
 
         else: # there are no selections
             self.enableWidgets(False)
@@ -259,18 +231,6 @@ class PlotPanel(wx.Panel, PDFPanel):
         yDataList.
         """
         self.updateWidgets()
-        return
-
-    def onQuickPlot(self, event): # wxGlade: PlotPanel.<event_handler>
-        """Quickly plot the Gobs, Gfit, and Gdiff for a selected dataset."""
-        selections = self.treeCtrlMain.GetSelections()
-        if len(selections) != 1: return
-        node = selections[0]
-        refs = [self.treeCtrlMain.GetControlData(node)]
-        xval = 'r'
-        yvals = ['Gcalc', 'Gtrunc', 'Gdiff']
-        offset = 0
-        self.mainPanel.control.plot(xval, yvals, refs, shift=offset)
         return
 
     def onPlot(self, event): # wxGlade: PlotPanel.<event_handler>

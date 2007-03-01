@@ -80,6 +80,8 @@ class FitTree(wx.TreeCtrl):
         self.clcbmid = il.Add(calcbmp)
         self.SetImageList(il)
         self.treeImageList = il
+
+
         return
 
     def InitializeTree(self):

@@ -51,15 +51,21 @@ import wx.lib.newevent
 (PDFCustomEvent, EVT_PDFCUSTOM) = wx.lib.newevent.NewEvent()
 
 import pdfguiglobals
+from pdfguiglobals import iconsDir
 
 # TODO - When regenerating the gui code using wxglade the following things need
 # to be corrected by hand.
-# 1) The BlankPanel class is defined in another file. Delete it if it appears
-# below.
-# 2) In the declaration of treeCtrlMain in __init__ wx.TR_MULTIPLE shows up
+# 1) In the declaration of treeCtrlMain in __init__ wx.TR_MULTIPLE shows up
 # twice. Delete one of these.
-# 3) In the declaration of treeCtrlMain in __init__ wx.TR_DEFAULT_STYLE shows
+# 2) In the declaration of treeCtrlMain in __init__ wx.TR_DEFAULT_STYLE shows
 # up, but it shouldn't. Delete it.
+# 3) The declaration of buttonFitting and buttonPlotting do not know where the
+# icons are kept. Simply copy and paste what is below over those two
+# delcarations:
+#        self.buttonFitting = wx.BitmapButton(self, -1,
+#           wx.Bitmap(os.path.join(iconsDir, "fitting.png"), wx.BITMAP_TYPE_ANY)) 
+#        self.buttonPlotting = wx.BitmapButton(self, -1,
+#           wx.Bitmap(os.path.join(iconsDir,"plotting.png"), wx.BITMAP_TYPE_ANY))
 
 class MainPanel(wx.Panel):
     """Here is a quick overview of MainPanel. On the left is two buttons, one
@@ -174,16 +180,18 @@ class MainPanel(wx.Panel):
         kwds["style"] = wx.TAB_TRAVERSAL
         wx.Panel.__init__(self, *args, **kwds)
         self.windowMain = wx.SplitterWindow(self, -1, style=wx.SP_3D|wx.SP_BORDER)
-        self.buttonFitting = wx.ToggleButton(self, -1, "F\nI\nT\nT\nI\nN\nG")
-        self.buttonPlotting = wx.ToggleButton(self, -1, "P\nL\nO\nT\nT\nI\nN\nG")
+        self.buttonFitting = wx.BitmapButton(self, -1,
+                wx.Bitmap(os.path.join(iconsDir, "fitting.png"), wx.BITMAP_TYPE_ANY))
+        self.buttonPlotting = wx.BitmapButton(self, -1,
+                wx.Bitmap(os.path.join(iconsDir,"plotting.png"), wx.BITMAP_TYPE_ANY))
         self.treeCtrlMain = FitTree(self.windowMain, -1, style=wx.TR_HAS_BUTTONS|wx.TR_NO_LINES|wx.TR_EDIT_LABELS|wx.TR_HIDE_ROOT|wx.TR_MULTIPLE|wx.TR_EXTENDED|wx.SUNKEN_BORDER)
         self.panelDynamic = BlankPanel(self.windowMain, -1)
 
         self.__set_properties()
         self.__do_layout()
 
-        self.Bind(wx.EVT_TOGGLEBUTTON, self.onFitting, self.buttonFitting)
-        self.Bind(wx.EVT_TOGGLEBUTTON, self.onPlotting, self.buttonPlotting)
+        self.Bind(wx.EVT_BUTTON, self.onFitting, self.buttonFitting)
+        self.Bind(wx.EVT_BUTTON, self.onPlotting, self.buttonPlotting)
         self.Bind(wx.EVT_TREE_SEL_CHANGING, self.onTreeSelChanging, self.treeCtrlMain)
         self.Bind(wx.EVT_TREE_SEL_CHANGED, self.onTreeSelChanged, self.treeCtrlMain)
         self.Bind(wx.EVT_TREE_END_LABEL_EDIT, self.onEndLabelEdit, self.treeCtrlMain)
@@ -196,12 +204,9 @@ class MainPanel(wx.Panel):
 
     def __set_properties(self):
         # begin wxGlade: MainPanel.__set_properties
-        self.buttonFitting.SetMinSize((30, 200))
-        self.buttonFitting.SetFont(wx.Font(12, wx.MODERN, wx.NORMAL, wx.BOLD, 0, ""))
-        self.buttonFitting.SetValue(1)
-        self.buttonPlotting.SetMinSize((30, 200))
-        self.buttonPlotting.SetFont(wx.Font(12, wx.MODERN, wx.NORMAL, wx.BOLD, 0, ""))
-        self.treeCtrlMain.SetMinSize((200, 400))
+        self.buttonFitting.SetMinSize((30,200))
+        self.buttonPlotting.SetMinSize((30,200))
+        self.treeCtrlMain.SetMinSize((200, 652))
         # end wxGlade
 
     def __do_layout(self):
@@ -265,10 +270,12 @@ class MainPanel(wx.Panel):
         self.quitId = wx.ID_CLOSE       # Quit the program
         self.runFitId = wx.NewId()      # Run a fit
         self.stopFitId = wx.NewId()     # Stop a fit
+        self.quickPlotId = wx.NewId()   # Quick plot a fit
         self.exportFitPDFId = wx.NewId()  # Save a fit PDF
         self.exportFitStruId = wx.NewId()    # Save a fit structure
         self.exportNewStruId = wx.NewId() # Export a 'new' structure
-        self.plotStructId = wx.NewId()  # Plot a selected structure
+        self.plotIStructId = wx.NewId() # Plot initial structure
+        self.plotFStructId = wx.NewId() # Plot final structure
         self.exportResId = wx.NewId()     # Save the results file
         self.runCalcId = wx.NewId()     # Run a calculation
         self.exportCalcPDFId = wx.NewId() # Save a calculated PDF
@@ -315,7 +322,7 @@ class MainPanel(wx.Panel):
         self.cP = SafeConfigParser()
 
         # class variables
-        self.mode = "fitting"
+        self.setMode("fitting")
         self.rightPanel = self.panelDynamic
 
         # This is the dictionary of right panels. For simplicity the five panels
@@ -518,10 +525,14 @@ class MainPanel(wx.Panel):
                 "&Export Fit Structure", "", wx.ITEM_NORMAL) 
         self.phasesMenu.AppendItem(self.expStruItem)
         self.phasesMenu.AppendSeparator()
-        self.plotStructItem = wx.MenuItem(self.phasesMenu,
-                self.plotStructId, "&Plot Selected Structure", "",
+        self.plotIStructItem = wx.MenuItem(self.phasesMenu,
+                self.plotIStructId, "&Plot Initial Structure", "",
                 wx.ITEM_NORMAL)
-        self.phasesMenu.AppendItem(self.plotStructItem)
+        self.phasesMenu.AppendItem(self.plotIStructItem)
+        self.plotFStructItem = wx.MenuItem(self.phasesMenu,
+                self.plotFStructId, "&Plot Final Structure", "",
+                wx.ITEM_NORMAL)
+        self.phasesMenu.AppendItem(self.plotFStructItem)
         self.menuBar.Append(self.phasesMenu, "&Phases")
         # End Phases Menu
 
@@ -575,10 +586,6 @@ class MainPanel(wx.Panel):
 
     def __setupToolBar(self):
         """This sets up the tool bar in the parent window."""
-        #self.toolBar = wx.ToolBar(self, -1, 
-        #        style=wx.TB_HORIZONTAL|wx.TB_3DBUTTONS)
-        #self.frame.SetToolBar(self.toolBar)
-        # Added for window's compatibility
         self.toolBar = self.frame.CreateToolBar()
         self.toolBar.AddLabelTool(self.newId, "New Project",
                 wx.ArtProvider.GetBitmap(wx.ART_NEW, wx.ART_TOOLBAR), 
@@ -594,13 +601,18 @@ class MainPanel(wx.Panel):
                 "Save this project", "")
         self.toolBar.AddSeparator()
         self.toolBar.AddLabelTool(self.runFitId, "Start",
-                wx.ArtProvider.GetBitmap(wx.ART_EXECUTABLE_FILE, wx.ART_TOOLBAR), 
+                wx.ArtProvider.GetBitmap(wx.ART_GO_FORWARD, wx.ART_OTHER), 
                 wx.NullBitmap, wx.ITEM_NORMAL,
                 "Start a fit or calculation", "")
         self.toolBar.AddLabelTool(self.stopFitId, "Stop",
-                wx.ArtProvider.GetBitmap(wx.ART_ERROR, wx.ART_TOOLBAR), 
+                wx.ArtProvider.GetBitmap(wx.ART_ERROR, wx.ART_OTHER), 
                 wx.NullBitmap, wx.ITEM_NORMAL,
                 "Stop running fits or calculations", "")
+        self.toolBar.AddSeparator()
+        self.toolBar.AddLabelTool(self.quickPlotId, "Quick plot",
+                wx.Bitmap(os.path.join(iconsDir,"datasetitem.png")),
+                wx.NullBitmap, wx.ITEM_NORMAL,
+                "Plot fit or calculation", "")
         self.toolBar.Realize()
 
     def __customBindings(self):
@@ -623,7 +635,7 @@ class MainPanel(wx.Panel):
         return
 
     def __menuBindings(self):
-        """Setup bindings for the main menu.
+        """Setup bindings for the main menu and toolbar.
         
         Since all toolbar functions use the same Ids as main menu items, the
         toolbar events do not need their own bindings.
@@ -661,7 +673,8 @@ class MainPanel(wx.Panel):
         wx.EVT_MENU(self.frame, self.newPhaseId, self.onInsPhase)
         wx.EVT_MENU(self.frame, self.exportNewStruId, self.onExportNewStruct)
         wx.EVT_MENU(self.frame, self.exportFitStruId, self.onExportStruct)
-        wx.EVT_MENU(self.frame, self.plotStructId, self.onPlotStruct)
+        wx.EVT_MENU(self.frame, self.plotIStructId, self.onPlotIStruct)
+        wx.EVT_MENU(self.frame, self.plotFStructId, self.onPlotFStruct)
 
         ## Data Menu
         wx.EVT_MENU(self.frame, self.newDataId, self.onInsData)
@@ -679,6 +692,9 @@ class MainPanel(wx.Panel):
 
         # The generic menu-check.
         wx.EVT_MENU_OPEN(self.frame, self.onMainMenu)
+
+        # Toolbar events that have no menu item
+        wx.EVT_MENU(self.frame, self.quickPlotId, self.onQuickPlot)
         return
 
     def __fittingRightMenuBindings(self):
@@ -790,12 +806,10 @@ class MainPanel(wx.Panel):
         the mode is changed. 
         
         "fitting" mode:
-         * buttonFitting and buttonPlotting are enabled. buttonFitting is down
-         * and buttonPlotting is up.
+         * buttonFitting is disabled. buttonPlotting is enabled.
 
         "plotting" mode:
-         * buttonFitting and buttonPlotting are enabled. buttonPlotting is
-         * down and buttonFitting is up.
+         * buttonPlotting is disabled. buttonFitting is enabled.
 
         "addingdata" mode: 
          * buttonFitting and buttonPlotting are disabled
@@ -817,16 +831,11 @@ class MainPanel(wx.Panel):
         """
         self.mode = mode
         if mode == 'fitting':
-            self.buttonFitting.Enable(True)
+            self.buttonFitting.Enable(False)
             self.buttonPlotting.Enable(True)
-            # 1 = selected (down), 0 = unselected (up)
-            self.buttonFitting.SetValue(1)
-            self.buttonPlotting.SetValue(0)
         elif mode == 'plotting':
-            self.buttonPlotting.Enable(True)
             self.buttonFitting.Enable(True)
-            self.buttonPlotting.SetValue(1)
-            self.buttonFitting.SetValue(0)
+            self.buttonPlotting.Enable(False)
         elif mode in ["addingdata", "addingphase", "config", "rseries",
                 "tseries", "dseries"]:
             self.buttonFitting.Enable(False)
@@ -934,34 +943,27 @@ class MainPanel(wx.Panel):
 
     def onFitting(self, event): # wxGlade: MainPanel.<event_handler>
         """This takes place when the fitting button is pressed."""
-        # If the button was up (0) it will now be down (1)
-        if self.buttonFitting.GetValue():
-            self.setMode("fitting")
+        self.setMode("fitting")
 
-            #self.buttonPlotting.SetValue(0)
-            selections = self.treeCtrlMain.GetSelections()
-            nodetype = None
-            if selections:
-                nodetype = self.treeCtrlMain.GetNodeType(selections[0])
-            self.switchRightPanel(nodetype)
-            # Enable/Disable the right panel based on the selection
-            if len(selections) == 1:
-                self.rightPanel.Enable()
-            else:
-                self.rightPanel.Enable(False)
+        #self.buttonPlotting.SetValue(0)
+        selections = self.treeCtrlMain.GetSelections()
+        nodetype = None
+        if selections:
+            nodetype = self.treeCtrlMain.GetNodeType(selections[0])
+        self.switchRightPanel(nodetype)
+        # Enable/Disable the right panel based on the selection
+        if len(selections) == 1:
+            self.rightPanel.Enable()
         else:
-            self.buttonFitting.SetValue(1)
+            self.rightPanel.Enable(False)
         self.updateToolbar()
         return
 
     def onPlotting(self, event): # wxGlade: MainPanel.<event_handler>
         """This takes place when the plotting button is pressed."""
         # If the button was up (0) it will now be down (1)
-        if self.buttonPlotting.GetValue():
-            self.setMode("plotting")
-            self.switchRightPanel("plotting")
-        else:
-            self.buttonPlotting.SetValue(1)
+        self.setMode("plotting")
+        self.switchRightPanel("plotting")
         self.updateToolbar()
         return
 
@@ -1232,31 +1234,57 @@ class MainPanel(wx.Panel):
 
     def updateToolbar(self):
         """Update the toolbar based upon the status of the program."""
-        fitmode = True
         self.toolBar.EnableTool(self.saveId, pdfguiglobals.isAltered)
 
-        if self.mode != 'fitting': 
-            self.toolBar.EnableTool(self.runFitId, False)
-            self.toolBar.EnableTool(self.stopFitId, False)
-            return
+        itemtype = None
+        selections = self.treeCtrlMain.GetSelections()
+        if selections:
+            node = selections[0]
+            itemtype = self.treeCtrlMain.GetNodeType(node)
 
-        if not self.runningDict:
-            # No fit is running
-            self.toolBar.EnableTool(self.stopFitId, False)
-            selections = self.treeCtrlMain.GetSelections()
-            if selections:
-                node = selections[0]
-                itemtype = self.treeCtrlMain.GetNodeType(node)
+
+        # This is redundant, but easy to maintain
+        if self.mode == 'fitting':
+
+            # Quickplot
+            if itemtype and itemtype != "fit":
+                self.toolBar.EnableTool(self.quickPlotId, True)
+            else:
+                self.toolBar.EnableTool(self.quickPlotId, False)
+
+            # Fit run/stop
+            if not self.runningDict:
+                # No fit is running
+                self.toolBar.EnableTool(self.stopFitId, False)
                 if itemtype in ('fit', 'calculation'):
                     self.toolBar.EnableTool(self.runFitId, True)
                 else:
                     self.toolBar.EnableTool(self.runFitId, False)
+
             else:
+                self.toolBar.EnableTool(self.stopFitId, True)
                 self.toolBar.EnableTool(self.runFitId, False)
 
-        else:
-            self.toolBar.EnableTool(self.stopFitId, True)
+        elif self.mode == 'plotting':
+
+            # Quickplot
+            if itemtype and itemtype != "fit":
+                self.toolBar.EnableTool(self.quickPlotId, True)
+            else:
+                self.toolBar.EnableTool(self.quickPlotId, False)
+
+            # Fit run/stop
+            self.toolBar.EnableTool(self.stopFitId, False)
             self.toolBar.EnableTool(self.runFitId, False)
+
+        else:
+            # Quickplot
+            self.toolBar.EnableTool(self.quickPlotId, False)
+
+            # Fit run/stop
+            self.toolBar.EnableTool(self.stopFitId, False)
+            self.toolBar.EnableTool(self.runFitId, False)
+
         return
 
     def needsSave(self, altered=True):
@@ -1401,7 +1429,8 @@ class MainPanel(wx.Panel):
         menu.Enable(self.runCalcId, True)
         menu.Enable(self.exportCalcPDFId, True)
         menu.Enable(self.exportNewStruId, True)
-        menu.Enable(self.plotStructId, True)
+        menu.Enable(self.plotIStructId, True)
+        menu.Enable(self.plotFStructId, True)
         menu.Enable(self.aboutItem.GetId(), True)
 
         # Reset the save menus so that they can be disabled if a fit is running.
@@ -1463,21 +1492,19 @@ class MainPanel(wx.Panel):
         if itemtype != "phase":
             menu.Enable(self.exportNewStruId, False)
             menu.Enable(self.exportFitStruId, False)
-            menu.Enable(self.plotStructId, False)
+            menu.Enable(self.plotIStructId, False)
+            menu.Enable(self.plotFStructId, False)
         elif numsel > 1:
-            menu.Enable(self.plotStructId, False)
+            menu.Enable(self.plotIStructId, False)
+            menu.Enable(self.plotFStructId, False)
             menu.Enable(self.exportFitStruId, False)
             menu.Enable(self.exportNewStruId, False)
-            menu.Enable(self.plotStructId, False)
-        #elif self.rightPanel != self.dynamicPanels['phase']:
-        #        menu.Enable(self.plotStructId, False)
-        elif self.dynamicPanels['phase'].currentPage != "configuration" and\
-            self.dynamicPanels['phase'].currentPage != "results":
-                menu.Enable(self.plotStructId, False)
         else:
+            menu.Enable(self.plotIStructId, True)
             cdata = self.treeCtrlMain.GetControlData(node)
             if not cdata.refined:
                 menu.Enable(self.exportFitStruId, False)
+                menu.Enable(self.plotFStructId, False)
 
 
         # DATASET
@@ -1716,8 +1743,8 @@ class MainPanel(wx.Panel):
             self.journalPanel.refresh()
             self.journalDialog.Show(True)
         return
-    
-    def onPlotStruct(self, event):
+
+    def onPlotIStruct(self, event):
         """Plots the phase structure.
         
         Opens Atomeye and plots the structure.
@@ -1729,11 +1756,48 @@ class MainPanel(wx.Panel):
             if itemtype == "phase":
                 panel = self.dynamicPanels['phase']
                 cdata = self.treeCtrlMain.GetControlData(node)
-                if panel.currentPage=="configuration" or self.mode=="plotting":
-                        atomeyecontrol.plot(cdata.initial)
-                elif panel.currentPage == "results":
-                        atomeyecontrol.plot(cdata.refined)
+                atomeyecontrol.plot(cdata.initial)
         return
+
+    
+    def onPlotFStruct(self, event):
+        """Plots the phase structure.
+        
+        Opens Atomeye and plots the structure.
+        """
+        selections = self.treeCtrlMain.GetSelections()
+        if selections:
+            node = selections[0]
+            itemtype = self.treeCtrlMain.GetNodeType(node)
+            if itemtype == "phase":
+                panel = self.dynamicPanels['phase']
+                cdata = self.treeCtrlMain.GetControlData(node)
+                atomeyecontrol.plot(cdata.refined)
+        return
+
+    def onQuickPlot(self, event):
+        """Quickly plot the Gobs, Gfit, and Gdiff for a selected dataset."""
+        selections = self.treeCtrlMain.GetSelections()
+        if len(selections) != 1: return
+        node = selections[0]
+        refs = [self.treeCtrlMain.GetControlData(node)]
+        nodetype = self.treeCtrlMain.GetNodeType(selections[0])
+        if nodetype == "dataset":
+            xval = 'r'
+            yvals = ['Gcalc', 'Gtrunc', 'Gdiff']
+            self.control.plot(xval, yvals, refs, shift=0)
+        elif nodetype == "calculation":
+            xval = 'r'
+            yvals = ['Gcalc']
+            self.control.plot(xval, yvals, refs, shift=0)
+        elif nodetype == "phase":
+            cdata = self.treeCtrlMain.GetControlData(node)
+            if cdata.refined:
+                self.onPlotFStruct(event)
+            else:
+                self.onPlotIStruct(event)
+        else:
+            return
                         
     def onAbout(self, event):
         dlg = DialogAbout(self)
