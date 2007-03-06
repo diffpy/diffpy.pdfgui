@@ -25,7 +25,7 @@ def numericStringSort(lst):
     
     lst  -- sorted list of strings
     
-    Return lst.
+    No return value to highlight inplace sorting.
     """
     import re
     rx = re.compile(r'(\d+)')
@@ -34,6 +34,6 @@ def numericStringSort(lst):
     newlst = zip(keys, lst)
     newlst.sort()
     lst[:] = [kv[1] for kv in newlst]
-    return lst
+    return
 
 # End of file
