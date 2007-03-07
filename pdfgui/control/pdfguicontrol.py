@@ -428,6 +428,8 @@ class PDFGuiControl:
             z = zipfile.ZipFile(projfile, 'r')
             z.fileTree = _nameParser(z.namelist())
             
+            if len(z.fileTree) == 0:
+                raise ControlFileError, "%s is invalid project file"%projfile
             # The first layer has only one folder
             rootDict = z.fileTree.values()[0]
             projName = z.fileTree.keys()[0]
@@ -438,8 +440,13 @@ class PDFGuiControl:
             # all the fitting and calculations
             #NOTE: It doesn't hurt to keep backward compatibility 
             # old test project may not have file 'fits'
-            fitnames = z.read(projName+'/fits').splitlines()
+            if rootDict.has_key('fits'):
+                fitnames = z.read(projName+'/fits').splitlines()
+            else:
+                fitnames = [ x for x in rootDict.keys() if rootDict[x] is not None] 
             
+            if not fitnames:
+                raise ControlFileError, "%s is empty"%projfile
             for name in fitnames:
                 if not name: # empty string
                     continue
