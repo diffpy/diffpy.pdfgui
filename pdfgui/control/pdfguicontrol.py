@@ -462,7 +462,7 @@ class PDFGuiControl:
             z.close()
             return organizations
         
-        except IOError:
+        except (IOError, zipfile.error):
             raise ControlFileError, "%s is invalid project file"%projfile
 
     def save(self, projfile=None):
