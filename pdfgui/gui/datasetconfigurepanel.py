@@ -62,8 +62,8 @@ class DataSetConfigurePanel(wx.Panel, PDFPanel):
         self.panelNameLabel.SetFont(wx.Font(18, wx.DEFAULT, wx.NORMAL, wx.BOLD, 0, ""))
         self.radioBoxStype.SetMinSize((330, 43))
         self.radioBoxStype.SetSelection(0)
-        self.textCtrlDataFrom.SetBackgroundColour(wx.SystemSettings_GetColour(wx.SYS_COLOUR_BACKGROUND))
-        self.textCtrlDataTo.SetBackgroundColour(wx.SystemSettings_GetColour(wx.SYS_COLOUR_BACKGROUND))
+        self.textCtrlDataFrom.SetBackgroundColour(wx.SystemSettings_GetColour(wx.SYS_COLOUR_GRAYTEXT))
+        self.textCtrlDataTo.SetBackgroundColour(wx.SystemSettings_GetColour(wx.SYS_COLOUR_GRAYTEXT))
         # end wxGlade
 
     def __do_layout(self):
@@ -200,9 +200,8 @@ class DataSetConfigurePanel(wx.Panel, PDFPanel):
             textCtrl = getattr(self, value)
             if key in self.constraints:
                 textCtrl.SetEditable(False)
-                textCtrl.SetBackgroundColour(wx.SystemSettings_GetColour(wx.SYS_COLOUR_BACKGROUND))
+                textCtrl.SetBackgroundColour(wx.SystemSettings_GetColour(wx.SYS_COLOUR_GRAYTEXT))
                 textCtrl.SetToolTipString(self.constraints[key].formula)
-                #textCtrl.SetBackgroundColour(wx.SystemSettings_GetColour(wx.SYS_COLOUR_GREYTEXT))
             else:
                 textCtrl.SetEditable(True)
                 textCtrl.SetBackgroundColour(wx.NullColour)

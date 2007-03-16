@@ -252,7 +252,7 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
             if var in self.constraints:
                 textCtrl.SetEditable(False)
                 textCtrl.SetBackgroundColour(
-                        wx.SystemSettings_GetColour(wx.SYS_COLOUR_BACKGROUND))
+                        wx.SystemSettings_GetColour(wx.SYS_COLOUR_GRAYTEXT))
                 textCtrl.SetToolTipString(self.constraints[var].formula)
             else:
                 textCtrl.SetEditable(True)
@@ -271,7 +271,7 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
                 if var in self.constraints:
                     self.gridAtoms.SetReadOnly(i, j, True)
                     self.gridAtoms.SetCellBackgroundColour(i, j, 
-                        wx.SystemSettings_GetColour(wx.SYS_COLOUR_BACKGROUND))
+                        wx.SystemSettings_GetColour(wx.SYS_COLOUR_GRAYTEXT))
                 else:
                     self.gridAtoms.SetReadOnly(i, j, False)
                     self.gridAtoms.SetCellBackgroundColour(i, j, wx.NullColour)

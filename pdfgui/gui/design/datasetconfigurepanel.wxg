@@ -90,7 +90,7 @@
                                 <option>0</option>
                                 <object class="wxTextCtrl" name="textCtrlDataFrom" base="EditTextCtrl">
                                     <style>wxTE_READONLY</style>
-                                    <background>wxSYS_COLOUR_BACKGROUND</background>
+                                    <background>wxSYS_COLOUR_GRAYTEXT</background>
                                 </object>
                             </object>
                             <object class="sizeritem">
@@ -108,7 +108,7 @@
                                 <option>0</option>
                                 <object class="wxTextCtrl" name="textCtrlDataTo" base="EditTextCtrl">
                                     <style>wxTE_READONLY</style>
-                                    <background>wxSYS_COLOUR_BACKGROUND</background>
+                                    <background>wxSYS_COLOUR_GRAYTEXT</background>
                                 </object>
                             </object>
                             <object class="sizeritem">
