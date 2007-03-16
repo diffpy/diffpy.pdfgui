@@ -53,6 +53,12 @@ import wx.lib.newevent
 import pdfguiglobals
 from pdfguiglobals import iconsDir
 
+# README - Note that wx.TreeCtrl.GetSelections works differently in MSW than it
+# does in GTK. In GTK, it returns a list of nodes as they appear in the tree.
+# In MSW, it returns the list of nodes in the order in which they were
+# selected. This can lead to trouble if the order of selected nodes is
+# important to a method.
+
 # TODO - When regenerating the gui code using wxglade the following things need
 # to be corrected by hand.
 # 1) In the declaration of treeCtrlMain in __init__ wx.TR_MULTIPLE shows up
@@ -183,7 +189,7 @@ class MainPanel(wx.Panel):
         self.buttonFitting = wx.BitmapButton(self, -1,
                 wx.Bitmap(os.path.join(iconsDir, "fitting.png"), wx.BITMAP_TYPE_ANY))
         self.buttonPlotting = wx.BitmapButton(self, -1,
-                wx.Bitmap(os.path.join(iconsDir,"plotting.png"), wx.BITMAP_TYPE_ANY))
+                wx.Bitmap(os.path.join(iconsDir, "plotting.png"), wx.BITMAP_TYPE_ANY))
         self.treeCtrlMain = FitTree(self.windowMain, -1, style=wx.TR_HAS_BUTTONS|wx.TR_NO_LINES|wx.TR_EDIT_LABELS|wx.TR_HIDE_ROOT|wx.TR_MULTIPLE|wx.TR_EXTENDED|wx.SUNKEN_BORDER)
         self.panelDynamic = BlankPanel(self.windowMain, -1)
 
@@ -603,7 +609,11 @@ class MainPanel(wx.Panel):
         self.toolBar.AddLabelTool(self.runFitId, "Start",
                 wx.Bitmap(os.path.join(iconsDir, "run.png")),
                 wx.NullBitmap, wx.ITEM_NORMAL,
+<<<<<<< .mine
+                "Start a fit or calculation", "")
+=======
                 "Start a fit or calculation")
+>>>>>>> .r1006
         self.toolBar.AddLabelTool(self.stopFitId, "Stop",
                 wx.Bitmap(os.path.join(iconsDir, "stop.png")),
                 wx.NullBitmap, wx.ITEM_NORMAL,
@@ -1004,9 +1014,10 @@ class MainPanel(wx.Panel):
             # Don't let the user edit the right panel of a running fit.
             node = event.GetItem()
             fp = self.treeCtrlMain.GetFitRoot(node)
-            name = self.treeCtrlMain.GetItemText(fp)
-            if name in self.runningDict:
-                self.rightPanel.Enable(False)
+	    if fp:
+	        name = self.treeCtrlMain.GetItemText(fp)
+	        if name in self.runningDict:
+		    self.rightPanel.Enable(False)
 
         # This should be handled with onTreeSelChanging, but it doesn't work
         # there. This works just as well.
@@ -1239,9 +1250,10 @@ class MainPanel(wx.Panel):
 
         itemtype = None
         selections = self.treeCtrlMain.GetSelections()
+        types = []
         if selections:
-            node = selections[0]
-            itemtype = self.treeCtrlMain.GetNodeType(node)
+            types = map(self.treeCtrlMain.GetNodeType, selections)
+            itemtype = types[0]
 
 
         # This is redundant, but easy to maintain
@@ -1257,7 +1269,8 @@ class MainPanel(wx.Panel):
             if not self.runningDict:
                 # No fit is running
                 self.toolBar.EnableTool(self.stopFitId, False)
-                if itemtype in ('fit', 'calculation'):
+				# Check to see if a fit or calculation is in the selection
+                if 'fit' in types or 'calculation' in types:
                     self.toolBar.EnableTool(self.runFitId, True)
                 else:
                     self.toolBar.EnableTool(self.runFitId, False)
@@ -1688,8 +1701,6 @@ class MainPanel(wx.Panel):
                 allnodes.append(node)
             elif self.treeCtrlMain.GetNodeType(node) == 'fit':
                 allnodes.expand(self.treeCtrlMain.GetChildren(node))
-        
-        
 
         # Change the color of the fitting nodes depending upon their status. See
         # onFittingStatusChanged for the color scheme. Create a dictionary of

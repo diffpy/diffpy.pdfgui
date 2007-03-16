@@ -164,6 +164,7 @@ class PhaseResultsPanel(wx.Panel, PDFPanel):
         """Custom properties for the panel."""
         # The resulting structure
         self.structure = None
+	self._isotropic = False
         return
     
     def refresh(self):
