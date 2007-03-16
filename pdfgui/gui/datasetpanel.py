@@ -111,13 +111,10 @@ class DataSetPanel(wx.Panel, PDFPanel):
         #self.resultsPanel.refresh()
         id = self.dataSetNotebook.GetCurrentPage().GetId()
         if id == self.configurePage.GetId():
-            self.configurePanel.SetFocus()
             self.configurePanel.refresh()
         elif id == self.constraintsPage.GetId():
-            self.constraintPanel.SetFocus()
             self.constraintPanel.refresh()
         elif id == self.resultsPage.GetId():
-            self.resultsPanel.SetFocus()
             self.resultsPanel.refresh()
         return id
 

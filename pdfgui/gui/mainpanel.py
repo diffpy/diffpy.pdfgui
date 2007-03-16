@@ -590,38 +590,31 @@ class MainPanel(wx.Panel):
         self.toolBar.AddLabelTool(self.newId, "New Project",
                 wx.ArtProvider.GetBitmap(wx.ART_NEW, wx.ART_TOOLBAR), 
                 wx.NullBitmap, wx.ITEM_NORMAL,
-                "Start a new project", "")
+                "Start a new project")
         self.toolBar.AddLabelTool(self.openId, "Open Project",
                 wx.ArtProvider.GetBitmap(wx.ART_FILE_OPEN, wx.ART_TOOLBAR), 
                 wx.NullBitmap, wx.ITEM_NORMAL,
-                "Open an existing project", "")
+                "Open an existing project")
         self.toolBar.AddLabelTool(self.saveId, "Save Project",
                 wx.ArtProvider.GetBitmap(wx.ART_FILE_SAVE, wx.ART_TOOLBAR), 
                 wx.NullBitmap, wx.ITEM_NORMAL,
-                "Save this project", "")
+                "Save this project")
         self.toolBar.AddSeparator()
-        #self.toolBar.AddLabelTool(self.runFitId, "Start",
-        #        wx.ArtProvider.GetBitmap(wx.ART_GO_FORWARD, wx.ART_OTHER), 
-        #        wx.NullBitmap, wx.ITEM_NORMAL,
-        #        "Start a fit or calculation", "")
         self.toolBar.AddLabelTool(self.runFitId, "Start",
                 wx.Bitmap(os.path.join(iconsDir, "run.png")),
                 wx.NullBitmap, wx.ITEM_NORMAL,
-                "Start a fit or calculation", "")
-        #self.toolBar.AddLabelTool(self.stopFitId, "Stop",
-        #        wx.ArtProvider.GetBitmap(wx.ART_ERROR, wx.ART_OTHER), 
-        #        wx.NullBitmap, wx.ITEM_NORMAL,
-        #        "Stop running fits or calculations", "")
+                "Start a fit or calculation")
         self.toolBar.AddLabelTool(self.stopFitId, "Stop",
                 wx.Bitmap(os.path.join(iconsDir, "stop.png")),
                 wx.NullBitmap, wx.ITEM_NORMAL,
-                "Stop running fits or calculations", "")
+                "Stop running fits or calculations")
         self.toolBar.AddSeparator()
         self.toolBar.AddLabelTool(self.quickPlotId, "Quick plot",
                 wx.Bitmap(os.path.join(iconsDir,"datasetitem.png")),
                 wx.NullBitmap, wx.ITEM_NORMAL,
-                "Plot fit or calculation", "")
+                "Plot fit or calculation")
         self.toolBar.Realize()
+        return
 
     def __customBindings(self):
         """Custom user bindings go here. 
