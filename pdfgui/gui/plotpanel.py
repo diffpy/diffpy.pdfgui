@@ -272,57 +272,6 @@ class PlotPanel(wx.Panel, PDFPanel):
         self.updateWidgets()
         return
 
-    # This validator is designed exclusively for the offsetTextCtrl
-    #class OffsetValidator(wx.PyValidator):
-    #    """This validator allows non-negative floats and the word 'auto'"""
-    #    def __init__(self):
-    #        wx.PyValidator.__init__(self)
-    #        self.Bind(wx.EVT_CHAR, self.OnChar)
-    #        return
-
-    #    def Clone(self):
-    #        return PlotPanel.OffsetValidator()
-
-    #    def Validate(self, win):
-    #        tc = self.GetWindow()
-    #        val = tc.GetValue()
-    #        try:
-    #            x = float(val)
-    #            if x < 0: return False
-    #        except ValueError:
-    #            if val != "auto"[:len(val)]:
-    #                return False
-    #        except:
-    #            return False
-    #        return True
-
-    #    def OnChar(self, event):
-    #        key = event.KeyCode()
-
-    #        if key < wx.WXK_SPACE or key == wx.WXK_DELETE or key > 255:
-    #            event.Skip()
-    #            return
-
-    #        win = self.GetWindow()
-    #        val = win.GetValue()
-    #        i = win.GetInsertionPoint()
-    #        newval = val[:i]+chr(key)+val[i:]
-    #        try:
-    #            # Skip the event if the text is a float
-    #            x = float(newval+"1") # Catches "1e", a float to be
-    #            if x >= 0: 
-    #                event.Skip()
-    #                return
-    #        except ValueError:
-    #            # Skip the event if the word is in the word 'auto'
-    #            if newval.lower() in "auto"[:len(newval)]:
-    #                event.Skip()
-    #                return
-    #        except:
-    #            pass
-    #        return
-    # end of class OffsetValidator
-
 # end of class PlotPanel
 
 __id__ = "$Id$"
