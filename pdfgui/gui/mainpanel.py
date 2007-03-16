@@ -600,12 +600,20 @@ class MainPanel(wx.Panel):
                 wx.NullBitmap, wx.ITEM_NORMAL,
                 "Save this project", "")
         self.toolBar.AddSeparator()
+        #self.toolBar.AddLabelTool(self.runFitId, "Start",
+        #        wx.ArtProvider.GetBitmap(wx.ART_GO_FORWARD, wx.ART_OTHER), 
+        #        wx.NullBitmap, wx.ITEM_NORMAL,
+        #        "Start a fit or calculation", "")
         self.toolBar.AddLabelTool(self.runFitId, "Start",
-                wx.ArtProvider.GetBitmap(wx.ART_GO_FORWARD, wx.ART_OTHER), 
+                wx.Bitmap(os.path.join(iconsDir, "run.png")),
                 wx.NullBitmap, wx.ITEM_NORMAL,
                 "Start a fit or calculation", "")
+        #self.toolBar.AddLabelTool(self.stopFitId, "Stop",
+        #        wx.ArtProvider.GetBitmap(wx.ART_ERROR, wx.ART_OTHER), 
+        #        wx.NullBitmap, wx.ITEM_NORMAL,
+        #        "Stop running fits or calculations", "")
         self.toolBar.AddLabelTool(self.stopFitId, "Stop",
-                wx.ArtProvider.GetBitmap(wx.ART_ERROR, wx.ART_OTHER), 
+                wx.Bitmap(os.path.join(iconsDir, "stop.png")),
                 wx.NullBitmap, wx.ITEM_NORMAL,
                 "Stop running fits or calculations", "")
         self.toolBar.AddSeparator()

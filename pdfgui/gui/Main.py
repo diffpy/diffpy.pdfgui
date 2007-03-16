@@ -42,7 +42,7 @@ class PDFGuiFrame(wx.Frame):
         sizer_3.Fit(self)
         sizer_3.SetSizeHints(self)
         self.Layout()
-        self.SetSize((700, 120))
+        self.SetSize((800, 600))
 
 # end of class PDFGuiFrame
 
