@@ -609,11 +609,7 @@ class MainPanel(wx.Panel):
         self.toolBar.AddLabelTool(self.runFitId, "Start",
                 wx.Bitmap(os.path.join(iconsDir, "run.png")),
                 wx.NullBitmap, wx.ITEM_NORMAL,
-<<<<<<< .mine
-                "Start a fit or calculation", "")
-=======
                 "Start a fit or calculation")
->>>>>>> .r1006
         self.toolBar.AddLabelTool(self.stopFitId, "Stop",
                 wx.Bitmap(os.path.join(iconsDir, "stop.png")),
                 wx.NullBitmap, wx.ITEM_NORMAL,
