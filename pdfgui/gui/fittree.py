@@ -825,6 +825,7 @@ class FitTree(wx.TreeCtrl):
             self.InitializeTree()
         roots = []
 
+        if not treelist: return
         # Build the tree
         for item in treelist:
             broot = item[0]

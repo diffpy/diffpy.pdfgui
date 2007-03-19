@@ -445,8 +445,6 @@ class PDFGuiControl:
             else:
                 fitnames = [ x for x in rootDict.keys() if rootDict[x] is not None] 
             
-            if not fitnames:
-                raise ControlFileError, "%s is empty"%projfile
             for name in fitnames:
                 if not name: # empty string
                     continue
