@@ -371,7 +371,7 @@ class Plotter(PDFComponent):
                'color':colors[colorIndex],
                'symbolColor':colors[colorIndex],
                'symbol':symbols[symbolIndex],
-               'symbolSize':4}
+               'symbolSize':3}
                
     def buildLineStyle (self, index = -1 ):
         """generate a line style
@@ -433,8 +433,13 @@ class Plotter(PDFComponent):
                         rs = dataIds[0].robs
                     hMin = min(rs)
                     hMax = max(rs)
-                    vMin = min(dataIds[0].Gobs)                    
-                    
+
+                    # Find the value of the baseline
+                    GobsMin = min(dataIds[0].Gobs)
+                    GcalcMin = min(dataIds[0].Gcalc)
+                    GMin = min(GobsMin, GcalcMin)
+                    GdiffMax = max(dataIds[0].Gdiff)
+                    vMin = 1.1*(GMin - GdiffMax)
                     
                     self.window.insertCurve([hMin, hMax], [vMin, vMin], baselineStyle)
                     _shift = vMin

@@ -1792,7 +1792,7 @@ class MainPanel(wx.Panel):
         nodetype = self.treeCtrlMain.GetNodeType(selections[0])
         if nodetype == "dataset":
             xval = 'r'
-            yvals = ['Gcalc', 'Gtrunc', 'Gdiff']
+            yvals = ['Gtrunc', 'Gcalc', 'Gdiff']
             self.control.plot(xval, yvals, refs, shift=0)
         elif nodetype == "calculation":
             xval = 'r'
