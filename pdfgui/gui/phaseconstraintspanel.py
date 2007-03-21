@@ -174,7 +174,7 @@ class PhaseConstraintsPanel(wx.Panel, PDFPanel):
                 'textCtrlAlpha', 'textCtrlBeta', 'textCtrlGamma',
                 'textCtrlScaleFactor', 'textCtrlDelta1', 'textCtrlDelta2',
                 'textCtrlSrat', 'textCtrlRcut']
-	self._isotropic = False
+        self._isotropic = False
         self._row = 0
         self._col = 0
         self._focusedText = None

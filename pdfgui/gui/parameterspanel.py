@@ -259,8 +259,8 @@ class ParametersPanel(wx.Panel, PDFPanel):
         """Opens a popup menu
         
         window  --  window, where to popup a menu
-        x		--  x coordinate
-        y		--  y coordinate
+        x       --  x coordinate
+        y       --  y coordinate
         """
         # only do this part the first time so the events are only bound once
         if not hasattr(self, "did_popupIDs"):

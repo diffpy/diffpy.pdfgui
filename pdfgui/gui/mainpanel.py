@@ -1010,10 +1010,10 @@ class MainPanel(wx.Panel):
             # Don't let the user edit the right panel of a running fit.
             node = event.GetItem()
             fp = self.treeCtrlMain.GetFitRoot(node)
-	    if fp:
-	        name = self.treeCtrlMain.GetItemText(fp)
-	        if name in self.runningDict:
-		    self.rightPanel.Enable(False)
+            if fp:
+                name = self.treeCtrlMain.GetItemText(fp)
+                if name in self.runningDict:
+                    self.rightPanel.Enable(False)
 
         # This should be handled with onTreeSelChanging, but it doesn't work
         # there. This works just as well.
@@ -1265,7 +1265,7 @@ class MainPanel(wx.Panel):
             if not self.runningDict:
                 # No fit is running
                 self.toolBar.EnableTool(self.stopFitId, False)
-				# Check to see if a fit or calculation is in the selection
+                # Check to see if a fit or calculation is in the selection
                 if 'fit' in types or 'calculation' in types:
                     self.toolBar.EnableTool(self.runFitId, True)
                 else:
@@ -1830,7 +1830,7 @@ class MainPanel(wx.Panel):
             self.treeCtrlMain.InitializeTree()
             self.switchRightPanel('welcome')
             self.needsSave(False)
-	    self.fullpath = ""
+            self.fullpath = ""
         self.updateTitle()
         return
 
@@ -1880,7 +1880,7 @@ class MainPanel(wx.Panel):
         #if not dir:
         #    dir = os.path.abspath('.')
         d = wx.FileDialog(None, "Save as...", dir, filename or "project.ddp",
-		matchstring, wx.SAVE|wx.OVERWRITE_PROMPT)
+                matchstring, wx.SAVE|wx.OVERWRITE_PROMPT)
         code = d.ShowModal()
         if code == wx.ID_OK:
             self.fullpath = d.GetPath()
@@ -1941,7 +1941,7 @@ class MainPanel(wx.Panel):
         if not dir:
             dir = os.path.abspath('.')
         d = wx.FileDialog(None, "Save as...", dir, basename,
-		matchstring, wx.SAVE|wx.OVERWRITE_PROMPT)
+                matchstring, wx.SAVE|wx.OVERWRITE_PROMPT)
         if d.ShowModal() == wx.ID_OK:
             path = d.GetPath()
             psplit = list(os.path.split(path))
@@ -2015,7 +2015,7 @@ class MainPanel(wx.Panel):
         if not dir:
             dir = os.path.abspath('.')
         d = wx.FileDialog(None, "Save as...", dir, basename,
-		matchstring, wx.SAVE|wx.OVERWRITE_PROMPT)
+                matchstring, wx.SAVE|wx.OVERWRITE_PROMPT)
         if d.ShowModal() == wx.ID_OK:
             i = d.GetFilterIndex()
             path = d.GetPath()
@@ -2052,7 +2052,7 @@ class MainPanel(wx.Panel):
         if not dir:
             dir = os.path.abspath('.')
         d = wx.FileDialog(None, "Save as...", dir, basename,
-		matchstring, wx.SAVE|wx.OVERWRITE_PROMPT)
+                matchstring, wx.SAVE|wx.OVERWRITE_PROMPT)
         if d.ShowModal() == wx.ID_OK:
             i = d.GetFilterIndex()
             path = d.GetPath()
@@ -2087,7 +2087,7 @@ class MainPanel(wx.Panel):
         if not dir:
             dir = os.path.abspath('.')
         d = wx.FileDialog(None, "Save as...", dir, name,
-		matchstring, wx.SAVE|wx.OVERWRITE_PROMPT)
+                matchstring, wx.SAVE|wx.OVERWRITE_PROMPT)
         if d.ShowModal() == wx.ID_OK:
             path = d.GetPath()
             psplit = list(os.path.split(path))
@@ -2116,7 +2116,7 @@ class MainPanel(wx.Panel):
         if not dir:
             dir = os.path.abspath('.')
         d = wx.FileDialog(None, "Save as...", dir, basename,
-		matchstring, wx.SAVE|wx.OVERWRITE_PROMPT)
+                matchstring, wx.SAVE|wx.OVERWRITE_PROMPT)
         if d.ShowModal() == wx.ID_OK:
             path = d.GetPath()
             psplit = list(os.path.split(path))

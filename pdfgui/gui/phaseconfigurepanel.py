@@ -185,7 +185,7 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
         """Custom properties for the panel."""
         self.structure = None
         self.constraints = {}
-	self._isotropic = False
+        self._isotropic = False
         self._row = 0
         self._col = 0
         self._focusedText = None
