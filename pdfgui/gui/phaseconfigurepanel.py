@@ -90,6 +90,7 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
 
     def __set_properties(self):
         # begin wxGlade: PhaseConfigurePanel.__set_properties
+        self.SetFocus()
         self.labelPanelName.SetFont(wx.Font(18, wx.DEFAULT, wx.NORMAL, wx.BOLD, 0, ""))
         self.labelA.SetToolTipString("lat(1)")
         self.textCtrlA.SetToolTipString("lat(1)")

@@ -74,6 +74,7 @@ class PhaseNotebookPanel(wx.Panel, PDFPanel):
         
     def refresh(self):
         ''' Refreshes the currently shown panel.'''
+        if self.mainPanel.quitting: return
 
         panel = self.notebook_phase.GetCurrentPage()
         id = panel.GetId()

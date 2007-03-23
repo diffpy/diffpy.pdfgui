@@ -4,6 +4,7 @@
 
 import wx
 import re, sys, os.path
+from pdfgui.utils import numericStringSort
 from pdfpanel import PDFPanel
 from wxExtensions.listctrls import AutoWidthListCtrl
 from pdfgui.control.pdfguimacros import makeTemperatureSeries
@@ -232,7 +233,7 @@ class TemperatureSeriesPanel(wx.Panel, PDFPanel):
 
     def onColClick(self, event): # wxGlade: TemperatureSeriesPanel.<event_handler>
         """Sort by temperature."""
-        self.datasets.sort()
+        numericStringSort(self.datasets)
         if self.reverse:
             self.datasets.reverse()
         self.reverse = not self.reverse

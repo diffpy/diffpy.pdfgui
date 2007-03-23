@@ -88,6 +88,7 @@ class FitTree(wx.TreeCtrl):
         """This initializes the tree by adding a root node."""
         self.root = self.AddRoot("The Root Item")
         self.SetNodeType(self.root, "root")
+        # Testing code
         #fit1 = self.AddFit()
         #self.AddPhase(fit1, "Phase 1")
         #self.AddPhase(fit1, "Phase 2")
@@ -825,7 +826,9 @@ class FitTree(wx.TreeCtrl):
             self.InitializeTree()
         roots = []
 
+        # Return if the treelist is empty
         if not treelist: return
+
         # Build the tree
         for item in treelist:
             broot = item[0]
