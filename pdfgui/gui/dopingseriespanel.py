@@ -232,18 +232,18 @@ class DopingSeriesPanel(wx.Panel,PDFPanel):
         base = self.textCtrlBaseElement.GetValue()
         dopant = self.textCtrlDopant.GetValue()
         # Value checks will take place in makeDopingSeries
-        org = makeDopingSeries(self.mainPanel.control, self.fit, base, dopant,
+        org = makeDopingSeries(self.mainFrame.control, self.fit, base, dopant,
                 paths, dvals)
         self.treeCtrlMain.ExtendProjectTree(org, clear=False)
-        self.mainPanel.needsSave()
+        self.mainFrame.needsSave()
         self.onCancel(event)
         return
 
     def onCancel(self, event): # wxGlade: DopingSeriesPanel.<event_handler>
         """Let's go, but not actually do anything."""
-        self.mainPanel.setMode("fitting")
+        self.mainFrame.setMode("fitting")
         self.treeCtrlMain.UnselectAll()
-        self.mainPanel.switchRightPanel("blank")
+        self.mainFrame.switchRightPanel("blank")
         return
 
     ## Utility functions

@@ -21,6 +21,7 @@ from wxExtensions.listctrls import KeyEventsListCtrl
 from wxExtensions.validators import TextValidator, FLOAT_ONLY
 import sys
 from pdfpanel import PDFPanel
+from pdfgui.utils import numericStringSort
 
 class PlotPanel(wx.Panel, PDFPanel):
     def __init__(self, *args, **kwds):
@@ -30,9 +31,8 @@ class PlotPanel(wx.Panel, PDFPanel):
         wx.Panel.__init__(self, *args, **kwds)
         self.sizer_4_staticbox = wx.StaticBox(self, -1, "Y")
         self.sizer_3_staticbox = wx.StaticBox(self, -1, "X")
-        self.xDataText = wx.StaticText(self, -1, "Select x data")
         self.xDataCombo = wx.ComboBox(self, -1, choices=[], style=wx.CB_DROPDOWN|wx.CB_READONLY)
-        self.yDataList = KeyEventsListCtrl(self, -1, style=wx.LC_REPORT|wx.SUNKEN_BORDER)
+        self.yDataList = KeyEventsListCtrl(self, -1, style=wx.LC_REPORT|wx.LC_NO_HEADER|wx.SUNKEN_BORDER)
         self.offsetLabel = wx.StaticText(self, -1, "offset", style=wx.ALIGN_RIGHT)
         self.offsetTextCtrl = wx.TextCtrl(self, -1, "3")
         self.static_line_1 = wx.StaticLine(self, -1)
@@ -49,7 +49,7 @@ class PlotPanel(wx.Panel, PDFPanel):
 
     def __set_properties(self):
         # begin wxGlade: PlotPanel.__set_properties
-        self.SetSize((450, 600))
+        self.SetSize((450, 653))
         self.offsetLabel.SetToolTipString("The vertical gap between stacked plots")
         self.plotButton.SetToolTipString("Plot the selected data")
         self.plotButton.SetDefault()
@@ -63,8 +63,6 @@ class PlotPanel(wx.Panel, PDFPanel):
         sizer_6 = wx.BoxSizer(wx.HORIZONTAL)
         sizer_4 = wx.StaticBoxSizer(self.sizer_4_staticbox, wx.HORIZONTAL)
         sizer_3 = wx.StaticBoxSizer(self.sizer_3_staticbox, wx.HORIZONTAL)
-        sizer_3.Add(self.xDataText, 0, wx.ALL|wx.ALIGN_CENTER_VERTICAL|wx.ADJUST_MINSIZE, 5)
-        sizer_3.Add((1, 1), 1, wx.ADJUST_MINSIZE, 0)
         sizer_3.Add(self.xDataCombo, 1, wx.ALL|wx.ADJUST_MINSIZE, 5)
         sizer_1.Add(sizer_3, 0, wx.EXPAND, 0)
         sizer_4.Add(self.yDataList, 1, wx.ALL|wx.EXPAND, 5)
@@ -73,7 +71,6 @@ class PlotPanel(wx.Panel, PDFPanel):
         sizer_6.Add(self.offsetTextCtrl, 0, wx.ALL|wx.ALIGN_CENTER_VERTICAL|wx.ADJUST_MINSIZE, 5)
         sizer_1.Add(sizer_6, 0, wx.EXPAND, 0)
         sizer_1.Add(self.static_line_1, 0, wx.TOP|wx.BOTTOM|wx.EXPAND, 5)
-        sizer_2.Add((1, 1), 1, wx.ADJUST_MINSIZE, 0)
         sizer_2.Add(self.plotButton, 0, wx.ALL|wx.ADJUST_MINSIZE, 5)
         sizer_2.Add(self.resetButton, 0, wx.ALL|wx.ADJUST_MINSIZE, 5)
         sizer_1.Add(sizer_2, 0, wx.EXPAND, 0)
@@ -110,11 +107,12 @@ class PlotPanel(wx.Panel, PDFPanel):
 
     def updateWidgets(self):
         """Enable or disable certain widgets depending upon what is selected in
-        the tree and in the plotting widgets."""
+        the tree and in the plotting widgets.
+        """
         selections = self.treeCtrlMain.GetSelections()
 
-        if selections:
-            self.enableWidgets()
+        # Only proceed if we have compatible items selected from the tree.
+        if self.checkTreeSelections():
 
             selectiontype = self.treeCtrlMain.GetNodeType(selections[0])
             # Since 'dataset' and 'calculation' items are treated the same, just
@@ -155,7 +153,7 @@ class PlotPanel(wx.Panel, PDFPanel):
                 vals = ["@%i"%item for item in mixedNames if isinstance(item, int)]
                 others  = [item for item in mixedNames if not isinstance(item, int)]
                 vals.extend(others)
-                vals.sort()
+                numericStringSort(vals)
                 return vals
                 
             xvals = _represent(xdata)
@@ -163,12 +161,14 @@ class PlotPanel(wx.Panel, PDFPanel):
                 xvals.remove('rw')    
             except:
                 pass
-            xvals.sort()
+            numericStringSort(xvals)
             
             # Fill the xDataCombo
             self.xDataCombo.Clear()
             for item in xvals:
                 self.xDataCombo.Append(item)
+            if 'r' in xvals:
+                self.xDataCombo.SetValue('r')
 
             # Y-DATA
             ydata = []
@@ -187,9 +187,6 @@ class PlotPanel(wx.Panel, PDFPanel):
             if yvals:
                 self.yDataList.Select(0)
 
-        else: # there are no selections
-            self.enableWidgets(False)
-
         return
 
     def getSelectedYVals(self):
@@ -206,11 +203,14 @@ class PlotPanel(wx.Panel, PDFPanel):
     def checkTreeSelections(self):
         """Make sure that the tree selections are appropriate for plotting.
 
-        Make sure that all selections are the same type. If not, then the other
-        selections are unselected.
+        Make sure that all selections are the same type. If not, then plotting
+        is disabled.
         """
         selections = self.treeCtrlMain.GetSelections()
-        if not selections: return
+
+        if not selections: 
+            self.enableWidgets(False)
+            return False
 
         # Get the type of the first valid node
         nodetype = self.treeCtrlMain.GetNodeType(selections[0])
@@ -218,21 +218,15 @@ class PlotPanel(wx.Panel, PDFPanel):
         # Now deselect all nodes of the wrong type
         for node in selections:
             if nodetype != self.treeCtrlMain.GetNodeType(node):
-                self.treeCtrlMain.SelectItem(node, False)
+                self.enableWidgets(False)
+                return False
 
-        return
+        # We only get here if there are selected nodes and they are all the same
+        # type.
+        self.enableWidgets(True)
+        return True
 
     # EVENT CODE #############################################################
-    def onTreeSelChanged(self, event):
-        """This handles tree selections when in 'plotting' mode.
-        
-        This method gets called whenever an item is selected from treeCtrlMain
-        when the program is in 'plotting' mode. It fills in the xDataCombo and
-        yDataList.
-        """
-        self.updateWidgets()
-        return
-
     def onPlot(self, event): # wxGlade: PlotPanel.<event_handler>
         """Plot some stuff."""
         selections = self.treeCtrlMain.GetSelections()
@@ -250,28 +244,21 @@ class PlotPanel(wx.Panel, PDFPanel):
         else:
             offset = float(offset)
 
-        self.mainPanel.control.plot(xval, yvals, refs, shift=offset)
+        self.mainFrame.control.plot(xval, yvals, refs, shift=offset)
         return
 
     def onReset(self, event): # wxGlade: PlotPanel.<event_handler>
         """Reset everything."""
         self.xDataCombo.SetSelection(wx.NOT_FOUND)
         self.yDataList.clearSelections()
-        self.offsetTextCtrl.SetValue("auto")
+        self.offsetTextCtrl.SetValue("3")
         self.refresh()
         return
 
     # Methods overloaded from PDFPanel
     def refresh(self):
         """Refresh this panel."""
-        #self.treeCtrlMain.UnselectAll()
-        #self.xDataCombo.Clear()
-        #self.yDataList.DeleteAllItems()
-        #self.enableWidgets(False)
-        self.checkTreeSelections()
         self.updateWidgets()
         return
-
-# end of class PlotPanel
 
 __id__ = "$Id$"

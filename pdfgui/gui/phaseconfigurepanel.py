@@ -362,7 +362,7 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
         elif j == 10:
             self.structure[i].occupancy = value # occupancy
 
-        self.mainPanel.needsSave()        
+        self.mainFrame.needsSave()        
         return
 
     ##########################################################################
@@ -383,7 +383,7 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
         if self._focusedText != value:
             self.applyTextCtrlChange(textctrl.GetId(), value)
             self.refresh()
-            self.mainPanel.needsSave()        
+            self.mainFrame.needsSave()        
                 
         self._focusedText = ""
         event.Skip()
@@ -470,14 +470,14 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
             if selected:
                 self.structure.deleteAtoms(indices)
                 self.refresh()
-                self.mainPanel.needsSave()
+                self.mainFrame.needsSave()
 
         # Ctrl -
         elif event.ControlDown() and key == 45:
             indices = self.getSelectedAtoms()
             self.structure.deleteAtoms(indices)
             self.refresh()
-            self.mainPanel.needsSave()
+            self.mainFrame.needsSave()
 
         # Append a row
         # Ctrl +
@@ -492,7 +492,7 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
             atoms = [Atom("",[0.0,0.0,0.0])]
             self.structure.insertAtoms(pos, atoms)
             self.refresh()
-            self.mainPanel.needsSave()
+            self.mainFrame.needsSave()
 
         else:
             event.Skip()
@@ -572,7 +572,7 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
                     atoms.append(Atom("",[0.0,0.0,0.0]))
                 self.structure.insertAtoms(self._row, atoms)
                 self.refresh()
-                self.mainPanel.needsSave()
+                self.mainFrame.needsSave()
     
             dlg.Destroy()        
         return
@@ -583,7 +583,7 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
             indices = self.getSelectedAtoms()
             self.structure.deleteAtoms(indices)
             self.refresh()
-            self.mainPanel.needsSave()
+            self.mainFrame.needsSave()
         return
 
     def onPopupFill(self, event):
@@ -610,7 +610,7 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
                 mno = dlg.getMNO()
                 self.structure.expandSuperCell(mno)
                 self.refresh()
-                self.mainPanel.needsSave()
+                self.mainFrame.needsSave()
             dlg.Destroy()
         return
 
@@ -620,7 +620,7 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
 
             indices = self.getSelectedAtoms()
             dlg = SGStructureDialog(self)
-            dlg.mainPanel = self.mainPanel
+            dlg.mainFrame = self.mainFrame
             dlg.indices = indices
             dlg.setStructure(self.structure)
             if dlg.ShowModal() == wx.ID_OK:
@@ -628,7 +628,7 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
                 offset = dlg.getOffset()
                 self.structure.expandAsymmetricUnit(spcgrp, indices, offset)
                 self.refresh()
-                self.mainPanel.needsSave()
+                self.mainFrame.needsSave()
             dlg.Destroy()
         return
 

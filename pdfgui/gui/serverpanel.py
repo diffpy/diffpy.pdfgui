@@ -481,17 +481,17 @@ class ServerPanel(wx.Panel, PDFPanel):
             entrytype = self.treeCtrlMain.GetNodeType(node)
         else:
             entrytype = None
-        self.mainPanel.setMode("fitting")
-        self.mainPanel.switchRightPanel(entrytype)
+        self.mainFrame.setMode("fitting")
+        self.mainFrame.switchRightPanel(entrytype)
         return 
 
     def onOK(self, event): # wxGlade: ServerPanel.<event_handler>
         """Verify the selection."""
         self.updateConfiguration()
         if self.default_server >= 0:
-            self.mainPanel.control.setHost(self.servers[self.default_server])
+            self.mainFrame.control.setHost(self.servers[self.default_server])
         else:
-            self.mainPanel.control.setHost(None)
+            self.mainFrame.control.setHost(None)
         self.onCancel(event)
         return
 

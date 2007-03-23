@@ -120,19 +120,19 @@ class RSeriesPanel(wx.Panel, PDFPanel):
                 value = float(value)
             setattr(self, varname, value)
 
-        org = makeRSeries(self.mainPanel.control, self.fit, 
+        org = makeRSeries(self.mainFrame.control, self.fit, 
                 self.maxfirst, self.maxlast, self.maxstep, 
                 self.minfirst, self.minlast, self.minstep)
         self.treeCtrlMain.ExtendProjectTree(org, clear=False)
-        self.mainPanel.needsSave()
+        self.mainFrame.needsSave()
         self.onCancel(event)
         return
 
     def onCancel(self, event): # wxGlade: RSeriesPanel.<event_handler>
         """Return to the main panel."""
-        self.mainPanel.setMode("fitting")
+        self.mainFrame.setMode("fitting")
         self.treeCtrlMain.UnselectAll()
-        self.mainPanel.switchRightPanel("blank")
+        self.mainFrame.switchRightPanel("blank")
         return 
 
     def onTreeSelChanged(self, event):

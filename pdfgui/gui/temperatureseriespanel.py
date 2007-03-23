@@ -115,18 +115,18 @@ class TemperatureSeriesPanel(wx.Panel, PDFPanel):
         """Let's go!"""
         paths = [tp[1] for tp in self.datasets]
         temperatures = [tp[0] for tp in self.datasets]
-        org = makeTemperatureSeries(self.mainPanel.control, self.fit, 
+        org = makeTemperatureSeries(self.mainFrame.control, self.fit, 
                 paths, temperatures)
         self.treeCtrlMain.ExtendProjectTree(org, clear=False)
-        self.mainPanel.needsSave()
+        self.mainFrame.needsSave()
         self.onCancel(event)
         return
 
     def onCancel(self, event): # wxGlade: TemperatureSeriesPanel.<event_handler>
         """Let's go, but not actually do anything."""
-        self.mainPanel.setMode("fitting")
+        self.mainFrame.setMode("fitting")
         self.treeCtrlMain.UnselectAll()
-        self.mainPanel.switchRightPanel("blank")
+        self.mainFrame.switchRightPanel("blank")
         return
 
     def onUp(self, event): # wxGlade: TemperatureSeriesPanel.<event_handler>

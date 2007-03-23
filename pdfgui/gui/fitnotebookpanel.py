@@ -61,7 +61,7 @@ class FitNotebookPanel(wx.Panel, PDFPanel):
     def __customProperties(self):
         """Set the custom properties."""
         self.fit = None
-        self.mainPanel = None
+        self.mainFrame = None
         return
 
     def onPageChanged(self, event): # wxGlade: FitNotebookPanel.<event_handler>
@@ -76,7 +76,7 @@ class FitNotebookPanel(wx.Panel, PDFPanel):
         """Refresh the panels."""
         if not self.fit: return
         panel = self.fitnotebook.GetCurrentPage()
-        panel.mainPanel = self.mainPanel
+        panel.mainFrame = self.mainFrame
         panel.refresh()
         panel.fit = self.fit
         panel.parameters = self.fit.parameters

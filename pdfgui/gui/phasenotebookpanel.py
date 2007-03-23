@@ -53,7 +53,7 @@ class PhaseNotebookPanel(wx.Panel, PDFPanel):
         self.configuration = None
         self.constraints   = {}
         self.results       = None
-        self.mainPanel     = None
+        self.mainFrame     = None
 
         
     def __set_properties(self):
@@ -74,7 +74,7 @@ class PhaseNotebookPanel(wx.Panel, PDFPanel):
         
     def refresh(self):
         ''' Refreshes the currently shown panel.'''
-        if self.mainPanel.quitting: return
+        if self.mainFrame.quitting: return
 
         panel = self.notebook_phase.GetCurrentPage()
         id = panel.GetId()
@@ -91,7 +91,7 @@ class PhaseNotebookPanel(wx.Panel, PDFPanel):
             self.currentPage = "results"
             self.notebook_phase_pane_Results.structure = self.results
 
-        panel.mainPanel = self.mainPanel
+        panel.mainFrame = self.mainFrame
         panel._isotropic = self._isotropic
         panel.refresh()
 
@@ -118,8 +118,8 @@ if __name__ == "__main__":
             self.window = PhaseNotebookPanel(self, -1)
             self.SetTitle("testing")
             # choke, mainpanel.needsSave() emulation
-            self.window.mainPanel = self.window
-            self.window.mainPanel.needsSave = self.dummy
+            self.window.mainFrame = self.window
+            self.window.mainFrame.needsSave = self.dummy
 
             # choke, treeCtrlMain.GetSelections() emulation
             self.window.treeCtrlMain = self.window

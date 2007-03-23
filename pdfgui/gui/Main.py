@@ -18,41 +18,14 @@
 
 import sys
 import wx
-from mainpanel import MainPanel
-
-class PDFGuiFrame(wx.Frame):
-    def __init__(self, *args, **kwds):
-        kwds["style"] = wx.DEFAULT_FRAME_STYLE
-        wx.Frame.__init__(self, *args, **kwds)
-        self.window_1 = MainPanel(self, -1)
-        self.__set_properties()
-        self.__do_layout()
-
-    def __set_properties(self):
-        # This is now done in the main panel so that the filename of the current
-        # file can be displayed correctly.
-        #self.SetTitle("PDFgui")
-        pass
-
-    def __do_layout(self):
-        sizer_3 = wx.BoxSizer(wx.VERTICAL)
-        sizer_3.Add(self.window_1, 1, wx.EXPAND, 0)
-        self.SetAutoLayout(True)
-        self.SetSizer(sizer_3)
-        sizer_3.Fit(self)
-        sizer_3.SetSizeHints(self)
-        self.Layout()
-        self.SetSize((800, 600))
-
-# end of class PDFGuiFrame
-
+from mainpanel import MainFrame
 
 class PDFGuiApp(wx.App):
     def OnInit(self):
         wx.InitAllImageHandlers()
-        self.frame_1 = PDFGuiFrame(None, -1, "")
-        self.SetTopWindow(self.frame_1)
-        self.frame_1.Show()
+        self.frame = MainFrame(None, -1, "")
+        self.SetTopWindow(self.frame)
+        self.frame.Show()
         return 1
 
 # end of class PDFGuiApp

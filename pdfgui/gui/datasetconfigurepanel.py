@@ -241,7 +241,7 @@ class DataSetConfigurePanel(wx.Panel, PDFPanel):
         """Record the user's selection for stype."""
         value = event.GetInt()
         self.configuration.stype = self.stypeMap[value]
-        self.mainPanel.needsSave()
+        self.mainFrame.needsSave()
         return
 
     def onLoseFocus(self, event):
@@ -256,7 +256,7 @@ class DataSetConfigurePanel(wx.Panel, PDFPanel):
             self.configuration.metadata[name] = value
         else:
             setattr(self.configuration, name, value)
-        self.mainPanel.needsSave()
+        self.mainFrame.needsSave()
         return
 
     # Methods overloaded from PDFPanel

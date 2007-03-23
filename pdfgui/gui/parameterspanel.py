@@ -252,7 +252,7 @@ class ParametersPanel(wx.Panel, PDFPanel):
             except ValueError:
                 pass
             
-        self.mainPanel.needsSave()
+        self.mainFrame.needsSave()
         return
 
     def popupMenu(self, window, x, y):
@@ -389,7 +389,7 @@ class ParametersPanel(wx.Panel, PDFPanel):
 
             self.fit.updateParameters()
             self.refresh()
-            self.mainPanel.needsSave()
+            self.mainFrame.needsSave()
     
         event.Skip()
         return
@@ -452,8 +452,8 @@ if __name__ == "__main__":
             self.window = ParametersPanel(self, -1)
             self.SetTitle("testing")
             # choke, mainpanel.needsSave() emulation
-            self.window.mainPanel = self.window
-            self.window.mainPanel.needsSave = self.dummy
+            self.window.mainFrame = self.window
+            self.window.mainFrame.needsSave = self.dummy
             
             self.test()
             

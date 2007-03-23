@@ -18,6 +18,7 @@
 """This module contains the main window of PDFgui."""
 
 import wx
+import PyAUI
 import sys, os, os.path, re
 
 from fittree import FitTree, FitTreeError
@@ -53,37 +54,24 @@ import wx.lib.newevent
 import pdfguiglobals
 from pdfguiglobals import iconsDir
 
+# WARNING - This file cannot be maintained with wxglade any longer. Do not make
+# modifications with wxglade!!!
+
 # README - Note that wx.TreeCtrl.GetSelections works differently in MSW than it
 # does in GTK. In GTK, it returns a list of nodes as they appear in the tree.
 # In MSW, it returns the list of nodes in the order in which they were
 # selected. This can lead to trouble if the order of selected nodes is
 # important to a method.
 
-# TODO - When regenerating the gui code using wxglade the following things need
-# to be corrected by hand.
-# 1) In the declaration of treeCtrlMain in __init__ wx.TR_MULTIPLE shows up
-# twice. Delete one of these.
-# 2) In the declaration of treeCtrlMain in __init__ wx.TR_DEFAULT_STYLE shows
-# up, but it shouldn't. Delete it.
-# 3) The declaration of buttonFitting and buttonPlotting do not know where the
-# icons are kept. Simply copy and paste what is below over those two
-# delcarations:
-#        self.buttonFitting = wx.BitmapButton(self, -1,
-#           wx.Bitmap(os.path.join(iconsDir, "fitting.png"), wx.BITMAP_TYPE_ANY)) 
-#        self.buttonPlotting = wx.BitmapButton(self, -1,
-#           wx.Bitmap(os.path.join(iconsDir,"plotting.png"), wx.BITMAP_TYPE_ANY))
-
-class MainPanel(wx.Panel):
-    """Here is a quick overview of MainPanel. On the left is two buttons, one
-    for fitting and one for plotting. The rest of panel is a wx.SplitterWindow.
-    The left pane is a FitTree (from fittree.py), the right is a dynamic panel,
-    accessed via the data member rightPanel, which can hold one of any number of
-    panels. The panels that can appear in the right pane must be derived from
-    PDFPanel (in pdfpanel.py) and are defined in the dynamicPanels dictionary,
-    which is defined in __customProperties. A panel is placed in the right pane
-    by passing its dynamicPanels dictionary key to the switchRightPanel method.
-    This method takes care of displaying the panel, giving the data it needs,
-    and calling its refresh() method.
+class MainFrame(wx.Frame):
+    """The left pane is a FitTree (from fittree.py), the right is a dynamic
+    panel, accessed via the data member rightPanel, which can hold one of any
+    number of panels. The panels that can appear in the right pane must be
+    derived from PDFPanel (in pdfpanel.py) and are defined in the dynamicPanels
+    dictionary, which is defined in __customProperties. A panel is placed in the
+    right pane by passing its dynamicPanels dictionary key to the
+    switchRightPanel method.  This method takes care of displaying the panel,
+    giving the data it needs, and calling its refresh() method.
 
     ** NODE TYPES **
     The FitTree is essential to the functionality of the Gui.
@@ -101,21 +89,15 @@ class MainPanel(wx.Panel):
     for the FitTree in fittree.py. See r
 
     ** MODES **
-    The program has various modes of operation:
+    The program has various modes of operation.
     "fitting"       --  In this mode the right pane changes depending upon what
                         type of item is selected in the FitTree. When the
                         fitting button is pressed, the program is in "fitting"
                         mode.
-    "plotting"      --  In this mode the right pane contains the plotting panel.
-                        The plotting panel responds to what is selected in the
-                        FitTree, so the right pane does not change when Tree
-                        items are selected, as in "fitting" mode.
-    "addingdata"    --  This mode is for adding data. The FitTree, fitting, and
-                        plotting buttons are disabled.
-    "addingphase"   --  This mode is the used the same way as "addingdata".
+    "addingdata"    --  This mode is for adding data. 
+    "addingphase"   --  This mode is for adding the phase
     "config"        --  This mode is used for preferences and server
-                        configuration. It is essentially the same as
-                        "addingdata".
+                        configuration. 
     "rseries"       --  The mode used when configuring an r-series macro.
     "tseries"       --  The mode used when configuring a temperature series
                         macro.
@@ -146,7 +128,6 @@ class MainPanel(wx.Panel):
                     "calculation"   --  The panel for 'calculation' nodes 
 
                     * Panels specific to other program modes
-                    "plotting"      --  The panel used in 'plotting' mode
                     "adddata"       --  The panel used in 'addingdata' mode
                     "addphase"      --  The panel used in 'addingphase' mode
                     "serverconfig"  --  The panel used in 'config' mode
@@ -165,7 +146,6 @@ class MainPanel(wx.Panel):
                     handles the MRU files interacts directly with cP.
     mode        --  The current mode of the program. This is modified using the
                     setMode method. See the MODES section above.
-    frame       --  The wxFrame that contains this panel.
     name        --  The name of the program as defined in pdfguiglobals.
     control     --  The pdfguicontrol object needed for interfacing with the
                     engine pdffit2 code.
@@ -182,53 +162,51 @@ class MainPanel(wx.Panel):
                     place during shutdown.
     """
     def __init__(self, *args, **kwds):
-        # begin wxGlade: MainPanel.__init__
-        kwds["style"] = wx.TAB_TRAVERSAL
-        wx.Panel.__init__(self, *args, **kwds)
-        self.windowMain = wx.SplitterWindow(self, -1, style=wx.SP_3D|wx.SP_BORDER)
-        self.buttonFitting = wx.BitmapButton(self, -1,
-                wx.Bitmap(os.path.join(iconsDir, "fitting.png"), wx.BITMAP_TYPE_ANY))
-        self.buttonPlotting = wx.BitmapButton(self, -1,
-                wx.Bitmap(os.path.join(iconsDir, "plotting.png"), wx.BITMAP_TYPE_ANY))
-        self.treeCtrlMain = FitTree(self.windowMain, -1, style=wx.TR_HAS_BUTTONS|wx.TR_NO_LINES|wx.TR_EDIT_LABELS|wx.TR_HIDE_ROOT|wx.TR_MULTIPLE|wx.TR_EXTENDED|wx.SUNKEN_BORDER)
-        self.panelDynamic = BlankPanel(self.windowMain, -1)
+        kwds["style"] = wx.DEFAULT_FRAME_STYLE
+        wx.Frame.__init__(self, *args, **kwds)
 
-        self.__set_properties()
-        self.__do_layout()
+        # PyAUI docking stuff
+        self._mgr = PyAUI.FrameManager()
+        self._mgr.SetFrame(self)
 
-        self.Bind(wx.EVT_BUTTON, self.onFitting, self.buttonFitting)
-        self.Bind(wx.EVT_BUTTON, self.onPlotting, self.buttonPlotting)
+        self.treeCtrlMain = FitTree(self, -1, style=wx.TR_HAS_BUTTONS|wx.TR_NO_LINES|wx.TR_EDIT_LABELS|wx.TR_MULTIPLE|wx.TR_HIDE_ROOT|wx.TR_MULTIPLE|wx.TR_EXTENDED|wx.TR_DEFAULT_STYLE|wx.SUNKEN_BORDER)
+        self.plotPanel = PlotPanel(self, -1)
+        self.panelDynamic = BlankPanel(self, -1)
+
+        # Add panes to manager
+        self._mgr.AddPane(self.treeCtrlMain, PyAUI.PaneInfo().
+                          Name("treeCtrlMain").Caption("Fit Tree").
+                          Left().
+                          TopDockable().
+                          BottomDockable().
+                          LeftDockable().
+                          RightDockable().
+                          BestSize(wx.Size(200,250)).
+                          MinSize(wx.Size(200,50)))
+        self._mgr.AddPane(self.plotPanel, PyAUI.PaneInfo().
+                          Name("plotPanel").Caption("Plot Control").
+                          Left().
+                          TopDockable().
+                          BottomDockable().
+                          LeftDockable().
+                          RightDockable().
+                          BestSize(wx.Size(200,250)).
+                          MinSize(wx.Size(200,200)))
+
+        # The "Center" pane changes in response to tree selections
+        self.__customProperties()
+
         self.Bind(wx.EVT_TREE_SEL_CHANGING, self.onTreeSelChanging, self.treeCtrlMain)
         self.Bind(wx.EVT_TREE_SEL_CHANGED, self.onTreeSelChanged, self.treeCtrlMain)
         self.Bind(wx.EVT_TREE_END_LABEL_EDIT, self.onEndLabelEdit, self.treeCtrlMain)
         self.Bind(wx.EVT_TREE_BEGIN_LABEL_EDIT, self.onBeginLabelEdit, self.treeCtrlMain)
-        # end wxGlade
-        self.__customProperties()
         self.__customBindings()
         self.__cmdLineLoad()
         self.updateTitle()
 
-    def __set_properties(self):
-        # begin wxGlade: MainPanel.__set_properties
-        self.buttonFitting.SetMinSize((30,200))
-        self.buttonPlotting.SetMinSize((30,200))
-        self.treeCtrlMain.SetMinSize((200, 652))
-        # end wxGlade
+        self.switchRightPanel("welcome")
+        return
 
-    def __do_layout(self):
-        # begin wxGlade: MainPanel.__do_layout
-        sizer_1 = wx.BoxSizer(wx.HORIZONTAL)
-        sizer_2 = wx.BoxSizer(wx.VERTICAL)
-        sizer_2.Add(self.buttonFitting, 1, wx.ADJUST_MINSIZE, 0)
-        sizer_2.Add(self.buttonPlotting, 1, wx.ADJUST_MINSIZE, 0)
-        sizer_1.Add(sizer_2, 0, wx.EXPAND|wx.ADJUST_MINSIZE, 0)
-        self.windowMain.SplitVertically(self.treeCtrlMain, self.panelDynamic, 15)
-        sizer_1.Add(self.windowMain, 1, wx.EXPAND, 0)
-        self.SetAutoLayout(True)
-        self.SetSizer(sizer_1)
-        sizer_1.Fit(self)
-        sizer_1.SetSizeHints(self)
-        # end wxGlade
 
     # USER CONFIGURATION CODE #################################################
 
@@ -285,19 +263,14 @@ class MainPanel(wx.Panel):
         self.exportResId = wx.NewId()     # Save the results file
         self.runCalcId = wx.NewId()     # Run a calculation
         self.exportCalcPDFId = wx.NewId() # Save a calculated PDF
-
-        # Plotting right-click menu
-        self.selectAllId = wx.NewId()   # Select all items of a given type
         return
 
     def __customProperties(self):
         """Custom Properties go here."""
         # Keep the splitter window from becoming unsplit
-        self.windowMain.SetMinimumPaneSize(5)
-        self.SetMinSize((400,480))
+        self.SetMinSize((800,600))
 
-        # The panel should know its frame and its name
-        self.frame = self.GetParent()
+        # The panel should know its name
         self.name = pdfguiglobals.name
 
         # The fit tree needs a copy of the control, as
@@ -329,7 +302,6 @@ class MainPanel(wx.Panel):
 
         # class variables
         self.setMode("fitting")
-        self.rightPanel = self.panelDynamic
 
         # This is the dictionary of right panels. For simplicity the five panels
         # corresponding to the five tree item types are given the name of the
@@ -337,27 +309,33 @@ class MainPanel(wx.Panel):
         # automatic switching of panels.
         self.dynamicPanels = {
              "blank"        :       self.panelDynamic,
-             "welcome"      :       WelcomePanel(self.windowMain, -1),
-             "fit"          :       FitNotebookPanel(self.windowMain, -1),
-             "phase"        :       PhaseNotebookPanel(self.windowMain, -1),
-             "dataset"      :       DataSetPanel(self.windowMain, -1),
-             "calculation"  :       CalculationPanel(self.windowMain, -1),
-             "plotting"     :       PlotPanel(self.windowMain,-1), 
-             "adddata"      :       AddDataPanel(self.windowMain, -1),
-             "addphase"     :       AddPhasePanel(self.windowMain, -1),
-             "serverconfig" :       ServerPanel(self.windowMain, -1),
-             "rseries"      :       RSeriesPanel(self.windowMain, -1),
-             "tseries"      :       TemperatureSeriesPanel(self.windowMain, -1),
-             "dseries"      :       DopingSeriesPanel(self.windowMain, -1),
+             "welcome"      :       WelcomePanel(self, -1),
+             "fit"          :       FitNotebookPanel(self, -1),
+             "phase"        :       PhaseNotebookPanel(self, -1),
+             "dataset"      :       DataSetPanel(self, -1),
+             "calculation"  :       CalculationPanel(self, -1),
+             "adddata"      :       AddDataPanel(self, -1),
+             "addphase"     :       AddPhasePanel(self, -1),
+             "serverconfig" :       ServerPanel(self, -1),
+             "rseries"      :       RSeriesPanel(self, -1),
+             "tseries"      :       TemperatureSeriesPanel(self, -1),
+             "dseries"      :       DopingSeriesPanel(self, -1),
              }
 
         # Prepare the right pane. Display the welcome screen.
+        self.rightPanel = self.panelDynamic
         for key in self.dynamicPanels:
-            self.dynamicPanels[key].Hide()
-            self.dynamicPanels[key].mainPanel = self
+            self._mgr.AddPane(self.dynamicPanels[key], PyAUI.PaneInfo().Name(key).
+                              CenterPane().Hide())
+            self.dynamicPanels[key].mainFrame = self
             self.dynamicPanels[key].treeCtrlMain = self.treeCtrlMain
             self.dynamicPanels[key].cP = self.cP
-        self.panelDynamic.Hide()
+
+        # Do the same for the plotPanel
+        self.plotPanel.mainFrame = self
+        self.plotPanel.treeCtrlMain = self.treeCtrlMain
+        self.plotPanel.cP = self.cP
+        self.plotPanel.Enable(False)
 
         # Continue with initialization
         self.__defineLocalIds()     # Ids for menu items
@@ -371,9 +349,6 @@ class MainPanel(wx.Panel):
         # Set the state of the program
         self.needsSave(False)
 
-        # Here we go
-        self.switchRightPanel("welcome")
-        
         import sys,cStringIO
         sys.stdout = cStringIO.StringIO()
         return
@@ -423,7 +398,7 @@ class MainPanel(wx.Panel):
         """This sets up the menu in the main frame."""
 
         self.menuBar = wx.MenuBar()
-        self.frame.SetMenuBar(self.menuBar)
+        self.SetMenuBar(self.menuBar)
 
         # File Menu
         self.fileMenu = wx.Menu()
@@ -476,6 +451,12 @@ class MainPanel(wx.Panel):
                 "&Preferences", "", wx.ITEM_NORMAL)
         self.editMenu.AppendItem(self.prefItem)
         self.menuBar.Append(self.editMenu, "&Edit")
+        self.dockFitItem = wx.MenuItem(self.editMenu, wx.NewId(), 
+                "Dock Fit Tree", "", wx.ITEM_NORMAL)
+        self.editMenu.AppendItem(self.dockFitItem)
+        self.dockPlotItem = wx.MenuItem(self.editMenu, wx.NewId(), 
+                "Dock Plot Control", "", wx.ITEM_NORMAL)
+        self.editMenu.AppendItem(self.dockPlotItem)
         # End Edit Menu
 
         # Fits Menu
@@ -592,7 +573,7 @@ class MainPanel(wx.Panel):
 
     def __setupToolBar(self):
         """This sets up the tool bar in the parent window."""
-        self.toolBar = self.frame.CreateToolBar()
+        self.toolBar = self.CreateToolBar()
         self.toolBar.AddLabelTool(self.newId, "New Project",
                 wx.ArtProvider.GetBitmap(wx.ART_NEW, wx.ART_TOOLBAR), 
                 wx.NullBitmap, wx.ITEM_NORMAL,
@@ -632,13 +613,12 @@ class MainPanel(wx.Panel):
         # Catch key events for the tree
         self.treeCtrlMain.Bind(wx.EVT_KEY_DOWN, self.onKey)
         # Catch the close event
-        wx.EVT_CLOSE(self.frame, self.onQuit)
+        wx.EVT_CLOSE(self, self.onQuit)
         # Use the custom event to pop up error messages
         self.Bind(EVT_PDFCUSTOM, self.onCustom)
         # Do bindings for menu items
         self.__menuBindings()
         self.__fittingRightMenuBindings()
-        self.__plottingRightMenuBindings()
         return
 
     def __menuBindings(self):
@@ -648,60 +628,62 @@ class MainPanel(wx.Panel):
         toolbar events do not need their own bindings.
         """
         # File Menu
-        wx.EVT_MENU(self.frame, self.newId, self.onNew)
-        wx.EVT_MENU(self.frame, self.openId, self.onOpen)
-        wx.EVT_MENU(self.frame, self.saveId, self.onSave)
-        wx.EVT_MENU(self.frame, self.saveAsId, self.onSaveAs)
-        wx.EVT_MENU(self.frame, self.quitId, self.onQuit)
+        wx.EVT_MENU(self, self.newId, self.onNew)
+        wx.EVT_MENU(self, self.openId, self.onOpen)
+        wx.EVT_MENU(self, self.saveId, self.onSave)
+        wx.EVT_MENU(self, self.saveAsId, self.onSaveAs)
+        wx.EVT_MENU(self, self.quitId, self.onQuit)
         # For recent items
-        wx.EVT_MENU_RANGE(self.frame, wx.ID_FILE1, wx.ID_FILE5, self.onMRUFile)
+        wx.EVT_MENU_RANGE(self, wx.ID_FILE1, wx.ID_FILE5, self.onMRUFile)
 
         ## Edit Menu
-        wx.EVT_MENU(self.frame, self.deleteId, self.onDelete)
-        wx.EVT_MENU(self.frame, self.copyId, self.onCopy)
-        wx.EVT_MENU(self.frame, self.pasteId, self.onPaste)
-        wx.EVT_MENU(self.frame, self.pasteLinkId, self.onPasteLink)
-        wx.EVT_MENU(self.frame, self.journalItem.GetId(), self.onJournal)
-        wx.EVT_MENU(self.frame, self.servItem.GetId(), self.onServerConfig)
-        #wx.EVT_MENU(self.frame, self.prefItem.GetId(), self.onPreferences)
+        wx.EVT_MENU(self, self.deleteId, self.onDelete)
+        wx.EVT_MENU(self, self.copyId, self.onCopy)
+        wx.EVT_MENU(self, self.pasteId, self.onPaste)
+        wx.EVT_MENU(self, self.pasteLinkId, self.onPasteLink)
+        wx.EVT_MENU(self, self.journalItem.GetId(), self.onJournal)
+        wx.EVT_MENU(self, self.servItem.GetId(), self.onServerConfig)
+        #wx.EVT_MENU(self, self.prefItem.GetId(), self.onPreferences)
+        wx.EVT_MENU(self, self.dockFitItem.GetId(), self.onShowFit)
+        wx.EVT_MENU(self, self.dockPlotItem.GetId(), self.onShowPlot)
 
         ## Fits Menu
-        wx.EVT_MENU(self.frame, self.newFitId, self.onNewFit)
-        wx.EVT_MENU(self.frame, self.runFitId, self.onRun)
-        wx.EVT_MENU(self.frame, self.stopFitId, self.onStop)
-        wx.EVT_MENU(self.frame, self.exportResId, self.onExportRes)
-        wx.EVT_MENU(self.frame, self.impFitItem.GetId(), self.onImportScript)
-        wx.EVT_MENU(self.frame, self.rseriesItem.GetId(), self.onRSeries)
-        wx.EVT_MENU(self.frame, self.tseriesItem.GetId(), self.onTSeries)
-        wx.EVT_MENU(self.frame, self.dseriesItem.GetId(), self.onDSeries)
+        wx.EVT_MENU(self, self.newFitId, self.onNewFit)
+        wx.EVT_MENU(self, self.runFitId, self.onRun)
+        wx.EVT_MENU(self, self.stopFitId, self.onStop)
+        wx.EVT_MENU(self, self.exportResId, self.onExportRes)
+        wx.EVT_MENU(self, self.impFitItem.GetId(), self.onImportScript)
+        wx.EVT_MENU(self, self.rseriesItem.GetId(), self.onRSeries)
+        wx.EVT_MENU(self, self.tseriesItem.GetId(), self.onTSeries)
+        wx.EVT_MENU(self, self.dseriesItem.GetId(), self.onDSeries)
         ## Macros are inserted individually
 
         ## Phases Menu
-        wx.EVT_MENU(self.frame, self.newPhaseId, self.onInsPhase)
-        wx.EVT_MENU(self.frame, self.exportNewStruId, self.onExportNewStruct)
-        wx.EVT_MENU(self.frame, self.exportFitStruId, self.onExportStruct)
-        wx.EVT_MENU(self.frame, self.plotIStructId, self.onPlotIStruct)
-        wx.EVT_MENU(self.frame, self.plotFStructId, self.onPlotFStruct)
+        wx.EVT_MENU(self, self.newPhaseId, self.onInsPhase)
+        wx.EVT_MENU(self, self.exportNewStruId, self.onExportNewStruct)
+        wx.EVT_MENU(self, self.exportFitStruId, self.onExportStruct)
+        wx.EVT_MENU(self, self.plotIStructId, self.onPlotIStruct)
+        wx.EVT_MENU(self, self.plotFStructId, self.onPlotFStruct)
 
         ## Data Menu
-        wx.EVT_MENU(self.frame, self.newDataId, self.onInsData)
-        wx.EVT_MENU(self.frame, self.exportFitPDFId, self.onExportPDF)
+        wx.EVT_MENU(self, self.newDataId, self.onInsData)
+        wx.EVT_MENU(self, self.exportFitPDFId, self.onExportPDF)
 
         ## Calculations Menu
-        wx.EVT_MENU(self.frame, self.newCalcId, self.onInsCalc)
-        wx.EVT_MENU(self.frame, self.runCalcId, self.onRun)
-        wx.EVT_MENU(self.frame, self.exportCalcPDFId, self.onSaveCalc)
+        wx.EVT_MENU(self, self.newCalcId, self.onInsCalc)
+        wx.EVT_MENU(self, self.runCalcId, self.onRun)
+        wx.EVT_MENU(self, self.exportCalcPDFId, self.onSaveCalc)
 
         ## Help Menu
-        wx.EVT_MENU(self.frame, self.docItem.GetId(), self.onDocumentation)
-        wx.EVT_MENU(self.frame, self.aboutItem.GetId(), self.onAbout)
-        wx.EVT_MENU(self.frame, self.requestItem.GetId(), self.onRequest)
+        wx.EVT_MENU(self, self.docItem.GetId(), self.onDocumentation)
+        wx.EVT_MENU(self, self.aboutItem.GetId(), self.onAbout)
+        wx.EVT_MENU(self, self.requestItem.GetId(), self.onRequest)
 
         # The generic menu-check.
-        wx.EVT_MENU_OPEN(self.frame, self.onMainMenu)
+        wx.EVT_MENU_OPEN(self, self.onMainMenu)
 
         # Toolbar events that have no menu item
-        wx.EVT_MENU(self.frame, self.quickPlotId, self.onQuickPlot)
+        wx.EVT_MENU(self, self.quickPlotId, self.onQuickPlot)
         return
 
     def __fittingRightMenuBindings(self):
@@ -714,10 +696,6 @@ class MainPanel(wx.Panel):
         self.Bind(wx.EVT_MENU, self.onInsData, id=self.newDataId)
         self.Bind(wx.EVT_MENU, self.onInsCalc, id=self.newCalcId)
         self.Bind(wx.EVT_MENU, self.onDelete, id=self.deleteId)
-        return
-
-    def __plottingRightMenuBindings(self):
-        """Bindings for the fitting-mode right-click menu."""
         return
 
     # UTILITY FUNCTIONS ######################################################
@@ -734,22 +712,20 @@ class MainPanel(wx.Panel):
                         panel to be displayed. If paneltype is None, the blank
                         panel is displayed.
 
-        Returns:
-        True    - If the swap was successful.
-        False   - If the swap was not successful.
         """
+        for key in self.dynamicPanels:
+            self._mgr.GetPane(key).Hide()
+
         if paneltype is None:
             paneltype = "blank"
 
-        self.rightPanel.Hide()
-        success = self.windowMain.ReplaceWindow(self.rightPanel,
-            self.dynamicPanels[paneltype])
         self.rightPanel = self.dynamicPanels[paneltype]
         self.setPanelSpecificData(paneltype)
         self.rightPanel.refresh()
-        self.rightPanel.Show()
+        self._mgr.GetPane(paneltype).Show()
+        self._mgr.Update()
         self.updateToolbar()
-        return success
+        return
 
     def setPanelSpecificData(self, paneltype):
         """This method sets the panel specific data for the right panel.
@@ -813,44 +789,39 @@ class MainPanel(wx.Panel):
         the mode is changed. 
         
         "fitting" mode:
-         * buttonFitting is disabled. buttonPlotting is enabled.
+         * plotPanel panel is enabled
 
         "plotting" mode:
-         * buttonPlotting is disabled. buttonFitting is enabled.
+         * plotPanel panel is disabled
 
         "addingdata" mode: 
-         * buttonFitting and buttonPlotting are disabled
+         * plotPanel panel is disabled
 
         "addingphase" mode:
-         * buttonFitting and buttonPlotting are disabled
+         * plotPanel panel is disabled
 
          "config" mode:
-         * buttonFitting and buttonPlotting are disabled
+         * plotPanel panel is disabled
 
          "rseries" mode:
-         * buttonFitting and buttonPlotting are disabled
+         * plotPanel panel is disabled
 
          "tseries" mode:
-         * buttonFitting and buttonPlotting are disabled
+         * plotPanel panel is disabled
 
          "dseries" mode:
-         * buttonFitting and buttonPlotting are disabled
+         * plotPanel panel is disabled
         """
         self.mode = mode
         if mode == 'fitting':
-            self.buttonFitting.Enable(False)
-            self.buttonPlotting.Enable(True)
-        elif mode == 'plotting':
-            self.buttonFitting.Enable(True)
-            self.buttonPlotting.Enable(False)
+            self.plotPanel.Enable(True)
         elif mode in ["addingdata", "addingphase", "config", "rseries",
                 "tseries", "dseries"]:
-            self.buttonFitting.Enable(False)
-            self.buttonPlotting.Enable(False)
+            self.plotPanel.Enable(False)
         return
 
     def loadConfiguration(self):
-        """Load the configuration from file and read the MRU list.
+        """Load the configuration from file.
         
         The MRU list is handled by the local member fileHistory, which is a
         wxFileHistory object.
@@ -875,6 +846,14 @@ class MainPanel(wx.Panel):
         else:
             self.control.setHost(None)
 
+        # Import perspective from last session
+        if self.cP.has_section("PERSPECTIVE"):
+            perspective = self.cP.get("PERSPECTIVE", "last")
+            try:
+                self._mgr.LoadPerspective(perspective)
+            except:
+                pass
+
         return
 
     def updateConfiguration(self):
@@ -882,6 +861,7 @@ class MainPanel(wx.Panel):
         
         This updates the 'MRU' section of the configuration.
         """
+        # Most recently used list
         if not self.cP.has_section("MRU"):
             self.cP.add_section("MRU")
         
@@ -889,11 +869,18 @@ class MainPanel(wx.Panel):
             item = self.fileHistory.GetHistoryFile(i)
             self.cP.set("MRU", str(i+1), item)
 
+        # Most recently imported script
         if not self.cP.has_section("SCRIPT"):
             self.cP.add_section("SCRIPT")
 
         self.cP.set("SCRIPT", "lastimport", self.importscript)
 
+        # Frame layout
+        if not self.cP.has_section("PERSPECTIVE"):
+            self.cP.add_section("PERSPECTIVE")
+
+        perspective = self._mgr.SavePerspective()
+        self.cP.set("PERSPECTIVE", "last", perspective)
         return
 
     def writeConfiguration(self):
@@ -938,7 +925,7 @@ class MainPanel(wx.Panel):
             fulltitle = "%s (%s) - %s" % (shorttitle, fullpath, self.name)
         else:
             fulltitle = self.name
-        self.frame.SetTitle(fulltitle)
+        self.SetTitle(fulltitle)
         return
 
     # MAIN PANEL EVENT CODE #######################################################
@@ -948,32 +935,6 @@ class MainPanel(wx.Panel):
         self.disableMainMenuItems()
         return
 
-    def onFitting(self, event): # wxGlade: MainPanel.<event_handler>
-        """This takes place when the fitting button is pressed."""
-        self.setMode("fitting")
-
-        #self.buttonPlotting.SetValue(0)
-        selections = self.treeCtrlMain.GetSelections()
-        nodetype = None
-        if selections:
-            nodetype = self.treeCtrlMain.GetNodeType(selections[0])
-        self.switchRightPanel(nodetype)
-        # Enable/Disable the right panel based on the selection
-        if len(selections) == 1:
-            self.rightPanel.Enable()
-        else:
-            self.rightPanel.Enable(False)
-        self.updateToolbar()
-        return
-
-    def onPlotting(self, event): # wxGlade: MainPanel.<event_handler>
-        """This takes place when the plotting button is pressed."""
-        # If the button was up (0) it will now be down (1)
-        self.setMode("plotting")
-        self.switchRightPanel("plotting")
-        self.updateToolbar()
-        return
-
     def onTreeSelChanged(self, event): # wxGlade: MainPanel.<event_handler>
         """Set the click behavior for each mode.
         
@@ -981,9 +942,6 @@ class MainPanel(wx.Panel):
         * Right panel changes depending upon the type of item selected from the
         tree.
         
-        "plotting" mode:
-        * Only multiple selections of the same node type are allowed.
-
         "rseries", "tseries", "dseries" mode:
         * The behavior is defined in the associated panel
         """
@@ -1015,34 +973,8 @@ class MainPanel(wx.Panel):
                 if name in self.runningDict:
                     self.rightPanel.Enable(False)
 
-        # This should be handled with onTreeSelChanging, but it doesn't work
-        # there. This works just as well.
-        elif self.mode == "plotting":
-            unsel = False
-            selections = self.treeCtrlMain.GetSelections()
-            node = event.GetItem()
-            nodetype = self.treeCtrlMain.GetNodeType(node)
-            # Check to get the types of all selections
-            seltypes = dict.fromkeys([self.treeCtrlMain.GetNodeType(sel)
-                    for sel in selections if sel != node])
-            if seltypes:
-                # Check for incompatible selections.
-                dcset = dict.fromkeys(['dataset', 'calculation'])
-                if nodetype in dcset:
-                    difference = [ k for k in seltypes if k not in dcset ]
-                    if difference:
-                        # There is something in seltypes that is not in dcset so
-                        # unselect the last node.
-                        unsel = True
-                elif [ k for k in seltypes if k != nodetype ]:
-                    # Intersection means undo!
-                    unsel = True
-
-            if unsel:
-                self.treeCtrlMain.UnselectItem(node)
-
-            # Let the plotting panel take care of it from here.
-            self.rightPanel.onTreeSelChanged(event)
+            # Update the plotPanel
+            self.plotPanel.refresh()
 
         elif self.mode in ["rseries", "tseries", "dseries"]:
             self.rightPanel.onTreeSelChanged(event)
@@ -1213,9 +1145,8 @@ class MainPanel(wx.Panel):
 
         # Shift+Ctrl+A
         # "fitting" mode    --  Select all nodes of a given type
-        # "plotting" mode   --  Select all nodes of a given type
         if event.ShiftDown() and event.ControlDown() and key == 65:
-            if self.mode in ("fitting", "plotting"):
+            if self.mode == "fitting":
                 self.treeCtrlMain.SelectAllType(node)
 
         # Ctrl+A
@@ -1224,8 +1155,6 @@ class MainPanel(wx.Panel):
         elif event.ControlDown() and key == 65:
             if self.mode == "fitting":
                 self.treeCtrlMain.SelectAll()
-            elif self.mode == "plotting":
-                self.treeCtrlMain.SelectAllType(node)
 
         # Delete
         # "fitting" mode    --  Delete selected noded
@@ -1256,7 +1185,7 @@ class MainPanel(wx.Panel):
         if self.mode == 'fitting':
 
             # Quickplot
-            if itemtype and itemtype != "fit":
+            if len(selections) ==1 and itemtype and itemtype != "fit":
                 self.toolBar.EnableTool(self.quickPlotId, True)
             else:
                 self.toolBar.EnableTool(self.quickPlotId, False)
@@ -1274,18 +1203,6 @@ class MainPanel(wx.Panel):
             else:
                 self.toolBar.EnableTool(self.stopFitId, True)
                 self.toolBar.EnableTool(self.runFitId, False)
-
-        elif self.mode == 'plotting':
-
-            # Quickplot
-            if itemtype and itemtype != "fit":
-                self.toolBar.EnableTool(self.quickPlotId, True)
-            else:
-                self.toolBar.EnableTool(self.quickPlotId, False)
-
-            # Fit run/stop
-            self.toolBar.EnableTool(self.stopFitId, False)
-            self.toolBar.EnableTool(self.runFitId, False)
 
         else:
             # Quickplot
@@ -1546,6 +1463,21 @@ class MainPanel(wx.Panel):
 
         else:
             menu.Enable(self.stopFitId, False)
+
+
+        # Check the docking status
+        if self._mgr.GetPane("treeCtrlMain").IsFloating() or\
+            not self._mgr.GetPane("treeCtrlMain").IsShown():
+            menu.Enable(self.dockFitItem.GetId(), True)
+        else:
+            menu.Enable(self.dockFitItem.GetId(), False)
+
+        if self._mgr.GetPane("plotPanel").IsFloating() or\
+            not self._mgr.GetPane("plotPanel").IsShown():
+            menu.Enable(self.dockPlotItem.GetId(), True)
+        else:
+            menu.Enable(self.dockPlotItem.GetId(), False)
+
         return
         
 
@@ -1732,6 +1664,18 @@ class MainPanel(wx.Panel):
         self.switchRightPanel("serverconfig")
         return
 
+    def onShowFit(self, event):
+        """Make sure the fit tree is visible."""
+        self._mgr.GetPane("treeCtrlMain").Dock().Show()
+        self._mgr.Update()
+        return
+
+    def onShowPlot(self, event):
+        """Make sure the fit tree is visible."""
+        self._mgr.GetPane("plotPanel").Dock().Show()
+        self._mgr.Update()
+        return
+
     def onJournal(self, event):
         """Bring up the journal window.
         
@@ -1743,7 +1687,7 @@ class MainPanel(wx.Panel):
             self.journalDialog = PanelDialog(self, -1, "Project Journal")
             self.journalPanel = JournalPanel(self.journalDialog, -1)
             self.journalDialog.setPanel(self.journalPanel)
-            self.journalPanel.mainPanel = self
+            self.journalPanel.mainFrame = self
 
         if self.journalDialog.IsShown():
             self.journalDialog.Show(False)
@@ -1902,7 +1846,8 @@ class MainPanel(wx.Panel):
             self.updateConfiguration()
             self.writeConfiguration()
             self.control.exit()
-            self.frame.Destroy()
+            self._mgr.UnInit()
+            self.Destroy()
         return
 
     def onMRUFile(self, event):

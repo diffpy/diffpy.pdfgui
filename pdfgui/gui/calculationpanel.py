@@ -143,7 +143,7 @@ class CalculationPanel(wx.Panel, PDFPanel):
             setattr(self.calculation, name, value)
         else:
             self.calculation.setRGrid(rstep=value)
-        self.mainPanel.needsSave()
+        self.mainFrame.needsSave()
         return
 
     def __coerseText(self, value):
@@ -157,7 +157,7 @@ class CalculationPanel(wx.Panel, PDFPanel):
     def onStype(self, event): # wxGlade: CalculationPanel.<event_handler>
         value = event.GetInt()
         self.calculation.stype = self.stypeMap[value]
-        self.mainPanel.needsSave()
+        self.mainFrame.needsSave()
         return
 
     def onRStep(self, event): # wxGlade: CalculationPanel.<event_handler>
@@ -165,7 +165,7 @@ class CalculationPanel(wx.Panel, PDFPanel):
         value = textCtrl.GetValue()
         value = self.__coerseText(value)
         self.calculation.setRGrid(rstep=value)
-        self.mainPanel.needsSave()
+        self.mainFrame.needsSave()
         return
 
     def onLoseFocus(self, event):
@@ -174,7 +174,7 @@ class CalculationPanel(wx.Panel, PDFPanel):
         value = self.__coerseText(value)
         name = textCtrl.GetName()
         setattr(self.calculation, name, value)
-        self.mainPanel.needsSave()
+        self.mainFrame.needsSave()
         return
 
 

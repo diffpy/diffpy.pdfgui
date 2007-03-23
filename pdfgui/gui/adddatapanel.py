@@ -133,7 +133,7 @@ class AddDataPanel(wx.Panel, PDFPanel):
             newnode = self.treeCtrlMain.AddDataSet(self.entryfit, name,
                     insertafter=self.entryset, filename=self.fullpath)
 
-            self.mainPanel.setMode("fitting")
+            self.mainFrame.setMode("fitting")
             self.treeCtrlMain.SetItemBold(self.entrypoint, False)
             self.treeCtrlMain.EditLabel(newnode)
             self.treeCtrlMain.SelectItem(newnode)
@@ -144,11 +144,11 @@ class AddDataPanel(wx.Panel, PDFPanel):
     def onCancel(self, event): # wxGlade: AddDataPanel.<event_handler>
         """Cancel this addition. Go back to the last panel."""
         if self.entrypoint is None: return
-        self.mainPanel.setMode("fitting")
+        self.mainFrame.setMode("fitting")
         self.treeCtrlMain.SetItemBold(self.entrypoint, False)
         self.treeCtrlMain.SelectItem(self.entrypoint)
         entrytype = self.treeCtrlMain.GetNodeType(self.entrypoint)
-        self.mainPanel.switchRightPanel(entrytype)
+        self.mainFrame.switchRightPanel(entrytype)
         return 
 
     # Methods overloaded from PDFPanel

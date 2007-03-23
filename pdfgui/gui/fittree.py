@@ -64,7 +64,7 @@ class FitTree(wx.TreeCtrl):
         wx.TreeCtrl.__init__(self, parent, id, pos, size, style)
 
         # Define the control
-        # This is set by the mainPanel
+        # This is set by the mainFrame
         # self.control = pdfguicontrol()
 
         # Define bitmaps

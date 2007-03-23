@@ -62,8 +62,8 @@ class JournalPanel(wx.Panel, PDFPanel):
 
     def onText(self, event): # wxGlade: JournalPanel.<event_handler>
         """Record anything that is written into the journal."""
-        self.mainPanel.control.journal = event.GetString()
-        self.mainPanel.needsSave()
+        self.mainFrame.control.journal = event.GetString()
+        self.mainFrame.needsSave()
         return
 
     def onExport(self, event): # wxGlade: JournalPanel.<event_handler>
@@ -79,7 +79,7 @@ class JournalPanel(wx.Panel, PDFPanel):
             self.filename = d.GetFilename()
             fullpath = os.path.join(self.dirname, self.filename)
             outfile = open(fullpath, 'w')
-            outfile.write(self.mainPanel.control.journal)
+            outfile.write(self.mainFrame.control.journal)
             outfile.close()
         d.Destroy()
         return
@@ -87,7 +87,7 @@ class JournalPanel(wx.Panel, PDFPanel):
     # Methods overloaded from PDFPanel
     def refresh(self):
         """Fill the jounalTextCtrl with the journal."""
-        self.journalTextCtrl.SetValue(self.mainPanel.control.journal)
+        self.journalTextCtrl.SetValue(self.mainFrame.control.journal)
 # end of class JournalPanel
 
 __id__ = "$Id$"

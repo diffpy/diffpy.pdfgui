@@ -30,7 +30,7 @@ class PDFPanel(object):
     the PDFGui.
     """
     def __init__(self, *args, **kwds):
-        self.mainPanel = None
+        self.mainFrame = None
         self.treeCtrlMain = None
         # The configuration parser for reading and writing to the 
         # configuration file
@@ -58,8 +58,8 @@ class PDFPanel(object):
                     return func(*args, **kwargs)
                 except ControlError, e:
                     message = str(e)
-                    if not self.mainPanel.quitting:
-                        self.mainPanel.showMessage(message, 'Oops!')
+                    if not self.mainFrame.quitting:
+                        self.mainFrame.showMessage(message, 'Oops!')
                     else:
                         raise
                 except:
@@ -70,7 +70,7 @@ class PDFPanel(object):
                     message = "".join(msglines)
                     dlg = ErrorReportDialog(self)
                     dlg.text_ctrl_log.SetValue(message)
-                    if not self.mainPanel.quitting:
+                    if not self.mainFrame.quitting:
                         dlg.ShowModal()
                         dlg.Destroy()
                     else:

@@ -273,7 +273,7 @@ class PhaseConstraintsPanel(wx.Panel, PDFPanel):
         id      --  textctrl id
         value   --  new value  
         """
-        self.mainPanel.needsSave()
+        self.mainFrame.needsSave()
         var = self._id2varname[id]
         formula = value.strip()
         if formula != "":
@@ -289,7 +289,7 @@ class PhaseConstraintsPanel(wx.Panel, PDFPanel):
         j       --  cell position
         value   --  new value  
         """
-        self.mainPanel.needsSave()        
+        self.mainFrame.needsSave()        
         key = self.lAtomConstraints[j-1] + '('+`i+1`+')'
         formula = value.strip()
         if formula != "":
@@ -407,7 +407,7 @@ class PhaseConstraintsPanel(wx.Panel, PDFPanel):
             indices = self.getSelectedCells()
             self.fillCells(indices, "")
             self.refresh()
-            self.mainPanel.needsSave()
+            self.mainFrame.needsSave()
 
         else:
             event.Skip()
@@ -465,7 +465,7 @@ class PhaseConstraintsPanel(wx.Panel, PDFPanel):
                     indicies = self.getSelectedCells()
                     self.fillCells(indicies, value)
                     self.refresh()
-                    self.mainPanel.needsSave()
+                    self.mainFrame.needsSave()
                 dlg.Destroy()
         return
 
@@ -475,7 +475,7 @@ class PhaseConstraintsPanel(wx.Panel, PDFPanel):
 
             indices = self.getSelectedAtoms()
             dlg = SGConstrainDialog(self)
-            dlg.mainPanel = self.mainPanel
+            dlg.mainFrame = self.mainFrame
             dlg.indices = indices
             dlg.setStructure(self.structure)
             dlg.updateWidgets()
@@ -488,7 +488,7 @@ class PhaseConstraintsPanel(wx.Panel, PDFPanel):
                         indices, posflag, tempflag, offset)
                 self.refresh()
             dlg.Destroy()
-            self.mainPanel.needsSave()
+            self.mainFrame.needsSave()
         return
 
     # Required by event handlers

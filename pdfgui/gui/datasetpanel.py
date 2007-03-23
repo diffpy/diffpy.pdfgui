@@ -92,9 +92,9 @@ class DataSetPanel(wx.Panel, PDFPanel):
         self.configurePanel.treeCtrlMain = self.treeCtrlMain
         self.constraintPanel.treeCtrlMain = self.treeCtrlMain
         self.resultsPanel.treeCtrlMain = self.treeCtrlMain
-        self.configurePanel.mainPanel = self.mainPanel
-        self.constraintPanel.mainPanel = self.mainPanel
-        self.resultsPanel.mainPanel = self.mainPanel
+        self.configurePanel.mainFrame = self.mainFrame
+        self.constraintPanel.mainFrame = self.mainFrame
+        self.resultsPanel.mainFrame = self.mainFrame
         self.configurePanel.configuration = self.configuration
         self.configurePanel.constraints = self.constraints
         self.constraintPanel.constraints = self.constraints
