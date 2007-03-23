@@ -18,7 +18,7 @@
 
 import sys
 import wx
-from mainpanel import MainFrame
+from mainframe import MainFrame
 
 class PDFGuiApp(wx.App):
     def OnInit(self):

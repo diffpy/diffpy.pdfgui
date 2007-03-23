@@ -274,7 +274,7 @@ class DopingSeriesPanel(wx.Panel,PDFPanel):
             self.listCtrlFiles.SetStringItem(index, 1, shortname)
         return
 
-    ## Needed by mainpanel
+    ## Needed by mainframe
     def onTreeSelChanged(self, event):
         """Set the current fit when the tree selection changes."""
         selections = self.treeCtrlMain.GetSelections()

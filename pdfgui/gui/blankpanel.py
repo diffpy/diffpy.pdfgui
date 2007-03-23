@@ -19,7 +19,7 @@ import wx
 from pdfpanel import PDFPanel
 
 class BlankPanel(wx.Panel, PDFPanel):
-    """A blank panel needed as a right panel in mainpanel.py."""
+    """A blank panel needed as a right panel in mainframe.py."""
     def __init__(self, *args, **kwds):
         PDFPanel.__init__(self)
         wx.Panel.__init__(self, *args, **kwds)

@@ -442,21 +442,15 @@ class MainFrame(wx.Frame):
         self.journalItem = wx.MenuItem(self.editMenu, wx.NewId(), 
                 "&Journal\tCtrl+j", "", wx.ITEM_NORMAL)
         self.editMenu.AppendItem(self.journalItem)
-        self.editMenu.AppendSeparator()
-        self.servItem = wx.MenuItem(self.editMenu, wx.NewId(), 
-                "&Server Configuration", "", wx.ITEM_NORMAL)
-        self.editMenu.AppendItem(self.servItem)
+        #self.editMenu.AppendSeparator()
+        #self.servItem = wx.MenuItem(self.editMenu, wx.NewId(), 
+        #        "&Server Configuration", "", wx.ITEM_NORMAL)
+        #self.editMenu.AppendItem(self.servItem)
         self.editMenu.AppendSeparator()
         self.prefItem = wx.MenuItem(self.editMenu, wx.NewId(), 
                 "&Preferences", "", wx.ITEM_NORMAL)
         self.editMenu.AppendItem(self.prefItem)
         self.menuBar.Append(self.editMenu, "&Edit")
-        self.dockFitItem = wx.MenuItem(self.editMenu, wx.NewId(), 
-                "Dock Fit Tree", "", wx.ITEM_NORMAL)
-        self.editMenu.AppendItem(self.dockFitItem)
-        self.dockPlotItem = wx.MenuItem(self.editMenu, wx.NewId(), 
-                "Dock Plot Control", "", wx.ITEM_NORMAL)
-        self.editMenu.AppendItem(self.dockPlotItem)
         # End Edit Menu
 
         # Fits Menu
@@ -551,6 +545,22 @@ class MainFrame(wx.Frame):
         self.menuBar.Append(self.calcMenu, "Ca&lculations")
         # End Calculations Menu
 
+
+        # Windows Menu
+        self.windowsMenu = wx.Menu()
+        self.defaultLayoutItem = wx.MenuItem(self.editMenu, wx.NewId(), 
+                "Default Window Layout", "", wx.ITEM_NORMAL)
+        self.windowsMenu.AppendItem(self.defaultLayoutItem)
+        self.windowsMenu.AppendSeparator()
+        # These items are context sensitive.
+        self.showFitItem = wx.MenuItem(self.windowsMenu, wx.NewId(), 
+                "Show Fit Tree", "", wx.ITEM_NORMAL)
+        self.windowsMenu.AppendItem(self.showFitItem)
+        self.showPlotItem = wx.MenuItem(self.windowsMenu, wx.NewId(), 
+                "Show Plot Control", "", wx.ITEM_NORMAL)
+        self.windowsMenu.AppendItem(self.showPlotItem)
+        self.menuBar.Append(self.windowsMenu, "&Windows")
+
         # Help Menu
         self.helpMenu = wx.Menu()
         self.docItem = wx.MenuItem(self.helpMenu, wx.NewId(), 
@@ -642,10 +652,11 @@ class MainFrame(wx.Frame):
         wx.EVT_MENU(self, self.pasteId, self.onPaste)
         wx.EVT_MENU(self, self.pasteLinkId, self.onPasteLink)
         wx.EVT_MENU(self, self.journalItem.GetId(), self.onJournal)
-        wx.EVT_MENU(self, self.servItem.GetId(), self.onServerConfig)
+        #wx.EVT_MENU(self, self.servItem.GetId(), self.onServerConfig)
         #wx.EVT_MENU(self, self.prefItem.GetId(), self.onPreferences)
-        wx.EVT_MENU(self, self.dockFitItem.GetId(), self.onShowFit)
-        wx.EVT_MENU(self, self.dockPlotItem.GetId(), self.onShowPlot)
+        wx.EVT_MENU(self, self.defaultLayoutItem.GetId(), self.onDefaultLayout)
+        wx.EVT_MENU(self, self.showFitItem.GetId(), self.onShowFit)
+        wx.EVT_MENU(self, self.showPlotItem.GetId(), self.onShowPlot)
 
         ## Fits Menu
         wx.EVT_MENU(self, self.newFitId, self.onNewFit)
@@ -1368,8 +1379,8 @@ class MainFrame(wx.Frame):
         # Disable things that are not yet implemented.
         menu.Enable(self.prefItem.GetId(), False)
         menu.Enable(self.expFitItem.GetId(), False)
-        from pdfgui.control.connection import RemoteExecution
-        menu.Enable(self.servItem.GetId(), RemoteExecution)
+        #from pdfgui.control.connection import RemoteExecution
+        #menu.Enable(self.servItem.GetId(), RemoteExecution)
 
         # Now disable the non-shared menu items
         selections = self.treeCtrlMain.GetSelections()
@@ -1465,18 +1476,17 @@ class MainFrame(wx.Frame):
             menu.Enable(self.stopFitId, False)
 
 
-        # Check the docking status
-        if self._mgr.GetPane("treeCtrlMain").IsFloating() or\
-            not self._mgr.GetPane("treeCtrlMain").IsShown():
-            menu.Enable(self.dockFitItem.GetId(), True)
+        # Show/Hide fitTree
+        if self._mgr.GetPane("treeCtrlMain").IsShown():
+            self.showFitItem.SetText("Hide Fit Tree")
         else:
-            menu.Enable(self.dockFitItem.GetId(), False)
+            self.showFitItem.SetText("Show Fit Tree")
 
-        if self._mgr.GetPane("plotPanel").IsFloating() or\
-            not self._mgr.GetPane("plotPanel").IsShown():
-            menu.Enable(self.dockPlotItem.GetId(), True)
+        # Show/Hide plotPanel
+        if self._mgr.GetPane("plotPanel").IsShown():
+            self.showPlotItem.SetText("Hide Plot Control")
         else:
-            menu.Enable(self.dockPlotItem.GetId(), False)
+            self.showPlotItem.SetText("Show Plot Control")
 
         return
         
@@ -1664,15 +1674,27 @@ class MainFrame(wx.Frame):
         self.switchRightPanel("serverconfig")
         return
 
+    def onDefaultLayout(self, event):
+        """Place the fit tree and plot panel in default locations."""
+        from windowperspective import default
+        self._mgr.LoadPerspective(default)
+        self._mgr.Update()
+
     def onShowFit(self, event):
         """Make sure the fit tree is visible."""
-        self._mgr.GetPane("treeCtrlMain").Dock().Show()
+        if self._mgr.GetPane("treeCtrlMain").IsShown():
+            self._mgr.GetPane("treeCtrlMain").Hide()
+        else:
+            self._mgr.GetPane("treeCtrlMain").Show()
         self._mgr.Update()
         return
 
     def onShowPlot(self, event):
         """Make sure the fit tree is visible."""
-        self._mgr.GetPane("plotPanel").Dock().Show()
+        if self._mgr.GetPane("plotPanel").IsShown():
+            self._mgr.GetPane("plotPanel").Hide()
+        else:
+            self._mgr.GetPane("plotPanel").Show()
         self._mgr.Update()
         return
 
@@ -1681,7 +1703,6 @@ class MainFrame(wx.Frame):
         
         This only instantiates the journal dialog when it is needed.
         """
-
         if not hasattr(self, 'journalPanel'):
             # Create the journal
             self.journalDialog = PanelDialog(self, -1, "Project Journal")
@@ -2181,20 +2202,6 @@ class MainFrame(wx.Frame):
                 self.updateToolbar()
                 self.rightPanel.refresh()
 
-                
-        #elif isinstance(job, Calculation):
-        #    # Calculations are either running or finished.
-        #    name = job.name
-        #    node = self.runningDict[name]
-        #    self.treeCtrlMain.SetItemBackgroundColour(node,
-        #            wx.NamedColour('WHITE'))
-        #    selections = self.treeCtrlMain.GetSelections()
-        #    if len(selections) == 1:
-        #        if node == selections[0]:
-        #            self.rightPanel.Enable()
-        #    self.runningDict.pop(name, None)
-        #    self.updateToolbar()
-        #    self.rightPanel.refresh()
         return
         
     def updateOutput(self):

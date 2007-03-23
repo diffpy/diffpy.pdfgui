@@ -117,7 +117,7 @@ if __name__ == "__main__":
             wx.Frame.__init__(self, *args, **kwds)
             self.window = PhaseNotebookPanel(self, -1)
             self.SetTitle("testing")
-            # choke, mainpanel.needsSave() emulation
+            # choke, mainframe.needsSave() emulation
             self.window.mainFrame = self.window
             self.window.mainFrame.needsSave = self.dummy
 
