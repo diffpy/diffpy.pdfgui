@@ -61,10 +61,6 @@ setup_args = {
 }
 
 diffpy__init__code = """
-import sys
-import os.path
-mydir = os.path.dirname(__file__)
-if mydir not in sys.path:   sys.path.insert(0, mydir)
 """.lstrip()
 
 def check_diffpy__init__(distribution):

@@ -1378,7 +1378,7 @@ class MainFrame(wx.Frame):
         # Disable things that are not yet implemented.
         menu.Enable(self.prefItem.GetId(), False)
         menu.Enable(self.expFitItem.GetId(), False)
-        #from pdfgui.control.connection import RemoteExecution
+        #from diffpy.pdfgui.control.connection import RemoteExecution
         #menu.Enable(self.servItem.GetId(), RemoteExecution)
 
         # Now disable the non-shared menu items

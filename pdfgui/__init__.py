@@ -24,8 +24,8 @@ def main():
     Command line options and arguments can be passed via cmdopts
     and cmdargs variables in pdfgui.gui.pdfguiglobals module.
     """
-    import pdfgui.gui.Main
-    pdfgui.gui.Main.main()
+    import gui.Main
+    gui.Main.main()
     return
 
 # version

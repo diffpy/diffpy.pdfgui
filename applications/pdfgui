@@ -36,12 +36,6 @@ import os, os.path
 import re
 import signal
 
-# temporary exception catch until directory structure settles
-try:
-    import diffpy
-except ImportError:
-    pass
-
 def usage():
     """Show usage info.
     """
