@@ -27,8 +27,7 @@ import sys
 import os
 import cPickle
 
-import diffpy
-from pdfgui.control.pdffitsandbox import PdfFitSandbox
+from diffpy.pdfgui.control.pdffitsandbox import PdfFitSandbox
 
 def main():
     if len(sys.argv) < 2:

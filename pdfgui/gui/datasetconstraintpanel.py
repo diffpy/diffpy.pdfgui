@@ -18,8 +18,8 @@
 
 import wx
 from pdfpanel import PDFPanel
-from pdfgui.control.constraint import Constraint
-from pdfgui.control.controlerrors import ControlSyntaxError
+from diffpy.pdfgui.control.constraint import Constraint
+from diffpy.pdfgui.control.controlerrors import ControlSyntaxError
 
 class DataSetConstraintPanel(wx.Panel, PDFPanel):
     def __init__(self, *args, **kwds):

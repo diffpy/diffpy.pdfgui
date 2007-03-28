@@ -34,7 +34,7 @@ import random
 import os.path
 from pdfguiglobals import iconsDir
 
-from pdfgui.version import __version__
+from diffpy.pdfgui.version import __version__
 
 class DialogAbout(wx.Dialog):
     '''"About" Dialog

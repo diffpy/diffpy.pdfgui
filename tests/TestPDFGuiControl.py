@@ -21,8 +21,7 @@ __id__ = '$Id$'
 import os
 import unittest
 
-import diffpy
-from pdfgui.control.controlerrors import ControlRuntimeError
+from diffpy.pdfgui.control.controlerrors import ControlRuntimeError
 
 # useful variables
 thisfile = locals().get('__file__', 'TestPDFGuiControl.py')
@@ -34,7 +33,7 @@ class TestPDFGuiControl(unittest.TestCase):
     """test methods of PDFGuiControl"""
 
     def setUp(self):
-        from pdfgui.control.pdfguicontrol import PDFGuiControl
+        from diffpy.pdfgui.control.pdfguicontrol import PDFGuiControl
         self.control = PDFGuiControl()
         return
 

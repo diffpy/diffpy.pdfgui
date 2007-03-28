@@ -14,7 +14,7 @@
 ########################################################################
 
 from pdfcomponent import PDFComponent
-from pdfgui.gui.extendedplotframe import ExtendedPlotFrame
+from diffpy.pdfgui.gui.extendedplotframe import ExtendedPlotFrame
 from controlerrors import *
 
 # Preset plotting style

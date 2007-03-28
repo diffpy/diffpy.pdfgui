@@ -60,7 +60,7 @@ def plot(structure):
 
 ##### testing code ############################################################
 if __name__ == "__main__":
-    from Structure import Structure
+    from diffpy.Structure import Structure
 
     structure = Structure()
     structure.read('../../tests/testdata/LaMnO3.pdb')

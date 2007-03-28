@@ -14,16 +14,12 @@
 ########################################################################
 
 
-import os,sys,socket
+import os
+import sys
+import socket
 from SimpleXMLRPCServer import SimpleXMLRPCServer as BaseServer
 
-# temporary exception catch until directory structure settles
-try:
-    import diffpy
-except ImportError:
-    pass
-
-from pdffit2.PdfFit import PdfFit
+from diffpy.pdffit2.PdfFit import PdfFit
 
 def getFirstOpenPort():
     """Get the first open local port, starting at 8000.

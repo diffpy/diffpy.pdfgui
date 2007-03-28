@@ -25,8 +25,8 @@ __revision__ = "$Revision$"
 
 import wx
 
-from pdfgui.control.controlerrors import ControlError
-from pdfgui.version import __version__
+from diffpy.pdfgui.control.controlerrors import ControlError
+from diffpy.pdfgui.version import __version__
 
 _ticketURL="http://danse.us/trac/diffraction/report/1"
 

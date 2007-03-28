@@ -22,8 +22,8 @@ import PyAUI
 import sys, os, os.path, re
 
 from fittree import FitTree, FitTreeError
-from pdfgui.control.pdfguicontrol import pdfguicontrol
-from pdfgui.control.controlerrors import ControlError
+from diffpy.pdfgui.control.pdfguicontrol import pdfguicontrol
+from diffpy.pdfgui.control.controlerrors import ControlError
 from ConfigParser import SafeConfigParser
 
 from adddatapanel import AddDataPanel
@@ -46,7 +46,7 @@ from wxExtensions.paneldialog import PanelDialog
 from aboutdialog import DialogAbout
 from errorreportdialog import ErrorReportDialog
 
-import pdfgui.control.atomeyecontrol as atomeyecontrol
+import diffpy.pdfgui.control.atomeyecontrol as atomeyecontrol
 
 import wx.lib.newevent
 (PDFCustomEvent, EVT_PDFCUSTOM) = wx.lib.newevent.NewEvent()
@@ -356,7 +356,6 @@ class MainFrame(wx.Frame):
     def __wrapEvents(self):
         """This method wraps all of the event to handle exceptions."""
         import traceback
-        from pdfgui.control.controlerrors import ControlError
         def _funcBuilder(funcName):
             func = getattr(self, funcName)
             def _f(*args, **kwargs):
@@ -2174,8 +2173,8 @@ class MainFrame(wx.Frame):
         RUNNING    
         PAUSED     
         """
-        from pdfgui.control.fitting import Fitting
-        from pdfgui.control.calculation import Calculation
+        from diffpy.pdfgui.control.fitting import Fitting
+        from diffpy.pdfgui.control.calculation import Calculation
         if isinstance(job, Fitting):
             name = job.name
             fitStatus = job.fitStatus

@@ -19,17 +19,17 @@ __id__ = "$Id$"
 
 import wx
 import wx.grid
+from diffpy.Structure import Atom
+from diffpy.Structure.PeriodicTable import is_element
+from diffpy.pdfgui.control.constraint import Constraint
+from diffpy.pdfgui.control.controlerrors import *
+from insertrowsdialog import InsertRowsDialog
 from pdfpanel import PDFPanel
 import phasepanelutils
 from wxExtensions.autowidthlabelsgrid import AutoWidthLabelsGrid
-from insertrowsdialog import InsertRowsDialog
-from Structure import Atom
-from Structure.PeriodicTable import is_element
-from pdfgui.control.constraint import Constraint
 from wxExtensions.validators import TextValidator, FLOAT_ONLY
 from supercelldialog import SupercellDialog
 from sgstructuredialog import SGStructureDialog
-from pdfgui.control.controlerrors import *
 
 
 class PhaseConfigurePanel(wx.Panel, PDFPanel):

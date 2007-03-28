@@ -25,7 +25,7 @@ from pdfstructure import PDFStructure
 from constraint import Constraint
 from parameter import Parameter
 from controlerrors import ControlTypeError, ControlValueError
-from Structure import Atom
+from diffpy.Structure import Atom
 
 class FitStructure(PDFStructure):
     """FitStructure holds initial and refined structure and related fit
@@ -281,7 +281,7 @@ class FitStructure(PDFStructure):
 
         Return bool.
         """
-        from Structure.SymmetryUtilities import isSpaceGroupLatPar
+        from diffpy.Structure.SymmetryUtilities import isSpaceGroupLatPar
         return isSpaceGroupLatPar(spacegroup, *self.initial.lattice.abcABG())
 
     def expandAsymmetricUnit(self, spacegroup, indices, sgoffset=[0,0,0]):
@@ -295,7 +295,7 @@ class FitStructure(PDFStructure):
         indices     -- list of integer indices of atoms to be expanded
         sgoffset    -- optional offset of space group origin [0,0,0]
         """
-        from Structure.SymmetryUtilities import ExpandAsymmetricUnit
+        from diffpy.Structure.SymmetryUtilities import ExpandAsymmetricUnit
         acd = self._popAtomConstraints()
         # get unique, reverse sorted indices
         ruindices = dict.fromkeys(indices).keys()
@@ -348,7 +348,7 @@ class FitStructure(PDFStructure):
         """
         if not posflag and not Uijflag:     return
         # need to do something
-        from Structure.SymmetryUtilities import SymmetryConstraints
+        from diffpy.Structure.SymmetryUtilities import SymmetryConstraints
         # get unique sorted indices
         tobeconstrained = dict.fromkeys(indices)
         uindices = tobeconstrained.keys()
@@ -532,7 +532,7 @@ class FitStructure(PDFStructure):
 # simple test code
 if __name__ == "__main__":
     fitNi = FitStructure('name')
-    from Structure import Atom
+    from diffpy.Structure import Atom
     fitNi.initial.lattice.setLatPar(3.52, 3.52, 3.52)
     fitNi.initial.append(Atom('Ni', [0.0, 0.0, 0.0]))
     fitNi.initial.append(Atom('Ni', [0.0, 0.5, 0.5]))

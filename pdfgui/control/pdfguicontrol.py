@@ -343,7 +343,7 @@ class PDFGuiControl:
         returns list of imported fits
         """
         pyexe = sys.executable
-        from pdfgui.gui.pdfguiglobals import controlDir
+        from diffpy.pdfgui.gui.pdfguiglobals import controlDir
         dumpscript = os.path.join(controlDir, 'dumppdffit2script.py')
         # this should take care of proper shell quoting
         cmdwords = [pyexe, dumpscript, scriptfile] + args

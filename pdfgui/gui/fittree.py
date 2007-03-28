@@ -25,9 +25,9 @@ import wx
 import sys, os, re, cPickle
 
 from pdfguiglobals import iconsDir
-from pdfgui.control.pdfguicontrol import pdfguicontrol
-from pdfgui.control.calculation import Calculation
-from pdfgui.control.fitting import Fitting
+from diffpy.pdfgui.control.pdfguicontrol import pdfguicontrol
+from diffpy.pdfgui.control.calculation import Calculation
+from diffpy.pdfgui.control.fitting import Fitting
 
 class FitTree(wx.TreeCtrl):
     """TreeCtrl designed to organize pdffit fits.

@@ -5,8 +5,8 @@
 import wx
 import re, sys, os.path
 from pdfpanel import PDFPanel
+from diffpy.pdfgui.control.pdfguimacros import makeDopingSeries
 from wxExtensions.listctrls import AutoWidthListCtrl
-from pdfgui.control.pdfguimacros import makeDopingSeries
 from wxExtensions.validators import TextValidator, ALPHA_ONLY
 
 class DopingSeriesPanel(wx.Panel,PDFPanel):

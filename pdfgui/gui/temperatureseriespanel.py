@@ -4,10 +4,10 @@
 
 import wx
 import re, sys, os.path
-from pdfgui.utils import numericStringSort
+from diffpy.pdfgui.utils import numericStringSort
+from diffpy.pdfgui.control.pdfguimacros import makeTemperatureSeries
 from pdfpanel import PDFPanel
 from wxExtensions.listctrls import AutoWidthListCtrl
-from pdfgui.control.pdfguimacros import makeTemperatureSeries
 
 class TemperatureSeriesPanel(wx.Panel, PDFPanel):
     def __init__(self, *args, **kwds):

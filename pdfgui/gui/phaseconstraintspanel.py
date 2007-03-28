@@ -20,11 +20,11 @@ __id__ = "$Id$"
 import re
 import wx
 import wx.grid
+from diffpy.pdfgui.control.constraint import Constraint
+from diffpy.pdfgui.control.controlerrors import *
 from pdfpanel import PDFPanel
 import phasepanelutils
 from wxExtensions.autowidthlabelsgrid import AutoWidthLabelsGrid
-from pdfgui.control.constraint import Constraint
-from pdfgui.control.controlerrors import *
 from sgconstraindialog import SGConstrainDialog
 
 class PhaseConstraintsPanel(wx.Panel, PDFPanel):

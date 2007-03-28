@@ -49,7 +49,7 @@ class PDFPanel(object):
         # get access to controlerrors.py
         import sys,os
         
-        from pdfgui.control.controlerrors import ControlError
+        from diffpy.pdfgui.control.controlerrors import ControlError
 
         def _funcBuilder(funcName):
             func = getattr(self, funcName)

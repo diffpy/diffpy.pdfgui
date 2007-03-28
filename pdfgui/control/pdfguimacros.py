@@ -244,7 +244,7 @@ def makeDopingSeries(control, fit, base, dopant, paths, doping):
     
     returns a list of the new fit organization objects
     """
-    from Structure.PeriodicTable import is_element
+    from diffpy.Structure.PeriodicTable import is_element
 
     # Make sure that base and dopant are elements
     base = base.title()

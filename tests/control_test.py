@@ -14,16 +14,14 @@
 ########################################################################
 
 
-import sys,os
-#sys.path.append(os.getcwd()+'/../control')
-from pdfgui.control.pdfguicontrol import pdfguicontrol
-from pdfgui.control.controlerrors import *
-from pdfgui.control.constraint import Constraint
-from pdfgui.control.plotter import Plotter
-import __main__
-
+import sys
+import os
 import wx
 import copy
+from diffpy.pdfgui.control.pdfguicontrol import pdfguicontrol
+from diffpy.pdfgui.control.controlerrors import *
+from diffpy.pdfgui.control.constraint import Constraint
+from diffpy.pdfgui.control.plotter import Plotter
 
 ## simpel gui application ##
 class PDFApp(wx.App):

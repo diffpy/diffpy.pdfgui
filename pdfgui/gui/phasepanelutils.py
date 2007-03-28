@@ -14,7 +14,7 @@
 ########################################################################
 
 """Common methods used in the phase panels."""
-from pdfgui.control.controlerrors import *
+from diffpy.pdfgui.control.controlerrors import *
 
 def float2str(x):
     """compact string representation of float"""

@@ -54,7 +54,7 @@ class Fitting(Organizer):
             
         def run ( self ):
             """overload function from Thread """
-            from pdffit2.pdffit2 import dataError, unassignedError,\
+            from diffpy.pdffit2.pdffit2 import dataError, unassignedError,\
                 constraintError, structureError, calculationError
             try:
                 self.fitting.run()
@@ -292,7 +292,7 @@ class Fitting(Organizer):
         self.host = self.controlCenter.getHost()
         if self.host is None:
             # import directly from local host
-            from pdffit2.PdfFit import PdfFit
+            from diffpy.pdffit2.PdfFit import PdfFit
             self.server = PdfFit()
         else:
             # get server without waiting.

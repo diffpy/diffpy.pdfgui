@@ -140,8 +140,8 @@ if __name__ == "__main__":
         
         def test(self):
             '''Testing code goes here'''
-            from Structure.PDFFitStructure import PDFFitStructure
-            from pdfgui.control.constraint import Constraint
+            from diffpy.Structure.PDFFitStructure import PDFFitStructure
+            from diffpy.pdfgui.control.constraint import Constraint
 
             self.window.configuration = PDFFitStructure()
             self.window.configuration.read('../../tests/testdata/LaMnO3.pdb')

@@ -52,13 +52,13 @@ def usage():
     return
 
 def version():
-    from pdfgui import __version__
+    from diffpy.pdfgui import __version__
     print "PDFGui", __version__
 
 def main():
     import getopt
-    import pdfgui.gui.pdfguiglobals as pdfguiglobals
-    dbopts = pdfguiglobals.dbopts
+    import diffpy.pdfgui.gui.pdfguiglobals as pdfguiglobals
+    dbopts = diffpy.pdfguiglobals.dbopts
     dboptions = [ 'db-' + o[0]  for o in dbopts.alldebugoptions ]
     # default parameters
     try:
@@ -90,7 +90,7 @@ def main():
     # ready to go
     pdfguiglobals.cmdopts = opts
     pdfguiglobals.cmdargs = args
-    import pdfgui
+    import diffpy.pdfgui
     pdfgui.main()
 
 if __name__ == "__main__":

@@ -29,9 +29,6 @@ import wx.grid
 from pdfpanel import PDFPanel
 from wxExtensions.autowidthlabelsgrid import AutoWidthLabelsGrid
 
-#from pdfgui.control.parameter import Parameter
-
-
 class ParametersPanel(wx.Panel, PDFPanel):
     '''GUI Panel, parameters viewer/editor
 
@@ -462,7 +459,7 @@ if __name__ == "__main__":
         
         def test(self):
             '''Testing code goes here'''
-            from pdfgui.control.parameter import Parameter
+            from diffpy.pdfgui.control.parameter import Parameter
 
             self.window.parameters = {3:Parameter(3), 17:Parameter(17), 11:Parameter(11)}
             self.window.parameters[3].setInitial(1)

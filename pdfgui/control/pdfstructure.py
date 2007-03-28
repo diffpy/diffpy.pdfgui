@@ -15,7 +15,7 @@
 import copy
 import re
 from pdfcomponent import PDFComponent
-from Structure import PDFFitStructure
+from diffpy.Structure import PDFFitStructure
 from controlerrors import ControlKeyError
 
 class PDFStructure(PDFComponent, PDFFitStructure):
@@ -159,7 +159,7 @@ class PDFStructure(PDFComponent, PDFFitStructure):
 if __name__ == "__main__":
     stru = PDFStructure('name')
     stru.lattice.setLatPar(3.0, 4.0, 5.0)
-    from Structure import Atom
+    from diffpy.Structure import Atom
     stru.append( Atom('Ni', [0, 0, 0.2]) )
     for i in range(1,7):
         print "lat(%i) =" % i, stru.getvar('lat(%i)' % i)

@@ -22,10 +22,9 @@ import sys
 import os
 import unittest
 
-import diffpy
-from pdfgui.control.controlerrors import ControlRuntimeError
-from pdfgui.control.controlerrors import ControlKeyError
-from pdfgui.control.parameter import Parameter
+from diffpy.pdfgui.control.controlerrors import ControlRuntimeError
+from diffpy.pdfgui.control.controlerrors import ControlKeyError
+from diffpy.pdfgui.control.parameter import Parameter
 
 # useful variables
 thisfile = locals().get('__file__', 'TestPdfFitSandbox.py')
@@ -37,7 +36,7 @@ class TestPdfFitSandbox(unittest.TestCase):
     """test methods of PdfFitSandbox"""
 
     def setUp(self):
-        from pdfgui.control.pdffitsandbox import PdfFitSandbox
+        from diffpy.pdfgui.control.pdffitsandbox import PdfFitSandbox
         self.box = PdfFitSandbox()
         return
 
@@ -229,8 +228,8 @@ class TestPdfFitSandbox(unittest.TestCase):
     def test_alloc(self):
         """check PdfFitSandbox.alloc()
         """
-        from pdfgui.control.calculation import Calculation
-        from pdfgui.control.fitting import Fitting
+        from diffpy.pdfgui.control.calculation import Calculation
+        from diffpy.pdfgui.control.fitting import Fitting
         fNi_stru = os.path.join(testdata_dir, 'Ni.stru')
         sandbox = self.box.sandbox()
         sandbox.update({ "fNi_stru" : fNi_stru })
@@ -255,7 +254,7 @@ class TestPdfFitSandbox(unittest.TestCase):
     def test_calc(self):
         """check PdfFitSandbox.calc()
         """
-        from pdfgui.control.calculation import Calculation
+        from diffpy.pdfgui.control.calculation import Calculation
         fNi_stru = os.path.join(testdata_dir, 'Ni.stru')
         sandbox = self.box.sandbox()
         sandbox.update({ "fNi_stru" : fNi_stru })

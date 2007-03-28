@@ -22,9 +22,8 @@ import sys
 import os
 import unittest
 
-import diffpy
-from pdfgui.control.controlerrors import ControlSyntaxError
-from pdfgui.control.constraint import Constraint
+from diffpy.pdfgui.control.controlerrors import ControlSyntaxError
+from diffpy.pdfgui.control.constraint import Constraint
 
 ##############################################################################
 class TestConstraint(unittest.TestCase):
