@@ -15,6 +15,10 @@
 
 """Common methods used in the phase panels."""
 from diffpy.pdfgui.control.controlerrors import *
+import wx
+
+# List of row entries taken from the clipboard
+clipcells = []
 
 def float2str(x):
     """compact string representation of float"""
@@ -132,7 +136,208 @@ def refreshGrid(panel):
     panel.gridAtoms.EndBatch()
 
     panel.gridAtoms.AdjustScrollbars()
-    panel.gridAtoms.ForceRefresh()
     return
-        
+
+# Utility functions
+
+def getSelectedAtoms(panel):
+    """Get list of indices of selected atoms."""
+    rows = panel.gridAtoms.GetNumberRows()
+    cols = panel.gridAtoms.GetNumberCols()
+    selection = []
+    
+    for i in xrange(rows):
+        for j in xrange(cols):
+            if panel.gridAtoms.IsInSelection(i,j):
+                selection.append(i)
+                break
+
+    return selection
+
+def getSelectedCells(panel):
+    """Get list of (row,col) pairs of selected cells.
+    
+    This returns selected cells whether they are in blocks or are
+    independent.
+    """
+    rows = panel.gridAtoms.GetNumberRows()
+    cols = panel.gridAtoms.GetNumberCols()
+    selection = []
+    
+    for i in xrange(rows):
+        for j in xrange(cols):
+            if panel.gridAtoms.IsInSelection(i,j):
+                selection.append((i,j))
+
+    return selection
+
+def fillCells(panel, indices, value):
+    """Fill cells with a given value.
+
+    indices    --  list of (i,j) tuples representing cell coordinates
+    value       --  string value to place into cells
+    """
+    for (i,j) in indices:
+        if not panel.gridAtoms.IsReadOnly(i,j):
+            panel.applyCellChange(i,j, value)
+    return
+
+def isWholeRowSelected(panel, row):
+    """Check whether a whole row is selected."""
+    for j in range(10):
+        if not panel.gridAtoms.IsInSelection(row, j):
+            return False
+    return True
+
+def canCopySelectedCells(panel):
+    """Check to see if we can copy selected cells.
+
+    To be copyable, the cells must exist in a single block or there must be a
+    single cell selected. Note that a block that is selected by individual cells
+    is considered a collection of individual atoms, not a block. This is default
+    wxPython behavior.
+    """
+    grid = panel.gridAtoms
+
+    topleft = grid.GetSelectionBlockTopLeft()
+    individuals = grid.GetSelectedCells()
+    numsel = len(topleft) + len(individuals)
+    return numsel == 1
+
+def canPasteIntoCells(panel):
+    """Check if clipboard contents are formatted for grid insertion.
+    
+    This also checks to see if the cell selection is appropriate for pasting.
+    """
+    grid = panel.gridAtoms
+
+    individuals = grid.GetSelectedCells()
+    topleft = grid.GetSelectionBlockTopLeft()
+    if len(individuals) + len(topleft) != 1: return False
+
+    # Get the text
+    if not wx.TheClipboard.IsSupported(wx.DataFormat(wx.DF_TEXT)):
+        return False
+
+    textdata = wx.PyTextDataObject()
+    if not wx.TheClipboard.IsOpened():
+        opened = wx.TheClipboard.Open()
+        if not opened: return False
+    success = wx.TheClipboard.GetData(textdata)
+    wx.TheClipboard.Close()
+    if not success: return False
+    copytext = textdata.GetText()
+
+    # Remove any trailing newline
+    copytext = copytext.rstrip('\n')
+
+    # Make sure it is of the appropriate format
+    try:
+        rowlist = copytext.split('\n')
+        # Strip any trailing tabs
+        rowlist = [r.rstrip('\t') for r in rowlist]
+        celllist = [r.split('\t') for r in rowlist]
+    except:
+        return False
+
+    #import sys; sys.stderr.write(repr(celllist))
+
+    if len(celllist) == 0:
+        return False
+    ncol = len(celllist[0])
+    for row in celllist:
+        if len(row) != ncol: return False
+    if ncol == 0: return False
+
+    global clipcells
+    clipcells = celllist
+    return True
+
+def copySelectedCells(panel):
+    """Copy block of selected cells or individual cell into clipboard.
+
+    This stores the cells as a plain text grid so that it can be copied to and
+    from other applications.
+    Columns are delimited by tabs '\t'.
+    Rows are delimited by newlines '\n'.
+    """
+    grid = panel.gridAtoms
+    copytext = ""
+
+    # Get the cells
+    individuals = grid.GetSelectedCells()
+    topleft = grid.GetSelectionBlockTopLeft()
+    bottomright = grid.GetSelectionBlockBottomRight()
+
+    if len(individuals) == 1:
+        copytext = str(grid.GetCellValue(individuals[0]))
+
+    elif len(topleft) == 1:
+        # Format the block of cells
+        rtl = topleft[0][0]
+        ctl = topleft[0][1]
+        rbr = bottomright[0][0]
+        cbr = bottomright[0][1]
+
+        for row in range(rtl, rbr+1):
+            for col in range(ctl, cbr+1):
+                copytext += str(grid.GetCellValue(row,col))
+                copytext += '\t'
+            copytext += '\n'
+
+        #import sys; sys.stderr.write(copytext)
+
+    # Place the copytext into the clipboard
+    if not wx.TheClipboard.IsOpened():
+        opened = wx.TheClipboard.Open()
+        if not opened: raise IOError, "Cannot open the clipboard."
+        textdata = wx.PyTextDataObject(copytext)
+    wx.TheClipboard.SetData(textdata)
+    wx.TheClipboard.Close()
+    return
+
+def pasteIntoCells(panel):
+    """Paste clipboard contents into cells.
+    
+    canPasteIntoCells must be called before this method in order to format
+    clipboard text for pasting.
+    """
+    # Double check the clipcells
+    if len(clipcells) == 0: return
+    if len(clipcells[0]) == 0: return
+
+    grid = panel.gridAtoms
+    individuals = grid.GetSelectedCells()
+    topleft = grid.GetSelectionBlockTopLeft()
+    if len(individuals) > 0:
+        tl = individuals[0]
+    elif len(topleft) > 0:
+        tl = topleft[0]
+    else:
+        return
+    rtl = tl[0]
+    ctl = tl[1]
+
+    nrows = grid.GetNumberRows()
+    ncols = grid.GetNumberCols()
+
+    rbr = min(nrows, rtl + len(clipcells)) - 1
+    cbr = min(ncols, ctl + len(clipcells[0])) - 1
+
+    for row in range(rtl, rbr+1):
+        for col in range(ctl, cbr+1):
+            if not grid.IsReadOnly(row, col):
+                panel.applyCellChange(row, col, clipcells[row-rtl][col-ctl])
+
+    # Refresh the grid and select the inserted entries
+    grid.ClearSelection()
+    panel.refresh()
+    for row in range(rtl, rbr+1):
+        for col in range(ctl, cbr+1):
+            if not grid.IsReadOnly(row, col):
+                grid.SelectBlock(row,col,row,col,True)
+    return
+
+# Generic event handlers
+
 __id__ = "$Id$"

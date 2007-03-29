@@ -222,6 +222,7 @@ class MainFrame(wx.Frame):
             fullpath = os.path.abspath(filename)
             treelist = self.control.load(fullpath)
             self.treeCtrlMain.ExtendProjectTree(treelist)
+            self.setMode('fitting')
             self.switchRightPanel('welcome')
 
             self.fullpath = fullpath
@@ -435,7 +436,7 @@ class MainFrame(wx.Frame):
                 "&Paste Item\tCtrl+V", "", wx.ITEM_NORMAL)
         self.editMenu.AppendItem(self.pasteItem)
         self.pasteLinkItem = wx.MenuItem(self.editMenu, self.pasteLinkId,
-                "&Paste Linked Fit", "", wx.ITEM_NORMAL)
+                "Paste &Linked Fit", "", wx.ITEM_NORMAL)
         self.editMenu.AppendItem(self.pasteLinkItem)
         self.editMenu.AppendSeparator()
         self.journalItem = wx.MenuItem(self.editMenu, wx.NewId(), 
@@ -1146,6 +1147,7 @@ class MainFrame(wx.Frame):
 
     def onKey(self, event):
         """Catch key events in the panel."""
+        # See if the tree is in focus. If not, pass the event on
         key = event.GetKeyCode()
 
         selections = self.treeCtrlMain.GetSelections()
@@ -1161,7 +1163,6 @@ class MainFrame(wx.Frame):
 
         # Ctrl+A
         # "fitting" mode    --  Select all nodes
-        # "plotting" mode   --  Select all nodes of a given type
         elif event.ControlDown() and key == 65:
             if self.mode == "fitting":
                 self.treeCtrlMain.SelectAll()
@@ -1318,7 +1319,10 @@ class MainFrame(wx.Frame):
             elif clipbranchtype == "calculation":
                 pastename = "Calculation"
                 menu.Enable(self.pasteLinkId, False)
-            menu.SetLabel(self.pasteId, "Paste %s" % pastename)
+            pastetext = "Paste %s" % pastename
+            if menu == self.menuBar:
+                pastetext = "&Paste %s\tCtrl+V" % pastename
+            menu.SetLabel(self.pasteId, pastetext)
 
         # Disable certain entries based upon where we clicked.
         ## No copy, paste, or insert on multiple items.

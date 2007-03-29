@@ -23,7 +23,7 @@ import wx.grid
 from diffpy.pdfgui.control.constraint import Constraint
 from diffpy.pdfgui.control.controlerrors import *
 from pdfpanel import PDFPanel
-import phasepanelutils
+from phasepanelutils import *
 from wxExtensions.autowidthlabelsgrid import AutoWidthLabelsGrid
 from sgconstraindialog import SGConstrainDialog
 
@@ -362,7 +362,7 @@ class PhaseConstraintsPanel(wx.Panel, PDFPanel):
         i = event.GetRow()
         j = event.GetCol()
         self._focusedText = self.gridAtoms.GetCellValue(i,j)
-        self._selectedCells = self.getSelectedCells()
+        self._selectedCells = getSelectedCells(self)
         event.Skip()
         return
 
@@ -386,7 +386,7 @@ class PhaseConstraintsPanel(wx.Panel, PDFPanel):
                 Constraint(value)
             if (i,j) not in self._selectedCells:
                 self._selectedCells.append((i,j))
-            self.fillCells(self._selectedCells, value)
+            fillCells(self, self._selectedCells, value)
         finally:
             self.refresh()
             event.Skip()
@@ -404,10 +404,22 @@ class PhaseConstraintsPanel(wx.Panel, PDFPanel):
 
         # Delete
         elif key == 127:
-            indices = self.getSelectedCells()
-            self.fillCells(indices, "")
+            indices = getSelectedCells(self)
+            fillCells(self, indices, "")
             self.refresh()
             self.mainFrame.needsSave()
+
+        # Can't get these to work. Maybe later.
+        ## Copy - Ctrl+C / Ctrl+Insert
+        #if event.ControlDown() and (key == 67 or key == wx.WXK_INSERT):
+        #    if canCopySelectedCells(self):
+        #        copySelectedCells(self)
+
+        ## Paste - Ctrl+V / Shift+Insert
+        #if (event.ControlDown() and key == 86) or\
+        #   (event.ShiftDown() and key == wx.WXK_INSERT):
+        #       if canPasteIntoCells(self):
+        #           pasteIntoCells(self)
 
         else:
             event.Skip()
@@ -424,27 +436,34 @@ class PhaseConstraintsPanel(wx.Panel, PDFPanel):
         y       --  y coordinate
         """
         # only do this part the first time so the events are only bound once
-        if not hasattr(self, "popupID1"):
-            self.popupID1 = wx.NewId()
-            self.popupID2 = wx.NewId()
+        if not hasattr(self, "spaceGroupID"):
+            self.spaceGroupID = wx.NewId()
+            self.copyID = wx.NewId()
+            self.pasteID = wx.NewId()
 
-            #self.Bind(wx.EVT_MENU, self.onPopupFill, id=self.popupID1)
-            self.Bind(wx.EVT_MENU, self.onPopupSpaceGroup, id=self.popupID2)
+            self.Bind(wx.EVT_MENU, self.onPopupSpaceGroup, id=self.spaceGroupID)
+            self.Bind(wx.EVT_MENU, self.onPopupCopy, id=self.copyID)
+            self.Bind(wx.EVT_MENU, self.onPopupPaste, id=self.pasteID)
 
         # make a menu
         menu = wx.Menu()
 
         # add some other items
-        #menu.Append(self.popupID1, "Fill...")
-        #menu.AppendSeparator()
-        menu.Append(self.popupID2, "Symmetry constraints...")
+        menu.Append(self.spaceGroupID, "Symmetry constraints...")
+        menu.AppendSeparator()
+        menu.Append(self.copyID, "Copy")
+        menu.Append(self.pasteID, "Paste")
 
         # Disable some items if there are no atoms selected
-        indices = self.getSelectedAtoms()
+        indices = getSelectedAtoms(self)
         if not indices:
-            #menu.Enable(self.popupID1, False);
-            menu.Enable(self.popupID2, False);
+            menu.Enable(self.spaceGroupID, False);
 
+        # Check for copy/paste
+        if not canCopySelectedCells(self):
+            menu.Enable(self.copyID, False)
+        if not canPasteIntoCells(self):
+            menu.Enable(self.pasteID, False)
 
         # Popup the menu.  If an item is selected then its handler
         # will be called before PopupMenu returns.
@@ -462,8 +481,8 @@ class PhaseConstraintsPanel(wx.Panel, PDFPanel):
                 if dlg.ShowModal() == wx.ID_OK:
                     value = dlg.GetValue()
                     
-                    indicies = self.getSelectedCells()
-                    self.fillCells(indicies, value)
+                    indicies = getSelectedCells(self)
+                    fillCells(self, indicies, value)
                     self.refresh()
                     self.mainFrame.needsSave()
                 dlg.Destroy()
@@ -473,7 +492,7 @@ class PhaseConstraintsPanel(wx.Panel, PDFPanel):
         """Create a supercell with the supercell dialog."""
         if self.structure != None:
 
-            indices = self.getSelectedAtoms()
+            indices = getSelectedAtoms(self)
             dlg = SGConstrainDialog(self)
             dlg.mainFrame = self.mainFrame
             dlg.indices = indices
@@ -491,44 +510,14 @@ class PhaseConstraintsPanel(wx.Panel, PDFPanel):
             self.mainFrame.needsSave()
         return
 
-    # Required by event handlers
+    def onPopupCopy(self, event):
+        """Copy selected cells."""
+        copySelectedCells(self)
+        return
 
-    def getSelectedAtoms(self):
-        """Get list of indices of selected atoms."""
-        rows = self.gridAtoms.GetNumberRows()
-        cols = self.gridAtoms.GetNumberCols()
-        selection = []
-        
-        for i in xrange(rows):
-            for j in xrange(cols):
-                if self.gridAtoms.IsInSelection(i,j):
-                    selection.append(i)
-                    break
-
-        return selection
-
-    def getSelectedCells(self):
-        """Get list of (row,col) pairs of selected cells."""
-        rows = self.gridAtoms.GetNumberRows()
-        cols = self.gridAtoms.GetNumberCols()
-        selection = []
-        
-        for i in xrange(rows):
-            for j in xrange(cols):
-                if self.gridAtoms.IsInSelection(i,j):
-                    selection.append((i,j))
-
-        return selection
-
-    def fillCells(self, indices, value):
-        """Fill cells with a given value.
-
-        indices    --  list of (i,j) tuples representing cell coordinates
-        value       --  string value to place into cells
-        """
-        for (i,j) in indices:
-            if not self.gridAtoms.IsReadOnly(i,j):
-                self.applyCellChange(i,j, value)
+    def onPopupPaste(self, event):
+        """Paste previously copied cells."""
+        pasteIntoCells(self)
         return
 
 # end of class PhaseConstraintsPanel

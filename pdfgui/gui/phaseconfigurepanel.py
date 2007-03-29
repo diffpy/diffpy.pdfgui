@@ -25,7 +25,7 @@ from diffpy.pdfgui.control.constraint import Constraint
 from diffpy.pdfgui.control.controlerrors import *
 from insertrowsdialog import InsertRowsDialog
 from pdfpanel import PDFPanel
-import phasepanelutils
+from phasepanelutils import *
 from wxExtensions.autowidthlabelsgrid import AutoWidthLabelsGrid
 from wxExtensions.validators import TextValidator, FLOAT_ONLY
 from supercelldialog import SupercellDialog
@@ -240,8 +240,8 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
 
     def refresh(self):
         """Refreshes wigets on the panel."""
-        phasepanelutils.refreshTextCtrls(self)
-        phasepanelutils.refreshGrid(self)
+        refreshTextCtrls(self)
+        refreshGrid(self)
         self.restrictConstrainedParameters()
         return
 
@@ -428,7 +428,7 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
         i = event.GetRow()
         j = event.GetCol()
         self._focusedText = self.gridAtoms.GetCellValue(i,j)
-        self._selectedCells = self.getSelectedCells()
+        self._selectedCells = getSelectedCells(self)
         event.Skip()
         return
 
@@ -445,7 +445,7 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
 
         value = self.gridAtoms.GetCellValue(i,j)
         self._selectedCells.append((i,j))
-        self.fillCells(self._selectedCells, value)
+        fillCells(self, self._selectedCells, value)
         self.refresh()
 
         event.Skip()
@@ -465,8 +465,8 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
         # Delete an atom
         # Delete
         elif key == 127:
-            indices = self.getSelectedAtoms()
-            selected = [i for i in indices if self.isWholeRowSelected(i)]
+            indices = getSelectedAtoms(self)
+            selected = [i for i in indices if isWholeRowSelected(panel, i)]
             if selected:
                 self.structure.deleteAtoms(indices)
                 self.refresh()
@@ -474,15 +474,15 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
 
         # Ctrl -
         elif event.ControlDown() and key == 45:
-            indices = self.getSelectedAtoms()
+            indices = getSelectedAtoms(self)
             self.structure.deleteAtoms(indices)
             self.refresh()
             self.mainFrame.needsSave()
 
-        # Append a row
+        # Append an atom
         # Ctrl +
         elif event.ControlDown() and event.ShiftDown() and key == 61:
-            indices = self.getSelectedAtoms()
+            indices = getSelectedAtoms(self)
             pos = 0
             if indices:
                 pos = 1+indices[-1]
@@ -510,43 +510,51 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
         y       --  y coordinate
         """
         # only do this part the first time so the events are only bound once
-        if not hasattr(self, "popupID1"):
-            self.popupID1 = wx.NewId()
-            self.popupID2 = wx.NewId()
-            self.popupID3 = wx.NewId()
-            self.popupID4 = wx.NewId()
-            self.popupID5 = wx.NewId()
+        if not hasattr(self, "insertID"):
+            self.insertID = wx.NewId()
+            self.deleteID = wx.NewId()
+            self.copyID = wx.NewId()
+            self.pasteID = wx.NewId()
+            self.supercellID = wx.NewId()
+            self.spaceGroupID = wx.NewId()
 
-            self.Bind(wx.EVT_MENU, self.onPopupInsert, id=self.popupID1)
-            self.Bind(wx.EVT_MENU, self.onPopupDelete, id=self.popupID2)
-            #self.Bind(wx.EVT_MENU, self.onPopupFill, id=self.popupID3)
-            self.Bind(wx.EVT_MENU, self.onPopupSupercell, id=self.popupID4)
-            self.Bind(wx.EVT_MENU, self.onPopupSpaceGroup, id=self.popupID5)
+            self.Bind(wx.EVT_MENU, self.onPopupInsert, id=self.insertID)
+            self.Bind(wx.EVT_MENU, self.onPopupDelete, id=self.deleteID)
+            self.Bind(wx.EVT_MENU, self.onPopupCopy, id=self.copyID)
+            self.Bind(wx.EVT_MENU, self.onPopupPaste, id=self.pasteID)
+            self.Bind(wx.EVT_MENU, self.onPopupSupercell, id=self.supercellID)
+            self.Bind(wx.EVT_MENU, self.onPopupSpaceGroup, id=self.spaceGroupID)
 
         # make a menu
         menu = wx.Menu()
 
         # add some other items
-        menu.Append(self.popupID1, "Insert atoms...")
-        menu.Append(self.popupID2, "Delete atoms")
+        menu.Append(self.insertID, "Insert atoms...")
+        menu.Append(self.deleteID, "Delete atoms")
         menu.AppendSeparator()
-        #menu.Append(self.popupID3, "Fill...")
-        #menu.AppendSeparator()
-        menu.Append(self.popupID4, "Create supercell...")
-        menu.Append(self.popupID5, "Expand space group...")
+        menu.Append(self.copyID, "Copy")
+        menu.Append(self.pasteID, "Paste")
+        menu.AppendSeparator()
+        menu.Append(self.supercellID, "Create supercell...")
+        menu.Append(self.spaceGroupID, "Expand space group...")
 
         # Disable some items if there are no atoms selected
-        indices = self.getSelectedAtoms()
+        indices = getSelectedAtoms(self)
         if not indices:
-            menu.Enable(self.popupID2, False);
-            #menu.Enable(self.popupID3, False);
-            menu.Enable(self.popupID5, False);
+            menu.Enable(self.deleteID, False);
+            menu.Enable(self.spaceGroupID, False);
 
+        # Disable some items if there is no structure
         if self.structure is None or len(self.structure) == 0:
-            menu.Enable(self.popupID2, False);
-            #menu.Enable(self.popupID3, False);
-            menu.Enable(self.popupID4, False);
-            menu.Enable(self.popupID5, False);
+            menu.Enable(self.deleteID, False);
+            menu.Enable(self.supercellID, False);
+            menu.Enable(self.spaceGroupID, False);
+
+        # Check for copy/paste
+        if not canCopySelectedCells(self):
+            menu.Enable(self.copyID, False)
+        if not canPasteIntoCells(self):
+            menu.Enable(self.pasteID, False)
 
         # Popup the menu.  If an item is selected then its handler
         # will be called before PopupMenu returns.
@@ -580,26 +588,20 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
     def onPopupDelete(self, event):
         """Deletes the row under mouse pointer from the grid."""
         if self.structure != None:
-            indices = self.getSelectedAtoms()
+            indices = getSelectedAtoms(self)
             self.structure.deleteAtoms(indices)
             self.refresh()
             self.mainFrame.needsSave()
         return
 
-    def onPopupFill(self, event):
-        """Fills cells selected in the grid with a new value."""
-        if self.structure != None:
-            if self.gridAtoms.IsSelection():
-                dlg = wx.TextEntryDialog(self, 
-                        'New value:','Fill Selected Cells', '')
-        
-                if dlg.ShowModal() == wx.ID_OK:
-                    value = dlg.GetValue()
-                    
-                    indices = self.getSelectedCells()
-                    self.fillCells(indices, value)
-                    self.refresh()
-                dlg.Destroy()
+    def onPopupCopy(self, event):
+        """Copy selected cells."""
+        copySelectedCells(self)
+        return
+
+    def onPopupPaste(self, event):
+        """Paste previously copied cells."""
+        pasteIntoCells(self)
         return
 
     def onPopupSupercell(self, event):
@@ -618,7 +620,7 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
         """Create a supercell with the supercell dialog."""
         if self.structure != None:
 
-            indices = self.getSelectedAtoms()
+            indices = getSelectedAtoms(self)
             dlg = SGStructureDialog(self)
             dlg.mainFrame = self.mainFrame
             dlg.indices = indices
@@ -631,52 +633,5 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
                 self.mainFrame.needsSave()
             dlg.Destroy()
         return
-
-    # Required by event handlers
-
-    def getSelectedAtoms(self):
-        """Get list of indices of selected atoms."""
-        rows = self.gridAtoms.GetNumberRows()
-        cols = self.gridAtoms.GetNumberCols()
-        selection = []
-        
-        for i in xrange(rows):
-            for j in xrange(cols):
-                if self.gridAtoms.IsInSelection(i,j):
-                    selection.append(i)
-                    break
-
-        return selection
-
-    def getSelectedCells(self):
-        """Get list of (row,col) pairs of selected cells."""
-        rows = self.gridAtoms.GetNumberRows()
-        cols = self.gridAtoms.GetNumberCols()
-        selection = []
-        
-        for i in xrange(rows):
-            for j in xrange(cols):
-                if self.gridAtoms.IsInSelection(i,j):
-                    selection.append((i,j))
-
-        return selection
-
-    def fillCells(self, indices, value):
-        """Fill cells with a given value.
-
-        indices    --  list of (i,j) tuples representing cell coordinates
-        value       --  string value to place into cells
-        """
-        for (i,j) in indices:
-            if not self.gridAtoms.IsReadOnly(i,j):
-                self.applyCellChange(i,j, value)
-        return
-
-    def isWholeRowSelected(self, row):
-        """Check whether a whole row is selected."""
-        for j in range(10):
-            if not self.gridAtoms.IsInSelection(row, j):
-                return False
-        return True
 
 # end of class PhaseConfigurePanel

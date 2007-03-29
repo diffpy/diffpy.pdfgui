@@ -145,6 +145,8 @@ class PlotPanel(wx.Panel, PDFPanel):
                     xdata.extend(cdata.getMetaDataNames())
                     xdata.extend(cdata.getYNames())
                 xdata.append('index')
+            elif 'temperature' in xdata:
+                xdata.remove('temperature')
                 
             xdata = dict.fromkeys(xdata).keys()
 
