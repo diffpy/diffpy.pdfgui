@@ -52,7 +52,7 @@ def version():
 def main():
     import getopt
     import diffpy.pdfgui.gui.pdfguiglobals as pdfguiglobals
-    dbopts = diffpy.pdfguiglobals.dbopts
+    dbopts = pdfguiglobals.dbopts
     dboptions = [ 'db-' + o[0]  for o in dbopts.alldebugoptions ]
     # default parameters
     try:
@@ -84,7 +84,7 @@ def main():
     # ready to go
     pdfguiglobals.cmdopts = opts
     pdfguiglobals.cmdargs = args
-    import diffpy.pdfgui
+    import diffpy.pdfgui as pdfgui
     pdfgui.main()
 
 if __name__ == "__main__":
