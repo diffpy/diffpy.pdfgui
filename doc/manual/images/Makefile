@@ -17,7 +17,7 @@ clean:
 
 # png to png
 %.png: originals/%.png
-	ln -s -- $< $@
+	ln -f -- $< $@
 
 # png to pdf
 %.pdf: originals/%.png
@@ -25,7 +25,7 @@ clean:
 
 # jpg to jpg
 %.jpg: originals/%.jpg
-	ln -sf -- $< $@
+	ln -f -- $< $@
 
 # jpg to pdf
 %.pdf: originals/%.jpg
