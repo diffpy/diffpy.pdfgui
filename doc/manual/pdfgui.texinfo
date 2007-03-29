@@ -1,0 +1,390 @@
+\input texinfo	@c -*-texinfo-*-
+
+@c $Id$
+
+@c start of header
+@setfilename pdfgui
+@settitle Beta release 01 April 2007
+@c @setcontentsaftertitlepage
+@c end of header
+
+@c Part 1: copying
+@copying
+Copyright @copyright{} 2006, 2007, trustees of Michigan State University,
+all rights reserved.
+@end copying
+
+@c Part 2: title
+@titlepage
+
+@title PDFgui user guide
+@subtitle Beta release
+@subtitle 01 April 2007
+@author C. L. Farrow, P. Juh@'as, J. W. Liu, D. Bryndin, E. S. Bo@v{z}in,
+@author J. Bloch, Th. Proffen, and S. J. L. Billinge
+
+@page
+@vskip 0pt plus 1filll
+@c @insertcopying
+
+@heading Acknowledgements
+
+PDFgui was developed as part of the Distributed Analysis of Neutron
+Scattering Data (DANSE) project which is funded by NSF under DMR-0520547.
+The PDFfit2 development was funded by NSF under contract DMR-0304391.
+The program is part of the DiffPy and DANSE open-source projects at
+Michigan State University and is available subject to the conditions
+and terms laid out below.
+@bigskip
+If you use this program to do productive scientific research that leads
+to publication, we ask that you acknowledge use of the program by citing
+the following paper in your publication:
+@bigskip
+@enumerate
+
+@item
+Th. Proffen and S. J. L. Billinge, PDFFIT a program for full profile
+structural refinement of the atomic pair distribution function,
+J. Appl. Crystallogr. @b{32}, 572-575 (1999).
+
+@c @node def1
+
+@item
+C. L. Farrow, P. Juh@'as, J. W. Liu, D. Bryndin, E. S. Bo@v{z}in,
+J. Bloch, Th. Proffen and S. J. L. Billinge, PDFfit2 and PDFgui:
+Computer programs for studying nanostructure in crystals, J. Phys:
+Condens. Matter, submitted (2006).
+
+@end enumerate
+@bigskip
+Copyright @copyright{} 2006, 2007, trustees of Michigan State University,
+all rights reserved.
+@bigskip
+For more information please visit @url{http://danse.us/trac/diffraction}
+or contact Prof. Simon Billinge at @email{billinge@@pa.msu.edu}.
+
+@page
+@vskip 0pt plus 1filll
+@majorheading Preface
+@heading Using PDFGui and PDFfit2
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions
+are met:
+
+@bigskip
+
+Redistributions of source code must retain the above copyright
+notice, this list of conditions and the following disclaimer.
+
+@bigskip
+
+Redistributions in binary form must reproduce the above copyright
+notice, this list of conditions and the following disclaimer in the
+documentation and/or other materials provided with the distribution.
+
+@bigskip
+
+Neither the name of MICHIGAN STATE UNIVERSITY nor the names of its
+contributors may be used to endorse or promote products derived from
+this software without specific prior written permission.
+
+@heading Disclaimer
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+"AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT
+OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED
+TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+
+@end titlepage
+
+
+@c Part 3: content
+@contents
+
+
+@c if not TEX (for top)
+@ifnottex
+@c @node NODE-NAME, NEXT, PREVIOUS, UP
+
+@node Top
+@top
+
+We may have a menu in the top section of the manual
+
+@c menu
+@menu
+* Introduction::
+* Quick Start::
+@end menu
+
+@c  @insertcopying
+@end ifnottex
+
+
+@c chapter 1
+@c @node NODE-NAME, NEXT, PREVIOUS, UP
+@node    Introduction, PDFfit2, ,Top
+@chapter Introduction
+@cindex  Introduction
+
+PDFgui is a graphical interface built on the PDFfit2 engine, which
+is a program as well as library for real-space refinement of crystal
+structures. PDFgui organizes fits and simplifies many data analysis
+tasks, such as configuring and plotting multiple fits. PDFfit2 is
+capable of fitting a theoretical three dimensional structure to atomic
+pair distribution function data and is ideal for nanoscale investigations.
+The fit system accounts for lattice constants, atomic positions and
+anisotropic atomic displacement parameters, correlated atomic motion,
+and experimental factors that may affect the data. The atomic positions
+and thermal coefficients can be constrained to follow symmetry requirements
+of an arbitrary space group. The PDFfit2 engine is written in C++ and
+accessible via Python, allowing it to inter-operate with other Python
+programs.
+
+
+@c chapter 1 section 1
+@c @node NODE-NAME, NEXT, PREVIOUS, UP
+@node    PDFfit2, PDFgui, Introduction, Top
+@section PDFfit2
+@cindex  PDFfit2
+
+PDFfit2 is a major upgrade to PDFfit, and inherits many of its
+features.  PDFfit is capable of fitting a theoretical three-dimensional
+structure to an experimentally determined PDF. It can simultaneously
+fit multiple structures, accounting for different structural phases
+in a material. PDFfit has a constraint system that allows expressing
+structure variables as simple functions of fitted parameters.  PDFfit
+structure variables include lattice constants, data and phase scale
+factors, atomic site occupation, anisotropic atomic displacement
+parameters (ADPs), and atomic vibrational correlations. PDFfit has a built-in
+FORTRAN-style command language that understands simple FOR loops and
+some built in arithmetic functions.
+
+The original PDFfit was written in FORTRAN-77, which imposes some
+limitations on the program. For example, it uses fixed-size arrays
+for internal storage. This precludes the analysis of structures with
+large cells without modifying the code. Though the constraint system
+is powerful, it requires that a constraint equation be accompanied
+by its first derivative. This places the burden of determining the
+derivatives on the user, which can introduce errors that lead to
+instability in the convergence. Furthermore, the code is monolithic,
+not easily extensible and hard to integrate with external programs.
+
+The primary focus of PDFfit2 development was to remedy the limitations of
+PDFfitwhile extending its functionality. The old PDFfit engine has been
+completely rewritten in C++, and many bugs have been fixed.  The new engine
+uses dynamic memory allocation so that the size of the structure or extent
+of the fit-range of the PDF is limited only by the physical memory available.
+The constraint system has also been upgraded. The program @i{automatically}
+computes the analytical derivatives of the constraints thatare required by
+the minimization routine.  This simplifies user input and reduces the
+possibility of errors. In addition, new fitting parameters for handling
+dynamic atomic correlations and experimental resolution have been introduced
+as well.
+
+Instead of rewriting the PDFfit command interpreter, which is used to define
+thefitting problem and to control and run the refinement, its functions are
+carried out using the Python language (@url{www.python.org}).
+Python is a powerful, cross-platform, open-source interpreted programming
+language (i.e., it does not need to be compiled to run, similar to scripting)
+that emphasizes object-oriented and modular design. PDFfit2 scripts written in
+Python syntax take the place of PDFfit macros and the Python interpreter can
+handle everything that the old interpreter could, and more. Using Python as an
+interpreter allows PDFfit2 to be combined with and enhanced by other Python
+libraries.  We make use of this capability with PDFgui as described below.
+
+
+@c chapter 1 section 2
+@c @node NODE-NAME, NEXT, PREVIOUS, UP
+@node    PDFgui, Availability, PDFfit2, Top
+@section PDFgui
+@cindex  PDFgui
+
+The PDFfit2 engine can be used either directly from the Python
+command line, or as part of larger and more complex software
+applications. The first application built on PDFfit2 is PDFgui,
+a graphical environment for PDF fitting.
+
+@subsection Design principles
+
+PDFgui has been designed to provide users with an easy-to-use yet powerful
+interface for fitting structure models to PDF data. It makes use of an object
+oriented, component based architecture, which makes it highly extensible and
+maintainable.  This allows for powerful usability features such as real-time
+plotting and remote execution of the fitting program whilst visualizing the
+results locally.  PDFgui has been designed with multitasking in mind.  It is
+multi-threaded so that the work being done by the PDFfit2 engine does not
+interfere with the tasks of the user interface.
+
+PDFgui is written in the Python programming language. Python features a
+relaxed and friendly syntax, supports ``write once, run anywhere''
+portability, and has extensive libraries and modules for virtually every
+task. Software codes written in a variety of programming languages can be
+bound into Python, which allows them to be used together. Python is becoming
+a popular choice in the scientific computation community.
+
+PDFgui's interface is built using wxPython (@url{www.wxPython.org}), the
+Python package for wxWidgets, a mature cross-platform GUI library.  Graphical
+applications written in wxPython provide a look and feel native to the
+platform on which they are run.  PDFgui is designed to run on Windows, Mac
+OS, Linux, and all major Unix systems.
+
+@subsection Capabilities
+
+PDFgui contains all of the functionality of PDFfit2 along with additional
+enhancements for usability. Mundane tasks are handled by the program and
+difficult tasks are made simple. PDFgui can manage multiple fits at once.
+Eachfit can have multiple experimental data sets and structure models.
+Fits in a sequence can call upon other fits for their starting parameters,
+and configured fits can be queued to run while the user is away. All the
+initial, final, and intermediate data are stored in a platform independent
+project file that can be loaded on any computer. All management tasks, such
+as fit creation, configuration, modification, and visualization, can be done
+through the graphical interface.
+
+PDFgui can be configured to run fits on a remote computer. This uses the
+secure-shell protocol (ssh2) so that the connections are stable and secure.  In
+this distributed mode the core fitting computation does not compete for system
+resources with the graphical functions, which speeds up the fit over fast
+network connections and gives faster user response at the console.
+
+PDFgui supports space group operations.  Users can define an asymmetric unit
+and let PDFgui expand it to a full cell with all symmetry related positions.
+PDFguican also generate symmetry constraints for atom positions and atomic ADPs.
+Users just need to specify the space group, and the program will identify
+equivalent sites and generate constraint equations for their coordinates and
+temperature factors to keep the structure consistent with the symmetry
+requirements. This can be done either for all atoms in the structure or
+for an arbitrary subset - for example when it is known that only a certain
+species show a local distortion. The code for space group definitions was
+provided by the Python Macromolecular Library (mmLib,
+@url{pymmlib.sourceforge.net}).  PDFgui also supports supercell expansion
+of a normal unit cell.
+
+PDFgui uses the matplotlib (@url{matplotlib.sourceforge.net}) Python package
+for 2D plotting of data and results. Matplotlib has a friendly interface so
+the user can quickly and easily view the results of a fitting. PDFgui lets
+users plot data from a series of fits and plot it against selected metadata
+(temperature, doping, etc.), plot the results of several fits in the same
+window, plot the PDF in real time as the fitting is running, plot the
+parameters or variables in realtime as the refinement evolves, and save
+plots in common image formats or export the data to a text file.  PDFgui
+uses AtomEye (@url{http://164.107.79.177/Archive/Graphics/A/}) for 3D
+visualization.  The modular nature of PDFgui allows for other alternatives
+inthe future, such as PyMOL (@url{pymol.sourceforge.net}).
+
+PDFgui supports built-in macros for advanced fits. For example for a set of
+experimental data from one system at different temperatures or doping levels,
+PDFgui can expand a template fit to a series of related fits.  Another PDFgui
+macro makes it easy to set up boxcar fits, where the same model is fit over
+different $r$-ranges of the PDF data.
+
+@c chapter 1 section 3
+@c @node NODE-NAME, NEXT, PREVIOUS, UP
+@node    Availability, Installation, PDFgui, Top
+@section Availability
+@cindex  Availability
+
+PDFfit2 and PDFgui are open source and distributed under a BSD license.
+They runon Windows, Mac OS, Linux, and all major Unix systems. The source
+code is freelyavailable. For more information please contact Professor
+Simon Billinge (@email{billinge@@pa.msu.edu}) or consult the web-page
+@url{http://www.totalscattering.org}. News of updates and releases will
+be posted at this website and on the total-scattering email-list.
+Instructions for joining the email-list can be found on the web-page.
+
+@c chapter 1 section 4
+@c @node NODE-NAME, NEXT, PREVIOUS, UP
+@node    Installation, Quick start, Availability, Top
+@section Installation
+@cindex  Installation
+
+@b{NOTE: Detailed nstallation instructions come here}
+
+@c Start of Chapter 2
+@c @node NODE-NAME, NEXT, PREVIOUS, UP
+@node Quick Start, Simple Fit, Installation, Top
+@chapter Quick Start
+@cindex Demo of Graphic Object
+
+@c @node NODE-NAME, NEXT, PREVIOUS, UP
+@node Simple Fit
+@section Creating a simple fit using preexisting structure file
+@cindex Simple fit
+
+@node Symmetry Expansion
+@section Building structure model using crystal symmetry
+@cindex Building structure from scratch
+
+@float Figure,figure1-00
+@image{images/figure1-00}
+@caption{PDFgui window with Fit Tree and Plot Control panels left,
+main panel shows introductory message.}
+@end float
+
+@node Sequential Fitting
+@chapter Sequential Fitting
+@cindex Sequential Fitting
+
+section for sequential fitting comes here
+
+@node Temperature Series
+@section Sequential Fitting of Temperature Series
+@cindex sequential fitting
+@cindex temperature series
+
+It can support url, such as this is my @url{http://www.pa.msu.edu/~wdzhou,
+homepage, HOMEPAGE} (or shown as  @url{http://www.pa.msu.edu/~wdzhou,
+homepage}).  But in a pdf file, the url link fails.
+
+Then reference to a previous node, say @xref{Introduction}
+
+@node r-series
+@section Sequential fitting of an incremental r-series
+@cindex Sequential Fitting
+@cindex r-series
+
+For math, TeX can show the math equation, such as
+@tex
+$$ \chi^2 = \sum_{i=1}^N
+\left (y_i - (a + b x_i)
+\over \sigma_i\right)^2 $$
+@end tex
+This math equation cannot be shown in HTML
+
+The 'math' command has no effect on HTML or Info, and I haven't found TexInfo
+support superscript or subscript on the plain text which can be shown in HTML,
+therefore, it is hard (impossible?) to write a math equation in plain text in
+the HTML output.
+
+@c Start of Chapter 4
+@node PDF plotting
+@chapter PDF plotting
+@cindex PDF plotting
+
+@c Start of Chapter 5
+@node Structure plotting
+@chapter Displaying the refined structure
+@cindex Displaying the refined structure
+
+
+@c Start of Chapter 6
+@node PDFfit2 reference
+@chapter PDFfit2 reference manual
+@cindex PDFfit2 reference manual
+
+@c Ending of a TexInfo File
+@node Index, Top
+@unnumbered Index
+
+@printindex cp
+
+@bye
