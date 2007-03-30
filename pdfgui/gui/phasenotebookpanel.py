@@ -102,6 +102,8 @@ class PhaseNotebookPanel(wx.Panel, PDFPanel):
         event.Skip()
 
     def onNotebookPageChanging(self, event):
+        # This is not used, so...
+        return
         panel = self.notebook_phase.GetCurrentPage()
         self._isotropic = panel._isotropic
         event.Skip()

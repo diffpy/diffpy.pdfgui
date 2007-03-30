@@ -466,7 +466,7 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
         # Delete
         elif key == 127:
             indices = getSelectedAtoms(self)
-            selected = [i for i in indices if isWholeRowSelected(panel, i)]
+            selected = [i for i in indices if isWholeRowSelected(self, i)]
             if selected:
                 self.structure.deleteAtoms(indices)
                 self.refresh()

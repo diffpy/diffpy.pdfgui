@@ -84,8 +84,14 @@ class PDFPanel(object):
                 in dir(wx.Panel)]
         # filter out non-functions
         for name in funcNames:
-            if hasattr( getattr(self, name), '__call__'):
-                setattr(self, name, _funcBuilder(name))
+            # This is a workaround for a wxPython2.8 bug with dialogs where
+            # 'Dialog_GetAffirmativeId' throws an exception.
+            try:
+                obj = getattr(self, name)
+                if callable(obj):
+                    setattr(self, name, _funcBuilder(name))
+            except:
+                pass
 
         return
     
