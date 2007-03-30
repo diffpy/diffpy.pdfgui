@@ -39,6 +39,7 @@ from temperatureseriespanel import TemperatureSeriesPanel
 from dopingseriespanel import DopingSeriesPanel
 from serverpanel import ServerPanel
 from welcomepanel import WelcomePanel
+from outputpanel import OutputPanel
 from blankpanel import BlankPanel
 
 from wxExtensions.paneldialog import PanelDialog
@@ -170,6 +171,7 @@ class MainFrame(wx.Frame):
 
         self.treeCtrlMain = FitTree(self, -1, style=wx.TR_HAS_BUTTONS|wx.TR_NO_LINES|wx.TR_EDIT_LABELS|wx.TR_MULTIPLE|wx.TR_HIDE_ROOT|wx.TR_MULTIPLE|wx.TR_EXTENDED|wx.TR_DEFAULT_STYLE|wx.SUNKEN_BORDER)
         self.plotPanel = PlotPanel(self, -1)
+        self.outputPanel = OutputPanel(self, -1)
         self.panelDynamic = BlankPanel(self, -1)
 
         # Add panes to manager
@@ -190,6 +192,15 @@ class MainFrame(wx.Frame):
                           LeftDockable().
                           RightDockable().
                           BestSize(wx.Size(200,250)).
+                          MinSize(wx.Size(200,200)))
+        self._mgr.AddPane(self.outputPanel, PyAUI.PaneInfo().
+                          Name("outputPanel").Caption("PDFfit2 Output").
+                          Bottom().
+                          TopDockable().
+                          BottomDockable().
+                          LeftDockable().
+                          RightDockable().
+                          BestSize(wx.Size(600,250)).
                           MinSize(wx.Size(200,200)))
 
         self.__customProperties()
@@ -268,7 +279,7 @@ class MainFrame(wx.Frame):
     def __customProperties(self):
         """Custom Properties go here."""
         # Keep the splitter window from becoming unsplit
-        self.SetMinSize((800,600))
+        self.SetMinSize((820,900))
 
         # The panel should know its name
         self.name = pdfguiglobals.name
@@ -329,8 +340,8 @@ class MainFrame(wx.Frame):
                               PyAUI.PaneInfo().
                               Name(key).
                               CenterPane().
-                              BestSize(wx.Size(400,700)).
-                              MinSize(wx.Size(200,250)).
+                              BestSize(wx.Size(800,200)).
+                              MinSize(wx.Size(200,200)).
                               Hide())
             self.dynamicPanels[key].mainFrame = self
             self.dynamicPanels[key].treeCtrlMain = self.treeCtrlMain
@@ -563,6 +574,9 @@ class MainFrame(wx.Frame):
         self.showPlotItem = wx.MenuItem(self.windowsMenu, wx.NewId(), 
                 "Show Plot Control", "", wx.ITEM_NORMAL)
         self.windowsMenu.AppendItem(self.showPlotItem)
+        self.showOutputItem = wx.MenuItem(self.windowsMenu, wx.NewId(), 
+                "Show Output", "", wx.ITEM_NORMAL)
+        self.windowsMenu.AppendItem(self.showOutputItem)
         self.menuBar.Append(self.windowsMenu, "&Windows")
 
         # Help Menu
@@ -661,6 +675,7 @@ class MainFrame(wx.Frame):
         wx.EVT_MENU(self, self.defaultLayoutItem.GetId(), self.onDefaultLayout)
         wx.EVT_MENU(self, self.showFitItem.GetId(), self.onShowFit)
         wx.EVT_MENU(self, self.showPlotItem.GetId(), self.onShowPlot)
+        wx.EVT_MENU(self, self.showOutputItem.GetId(), self.onShowOutput)
 
         ## Fits Menu
         wx.EVT_MENU(self, self.newFitId, self.onNewFit)
@@ -1497,6 +1512,13 @@ class MainFrame(wx.Frame):
         else:
             self.showPlotItem.SetText("Show Plot Control")
 
+        # Show/Hide outputPanel
+        if self._mgr.GetPane("outputPanel").IsShown():
+            self.showOutputItem.SetText("Hide Output")
+        else:
+            self.showOutputItem.SetText("Show Output")
+
+
         return
         
 
@@ -1649,6 +1671,9 @@ class MainFrame(wx.Frame):
             elif self.treeCtrlMain.GetNodeType(node) == 'fit':
                 allnodes.expand(self.treeCtrlMain.GetChildren(node))
 
+        # Disable the current panel
+        self.rightPanel.Enable(False)
+
         # Change the color of the fitting nodes depending upon their status. See
         # onFittingStatusChanged for the color scheme. Create a dictionary of
         # fits for ease of use.
@@ -1659,6 +1684,7 @@ class MainFrame(wx.Frame):
                 name = self.treeCtrlMain.GetItemText(sel)
                 self.runningDict[name] = sel
         self.needsSave()
+
 
         IDlist = map(self.treeCtrlMain.GetControlData, allnodes)
         self.control.start(IDlist)
@@ -1705,6 +1731,15 @@ class MainFrame(wx.Frame):
             self._mgr.GetPane("plotPanel").Hide()
         else:
             self._mgr.GetPane("plotPanel").Show()
+        self._mgr.Update()
+        return
+
+    def onShowOutput(self, event):
+        """Make sure the fit tree is visible."""
+        if self._mgr.GetPane("outputPanel").IsShown():
+            self._mgr.GetPane("outputPanel").Hide()
+        else:
+            self._mgr.GetPane("outputPanel").Show()
         self._mgr.Update()
         return
 
@@ -2217,10 +2252,11 @@ class MainFrame(wx.Frame):
     def updateOutput(self):
         '''redirect received stdout to window'''
         import sys, cStringIO
-        outputwnd = self.dynamicPanels['fit'].outputPanel
+        outputwnd = self.outputPanel
         outputwnd.outputTextCtrl.AppendText(sys.stdout.getvalue())
         sys.stdout.close()
         sys.stdout = cStringIO.StringIO()
+        return
 
 # end of class MainPanel
 

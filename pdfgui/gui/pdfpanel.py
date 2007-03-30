@@ -15,6 +15,11 @@
 # version
 __id__ = "$Id$"
 
+import wx
+excluded = list(dir(wx.Panel))
+excluded.extend(list(dir(wx.Dialog)))
+excluded = dict.fromkeys(excluded).keys()
+
 def _abstract():
     """Raise a specific exception that referrs to the failing method."""
     import inspect
@@ -44,7 +49,6 @@ class PDFPanel(object):
         import traceback
         from errorreportdialog import ErrorReportDialog
         import pdfguiglobals
-        import wx
 
         # get access to controlerrors.py
         import sys,os
@@ -81,17 +85,12 @@ class PDFPanel(object):
             return _f
 
         funcNames = [item for item in dir(self) if item[:1] != '_' and item not
-                in dir(wx.Panel)]
+                in excluded]
         # filter out non-functions
         for name in funcNames:
-            # This is a workaround for a wxPython2.8 bug with dialogs where
-            # 'Dialog_GetAffirmativeId' throws an exception.
-            try:
-                obj = getattr(self, name)
-                if callable(obj):
-                    setattr(self, name, _funcBuilder(name))
-            except:
-                pass
+            obj = getattr(self, name)
+            if callable(obj):
+                setattr(self, name, _funcBuilder(name))
 
         return
     

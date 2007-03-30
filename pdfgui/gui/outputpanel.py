@@ -10,8 +10,6 @@ class OutputPanel(wx.Panel,PDFPanel):
         # begin wxGlade: OutputPanel.__init__
         kwds["style"] = wx.TAB_TRAVERSAL
         wx.Panel.__init__(self, *args, **kwds)
-        self.sizer_2_staticbox = wx.StaticBox(self, -1, "")
-        self.outputLabel = wx.StaticText(self, -1, "PDFfit2 Output")
         self.outputTextCtrl = wx.TextCtrl(self, -1, "", style=wx.TE_MULTILINE|wx.TE_READONLY|wx.HSCROLL)
 
         self.__set_properties()
@@ -21,15 +19,12 @@ class OutputPanel(wx.Panel,PDFPanel):
 
     def __set_properties(self):
         # begin wxGlade: OutputPanel.__set_properties
-        self.outputLabel.SetFont(wx.Font(18, wx.DEFAULT, wx.NORMAL, wx.BOLD, 0, ""))
         # end wxGlade
+        return
 
     def __do_layout(self):
         # begin wxGlade: OutputPanel.__do_layout
         sizer_1 = wx.BoxSizer(wx.VERTICAL)
-        sizer_2 = wx.StaticBoxSizer(self.sizer_2_staticbox, wx.HORIZONTAL)
-        sizer_2.Add(self.outputLabel, 0, wx.ALL|wx.ADJUST_MINSIZE, 5)
-        sizer_1.Add(sizer_2, 0, wx.ALL|wx.EXPAND, 5)
         sizer_1.Add(self.outputTextCtrl, 1, wx.ALL|wx.EXPAND|wx.ADJUST_MINSIZE, 5)
         self.SetAutoLayout(True)
         self.SetSizer(sizer_1)
@@ -48,6 +43,7 @@ class OutputPanel(wx.Panel,PDFPanel):
 
     def refresh(self):
         pass
+
 __id__ = "$Id$"
 # end of class OutputPanel
 

@@ -89,12 +89,19 @@ class PhaseNotebookPanel(wx.Panel, PDFPanel):
         panel.refresh()
         return
 
-    
     def onNotebookPageChanged(self, event):
         """Called after the page selection is changed."""
         self.focusedId = event.GetSelection()
         self.refresh()
         event.Skip()
+        return
+
+    # Overloaded from Panel.
+    def Enable(self, enable = True):
+        """Keep the notebook enabled, just not the panels."""
+        self.notebook_phase_pane_Configure.Enable(enable)
+        self.notebook_phase_pane_Constraints.Enable(enable)
+        self.notebook_phase_pane_Results.Enable(enable)
         return
 
 

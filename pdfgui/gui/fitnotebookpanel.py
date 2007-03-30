@@ -30,7 +30,6 @@ class FitNotebookPanel(wx.Panel, PDFPanel):
         self.fitnotebook = wx.Notebook(self, -1, style=0)
         self.parametersPanel = ParametersPanel(self.fitnotebook, -1)
         self.resultsPanel = ResultsPanel(self.fitnotebook, -1)
-        self.outputPanel = OutputPanel(self.fitnotebook, -1)
 
         self.__set_properties()
         self.__do_layout()
@@ -50,7 +49,6 @@ class FitNotebookPanel(wx.Panel, PDFPanel):
         sizer_1 = wx.BoxSizer(wx.HORIZONTAL)
         self.fitnotebook.AddPage(self.parametersPanel, "Parameters")
         self.fitnotebook.AddPage(self.resultsPanel, "Results")
-        self.fitnotebook.AddPage(self.outputPanel, "Output")
         sizer_1.Add(self.fitnotebook, 1, wx.EXPAND, 0)
         self.SetAutoLayout(True)
         self.SetSizer(sizer_1)
@@ -81,6 +79,15 @@ class FitNotebookPanel(wx.Panel, PDFPanel):
         panel.fit = self.fit
         panel.parameters = self.fit.parameters
         panel.refresh()
+
+    # Overloaded from Panel.
+    def Enable(self, enable = True):
+        """Keep the notebook enabled, just not the panels.
+        
+        outputPanel is immune from this, since it needs to be interacted with.
+        """
+        self.parametersPanel.Enable(enable)
+        return
 
 # end of class FitNotebookPanel
 __id__ = "$Id$"
