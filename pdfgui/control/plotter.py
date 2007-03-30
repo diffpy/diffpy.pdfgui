@@ -436,9 +436,13 @@ class Plotter(PDFComponent):
 
                     # Find the value of the baseline
                     GobsMin = min(dataIds[0].Gobs)
-                    GcalcMin = min(dataIds[0].Gcalc)
+                    GcalcMin = GobsMin
+                    if len(dataIds[0].Gcalc) > 1:
+                        GcalcMin = min(dataIds[0].Gcalc)
                     GMin = min(GobsMin, GcalcMin)
-                    GdiffMax = max(dataIds[0].Gdiff)
+                    GdiffMax = 0
+                    if len(dataIds[0].Gdiff) > 1:
+                        GdiffMax = max(dataIds[0].Gdiff)
                     vMin = 1.1*(GMin - GdiffMax)
                     
                     self.window.insertCurve([hMin, hMax], [vMin, vMin], baselineStyle)
