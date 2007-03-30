@@ -954,7 +954,7 @@ class MainFrame(wx.Frame):
         self.disableMainMenuItems()
         return
 
-    def onTreeSelChanged(self, event): # wxGlade: MainPanel.<event_handler>
+    def onTreeSelChanged(self, event):
         """Set the click behavior for each mode.
         
         "fitting" mode:
@@ -965,18 +965,15 @@ class MainFrame(wx.Frame):
         * The behavior is defined in the associated panel
         """
         # Make sure that the item is visible.
-        node = event.GetItem()
+        selections = self.treeCtrlMain.GetSelections()
+        node = selections[0]
         self.treeCtrlMain.EnsureVisible(node)
         self.treeCtrlMain.ScrollTo(node)
-
-        # Start by disabling certain items in the menu based upon what type if
-        # item is selected.
 
         # "fitting" mode 
         if self.mode == "fitting":
 
             # Don't change the panel if there are multiple items selected
-            selections = self.treeCtrlMain.GetSelections()
             if len(selections) == 1:
                 self.rightPanel.Enable()
                 selectiontype = self.treeCtrlMain.GetNodeType(selections[0])
@@ -985,12 +982,13 @@ class MainFrame(wx.Frame):
                 self.rightPanel.Enable(False)
 
             # Don't let the user edit the right panel of a running fit.
-            node = event.GetItem()
-            fp = self.treeCtrlMain.GetFitRoot(node)
-            if fp:
-                name = self.treeCtrlMain.GetItemText(fp)
-                if name in self.runningDict:
-                    self.rightPanel.Enable(False)
+            if event is not None:
+                node = event.GetItem()
+                fp = self.treeCtrlMain.GetFitRoot(node)
+                if fp:
+                    name = self.treeCtrlMain.GetItemText(fp)
+                    if name in self.runningDict:
+                        self.rightPanel.Enable(False)
 
             # Update the plotPanel
             self.plotPanel.refresh()

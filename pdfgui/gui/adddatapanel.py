@@ -135,8 +135,9 @@ class AddDataPanel(wx.Panel, PDFPanel):
 
             self.mainFrame.setMode("fitting")
             self.treeCtrlMain.SetItemBold(self.entrypoint, False)
-            self.treeCtrlMain.EditLabel(newnode)
+            self.treeCtrlMain.UnselectAll()
             self.treeCtrlMain.SelectItem(newnode)
+            self.mainFrame.onTreeSelChanged(None)
         d.Destroy()
         return
 
@@ -146,9 +147,9 @@ class AddDataPanel(wx.Panel, PDFPanel):
         if self.entrypoint is None: return
         self.mainFrame.setMode("fitting")
         self.treeCtrlMain.SetItemBold(self.entrypoint, False)
+        self.treeCtrlMain.UnselectAll()
         self.treeCtrlMain.SelectItem(self.entrypoint)
-        entrytype = self.treeCtrlMain.GetNodeType(self.entrypoint)
-        self.mainFrame.switchRightPanel(entrytype)
+        self.mainFrame.onTreeSelChanged(None)
         return 
 
     # Methods overloaded from PDFPanel

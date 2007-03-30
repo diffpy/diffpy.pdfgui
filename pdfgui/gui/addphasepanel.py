@@ -148,8 +148,9 @@ class AddPhasePanel(wx.Panel, PDFPanel):
 
             self.mainFrame.setMode("fitting")
             self.treeCtrlMain.SetItemBold(self.entrypoint, False)
-            self.treeCtrlMain.EditLabel(newnode)
+            self.treeCtrlMain.UnselectAll()
             self.treeCtrlMain.SelectItem(newnode)
+            self.mainFrame.onTreeSelChanged(None)
         d.Destroy()
         return
 
@@ -168,17 +169,19 @@ class AddPhasePanel(wx.Panel, PDFPanel):
         # Go to the new node
         self.mainFrame.setMode("fitting")
         self.treeCtrlMain.SetItemBold(self.entrypoint, False)
-        self.treeCtrlMain.EditLabel(newnode)
+        self.treeCtrlMain.UnselectAll()
         self.treeCtrlMain.SelectItem(newnode)
+        self.mainFrame.onTreeSelChanged(None)
+        self.treeCtrlMain.EditLabel(newnode)
         return
 
     def onCancel(self, event): # wxGlade: AddPhasePanel.<event_handler>
         """Cancel this addition. Go back to the last panel."""
         self.mainFrame.setMode("fitting")
         self.treeCtrlMain.SetItemBold(self.entrypoint, False)
+        self.treeCtrlMain.UnselectAll()
         self.treeCtrlMain.SelectItem(self.entrypoint)
-        entrytype = self.treeCtrlMain.GetNodeType(self.entrypoint)
-        self.mainFrame.switchRightPanel(entrytype)
+        self.mainFrame.onTreeSelChanged(None)
         return 
 
     # Methods overloaded from PDFPanel
