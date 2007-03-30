@@ -186,6 +186,7 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
         """Custom properties for the panel."""
         self.structure = None
         self.constraints = {}
+        self.results = None
         self._isotropic = False
         self._row = 0
         self._col = 0
@@ -286,8 +287,8 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
         id      --  textctrl id
         value   --  new value  
         """
-        if self.structure == None:
-            raise ControlValueError, "structure is not defined."
+        if self.structure == None: return
+            #raise ControlValueError, "structure is not defined."
         
         try:
             if   id == self.textCtrlA.GetId():
@@ -323,8 +324,8 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
         j       --  cell position
         value   --  new value  
         """
-        if self.structure == None:
-            raise ControlValueError, "structure is not defined."
+        if not self.mainFrame or self.structure == None: return
+            #raise ControlValueError, "structure is not defined."
 
         # The element name
         if j == 0:
@@ -377,6 +378,7 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
         
     def onKillFocus(self, event):
         """Check value of TextCtrl and update structure if necessary."""
+        if not self.mainFrame: return
         textctrl = event.GetEventObject()
         value = textctrl.GetValue()
 

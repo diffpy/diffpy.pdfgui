@@ -46,14 +46,13 @@ class PhaseNotebookPanel(wx.Panel, PDFPanel):
         self.__do_layout()
         
         self.notebook_phase.Bind(wx.EVT_NOTEBOOK_PAGE_CHANGED,  self.onNotebookPageChanged )
-        self.notebook_phase.Bind(wx.EVT_NOTEBOOK_PAGE_CHANGING, self.onNotebookPageChanging)
         
-        self.currentPage = "configuration"
         self._isotropic  = False
         self.configuration = None
         self.constraints   = {}
         self.results       = None
         self.mainFrame     = None
+        self.focusedId     = 0
 
         
     def __set_properties(self):
@@ -73,40 +72,30 @@ class PhaseNotebookPanel(wx.Panel, PDFPanel):
 
         
     def refresh(self):
-        ''' Refreshes the currently shown panel.'''
+        """Refreshes the currently shown panel."""
         if self.mainFrame.quitting: return
+        if self.focusedId is -1: return
 
-        panel = self.notebook_phase.GetCurrentPage()
-        id = panel.GetId()
+        panel = self.notebook_phase.GetPage(self.focusedId)
 
-        if id == self.notebook_phase_pane_Configure.GetId():
-            self.currentPage = "configuration"
-            self.notebook_phase_pane_Configure.structure = self.configuration
-            self.notebook_phase_pane_Configure.constraints = self.constraints
-        if id == self.notebook_phase_pane_Constraints.GetId():
-            self.currentPage = "constraints"
-            self.notebook_phase_pane_Constraints.structure = self.configuration
-            self.notebook_phase_pane_Constraints.constraints = self.constraints
-        if id == self.notebook_phase_pane_Results.GetId():
-            self.currentPage = "results"
-            self.notebook_phase_pane_Results.structure = self.results
+        panel.structure = self.configuration
+        panel.constraints = self.constraints
+        panel.results = self.results
 
+	# This has to be done here, because this panel does not know who it
+        # belongs to until after it is instantiated.
         panel.mainFrame = self.mainFrame
         panel._isotropic = self._isotropic
         panel.refresh()
+        return
 
     
     def onNotebookPageChanged(self, event):
-        '''Called when the page selection was changed.'''
+        """Called after the page selection is changed."""
+        self.focusedId = event.GetSelection()
         self.refresh()
         event.Skip()
-
-    def onNotebookPageChanging(self, event):
-        # This is not used, so...
         return
-        panel = self.notebook_phase.GetCurrentPage()
-        self._isotropic = panel._isotropic
-        event.Skip()
 
 
 # end of class PhaseNotebookPanel

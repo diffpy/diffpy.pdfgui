@@ -39,7 +39,6 @@ from temperatureseriespanel import TemperatureSeriesPanel
 from dopingseriespanel import DopingSeriesPanel
 from serverpanel import ServerPanel
 from welcomepanel import WelcomePanel
-
 from blankpanel import BlankPanel
 
 from wxExtensions.paneldialog import PanelDialog
@@ -59,8 +58,8 @@ from pdfguiglobals import iconsDir
 
 # README - Note that wx.TreeCtrl.GetSelections works differently in MSW than it
 # does in GTK. In GTK, it returns a list of nodes as they appear in the tree.
-# In MSW, it returns the list of nodes in the order in which they were
-# selected. This can lead to trouble if the order of selected nodes is
+# In MSW, it returns the list of nodes in some other order.
+# This can lead to trouble if the order of selected nodes is
 # important to a method.
 
 class MainFrame(wx.Frame):
@@ -193,7 +192,6 @@ class MainFrame(wx.Frame):
                           BestSize(wx.Size(200,250)).
                           MinSize(wx.Size(200,200)))
 
-        # The "Center" pane changes in response to tree selections
         self.__customProperties()
 
         self.Bind(wx.EVT_TREE_SEL_CHANGING, self.onTreeSelChanging, self.treeCtrlMain)
@@ -204,6 +202,7 @@ class MainFrame(wx.Frame):
         self.__cmdLineLoad()
         self.updateTitle()
 
+        self._mgr.Update()
         self.switchRightPanel("welcome")
         return
 
@@ -326,8 +325,13 @@ class MainFrame(wx.Frame):
         # Prepare the right pane. Display the welcome screen.
         self.rightPanel = self.panelDynamic
         for key in self.dynamicPanels:
-            self._mgr.AddPane(self.dynamicPanels[key], PyAUI.PaneInfo().Name(key).
-                              CenterPane().Hide())
+            self._mgr.AddPane(self.dynamicPanels[key], 
+                              PyAUI.PaneInfo().
+                              Name(key).
+                              CenterPane().
+                              BestSize(wx.Size(400,700)).
+                              MinSize(wx.Size(200,250)).
+                              Hide())
             self.dynamicPanels[key].mainFrame = self
             self.dynamicPanels[key].treeCtrlMain = self.treeCtrlMain
             self.dynamicPanels[key].cP = self.cP
@@ -863,7 +867,11 @@ class MainFrame(wx.Frame):
             try:
                 self._mgr.LoadPerspective(perspective)
             except:
-                pass
+                from windowperspective import default
+                self._mgr.LoadPerspective(default)
+        else:
+            from windowperspective import default
+            self._mgr.LoadPerspective(default)
 
         return
 
@@ -1682,6 +1690,7 @@ class MainFrame(wx.Frame):
         from windowperspective import default
         self._mgr.LoadPerspective(default)
         self._mgr.Update()
+        return
 
     def onShowFit(self, event):
         """Make sure the fit tree is visible."""

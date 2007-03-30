@@ -58,7 +58,7 @@ class PDFPanel(object):
                     return func(*args, **kwargs)
                 except ControlError, e:
                     message = str(e)
-                    if not self.mainFrame.quitting:
+                    if self.mainFrame and not self.mainFrame.quitting:
                         self.mainFrame.showMessage(message, 'Oops!')
                     else:
                         raise
@@ -70,7 +70,7 @@ class PDFPanel(object):
                     message = "".join(msglines)
                     dlg = ErrorReportDialog(self)
                     dlg.text_ctrl_log.SetValue(message)
-                    if not self.mainFrame.quitting:
+                    if self.mainFrame and not self.mainFrame.quitting:
                         dlg.ShowModal()
                         dlg.Destroy()
                     else:

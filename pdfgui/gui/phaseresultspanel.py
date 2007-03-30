@@ -164,11 +164,14 @@ class PhaseResultsPanel(wx.Panel, PDFPanel):
         """Custom properties for the panel."""
         # The resulting structure
         self.structure = None
+        self.constraints = {}
+        self.results = None
         self._isotropic = False
         return
     
     def refresh(self):
         """Refreshes wigets on the panel."""
+        self.structure = self.results
         phasepanelutils.refreshTextCtrls(self)
         phasepanelutils.refreshGrid(self)
         return
