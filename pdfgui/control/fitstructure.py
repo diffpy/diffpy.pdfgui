@@ -462,9 +462,9 @@ class FitStructure(PDFStructure):
             self.refined = PDFStructure(self.name)
             self.refined.readStr(z.read(subpath+'refined'), 'pdffit')
             
-        import cPickle
         if rootDict.has_key('constraints'):
-            self.constraints = cPickle.loads(z.read(subpath+'constraints'))
+            from pdfguicontrol import CtrlUnpickler
+            self.constraints = CtrlUnpickler.loads(z.read(subpath+'constraints'))
             translate = {'gamma' : 'delta1',  'delta' : 'delta2'}
             for old, new in translate.items():
                 if old in self.constraints:

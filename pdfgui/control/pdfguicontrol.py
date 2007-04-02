@@ -424,6 +424,7 @@ class PDFGuiControl:
         self.projfile = projfile
         organizations = []
         import zipfile
+        from cPickle import PickleError
         try:
             z = zipfile.ZipFile(projfile, 'r')
             z.fileTree = _nameParser(z.namelist())
@@ -460,7 +461,7 @@ class PDFGuiControl:
             z.close()
             return organizations
         
-        except (IOError, zipfile.error):
+        except (IOError, zipfile.error, PickleError):
             raise ControlFileError, "%s is invalid project file"%projfile
 
     def save(self, projfile=None):
@@ -477,6 +478,7 @@ class PDFGuiControl:
         import zipfile
         fitnames = []
         calcnames = []
+        from cPickle import PickleError
         try :
             z = zipfile.ZipFile(self.projfile, 'w', zipfile.ZIP_DEFLATED)
             for fit in self.fits: # also calculations
@@ -487,7 +489,8 @@ class PDFGuiControl:
                 z.writestr(projName +'/journal', self.journal)
             z.writestr(projName + '/fits','\n'.join(fitnames))
             z.close()
-        except IOError:
+            
+        except (IOError,PickleError):
             raise ControlFileError, "Error when writing to %s"%self.projfile
     
     def plot (self, xItem, yItems, Ids, shift = 1.0):
@@ -555,7 +558,49 @@ def pdfguicontrol(*args, **kwargs):
     if _pdfguicontrol is None:
         _pdfguicontrol = PDFGuiControl(*args, **kwargs)
     return _pdfguicontrol
+
+def _importByName ( mname, name ):
+    try:
+        module = __import__(mname, globals(), locals(), [name])
+    except ImportError:
+        return None
+    return getattr(module, name)
+
+def _find_global(moduleName, clsName):
+    #from diffpy.pdfgui.control.parameter import Parameter
+    moduleName = 'diffpy.pdfgui.control.' + moduleName.split('.')[-1]
+    m = _importByName(moduleName,clsName)
+    return m
     
+class _StaticMethod:
+    def __init__(self, func):
+        self.__call__ = func
+        
+class CtrlUnpickler:
+    '''Occasionally the project file may be generated on a platform where
+    PYTHONPATH is not correctly set up. CtrlUnpickler will transform the 
+    module path in the project file to be relative to diffpy so that it can
+    be safely loaded. Only constraints and parameters need this class to un-
+    pickle.
+    '''
+    def loads(s):
+        import cPickle
+        try:
+            return cPickle.loads(s)
+        except ImportError,err:
+            missedModule = str(err).split(' ')[-1]
+            if missedModule.find('pdfgui.control') == -1:
+                raise err
+            try:
+                from cStringIO import StringIO
+            except ImportError:
+                from StringIO import StringIO
+            f = StringIO(s)
+            unpickler = cPickle.Unpickler(f)
+            unpickler.find_global = _find_global
+            return unpickler.load()
+    loads = _StaticMethod(loads)
+        
 # version
 __id__ = "$Id$"
 

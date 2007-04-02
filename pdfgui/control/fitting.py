@@ -165,7 +165,8 @@ class Fitting(Organizer):
 
         import cPickle
         if rootDict.has_key('parameters'):
-            self.parameters = cPickle.loads(z.read(subpath+'parameters'))
+            from pdfguicontrol import CtrlUnpickler
+            self.parameters = CtrlUnpickler.loads(z.read(subpath+'parameters'))
         if rootDict.has_key('steps'):
             self.itemIndex, self.dataNameDict, self.snapshots = \
                     cPickle.loads(z.read(subpath+'steps'))

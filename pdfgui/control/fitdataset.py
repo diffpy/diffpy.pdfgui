@@ -398,7 +398,8 @@ class FitDataSet(PDFDataSet):
            
         # constraints
         if rootDict.has_key('constraints'):
-            self.constraints = cPickle.loads(z.read(subpath+'constraints'))
+            from pdfguicontrol import CtrlUnpickler
+            self.constraints = CtrlUnpickler.loads(z.read(subpath+'constraints'))
             #for k,v in constraints.items():
             #    self.constraints[k] = Constraint(v)
 
