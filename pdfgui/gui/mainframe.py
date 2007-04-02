@@ -1146,13 +1146,14 @@ class MainFrame(wx.Frame):
             wx.TREE_HITTEST_ABOVE,wx.TREE_HITTEST_BELOW,wx.TREE_HITTEST_NOWHERE]:
                 # The hit is not on an item.
                 self.treeCtrlMain.UnselectAll()
+                self.switchRightPanel('blank')
                 selections = []
             # Select the item with a right click, but don't add it to an
             # existing selection.
             elif node not in selections:
                 self.treeCtrlMain.UnselectAll()
                 self.treeCtrlMain.SelectItem(node)
-                selections = self.treeCtrlMain.GetSelections()
+                selections = [node]
             itemtype = self.treeCtrlMain.GetNodeType(node)
             # Enable/Disable certain entries based upon where we clicked.
             self.disableSharedMenuItems(menu)
@@ -1660,7 +1661,6 @@ class MainFrame(wx.Frame):
         selections = self.treeCtrlMain.GetSelections()
         nodes = [sel for sel in selections if self.treeCtrlMain.GetNodeType(sel) 
                     in ('fit', 'calculation')]
-        self.treeCtrlMain.UnselectAll()
 
         # Add calculation nodes that are children of fit nodes, and order them
         # as if walking down the fit tree
@@ -1696,14 +1696,13 @@ class MainFrame(wx.Frame):
         This removes all items from the runningDict and changes the status
         colors back to wxWHITE.
         """
-        self.treeCtrlMain.UnselectAll()
         self.control.stop()
         return
 
     def onServerConfig(self, event):
         """Switch the right panel to the 'serverconfig' panel.
         
-        The 'serverconfig' panel uses the 'fitting' mode.
+        The 'serverconfig' panel uses the 'config' mode.
         """
         self.setMode("config")
         self.switchRightPanel("serverconfig")
@@ -1726,7 +1725,7 @@ class MainFrame(wx.Frame):
         return
 
     def onShowPlot(self, event):
-        """Make sure the fit tree is visible."""
+        """Make sure the plot panel is visible."""
         if self._mgr.GetPane("plotPanel").IsShown():
             self._mgr.GetPane("plotPanel").Hide()
         else:
@@ -1735,7 +1734,7 @@ class MainFrame(wx.Frame):
         return
 
     def onShowOutput(self, event):
-        """Make sure the fit tree is visible."""
+        """Make sure the output panel is visible."""
         if self._mgr.GetPane("outputPanel").IsShown():
             self._mgr.GetPane("outputPanel").Hide()
         else:
@@ -2240,20 +2239,20 @@ class MainFrame(wx.Frame):
                 self.treeCtrlMain.SetItemBackgroundColour(node,
                         wx.NamedColour('WHITE'))
                 selections = self.treeCtrlMain.GetSelections()
-                if len(selections) == 1:
+                if len(selections) == 1: 
+                    # Enable whatever panel is currently being viewed.
+                    self.rightPanel.Enable()
                     if node == selections[0]:
-                        self.rightPanel.Enable()
+                        self.rightPanel.refresh()
                 self.runningDict.pop(name, None)
                 self.updateToolbar()
-                self.rightPanel.refresh()
 
         return
         
     def updateOutput(self):
-        '''redirect received stdout to window'''
+        """Update text in outputPanel with text in stdout."""
         import sys, cStringIO
-        outputwnd = self.outputPanel
-        outputwnd.outputTextCtrl.AppendText(sys.stdout.getvalue())
+        self.outputPanel.updateText(sys.stdout.getvalue())
         sys.stdout.close()
         sys.stdout = cStringIO.StringIO()
         return

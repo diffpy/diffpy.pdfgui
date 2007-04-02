@@ -125,6 +125,14 @@ class DataSetPanel(wx.Panel, PDFPanel):
         self.refreshSelectedPage()
         return
 
+    # Overloaded from Panel.
+    def Enable(self, enable = True):
+        """Keep the notebook enabled, just not the panels."""
+        self.configurePanel.Enable(enable)
+        self.constraintPanel.Enable(enable)
+        self.resultsPanel.Enable(enable)
+        return
+
 
 # end of class DataSetPanel
 

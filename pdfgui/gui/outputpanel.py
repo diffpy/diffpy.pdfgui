@@ -41,6 +41,12 @@ class OutputPanel(wx.Panel,PDFPanel):
         self.outputTextCtrl.SetFont(font)
         return
 
+
+    def updateText(self, text):
+        """Update the text in the window."""
+        self.outputTextCtrl.AppendText(text)
+        return
+
     def refresh(self):
         pass
 
