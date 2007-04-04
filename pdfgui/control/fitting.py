@@ -322,6 +322,8 @@ class Fitting(Organizer):
                                          dataset.stype.encode('ascii'), 
                                          dataset.qmax, 
                                          dataset.qsig)
+            self.server.setvar('qalp', dataset.qalp)
+            self.server.setvar('spdiameter', dataset.spdiameter)
             for key,var in dataset.constraints.items():
                 self.server.constrain(key.encode('ascii'), var.formula.encode('ascii'))
             self.server.pdfrange(seq, dataset.fitrmin, dataset.fitrmax)

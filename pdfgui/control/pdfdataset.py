@@ -26,29 +26,33 @@ class PDFDataSet(PDFComponent):
     """PDFDataSet is a class for experimental PDF data.
 
     Data members:
-        robs     -- list of observed r points
-        Gobs     -- list of observed G values
-        drobs    -- list of standard deviations of robs
-        dGobs    -- list of standard deviations of Gobs
-        stype    -- scattering type, 'X' or 'N'
-        qmax     -- maximum value of Q in inverse Angstroms.  Termination
-                    ripples are neglected for qmax=0.
-        qsig     -- specifies width of Gaussian damping factor in pdf_obs due
-                    to imperfect Q resolution
-        qalp     -- quadratic peak broadening factor related to dataset
-        dscale   -- scale factor of this dataset
-        rmin     -- same as robs[0]
-        rmax     -- same as robs[-1]
-        filename -- set to absolute path after reading from file
-        metadata -- dictionary for other experimental conditions, such as
-                    temperature or doping
+        robs       -- list of observed r points
+        Gobs       -- list of observed G values
+        drobs      -- list of standard deviations of robs
+        dGobs      -- list of standard deviations of Gobs
+        stype      -- scattering type, 'X' or 'N'
+        qmax       -- maximum value of Q in inverse Angstroms.  Termination
+                      ripples are neglected for qmax=0.
+        qsig       -- specifies width of Gaussian damping factor in pdf_obs due
+                      to imperfect Q resolution
+        qalp       -- quadratic peak broadening factor related to dataset
+        spdiameter -- particle diameter for shape damping function
+        dscale     -- scale factor of this dataset
+        rmin       -- same as robs[0]
+        rmax       -- same as robs[-1]
+        filename   -- set to absolute path after reading from file
+        metadata   -- dictionary for other experimental conditions, such as
+                      temperature or doping
 
     Global member:
         persistentItems -- list of attributes saved in project file
+        refinableVars   -- set (dict) of refinable variable names.
     """
 
     persistentItems = [ 'robs', 'Gobs', 'drobs', 'dGobs', 'stype', 'qmax',
-                     'qsig', 'qalp', 'dscale', 'rmin', 'rmax', 'metadata' ]
+                     'qsig', 'qalp', 'spdiameter', 'dscale', 'rmin', 'rmax',
+                     'metadata' ]
+    refinableVars = dict.fromkeys(('qsig', 'qalp', 'dscale', 'spdiameter'))
 
     def __init__(self, name):
         """Initialize.
@@ -70,6 +74,7 @@ class PDFDataSet(PDFComponent):
         self.qmax = 0.0
         self.qsig = 0.001
         self.qalp = 0.0
+        self.spdiameter = 0.0
         self.dscale = 1.0
         self.rmin = None
         self.rmax = None
@@ -82,12 +87,12 @@ class PDFDataSet(PDFComponent):
         Used by applyParameters().
 
         var   -- string representation of dataset PdfFit variable.
-                 Possible values: qsig, qalp, dscale
+                 Possible values: qsig, qalp, dscale, spdiameter
         value -- new value of the variable
         """
         barevar = var.strip()
         fvalue = float(value)
-        if barevar in ('qsig', 'qalp', 'dscale'):
+        if barevar in PDFDataSet.refinableVars:
             setattr(self, barevar, fvalue)
         else:
             raise ControlKeyError, \
@@ -99,12 +104,12 @@ class PDFDataSet(PDFComponent):
         Used by findParameters().
 
         var   -- string representation of dataset PdfFit variable.
-                 Possible values: qsig, qalp, dscale
+                 Possible values: qsig, qalp, dscale, spdiameter
 
         returns value of var
         """
         barevar = var.strip()
-        if barevar in ('qsig', 'qalp', 'dscale'):
+        if barevar in PDFDataSet.refinableVars:
             value = getattr(self, barevar)
         else:
             raise ControlKeyError, \
@@ -173,6 +178,11 @@ class PDFDataSet(PDFComponent):
         res = re.search(regexp, header, re.I)
         if res:
             self.qalp = float(res.groups()[0])
+        # spdiameter
+        regexp = r"\bspdiameter *= *(%(f)s)\b" % rx
+        res = re.search(regexp, header, re.I)
+        if res:
+            self.spdiameter = float(res.groups()[0])
         # dscale
         regexp = r"\bdscale *= *(%(f)s)\b" % rx
         res = re.search(regexp, header, re.I)
@@ -250,6 +260,8 @@ class PDFDataSet(PDFComponent):
         lines.append('qsig=%g' % self.qsig)
         # qalp
         lines.append('qalp=%g' % self.qalp)
+        # spdiameter
+        lines.append('spdiameter=%g' % self.spdiameter)
         # dscale
         lines.append('dscale=%g' % self.dscale)
         # metadata
@@ -280,7 +292,8 @@ class PDFDataSet(PDFComponent):
         # some attributes can be assigned, e.g., robs, Gobs, drobs, dGobs are
         # constant so they can be shared between copies.
         assign_attributes = ( 'robs', 'Gobs', 'drobs', 'dGobs', 'stype',
-                'qmax', 'qsig', 'qalp', 'dscale', 'rmin', 'rmax', 'filename' )
+                'qmax', 'qsig', 'qalp', 'spdiameter', 'dscale',
+                'rmin', 'rmax', 'filename' )
         # for others we will assign a copy
         copy_attributes = ( 'metadata', )
         for a in assign_attributes:

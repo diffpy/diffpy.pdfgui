@@ -39,7 +39,7 @@ class FitDataSet(PDFDataSet):
         Gtrunc      -- truncated Gobs from fitmin to fitmax
         Gdiff       -- difference curve, Gdiff = Gtrunc - Gcalc
 
-    Refinable variables:  qsig, qalp, dscale
+    Refinable variables:  qsig, qalp, dscale, spdiameter
     Note: self.refvar is the same as self.initial[refvar].
 
     Global member:
@@ -61,9 +61,9 @@ class FitDataSet(PDFDataSet):
         return
 
     def __setattr__(self, name, value):
-        """Assign qsig, qalp, dscale assign in self.initial.
+        """Assign refinable variables to self.initial, ignore Gtrunc and Gdiff.
         """
-        if name in ('qsig', 'qalp', 'dscale'):
+        if name in PDFDataSet.refinableVars:
             self.initial[name] = value
         elif name in ("Gtrunc", "Gdiff"):
             pass
@@ -72,10 +72,10 @@ class FitDataSet(PDFDataSet):
         return
 
     def __getattr__(self, name):
-        """Obtain qsig, qalp, dscale values from self.initial.
+        """Obtain refinable variables from self.initial.
         This is called only when normal attribute lookup fails.
         """
-        if name in ('qsig', 'qalp', 'dscale'):
+        if name in PDFDataSet.refinableVars:
             value = self.initial[name]
         elif name == "Gtrunc":
             if self.Gcalc == []:
@@ -178,7 +178,7 @@ class FitDataSet(PDFDataSet):
             sdGcalc = line.split()[3]
             self.dGcalc.append(float(sdGcalc))
         # dGcalc done here
-        for var in ('qsig', 'qalp', 'dscale'):
+        for var in PDFDataSet.refinableVars:
             self.refined[var] = server.getvar(var)
         return
 
@@ -268,6 +268,8 @@ class FitDataSet(PDFDataSet):
         lines.append('qsig=%g' % self.refined['qsig'])
         # qalp
         lines.append('qalp=%g' % self.refined['qalp'])
+        # spdiameter
+        lines.append('spdiameter=%g' % self.refined['spdiameter'])
         # dscale
         lines.append('dscale=%g' % self.refined['dscale'])
         # fitrmin, fitrmax
@@ -384,7 +386,7 @@ class FitDataSet(PDFDataSet):
         z       -- zipped project file
         subpath -- path to its own storage within project file
         """
-        #subpath = projname/fitname/dataset/myname/
+        self.clear()
         subs = subpath.split('/')
         rootDict = z.fileTree[subs[0]][subs[1]][subs[2]][subs[3]]
         import cPickle
@@ -394,7 +396,15 @@ class FitDataSet(PDFDataSet):
         # data from calculation
         content = cPickle.loads(z.read(subpath+'calc'))
         for item in self.persistentItems:
-            setattr(self, item, content.get(item, None))
+            # skip items which are not in the project file
+            if item not in content: continue
+            # update dictionaries so that old project files load fine
+            if item == 'initial':
+                self.initial.update(content[item])
+            elif item == 'refined':
+                self.refined.update(content[item])
+            else:
+                setattr(self, item, content[item])
            
         # constraints
         if rootDict.has_key('constraints'):

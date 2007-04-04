@@ -42,6 +42,8 @@ class Calculation(PDFComponent):
               are ignored for qmax=0.
     qsig   -- specifies width of Gaussian damping factor in pdf_obs due
               to imperfect Q resolution
+    qalp   -- quadratic peak broadening factor related to dataset
+    spdiameter -- particle diameter for shape damping function
     dscale -- total scale factor
     """
 
@@ -60,6 +62,8 @@ class Calculation(PDFComponent):
         # user must specify qmax to get termination ripples
         self.qmax = 0.0
         self.qsig = 0.001
+        self.qalp = 0.0
+        self.spdiameter = 0.0
         self.dscale = 1.0
         return
         
@@ -108,6 +112,8 @@ class Calculation(PDFComponent):
             server.setvar('pscale', self.owner.strucs[i].getvar('pscale'))
         server.alloc(self.stype, self.qmax, self.qsig,
                 self.rmin, self.rmax, self.rlen)
+        server.setvar('qsig', self.qsig)
+        server.setvar('qalp', self.qalp)
         server.calc()
         
         # get results
@@ -163,6 +169,12 @@ class Calculation(PDFComponent):
         # qsig
         if type(self.qsig) is types.FloatType:
             lines.append('qsig=%g' % self.qsig)
+        # qalp
+        if self.qalp:
+            lines.append('qalp=%g' % self.qalp)
+        # spdiameter
+        if self.spdiameter:
+            lines.append('spdiameter=%g' % self.spdiameter)
         # write data:
         lines.append('##### start data')
         lines.append('#L r(A) G(r)')
@@ -178,7 +190,7 @@ class Calculation(PDFComponent):
         z       -- zipped project file
         subpath -- path to its own storage within project file
         
-        returns a tree of internal hierachy        
+        returns a tree of internal hierachy
         """
         import cPickle
         config = cPickle.loads(z.read(subpath+'config'))
@@ -191,6 +203,8 @@ class Calculation(PDFComponent):
         self.stype = config['stype']
         self.qmax = config['qmax']
         self.qsig = config['qsig']
+        self.qalp = config.get('qalp', 0.0)
+        self.spdiameter = config.get('spdiameter', 0.0)
         self.dscale = config['dscale']
         return 
 
@@ -202,16 +216,18 @@ class Calculation(PDFComponent):
         """
         import cPickle
         config = {
-            'rmin'   : self.rmin,
-            'rstep'  : self.rstep,
-            'rmax'   : self.rmax,
-            'rlen'   : self.rlen,
-            'rcalc'  : self.rcalc,
-            'Gcalc'  : self.Gcalc,
-            'stype'  : self.stype,
-            'qmax'   : self.qmax,
-            'qsig'   : self.qsig,
-            'dscale' : self.dscale,
+            'rmin'       : self.rmin,
+            'rstep'      : self.rstep,
+            'rmax'       : self.rmax,
+            'rlen'       : self.rlen,
+            'rcalc'      : self.rcalc,
+            'Gcalc'      : self.Gcalc,
+            'stype'      : self.stype,
+            'qmax'       : self.qmax,
+            'qsig'       : self.qsig,
+            'qalp'       : self.qalp,
+            'spdiameter' : self.spdiameter,
+            'dscale'     : self.dscale,
         }
         z.writestr( subpath+'config',
                     cPickle.dumps(config, cPickle.HIGHEST_PROTOCOL) )
@@ -230,7 +246,8 @@ class Calculation(PDFComponent):
         # rcalc and Gcalc may be assigned, they get replaced by new lists
         # after every calculation
         assign_attributes = ( 'rmin', 'rstep', 'rmax', 'rlen',
-                'rcalc', 'Gcalc', 'stype', 'qmax', 'qsig', 'dscale', )
+                'rcalc', 'Gcalc', 'stype', 'qmax', 'qsig', 
+                'qalp', 'spdiameter', 'dscale', )
         copy_attributes = ( )
         for a in assign_attributes:
             setattr(other, a, getattr(self, a))
@@ -238,7 +255,6 @@ class Calculation(PDFComponent):
             setattr(other, a, copy.copy(getattr(self, a)))
         return other
 
-        
     def getYNames(self):
         """get names of data item which can be plotted as y
         

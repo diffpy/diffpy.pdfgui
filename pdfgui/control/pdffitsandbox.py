@@ -45,7 +45,7 @@ class PdfFitSandbox:
     # scattering type identifiers
     _Sctp = { 'X' : 0, 'N' : 1 }
     # dataset variables
-    _dataset_vars = ( 'qsig', 'qalp', 'dscale' )
+    _dataset_vars = ( 'qsig', 'qalp', 'spdiameter', 'dscale' )
 
     def __init__(self):
         self._fits = [ Fitting('0').stripped() ]
@@ -966,6 +966,15 @@ class PdfFitSandbox:
         Quadratic peak sharpening factor.
         """
         return "qalp"
+
+
+    def spdiameter(self):
+        """spdiameter() --> Get reference to spdiameter.
+
+        Diameter value for the spherical particle PDF correction. 
+        Spherical envelope is not applied when spdiameter equals 0.
+        """
+        return "spdiameter"
 
 
     def rcut(self):
