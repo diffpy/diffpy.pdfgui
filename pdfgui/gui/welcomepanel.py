@@ -24,7 +24,6 @@ class WelcomePanel(wx.Panel, PDFPanel):
         PDFPanel.__init__(self)
         kwds["style"] = wx.TAB_TRAVERSAL
         wx.Panel.__init__(self, *args, **kwds)
-        # FIXME - there has to be a better way to do this.
         line1 = '<font family="swiss" color="dark green" size="48" weight="bold">'
         line2 = 'PDFgui\n'
         line3 = '</font>'
@@ -51,13 +50,17 @@ Journal of Physics: Condensed Matter, in press
         self.__do_layout()
 
     def __set_properties(self):
-        self.SetSize((400, 300))
+        pass
 
     def __do_layout(self):
+        sizer_0 = wx.BoxSizer(wx.HORIZONTAL)
         sizer_1 = wx.BoxSizer(wx.VERTICAL)
-        sizer_1.Add(self.labelWelcome, 1, wx.ALL|wx.EXPAND|wx.ADJUST_MINSIZE, 0)
+        sizer_1.Add(self.labelWelcome, 1,
+                wx.ALL|wx.ALIGN_CENTER_HORIZONTAL|wx.ADJUST_MINSIZE, 0)
+        sizer_0.Add(sizer_1, 1,
+                wx.ALL|wx.ALIGN_CENTER_VERTICAL|wx.ADJUST_MINSIZE, 0)
         self.SetAutoLayout(True)
-        self.SetSizer(sizer_1)
+        self.SetSizer(sizer_0)
 
     # Methods overloaded from PDFPanel
     def refresh(self):

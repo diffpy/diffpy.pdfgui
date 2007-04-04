@@ -165,7 +165,7 @@ class MainFrame(wx.Frame):
         kwds["style"] = wx.DEFAULT_FRAME_STYLE
         wx.Frame.__init__(self, *args, **kwds)
 
-        # PyAUI docking stuff
+        self.SetMinSize((792,569))
         self._mgr = PyAUI.FrameManager()
         self._mgr.SetFrame(self)
 
@@ -173,35 +173,6 @@ class MainFrame(wx.Frame):
         self.plotPanel = PlotPanel(self, -1)
         self.outputPanel = OutputPanel(self, -1)
         self.panelDynamic = BlankPanel(self, -1)
-
-        # Add panes to manager
-        self._mgr.AddPane(self.treeCtrlMain, PyAUI.PaneInfo().
-                          Name("treeCtrlMain").Caption("Fit Tree").
-                          Left().
-                          TopDockable().
-                          BottomDockable().
-                          LeftDockable().
-                          RightDockable().
-                          BestSize(wx.Size(200,250)).
-                          MinSize(wx.Size(200,50)))
-        self._mgr.AddPane(self.plotPanel, PyAUI.PaneInfo().
-                          Name("plotPanel").Caption("Plot Control").
-                          Left().
-                          TopDockable().
-                          BottomDockable().
-                          LeftDockable().
-                          RightDockable().
-                          BestSize(wx.Size(200,250)).
-                          MinSize(wx.Size(200,200)))
-        self._mgr.AddPane(self.outputPanel, PyAUI.PaneInfo().
-                          Name("outputPanel").Caption("PDFfit2 Output").
-                          Bottom().
-                          TopDockable().
-                          BottomDockable().
-                          LeftDockable().
-                          RightDockable().
-                          BestSize(wx.Size(600,250)).
-                          MinSize(wx.Size(200,200)))
 
         self.__customProperties()
 
@@ -278,9 +249,6 @@ class MainFrame(wx.Frame):
 
     def __customProperties(self):
         """Custom Properties go here."""
-        # Keep the splitter window from becoming unsplit
-        self.SetMinSize((820,900))
-
         # The panel should know its name
         self.name = pdfguiglobals.name
 
@@ -340,8 +308,8 @@ class MainFrame(wx.Frame):
                               PyAUI.PaneInfo().
                               Name(key).
                               CenterPane().
-                              BestSize(wx.Size(800,200)).
-                              MinSize(wx.Size(200,200)).
+                              BestSize(wx.Size(400,380)).
+                              MinSize(wx.Size(190,200)).
                               Hide())
             self.dynamicPanels[key].mainFrame = self
             self.dynamicPanels[key].treeCtrlMain = self.treeCtrlMain
@@ -352,6 +320,36 @@ class MainFrame(wx.Frame):
         self.plotPanel.treeCtrlMain = self.treeCtrlMain
         self.plotPanel.cP = self.cP
         self.plotPanel.Enable(False)
+
+        # Position other panels
+        self._mgr.AddPane(self.outputPanel, PyAUI.PaneInfo().
+                          Name("outputPanel").Caption("PDFfit2 Output").
+                          Bottom().
+                          TopDockable().
+                          BottomDockable().
+                          LeftDockable().
+                          RightDockable().
+                          BestSize(wx.Size(400,40)).
+                          MinSize(wx.Size(200,40)))
+        self._mgr.AddPane(self.treeCtrlMain, PyAUI.PaneInfo().
+                          Name("treeCtrlMain").Caption("Fit Tree").
+                          Left().
+                          TopDockable().
+                          BottomDockable().
+                          LeftDockable().
+                          RightDockable().
+                          BestSize(wx.Size(190,100)).
+                          MinSize(wx.Size(190,40)))
+        self._mgr.AddPane(self.plotPanel, PyAUI.PaneInfo().
+                          Name("plotPanel").Caption("Plot Control").
+                          Left().
+                          TopDockable().
+                          BottomDockable().
+                          LeftDockable().
+                          RightDockable().
+                          BestSize(wx.Size(190,250)).
+                          MinSize(wx.Size(190,150)))
+
 
         # Continue with initialization
         self.__defineLocalIds()     # Ids for menu items
@@ -888,6 +886,13 @@ class MainFrame(wx.Frame):
             from windowperspective import default
             self._mgr.LoadPerspective(default)
 
+        if self.cP.has_section("SIZE"):
+            w = self.cP.get("SIZE", "width")
+            h = self.cP.get("SIZE", "height")
+            w = int(w)
+            h = int(h)
+            self.SetSize((w,h))
+
         return
 
     def updateConfiguration(self):
@@ -909,12 +914,21 @@ class MainFrame(wx.Frame):
 
         self.cP.set("SCRIPT", "lastimport", self.importscript)
 
+        # Window size
+        if not self.cP.has_section("SIZE"):
+            self.cP.add_section("SIZE")
+
+        w,h = self.GetSizeTuple()
+        self.cP.set("SIZE", "width", str(w))
+        self.cP.set("SIZE", "height", str(h))
+
         # Frame layout
         if not self.cP.has_section("PERSPECTIVE"):
             self.cP.add_section("PERSPECTIVE")
 
         perspective = self._mgr.SavePerspective()
         self.cP.set("PERSPECTIVE", "last", perspective)
+
         return
 
     def writeConfiguration(self):
@@ -1341,9 +1355,7 @@ class MainFrame(wx.Frame):
             elif clipbranchtype == "calculation":
                 pastename = "Calculation"
                 menu.Enable(self.pasteLinkId, False)
-            pastetext = "Paste %s" % pastename
-            if menu == self.menuBar:
-                pastetext = "&Paste %s\tCtrl+V" % pastename
+            pastetext = "&Paste %s\tCtrl+V" % pastename
             menu.SetLabel(self.pasteId, pastetext)
 
         # Disable certain entries based upon where we clicked.
@@ -1838,6 +1850,7 @@ class MainFrame(wx.Frame):
             self.treeCtrlMain.DeleteAllItems()
             self.treeCtrlMain.InitializeTree()
             self.switchRightPanel('welcome')
+            self.plotPanel.refresh()
             self.needsSave(False)
             self.fullpath = ""
         self.updateTitle()

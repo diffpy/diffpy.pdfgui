@@ -25,7 +25,7 @@ class OutputPanel(wx.Panel,PDFPanel):
     def __do_layout(self):
         # begin wxGlade: OutputPanel.__do_layout
         sizer_1 = wx.BoxSizer(wx.VERTICAL)
-        sizer_1.Add(self.outputTextCtrl, 1, wx.ALL|wx.EXPAND|wx.ADJUST_MINSIZE, 5)
+        sizer_1.Add(self.outputTextCtrl, 1, wx.ALL|wx.EXPAND|wx.ADJUST_MINSIZE, 0)
         self.SetAutoLayout(True)
         self.SetSizer(sizer_1)
         sizer_1.Fit(self)

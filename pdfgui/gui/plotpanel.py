@@ -49,7 +49,6 @@ class PlotPanel(wx.Panel, PDFPanel):
 
     def __set_properties(self):
         # begin wxGlade: PlotPanel.__set_properties
-        self.SetSize((450, 653))
         self.offsetLabel.SetToolTipString("The vertical gap between stacked plots")
         self.plotButton.SetToolTipString("Plot the selected data")
         self.plotButton.SetDefault()
@@ -63,16 +62,16 @@ class PlotPanel(wx.Panel, PDFPanel):
         sizer_6 = wx.BoxSizer(wx.HORIZONTAL)
         sizer_4 = wx.StaticBoxSizer(self.sizer_4_staticbox, wx.HORIZONTAL)
         sizer_3 = wx.StaticBoxSizer(self.sizer_3_staticbox, wx.HORIZONTAL)
-        sizer_3.Add(self.xDataCombo, 1, wx.ALL|wx.ADJUST_MINSIZE, 5)
+        sizer_3.Add(self.xDataCombo, 1, wx.LEFT|wx.RIGHT|wx.ADJUST_MINSIZE, 5)
         sizer_1.Add(sizer_3, 0, wx.EXPAND, 0)
-        sizer_4.Add(self.yDataList, 1, wx.ALL|wx.EXPAND, 5)
+        sizer_4.Add(self.yDataList, 1, wx.LEFT|wx.RIGHT|wx.ADJUST_MINSIZE|wx.EXPAND, 5)
         sizer_1.Add(sizer_4, 1, wx.EXPAND, 0)
         sizer_6.Add(self.offsetLabel, 0, wx.ALL|wx.ALIGN_CENTER_VERTICAL|wx.ADJUST_MINSIZE, 5)
         sizer_6.Add(self.offsetTextCtrl, 0, wx.ALL|wx.ALIGN_CENTER_VERTICAL|wx.ADJUST_MINSIZE, 5)
         sizer_1.Add(sizer_6, 0, wx.EXPAND, 0)
-        sizer_1.Add(self.static_line_1, 0, wx.TOP|wx.BOTTOM|wx.EXPAND, 5)
-        sizer_2.Add(self.plotButton, 0, wx.ALL|wx.ADJUST_MINSIZE, 5)
-        sizer_2.Add(self.resetButton, 0, wx.ALL|wx.ADJUST_MINSIZE, 5)
+        sizer_1.Add(self.static_line_1, 0, wx.BOTTOM|wx.EXPAND, 5)
+        sizer_2.Add(self.plotButton, 0, wx.LEFT|wx.RIGHT|wx.ADJUST_MINSIZE, 5)
+        sizer_2.Add(self.resetButton, 0, wx.LEFT|wx.RIGHT|wx.ADJUST_MINSIZE, 5)
         sizer_1.Add(sizer_2, 0, wx.EXPAND, 0)
         self.SetAutoLayout(True)
         self.SetSizer(sizer_1)
@@ -166,11 +165,19 @@ class PlotPanel(wx.Panel, PDFPanel):
             numericStringSort(xvals)
             
             # Fill the xDataCombo
+            current = self.xDataCombo.GetValue()
             self.xDataCombo.Clear()
             for item in xvals:
                 self.xDataCombo.Append(item)
-            if 'r' in xvals:
-                self.xDataCombo.SetValue('r')
+            # Either keep the current plot value selected, select 'r', or the
+            # first in the list.
+            if current in xvals:
+                val = current
+            elif 'r' in xvals:
+                val = 'r'
+            else:
+                val = xvals[0]
+            self.xDataCombo.SetValue(val)
 
             # Y-DATA
             ydata = []
@@ -251,8 +258,6 @@ class PlotPanel(wx.Panel, PDFPanel):
 
     def onReset(self, event): # wxGlade: PlotPanel.<event_handler>
         """Reset everything."""
-        self.xDataCombo.SetSelection(wx.NOT_FOUND)
-        self.yDataList.clearSelections()
         self.offsetTextCtrl.SetValue("3")
         self.refresh()
         return
