@@ -184,7 +184,8 @@ class ExtendedPlotFrame(wx.Frame):
     def UpdateStatusBar(self, event):
         if event.inaxes:
             x, y = event.xdata, event.ydata
-            self.statbar.SetStatusText(( "x= " + str(x) + "  y=" +str(y) ))
+            xystr = "x = %g, y = %g" % (x, y)
+            self.statbar.SetStatusText(xystr)
             
     def replot ( self ):
         """officially call function in matplotlib to do drawing
