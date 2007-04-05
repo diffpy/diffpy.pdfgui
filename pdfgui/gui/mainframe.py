@@ -995,6 +995,7 @@ class MainFrame(wx.Frame):
         """
         # Make sure that the item is visible.
         selections = self.treeCtrlMain.GetSelections()
+        if not selections: return
         node = selections[0]
         self.treeCtrlMain.EnsureVisible(node)
         self.treeCtrlMain.ScrollTo(node)
@@ -2001,21 +2002,18 @@ class MainFrame(wx.Frame):
 
     def onRSeries(self, event):
         """Open up the r-series panel."""
-        self.treeCtrlMain.UnselectAll()
         self.setMode("rseries")
         self.switchRightPanel("rseries")
         return
 
     def onTSeries(self, event):
         """Open up the temperature series panel."""
-        self.treeCtrlMain.UnselectAll()
         self.setMode("tseries")
         self.switchRightPanel("tseries")
         return
 
     def onDSeries(self, event):
         """Open up the doping series panel."""
-        self.treeCtrlMain.UnselectAll()
         self.setMode("dseries")
         self.switchRightPanel("dseries")
         return
