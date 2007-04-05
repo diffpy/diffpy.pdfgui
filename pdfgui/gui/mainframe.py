@@ -316,6 +316,7 @@ class MainFrame(wx.Frame):
             self.dynamicPanels[key].mainFrame = self
             self.dynamicPanels[key].treeCtrlMain = self.treeCtrlMain
             self.dynamicPanels[key].cP = self.cP
+            self.dynamicPanels[key].key = key
 
         # Do the same for the plotPanel
         self.plotPanel.mainFrame = self
@@ -1003,13 +1004,17 @@ class MainFrame(wx.Frame):
         "rseries", "tseries", "dseries" mode:
         * The behavior is defined in the associated panel
         """
-        # Make sure that the item is visible.
         selections = self.treeCtrlMain.GetSelections()
-        if not selections: return
+        if not selections: 
+            self.switchRightPanel("blank")
+            self.plotPanel.Enable(False)
+            return
+
         if event:
             node = event.GetItem()
         else:
             node = selections[0]
+        # Make sure that the item is visible.
         self.treeCtrlMain.EnsureVisible(node)
         self.treeCtrlMain.ScrollTo(node)
 
@@ -1698,11 +1703,12 @@ class MainFrame(wx.Frame):
                 allnodes.expand(self.treeCtrlMain.GetChildren(node))
 
         # Disable the current panel
-        self.rightPanel.Enable(False)
+        if self.rightPanel.key != "calculation":
+            self.rightPanel.Enable(False)
 
         # Change the color of the fitting nodes depending upon their status. See
-        # onFittingStatusChanged for the color scheme. Create a dictionary of
-        # fits for ease of use.
+        # updateFittingStatus for the color scheme. Create a dictionary of fits
+        # for ease of use.
         for sel in allnodes:
             if self.treeCtrlMain.GetNodeType(sel) == 'fit':
                 self.treeCtrlMain.SetItemBackgroundColour(sel,
@@ -1710,7 +1716,6 @@ class MainFrame(wx.Frame):
                 name = self.treeCtrlMain.GetItemText(sel)
                 self.runningDict[name] = sel
         self.needsSave()
-
 
         IDlist = map(self.treeCtrlMain.GetControlData, allnodes)
         self.control.start(IDlist)

@@ -40,6 +40,8 @@ class PDFPanel(object):
         # The configuration parser for reading and writing to the 
         # configuration file
         self.cP = None      
+        # key is used to determine the node type associated with the given panel.
+        self.key = ""
         # Wrap all events so that the exceptions get handled.
         self.__wrapEvents()
         return
