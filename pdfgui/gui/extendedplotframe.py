@@ -62,7 +62,6 @@ class ExtendedToolbar(NavToolbar):
         self.AddSimpleTool(wx.ID_CLOSE,
                _load_bitmap('stock_close.xpm'),
                'Close window', 'Close window')
-
 # End class ExtendedToolbar
 
 class ExtendedPlotFrame(wx.Frame):
@@ -102,22 +101,30 @@ class ExtendedPlotFrame(wx.Frame):
         self.sizer.Add(self.canvas, 1, wx.TOP|wx.LEFT|wx.EXPAND)
         self.toolbar = ExtendedToolbar(self.canvas, True)
         self.toolbar.Realize()
-
+        
+        self.statbar = wx.StatusBar(self,-1)
+        self.statbar.SetFieldsCount(1)
+        
         if wx.Platform == '__WXMAC__':
             # Mac platform (OSX 10.3, MacPython) does not seem to cope with
             # having a toolbar in a sizer. This work-around gets the buttons
             # back, but at the expense of having the toolbar at the top
             self.SetToolBar(self.toolbar)
+            self.SetStatusBar(self.statbar)
         else:
             # On Windows platform, default window size is incorrect, so set
             # toolbar width to figure width.
             tw, th = self.toolbar.GetSizeTuple()
+            sw, sh = self.statbar.GetSizeTuple()
             fw, fh = self.canvas.GetSizeTuple()
             # By adding toolbar in sizer, we are able to put it at the bottom
             # of the frame - so appearance is closer to GTK version.
             # As noted above, doesn't work for Mac.
-            self.toolbar.SetSize(wx.Size(fw, th))
-            self.sizer.Add(self.toolbar, 0, wx.LEFT | wx.EXPAND)
+            self.statbar.SetSize(wx.Size(fw-tw, sh))
+            barSizer = wx.BoxSizer(wx.HORIZONTAL)
+            self.sizer.Add(barSizer, 0, wx.EXPAND)
+            barSizer.Add(self.toolbar, 0, wx.CENTER)
+            barSizer.Add(self.statbar, 0, wx.CENTER|wx.EXPAND)
 
         # update the axes menu on the toolbar
         self.toolbar.update()  
@@ -125,11 +132,14 @@ class ExtendedPlotFrame(wx.Frame):
         self.Fit()
         self.SetSize((600,400))
   
+        self.canvas.mpl_connect('motion_notify_event', self.UpdateStatusBar)
         wx.EVT_PAINT(self, self.OnPaint)   
         wx.EVT_TOOL(self, DATA_SAVE_ID, self.savePlotData)
         wx.EVT_TOOL(self, wx.ID_CLOSE, self.onClose)
         wx.EVT_CLOSE(self, self.onClose)
         wx.EVT_TOOL(self, wx.ID_PRINT, self.onPrint)
+        wx.EVT_TOOL(self, wx.ID_PRINT_SETUP, self.onPrintSetup)
+        wx.EVT_TOOL(self, wx.ID_PREVIEW_PRINT, self.onPrintPreview)
         
         ## user initialization ##
         self.curverefs = []
@@ -164,8 +174,19 @@ class ExtendedPlotFrame(wx.Frame):
         
     def onPrint(self, evt):
         '''handle print event'''
-        self.canvas.Printer_Print(evt)
+        self.canvas.Printer_Print(event=evt)
+        
+    def onPrintSetup(self,event=None):
+        self.canvas.Printer_Setup(event=event)
 
+    def onPrintPreview(self,event=None):
+         self.canvas.Printer_Preview(event=event)
+
+    def UpdateStatusBar(self, event):
+        if event.inaxes:
+            x, y = event.xdata, event.ydata
+            self.statbar.SetStatusText(( "x= " + str(x) + "  y=" +str(y) ))
+            
     def replot ( self ):
         """officially call function in matplotlib to do drawing
         """
@@ -341,13 +362,13 @@ if __name__ == "__main__":
             c = cos(2*pi*x)
             t = sin(2*pi*x) + cos(2*pi*x)
             frame = ExtendedPlotFrame(None)
-            style = frame.buildLineStyle()
+            style = {'with':'lines', 'color':'blue','line':'solid','width':2}
             style['legend'] = 'sin(x)'
             frame.insertCurve(x,s, style)
-            style = frame.buildSymbolStyle()
+            style = {'with':'lines', 'color':'red','line':'solid','width':2}
             style['legend'] = 'cos(x)'
             frame.insertCurve(x,c, style)
-            style = frame.buildLineSymbolStyle()
+            style = {'with':'lines', 'color':'black','line':'solid','width':2}
             style['legend'] = 'sin(x)+cos(x)'
             frame.insertCurve(x,t, style)
             frame.Show(True)
