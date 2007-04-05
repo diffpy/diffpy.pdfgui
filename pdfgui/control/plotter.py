@@ -40,6 +40,14 @@ def _transName( name ):
         return '@'+str(name)
     else:
         return str(name)
+
+def _fullName ( dataId ):
+    '''construct full name'''
+    import fitting
+    if hasattr(dataId, 'owner') and isinstance(dataId.owner, fitting.Fitting):
+        return _fullName(dataId.owner) + "/" + dataId.name
+    else:
+        return dataId.name
         
 def _buildStyle(plotter, name, group):
     '''trying to figure out a good style
@@ -416,10 +424,11 @@ class Plotter(PDFComponent):
             _shift = shift 
             for y in yNames:
                 if len(dataIds) == 1 and group != -1:
-                    legend = dataIds[0].name  + ": " + _transName(y)
+                    #legend = dataIds[0].name  + ": " + _transName(y)
+                    legend = _fullName(dataIds[0]) + ": " + _transName(y)
                 else:
-                    # curve point is taken from multidata, no prefix applicable 
-                    # or there is only one dataIds so that prefix unneeded
+                    # 1.Group = -1, multiple ids give a single curve 
+                    # 2.there is only one dataId so that prefix unneeded
                     legend = _transName(y)
                 
                 style = _buildStyle(self, y, group)
