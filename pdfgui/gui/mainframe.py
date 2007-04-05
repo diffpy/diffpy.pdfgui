@@ -38,6 +38,7 @@ from rseriespanel import RSeriesPanel
 from temperatureseriespanel import TemperatureSeriesPanel
 from dopingseriespanel import DopingSeriesPanel
 from serverpanel import ServerPanel
+from preferencespanel import PreferencesPanel
 from welcomepanel import WelcomePanel
 from outputpanel import OutputPanel
 from blankpanel import BlankPanel
@@ -166,8 +167,8 @@ class MainFrame(wx.Frame):
         wx.Frame.__init__(self, *args, **kwds)
 
         self.SetMinSize((792,569))
-        self._mgr = PyAUI.FrameManager()
-        self._mgr.SetFrame(self)
+        self.auiManager = PyAUI.FrameManager()
+        self.auiManager.SetFrame(self)
 
         self.treeCtrlMain = FitTree(self, -1, style=wx.TR_HAS_BUTTONS|wx.TR_NO_LINES|wx.TR_EDIT_LABELS|wx.TR_MULTIPLE|wx.TR_HIDE_ROOT|wx.TR_MULTIPLE|wx.TR_EXTENDED|wx.TR_DEFAULT_STYLE|wx.SUNKEN_BORDER)
         self.plotPanel = PlotPanel(self, -1)
@@ -184,7 +185,7 @@ class MainFrame(wx.Frame):
         self.__cmdLineLoad()
         self.updateTitle()
 
-        self._mgr.Update()
+        self.auiManager.Update()
         self.switchRightPanel("welcome")
         return
 
@@ -296,6 +297,7 @@ class MainFrame(wx.Frame):
              "adddata"      :       AddDataPanel(self, -1),
              "addphase"     :       AddPhasePanel(self, -1),
              "serverconfig" :       ServerPanel(self, -1),
+             "preferences"  :       PreferencesPanel(self, -1),
              "rseries"      :       RSeriesPanel(self, -1),
              "tseries"      :       TemperatureSeriesPanel(self, -1),
              "dseries"      :       DopingSeriesPanel(self, -1),
@@ -304,7 +306,7 @@ class MainFrame(wx.Frame):
         # Prepare the right pane. Display the welcome screen.
         self.rightPanel = self.panelDynamic
         for key in self.dynamicPanels:
-            self._mgr.AddPane(self.dynamicPanels[key], 
+            self.auiManager.AddPane(self.dynamicPanels[key], 
                               PyAUI.PaneInfo().
                               Name(key).
                               CenterPane().
@@ -322,7 +324,7 @@ class MainFrame(wx.Frame):
         self.plotPanel.Enable(False)
 
         # Position other panels
-        self._mgr.AddPane(self.outputPanel, PyAUI.PaneInfo().
+        self.auiManager.AddPane(self.outputPanel, PyAUI.PaneInfo().
                           Name("outputPanel").Caption("PDFfit2 Output").
                           Bottom().
                           TopDockable().
@@ -331,7 +333,7 @@ class MainFrame(wx.Frame):
                           RightDockable().
                           BestSize(wx.Size(400,40)).
                           MinSize(wx.Size(200,40)))
-        self._mgr.AddPane(self.treeCtrlMain, PyAUI.PaneInfo().
+        self.auiManager.AddPane(self.treeCtrlMain, PyAUI.PaneInfo().
                           Name("treeCtrlMain").Caption("Fit Tree").
                           Left().
                           TopDockable().
@@ -340,7 +342,7 @@ class MainFrame(wx.Frame):
                           RightDockable().
                           BestSize(wx.Size(190,100)).
                           MinSize(wx.Size(190,40)))
-        self._mgr.AddPane(self.plotPanel, PyAUI.PaneInfo().
+        self.auiManager.AddPane(self.plotPanel, PyAUI.PaneInfo().
                           Name("plotPanel").Caption("Plot Control").
                           Left().
                           TopDockable().
@@ -670,7 +672,7 @@ class MainFrame(wx.Frame):
         wx.EVT_MENU(self, self.pasteLinkId, self.onPasteLink)
         wx.EVT_MENU(self, self.journalItem.GetId(), self.onJournal)
         #wx.EVT_MENU(self, self.servItem.GetId(), self.onServerConfig)
-        #wx.EVT_MENU(self, self.prefItem.GetId(), self.onPreferences)
+        wx.EVT_MENU(self, self.prefItem.GetId(), self.onPreferences)
         wx.EVT_MENU(self, self.defaultLayoutItem.GetId(), self.onDefaultLayout)
         wx.EVT_MENU(self, self.showFitItem.GetId(), self.onShowFit)
         wx.EVT_MENU(self, self.showPlotItem.GetId(), self.onShowPlot)
@@ -743,7 +745,7 @@ class MainFrame(wx.Frame):
 
         """
         for key in self.dynamicPanels:
-            self._mgr.GetPane(key).Hide()
+            self.auiManager.GetPane(key).Hide()
 
         if paneltype is None:
             paneltype = "blank"
@@ -751,8 +753,8 @@ class MainFrame(wx.Frame):
         self.rightPanel = self.dynamicPanels[paneltype]
         self.setPanelSpecificData(paneltype)
         self.rightPanel.refresh()
-        self._mgr.GetPane(paneltype).Show()
-        self._mgr.Update()
+        self.auiManager.GetPane(paneltype).Show()
+        self.auiManager.Update()
         self.updateToolbar()
         return
 
@@ -879,20 +881,27 @@ class MainFrame(wx.Frame):
         if self.cP.has_section("PERSPECTIVE"):
             perspective = self.cP.get("PERSPECTIVE", "last")
             try:
-                self._mgr.LoadPerspective(perspective)
+                self.auiManager.LoadPerspective(perspective)
             except:
                 from windowperspective import default
-                self._mgr.LoadPerspective(default)
+                self.auiManager.LoadPerspective(default)
         else:
             from windowperspective import default
-            self._mgr.LoadPerspective(default)
+            self.auiManager.LoadPerspective(default)
 
+        # Load the window dimensions
         if self.cP.has_section("SIZE"):
             w = self.cP.get("SIZE", "width")
             h = self.cP.get("SIZE", "height")
             w = int(w)
             h = int(h)
             self.SetSize((w,h))
+
+        # Load the atomeye path
+        path = ""
+        if self.cP.has_option("ATOMEYEPATH", "path"):
+            path = self.cP.get("ATOMEYEPATH", "path")
+        pdfguiglobals.atomeyepath = path
 
         return
 
@@ -927,7 +936,7 @@ class MainFrame(wx.Frame):
         if not self.cP.has_section("PERSPECTIVE"):
             self.cP.add_section("PERSPECTIVE")
 
-        perspective = self._mgr.SavePerspective()
+        perspective = self.auiManager.SavePerspective()
         self.cP.set("PERSPECTIVE", "last", perspective)
 
         return
@@ -997,7 +1006,10 @@ class MainFrame(wx.Frame):
         # Make sure that the item is visible.
         selections = self.treeCtrlMain.GetSelections()
         if not selections: return
-        node = selections[0]
+        if event:
+            node = event.GetItem()
+        else:
+            node = selections[0]
         self.treeCtrlMain.EnsureVisible(node)
         self.treeCtrlMain.ScrollTo(node)
 
@@ -1416,7 +1428,7 @@ class MainFrame(wx.Frame):
 
         # FIXME
         # Disable things that are not yet implemented.
-        menu.Enable(self.prefItem.GetId(), False)
+        #menu.Enable(self.prefItem.GetId(), False)
         menu.Enable(self.expFitItem.GetId(), False)
         #from diffpy.pdfgui.control.connection import RemoteExecution
         #menu.Enable(self.servItem.GetId(), RemoteExecution)
@@ -1516,19 +1528,19 @@ class MainFrame(wx.Frame):
 
 
         # Show/Hide fitTree
-        if self._mgr.GetPane("treeCtrlMain").IsShown():
+        if self.auiManager.GetPane("treeCtrlMain").IsShown():
             self.showFitItem.SetText("Hide Fit Tree")
         else:
             self.showFitItem.SetText("Show Fit Tree")
 
         # Show/Hide plotPanel
-        if self._mgr.GetPane("plotPanel").IsShown():
+        if self.auiManager.GetPane("plotPanel").IsShown():
             self.showPlotItem.SetText("Hide Plot Control")
         else:
             self.showPlotItem.SetText("Show Plot Control")
 
         # Show/Hide outputPanel
-        if self._mgr.GetPane("outputPanel").IsShown():
+        if self.auiManager.GetPane("outputPanel").IsShown():
             self.showOutputItem.SetText("Hide Output")
         else:
             self.showOutputItem.SetText("Show Output")
@@ -1713,6 +1725,16 @@ class MainFrame(wx.Frame):
         self.control.stop()
         return
 
+    def onPreferences(self, event):
+        """Switch the right panel to the 'preferences' panel.
+        
+        The 'preferences' panel uses the 'config' mode.
+        """
+        self.setMode("config")
+        self.switchRightPanel("preferences")
+        return
+
+
     def onServerConfig(self, event):
         """Switch the right panel to the 'serverconfig' panel.
         
@@ -1725,35 +1747,35 @@ class MainFrame(wx.Frame):
     def onDefaultLayout(self, event):
         """Place the fit tree and plot panel in default locations."""
         from windowperspective import default
-        self._mgr.LoadPerspective(default)
-        self._mgr.Update()
+        self.auiManager.LoadPerspective(default)
+        self.auiManager.Update()
         return
 
     def onShowFit(self, event):
         """Make sure the fit tree is visible."""
-        if self._mgr.GetPane("treeCtrlMain").IsShown():
-            self._mgr.GetPane("treeCtrlMain").Hide()
+        if self.auiManager.GetPane("treeCtrlMain").IsShown():
+            self.auiManager.GetPane("treeCtrlMain").Hide()
         else:
-            self._mgr.GetPane("treeCtrlMain").Show()
-        self._mgr.Update()
+            self.auiManager.GetPane("treeCtrlMain").Show()
+        self.auiManager.Update()
         return
 
     def onShowPlot(self, event):
         """Make sure the plot panel is visible."""
-        if self._mgr.GetPane("plotPanel").IsShown():
-            self._mgr.GetPane("plotPanel").Hide()
+        if self.auiManager.GetPane("plotPanel").IsShown():
+            self.auiManager.GetPane("plotPanel").Hide()
         else:
-            self._mgr.GetPane("plotPanel").Show()
-        self._mgr.Update()
+            self.auiManager.GetPane("plotPanel").Show()
+        self.auiManager.Update()
         return
 
     def onShowOutput(self, event):
         """Make sure the output panel is visible."""
-        if self._mgr.GetPane("outputPanel").IsShown():
-            self._mgr.GetPane("outputPanel").Hide()
+        if self.auiManager.GetPane("outputPanel").IsShown():
+            self.auiManager.GetPane("outputPanel").Hide()
         else:
-            self._mgr.GetPane("outputPanel").Show()
-        self._mgr.Update()
+            self.auiManager.GetPane("outputPanel").Show()
+        self.auiManager.Update()
         return
 
     def onJournal(self, event):
@@ -1926,7 +1948,7 @@ class MainFrame(wx.Frame):
             self.updateConfiguration()
             self.writeConfiguration()
             self.control.exit()
-            self._mgr.UnInit()
+            self.auiManager.UnInit()
             self.Destroy()
         return
 

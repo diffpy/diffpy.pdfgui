@@ -92,11 +92,17 @@ class AddDataPanel(wx.Panel, PDFPanel):
         'last'      --  The last dataset file added to the project. This is
                         stored in the class variable fullpath.
         """
-        # disabled in response to ticket #117
-        if self.cP.has_option("DATASET", "last"):
-            self.fullpath = self.cP.get("DATASET", "last")
-        else:
-            self.fullpath = ''
+        if self.cP.has_option("DATASET", "remember"):
+            remember = self.cP.get("DATASET", "remember")
+
+        if remember == "True":
+            if self.cP.has_option("DATASET", "last"):
+                self.fullpath = self.cP.get("DATASET", "last")
+                import os.path
+                if not os.path.exists(self.fullpath):
+                    self.fullpath = ''
+            else:
+                self.fullpath = ''
         return
 
     def updateConfiguration(self):
@@ -121,7 +127,7 @@ class AddDataPanel(wx.Panel, PDFPanel):
             self.fullpath = d.GetPath()
 
             # Update the configuration
-            #self.updateConfiguration()
+            self.updateConfiguration()
 
             # Add the item to the tree.
             (dir, name) = os.path.split(self.fullpath)
@@ -158,8 +164,7 @@ class AddDataPanel(wx.Panel, PDFPanel):
         
         Update the configuration
         """
-        # In response to ticket #117
-        #self.readConfiguration()
+        self.readConfiguration()
 
         selections = self.treeCtrlMain.GetSelections()
         entrypoint = selections[0]
