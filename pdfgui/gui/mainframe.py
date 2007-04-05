@@ -466,6 +466,25 @@ class MainFrame(wx.Frame):
         self.menuBar.Append(self.editMenu, "&Edit")
         # End Edit Menu
 
+        # Windows Menu
+        self.viewMenu = wx.Menu()
+        self.defaultLayoutItem = wx.MenuItem(self.editMenu, wx.NewId(), 
+                "Default Window Layout", "", wx.ITEM_NORMAL)
+        self.viewMenu.AppendItem(self.defaultLayoutItem)
+        self.viewMenu.AppendSeparator()
+        # These items are context sensitive.
+        self.showFitItem = wx.MenuItem(self.viewMenu, wx.NewId(), 
+                "Show Fit Tree", "", wx.ITEM_NORMAL)
+        self.viewMenu.AppendItem(self.showFitItem)
+        self.showPlotItem = wx.MenuItem(self.viewMenu, wx.NewId(), 
+                "Show Plot Control", "", wx.ITEM_NORMAL)
+        self.viewMenu.AppendItem(self.showPlotItem)
+        self.showOutputItem = wx.MenuItem(self.viewMenu, wx.NewId(), 
+                "Show Output", "", wx.ITEM_NORMAL)
+        self.viewMenu.AppendItem(self.showOutputItem)
+        self.menuBar.Append(self.viewMenu, "&View")
+
+
         # Fits Menu
         self.fitsMenu = wx.Menu()
         self.newFitItem = wx.MenuItem(self.fitsMenu, self.newFitId,
@@ -558,24 +577,6 @@ class MainFrame(wx.Frame):
         self.menuBar.Append(self.calcMenu, "Ca&lculations")
         # End Calculations Menu
 
-
-        # Windows Menu
-        self.windowsMenu = wx.Menu()
-        self.defaultLayoutItem = wx.MenuItem(self.editMenu, wx.NewId(), 
-                "Default Window Layout", "", wx.ITEM_NORMAL)
-        self.windowsMenu.AppendItem(self.defaultLayoutItem)
-        self.windowsMenu.AppendSeparator()
-        # These items are context sensitive.
-        self.showFitItem = wx.MenuItem(self.windowsMenu, wx.NewId(), 
-                "Show Fit Tree", "", wx.ITEM_NORMAL)
-        self.windowsMenu.AppendItem(self.showFitItem)
-        self.showPlotItem = wx.MenuItem(self.windowsMenu, wx.NewId(), 
-                "Show Plot Control", "", wx.ITEM_NORMAL)
-        self.windowsMenu.AppendItem(self.showPlotItem)
-        self.showOutputItem = wx.MenuItem(self.windowsMenu, wx.NewId(), 
-                "Show Output", "", wx.ITEM_NORMAL)
-        self.windowsMenu.AppendItem(self.showOutputItem)
-        self.menuBar.Append(self.windowsMenu, "&Windows")
 
         # Help Menu
         self.helpMenu = wx.Menu()

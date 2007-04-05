@@ -45,6 +45,10 @@ class DataSetConfigurePanel(wx.Panel, PDFPanel):
         self.textCtrlQsigma = wx.TextCtrl(self, -1, "0.0")
         self.labelQalpha = wx.StaticText(self, -1, "Qalpha", style=wx.ALIGN_RIGHT)
         self.textCtrlQalpha = wx.TextCtrl(self, -1, "0.0")
+        self.labelSpdiameter = wx.StaticText(self, -1, "Spdiameter")
+        self.textCtrlSpdiameter = wx.TextCtrl(self, -1, "0.0")
+        self.blank1 = wx.StaticText(self, -1, "")
+        self.blank2 = wx.StaticText(self, -1, "")
         self.labelTemperature = wx.StaticText(self, -1, "Temperature", style=wx.ALIGN_RIGHT)
         self.textCtrlTemperature = wx.TextCtrl(self, -1, "300.0")
         self.labelDoping = wx.StaticText(self, -1, "Doping", style=wx.ALIGN_RIGHT)
@@ -70,10 +74,10 @@ class DataSetConfigurePanel(wx.Panel, PDFPanel):
         # begin wxGlade: DataSetConfigurePanel.__do_layout
         sizer_1 = wx.BoxSizer(wx.HORIZONTAL)
         outerSizer = wx.BoxSizer(wx.VERTICAL)
-        grid_sizer_1 = wx.FlexGridSizer(6, 4, 5, 10)
+        grid_sizer_1 = wx.FlexGridSizer(7, 4, 5, 10)
         sizer_panelname = wx.StaticBoxSizer(self.sizer_panelname_staticbox, wx.HORIZONTAL)
-        sizer_panelname.Add(self.panelNameLabel, 0, wx.ALL|wx.ALIGN_CENTER_VERTICAL|wx.ADJUST_MINSIZE, 5)
-        outerSizer.Add(sizer_panelname, 0, wx.ALL|wx.EXPAND, 5)
+        sizer_panelname.Add(self.panelNameLabel, 0, wx.LEFT|wx.RIGHT|wx.ALIGN_CENTER_VERTICAL|wx.ADJUST_MINSIZE, 5)
+        outerSizer.Add(sizer_panelname, 0, wx.LEFT|wx.RIGHT|wx.EXPAND, 5)
         outerSizer.Add((450, 5), 0, wx.ADJUST_MINSIZE, 0)
         outerSizer.Add(self.radioBoxStype, 0, wx.ALL|wx.ALIGN_CENTER_VERTICAL|wx.ADJUST_MINSIZE, 5)
         grid_sizer_1.Add(self.labelDataRange, 0, wx.LEFT|wx.ALIGN_RIGHT|wx.ALIGN_CENTER_VERTICAL|wx.ADJUST_MINSIZE, 5)
@@ -92,6 +96,10 @@ class DataSetConfigurePanel(wx.Panel, PDFPanel):
         grid_sizer_1.Add(self.textCtrlQsigma, 0, wx.ALIGN_CENTER_VERTICAL|wx.ADJUST_MINSIZE, 0)
         grid_sizer_1.Add(self.labelQalpha, 0, wx.LEFT|wx.ALIGN_RIGHT|wx.ALIGN_CENTER_VERTICAL|wx.ADJUST_MINSIZE, 20)
         grid_sizer_1.Add(self.textCtrlQalpha, 0, wx.ALIGN_CENTER_VERTICAL|wx.ADJUST_MINSIZE, 0)
+        grid_sizer_1.Add(self.labelSpdiameter, 0, wx.ALIGN_CENTER_HORIZONTAL|wx.ALIGN_CENTER_VERTICAL|wx.ADJUST_MINSIZE, 0)
+        grid_sizer_1.Add(self.textCtrlSpdiameter, 0, wx.ALIGN_CENTER_VERTICAL|wx.ADJUST_MINSIZE, 0)
+        grid_sizer_1.Add(self.blank1, 0, wx.ADJUST_MINSIZE, 0)
+        grid_sizer_1.Add(self.blank2, 0, wx.ADJUST_MINSIZE, 0)
         grid_sizer_1.Add(self.labelTemperature, 0, wx.LEFT|wx.ALIGN_RIGHT|wx.ALIGN_CENTER_VERTICAL|wx.ADJUST_MINSIZE, 5)
         grid_sizer_1.Add(self.textCtrlTemperature, 0, wx.ALIGN_CENTER_VERTICAL|wx.ADJUST_MINSIZE, 0)
         grid_sizer_1.Add(self.labelDoping, 0, wx.LEFT|wx.ALIGN_RIGHT|wx.ALIGN_CENTER_VERTICAL|wx.ADJUST_MINSIZE, 20)
@@ -112,6 +120,7 @@ class DataSetConfigurePanel(wx.Panel, PDFPanel):
         self.constraints = {}
         self.stypeMap = {0: 'N', 1: 'X'}
         self.metaNames = ['doping', 'temperature']
+        self.constrainables = ['dscale', 'qsig', 'qalp', 'spdiameter']
 
         self.ctrlMap = {'fitrmin'       :   'textCtrlFitFrom',
                         'fitrmax'       :   'textCtrlFitTo',
@@ -121,6 +130,7 @@ class DataSetConfigurePanel(wx.Panel, PDFPanel):
                         'qmax'          :   'textCtrlQmax',
                         'qsig'          :   'textCtrlQsigma',
                         'qalp'          :   'textCtrlQalpha',
+                        'spdiameter'    :   'textCtrlSpdiameter',
                         'temperature'   :   'textCtrlTemperature',
                         'doping'        :   'textCtrlDoping',
                         }
@@ -129,6 +139,7 @@ class DataSetConfigurePanel(wx.Panel, PDFPanel):
                         'dscale'        :   'Data scaling factor',
                         'qsig'          :   'Resolution dampening factor',
                         'qalp'          :   'Peak broadening factor',
+                        'spdiameter'    :   'Spherical form factor diameter',
                         }
 
         # Give each textCtrl a name that can be referenced and setup the
@@ -156,6 +167,7 @@ class DataSetConfigurePanel(wx.Panel, PDFPanel):
         dscale          --  float
         qmax            --  float
         qsig            --  float
+        spdiameter      --  float
         rmin            --  float
         rmax            --  float
         fitrmin         --  float
@@ -195,7 +207,7 @@ class DataSetConfigurePanel(wx.Panel, PDFPanel):
         """Set 'read-only' boxes that correspond to constrained parameters."""
         if not self.constraints: return
 
-        for key in ['dscale', 'qsig', 'qalp']:
+        for key in self.constrainables:
             value = self.ctrlMap[key]
             textCtrl = getattr(self, value)
             if key in self.constraints:

@@ -29,16 +29,18 @@ class CalculationPanel(wx.Panel, PDFPanel):
         self.sizer_panelname_staticbox = wx.StaticBox(self, -1, "")
         self.panelNameLabel = wx.StaticText(self, -1, "Calculation Configuration")
         self.radioBoxStype = wx.RadioBox(self, -1, "Scatterer Type", choices=["Neutron", "X-ray"], majorDimension=2, style=wx.RA_SPECIFY_COLS)
-        self.labelCalcRange = wx.StaticText(self, -1, "Calculation Range", style=wx.ALIGN_RIGHT)
+        self.labelCalcRange = wx.StaticText(self, -1, "Range", style=wx.ALIGN_RIGHT)
         self.textCtrlCalcFrom = wx.TextCtrl(self, -1, "1.0")
         self.labelTo = wx.StaticText(self, -1, "to", style=wx.ALIGN_RIGHT)
         self.textCtrlCalcTo = wx.TextCtrl(self, -1, "10.0")
+        self.labelRStep = wx.StaticText(self, -1, "spacing", style=wx.ALIGN_RIGHT)
+        self.textCtrlRStep = wx.TextCtrl(self, -1, "0.05")
         self.labelQmax = wx.StaticText(self, -1, "Qmax", style=wx.ALIGN_RIGHT)
         self.textCtrlQmax = wx.TextCtrl(self, -1, "25.0")
         self.labelQsigma = wx.StaticText(self, -1, "Qsigma", style=wx.ALIGN_RIGHT)
         self.textCtrlQsigma = wx.TextCtrl(self, -1, "0.0")
-        self.labelRStep = wx.StaticText(self, -1, "R Spacing", style=wx.ALIGN_RIGHT)
-        self.textCtrlRStep = wx.TextCtrl(self, -1, "0.05")
+        self.labelSpdiameter = wx.StaticText(self, -1, "Spdiameter", style=wx.ALIGN_RIGHT)
+        self.textCtrlSpdiameter = wx.TextCtrl(self, -1, "0.0")
         self.exportButton = wx.Button(self, -1, "Export")
 
         self.__set_properties()
@@ -61,22 +63,24 @@ class CalculationPanel(wx.Panel, PDFPanel):
         # begin wxGlade: CalculationPanel.__do_layout
         sizer_1 = wx.BoxSizer(wx.HORIZONTAL)
         outerSizer = wx.BoxSizer(wx.VERTICAL)
-        grid_sizer_1 = wx.FlexGridSizer(6, 4, 5, 10)
+        grid_sizer_1 = wx.FlexGridSizer(4, 6, 5, 10)
         sizer_panelname = wx.StaticBoxSizer(self.sizer_panelname_staticbox, wx.HORIZONTAL)
-        sizer_panelname.Add(self.panelNameLabel, 0, wx.ALL|wx.ALIGN_CENTER_VERTICAL|wx.ADJUST_MINSIZE, 5)
-        outerSizer.Add(sizer_panelname, 0, wx.ALL|wx.EXPAND, 5)
+        sizer_panelname.Add(self.panelNameLabel, 0, wx.LEFT|wx.RIGHT|wx.ALIGN_CENTER_VERTICAL|wx.ADJUST_MINSIZE, 5)
+        outerSizer.Add(sizer_panelname, 0, wx.LEFT|wx.RIGHT|wx.EXPAND, 5)
         outerSizer.Add((450, 5), 0, wx.ADJUST_MINSIZE, 0)
         outerSizer.Add(self.radioBoxStype, 0, wx.ALL|wx.ALIGN_CENTER_VERTICAL|wx.ADJUST_MINSIZE, 5)
         grid_sizer_1.Add(self.labelCalcRange, 0, wx.LEFT|wx.ALIGN_RIGHT|wx.ALIGN_CENTER_VERTICAL|wx.ADJUST_MINSIZE, 5)
         grid_sizer_1.Add(self.textCtrlCalcFrom, 0, wx.ALIGN_CENTER_VERTICAL|wx.ADJUST_MINSIZE, 0)
         grid_sizer_1.Add(self.labelTo, 0, wx.LEFT|wx.ALIGN_RIGHT|wx.ALIGN_CENTER_VERTICAL|wx.ADJUST_MINSIZE, 20)
         grid_sizer_1.Add(self.textCtrlCalcTo, 0, wx.ALIGN_CENTER_VERTICAL|wx.ADJUST_MINSIZE, 0)
+        grid_sizer_1.Add(self.labelRStep, 0, wx.LEFT|wx.ALIGN_RIGHT|wx.ALIGN_CENTER_VERTICAL|wx.ADJUST_MINSIZE, 5)
+        grid_sizer_1.Add(self.textCtrlRStep, 0, wx.ALIGN_CENTER_VERTICAL|wx.ADJUST_MINSIZE, 0)
         grid_sizer_1.Add(self.labelQmax, 0, wx.LEFT|wx.ALIGN_RIGHT|wx.ALIGN_CENTER_VERTICAL|wx.ADJUST_MINSIZE, 20)
         grid_sizer_1.Add(self.textCtrlQmax, 0, wx.ALIGN_CENTER_VERTICAL|wx.ADJUST_MINSIZE, 0)
         grid_sizer_1.Add(self.labelQsigma, 0, wx.LEFT|wx.ALIGN_RIGHT|wx.ALIGN_CENTER_VERTICAL|wx.ADJUST_MINSIZE, 5)
         grid_sizer_1.Add(self.textCtrlQsigma, 0, wx.ALIGN_CENTER_VERTICAL|wx.ADJUST_MINSIZE, 0)
-        grid_sizer_1.Add(self.labelRStep, 0, wx.LEFT|wx.ALIGN_RIGHT|wx.ALIGN_CENTER_VERTICAL|wx.ADJUST_MINSIZE, 5)
-        grid_sizer_1.Add(self.textCtrlRStep, 0, wx.ALIGN_CENTER_VERTICAL|wx.ADJUST_MINSIZE, 0)
+        grid_sizer_1.Add(self.labelSpdiameter, 0, wx.LEFT|wx.ALIGN_RIGHT|wx.ALIGN_CENTER_VERTICAL|wx.ADJUST_MINSIZE, 5)
+        grid_sizer_1.Add(self.textCtrlSpdiameter, 0, wx.ALIGN_CENTER_VERTICAL|wx.ADJUST_MINSIZE, 0)
         outerSizer.Add(grid_sizer_1, 0, wx.ALL|wx.EXPAND, 5)
         outerSizer.Add(self.exportButton, 0, wx.ALL|wx.ALIGN_RIGHT|wx.ADJUST_MINSIZE, 5)
         sizer_1.Add(outerSizer, 1, wx.EXPAND, 0)
@@ -94,6 +98,7 @@ class CalculationPanel(wx.Panel, PDFPanel):
         self.textCtrlCalcTo.Bind(wx.EVT_KILL_FOCUS, self.onLoseFocus)
         self.textCtrlQmax.Bind(wx.EVT_KILL_FOCUS, self.onLoseFocus)
         self.textCtrlQsigma.Bind(wx.EVT_KILL_FOCUS, self.onLoseFocus)
+        self.textCtrlSpdiameter.Bind(wx.EVT_KILL_FOCUS, self.onLoseFocus)
         self.textCtrlRStep.Bind(wx.EVT_KILL_FOCUS, self.onRStep)
         self.calculation = None
         self.stypeMap = {0: 'N', 1: 'X'}
@@ -103,6 +108,7 @@ class CalculationPanel(wx.Panel, PDFPanel):
                         'qmax'       :   'textCtrlQmax',
                         'qsig'       :   'textCtrlQsigma',
                         'rstep'      :   'textCtrlRStep',
+                        'spdiameter' :   'textCtrlSpdiameter'
                         }
 
         # Give each textCtrl a name that can be referenced and setup the
@@ -135,17 +141,6 @@ class CalculationPanel(wx.Panel, PDFPanel):
                 textCtrl.SetValue('0.0')
         return
 
-    def processEvent(self, name):
-        textCtrl = getattr(self, self.ctrlMap[name])
-        value = textCtrl.GetValue()
-        value = self.__coerseText(value)
-        if name != "rstep":
-            setattr(self.calculation, name, value)
-        else:
-            self.calculation.setRGrid(rstep=value)
-        self.mainFrame.needsSave()
-        return
-
     def __coerseText(self, value):
         if not value:
             value = '0'
@@ -176,7 +171,6 @@ class CalculationPanel(wx.Panel, PDFPanel):
         setattr(self.calculation, name, value)
         self.mainFrame.needsSave()
         return
-
 
     def onExport(self, event): # wxGlade: CalculationPanel.<event_handler>
         event.Skip()

@@ -35,6 +35,8 @@ class DataSetConstraintPanel(wx.Panel, PDFPanel):
         self.textCtrlQsigma = wx.TextCtrl(self, -1, "")
         self.labelQalpha = wx.StaticText(self, -1, "Qalpha")
         self.textCtrlQalpha = wx.TextCtrl(self, -1, "")
+        self.labelSpdiameter = wx.StaticText(self, -1, "Spdiameter")
+        self.textCtrlSpdiameter = wx.TextCtrl(self, -1, "")
 
         self.__set_properties()
         self.__do_layout()
@@ -49,16 +51,18 @@ class DataSetConstraintPanel(wx.Panel, PDFPanel):
     def __do_layout(self):
         # begin wxGlade: DataSetConstraintPanel.__do_layout
         sizer_1 = wx.BoxSizer(wx.VERTICAL)
-        grid_sizer_1 = wx.FlexGridSizer(3, 2, 5, 10)
+        grid_sizer_1 = wx.FlexGridSizer(4, 2, 5, 10)
         sizer_panelname = wx.StaticBoxSizer(self.sizer_panelname_staticbox, wx.HORIZONTAL)
-        sizer_panelname.Add(self.panelNameLabel, 0, wx.ALL|wx.ALIGN_CENTER_VERTICAL|wx.ADJUST_MINSIZE, 5)
-        sizer_1.Add(sizer_panelname, 0, wx.ALL|wx.EXPAND, 5)
+        sizer_panelname.Add(self.panelNameLabel, 0, wx.LEFT|wx.RIGHT|wx.ALIGN_CENTER_VERTICAL|wx.ADJUST_MINSIZE, 5)
+        sizer_1.Add(sizer_panelname, 0, wx.LEFT|wx.RIGHT|wx.EXPAND, 5)
         grid_sizer_1.Add(self.labelScaleFactor, 0, wx.LEFT|wx.ALIGN_RIGHT|wx.ALIGN_CENTER_VERTICAL|wx.ADJUST_MINSIZE, 5)
         grid_sizer_1.Add(self.textCtrlScaleFactor, 0, wx.ALL|wx.ALIGN_CENTER_VERTICAL|wx.ADJUST_MINSIZE, 0)
         grid_sizer_1.Add(self.labelQsigma, 0, wx.LEFT|wx.ALIGN_RIGHT|wx.ALIGN_CENTER_VERTICAL|wx.ADJUST_MINSIZE, 5)
         grid_sizer_1.Add(self.textCtrlQsigma, 0, wx.ALL|wx.ALIGN_CENTER_VERTICAL|wx.ADJUST_MINSIZE, 0)
         grid_sizer_1.Add(self.labelQalpha, 0, wx.LEFT|wx.ALIGN_RIGHT|wx.ALIGN_CENTER_VERTICAL|wx.ADJUST_MINSIZE, 5)
         grid_sizer_1.Add(self.textCtrlQalpha, 0, wx.ALL|wx.ALIGN_CENTER_VERTICAL|wx.ADJUST_MINSIZE, 0)
+        grid_sizer_1.Add(self.labelSpdiameter, 0, wx.LEFT|wx.ALIGN_RIGHT|wx.ALIGN_CENTER_VERTICAL|wx.ADJUST_MINSIZE, 5)
+        grid_sizer_1.Add(self.textCtrlSpdiameter, 0, wx.ALL|wx.ALIGN_CENTER_VERTICAL|wx.ADJUST_MINSIZE, 0)
         sizer_1.Add(grid_sizer_1, 0, wx.ALL|wx.EXPAND, 5)
         self.SetAutoLayout(True)
         self.SetSizer(sizer_1)
@@ -70,9 +74,23 @@ class DataSetConstraintPanel(wx.Panel, PDFPanel):
 
     def __customProperties(self):
         self.constraints = {}
-        self.textCtrlScaleFactor.Bind(wx.EVT_KILL_FOCUS, self.onDscale)
-        self.textCtrlQsigma.Bind(wx.EVT_KILL_FOCUS, self.onQsigma)
-        self.textCtrlQalpha.Bind(wx.EVT_KILL_FOCUS, self.onQalpha)
+        self.ctrlMap = {
+                        'dscale'        :   'textCtrlScaleFactor',
+                        'qsig'          :   'textCtrlQsigma',
+                        'qalp'          :   'textCtrlQalpha',
+                        'spdiameter'    :   'textCtrlSpdiameter',
+                        }
+
+        # Give each textCtrl a name that can be referenced 
+        for (key, value) in self.ctrlMap.items():
+            textCtrl = getattr(self, value)
+            textCtrl.SetName(key)
+
+        # Setup the event code.
+        for ctrlName in self.ctrlMap.values():
+            textCtrl = getattr(self, ctrlName)
+            textCtrl.Bind(wx.EVT_KILL_FOCUS, self.onLoseFocus)
+        return
 
     def setConstraintsData(self):
         """Set the values in the constraints panel.
@@ -81,25 +99,15 @@ class DataSetConstraintPanel(wx.Panel, PDFPanel):
         dscale
         qsig
         qalp
+        spdiameter
         """
-        if 'dscale' in self.constraints:
-            dscale = self.constraints['dscale'].formula
-            self.textCtrlScaleFactor.SetValue(dscale)
-        else:
-            self.textCtrlScaleFactor.SetValue('')
-
-        if 'qsig' in self.constraints:
-            qsig = self.constraints['qsig'].formula
-            self.textCtrlQsigma.SetValue(qsig)
-        else:
-            self.textCtrlQsigma.SetValue('')
-
-        if 'qalp' in self.constraints:
-            qalp = self.constraints['qalp'].formula
-            self.textCtrlQalpha.SetValue(qalp)
-        else:
-            self.textCtrlQalpha.SetValue('')
-
+        for (par, ctrlName) in self.ctrlMap.items():
+            textCtrl = getattr(self, ctrlName)
+            if par in self.constraints:
+                val = self.constraints[par].formula
+                textCtrl.SetValue(val)
+            else:
+                textCtrl.SetValue('')
         return
 
     def processFormula(self, value, parname):
@@ -116,22 +124,17 @@ class DataSetConstraintPanel(wx.Panel, PDFPanel):
 
     # EVENT CODE #############################################################
 
-    def onDscale(self, event): # wxGlade: DataSetConstraintPanel.<event_handler>
-        value = self.textCtrlScaleFactor.GetValue()
-        self.processFormula(value, 'dscale')
-        self.refresh()
-        return
-
-    def onQsigma(self, event): # wxGlade: DataSetConstraintPanel.<event_handler>
-        value = self.textCtrlQsigma.GetValue()
-        self.processFormula(value, 'qsig')
-        self.refresh()
-        return
-
-    def onQalpha(self, event): # wxGlade: DataSetConstraintPanel.<event_handler>
-        value = self.textCtrlQalpha.GetValue()
-        self.processFormula(value, 'qalp')
-        self.refresh()
+    def onLoseFocus(self, event):
+        """Record the user's selection for the text ctrl data."""
+        textCtrl = event.GetEventObject()
+        value = textCtrl.GetValue()
+        par = textCtrl.GetName()
+        self.processFormula(value, par)
+        if par in self.constraints:
+            val = self.constraints[par].formula
+            textCtrl.SetValue(val)
+        else:
+            textCtrl.SetValue('')
         return
 
     # Methods overloaded from PDFPanel
@@ -139,8 +142,8 @@ class DataSetConstraintPanel(wx.Panel, PDFPanel):
         """Refresh the panel."""
         # Set the constraints data
         self.setConstraintsData()
-
         return
+
 # end of class DataSetConstraintPanel
 
 
