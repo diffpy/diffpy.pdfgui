@@ -504,9 +504,8 @@ class FitStructure(PDFStructure):
         
         returns a name str list
         """
-        # While FitDataSet has its own metadata, structure can only use
-        # it's owner, namely fitting's metadata
-        return self.owner.getMetaDataNames()
+        # in fact nothing
+        return []
     
     def getData(self, name, step = -1 ):
         """get self's data member

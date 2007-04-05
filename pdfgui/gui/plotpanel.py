@@ -125,8 +125,7 @@ class PlotPanel(wx.Panel, PDFPanel):
             #       -   All item types, but only if mutiple selections are chosen
             #            from different fits
             # cdata.getXNames() will provide the above names, except that 'step'
-            # and 'index' has to be added manually, and x,T have to be removed
-            # manually if they don't belong.
+            # and 'index' has to be added manually
             refs = [self.treeCtrlMain.GetControlData(node) for node in
             selections]
             if selectiontype == 'calculation':
@@ -142,11 +141,10 @@ class PlotPanel(wx.Panel, PDFPanel):
             if len(fits) > 1:
                 for cdata in fits:
                     xdata.extend(cdata.getMetaDataNames())
+                    # also can plot y against  y so add yNames as well
                     xdata.extend(cdata.getYNames())
                 xdata.append('index')
-            elif 'temperature' in xdata:
-                xdata.remove('temperature')
-                
+
             xdata = dict.fromkeys(xdata).keys()
 
             # Make the parameter entries a bit more presentable.
@@ -169,15 +167,16 @@ class PlotPanel(wx.Panel, PDFPanel):
             self.xDataCombo.Clear()
             for item in xvals:
                 self.xDataCombo.Append(item)
+                
+            # Set default value for xDataCombo
             # Either keep the current plot value selected, select 'r', or the
             # first in the list.
-            if current in xvals:
-                val = current
-            elif 'r' in xvals:
-                val = 'r'
+            for item in [current, 'r', 'step', 'index']:
+                if item in xvals:
+                    self.xDataCombo.SetValue(item)
+                    break
             else:
-                val = xvals[0]
-            self.xDataCombo.SetValue(val)
+                self.xDataCombo.SetSelection(0)
 
             # Y-DATA
             ydata = []

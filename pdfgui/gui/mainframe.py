@@ -2176,7 +2176,6 @@ class MainFrame(wx.Frame):
         return
 
     # control items
-
     def lock(self):
         if not wx.Thread_IsMain():
             wx.MutexGuiEnter()

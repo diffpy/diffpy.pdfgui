@@ -166,8 +166,7 @@ class ExtendedPlotFrame(wx.Frame):
             fullname = d.GetPath()
             self.dirname = os.path.dirname(fullname)
             self.filename =  os.path.basename(fullname)
-            
-        self.plotter.export(fullname)
+            self.plotter.export(fullname)
 
         d.Destroy()
         return

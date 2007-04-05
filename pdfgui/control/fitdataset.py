@@ -113,7 +113,7 @@ class FitDataSet(PDFDataSet):
         
         returns list of strings
         """
-        return self.metadata.keys() + ['r',]
+        return ['r',] 
 
     def getData(self, name, step = -1 ):
         """get self's data member
