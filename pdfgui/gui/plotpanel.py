@@ -82,6 +82,7 @@ class PlotPanel(wx.Panel, PDFPanel):
         """Custom Properties go here."""
         self.yDataList.InsertColumn(0, "Y data")
         self.offsetTextCtrl.SetValidator(TextValidator(FLOAT_ONLY,allowNeg=True))
+        self.prevSelectionType = None
 
         # Testing Code. Comment or delete this block when finished.
         #self.yDataList.InsertStringItem(sys.maxint, "y1")
@@ -171,7 +172,10 @@ class PlotPanel(wx.Panel, PDFPanel):
             # Set default value for xDataCombo
             # Either keep the current plot value selected, select 'r', or the
             # first in the list.
-            for item in [current, 'r', 'step', 'index']:
+            defaultOrders = [ 'r', 'step', 'index']
+            if selectiontype == self.prevSelectionType:
+                defaultOrders.insert(0, current)
+            for item in defaultOrders:
                 if item in xvals:
                     self.xDataCombo.SetValue(item)
                     break
@@ -194,6 +198,8 @@ class PlotPanel(wx.Panel, PDFPanel):
             self.yDataList.initializeSorter()
             if yvals:
                 self.yDataList.Select(0)
+                
+            self.prevSelectionType = selectiontype
 
         return
 
