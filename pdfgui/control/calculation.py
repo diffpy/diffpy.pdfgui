@@ -112,8 +112,8 @@ class Calculation(PDFComponent):
             server.setvar('pscale', self.owner.strucs[i].getvar('pscale'))
         server.alloc(self.stype, self.qmax, self.qsig,
                 self.rmin, self.rmax, self.rlen)
-        server.setvar('qsig', self.qsig)
         server.setvar('qalp', self.qalp)
+        server.setvar('spdiameter', self.spdiameter)
         server.calc()
         
         # get results
