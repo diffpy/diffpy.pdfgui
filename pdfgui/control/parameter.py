@@ -84,11 +84,11 @@ class Parameter:
         returns string in "=fitname:idx" or "%f" format
         """
         if type(self.__initial) is types.FloatType:
-            r = str(self.__initial)
+            s = str(self.__initial)
         else:
             self.__findLinkedFitting()
-            r = self.__initial
-        return r
+            s = self.__initial
+        return s
 
     def initialValue(self):
         """Convert initial value to float.
@@ -121,25 +121,25 @@ class Parameter:
         # Who needs regular expressions?
         try:
             if len(isplit) == 1:
-                idx = self.idx
+                srcidx = self.idx
                 fitname = self.__initial[1:]
             else:
-                idx = int(isplit[-1])
+                srcidx = int(isplit[-1])
                 fitname = (':'.join(isplit[:-1]))[1:]
         except ValueError:
-            # __initial should be in the form "=fitname:idx"
+            # __initial should be in the form "=fitname[:srcidx]"
             raise ControlError, \
                 "Malformed linked parameter %s" % self.__initial
         srcfit = self.__findLinkedFitting()
         if srcfit is None:
             raise ControlKeyError, \
                 "Fitting '%s' does not exist" % fitname
-        # Check to see 
+        # Check to see if srcfit has paramter srcidx
         try:
-            srcpar = srcfit.parameters[idx]
+            srcpar = srcfit.parameters[srcidx]
         except KeyError:
             raise ControlKeyError, \
-                "Fitting '%s' has no parameter %s" % (fitname, idx)
+                "Fitting '%s' has no parameter %s" % (fitname, srcidx)
 
         if srcpar.refined is not None:
             value = srcpar.refined
@@ -159,11 +159,12 @@ class Parameter:
         # Check to see if the fit name has a ':' in it
         isplit = self.__initial.split(':')
         try:
-            int(isplit[-1])
+            srcidx = int(isplit[-1])
             fitname = (':'.join(isplit[:-1]))[1:]
         except ValueError:
             fitname = self.__initial[1:]
-            self.__initial += ":%i" % self.idx
+            srcidx = self.idx
+            self.__initial += ":%i" % srcidx
         from pdfguicontrol import pdfguicontrol
         fits = pdfguicontrol().fits
         fitnames = [ f.name for f in fits ]
@@ -176,7 +177,7 @@ class Parameter:
         # if not found by name, look up by representation
         elif self.__fitrepr in fitrepres:
             idx = fitrepres.index(self.__fitrepr)
-            self.__initial = "=" + fitnames[idx]
+            self.__initial = "=%s:%i" % (fitnames[idx], srcidx)
             ref = fits[idx]
         # here self.__initial was not found, but let it pass
         # maybe the linked fitting will be defined later
