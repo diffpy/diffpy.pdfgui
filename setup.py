@@ -25,7 +25,8 @@ sys.path.pop(0)
 package_version = pdfgui.version.__version__
 
 # icons directory should be inside pdfgui/gui.  To do that, we need
-# data_files fix from http://wiki.python.org/moin/DistutilsInstallDataScattered
+# data_files fix from
+# http://wiki.python.org/moin/DistutilsInstallDataScattered
 from distutils.command.install_data import install_data
 class smart_install_data(install_data):
     def run(self):
@@ -52,13 +53,23 @@ setup_args = {
         "diffpy.pdfgui.gui.wxExtensions",
         ],
     "package_dir" : {"diffpy.pdfgui" : os.path.join(setup_dir, "pdfgui")},
-    "data_files" : [('diffpy/pdfgui/gui/icons', iconfiles)],
     "scripts" : [
         os.path.join(setup_dir, "applications/pdfgui"),
         os.path.join(setup_dir, "applications/pdfserver"),
         ],
-    "cmdclass" : { 'install_data' : smart_install_data },
 }
+
+# package_data argument is present for python 2.4 and later
+if sys.hexversion >= 0x020401F0:
+    setup_args.update({
+        "package_data" : {"diffpy.pdfgui" :  iconfiles},
+    })
+# for python 2.3 we use smart_install_data hack
+else:
+    setup_args.update({
+        "data_files" : [('diffpy/pdfgui/gui/icons', iconfiles)],
+        "cmdclass" : { 'install_data' : smart_install_data },
+    })
 
 diffpy__init__code = """
 """.lstrip()
