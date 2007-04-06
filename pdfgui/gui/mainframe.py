@@ -376,8 +376,10 @@ class MainFrame(wx.Frame):
         # Set the state of the program
         self.needsSave(False)
 
-        import sys,cStringIO
-        sys.stdout = cStringIO.StringIO()
+        # redirect engine output to cStringIO file
+        from diffpy.pdffit2 import redirect_stdout
+        import cStringIO
+        redirect_stdout(cStringIO.StringIO())
         return
 
     def __wrapEvents(self):
@@ -2308,10 +2310,11 @@ class MainFrame(wx.Frame):
         
     def updateOutput(self):
         """Update text in outputPanel with text in stdout."""
-        import sys, cStringIO
-        self.outputPanel.updateText(sys.stdout.getvalue())
-        sys.stdout.close()
-        sys.stdout = cStringIO.StringIO()
+        from diffpy.pdffit2 import output, redirect_stdout
+        self.outputPanel.updateText(output.stdout.getvalue())
+        output.stdout.close()
+        import cStringIO
+        redirect_stdout( cStringIO.StringIO() )
         return
 
 # end of class MainPanel

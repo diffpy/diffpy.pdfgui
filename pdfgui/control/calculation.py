@@ -119,8 +119,6 @@ class Calculation(PDFComponent):
         # get results
         self.rcalc = server.getR()
         self.Gcalc = server.getpdf_fit()
-        # this may go away later:
-        print 33*"=", "DONE", 33*"="
        
         # inform gui of change
         gui = self.owner.controlCenter.gui

@@ -348,7 +348,7 @@ class PDFGuiControl:
         # this should take care of proper shell quoting
         cmdwords = [pyexe, dumpscript, scriptfile] + args
         cmd = " ".join([repr(w.encode('ascii')) for w in cmdwords])
-        (i, o, e) = os.popen3(cmd)
+        (i, o, e) = os.popen3(cmd, mode='b')
         # close child standard input
         i.close()
         err = e.read()
