@@ -62,6 +62,46 @@ class ExtendedToolbar(NavToolbar):
         self.AddSimpleTool(wx.ID_CLOSE,
                _load_bitmap('stock_close.xpm'),
                'Close window', 'Close window')
+               
+    def save(self, evt):
+        # Fetch the required filename and file type.
+        filetypes = self.canvas._get_imagesave_wildcards()
+        exts = []
+        # sortedtypes put png in the first
+        sortedtypes = []
+        import re
+        types = filetypes.split('|')
+        n = 0
+        for ext in types[1::2]:
+            # Extract only the file extension
+            res = re.search( r'\*\.(\w+)', ext)
+            if re.search(r'png', ext):
+                sortedtypes.insert(0, ext)
+                sortedtypes.insert(0, types[n*2])
+                if res:
+                    exts.insert(0,res.groups()[0])
+            else:
+                sortedtypes.append(types[n*2])
+                sortedtypes.append(ext)
+                if res:
+                    exts.append(res.groups()[0])
+            n += 1
+        
+        # rejoin filetypes
+        filetypes = '|'.join(sortedtypes)
+        import sys
+        sys.stderr.write(filetypes)
+        dlg =wx.FileDialog(self._parent, "Save to file", "", "", filetypes,
+                           wx.SAVE|wx.OVERWRITE_PROMPT|wx.CHANGE_DIR)
+        if dlg.ShowModal() == wx.ID_OK:
+            dirname  = dlg.GetDirectory()
+            filename = dlg.GetFilename()
+            i = dlg.GetFilterIndex()
+            ext = exts[i]
+            if ( not filename.endswith(ext) ):
+                filename = filename + "." + ext
+            self.canvas.print_figure(os.path.join(dirname, filename))
+               
 # End class ExtendedToolbar
 
 class ExtendedPlotFrame(wx.Frame):
