@@ -766,6 +766,10 @@ class MainFrame(wx.Frame):
         for key in self.dynamicPanels:
             self.auiManager.GetPane(key).Hide()
 
+        # Why doesn't this work?
+        #key = self.rightPanel.key
+        #self.auiManager.GetPane(key).Hide()
+
         if paneltype is None:
             paneltype = "blank"
 
@@ -1737,6 +1741,10 @@ class MainFrame(wx.Frame):
         
         This also runs calculations that are children of a running fit.
         """
+        # Make sure that the tree is focued. This will trigger the KILL_FOCUS
+        # events of the other panels.
+        self.treeCtrlMain.SetFocus()
+
         selections = self.treeCtrlMain.GetSelections()
         nodes = [sel for sel in selections if self.treeCtrlMain.GetNodeType(sel) 
                     in ('fit', 'calculation')]
@@ -1967,6 +1975,10 @@ class MainFrame(wx.Frame):
 
     def onSave(self, event):
         """Save the project to a predetermined location."""
+        # Make sure that the tree is focued. This will trigger the KILL_FOCUS
+        # events of the other panels.
+        self.treeCtrlMain.SetFocus()
+
         code = wx.ID_OK
         if self.fullpath:
             self.control.save(self.fullpath)
@@ -1979,6 +1991,10 @@ class MainFrame(wx.Frame):
 
     def onSaveAs(self, event):
         """Open a save dialog so the current project can be saved."""
+        # Make sure that the tree is focued. This will trigger the KILL_FOCUS
+        # events of the other panels.
+        self.treeCtrlMain.SetFocus()
+
         matchstring = "PDFgui project files (*.ddp)|*.ddp|All Files|*"
         filename = os.path.basename(self.fullpath)
         dir = os.path.abspath('.')
