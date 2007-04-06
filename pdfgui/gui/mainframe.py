@@ -376,10 +376,6 @@ class MainFrame(wx.Frame):
         # Set the state of the program
         self.needsSave(False)
 
-        # redirect engine output to cStringIO file
-        from diffpy.pdffit2 import redirect_stdout
-        import cStringIO
-        redirect_stdout(cStringIO.StringIO())
         return
 
     def __wrapEvents(self):
@@ -1768,6 +1764,12 @@ class MainFrame(wx.Frame):
                 name = self.treeCtrlMain.GetItemText(sel)
                 self.runningDict[name] = sel
         self.needsSave()
+
+        # redirect engine output to cStringIO if not done yet
+        from diffpy.pdffit2 import redirect_stdout, output
+        if output.stdout is sys.stdout:
+            import cStringIO
+            redirect_stdout(cStringIO.StringIO())
 
         IDlist = map(self.treeCtrlMain.GetControlData, allnodes)
         self.control.start(IDlist)
