@@ -75,22 +75,17 @@ class ExtendedToolbar(NavToolbar):
         for ext in types[1::2]:
             # Extract only the file extension
             res = re.search( r'\*\.(\w+)', ext)
+            pos = n*2
             if re.search(r'png', ext):
-                sortedtypes.insert(0, ext)
-                sortedtypes.insert(0, types[n*2])
-                if res:
-                    exts.insert(0,res.groups()[0])
-            else:
-                sortedtypes.append(types[n*2])
-                sortedtypes.append(ext)
-                if res:
-                    exts.append(res.groups()[0])
+                pos = 0
+            sortedtypes.insert(pos, ext)
+            sortedtypes.insert(pos, types[n*2])
+            if res:
+                exts.insert(pos/2,res.groups()[0])
             n += 1
         
         # rejoin filetypes
         filetypes = '|'.join(sortedtypes)
-        import sys
-        sys.stderr.write(filetypes)
         dlg =wx.FileDialog(self._parent, "Save to file", "", "", filetypes,
                            wx.SAVE|wx.OVERWRITE_PROMPT|wx.CHANGE_DIR)
         if dlg.ShowModal() == wx.ID_OK:
