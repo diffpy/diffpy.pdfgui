@@ -250,6 +250,12 @@ class MainFrame(wx.Frame):
 
     def __customProperties(self):
         """Custom Properties go here."""
+        # Set some visual stuff
+        import os.path
+        icon = wx.Icon(os.path.join(iconsDir, "C60_16x16.gif"),
+                wx.BITMAP_TYPE_GIF)
+        self.SetIcon(icon)
+
         # The panel should know its name
         self.name = pdfguiglobals.name
 
@@ -324,7 +330,8 @@ class MainFrame(wx.Frame):
         self.plotPanel.cP = self.cP
         self.plotPanel.Enable(False)
 
-        # Position other panels
+        # Position other panels. Note that currently MinimizeButton does not do
+        # anything. It is to be implemented in future versions of PyAUI
         self.auiManager.AddPane(self.outputPanel, PyAUI.PaneInfo().
                           Name("outputPanel").Caption("PDFfit2 Output").
                           Bottom().
@@ -332,6 +339,7 @@ class MainFrame(wx.Frame):
                           BottomDockable().
                           LeftDockable().
                           RightDockable().
+                          MinimizeButton().
                           BestSize(wx.Size(400,40)).
                           MinSize(wx.Size(200,40)))
         self.auiManager.AddPane(self.treeCtrlMain, PyAUI.PaneInfo().
@@ -341,6 +349,7 @@ class MainFrame(wx.Frame):
                           BottomDockable().
                           LeftDockable().
                           RightDockable().
+                          MinimizeButton().
                           BestSize(wx.Size(190,100)).
                           MinSize(wx.Size(190,40)))
         self.auiManager.AddPane(self.plotPanel, PyAUI.PaneInfo().
@@ -350,6 +359,7 @@ class MainFrame(wx.Frame):
                           BottomDockable().
                           LeftDockable().
                           RightDockable().
+                          MinimizeButton().
                           BestSize(wx.Size(190,250)).
                           MinSize(wx.Size(190,150)))
 
