@@ -627,12 +627,21 @@ class MainFrame(wx.Frame):
                 wx.NullBitmap, wx.ITEM_NORMAL,
                 "Save this project")
         self.toolBar.AddSeparator()
+        # This will fix the shadowing problem on Windows, I hope.
+        bitmap = wx.Bitmap(os.path.join(iconsDir, "run2.png"))
+        mask = wx.Mask(bitmap, wx.Colour(red=255,green=255,blue=255))
+        bitmap.SetMask(mask)
         self.toolBar.AddLabelTool(self.runFitId, "Start",
-                wx.Bitmap(os.path.join(iconsDir, "run.png")),
+                bitmap,
+                #wx.Bitmap(os.path.join(iconsDir, "run2.png")),
                 wx.NullBitmap, wx.ITEM_NORMAL,
                 "Start a fit or calculation")
+        bitmap = wx.Bitmap(os.path.join(iconsDir, "stop2.png"))
+        mask = wx.Mask(bitmap, wx.Colour(red=255,green=255,blue=255))
+        bitmap.SetMask(mask)
         self.toolBar.AddLabelTool(self.stopFitId, "Stop",
-                wx.Bitmap(os.path.join(iconsDir, "stop.png")),
+                bitmap,
+                #wx.Bitmap(os.path.join(iconsDir, "stop2.png")),
                 wx.NullBitmap, wx.ITEM_NORMAL,
                 "Stop running fits or calculations")
         self.toolBar.AddSeparator()
