@@ -723,6 +723,7 @@ calculated PDF, use the @b{Export Selected Calculation} choice on the
 ``Calculations'' menu, after highlighting the performed calculation in 
 question on the Fit Tree. 
 
+@c Start of Chapter 3
 @c @node NODE-NAME, NEXT, PREVIOUS, UP
 @node Sequential fitting, Multistage fitting, Calculating PDF, Top
 @chapter Sequential fitting
@@ -771,7 +772,6 @@ several related fits. An example of this is shown in Figure @ref{figure3-1}.
 @caption{An example of linked fits. The output of a converged fit will 
 be fed into the succeeding fit in the sequence as an input.}
 @end float 
-
 
 Additional fit parameters can be introduced when needed to the new fit. If 
 our Ni example was used and copied in this exercise, one can select 
@@ -1019,7 +1019,8 @@ lattice parameters.
 
 
 @c Start of Chapter 4
-@node PDF plotting
+@c @node NODE-NAME, NEXT, PREVIOUS, UP
+@node PDF plotting, Displaying the structure, Doping series, Top
 @chapter PDF plotting
 @cindex PDF plotting
 
@@ -1056,7 +1057,8 @@ on the tool bar of the plotting window.}
 
 
 @c Start of Chapter 5
-@node Displaying the structure
+@c @node NODE-NAME, NEXT, PREVIOUS, UP
+@node Displaying the structure, Advanced usage and special needs, PDF plotting, Top
 @chapter Displaying the structure
 @cindex displaying the structure
 
@@ -1082,7 +1084,8 @@ structure.}
  
 
 @c Start of Chapter 6
-@node Advanced usage and special needs
+@c @node NODE-NAME, NEXT, PREVIOUS, UP
+@node Advanced usage and special needs, PDFgui cheat-sheet, Displaying the structure, Top
 @chapter Advanced usage and special needs 
 @cindex advanced usage 
 @cindex special needs
@@ -1097,16 +1100,103 @@ knowledge of PDFfit2 syntax based on Python, which is beyond the scope
 of this user guide and will be described elsewhere.
 
 @c Start of Chapter 7
-@node PDFgui cheat-sheet
+@c @node NODE-NAME, NEXT, PREVIOUS, UP
+@node 
+
+@node PDFgui cheat-sheet, List of PDFfit2 variables, Advanced usage and special needs, Top 
 @chapter PDFgui cheat-sheet
 @cindex PDFgui cheat-sheet
 @cindex cheat-sheet
 
 @c Start of Chapter 8
-@node List of PDFfit2 Variables
-@chapter List of PDFfit2 Variables
+@node List of PDFfit2 variables, Index, PDFgui cheat-sheet, Top
+@chapter List of PDFfit2 variables
 @cindex PDFfit2 variables
 @cindex list of variables
+@cindex variables
+
+The following is the list of PDFfit2 variables, including their default 
+values and brief description, where appropriate. 
+
+dataset:
+
+spdiameter
+    (0 A) particle diameter for PDF shape damping function. Not applied when equal zero. 
+
+phase:
+
+anisotropy(n)
+    (False) flag for anisotropic thermal displacements of atom n. Assignment to uij will work for anisotropic atoms only, for isotropic atoms use uisoequiv(n). 
+
+uisoequiv(n)
+    (0 A2) isotropic thermal displacement or equivalent displacement for anisotropic sites 
+
+Renamed Variables 
+
+dataset:
+
+qsig --> qdamp
+    (0 A-1) PDF Gaussian dampening envelope due to limited Q-resolution. Not applied when equal zero. 
+
+qalp --> qbroad
+    (0 A-1) PDF peak broadening from increased intensity noise at high Q. Not applied when equal zero. 
+
+phase:
+
+srat --> bvtol
+    (1 unitless) bond vibration tolerance. Reduction factor for PDF peak width accounting for correlated motion of bonded atoms. 
+
+Removed Variables 
+
+dataset:
+
+phase:
+
+pfrac
+    duplicate to pscale. 
+
+delta
+    duplicate to delta2. 
+
+gamma
+    duplicate to delta1. It creates confusion with lattice angle gamma. 
+
+Preserved Variables 
+
+dataset:
+
+qmax
+    (0 A) Qmax cutoff. Termination ripples not applied when Qmax is zero. 
+
+dscale
+    (1 unitless) dataset scale factor 
+
+phase:
+
+lat(1..6)
+    (A or degrees) lattice parameters a, b, c, alpha, beta, gamma. Can be also used as lat('a') etc. 
+
+x(n), y(n), z(n)
+    (unitless) fractional coordinates for atom n 
+
+uij(n)
+    (A2) elements of anisotropic displacement matrix U for atom n 
+
+occ(n)
+    (unitless) occupancy for atom n 
+
+pscale
+    (unitless) phase scale factor 
+
+delta1
+    (0 A) coefficient for 1/r peak sharpening factor 
+
+delta2
+    (0 A2) coefficient for 1/(r*r) peak sharpening factor 
+
+rcut
+    (0 A) r-cutoff for applying bvtol (srat) sharpening factor. 
+
 
 
 @c Ending of a TexInfo File
