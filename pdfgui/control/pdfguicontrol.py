@@ -474,13 +474,14 @@ class PDFGuiControl:
             raise ControlFileError, "No project file specifier"
         
         projName = os.path.basename(self.projfile).split('.')[0]
+        tmpfile = self.projfile + '~'
         # prepare to write
-        import zipfile
+        import zipfile,shutil
         fitnames = []
         calcnames = []
         from cPickle import PickleError
         try :
-            z = zipfile.ZipFile(self.projfile, 'w', zipfile.ZIP_DEFLATED)
+            z = zipfile.ZipFile(tmpfile, 'w', zipfile.ZIP_DEFLATED)
             for fit in self.fits: # also calculations
                 name = fit.name.encode('ascii')
                 fit.save(z, projName + '/' + name + '/')
@@ -489,6 +490,8 @@ class PDFGuiControl:
                 z.writestr(projName +'/journal', self.journal)
             z.writestr(projName + '/fits','\n'.join(fitnames))
             z.close()
+            shutil.copyfile(tmpfile, self.projfile)
+            os.remove(tmpfile)
             
         except (IOError,PickleError):
             raise ControlFileError, "Error when writing to %s"%self.projfile
