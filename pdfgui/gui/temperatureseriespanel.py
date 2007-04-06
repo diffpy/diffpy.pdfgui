@@ -245,8 +245,9 @@ class TemperatureSeriesPanel(wx.Panel, PDFPanel):
         self.listCtrlFiles.DeleteAllItems()
         names = [pair[1] for pair in self.datasets]
         cp = os.path.commonprefix(names)
+        lcp = len(cp)
         for temperature, filename in self.datasets:
-            shortname = re.sub(cp,".../",filename)
+            shortname = ".../" + filename[lcp:]
             index = self.listCtrlFiles.InsertStringItem(sys.maxint, str(temperature))
             self.listCtrlFiles.SetStringItem(index, 1, shortname)
         return
@@ -264,15 +265,23 @@ class TemperatureSeriesPanel(wx.Panel, PDFPanel):
         self.refresh()
         return
 
-
     ## Required by PDFPanel
     def refresh(self):
         """Block out OK button if there is no fit.
 
         This also blocks OK if the fit has no datasets or structures.
         """
+        # We can't rely on Veto to block unwanted tree selections on windows.
+        # So, we have to check for errors here.
+        node = None
+        nodetype = None
         selections = self.treeCtrlMain.GetSelections()
-        if selections and self.fit and self.fit.hasDataSets() \
+        if selections: 
+            node = selections[0]
+            nodetype = self.treeCtrlMain.GetNodeType(node)
+
+        if node and nodetype == "fit" \
+                and self.fit and self.fit.hasDataSets() \
                 and self.fit.hasStructures():
             self.goButton.Enable()
         else:

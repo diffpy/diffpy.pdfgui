@@ -37,7 +37,6 @@ class InsertRowsDialog(wx.Dialog):
         # begin wxGlade: InsertRowsDialog.__set_properties
         self.SetTitle("InsertRows")
         self.radio_box_where.SetSelection(1)
-        self.button_OK.SetDefault()
         # end wxGlade
 
     def __do_layout(self):

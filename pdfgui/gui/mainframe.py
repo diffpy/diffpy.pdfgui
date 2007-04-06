@@ -60,9 +60,11 @@ from pdfguiglobals import iconsDir
 
 # README - Note that wx.TreeCtrl.GetSelections works differently in MSW than it
 # does in GTK. In GTK, it returns a list of nodes as they appear in the tree.
-# In MSW, it returns the list of nodes in some other order.
-# This can lead to trouble if the order of selected nodes is
-# important to a method.
+# In MSW, it returns the list of nodes in some other order.  This can lead to
+# trouble if the order of selected nodes is important to a method. Also,
+# wxTreeCtrl.GetSelections will return a non-empty list if a node is selected
+# and then deselected from a tree. This behavior is undesired, but there is
+# currently no workaround.
 
 class MainFrame(wx.Frame):
     """The left pane is a FitTree (from fittree.py), the right is a dynamic
@@ -204,9 +206,6 @@ class MainFrame(wx.Frame):
             fullpath = os.path.abspath(filename)
             treelist = self.control.load(fullpath)
             self.treeCtrlMain.ExtendProjectTree(treelist)
-            self.setMode('fitting')
-            self.switchRightPanel('welcome')
-
             self.fullpath = fullpath
             self.fileHistory.AddFileToHistory(self.fullpath)
         return
@@ -286,8 +285,8 @@ class MainFrame(wx.Frame):
         # The configuration parser for getting configuration data.
         self.cP = SafeConfigParser()
 
-        # class variables
-        self.setMode("fitting")
+	# Set the program mode
+        self.mode = "fitting"
 
         # This is the dictionary of right panels. For simplicity the five panels
         # corresponding to the five tree item types are given the name of the
@@ -323,6 +322,7 @@ class MainFrame(wx.Frame):
             self.dynamicPanels[key].treeCtrlMain = self.treeCtrlMain
             self.dynamicPanels[key].cP = self.cP
             self.dynamicPanels[key].key = key
+            self.dynamicPanels[key].Enable(False)
 
         # Do the same for the plotPanel
         self.plotPanel.mainFrame = self
@@ -424,6 +424,7 @@ class MainFrame(wx.Frame):
 
     def __setupMainMenu(self):
         """This sets up the menu in the main frame."""
+	self.menulength = 8
 
         self.menuBar = wx.MenuBar()
         self.SetMenuBar(self.menuBar)
@@ -481,7 +482,7 @@ class MainFrame(wx.Frame):
         self.menuBar.Append(self.editMenu, "&Edit")
         # End Edit Menu
 
-        # Windows Menu
+        # View Menu
         self.viewMenu = wx.Menu()
         self.defaultLayoutItem = wx.MenuItem(self.editMenu, wx.NewId(), 
                 "Default Window Layout", "", wx.ITEM_NORMAL)
@@ -498,7 +499,6 @@ class MainFrame(wx.Frame):
                 "Show Output", "", wx.ITEM_NORMAL)
         self.viewMenu.AppendItem(self.showOutputItem)
         self.menuBar.Append(self.viewMenu, "&View")
-
 
         # Fits Menu
         self.fitsMenu = wx.Menu()
@@ -629,21 +629,20 @@ class MainFrame(wx.Frame):
                 wx.NullBitmap, wx.ITEM_NORMAL,
                 "Save this project")
         self.toolBar.AddSeparator()
-        # This will fix the shadowing problem on Windows, I hope.
-        bitmap = wx.Bitmap(os.path.join(iconsDir, "run2.png"))
+        # This fixes the shadowing problem on Windows.
+	# The bitmap has a white transparency color (mask) 
+        bitmap = wx.Bitmap(os.path.join(iconsDir, "run.png"))
         mask = wx.Mask(bitmap, wx.Colour(red=255,green=255,blue=255))
         bitmap.SetMask(mask)
         self.toolBar.AddLabelTool(self.runFitId, "Start",
                 bitmap,
-                #wx.Bitmap(os.path.join(iconsDir, "run2.png")),
                 wx.NullBitmap, wx.ITEM_NORMAL,
                 "Start a fit or calculation")
-        bitmap = wx.Bitmap(os.path.join(iconsDir, "stop2.png"))
+        bitmap = wx.Bitmap(os.path.join(iconsDir, "stop.png"))
         mask = wx.Mask(bitmap, wx.Colour(red=255,green=255,blue=255))
         bitmap.SetMask(mask)
         self.toolBar.AddLabelTool(self.stopFitId, "Stop",
                 bitmap,
-                #wx.Bitmap(os.path.join(iconsDir, "stop2.png")),
                 wx.NullBitmap, wx.ITEM_NORMAL,
                 "Stop running fits or calculations")
         self.toolBar.AddSeparator()
@@ -759,13 +758,15 @@ class MainFrame(wx.Frame):
         This sets any panel-specific data and calls the refresh() method of the
         new rightPanel. All right panels must be derived from wxPanel and
         PDFPanel (in pdfpanel module).
-        
+
         Inputs:
         paneltype   --  The code used in self.dynamicPanels that indicates the
                         panel to be displayed. If paneltype is None, the blank
                         panel is displayed.
 
         """
+        self.rightPanel.Enable(False)
+	self.plotPanel.Enable(False)
         for key in self.dynamicPanels:
             self.auiManager.GetPane(key).Hide()
 
@@ -773,11 +774,16 @@ class MainFrame(wx.Frame):
             paneltype = "blank"
 
         self.rightPanel = self.dynamicPanels[paneltype]
+	self.rightPanel.Enable(True)
         self.setPanelSpecificData(paneltype)
         self.rightPanel.refresh()
         self.auiManager.GetPane(paneltype).Show()
         self.auiManager.Update()
         self.updateToolbar()
+
+	selections = self.treeCtrlMain.GetSelections()
+	if len(selections) == 1:
+	    self.plotPanel.Enable(True)
         return
 
     def setPanelSpecificData(self, paneltype):
@@ -838,39 +844,51 @@ class MainFrame(wx.Frame):
     def setMode(self, mode):
         """Set the mode of the program.
         
-        This method takes care of any widget properties that must change when
-        the mode is changed. 
+	This method takes care of any widget properties that must change when
+	the mode is changed. If the mode is changing due to the change in the
+	right panel, always call setMode before switchRightPanel.
         
         "fitting" mode:
+	 * treeCtrlMain is enabled
          * plotPanel panel is enabled
-
-        "plotting" mode:
-         * plotPanel panel is disabled
+	 * toolBar is enabled
+	 * menuBar is enabled
 
         "addingdata" mode: 
-         * plotPanel panel is disabled
-
         "addingphase" mode:
+        "config" mode:
+	 * treeCtrlMain is disabled
          * plotPanel panel is disabled
-
-         "config" mode:
-         * plotPanel panel is disabled
+	 * toolBar is disabled
+	 * menuBar is disabled
 
          "rseries" mode:
-         * plotPanel panel is disabled
-
          "tseries" mode:
-         * plotPanel panel is disabled
-
          "dseries" mode:
+	 * treeCtrlMain is enabled
          * plotPanel panel is disabled
+	 * toolBar is disabled
+	 * menuBar is disabled
         """
         self.mode = mode
         if mode == 'fitting':
+	    self.treeCtrlMain.Enable(True)
             self.plotPanel.Enable(True)
-        elif mode in ["addingdata", "addingphase", "config", "rseries",
-                "tseries", "dseries"]:
+	    self.toolBar.Enable(True)
+	    for i in range(self.menulength):
+	        self.menuBar.EnableTop(i, True)
+	elif mode in ["addingdata", "addingphase", "config"]:
+	    self.treeCtrlMain.Enable(False)
             self.plotPanel.Enable(False)
+	    self.toolBar.Enable(False)
+	    for i in range(self.menulength):
+	        self.menuBar.EnableTop(i, False)
+	elif mode in ["rseries", "tseries", "dseries"]:
+	    self.treeCtrlMain.Enable(True)
+            self.plotPanel.Enable(False)
+	    self.toolBar.Enable(False)
+	    for i in range(self.menulength):
+	        self.menuBar.EnableTop(i, False)
         return
 
     def loadConfiguration(self):
@@ -912,12 +930,15 @@ class MainFrame(wx.Frame):
             self.auiManager.LoadPerspective(default)
 
         # Load the window dimensions
-        if self.cP.has_section("SIZE"):
+	w = 800
+	h = 600
+        if self.cP.has_option("SIZE", "width"):
             w = self.cP.get("SIZE", "width")
-            h = self.cP.get("SIZE", "height")
             w = int(w)
+        if self.cP.has_option("SIZE", "height"):
+            h = self.cP.get("SIZE", "height")
             h = int(h)
-            self.SetSize((w,h))
+        self.SetSize((w,h))
 
         # Load the atomeye path
         path = ""
@@ -1026,26 +1047,29 @@ class MainFrame(wx.Frame):
         * The behavior is defined in the associated panel
         """
         selections = self.treeCtrlMain.GetSelections()
-        if not selections: 
-            self.switchRightPanel("blank")
-            self.plotPanel.Enable(False)
-            return
-
         if event:
             node = event.GetItem()
         else:
             node = selections[0]
-        # Make sure that the item is visible.
-        self.treeCtrlMain.EnsureVisible(node)
-        self.treeCtrlMain.ScrollTo(node)
+            # Make sure that the item is visible.
+            self.treeCtrlMain.EnsureVisible(node)
+            self.treeCtrlMain.ScrollTo(node)
+	    self.treeCtrlMain.SetFocus()
 
         # "fitting" mode 
         if self.mode == "fitting":
+	    # This doesn't work on Windows.
+            if len(selections) == 0: 
+                self.switchRightPanel("blank")
+                self.plotPanel.Enable(False)
+                return
+	    else:
+                self.plotPanel.Enable(True)
 
             # Don't change the panel if there are multiple items selected
             if len(selections) == 1:
                 self.rightPanel.Enable()
-                selectiontype = self.treeCtrlMain.GetNodeType(selections[0])
+                selectiontype = self.treeCtrlMain.GetNodeType(node)
                 self.switchRightPanel(selectiontype)
             else:
                 self.rightPanel.Enable(False)
@@ -1072,6 +1096,11 @@ class MainFrame(wx.Frame):
     def onTreeSelChanging(self, event): # wxGlade: MainPanel.<event_handler>
         """Set the click behavior for each mode.
         
+	Note that this doesn't work on Windows. Be sure to build in redundancy
+	so that the program behaves as if this does not even get called. If the
+	Windows bug does not get fixed, this method will probably be
+	eliminated.
+
         "addingdata" mode:
             * can select nothing
 
@@ -1090,12 +1119,14 @@ class MainFrame(wx.Frame):
          "dseries" mode:
             * can only select fit items
         """
+	# THIS DOESNT WORK ON WINDOWS!
         node = event.GetItem()
+	if not node: return
         if self.mode in ["addingdata", "addingphase", "config"]:
             event.Veto()
         elif self.mode in ["rseries", "tseries", "dseries"]:
-            itemtype = self.treeCtrlMain.GetNodeType(event.GetItem())
-            if itemtype != "fit":
+            nodetype = self.treeCtrlMain.GetNodeType(node)
+            if nodetype != "fit":
                 event.Veto()
 
         return
@@ -1656,8 +1687,8 @@ class MainFrame(wx.Frame):
         """
         selections = self.treeCtrlMain.GetSelections()
         if len(selections) == 1:
-            self.switchRightPanel("adddata")
             self.setMode("addingdata")
+            self.switchRightPanel("adddata")
             self.needsSave()
         return
 
@@ -1669,8 +1700,8 @@ class MainFrame(wx.Frame):
         """
         selections = self.treeCtrlMain.GetSelections()
         if len(selections) == 1:
-            self.switchRightPanel("addphase")
             self.setMode("addingphase")
+            self.switchRightPanel("addphase")
             self.needsSave()
         return
 

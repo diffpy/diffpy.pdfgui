@@ -99,6 +99,7 @@ class SGStructureDialog(wx.Dialog, PDFPanel):
         sgnames.sort()
         for (number, name) in sgnames[:230]:
             self.sgComboBox.Append(name)
+        self.sgComboBox.SetValue('P1')
 
         self.spacegroup = SpaceGroups.GetSpaceGroup('P1')
         self.offset = [0,0,0]

@@ -51,7 +51,6 @@ class PlotPanel(wx.Panel, PDFPanel):
         # begin wxGlade: PlotPanel.__set_properties
         self.offsetLabel.SetToolTipString("The vertical gap between stacked plots")
         self.plotButton.SetToolTipString("Plot the selected data")
-        self.plotButton.SetDefault()
         self.resetButton.SetToolTipString("Reset the plot configuration")
         # end wxGlade
 
@@ -122,7 +121,7 @@ class PlotPanel(wx.Panel, PDFPanel):
             # Setup the xDataCombo
             # r     -   dataset, calculation
             # step  -   All item types.
-            # doping,temperature,index
+            # doping, temperature, index
             #       -   All item types, but only if mutiple selections are chosen
             #            from different fits
             # cdata.getXNames() will provide the above names, except that 'step'

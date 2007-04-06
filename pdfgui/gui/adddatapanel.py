@@ -54,7 +54,6 @@ class AddDataPanel(wx.Panel, PDFPanel):
     def __set_properties(self):
         # begin wxGlade: AddDataPanel.__set_properties
         self.textLoadData.SetFont(wx.Font(12, wx.DEFAULT, wx.NORMAL, wx.NORMAL, 0, "Sans"))
-        self.buttonOpen.SetDefault()
         # end wxGlade
 
     def __do_layout(self):
@@ -92,6 +91,7 @@ class AddDataPanel(wx.Panel, PDFPanel):
         'last'      --  The last dataset file added to the project. This is
                         stored in the class variable fullpath.
         """
+	remember = "False"
         if self.cP.has_option("DATASET", "remember"):
             remember = self.cP.get("DATASET", "remember")
 

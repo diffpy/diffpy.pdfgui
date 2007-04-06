@@ -150,10 +150,19 @@ class RSeriesPanel(wx.Panel, PDFPanel):
     def refresh(self):
         """Block out OK button if there is no fit.
 
-        This also blocks OK if the fit has no datasets.
+        This also blocks OK if the fit has no datasets or phases.
         """
+        # We can't rely on Veto to block unwanted tree selections on windows.
+        # So, we have to check for errors here.
+        node = None
+        nodetype = None
         selections = self.treeCtrlMain.GetSelections()
-        if selections and self.fit and self.fit.hasDataSets() \
+        if selections: 
+            node = selections[0]
+            nodetype = self.treeCtrlMain.GetNodeType(node)
+
+        if node and nodetype == "fit" \
+                and self.fit and self.fit.hasDataSets() \
                 and self.fit.hasStructures():
             self.goButton.Enable()
         else:

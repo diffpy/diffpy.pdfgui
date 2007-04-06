@@ -57,7 +57,6 @@ class AddPhasePanel(wx.Panel, PDFPanel):
     def __set_properties(self):
         # begin wxGlade: AddPhasePanel.__set_properties
         self.labelOpenPhase.SetFont(wx.Font(12, wx.DEFAULT, wx.NORMAL, wx.NORMAL, 0, "Sans"))
-        self.buttonOpen.SetDefault()
         self.labelCreatePhase.SetFont(wx.Font(12, wx.DEFAULT, wx.NORMAL, wx.NORMAL, 0, "Sans"))
         # end wxGlade
 
@@ -101,6 +100,7 @@ class AddPhasePanel(wx.Panel, PDFPanel):
         'last'      --  The last structure file added to the project. This is
                         stored in the class variable fullpath.
         """
+	remember = "False"
         if self.cP.has_option("PHASE", "remember"):
             remember = self.cP.get("PHASE", "remember")
 
