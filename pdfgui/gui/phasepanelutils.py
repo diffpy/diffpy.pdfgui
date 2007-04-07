@@ -159,6 +159,8 @@ def getSelectedCells(panel):
     
     This returns selected cells whether they are in blocks or are
     independent.
+    
+    This could be sped up if necessary.
     """
     rows = panel.gridAtoms.GetNumberRows()
     cols = panel.gridAtoms.GetNumberCols()
@@ -171,15 +173,31 @@ def getSelectedCells(panel):
 
     return selection
 
-def fillCells(panel, indices, value):
-    """Fill cells with a given value.
-
-    indices    --  list of (i,j) tuples representing cell coordinates
-    value       --  string value to place into cells
+def quickResizeColumns(panel, indices):
+    """Resize the columns that were recently affected by cell changes.
+    
+    This is faster than the normal grid AutoSizeColumns, since the latter loops
+    over the entire grid. It is assumed that all of the cells were changed to
+    the same value. In addition, this will not cause a EVT_GRID_CMD_CELL_CHANGE
+    event to be thrown, which can cause recursion.  This method will only
+    increase column size.
     """
-    for (i,j) in indices:
-        if not panel.gridAtoms.IsReadOnly(i,j):
-            panel.applyCellChange(i,j, value)
+    # Get the columns and maximum text width in each one
+    dc = wx.ScreenDC() 
+    maxSize = {}
+    for (i, j) in indices:
+        if j not in maxSize:
+            renderer = panel.gridAtoms.GetCellRenderer(i,j)
+            attr = panel.gridAtoms.GetOrCreateCellAttr(i,j)
+            size = renderer.GetBestSize(panel.gridAtoms, attr, dc, i, j).width
+            size += 10 # Need a small buffer
+            maxSize[j] = size
+
+    panel.gridAtoms.BeginBatch()
+    for (j,size) in maxSize.items():
+        if size > panel.gridAtoms.GetColSize(j):
+            panel.gridAtoms.SetColSize(j, size)
+    panel.gridAtoms.EndBatch()
     return
 
 def isWholeRowSelected(panel, row):
@@ -324,14 +342,21 @@ def pasteIntoCells(panel):
     rbr = min(nrows, rtl + len(clipcells)) - 1
     cbr = min(ncols, ctl + len(clipcells[0])) - 1
 
+    selections = []
     for row in range(rtl, rbr+1):
         for col in range(ctl, cbr+1):
             if not grid.IsReadOnly(row, col):
-                panel.applyCellChange(row, col, clipcells[row-rtl][col-ctl])
+                oldvalue = panel.gridAtoms.GetCellValue(row, col)
+                newvalue = panel.applyCellChange(row, col, clipcells[row-rtl][col-ctl])
+                if newvalue is None: newvalue = oldvalue
+                panel.gridAtoms.SetCellValue(row,col,str(newvalue))
+                selections.append((row,col))
 
-    # Refresh the grid and select the inserted entries
+    quickResizeColumns(panel, selections)
+
+    # Clear the grid and select the inserted entries
     grid.ClearSelection()
-    panel.refresh()
+    #panel.refresh()
     for row in range(rtl, rbr+1):
         for col in range(ctl, cbr+1):
             if not grid.IsReadOnly(row, col):

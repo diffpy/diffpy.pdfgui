@@ -183,7 +183,6 @@ class PhaseConstraintsPanel(wx.Panel, PDFPanel):
                 'textCtrlAlpha', 'textCtrlBeta', 'textCtrlGamma',
                 'textCtrlScaleFactor', 'textCtrlDelta1', 'textCtrlDelta2',
                 'textCtrlSrat', 'textCtrlRcut']
-        self._isotropic = False
         self._row = 0
         self._col = 0
         self._focusedText = None
@@ -213,6 +212,10 @@ class PhaseConstraintsPanel(wx.Panel, PDFPanel):
         self.Bind(wx.EVT_KEY_DOWN, self.onKey)
         return
     
+    def _cache(self):
+        """Cache the current structure and constraints for future comparison."""
+        pass
+
     def refresh(self):
         """Refresh wigets on the panel."""
         if self.structure == None:
@@ -279,9 +282,10 @@ class PhaseConstraintsPanel(wx.Panel, PDFPanel):
         formula = value.strip()
         if formula != "":
             self.constraints[var] = Constraint(formula)
+            return self.constraints[var].formula
         else:
             self.constraints.pop(var, None)
-        return
+            return ""
 
     def applyCellChange(self, i, j, value):
         """Update an atom according to a change in a cell.
@@ -289,14 +293,19 @@ class PhaseConstraintsPanel(wx.Panel, PDFPanel):
         i       --  cell position
         j       --  cell position
         value   --  new value  
+
+        returns the new value stored in the data object, or None if value is
+        somehow invalid.
         """
         self.mainFrame.needsSave()        
         key = self.lAtomConstraints[j-1] + '('+`i+1`+')'
         formula = value.strip()
         if formula != "":
             self.constraints[key] = Constraint(formula)
+            return self.constraints[key].formula
         else:
             self.constraints.pop(key, None)
+            return ""
         return
 
 
@@ -307,20 +316,18 @@ class PhaseConstraintsPanel(wx.Panel, PDFPanel):
     def onSetFocus(self, event):
         """Saves a TextCtrl value, to be compared in onKillFocuse later."""
         self._focusedText = event.GetEventObject().GetValue()
-        event.Skip()
         return
         
     def onKillFocus(self, event):
         """Check value of TextCtrl and update structure if necessary."""
+        if not self.mainFrame: return
         textctrl = event.GetEventObject()
         value = textctrl.GetValue()
 
-        if self._focusedText != value:
-            self.applyTextCtrlChange(textctrl.GetId(), value)
-            self.refresh()
-                
-        self._focusedText = ""
-        event.Skip()
+        self.applyTextCtrlChange(textctrl.GetId(), value)
+        refreshTextCtrls(self)
+        self.mainFrame.needsSave()        
+        self._focusedText = None
         return
 
     # Grid Events
@@ -364,34 +371,53 @@ class PhaseConstraintsPanel(wx.Panel, PDFPanel):
         j = event.GetCol()
         self._focusedText = self.gridAtoms.GetCellValue(i,j)
         self._selectedCells = getSelectedCells(self)
-        event.Skip()
         return
 
     def onCellChange(self, event): # wxGlade: PhaseConstraintsPanel.<event_handler>
-        """Update focused text when a cell changes."""
-        # NOTE: be careful with refresh() => recursion! operations on grid will
-        # call onCellChange
+        """Update focused and selected text when a cell changes."""
+        # NOTE: be careful with refresh(). It calls Grid.AutoSizeColumns, which
+        # creates a EVT_GRID_CMD_CELL_CHANGE event, which causes a recursion
+        # loop.
         i = event.GetRow()
         j = event.GetCol()
 
-        # This keeps us out of recursion
-        if self._focusedText is None: return
-        self._focusedText = None
-
         value = self.gridAtoms.GetCellValue(i,j)
-        # Verify the equation. This is done here since if it is allowed to be
-        # done in fillCells, then an error dialog will be thrown for each
-        # point in the loop.
-        try:
-            if value != "":
-                Constraint(value)
-            if (i,j) not in self._selectedCells:
-                self._selectedCells.append((i,j))
-            fillCells(self, self._selectedCells, value)
-        finally:
-            self.refresh()
-            event.Skip()
+        while (i,j) in self._selectedCells:
+            self._selectedCells.remove((i,j))
+        # We need the edited cell to be at the front of the list
+        self._selectedCells.insert(0,(i,j))
+        self.fillCells(value)
+        self._focusedText = None
         return
+
+    def fillCells(self, value):
+        """Fill cells with a given value.
+
+        value       --  string value to place into cells
+        """
+        for (i,j) in self._selectedCells:
+            if not self.gridAtoms.IsReadOnly(i,j):
+                # Get the last valid text from the cell. For the cell that triggered
+                # this method, that is the _focusedText, for other cells it is the
+                # value returned by GetCellValue
+                oldvalue = self._focusedText 
+                if oldvalue is None:
+                    oldvalue = self.gridAtoms.GetCellValue(i,j)
+                self._focusedText = None
+                newvalue = self.applyCellChange(i,j, value)
+                #print i, j, value, oldvalue, newvalue
+                if newvalue is None: 
+                    # Get out of here. If the value is invalid, it won't be valid
+                    # for any cells.
+                    newvalue = oldvalue
+                    self.gridAtoms.SetCellValue(i,j,str(newvalue))
+                    break
+                else:
+                    self.gridAtoms.SetCellValue(i,j,str(newvalue))
+
+        quickResizeColumns(self, self._selectedCells)
+        return
+
 
     def onKey(self, event):
         """Catch key events in the panel."""
@@ -405,9 +431,8 @@ class PhaseConstraintsPanel(wx.Panel, PDFPanel):
 
         # Delete
         elif key == 127:
-            indices = getSelectedCells(self)
+            self._selectedCells = getSelectedCells(self)
             fillCells(self, indices, "")
-            self.refresh()
             self.mainFrame.needsSave()
 
         # Can't get these to work. Maybe later.
@@ -470,23 +495,6 @@ class PhaseConstraintsPanel(wx.Panel, PDFPanel):
         # will be called before PopupMenu returns.
         window.PopupMenu(menu, wx.Point(x,y))
         menu.Destroy()        
-        return
-
-    def onPopupFill(self, event):
-        """Fills cells selected in the grid with a new value."""
-        if self.structure != None:
-            if self.gridAtoms.IsSelection():
-                dlg = wx.TextEntryDialog(self, 
-                        'New value:','Fill Selected Cells', '')
-        
-                if dlg.ShowModal() == wx.ID_OK:
-                    value = dlg.GetValue()
-                    
-                    indicies = getSelectedCells(self)
-                    fillCells(self, indicies, value)
-                    self.refresh()
-                    self.mainFrame.needsSave()
-                dlg.Destroy()
         return
 
     def onPopupSpaceGroup(self, event):

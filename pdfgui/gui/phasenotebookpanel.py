@@ -46,8 +46,8 @@ class PhaseNotebookPanel(wx.Panel, PDFPanel):
         self.__do_layout()
         
         self.notebook_phase.Bind(wx.EVT_NOTEBOOK_PAGE_CHANGED,  self.onNotebookPageChanged )
+        self.notebook_phase.Bind(wx.EVT_NOTEBOOK_PAGE_CHANGING, self.onNotebookPageChanging )
         
-        self._isotropic  = False
         self.configuration = None
         self.constraints   = {}
         self.results       = None
@@ -82,11 +82,17 @@ class PhaseNotebookPanel(wx.Panel, PDFPanel):
         panel.constraints = self.constraints
         panel.results = self.results
 
-	# This has to be done here, because this panel does not know who it
+        # This has to be done here, because this panel does not know who it
         # belongs to until after it is instantiated.
         panel.mainFrame = self.mainFrame
-        panel._isotropic = self._isotropic
         panel.refresh()
+        return
+
+    def onNotebookPageChanging(self, event):
+        """Called during the page selection change."""
+        focusedId = event.GetOldSelection()
+        panel = self.notebook_phase.GetPage(self.focusedId)
+        panel._cache()
         return
 
     def onNotebookPageChanged(self, event):

@@ -36,8 +36,8 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
     """Panel for configuring a phase.
     
     Data members:
-        structure       -- reference to PDFStructure, the panel works with
-        _focusedText    -- value of a cell ot textctrl before it changes
+        structure       -- reference to PDFStructure
+        _focusedText    -- value of a cell or textctrl before it changes
         lConstraintsMap -- map of TextCtrl name to parameter name
         _row            -- row,    where rightclick occured 
         _col            -- column, where rightclick occured 
@@ -181,13 +181,11 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
     ##########################################################################
     # Misc Methods
 
-
     def __customProperties(self):
         """Custom properties for the panel."""
         self.structure = None
         self.constraints = {}
         self.results = None
-        self._isotropic = False
         self._row = 0
         self._col = 0
         self._focusedText = None
@@ -239,8 +237,13 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
         self.Bind(wx.EVT_KEY_DOWN, self.onKey)
         return
 
+    def _cache(self):
+        """Cache the current structure and constraints for future comparison."""
+        pass
+
     def refresh(self):
-        """Refreshes wigets on the panel."""
+        """Refreshes widgets on the panel."""
+        # make sure things have changed!
         refreshTextCtrls(self)
         refreshGrid(self)
         self.restrictConstrainedParameters()
@@ -291,31 +294,34 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
             #raise ControlValueError, "structure is not defined."
         
         try:
+            value = float(value)
             if   id == self.textCtrlA.GetId():
-                self.structure.lattice.setLatPar(a = float(value))
+                self.structure.lattice.setLatPar(a = value)
             elif id == self.textCtrlB.GetId():
-                self.structure.lattice.setLatPar(b = float(value))
+                self.structure.lattice.setLatPar(b = value)
             elif id == self.textCtrlC.GetId():
-                self.structure.lattice.setLatPar(c = float(value))
+                self.structure.lattice.setLatPar(c = value)
             elif id == self.textCtrlAlpha.GetId():
-                self.structure.lattice.setLatPar(alpha = float(value))
+                self.structure.lattice.setLatPar(alpha = value)
             elif id == self.textCtrlBeta.GetId():
-                self.structure.lattice.setLatPar(beta = float(value))
+                self.structure.lattice.setLatPar(beta = value)
             elif id == self.textCtrlGamma.GetId():
-                self.structure.lattice.setLatPar(gamma = float(value))
+                self.structure.lattice.setLatPar(gamma = value)
             elif id == self.textCtrlScaleFactor.GetId():
-                self.structure.pdffit['scale'] = float( value )
+                self.structure.pdffit['scale'] = value
             elif id == self.textCtrlDelta1.GetId():
-                self.structure.pdffit['delta1'] = float( value )
+                self.structure.pdffit['delta1'] = value
             elif id == self.textCtrlDelta2.GetId():
-                self.structure.pdffit['delta2']  = float( value )
+                self.structure.pdffit['delta2']  = value
             elif id == self.textCtrlSrat.GetId():
-                self.structure.pdffit['srat'] = float( value )
+                self.structure.pdffit['srat'] = value
             elif id == self.textCtrlRcut.GetId():
-                self.structure.pdffit['rcut']  = float( value )
-        except ValueError:
-            pass
-        return
+                self.structure.pdffit['rcut']  = value
+
+            return value
+
+        except:
+            return None
 
     def applyCellChange(self, i, j, value):
         """Update an atom according to a change in a cell.
@@ -325,46 +331,45 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
         value   --  new value  
         """
         if not self.mainFrame or self.structure == None: return
-            #raise ControlValueError, "structure is not defined."
 
         # The element name
         if j == 0:
             value = value.title()
             if not is_element(value): return
             self.structure[i].element   =       value  # element
-            return
+            return value
 
         # Other entries
         # ignore the change if the value is not valid
         try:
             value = float(value)
+            if value == "": value = 0.0
+            if j == 1:
+                self.structure[i].xyz[0]    = value # x
+            elif j == 2:
+                self.structure[i].xyz[1]    = value # y
+            elif j == 3:
+                self.structure[i].xyz[2]    = value # z
+            elif j == 4:
+                self.structure[i].U[0,0]    = value # U(1,1)
+            elif j == 5:
+                self.structure[i].U[1,1]    = value # U(2,2)
+            elif j == 6:
+                self.structure[i].U[2,2]    = value # U(3,3)
+            elif j == 7:
+                self.structure[i].U[0,1]    = value # U(1,2)
+            elif j == 8:
+                self.structure[i].U[0,2]    = value # U(1,3)
+            elif j == 9:
+                self.structure[i].U[1,2]    = value # U(2,3)
+            elif j == 10:
+                self.structure[i].occupancy = value # occupancy
+
+            self.mainFrame.needsSave()        
+            return value
+
         except ValueError:
             return
-
-        if value == "": value = 0.0
-        if j == 1:
-            self.structure[i].xyz[0]    = value # x
-        elif j == 2:
-            self.structure[i].xyz[1]    = value # y
-        elif j == 3:
-            self.structure[i].xyz[2]    = value # z
-        elif j == 4:
-            self.structure[i].U[0,0]    = value # U(1,1)
-        elif j == 5:
-            self.structure[i].U[1,1]    = value # U(2,2)
-        elif j == 6:
-            self.structure[i].U[2,2]    = value # U(3,3)
-        elif j == 7:
-            self.structure[i].U[0,1]    = value # U(1,2)
-        elif j == 8:
-            self.structure[i].U[0,2]    = value # U(1,3)
-        elif j == 9:
-            self.structure[i].U[1,2]    = value # U(2,3)
-        elif j == 10:
-            self.structure[i].occupancy = value # occupancy
-
-        self.mainFrame.needsSave()        
-        return
 
     ##########################################################################
     # Event Handlers
@@ -373,7 +378,6 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
     def onSetFocus(self, event):
         """Saves a TextCtrl value, to be compared in onKillFocuse later."""
         self._focusedText = event.GetEventObject().GetValue()
-        event.Skip()
         return
         
     def onKillFocus(self, event):
@@ -382,13 +386,10 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
         textctrl = event.GetEventObject()
         value = textctrl.GetValue()
 
-        if self._focusedText != value:
-            self.applyTextCtrlChange(textctrl.GetId(), value)
-            self.refresh()
-            self.mainFrame.needsSave()        
-                
-        self._focusedText = ""
-        event.Skip()
+        self.applyTextCtrlChange(textctrl.GetId(), value)
+        refreshTextCtrls(self)
+        self.mainFrame.needsSave()        
+        self._focusedText = None
         return
 
     # Grid Events
@@ -412,6 +413,7 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
         """Bring up right-click menu."""
         self._row = event.GetRow()
         self._col = event.GetCol()
+
         # If the right-clicked node is not part of a group, then make sure that
         # it is the only selected cell.
         append = False
@@ -431,26 +433,43 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
         j = event.GetCol()
         self._focusedText = self.gridAtoms.GetCellValue(i,j)
         self._selectedCells = getSelectedCells(self)
-        event.Skip()
         return
 
     def onCellChange(self, event): # wxGlade: PhaseConfigurePanel.<event_handler>
         """Update focused and selected text when a cell changes."""
-        # NOTE: be careful with refresh() => recursion! operations on grid will
-        # call onCellChange.
+        # NOTE: be careful with refresh(). It calls Grid.AutoSizeColumns, which
+        # creates a EVT_GRID_CMD_CELL_CHANGE event, which causes a recursion
+        # loop.
         i = event.GetRow()
         j = event.GetCol()
 
-        # This keeps us out of recursion
-        if self._focusedText is None: return
-        self._focusedText = None
-
         value = self.gridAtoms.GetCellValue(i,j)
-        self._selectedCells.append((i,j))
-        fillCells(self, self._selectedCells, value)
-        self.refresh()
+        while (i,j) in self._selectedCells:
+            self._selectedCells.remove((i,j))
+        # We need the edited cell to be at the front of the list
+        self._selectedCells.insert(0,(i,j))
+        self.fillCells(value)
+        self._focusedText = None
+        return
 
-        event.Skip()
+    def fillCells(self, value):
+        """Fill cells with a given value.
+
+        value       --  string value to place into cells
+        """
+        for (i,j) in self._selectedCells:
+            if not self.gridAtoms.IsReadOnly(i,j):
+                # Get the last valid text from the cell. For the cell that triggered
+                # this method, that is the _focusedText, for other cells it is the
+                # value returned by GetCellValue
+                oldvalue = self._focusedText or self.gridAtoms.GetCellValue(i,j)
+                self._focusedText = None
+                newvalue = self.applyCellChange(i,j, value)
+                #print i, j, value, oldvalue, newvalue
+                if newvalue is None: newvalue = oldvalue
+                self.gridAtoms.SetCellValue(i,j,str(newvalue))
+
+        quickResizeColumns(self, self._selectedCells)
         return
 
     def onKey(self, event):

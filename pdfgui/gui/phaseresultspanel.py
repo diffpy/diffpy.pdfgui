@@ -166,9 +166,12 @@ class PhaseResultsPanel(wx.Panel, PDFPanel):
         self.structure = None
         self.constraints = {}
         self.results = None
-        self._isotropic = False
         return
-    
+
+    def _cache(self):
+        """Cache the current structure and constraints for future comparison."""
+        pass
+
     def refresh(self):
         """Refreshes wigets on the panel."""
         self.structure = self.results
