@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+# -*- coding: iso-8859-1 -*-
 ########################################################################
 #
 # PDFgui            by DANSE Diffraction group
@@ -30,17 +31,16 @@ class WelcomePanel(wx.Panel, PDFPanel):
         line4 = '<font family="swiss" color="black" size="10">\n'
         line5 = \
 """
-C. L. Farrow, P. Juhas, J. W. Liu, D. Bryndin, J. Bloch,
-Th. Proffen and S. J. L. Billinge
-PDFfit2 and PDFgui: Computer programs for studying 
-nanostructures in crystals
+C. L. Farrow, P. Juhas, J. W. Liu, D. Bryndin, E. S. Božin,
+J. Bloch, Th. Proffen and S. J. L. Billinge
+PDFfit2 and PDFgui: Computer programs for
+studying nanostructures in crystals
 Journal of Physics: Condensed Matter, in press
 """
         line6 = '</font>'
         
         # format the title text
         line2 = center(line2, 16)
-        line5 = center(line5, 80)
         line5sp = line5.split('\n')
         line5 = '\n'.join( map(center, line5sp, [80]*len(line5sp)))
         line1 += line2 + line3 + line4 + line5 + line6
