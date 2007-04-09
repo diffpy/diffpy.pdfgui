@@ -258,8 +258,6 @@ def canPasteIntoCells(panel):
     except:
         return False
 
-    #import sys; sys.stderr.write(repr(celllist))
-
     if len(celllist) == 0:
         return False
     ncol = len(celllist[0])

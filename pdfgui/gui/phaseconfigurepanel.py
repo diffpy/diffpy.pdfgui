@@ -336,7 +336,7 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
         if j == 0:
             value = value.title()
             if not is_element(value): return
-            self.structure[i].element   =       value  # element
+            self.structure[i].element = value  # element
             return value
 
         # Other entries
@@ -454,7 +454,6 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
 
     def fillCells(self, value):
         """Fill cells with a given value.
-
         value       --  string value to place into cells
         """
         for (i,j) in self._selectedCells:
@@ -501,8 +500,8 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
             self.mainFrame.needsSave()
 
         # Append an atom
-        # Ctrl +
-        elif event.ControlDown() and event.ShiftDown() and key == 61:
+        # Ctrl + or Ctrl =
+        elif event.ControlDown() and key == 61:
             indices = getSelectedAtoms(self)
             pos = 0
             if indices:

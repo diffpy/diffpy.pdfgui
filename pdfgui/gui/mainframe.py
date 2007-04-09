@@ -1944,6 +1944,7 @@ class MainFrame(wx.Frame):
             self.plotPanel.refresh()
             self.needsSave(False)
             self.fullpath = ""
+            self.outputPanel.clearText()
         self.updateTitle()
         return
 
@@ -1969,8 +1970,10 @@ class MainFrame(wx.Frame):
                 self.fullpath = fullpath
                 self.fileHistory.AddFileToHistory(self.fullpath)
                 self.needsSave(False)
+
+                self.outputPanel.clearText()
+                self.updateTitle()
             d.Destroy()
-            self.updateTitle()
         return
 
     def onSave(self, event):
@@ -2042,6 +2045,7 @@ class MainFrame(wx.Frame):
                 self.setMode('fitting')
                 self.switchRightPanel('welcome')
                 self.needsSave(False)
+                self.outputPanel.clearText()
                 self.updateTitle()
             except ControlError, e:
                 self.fileHistory.RemoveFileFromHistory(0)

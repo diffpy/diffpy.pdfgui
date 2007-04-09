@@ -41,6 +41,10 @@ class OutputPanel(wx.Panel,PDFPanel):
         self.outputTextCtrl.SetFont(font)
         return
 
+    def clearText(self):
+        """Clear the text from the output control."""
+        self.outputTextCtrl.Clear()
+        return
 
     def updateText(self, text):
         """Update the text in the window."""
