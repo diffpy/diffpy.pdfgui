@@ -327,6 +327,11 @@ class Fitting(Organizer):
             for key,var in dataset.constraints.items():
                 self.server.constrain(key.encode('ascii'), var.formula.encode('ascii'))
             self.server.pdfrange(seq, dataset.fitrmin, dataset.fitrmax)
+            # pair selection applies only to the current dataset, 
+            # therefore it has to be done here.
+            nstrucs = len(self.strucs)
+            for phaseidx, struc in zip(range(1, nstrucs + 1), self.strucs):
+                struc.applyPairSelection(self.server, phaseidx)
             seq += 1
 
         for index, par in self.parameters.items():

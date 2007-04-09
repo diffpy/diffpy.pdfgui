@@ -36,6 +36,9 @@ class FitStructure(PDFStructure):
         initial     -- initial structure, same as self
         refined     -- refined structure when available or None
         constraints -- dictionary of { refvar_string : Constraint_instance }
+        selected_pairs -- string of selected pairs, by default "all-all".
+                          Use setSelectedPairs() and getSelectedPairs() methods
+                          to access its value.
 
     Refinable variables: pscale, delta1, delta2, srat, lat(n), where n = 1..6,
                          x(i), y(i), z(i), occ(i), u11(i), u22(i), u33(i),
@@ -57,6 +60,7 @@ class FitStructure(PDFStructure):
         # it gets mapped to self by __getattr__
         self.refined = None
         self.constraints = {}
+        self.selected_pairs = "all-all"
         return
         
     def __getattr__(self, name):
@@ -423,6 +427,138 @@ class FitStructure(PDFStructure):
         self.initial.pdffit["sgoffset"] = list(sgoffset)
         return
 
+    def setSelectedPairs(self, s):
+        """Set the value of selected_pairs to s, raise ControlValueError when
+        s has invalid syntax.  The selected_pairs is a comma separated list of
+        words formatted as
+
+            [!]{element|indexOrRange|all}-[!]{element|indexOrRange|all}
+
+        where '!' excludes the given atoms from first or second pair.
+
+        Examples:
+
+            all-all              all possible pairs
+            Na-Na                only Na-Na pairs
+            all-all, !Na-        all pairs except Na-Na (first index skips Na)
+            all-all, -!Na        same as previous (second index skips Na)
+            Na-1:4               pairs of Na and first 4 atoms
+            all-all, !Cl-!Cl     exclude any pairs containing Cl
+            all-all, !Cl-, -!Cl  same as previous
+            1-all                only pairs including the first atom
+
+        Use getSelectedPairIndices() method to get a list of included values
+        for first and second pair index.
+        """
+        # check syntax of s
+        rv = self.getSelectedPairIndices(s)
+        self.selected_pairs = rv['fixed_pair_string']
+        return
+
+    def getSelectedPairs(self):
+        return self.selected_pairs
+
+    def getSelectedPairIndices(self, s=None):
+        """Translate string s to a list of allowed values for first and second
+        pair index.  Raise ControlValueError for invalid syntax of s.  See 
+        setSelectedPairs() docstring for a definition of pair selection syntax.
+
+        s -- string describing selected pairs (default: self.selected_pairs)
+
+        Return a dictionary with following keys:
+
+        first     -- list of selected first indices
+        second    -- list of selected second indices
+        allfirst  -- flag for inclusion of all first indices
+        allsecond -- flag for inclusion of all second indices
+        fixed_pair_string -- argument corrected to standard syntax
+        """
+        if s is None:   s = self.selected_pairs
+        Natoms = len(self.initial)
+        rxsel = re.compile(r'''
+            (?P<negate>!?)                      # exclamation point
+            (?:(?P<element>\w+)$|               # element|all   or
+               (?P<start>\d+)(?P<stop>:\d+)?$   # number range
+            )''', re.VERBOSE)
+        def applymxsel(mx, didx):
+            """Apply selection from rxsel matching object to index dictionary
+            didx (first or second).
+            Return fixed selection string.
+            """
+            indices = []
+            sfixed = mx.group('negate') and '!' or ''
+            # process atom type
+            if mx.group('element'):
+                elfixed = mx.group('element')
+                elfixed = elfixed[0:1].upper() + elfixed[1:].lower()
+                if elfixed == 'All':
+                    indices = range(1, Natoms+1)
+                    sfixed += elfixed.lower()
+                else:
+                    indices = [ (idx + 1) for idx in range(Natoms)
+                            if self.initial[idx].element == elfixed ]
+                    sfixed += elfixed
+            # process range
+            if mx.group('negate'):
+                for i in indices:   didx.pop(i, None)
+            else:
+                didx.update(dict.fromkeys(indices))
+            return sfixed
+        # end of applymxsel
+        # sets of first and second indices
+        first, second = {}, {}
+        # words of fixed_pair_string
+        words_fixed = []
+        s1 = s.strip()
+        words = re.split(r' *, *', s1)
+        for w in words:
+            wparts = w.split('-')
+            if len(wparts) != 2:
+                emsg = "Selection word '%s' must contain one dash '-'." % w
+                raise ControlValueError, emsg
+            wfirst, wsecond = [ wp.replace(" ", "") for wp in wparts ]
+            mxfirst = rxsel.match(wfirst)
+            mxsecond = rxsel.match(wsecond)
+            if (wfirst and not mxfirst) or (wsecond and not mxsecond):
+                emsg = "Invalid selection syntax in '%s'" % w
+                raise ControlValueError, emsg
+            wfixed = ''
+            # wfirst can be either empty or matching
+            if mxfirst: wfixed += applymxsel(mxfirst, first)
+            wfixed += '-'
+            if mxsecond: wfixed += applymxsel(mxsecond, second)
+            words_fixed += wfixed
+        # build returned dictionary
+        rv = { 'first' : first.keys(),
+               'second' : second.keys(),
+               'allfirst' : len(first) == Natoms,
+               'allsecond' : len(second) == Natoms,
+               'fixed_pair_string' : ", ".join(words_fixed),
+        }
+        rv['first'].sort()
+        rv['second'].sort()
+        return rv
+
+    def applyPairSelection(self, server, phaseidx):
+        """Apply pair selection for calculations of partial PDF.
+
+        server   -- instance of PdfFit engine
+        phaseidx -- phase index in PdfFit engine starting from 1
+        """
+        # pair selection for partial PDFs
+        selected = self.getSelectedPairIndices()
+        if selected['allfirst']:
+            server.selectAll(phaseidx, 'i')
+        else:
+            for i in selected['first']:
+                server.selectAtomIndex(phaseidx, 'i', i)
+        if selected['allsecond']:
+            server.selectAll(phaseidx, 'j')
+        else:
+            for i in selected['second']:
+                server.selectAtomIndex(phaseidx, 'j', i)
+        return
+
     def copy(self, other=None):
         """copy self to other. if other is None, create new instance
 
@@ -446,6 +582,7 @@ class FitStructure(PDFStructure):
                 self.refined.copy(other.refined)
         # copy constraints
         other.constraints = copy.deepcopy(self.constraints)
+        other.selected_pairs = self.selected_pairs
         return other
 
     def load(self, z, subpath):
@@ -458,10 +595,11 @@ class FitStructure(PDFStructure):
         subs = subpath.split('/')
         rootDict = z.fileTree[subs[0]][subs[1]][subs[2]][subs[3]]
         self.initial.readStr(z.read(subpath+'initial'), 'pdffit')
+        # refined
         if rootDict.has_key('refined'):
             self.refined = PDFStructure(self.name)
             self.refined.readStr(z.read(subpath+'refined'), 'pdffit')
-            
+        # constraints
         if rootDict.has_key('constraints'):
             from pdfguicontrol import CtrlUnpickler
             self.constraints = CtrlUnpickler.loads(z.read(subpath+'constraints'))
@@ -469,8 +607,9 @@ class FitStructure(PDFStructure):
             for old, new in translate.items():
                 if old in self.constraints:
                     self.constraints[new] = self.constraints.pop(old)
-            #for k,v in constraints.items():
-            #    self.constraints[k] = Constraint(v)
+        # selected_pairs
+        if rootDict.has_key("selected_pairs"):
+            self.selected_pairs = rootDict["selected_pairs"]
         return
         
     def save(self, z, subpath):
@@ -490,6 +629,7 @@ class FitStructure(PDFStructure):
             #    constraints[k] = v.formula
             bytes = cPickle.dumps(self.constraints, cPickle.HIGHEST_PROTOCOL)
             z.writestr(subpath+'constraints', bytes)
+        z.writestr(subpath+'selected_pairs', self.selected_pairs)
         return
         
     def getYNames(self):

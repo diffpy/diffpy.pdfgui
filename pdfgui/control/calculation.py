@@ -107,13 +107,20 @@ class Calculation(PDFComponent):
         # do the job
         if len(self.owner.strucs) == 0:
             raise ControlConfigError, "No structure is given for calculation"
-        for i in range(len(self.owner.strucs)):
-            server.read_struct_string(self.owner.strucs[i].writeStr('pdffit'))
-            server.setvar('pscale', self.owner.strucs[i].getvar('pscale'))
+        # dataset related variables
         server.alloc(self.stype, self.qmax, self.qsig,
                 self.rmin, self.rmax, self.rlen)
         server.setvar('qalp', self.qalp)
         server.setvar('spdiameter', self.spdiameter)
+        # phase related variables
+        # pair selection applies to current dataset, 
+        # therefore it has to be done after alloc
+        nstrucs = len(self.owner.strucs)
+        for phaseidx, struc in zip(range(1, nstrucs + 1), self.owner.strucs):
+            server.read_struct_string(struc.writeStr('pdffit'))
+            server.setvar('pscale', struc.getvar('pscale'))
+            struc.applyPairSelection(server, phaseidx)
+        # all ready here
         server.calc()
         
         # get results
