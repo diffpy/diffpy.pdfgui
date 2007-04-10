@@ -4,7 +4,7 @@
 
 @c start of header
 @setfilename pdfgui
-@settitle 1.0 Beta release 10 April 2007
+@settitle 1.0 Beta release 15 April 2007
 @c @setcontentsaftertitlepage
 @c end of header
 
@@ -20,7 +20,7 @@ all rights reserved.
 
 @title PDFgui user guide
 @subtitle 1.0 Beta release
-@subtitle 10 April 2007
+@subtitle 15 April 2007
 @author C. L. Farrow, P. Juh@'as, J. W. Liu, D. Bryndin, E. S. Bo@v{z}in,
 @author J. Bloch, Th. Proffen, and S. J. L. Billinge
 
@@ -120,13 +120,16 @@ We may have a menu in the top section of the manual
 @c menu
 @menu
 * Introduction::
-* Quick Start::
+* Quick start::
+* Examples and tutorials::
+* Extras::
 @end menu
 
 @c  @insertcopying
 @end ifnottex
 
-
+@page
+@vskip 0pt plus 1filll
 @c chapter 1
 @c @node NODE-NAME, NEXT, PREVIOUS, UP
 @node    Introduction, PDFfit2, Top
@@ -308,16 +311,18 @@ Instructions for joining the email-list can be found on the web-page.
 
 @b{NOTE: Detailed installation instructions come here}
 
+@page
+@vskip 0pt plus 1filll
 @c Start of Chapter 2
 @c @node NODE-NAME, NEXT, PREVIOUS, UP
 @node Quick start, PDFgui layout, Installation, Top
 @chapter Quick start
 @cindex quick start
 
-In this chapter the PDFgui layout is briefly described, followed by several 
-tutorial examples, spanning the gui functionality and aimed at novice users. 
-The advanced users can skip this part and use the PDFgui cheat-sheet as 
-a reference.
+In this chapter the PDFgui layout is briefly described, followed by a simple 
+tutorial example, spanning the gui functionality and aimed at novice users. 
+Users familiar with the basics can proceed to @ref{Examples and tutorials}, 
+or use @ref{PDFgui reference sheets}.
 
 @c @node NODE-NAME, NEXT, PREVIOUS, UP
 @node PDFgui layout, Simple fit, Quick start, Top
@@ -415,6 +420,7 @@ loaded Ni PDF dataset, G(r), which is selected. The current action panel
 displays data set configuration within the ``Configure'' tab.}
 @end float
 
+@cindex  nanoparticle size
 Figure @ref{figure1-09} shows the PDFgui apprearance at this stage of 
 the exercise. The current action panel has three tabs, ``Configure'', 
 ``Constraints'', and ``Results'' that could be selected using mouse. 
@@ -430,13 +436,18 @@ appropriate fields in the current action panel for data set configuration.
 Caution should be exercised by the user to verify that these data indeed 
 correspond to the experimental conditions. In the present example, x-ray 
 radiation is used, and so the x-ray selection is turned on for the scatterer 
-type. The data range, fit range, data scale factor, and other experiment 
-specific parameters are displayed. If no meta data is present in a data 
-file, this information should be supplied by the user. Note also that the 
-changes occured at this stage in the Plot Control panel, allowing user to 
-plot the data. This is achieved by selecting  an observed G(r) and clicking 
-on a plot button that will invoke a plot. Since no fitting has occured so far, 
-an attempt to plot calculated PDF profile or a difference yields a blank plot. 
+type. The data range, fit range, data scale factor, maximum Q value used in 
+Fourier transform to obtain the experimental PDF, spherical form factor diameter 
+(used for nanoparticle samples, to account for the PDF signal dampening due to 
+the finite particle size) and the experiment specific parameters are displayed. 
+These comprise parameters describing experimental resolution effects, Qsigma and 
+Qalpha, and experimental conditions, such as temperature and doping (currently used 
+for bookkeeping only). If no meta data are present in a data file, this 
+information should be supplied by the user. Note also that the changes occured 
+at this stage in the Plot Control panel, allowing user to plot the data. 
+This is achieved by selecting an observed G(r) and clicking on a plot button 
+that will invoke a plot. Since no fitting has occured so far, an attempt to 
+plot calculated PDF profile or a difference yields a blank plot. 
 
 Having specified the initial structure to be refined, and the data set to 
 be fit, one proceeds to the refinement setup. This is carried out throug 
@@ -590,8 +601,24 @@ expert mode to be imported into the gui. This option, along with the option
 of exporting gui generated scripts and exporting the refinement results is 
 available through the ``Fits'' menu on the menu bar. 
 
+@page
+@vskip 0pt plus 1filll
+@c Start of Chapter 3
 @c @node NODE-NAME, NEXT, PREVIOUS, UP
-@node Symmetry expansion, Calculating PDF, Simple fit, Top
+@node Examples and tutorials, Symmetry expansion, Simple fit, Top
+@chapter Examples and tutorials
+@cindex examples
+@cindex tutorials
+
+In this chapter we present series of examples and tutorials aimed at 
+users already comfortable with the gui, to provide training in advanced 
+gui features designed for most common modeling situations, such as 
+building the structure from scratch, calculating the PDF based on a 
+given structure, linking two fits, and creating and executing a series of 
+fits on a sequence of data sets. 
+
+@c @node NODE-NAME, NEXT, PREVIOUS, UP
+@node Symmetry expansion, Calculating PDF, Examples and tutorials, Top
 @section Building structure model using crystal symmetry
 @cindex building structure from scratch
 @cindex symmetry expansion
@@ -682,7 +709,7 @@ What is written there will be used, and if the table is tempered with,
 then the original symmetry obtained using symmetry expansion feature will 
 @i{not} be preserved. Therefore, the expansion tool represents a convenience 
 tool and nothing more than that. The remaining steps of this example are 
-identical to these described in @ref{Simple Fit}. 
+identical to these described in @ref{Simple fit}. 
  
 @c @node NODE-NAME, NEXT, PREVIOUS, UP
 @node Calculating PDF, Sequential fitting, Symmetry expansion, Top
@@ -723,10 +750,9 @@ calculated PDF, use the @b{Export Selected Calculation} choice on the
 ``Calculations'' menu, after highlighting the performed calculation in 
 question on the Fit Tree. 
 
-@c Start of Chapter 3
 @c @node NODE-NAME, NEXT, PREVIOUS, UP
 @node Sequential fitting, Multistage fitting, Calculating PDF, Top
-@chapter Sequential fitting
+@section Sequential fitting
 @cindex sequential fitting
 
 In many practical situations there is a need to set a series of refinements 
@@ -745,9 +771,8 @@ from the menu bar, ``Fits'' menu, @b{Macros} selection on the drop-down menu.
 
 @c @node NODE-NAME, NEXT, PREVIOUS, UP
 @node Multistage fitting, r-series, Sequential fitting, Top
-@section Multistage fitting
+@subsection Multistage fitting
 @cindex multistage fitting
-
 
 Here we describe how to string together several fits. To begin, create a fit 
 as explained earlier. The next step is to copy the fit. This is achieved by 
@@ -791,17 +816,18 @@ each other. Notable is a sharper nearest neighbor PDF peak in the second
 fit, improving the fit to the Ni data compared to the ``Fit 1'' achievement.
 
 We note here that there is also a linear atomic correlation factor 
-@i{delta1} that could be used along side @i{delta2} or alone, to account for 
-correlated atomic motion. Alternative way to include the correlated motion 
-effects on PDF is to introduce @i{srat} parameter that defines low-@i{r} to 
-high-@i{r} PDF peak ratio, and @i{rcut} limit needs to be specified that 
-defines a cutoff distance. The two approaches of accounting for correlated 
-motion should @i{not} be used simultaneously. Details of this and other 
+@i{delta1}. This one is appropriate to use in cases of high temperature, 
+while @i{delta2} is more appropriate for the case of low temperatures. 
+Alternative way to include the correlated motion effects on PDF is to 
+introduce @i{srat} parameter that defines low-@i{r} to high-@i{r} PDF 
+peak ratio, and @i{rcut} limit needs to be specified that defines a cutoff 
+distance. The two approaches of accounting for correlated motion should 
+@i{not} be used simultaneously. Details of this and other 
 issues related to the PDF method can be found elsewhere.
 
 @c @node NODE-NAME, NEXT, PREVIOUS, UP
 @node r-series, Temperature series, Multistage fitting, Top
-@section Sequential fitting of incremental r-series
+@subsection Sequential fitting of incremental r-series
 @cindex sequential fitting
 @cindex r-series
 
@@ -847,7 +873,7 @@ Once the sequence is done, you can review the results using Plot Control.
 
 @c @node NODE-NAME, NEXT, PREVIOUS, UP
 @node Temperature series, Doping series, r-series, Top
-@section Sequential fitting of temperature series
+@subsection Sequential fitting of temperature series
 @cindex sequential fitting
 @cindex temperature series
 
@@ -932,7 +958,7 @@ execution should be very quick in this case.
 
 @c @node NODE-NAME, NEXT, PREVIOUS, UP
 @node Doping series, PDF plotting, Temperature series, Top
-@section Sequential fitting of doping series
+@subsection Sequential fitting of doping series
 @cindex sequential fitting
 @cindex doping series
 
@@ -1017,11 +1043,16 @@ such that various converged fit parameters are plotted versus Ca content.
 An example is provided in Figure  @ref{figure3-6} featuring one of the 
 lattice parameters.
 
+@c Start of Chapter 4
+@c @node NODE-NAME, NEXT, PREVIOUS, UP
+@node Extras, PDF plotting, Doping series, Top
+@chapter Extras
+@cindex extras
 
 @c Start of Chapter 4
 @c @node NODE-NAME, NEXT, PREVIOUS, UP
-@node PDF plotting, Displaying the structure, Doping series, Top
-@chapter PDF plotting
+@node PDF plotting, Displaying the structure, Extras, Top
+@section PDF plotting
 @cindex PDF plotting
 
 Plotting capabilities of PDFgui are provided through the Plot Control 
@@ -1055,11 +1086,9 @@ The basic functionality for manipulating the plot is provided through icons
 on the tool bar of the plotting window.}
 @end float 
 
-
-@c Start of Chapter 5
 @c @node NODE-NAME, NEXT, PREVIOUS, UP
 @node Displaying the structure, Advanced usage and special needs, PDF plotting, Top
-@chapter Displaying the structure
+@section Displaying the structure
 @cindex displaying the structure
 
 For those users having AtomEye structural visualizer available in their 
@@ -1082,122 +1111,234 @@ visualization of the initial and refined PDF structures: example of Ni
 structure.}
 @end float 
  
-
-@c Start of Chapter 6
 @c @node NODE-NAME, NEXT, PREVIOUS, UP
-@node Advanced usage and special needs, PDFgui cheat-sheet, Displaying the structure, Top
-@chapter Advanced usage and special needs 
+@node Advanced usage and special needs, PDFgui reference sheets, Displaying the structure, Top
+@section Advanced usage and special needs 
 @cindex advanced usage 
 @cindex special needs
 
-The PDFgui is designed to allow for most of the standard modeling situations, 
-but is not encapsulating all the capabilities available within the modeling 
-engine. Advanced usage of PDFfit2 engine to accomodate any special modeling 
-need that user may have is available via Python scripts in ``command line'' 
-mode, similar to that featured in PDFFIT proram, where various special 
-situations could be handled. Handling these situations requires detailed 
-knowledge of PDFfit2 syntax based on Python, which is beyond the scope 
-of this user guide and will be described elsewhere.
+The PDFgui is designed to accommodate most common modeling situations. However, 
+it is not encapsulating all the capabilities available within the modeling 
+engine, such as calculation of partial and differential PDFs, handling atoms with 
+special scattering properties, etc. Advanced usage of PDFfit2 engine to resolve 
+any such special modeling need that user may have is available through usage of 
+Python scripts in the expert command line mode, similar to that featured in 
+the PDFFIT proram, where various special situations could be accounted for. 
+Handling these situations requires detailed knowledge of the PDFfit2 syntax 
+based on Python, which is beyond the scope of this user guide and will be 
+described elsewhere.
 
-@c Start of Chapter 7
+@c Start of Chapter 5
 @c @node NODE-NAME, NEXT, PREVIOUS, UP
 @node 
+@node PDFgui reference sheets, List of PDFfit2 variables, Advanced usage and special needs, Top 
+@chapter PDFgui reference sheets
+@cindex PDFgui reference sheets
+@cindex reference sheets
 
-@node PDFgui cheat-sheet, List of PDFfit2 variables, Advanced usage and special needs, Top 
-@chapter PDFgui cheat-sheet
-@cindex PDFgui cheat-sheet
-@cindex cheat-sheet
-
-@c Start of Chapter 8
-@node List of PDFfit2 variables, Index, PDFgui cheat-sheet, Top
+@c Start of Chapter 6
+@node List of PDFfit2 variables, Index, PDFgui reference sheets, Top
 @chapter List of PDFfit2 variables
 @cindex PDFfit2 variables
 @cindex list of variables
 @cindex variables
 
 The following is the list of PDFfit2 variables, including their default 
-values and brief description, where appropriate. 
+values in parentheses, and a brief description and a note, where appropriate. 
+Note that some of the variables used in PDFFIT are renamed in PDFfit2. The 
+reference of these changes is provided for the convenience and orientation 
+of those users that are used to the old naming scheme.
 
-dataset:
+@bigskip
+@noindent 
+@b{New Variables}
 
-spdiameter
-    (0 A) particle diameter for PDF shape damping function. Not applied when equal zero. 
+@medskip
+@noindent 
+@i{Dataset}:
 
-phase:
+@noindent 
+@b{spdiameter} 
+(0 A) particle diameter for PDF shape damping function. Not applied when equal zero. 
 
-anisotropy(n)
-    (False) flag for anisotropic thermal displacements of atom n. Assignment to uij will work for anisotropic atoms only, for isotropic atoms use uisoequiv(n). 
+@medskip
+@noindent 
+@i{Phase}:
 
-uisoequiv(n)
-    (0 A2) isotropic thermal displacement or equivalent displacement for anisotropic sites 
+@smallskip
+@noindent 
+@b{anisotropy(n)}
+(False) flag for anisotropic thermal displacements of atom n. Assignment to uij will 
+work for anisotropic atoms only, for isotropic atoms use uisoequiv(n). 
 
-Renamed Variables 
+@smallskip
+@noindent 
+@b{uisoequiv(n)}
+(0 A**2) isotropic thermal displacement or equivalent displacement for anisotropic sites 
 
-dataset:
+@bigskip
+@noindent 
+@b{Renamed Variables}
+ 
+@medskip
+@noindent 
+@i{Dataset}:
 
-qsig --> qdamp
-    (0 A-1) PDF Gaussian dampening envelope due to limited Q-resolution. Not applied when equal zero. 
+@smallskip
+@noindent 
+@b{qsig --> qdamp}
+(0 A**-1) PDF Gaussian dampening envelope due to limited Q-resolution. Not applied when equal zero. The Gaussian envelope is of the form 
 
-qalp --> qbroad
-    (0 A-1) PDF peak broadening from increased intensity noise at high Q. Not applied when equal zero. 
+@tex
+$$ B_{ij} = e^{-{({r_{ij}Q_{damp})}^{2}\over {2}}.$$ 
 
-phase:
-
-srat --> bvtol
-    (1 unitless) bond vibration tolerance. Reduction factor for PDF peak width accounting for correlated motion of bonded atoms. 
-
-Removed Variables 
-
-dataset:
-
-phase:
-
-pfrac
-    duplicate to pscale. 
-
-delta
-    duplicate to delta2. 
-
-gamma
-    duplicate to delta1. It creates confusion with lattice angle gamma. 
-
-Preserved Variables 
-
-dataset:
-
-qmax
-    (0 A) Qmax cutoff. Termination ripples not applied when Qmax is zero. 
-
-dscale
-    (1 unitless) dataset scale factor 
-
-phase:
-
-lat(1..6)
-    (A or degrees) lattice parameters a, b, c, alpha, beta, gamma. Can be also used as lat('a') etc. 
-
-x(n), y(n), z(n)
-    (unitless) fractional coordinates for atom n 
-
-uij(n)
-    (A2) elements of anisotropic displacement matrix U for atom n 
-
-occ(n)
-    (unitless) occupancy for atom n 
-
-pscale
-    (unitless) phase scale factor 
-
-delta1
-    (0 A) coefficient for 1/r peak sharpening factor 
-
-delta2
-    (0 A2) coefficient for 1/(r*r) peak sharpening factor 
-
-rcut
-    (0 A) r-cutoff for applying bvtol (srat) sharpening factor. 
+@end tex
 
 
+@smallskip
+@noindent 
+@b{qalp --> qbroad}
+(0 A**-1) PDF peak broadening from increased intensity noise at high Q. 
+Not applied when equal zero. See the equation for PDF peak width below 
+and associated explanation for details. @b{NEEDS ATTENTION FOR PRECISE 
+DEFINITION}
+
+@medskip
+@noindent 
+@i{Phase}:
+
+@smallskip
+@noindent 
+@b{srat --> bvtol}
+(1 unitless) bond vibration tolerance. Reduction factor for PDF peak width accounting for correlated motion of bonded atoms. 
+
+@bigskip
+@noindent 
+@b{Removed Variables}
+ 
+@medskip
+@noindent 
+@i{Dataset}:
+
+@medskip
+@noindent 
+@i{Phase}:
+
+@smallskip
+@noindent 
+@b{pfrac}
+duplicate to pscale. 
+
+@smallskip
+@noindent 
+@b{delta}
+duplicate to delta2. 
+
+@smallskip
+@noindent 
+@b{gamma}
+duplicate to delta1. It creates confusion with lattice angle gamma. 
+
+@bigskip
+@noindent 
+@b{Preserved Variables}
+
+@medskip
+@noindent 
+@i{Dataset}:
+
+@smallskip
+@noindent 
+@b{qmax}
+(0 A) Qmax cutoff is an experimental parameter having fixed 
+value determined during the PDF data processing in the Fourier 
+transform step. Finite data range used in the Fourier transform 
+is a source of termination ripples. Termination ripples are 
+@i{not} applied in PDF calculation when Qmax is set to zero. The 
+effect is calculated using the following equation 
+@tex
+$$ G'(r) = {1 \over {\pi}} \int_{0}^{\infty} G(r')
+\left ( {{\sin{Q_{max}(r-r')}
+\over r-r'}-{{\sin{Q_{max}(r+r')}
+\over r+r'} \right ) dr' $$.
+@end tex
+
+@smallskip
+@noindent 
+@b{dscale} 
+(1.0 unitless) dataset scale factor.
+
+@medskip
+@noindent 
+@i{Phase}:
+
+@smallskip
+@noindent 
+@b{lat(1..6)} 
+(1.0 A or 90.0 degrees) lattice parameters a, b, c, alpha, beta, gamma. Can be also used as lat('a') etc. 
+
+@smallskip
+@noindent 
+@b{x(n), y(n), z(n)} 
+(unitless) fractional coordinates for atom n. 
+
+@smallskip
+@noindent 
+@b{uij(n)}
+(0 A**2) elements of anisotropic displacement matrix U for atom n. 
+
+@smallskip
+@noindent 
+@b{occ(n)} 
+(1.0 unitless) occupancy for atom n. 
+
+@smallskip
+@noindent 
+@b{pscale}
+(1.0 unitless) phase scale factor.
+
+@smallskip
+@noindent 
+@b{delta1}
+(0 A) coefficient for 1/r contribution to the peak sharpening. See the 
+equation below and explanation for details.
+
+@smallskip
+@noindent 
+@b{delta2} 
+(0 A**2) coefficient for 1/(r*r) contribution to the peak sharpening. 
+See the equation below and explanation for details. 
+
+The PDF Peak width contains contributions from thermal and zero point 
+displacements as well as static disorder. For large distances @i{r} the 
+motion of the two contributing atoms is uncorrelated, for small distances, 
+however, the motion can be strongly correlated leading to a sharpening of 
+the first peak(s) in the observed PDF. The program PDFfit2 provides three 
+different correction terms for the PDF peak width. The final width is given 
+by 
+@tex
+$$ \sigma_{ij} = \sigma'_{ij} \sqrt{{1 - {{\delta_1}
+\over r_{ij}}-{{\delta_2}
+\over r^{2}_{ij}}+Q_{broad}^2r^{2}_{ij}}.$$
+@end tex
+
+@noindent Here the primed sigma is the peak width without correlation, given 
+by the structural model. The first two terms correct for the effects of 
+correlated motion. Within the scope of the users guide, we just mention 
+that the term @b{delta2}/r*r describes the low temperature behavior, and 
+term @b{delta1}/r describes the high temperature case. Since the two 
+parameters are highly correlated, one will in practice choose which one 
+to refine. The last term 
+in the equation models the PDF peak broadening as a result of the Q resolution 
+of the diffractometer. In many cases this term will only be significant for 
+refinements over wider @i{r}-ranges. Note that the Q resolution also results 
+in an exponential dampening of the PDF peaks which is modeled  using the 
+parameter @b{qdamp}.
+
+@smallskip
+@noindent 
+@b{rcut}
+(0 A) r-cutoff for applying bvtol (srat) sharpening factor. 
 
 @c Ending of a TexInfo File
 @node Index, Top
