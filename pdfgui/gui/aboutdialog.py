@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+# -*- coding: iso-8859-1 -*-
 ########################################################################
 #
 # PDFgui            by DANSE Diffraction group
@@ -48,7 +49,7 @@ class DialogAbout(wx.Dialog):
     
     def __init__(self, *args, **kwds):
 
-        self.authors = ["Simon Billinge", "Emil Bozin", "Dmitriy Bryndin",
+        self.authors = ["Simon Billinge", "Emil Božin", "Dmitriy Bryndin",
                 "Chris Farrow", "Pavol Juhas", "Jiwu Liu"]
         self.homepage = "http://danse.us/trac/diffraction"
         

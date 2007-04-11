@@ -176,6 +176,19 @@ class PhaseConstraintsPanel(wx.Panel, PDFPanel):
 
     def __customProperties(self):
         """Custom properties for the panel."""
+        pairsTooltip =\
+"""[!]{element|indexOrRange|all}-[!]{element|indexOrRange|all}
+Examples:
+all-all              all possible pairs
+Na-Na                only Na-Na pairs
+all-all, !Na-        all pairs except Na-Na (first index skips Na atoms)
+all-all, -!Na        same as previous
+Na-1:4               pairs of Na and first 4 atoms
+all-all, !Cl-!Cl     exclude any pairs containing Cl
+all-all, !Cl-, -!Cl  same as previous
+1-all                only pairs including the first atom
+"""
+        self.textCtrlIncludedPairs.SetToolTipString(pairsTooltip)
         self.structure = None
         self.constraints = {}
         self.results = None
@@ -191,6 +204,8 @@ class PhaseConstraintsPanel(wx.Panel, PDFPanel):
         for widget in self._textctrls:
             self.__dict__[widget].Bind(wx.EVT_SET_FOCUS, self.onSetFocus)
             self.__dict__[widget].Bind(wx.EVT_KILL_FOCUS, self.onKillFocus)
+        self.textCtrlIncludedPairs.Bind(wx.EVT_SET_FOCUS, self.onSetFocus)
+        self.textCtrlIncludedPairs.Bind(wx.EVT_KILL_FOCUS, self.onSelectedPairs)
 
         # set up grid
         self.lAtomConstraints = ['x','y','z',
@@ -228,6 +243,9 @@ class PhaseConstraintsPanel(wx.Panel, PDFPanel):
             if var in self.constraints: s = self.constraints[var].formula
             else:                       s = ""
             wobj.SetValue(s)
+
+        pairs = self.structure.getSelectedPairs()
+        self.textCtrlIncludedPairs.SetValue(pairs)
         
         ### update the grid ###
         natoms = len(self.structure)
@@ -328,6 +346,18 @@ class PhaseConstraintsPanel(wx.Panel, PDFPanel):
         refreshTextCtrls(self)
         self.mainFrame.needsSave()        
         self._focusedText = None
+        return
+
+    def onSelectedPairs(self, event):
+        """Check to see if the value of the selected pairs is valid."""
+        if not self.mainFrame: return
+        value = self.textCtrlIncludedPairs.GetValue()
+        try:
+            self.structure.setSelectedPairs(value)
+        except:
+            value = self.structure.getSelectedPairs()
+            self.textCtrlIncludedPairs.SetValue(value)
+            raise
         return
 
     # Grid Events
