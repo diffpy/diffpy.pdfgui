@@ -93,7 +93,7 @@ class ExtendedToolbar(NavToolbar):
             filename = dlg.GetFilename()
             i = dlg.GetFilterIndex()
             ext = exts[i]
-            if ( not filename.endswith(ext) ):
+            if ( not '.' in filename ):
                 filename = filename + "." + ext
             self.canvas.print_figure(os.path.join(dirname, filename))
                
