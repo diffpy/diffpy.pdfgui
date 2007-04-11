@@ -181,7 +181,7 @@ class PhaseConstraintsPanel(wx.Panel, PDFPanel):
 Examples:
 all-all              all possible pairs
 Na-Na                only Na-Na pairs
-all-all, !Na-        all pairs except Na-Na (first index skips Na atoms)
+all-all, !Na-        all pairs except Na-Na
 all-all, -!Na        same as previous
 Na-1:4               pairs of Na and first 4 atoms
 all-all, !Cl-!Cl     exclude any pairs containing Cl
@@ -424,6 +424,9 @@ all-all, !Cl-, -!Cl  same as previous
         """Fill cells with a given value.
 
         value       --  string value to place into cells
+
+        This uses the member variable _selectedCells, a list of (i,j) tuples for
+        the selected cells.
         """
         for (i,j) in self._selectedCells:
             if not self.gridAtoms.IsReadOnly(i,j):
@@ -462,7 +465,7 @@ all-all, !Cl-, -!Cl  same as previous
         # Delete
         elif key == 127:
             self._selectedCells = getSelectedCells(self)
-            fillCells(self, indices, "")
+            self.fillCells("")
             self.mainFrame.needsSave()
 
         # Can't get these to work. Maybe later.

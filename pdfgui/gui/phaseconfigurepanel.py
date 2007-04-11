@@ -454,7 +454,11 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
 
     def fillCells(self, value):
         """Fill cells with a given value.
+
         value       --  string value to place into cells
+
+        This uses the member variable _selectedCells, a list of (i,j) tuples for
+        the selected cells.
         """
         for (i,j) in self._selectedCells:
             if not self.gridAtoms.IsReadOnly(i,j):
