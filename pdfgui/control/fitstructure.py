@@ -447,18 +447,18 @@ class FitStructure(PDFStructure):
             all-all, !Cl-, -!Cl  same as previous
             1-all                only pairs including the first atom
 
-        Use getSelectedPairIndices() method to get a list of included values
+        Use getPairSelectionFlags() method to get a list of included values
         for first and second pair index.
         """
         # check syntax of s
-        rv = self.getSelectedPairIndices(s)
-        self.selected_pairs = rv['fixed_pair_string']
+        psf = self.getPairSelectionFlags(s)
+        self.selected_pairs = psf['fixed_pair_string']
         return
 
     def getSelectedPairs(self):
         return self.selected_pairs
 
-    def getSelectedPairIndices(self, s=None):
+    def getPairSelectionFlags(self, s=None):
         """Translate string s to a list of allowed values for first and second
         pair index.  Raise ControlValueError for invalid syntax of s.  See 
         setSelectedPairs() docstring for a definition of pair selection syntax.
@@ -467,49 +467,55 @@ class FitStructure(PDFStructure):
 
         Return a dictionary with following keys:
 
-        first     -- list of selected first indices
-        second    -- list of selected second indices
-        allfirst  -- flag for inclusion of all first indices
-        allsecond -- flag for inclusion of all second indices
+        firstflags  -- list of selection flags for first indices
+        secondflags -- list of selection flags for second indices
         fixed_pair_string -- argument corrected to standard syntax
         """
         if s is None:   s = self.selected_pairs
         Natoms = len(self.initial)
         rxsel = re.compile(r'''
             (?P<negate>!?)                      # exclamation point
-            (?:(?P<element>\w+)$|               # element|all   or
+            (?:(?P<element>[a-zA-Z]+)$|         # element|all   or
                (?P<start>\d+)(?P<stop>:\d+)?$   # number range
             )''', re.VERBOSE)
-        def applymxsel(mx, didx):
-            """Apply selection from rxsel matching object to index dictionary
-            didx (first or second).
+
+        def applymxsel(mx, flags):
+            """Set selection flags from rxsel matching object.
+            flags -- list of selection flags, first or second pair
             Return fixed selection string.
             """
-            indices = []
             sfixed = mx.group('negate') and '!' or ''
+            selflag = not mx.group('negate')
             # process atom type
             if mx.group('element'):
                 elfixed = mx.group('element')
                 elfixed = elfixed[0:1].upper() + elfixed[1:].lower()
                 if elfixed == 'All':
-                    indices = range(1, Natoms+1)
+                    flags[:] = Natoms*[selflag]
                     sfixed += elfixed.lower()
                 else:
-                    indices = [ (idx + 1) for idx in range(Natoms)
-                            if self.initial[idx].element == elfixed ]
+                    for idx in range(Natoms):
+                        if self.initial[idx].element == elfixed:
+                            flags[idx] = selflag
                     sfixed += elfixed
             # process range
-            if mx.group('negate'):
-                for i in indices:   didx.pop(i, None)
             else:
-                didx.update(dict.fromkeys(indices))
+                lo = max(int(mx.group('start')) - 1, 0)
+                sfixed += mx.group('start')
+                hi = lo + 1
+                if mx.group('stop'):
+                    hi = int(mx.group('stop')[1:])
+                    sfixed += mx.group('stop')
+                hi = min(hi, Natoms)
+                flags[lo:hi] = (hi-lo)*[selflag]
             return sfixed
         # end of applymxsel
+
         # sets of first and second indices
-        first, second = {}, {}
+        firstflags, secondflags = Natoms*[False], Natoms*[False]
         # words of fixed_pair_string
         words_fixed = []
-        s1 = s.strip()
+        s1 = s.strip(' \t,')
         words = re.split(r' *, *', s1)
         for w in words:
             wparts = w.split('-')
@@ -524,19 +530,15 @@ class FitStructure(PDFStructure):
                 raise ControlValueError, emsg
             wfixed = ''
             # wfirst can be either empty or matching
-            if mxfirst: wfixed += applymxsel(mxfirst, first)
+            if mxfirst: wfixed += applymxsel(mxfirst, firstflags)
             wfixed += '-'
-            if mxsecond: wfixed += applymxsel(mxsecond, second)
-            words_fixed += wfixed
+            if mxsecond: wfixed += applymxsel(mxsecond, secondflags)
+            words_fixed.append(wfixed)
         # build returned dictionary
-        rv = { 'first' : first.keys(),
-               'second' : second.keys(),
-               'allfirst' : len(first) == Natoms,
-               'allsecond' : len(second) == Natoms,
+        rv = { 'firstflags' : firstflags,
+               'secondflags' : secondflags,
                'fixed_pair_string' : ", ".join(words_fixed),
         }
-        rv['first'].sort()
-        rv['second'].sort()
         return rv
 
     def applyPairSelection(self, server, phaseidx):
@@ -545,18 +547,12 @@ class FitStructure(PDFStructure):
         server   -- instance of PdfFit engine
         phaseidx -- phase index in PdfFit engine starting from 1
         """
-        # pair selection for partial PDFs
-        selected = self.getSelectedPairIndices()
-        if selected['allfirst']:
-            server.selectAll(phaseidx, 'i')
-        else:
-            for i in selected['first']:
-                server.selectAtomIndex(phaseidx, 'i', i)
-        if selected['allsecond']:
-            server.selectAll(phaseidx, 'j')
-        else:
-            for i in selected['second']:
-                server.selectAtomIndex(phaseidx, 'j', i)
+        psf = self.getPairSelectionFlags()
+        idx = 0
+        for iflag, jflag in zip(psf['firstflags'], psf['secondflags']):
+            idx += 1
+            server.selectAtomIndex(phaseidx, 'i', idx, iflag)
+            server.selectAtomIndex(phaseidx, 'j', idx, jflag)
         return
 
     def copy(self, other=None):
