@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-# -*- coding: iso-8859-1 -*-
+# -*- coding: UTF-8 -*-
 ########################################################################
 #
 # PDFgui            by DANSE Diffraction group
