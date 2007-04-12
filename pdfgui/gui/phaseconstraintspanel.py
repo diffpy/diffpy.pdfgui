@@ -354,10 +354,9 @@ all-all, !Cl-, -!Cl  same as previous
         value = self.textCtrlIncludedPairs.GetValue()
         try:
             self.structure.setSelectedPairs(value)
-        except:
+        finally:
             value = self.structure.getSelectedPairs()
             self.textCtrlIncludedPairs.SetValue(value)
-            raise
         return
 
     # Grid Events
