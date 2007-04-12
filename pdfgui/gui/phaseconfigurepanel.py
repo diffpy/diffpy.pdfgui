@@ -505,7 +505,7 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
 
         # Append an atom
         # Ctrl + or Ctrl =
-        elif event.ControlDown() and key == 61:
+        elif event.ControlDown() and (key == 61 or key == 43):
             indices = phasepanelutils.getSelectedAtoms(self)
             pos = 0
             if indices:
