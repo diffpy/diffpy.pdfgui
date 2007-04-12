@@ -687,9 +687,10 @@ feature can be used for moving quickly from one form-field to the next.
 To introduce new atoms right-click with your mouse onto @i{elem} tab in the 
 current action panel, and select desired number of atoms in the asymmetric 
 unit via the dialog box that pops up. In Ni case select one row only. After 
-action is invoked, a new row will show up in the table. Type in @i{Ni} for 
-the element name. It is important that the element name is typed in correctly, 
-as this is further used to search a database for the scattering 
+action is invoked, a new row will show up in the table. This can also be
+performed by hitting ``Control'', ``Shift'' and ``+'' simulataneously .Type in
+@i{Ni} for the element name. It is important that the element name is typed in
+correctly, as this is further used to search a database for the scattering 
 characteristics of that site. Further, highlight the three diagonal ADPs, and 
 type in the initial value 0.0025. 
 
@@ -702,7 +703,8 @@ type in the initial value 0.0025.
 Now right-click with the mouse on the 
 element name, and select ``Expand space group...'' option. A dialog box will 
 appear, as shown in Figure @ref{fig3-01}, requesting space group 
-information and the choice of origin. Choose ``Fm-3m'' and hit enter. 
+information and the choice of origin. Choose ``Fm-3m'' and hit enter. You can
+also type ``Fm-3m'' or ``225'', the symmetry group number.
 This will expand the unit cell accordingly showing 4 Ni sites. 
 
 @float Figure,fig3-02 
@@ -711,26 +713,28 @@ This will expand the unit cell accordingly showing 4 Ni sites.
 @end float 
 
 
-In order to set the symmetry constraints for the refinement, select 
-``Constraints'' tab, highlight all the atoms, and right-click to invoke a 
-menu. Click on ``Symmetry constraints...'', and a dialog box will appear 
-asking for the space group to be used and whether you want the positions 
-and/or the thermal parameters to be constrained, as shown in Figure 
-@ref{fig3-02}. The default is to use the space group used for expansion, 
-and to constrain everything according to 
-the symmetry. Since all the positions are special, these will not be 
-refinable by symmetry, and the thermal parameters will be isotropic. The 
-program will assign parameters according to symmetry using default names that 
-can be renamed and/or reassigned by user. To be consistent with the naming 
-from the first example, one could assign the lattice parameters as @i{@@3} 
-and the isotropic ADPs as @i{@@4}. It is important to note that the table 
-reflecting 
-constraints is @i{the only place} that program refers to for the symmetry. 
-What is written there will be used, and if the table is tempered with, 
-then the original symmetry obtained using symmetry expansion feature will 
-@i{not} be preserved. Therefore, the expansion tool represents a convenience 
-tool and nothing more than that. The remaining steps of this example are 
-identical to these described in @ref{Simple fit}. 
+In order to set the symmetry constraints for the refinement, select
+``Constraints'' tab, highlight all the atoms, and right-click to invoke a menu.
+Note that hitting ``Control'' and ``A'' simlutaneously will select all the atoms
+if the grid is active. (If the fit tree is active, it will select all tree
+items). Click on ``Symmetry constraints...'', and a dialog box will appear
+asking for the space group to be used and whether you want the positions and/or
+the thermal parameters to be constrained, as shown in Figure @ref{fig3-02}. The
+default is to use the space group used for expansion, and to constrain
+everything according to the symmetry. Since all the positions are special, these
+will not be refinable by symmetry, and the thermal parameters will be isotropic.
+The program will assign parameters according to symmetry using default names
+that can be renamed and/or reassigned by user. To be consistent with the naming
+from the first example, one could assign the lattice parameters as @i{@@3} and
+the isotropic ADPs as @i{@@4}. Note that parameters can be quickly renamed or
+consolidated in the ``Parameters'' panel of the Fit node using the right-click
+menu. It is important to note that the table reflecting constraints is @i{the
+only place} that program refers to for the symmetry.  What is written there will
+be used, and if the table is tampered with, then the original symmetry obtained
+using symmetry expansion feature will @i{not} be preserved. Therefore, the
+expansion tool represents a convenience tool and nothing more than that. The
+remaining steps of this example are identical to these described in @ref{Simple
+fit}. 
  
 @c @node NODE-NAME, NEXT, PREVIOUS, UP
 @node Calculating PDF, Sequential fitting, Symmetry expansion, Top
@@ -761,7 +765,7 @@ could be used, or values could be specified that closely mimic the
 experimental conditions on some particular instrument of interest. After the 
 conditions are set, the gear icon on the tool bar can be used to execute the 
 calculation (or alternatively select @b{Run Selected Calculation} from 
-the ``Calculations'' menu. For our exercise, select neutrons for radiation. 
+the ``Calculations'' menu). For our exercise, select neutrons for radiation. 
 The defaults for the range and other parameters would work just fine. To get 
 an experiment data lookalike calculation, select for example 0.01 for 
 the @i{r}-grid size, and use 0.08 and 25.0 for resolution and maximum 
@@ -940,7 +944,7 @@ is already in the template fit, and then press ``Open'' button.
 All the data sets will be loaded. Since the files contain meta data, as 
 mentioned earlier, the gui is going to pick up temperature information from 
 the files. User should verify that the information is correct. The data 
-can be ordered by temperature, or name, by clicking at corresponding tag. 
+can be ordered by temperature by clicking the ``Temperature'' header. 
 
 @float Figure,fig3-06 
 @image{images/fig3-06}
@@ -1044,8 +1048,8 @@ try to interpret it as 4.0 doping. Similarly 028 would be interpreted as
 28.0, while it was intended to mean 0.28 doping. These values should be 
 edited and fixed manually by clicking on the corresponding values and 
 simply typing in the correct values (Figure  @ref{fig3-08}). 
-The data can be ordered by doping, or name, by clicking at corresponding 
-tag. After you are done with editing, order the data by doping, as otherwise 
+The data can be ordered by doping by clicking the header.
+After you are done with editing, order the data by doping, as otherwise 
 the series of fits that is to be automatically generated in the next step 
 will be linked in an arbitrary way in which the data were loaded, rather 
 than to reflect the scientific logic. There should be 7 data sets. 
@@ -1089,29 +1093,26 @@ lattice parameters.
 @section PDF plotting
 @cindex PDF plotting
 
-Plotting capabilities of PDFgui are provided through the Plot Control 
-panel and the quick-plot icon on the tool bar. The Plot Control allows 
-for selection of @i{x} and @i{y} coordinates for plotting. The actual 
-quantities that could be assigned to the coordinates is determined by 
-selection of either Fit, or Phase, or Data on the Fit Tree. The choices 
-for @i{x} and @i{y} coordinates varies depending on what is selected on 
-the Fit Tree. Special options like index, temperature and doping are 
-available as choices for @i{x} in cases of plotting multiple fit results 
-from sequential fitting protocols. The plot window provides essential 
-functionality such as zoom, pan, cursor coordinate tracking, and shifts. 
-Features such as saving, exporting and printing are also available. The 
-principal intent of the plotting functionality is to allow quick access 
-to the fitting results to enhance the scientific process. In the future 
-releases the plots are expected to change appearance such to be of 
-a publication quality. If data is selected on the Fit Tree, the user can 
-plot various aspects of the PDF function, such as data, model and difference 
-PDF profiles as a function of inter-atomic distance @i{r}. If the fit or the 
-phase are selected, then various parameters, both structural and internal 
-can be plotted instead. Since several formal plotting examples were given 
-through the tutorial exercise, and having simplicity of usage in mind, no 
-other plotting examples are provided, hoping that the usage is sufficiently 
-simple for users to master individually with ease. An example plot of Rw 
-vs refinement step is shown in Figure @ref{fig4-01} for Ni example.
+Plotting capabilities of PDFgui are provided through the Plot Control panel and
+the quick-plot icon on the tool bar. The Plot Control allows for selection of
+@i{x} and @i{y} coordinates for plotting. The actual quantities that could be
+assigned to the coordinates is determined by selection of either Fit, or Phase,
+or Data on the Fit Tree. The choices for @i{x} and @i{y} coordinates varies
+depending on what is selected on the Fit Tree. Special options like index,
+temperature and doping are available as choices for @i{x} in cases of plotting
+multiple fit results from sequential fitting protocols. The plot window provides
+essential functionality such as zoom, pan, cursor coordinate tracking, and
+shifts.  Features such as saving, exporting and printing are also available. The
+principal intent of the plotting functionality is to allow quick access to the
+fitting results to enhance the scientific process. If data is selected on the
+Fit Tree, the user can plot various aspects of the PDF function, such as data,
+model and difference PDF profiles as a function of inter-atomic distance @i{r}.
+If the fit or the phase are selected, then various parameters, both structural
+and internal can be plotted instead. Since several formal plotting examples were
+given through the tutorial exercise, and having simplicity of usage in mind, no
+other plotting examples are provided, hoping that the usage is sufficiently
+simple for users to master individually with ease. An example plot of Rw vs
+refinement step is shown in Figure @ref{fig4-01} for Ni example.
 
 @float Figure,fig4-01 
 @image{images/fig4-01}
@@ -1131,7 +1132,9 @@ be visualized by passing required structural information to AtomEye that
 is invoked and corresponding 3D structure displayed on screen. This is 
 achieved by highlighting a desired phase on the Fit Tree, and then selecting 
 @b{Plot Initial Structure} or @b{Plot Refined Structure} from the ``Phases'' 
-drop-down menu. Corresponding structure visualization is displayed, which can 
+drop-down menu. The quickplot button will also invoke AtomEye with the refined
+struture, or initial structure if the refined structure does not yet exist. 
+Corresponding structure visualization is displayed, which can 
 be adjusted, rotated and zoomed in and out through the mouse functionality. 
 The size of the displayed atoms can be controlled via ``Page Up'' and 
 ``Page Down'' keys. For advanced AtomEye usage please consult corresponding 
@@ -1153,7 +1156,7 @@ structure.}
 
 The PDFgui is designed to accommodate most common modeling situations. However, 
 it is not encapsulating all the capabilities available within the modeling 
-engine, such as calculation of partial and differential PDFs, handling atoms with 
+engine, such as calculation of differential PDFs, handling atoms with 
 special scattering properties, etc. Advanced usage of PDFfit2 engine to resolve 
 any such special modeling need that user may have is available through usage of 
 Python scripts in the expert command line mode, similar to that featured in 
@@ -1182,12 +1185,33 @@ described elsewhere.
 @cindex hot keys
 
 @noindent 
+Fit tree
+@b{Ctrl+A} Select all items in the fit tree.
 @b{Ctrl+Shift+A} Once an object is selected on the Fit Tree, using this hot 
 key will sellect all the objects on the tree that are of the same type. For 
 example, if a single data set is selected on the tree, hitting this hot 
 key will make all the data sets belonging to all the fits in the tree to 
 become selected. This is particularly useful for simultaneously plotting 
 various fit results across the Fit Tree.
+@b{Ctrl+C} Copy selected item.
+@b{Ctrl+X} Delete selected item. Note that this does not place a copy of the
+item in the clipboard.
+@b{Delete} Same as @b{Ctrl+X}
+@b{Ctrl+V} Paste previously copied item. Note that this will only paste the item
+to a legal position in the tree. For example, a phase node cannot be pasted into
+an empty tree.
+
+@noindent 
+Phase configuration grid
+@b{Ctrl+A} Select all items.
+@b{Delete} Delete row. This will delete any wholly selected row.
+@b{Ctrl++} Add an atom to the grid.
+@b{Ctrl+-} Same as @b{Delete}.
+
+@noindent 
+Phase constraints grid
+@b{Ctrl+A} Select all items.
+@b{Delete} Delete contents of selected cells.
 
 @c Start of Chapter 6
 @node List of PDFfit2 variables, Index, PDFgui hot keys, Top
