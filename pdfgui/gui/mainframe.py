@@ -61,10 +61,12 @@ from pdfguiglobals import iconsDir
 # README - Note that wx.TreeCtrl.GetSelections works differently in MSW than it
 # does in GTK. In GTK, it returns a list of nodes as they appear in the tree.
 # In MSW, it returns the list of nodes in some other order.  This can lead to
-# trouble if the order of selected nodes is important to a method. Also,
-# wxTreeCtrl.GetSelections will return a non-empty list if a node is selected
-# and then deselected from a tree. This behavior is undesired, but there is
-# currently no workaround.
+# trouble if the order of selected nodes is important to a method.
+# wx.TreeControl does not create an event in windows.  Node deselection does
+# not create an event on windows. There is no workaround for this.  Node
+# selection vetoing does not work on windows.  Finally, changing the tree
+# selection sends two selection events on windows. One for an empty selection
+# and one with the new selections.
 
 class MainFrame(wx.Frame):
     """The left pane is a FitTree (from fittree.py), the right is a dynamic
@@ -1268,12 +1270,14 @@ class MainFrame(wx.Frame):
         if event.ShiftDown() and event.ControlDown() and key == 65:
             if self.mode == "fitting":
                 self.treeCtrlMain.SelectAllType(node)
+                self.onTreeSelChanged(None)
 
         # Ctrl+A
         # "fitting" mode    --  Select all nodes
         elif event.ControlDown() and key == 65:
             if self.mode == "fitting":
                 self.treeCtrlMain.SelectAll()
+                self.onTreeSelChanged(None)
 
         # Delete
         # "fitting" mode    --  Delete selected noded
