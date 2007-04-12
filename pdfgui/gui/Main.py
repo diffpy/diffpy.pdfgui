@@ -22,7 +22,6 @@ from mainframe import MainFrame
 
 class PDFGuiApp(wx.App):
     def OnInit(self):
-        wx.Font.SetDefaultEncoding(wx.FONTENCODING_UTF8)
         wx.InitAllImageHandlers()
         self.frame = MainFrame(None, -1, "")
         self.SetTopWindow(self.frame)

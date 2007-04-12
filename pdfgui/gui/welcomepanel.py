@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: UTF-8 -*-
 ########################################################################
 #
 # PDFgui            by DANSE Diffraction group
@@ -31,7 +30,7 @@ class WelcomePanel(wx.Panel, PDFPanel):
         line4 = '<font family="swiss" color="black" size="10">\n'
         line5 = \
 """
-C. L. Farrow, P. Juhas, J. W. Liu, D. Bryndin, E. S. Božin,
+C. L. Farrow, P. Juhas, J. W. Liu, D. Bryndin, E. S. Bozin,
 J. Bloch, Th. Proffen and S. J. L. Billinge
 PDFfit2 and PDFgui: Computer programs for
 studying nanostructures in crystals
