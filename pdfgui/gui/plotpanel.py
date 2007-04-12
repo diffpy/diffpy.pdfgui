@@ -251,11 +251,7 @@ class PlotPanel(wx.Panel, PDFPanel):
         yvals = [ int(par[1:]) for par in temp if par[0] == '@']
         yvals.extend([val for val in temp if val[0] != '@'])
         offset = self.offsetTextCtrl.GetValue()
-        # FIXME - The program should select this value in an intelligent way
-        if offset == "auto":
-            offset = 3.0
-        else:
-            offset = float(offset)
+        offset = float(offset)
 
         self.mainFrame.control.plot(xval, yvals, refs, shift=offset)
         return

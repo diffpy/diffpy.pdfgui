@@ -409,19 +409,19 @@ class Plotter(PDFComponent):
         style['with'] = 'linespoints'
         return style
         
-    def plot ( self, xName, yNames, ids,  spacing = 1.0):
+    def plot ( self, xName, yNames, ids,  shift = 1.0):
         """Make a 2D plot
         
         xName --  x data item name
         yNames -- list of y data item names
         ids --    Objects where y data items are taken from
-        spacing -- y spacing for different ids
+        shift -- y spacing for different ids
         """
         def _addCurve(dataIds):
             # add yNames one by one for given dataIds
             
             # firstly we don't want to change global shift
-            _shift = shift 
+            _shift = offset 
             for y in yNames:
                 if len(dataIds) == 1 and group != -1:
                     #legend = dataIds[0].name  + ": " + _transName(y)
@@ -453,9 +453,11 @@ class Plotter(PDFComponent):
                     if len(dataIds[0].Gdiff) > 1:
                         GdiffMax = max(dataIds[0].Gdiff)
                     vMin = 1.1*(GMin - GdiffMax)
-                    
-                    self.window.insertCurve([hMin, hMax], [vMin, vMin], baselineStyle)
-                    _shift = vMin
+                                  
+                    # offset moves the curves of same id, but this time _shift 
+                    # only applies to single curve Gdiff
+                    _shift = shift 
+                    self.window.insertCurve([hMin, hMax], [_shift, _shift], baselineStyle)
                     
                 #Create curve, get data for it and update it in the plot
                 curve = Plotter.Curve(legend, self.window, xName, y,
@@ -497,13 +499,13 @@ class Plotter(PDFComponent):
                 self.window.clear()
             
             # default is no shift, single group.
-            shift = 0.0
+            offset = 0.0
             group = -1
             if bSeparateID:
                 for id in ids:
                     group += 1
                     _addCurve([id,])
-                    shift += spacing
+                    offset += shift
             else:
                 _addCurve(ids)
             
