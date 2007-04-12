@@ -432,7 +432,7 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
         i = event.GetRow()
         j = event.GetCol()
         self._focusedText = self.gridAtoms.GetCellValue(i,j)
-        self._selectedCells = getSelectedCells(self)
+        self._selectedCells = phasepanelutils.getSelectedCells(self)
         return
 
     def onCellChange(self, event): # wxGlade: PhaseConfigurePanel.<event_handler>
