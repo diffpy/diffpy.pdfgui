@@ -63,7 +63,7 @@ class PhaseConstraintsPanel(wx.Panel, PDFPanel):
         self.labelRcut = wx.StaticText(self, -1, "rcut")
         self.textCtrlRcut = wx.TextCtrl(self, -1, "", style=wx.TE_PROCESS_ENTER)
         self.labelIncludedPairs = wx.StaticText(self, -1, "Included Pairs")
-        self.textCtrlIncludedPairs = wx.TextCtrl(self, -1, "all-all")
+        self.textCtrlIncludedPairs = wx.TextCtrl(self, -1, "all-all", style=wx.TE_READONLY)
         self.gridAtoms = AutoWidthLabelsGrid(self, -1, size=(1, 1))
 
         self.__set_properties()
@@ -104,7 +104,6 @@ class PhaseConstraintsPanel(wx.Panel, PDFPanel):
         self.labelRcut.SetToolTipString("peak sharpening cutoff")
         self.textCtrlRcut.SetToolTipString("peak sharpening cutoff")
         self.textCtrlIncludedPairs.SetMinSize((240, 25))
-        self.textCtrlIncludedPairs.SetToolTipString("List of x-y pairs where x and y are atom names, indices, or 'all'. Selection can be negated with '!'. e.g. Ni-!Ni selects all bonds between Ni and non-Ni atoms.")
         self.gridAtoms.CreateGrid(0, 11)
         self.gridAtoms.EnableDragRowSize(0)
         self.gridAtoms.SetColLabelValue(0, "elem")
@@ -176,19 +175,6 @@ class PhaseConstraintsPanel(wx.Panel, PDFPanel):
 
     def __customProperties(self):
         """Custom properties for the panel."""
-        pairsTooltip =\
-"""[!]{element|indexOrRange|all}-[!]{element|indexOrRange|all}
-Examples:
-all-all              all possible pairs
-Na-Na                only Na-Na pairs
-all-all, !Na-        all pairs except Na-Na
-all-all, -!Na        same as previous
-Na-1:4               pairs of Na and first 4 atoms
-all-all, !Cl-!Cl     exclude any pairs containing Cl
-all-all, !Cl-, -!Cl  same as previous
-1-all                only pairs including the first atom
-"""
-        self.textCtrlIncludedPairs.SetToolTipString(pairsTooltip)
         self.structure = None
         self.constraints = {}
         self.results = None
@@ -204,8 +190,6 @@ all-all, !Cl-, -!Cl  same as previous
         for widget in self._textctrls:
             self.__dict__[widget].Bind(wx.EVT_SET_FOCUS, self.onSetFocus)
             self.__dict__[widget].Bind(wx.EVT_KILL_FOCUS, self.onKillFocus)
-        self.textCtrlIncludedPairs.Bind(wx.EVT_SET_FOCUS, self.onSetFocus)
-        self.textCtrlIncludedPairs.Bind(wx.EVT_KILL_FOCUS, self.onSelectedPairs)
 
         # set up grid
         self.lAtomConstraints = ['x','y','z',
@@ -353,17 +337,6 @@ all-all, !Cl-, -!Cl  same as previous
         self.refreshTextCtrls()
         self.mainFrame.needsSave()        
         self._focusedText = None
-        return
-
-    def onSelectedPairs(self, event):
-        """Check to see if the value of the selected pairs is valid."""
-        if not self.mainFrame: return
-        value = self.textCtrlIncludedPairs.GetValue()
-        try:
-            self.structure.setSelectedPairs(value)
-        finally:
-            value = self.structure.getSelectedPairs()
-            self.textCtrlIncludedPairs.SetValue(value)
         return
 
     # Grid Events

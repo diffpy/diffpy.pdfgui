@@ -59,6 +59,8 @@ class PhaseResultsPanel(wx.Panel, PDFPanel):
         self.textCtrlSrat = wx.TextCtrl(self, -1, "", style=wx.TE_READONLY)
         self.labelRcut = wx.StaticText(self, -1, "rcut")
         self.textCtrlRcut = wx.TextCtrl(self, -1, "", style=wx.TE_READONLY)
+        self.labelIncludedPairs = wx.StaticText(self, -1, "Included Pairs")
+        self.textCtrlIncludedPairs = wx.TextCtrl(self, -1, "all-all", style=wx.TE_READONLY)
         self.gridAtoms = AutoWidthLabelsGrid(self, -1, size=(1, 1))
 
         self.__set_properties()
@@ -94,6 +96,7 @@ class PhaseResultsPanel(wx.Panel, PDFPanel):
         self.textCtrlSrat.SetToolTipString("low r peak sharpening")
         self.labelRcut.SetToolTipString("peak sharpening cutoff")
         self.textCtrlRcut.SetToolTipString("peak sharpening cutoff")
+        self.textCtrlIncludedPairs.SetMinSize((240, 25))
         self.gridAtoms.CreateGrid(0, 11)
         self.gridAtoms.EnableEditing(0)
         self.gridAtoms.EnableDragRowSize(0)
@@ -114,6 +117,7 @@ class PhaseResultsPanel(wx.Panel, PDFPanel):
         # begin wxGlade: PhaseResultsPanel.__do_layout
         sizerMain = wx.BoxSizer(wx.VERTICAL)
         sizerAtoms = wx.StaticBoxSizer(self.sizerAtoms_staticbox, wx.VERTICAL)
+        sizer_1 = wx.BoxSizer(wx.HORIZONTAL)
         sizerAdditionalParameters = wx.StaticBoxSizer(self.sizerAdditionalParameters_staticbox, wx.HORIZONTAL)
         grid_sizer_4 = wx.FlexGridSizer(3, 4, 0, 0)
         sizerLatticeParameters = wx.StaticBoxSizer(self.sizerLatticeParameters_staticbox, wx.HORIZONTAL)
@@ -149,6 +153,9 @@ class PhaseResultsPanel(wx.Panel, PDFPanel):
         grid_sizer_4.Add(self.textCtrlRcut, 0, wx.ALL|wx.ALIGN_CENTER_VERTICAL|wx.ADJUST_MINSIZE, 0)
         sizerAdditionalParameters.Add(grid_sizer_4, 1, wx.EXPAND, 0)
         sizerMain.Add(sizerAdditionalParameters, 0, wx.LEFT|wx.RIGHT|wx.EXPAND, 5)
+        sizer_1.Add(self.labelIncludedPairs, 0, wx.ALL|wx.ALIGN_CENTER_HORIZONTAL|wx.ALIGN_CENTER_VERTICAL|wx.ADJUST_MINSIZE, 5)
+        sizer_1.Add(self.textCtrlIncludedPairs, 0, wx.ALL|wx.ADJUST_MINSIZE, 5)
+        sizerAtoms.Add(sizer_1, 0, wx.EXPAND, 0)
         sizerAtoms.Add(self.gridAtoms, 1, wx.EXPAND, 0)
         sizerMain.Add(sizerAtoms, 1, wx.LEFT|wx.RIGHT|wx.EXPAND, 5)
         self.SetAutoLayout(True)
@@ -176,6 +183,8 @@ class PhaseResultsPanel(wx.Panel, PDFPanel):
         """Refreshes wigets on the panel."""
         # This makes the right thing happen in phasepanelutils. It saves a lot
         # of coding.
+        pairs = self.structure.getSelectedPairs()
+        self.textCtrlIncludedPairs.SetValue(pairs)
         self.structure = self.results
         phasepanelutils.refreshTextCtrls(self)
         phasepanelutils.refreshGrid(self)

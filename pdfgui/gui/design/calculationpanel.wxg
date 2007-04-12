@@ -126,7 +126,7 @@
                                 <border>0</border>
                                 <option>0</option>
                                 <object class="wxTextCtrl" name="textCtrlRStep" base="EditTextCtrl">
-                                    <value>0.05</value>
+                                    <value>0.01</value>
                                 </object>
                             </object>
                             <object class="sizeritem">

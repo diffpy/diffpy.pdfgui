@@ -76,6 +76,8 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
         self.textCtrlSrat = wx.TextCtrl(self, -1, "", style=wx.TE_PROCESS_ENTER)
         self.labelRcut = wx.StaticText(self, -1, "rcut")
         self.textCtrlRcut = wx.TextCtrl(self, -1, "", style=wx.TE_PROCESS_ENTER)
+        self.labelIncludedPairs = wx.StaticText(self, -1, "Included Pairs")
+        self.textCtrlIncludedPairs = wx.TextCtrl(self, -1, "all-all")
         self.gridAtoms = AutoWidthLabelsGrid(self, -1, size=(1, 1))
 
         self.__set_properties()
@@ -116,6 +118,7 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
         self.textCtrlSrat.SetToolTipString("low r peak sharpening")
         self.labelRcut.SetToolTipString("peak sharpening cutoff")
         self.textCtrlRcut.SetToolTipString("peak sharpening cutoff")
+        self.textCtrlIncludedPairs.SetMinSize((240, 25))
         self.gridAtoms.CreateGrid(0, 11)
         self.gridAtoms.EnableDragRowSize(0)
         self.gridAtoms.SetColLabelValue(0, "elem")
@@ -135,6 +138,7 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
         # begin wxGlade: PhaseConfigurePanel.__do_layout
         sizerMain = wx.BoxSizer(wx.VERTICAL)
         sizerAtoms = wx.StaticBoxSizer(self.sizerAtoms_staticbox, wx.VERTICAL)
+        sizer_1 = wx.BoxSizer(wx.HORIZONTAL)
         sizerAdditionalParameters = wx.StaticBoxSizer(self.sizerAdditionalParameters_staticbox, wx.HORIZONTAL)
         grid_sizer_4 = wx.FlexGridSizer(3, 4, 0, 0)
         sizerLatticeParameters = wx.StaticBoxSizer(self.sizerLatticeParameters_staticbox, wx.HORIZONTAL)
@@ -170,6 +174,9 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
         grid_sizer_4.Add(self.textCtrlRcut, 0, wx.ALL|wx.ALIGN_CENTER_VERTICAL|wx.ADJUST_MINSIZE, 0)
         sizerAdditionalParameters.Add(grid_sizer_4, 1, wx.EXPAND, 0)
         sizerMain.Add(sizerAdditionalParameters, 0, wx.LEFT|wx.RIGHT|wx.EXPAND, 5)
+        sizer_1.Add(self.labelIncludedPairs, 0, wx.ALL|wx.ALIGN_CENTER_HORIZONTAL|wx.ALIGN_CENTER_VERTICAL|wx.ADJUST_MINSIZE, 5)
+        sizer_1.Add(self.textCtrlIncludedPairs, 0, wx.ALL|wx.ADJUST_MINSIZE, 5)
+        sizerAtoms.Add(sizer_1, 0, wx.EXPAND, 0)
         sizerAtoms.Add(self.gridAtoms, 1, wx.EXPAND, 0)
         sizerMain.Add(sizerAtoms, 1, wx.LEFT|wx.RIGHT|wx.EXPAND, 5)
         self.SetAutoLayout(True)
@@ -183,6 +190,19 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
 
     def __customProperties(self):
         """Custom properties for the panel."""
+        pairsTooltip =\
+"""[!]{element|indexOrRange|all}-[!]{element|indexOrRange|all}
+Examples:
+all-all              all possible pairs
+Na-Na                only Na-Na pairs
+all-all, !Na-        all pairs except Na-Na
+all-all, -!Na        same as previous
+Na-1:4               pairs of Na and first 4 atoms
+all-all, !Cl-!Cl     exclude any pairs containing Cl
+all-all, !Cl-, -!Cl  same as previous
+1-all                only pairs including the first atom
+"""
+        self.textCtrlIncludedPairs.SetToolTipString(pairsTooltip)
         self.structure = None
         self.constraints = {}
         self.results = None
@@ -227,6 +247,8 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
             self.__dict__[tname].Bind(wx.EVT_SET_FOCUS, self.onSetFocus)
             self.__dict__[tname].Bind(wx.EVT_KILL_FOCUS, self.onKillFocus)
             self.__dict__[tname].SetValidator(TextValidator(FLOAT_ONLY))
+        self.textCtrlIncludedPairs.Bind(wx.EVT_SET_FOCUS, self.onSetFocus)
+        self.textCtrlIncludedPairs.Bind(wx.EVT_KILL_FOCUS, self.onSelectedPairs)
 
         # set cells as float type
         attr = wx.grid.GridCellAttr()
@@ -245,6 +267,8 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
         """Refreshes widgets on the panel."""
         # make sure things have changed!
         phasepanelutils.refreshTextCtrls(self)
+        pairs = self.structure.getSelectedPairs()
+        self.textCtrlIncludedPairs.SetValue(pairs)
         phasepanelutils.refreshGrid(self)
         self.restrictConstrainedParameters()
         return
@@ -376,7 +400,7 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
 
     # TextCtrl Events
     def onSetFocus(self, event):
-        """Saves a TextCtrl value, to be compared in onKillFocuse later."""
+        """Saves a TextCtrl value, to be compared in onKillFocus later."""
         self._focusedText = event.GetEventObject().GetValue()
         return
         
@@ -391,6 +415,16 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
         self.mainFrame.needsSave()        
         self._focusedText = None
         return
+
+    def onSelectedPairs(self, event):
+        """Check to see if the value of the selected pairs is valid."""
+        if not self.mainFrame: return
+        value = self.textCtrlIncludedPairs.GetValue()
+        self.structure.setSelectedPairs(value)
+        value = self.structure.getSelectedPairs()
+        self.textCtrlIncludedPairs.SetValue(value)
+        return
+
 
     # Grid Events
     def onLabelRightClick(self, event): # wxGlade: PhaseConfigurePanel.<event_handler>
