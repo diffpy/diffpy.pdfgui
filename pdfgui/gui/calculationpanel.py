@@ -34,7 +34,7 @@ class CalculationPanel(wx.Panel, PDFPanel):
         self.labelTo = wx.StaticText(self, -1, "to", style=wx.ALIGN_RIGHT)
         self.textCtrlCalcTo = wx.TextCtrl(self, -1, "10.0")
         self.labelRStep = wx.StaticText(self, -1, "spacing", style=wx.ALIGN_RIGHT)
-        self.textCtrlRStep = wx.TextCtrl(self, -1, "0.05")
+        self.textCtrlRStep = wx.TextCtrl(self, -1, "0.01")
         self.labelQmax = wx.StaticText(self, -1, "Qmax", style=wx.ALIGN_RIGHT)
         self.textCtrlQmax = wx.TextCtrl(self, -1, "25.0")
         self.labelQsigma = wx.StaticText(self, -1, "Qsigma", style=wx.ALIGN_RIGHT)

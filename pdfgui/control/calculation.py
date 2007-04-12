@@ -55,7 +55,7 @@ class Calculation(PDFComponent):
         PDFComponent.__init__(self, name)
 
         # rmin, rstep, rmax, rlen, rcalc
-        self.setRGrid(rmin=0.1, rstep=0.05, rmax=10.0)
+        self.setRGrid(rmin=0.1, rstep=0.01, rmax=10.0)
         self.rcalc = []
         self.Gcalc = []
         self.stype = 'X'
