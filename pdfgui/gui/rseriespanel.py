@@ -55,7 +55,7 @@ class RSeriesPanel(wx.Panel, PDFPanel):
 
     def __set_properties(self):
         # begin wxGlade: RSeriesPanel.__set_properties
-        self.instructionsLabel.SetFont(wx.Font(10, wx.DEFAULT, wx.NORMAL, wx.NORMAL, 0, "Sans"))
+        self.instructionsLabel.SetFont(wx.Font(10, wx.DEFAULT, wx.NORMAL, wx.NORMAL, 0, ""))
         # end wxGlade
 
     def __do_layout(self):

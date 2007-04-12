@@ -53,7 +53,7 @@ class AddDataPanel(wx.Panel, PDFPanel):
 
     def __set_properties(self):
         # begin wxGlade: AddDataPanel.__set_properties
-        self.textLoadData.SetFont(wx.Font(12, wx.DEFAULT, wx.NORMAL, wx.NORMAL, 0, "Sans"))
+        self.textLoadData.SetFont(wx.Font(12, wx.DEFAULT, wx.NORMAL, wx.NORMAL, 0, ""))
         # end wxGlade
 
     def __do_layout(self):

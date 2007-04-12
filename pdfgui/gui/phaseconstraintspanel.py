@@ -23,9 +23,9 @@ import wx.grid
 from diffpy.pdfgui.control.constraint import Constraint
 from diffpy.pdfgui.control.controlerrors import *
 from pdfpanel import PDFPanel
-from phasepanelutils import *
 from wxExtensions.autowidthlabelsgrid import AutoWidthLabelsGrid
 from sgconstraindialog import SGConstrainDialog
+import phasepanelutils
 
 class PhaseConstraintsPanel(wx.Panel, PDFPanel):
     def __init__(self, *args, **kwds):
@@ -236,17 +236,8 @@ all-all, !Cl-, -!Cl  same as previous
         if self.structure == None:
             raise ValueError, "structure is not defined."
 
-        constraints = self.constraints.copy()
-        ### update textctrls ###
-        for widget, var in zip(self._textctrls, self.lConstraints):
-            wobj = getattr(self, widget)
-            if var in self.constraints: s = self.constraints[var].formula
-            else:                       s = ""
-            wobj.SetValue(s)
+        self.refreshTextCtrls()
 
-        pairs = self.structure.getSelectedPairs()
-        self.textCtrlIncludedPairs.SetValue(pairs)
-        
         ### update the grid ###
         natoms = len(self.structure)
         nrows = self.gridAtoms.GetNumberRows()
@@ -288,6 +279,22 @@ all-all, !Cl-, -!Cl  same as previous
         self.gridAtoms.AdjustScrollbars()
         self.gridAtoms.ForceRefresh()
         return
+
+    def refreshTextCtrls(self):
+        """Refreshes the TextCtrls. """
+
+        for widget, var in zip(self._textctrls, self.lConstraints):
+            wobj = getattr(self, widget)
+            if var in self.constraints: 
+                s = self.constraints[var].formula 
+            else: 
+                s = ""
+            wobj.SetValue(s)
+
+        pairs = self.structure.getSelectedPairs()
+        self.textCtrlIncludedPairs.SetValue(pairs)
+        return
+
 
     def applyTextCtrlChange(self, id, value):
         """Update a structure according to a change in a TextCtrl.
@@ -343,7 +350,7 @@ all-all, !Cl-, -!Cl  same as previous
         value = textctrl.GetValue()
 
         self.applyTextCtrlChange(textctrl.GetId(), value)
-        refreshTextCtrls(self)
+        self.refreshTextCtrls()
         self.mainFrame.needsSave()        
         self._focusedText = None
         return
@@ -399,7 +406,7 @@ all-all, !Cl-, -!Cl  same as previous
         i = event.GetRow()
         j = event.GetCol()
         self._focusedText = self.gridAtoms.GetCellValue(i,j)
-        self._selectedCells = getSelectedCells(self)
+        self._selectedCells = phasepanelutils.getSelectedCells(self)
         return
 
     def onCellChange(self, event): # wxGlade: PhaseConstraintsPanel.<event_handler>
@@ -447,7 +454,7 @@ all-all, !Cl-, -!Cl  same as previous
                 else:
                     self.gridAtoms.SetCellValue(i,j,str(newvalue))
 
-        quickResizeColumns(self, self._selectedCells)
+        phasepanelutils.quickResizeColumns(self, self._selectedCells)
         return
 
 
@@ -463,21 +470,21 @@ all-all, !Cl-, -!Cl  same as previous
 
         # Delete
         elif key == 127:
-            self._selectedCells = getSelectedCells(self)
+            self._selectedCells = phasepanelutils.getSelectedCells(self)
             self.fillCells("")
             self.mainFrame.needsSave()
 
         # Can't get these to work. Maybe later.
         ## Copy - Ctrl+C / Ctrl+Insert
         #if event.ControlDown() and (key == 67 or key == wx.WXK_INSERT):
-        #    if canCopySelectedCells(self):
-        #        copySelectedCells(self)
+        #    if phasepanelutils.canCopySelectedCells(self):
+        #        phasepanelutils.copySelectedCells(self)
 
         ## Paste - Ctrl+V / Shift+Insert
         #if (event.ControlDown() and key == 86) or\
         #   (event.ShiftDown() and key == wx.WXK_INSERT):
-        #       if canPasteIntoCells(self):
-        #           pasteIntoCells(self)
+        #       if phasepanelutils.canPasteIntoCells(self):
+        #           phasepanelutils.pasteIntoCells(self)
 
         else:
             event.Skip()
@@ -513,14 +520,14 @@ all-all, !Cl-, -!Cl  same as previous
         menu.Append(self.pasteID, "Paste")
 
         # Disable some items if there are no atoms selected
-        indices = getSelectedAtoms(self)
+        indices = phasepanelutils.getSelectedAtoms(self)
         if not indices:
             menu.Enable(self.spaceGroupID, False);
 
         # Check for copy/paste
-        if not canCopySelectedCells(self):
+        if not phasepanelutils.canCopySelectedCells(self):
             menu.Enable(self.copyID, False)
-        if not canPasteIntoCells(self):
+        if not phasepanelutils.canPasteIntoCells(self):
             menu.Enable(self.pasteID, False)
 
         # Popup the menu.  If an item is selected then its handler
@@ -533,7 +540,7 @@ all-all, !Cl-, -!Cl  same as previous
         """Create a supercell with the supercell dialog."""
         if self.structure != None:
 
-            indices = getSelectedAtoms(self)
+            indices = phasepanelutils.getSelectedAtoms(self)
             dlg = SGConstrainDialog(self)
             dlg.mainFrame = self.mainFrame
             dlg.indices = indices
@@ -553,12 +560,12 @@ all-all, !Cl-, -!Cl  same as previous
 
     def onPopupCopy(self, event):
         """Copy selected cells."""
-        copySelectedCells(self)
+        phasepanelutils.copySelectedCells(self)
         return
 
     def onPopupPaste(self, event):
         """Paste previously copied cells."""
-        pasteIntoCells(self)
+        phasepanelutils.pasteIntoCells(self)
         return
 
 # end of class PhaseConstraintsPanel

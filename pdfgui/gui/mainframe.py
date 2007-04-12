@@ -166,6 +166,7 @@ class MainFrame(wx.Frame):
     """
     def __init__(self, *args, **kwds):
         kwds["style"] = wx.DEFAULT_FRAME_STYLE
+
         wx.Frame.__init__(self, *args, **kwds)
 
         self.SetMinSize((792,569))

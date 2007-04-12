@@ -56,8 +56,8 @@ class AddPhasePanel(wx.Panel, PDFPanel):
 
     def __set_properties(self):
         # begin wxGlade: AddPhasePanel.__set_properties
-        self.labelOpenPhase.SetFont(wx.Font(12, wx.DEFAULT, wx.NORMAL, wx.NORMAL, 0, "Sans"))
-        self.labelCreatePhase.SetFont(wx.Font(12, wx.DEFAULT, wx.NORMAL, wx.NORMAL, 0, "Sans"))
+        self.labelOpenPhase.SetFont(wx.Font(12, wx.DEFAULT, wx.NORMAL, wx.NORMAL, 0, ""))
+        self.labelCreatePhase.SetFont(wx.Font(12, wx.DEFAULT, wx.NORMAL, wx.NORMAL, 0, ""))
         # end wxGlade
 
     def __do_layout(self):

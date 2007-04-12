@@ -174,6 +174,8 @@ class PhaseResultsPanel(wx.Panel, PDFPanel):
 
     def refresh(self):
         """Refreshes wigets on the panel."""
+        # This makes the right thing happen in phasepanelutils. It saves a lot
+        # of coding.
         self.structure = self.results
         phasepanelutils.refreshTextCtrls(self)
         phasepanelutils.refreshGrid(self)

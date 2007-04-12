@@ -42,7 +42,7 @@ class TemperatureSeriesPanel(wx.Panel, PDFPanel):
 
     def __set_properties(self):
         # begin wxGlade: TemperatureSeriesPanel.__set_properties
-        self.instructionsLabel.SetFont(wx.Font(10, wx.DEFAULT, wx.NORMAL, wx.NORMAL, 0, "Sans"))
+        self.instructionsLabel.SetFont(wx.Font(10, wx.DEFAULT, wx.NORMAL, wx.NORMAL, 0, ""))
         self.listCtrlFiles.SetToolTipString("Click header to sort by temperature")
         self.buttonUp.SetSize(self.buttonUp.GetBestSize())
         self.buttonDown.SetSize(self.buttonDown.GetBestSize())

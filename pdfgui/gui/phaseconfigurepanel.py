@@ -25,11 +25,11 @@ from diffpy.pdfgui.control.constraint import Constraint
 from diffpy.pdfgui.control.controlerrors import *
 from insertrowsdialog import InsertRowsDialog
 from pdfpanel import PDFPanel
-from phasepanelutils import *
 from wxExtensions.autowidthlabelsgrid import AutoWidthLabelsGrid
 from wxExtensions.validators import TextValidator, FLOAT_ONLY
 from supercelldialog import SupercellDialog
 from sgstructuredialog import SGStructureDialog
+import phasepanelutils
 
 
 class PhaseConfigurePanel(wx.Panel, PDFPanel):
@@ -244,8 +244,8 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
     def refresh(self):
         """Refreshes widgets on the panel."""
         # make sure things have changed!
-        refreshTextCtrls(self)
-        refreshGrid(self)
+        phasepanelutils.refreshTextCtrls(self)
+        phasepanelutils.refreshGrid(self)
         self.restrictConstrainedParameters()
         return
 
@@ -387,7 +387,7 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
         value = textctrl.GetValue()
 
         self.applyTextCtrlChange(textctrl.GetId(), value)
-        refreshTextCtrls(self)
+        phasepanelutils.refreshTextCtrls(self)
         self.mainFrame.needsSave()        
         self._focusedText = None
         return
@@ -472,7 +472,7 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
                 if newvalue is None: newvalue = oldvalue
                 self.gridAtoms.SetCellValue(i,j,str(newvalue))
 
-        quickResizeColumns(self, self._selectedCells)
+        phasepanelutils.quickResizeColumns(self, self._selectedCells)
         return
 
     def onKey(self, event):
@@ -489,8 +489,8 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
         # Delete an atom
         # Delete
         elif key == 127:
-            indices = getSelectedAtoms(self)
-            selected = [i for i in indices if isWholeRowSelected(self, i)]
+            indices = phasepanelutils.getSelectedAtoms(self)
+            selected = [i for i in indices if phasepanelutils.isWholeRowSelected(self, i)]
             if selected:
                 self.structure.deleteAtoms(indices)
                 self.refresh()
@@ -498,7 +498,7 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
 
         # Ctrl -
         elif event.ControlDown() and key == 45:
-            indices = getSelectedAtoms(self)
+            indices = phasepanelutils.getSelectedAtoms(self)
             self.structure.deleteAtoms(indices)
             self.refresh()
             self.mainFrame.needsSave()
@@ -506,7 +506,7 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
         # Append an atom
         # Ctrl + or Ctrl =
         elif event.ControlDown() and key == 61:
-            indices = getSelectedAtoms(self)
+            indices = phasepanelutils.getSelectedAtoms(self)
             pos = 0
             if indices:
                 pos = 1+indices[-1]
@@ -563,7 +563,7 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
         menu.Append(self.spaceGroupID, "Expand space group...")
 
         # Disable some items if there are no atoms selected
-        indices = getSelectedAtoms(self)
+        indices = phasepanelutils.getSelectedAtoms(self)
         if not indices:
             menu.Enable(self.deleteID, False);
             menu.Enable(self.spaceGroupID, False);
@@ -575,9 +575,9 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
             menu.Enable(self.spaceGroupID, False);
 
         # Check for copy/paste
-        if not canCopySelectedCells(self):
+        if not phasepanelutils.canCopySelectedCells(self):
             menu.Enable(self.copyID, False)
-        if not canPasteIntoCells(self):
+        if not phasepanelutils.canPasteIntoCells(self):
             menu.Enable(self.pasteID, False)
 
         # Popup the menu.  If an item is selected then its handler
@@ -612,7 +612,7 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
     def onPopupDelete(self, event):
         """Deletes the row under mouse pointer from the grid."""
         if self.structure != None:
-            indices = getSelectedAtoms(self)
+            indices = phasepanelutils.getSelectedAtoms(self)
             self.structure.deleteAtoms(indices)
             self.refresh()
             self.mainFrame.needsSave()
@@ -620,12 +620,12 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
 
     def onPopupCopy(self, event):
         """Copy selected cells."""
-        copySelectedCells(self)
+        phasepanelutils.copySelectedCells(self)
         return
 
     def onPopupPaste(self, event):
         """Paste previously copied cells."""
-        pasteIntoCells(self)
+        phasepanelutils.pasteIntoCells(self)
         return
 
     def onPopupSupercell(self, event):
@@ -644,7 +644,7 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
         """Create a supercell with the supercell dialog."""
         if self.structure != None:
 
-            indices = getSelectedAtoms(self)
+            indices = phasepanelutils.getSelectedAtoms(self)
             dlg = SGStructureDialog(self)
             dlg.mainFrame = self.mainFrame
             dlg.indices = indices
