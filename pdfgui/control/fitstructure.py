@@ -605,7 +605,7 @@ class FitStructure(PDFStructure):
                     self.constraints[new] = self.constraints.pop(old)
         # selected_pairs
         if rootDict.has_key("selected_pairs"):
-            self.selected_pairs = rootDict["selected_pairs"]
+            self.selected_pairs = z.read(subpath+'selected_pairs')
         return
         
     def save(self, z, subpath):
