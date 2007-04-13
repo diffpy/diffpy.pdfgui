@@ -27,7 +27,7 @@ symbols = ("circle","square","triangle","diamond")#,"cross","xCross")
 # this is to map 'r' to what it is supposed to be. For example, when user asks 
 # for plotting 'Gobs' against 'r', the real data objects are 'Gobs' and 'robs' 
 transdict = { 'Gobs':'robs', 'Gcalc':'rcalc','Gdiff':'rcalc','Gtrunc':'rcalc'}
-baselineStyle = {'with':'lines','line':'solid','color':'black','width':1}
+baselineStyle = {'with':'lines','line':'solid','color':'black','width':1, 'legend':'_nolegend_'}
 def _transName( name ):
     '''translate name of y object
     

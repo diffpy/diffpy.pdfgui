@@ -33,13 +33,13 @@ import os.path
 _legendBoxProperties = {
     'loc':'upper right', 
     'shadow' : True,
-    'numpoints' : 4,        #=4 the number of points in the legend line
+    'numpoints' : 3,        #=4 the number of points in the legend line
     #'prop' : FontProperties('smaller'),  # the font properties
     'pad' : 0.2,            #=0.2 the fractional whitespace inside the legend border
     'labelsep' : 0.005,     #=0.005 the vertical space between the legend entries
-    'handlelen' : 0.05,     #=0.05 the length of the legend lines
-    'handletextsep' : 0.02, #=0.02 the space between the legend line and legend text
-    'axespad' : 0.02        #=0.02 the border between the axes and legend edge
+    'handlelen' : 0.03,     #=0.05 the length of the legend lines
+    'handletextsep' : 0.01, #=0.02 the space between the legend line and legend text
+    'axespad' : 0.01        #=0.02 the border between the axes and legend edge
 }
 
 DATA_SAVE_ID  = wx.NewId()
@@ -238,20 +238,7 @@ class ExtendedPlotFrame(wx.Frame):
         """
         stylestr,properties = self.__translateStyles(style)
         curveRef = self.subplot.plot(xData, yData, stylestr, **properties)[0]
-        # self.subplot.legend( **_legendBoxProperties )
-        # Instead of using automatc legend like above, we have to use our own in
-        # order not to show unlabeled lines in legend.
-        if  style.has_key ( 'legend' ) :
-            lg = self.subplot.get_legend()
-            if not lg: 
-                self.subplot.legend((curveRef,), (style['legend'],), **_legendBoxProperties)
-            else:
-                texts = lg.get_texts()
-                lines = lg.get_lines()
-                lines.append(curveRef)
-                texts = [ x.get_text() for x in texts ]
-                texts.append(style['legend'])
-                self.subplot.legend(lines, texts, **_legendBoxProperties)
+        self.subplot.legend( **_legendBoxProperties )
         self.curverefs.append(curveRef)
         self.__updateViewLimits(curveRef)
         if bUpdate:
