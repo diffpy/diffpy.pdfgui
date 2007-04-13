@@ -18,9 +18,8 @@ from diffpy.pdfgui.gui.extendedplotframe import ExtendedPlotFrame
 from controlerrors import *
 
 # Preset plotting style
-colors = ("red","blue","black","magenta","cyan","green","yellow",
-   #"darkRed",
-   "darkBlue","darkMagenta", "darkCyan", "darkGreen","darkYellow")
+colors = ("red","blue","magenta","cyan","green","yellow", #"black", 
+  "darkRed", "darkBlue","darkMagenta", "darkCyan", "darkGreen","darkYellow")
 lines = ('solid','dash','dot','dashDot')
 symbols = ("circle","square","triangle","diamond")#,"cross","xCross")
 
@@ -93,7 +92,7 @@ def _buildStyle(plotter, name, group):
             color = colors[group%len(colors)]
             style['color'] = color
         if name == 'Gcalc':
-            style['color'] = 'darkRed'
+            style['color'] = 'black'
             
     return style
         
@@ -319,6 +318,7 @@ class Plotter(PDFComponent):
         
             # If it can get here, data is ready now.
             if self.ref is None:
+                self.ref = self.plotwnd.insertCurve(xs, ys, self.style, bUpdate)
                 if self.yStr == 'Gdiff': 
                     # add a baseline for any Gdiff
                     rs = self.ids[0].rcalc
@@ -328,7 +328,6 @@ class Plotter(PDFComponent):
                     hMax = max(rs)
                                   
                     self.plotwnd.insertCurve([hMin, hMax], [self.offset, self.offset], baselineStyle)
-                self.ref = self.plotwnd.insertCurve(xs, ys, self.style, bUpdate)
             else:
                 # update only
                 self.plotwnd.updateData(self.ref, xs, ys)
@@ -479,6 +478,10 @@ class Plotter(PDFComponent):
         try:
             self.lock.acquire()
             self.curves = []
+            
+            if 'Gcalc' in yNames:
+                yNames.remove('Gcalc')
+                yNames.append('Gcalc')
             
             # default is no shift, single group.
             offset = 0.0
