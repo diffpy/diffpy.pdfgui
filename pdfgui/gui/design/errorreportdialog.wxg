@@ -76,7 +76,7 @@
                         <option>0</option>
                         <object class="wxStaticText" name="label_email" base="EditStaticText">
                             <attribute>1</attribute>
-                            <label> Your email address  (optional ) </label>
+                            <label> Your email address  (optional) </label>
                         </object>
                     </object>
                     <object class="sizeritem">

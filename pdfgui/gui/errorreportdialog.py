@@ -28,7 +28,9 @@ import wx
 from diffpy.pdfgui.control.controlerrors import ControlError
 from diffpy.pdfgui.version import __version__
 
-_ticketURL="http://danse.us/trac/diffraction/report/1"
+query_pdfgui_tickets = ''.join(["http://danse.us/trac/diffraction/query",
+    '?status=new&status=assigned&status=reopened',
+    '&component=pdfgui&component=pdffit2&order=priority'])
 
 class ErrorReportDialog(wx.Dialog):
     def __init__(self, *args, **kwds):
@@ -38,8 +40,8 @@ class ErrorReportDialog(wx.Dialog):
         self.label_header = wx.StaticText(self, -1, " PDFgui has encountered a problem. We are sorry for the inconvenience.")
         self.label_text = wx.StaticText(self, -1, "To help us improve this software, please provide at least a short summary of the problem. When you click the Send Error Report button, the short summary, full description, error log and the version of the software will be sent to developers.")
         self.label_view_ticket = wx.StaticText(self, -1, " You can view current bug reports and feature requests ")
-        self.ticketlink = wx.lib.hyperlink.HyperLinkCtrl(self, -1, "here", URL=_ticketURL)
-        self.label_email = wx.StaticText(self, -1, " Your email address  (optional ) ")
+        self.ticketlink = wx.lib.hyperlink.HyperLinkCtrl(self, -1, "here", URL=query_pdfgui_tickets)
+        self.label_email = wx.StaticText(self, -1, " Your email address  (optional) ")
         self.text_ctrl_reporter = wx.TextCtrl(self, -1, "")
         self.label_summary = wx.StaticText(self, -1, "Short summary:")
         self.text_ctrl_summary = wx.TextCtrl(self, -1, "")
