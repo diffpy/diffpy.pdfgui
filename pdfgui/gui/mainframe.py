@@ -43,7 +43,6 @@ from welcomepanel import WelcomePanel
 from outputpanel import OutputPanel
 from blankpanel import BlankPanel
 
-from wxExtensions.paneldialog import PanelDialog
 from aboutdialog import DialogAbout
 from errorreportdialog import ErrorReportDialog
 
@@ -178,6 +177,7 @@ class MainFrame(wx.Frame):
         self.treeCtrlMain = FitTree(self, -1, style=wx.TR_HAS_BUTTONS|wx.TR_NO_LINES|wx.TR_EDIT_LABELS|wx.TR_MULTIPLE|wx.TR_HIDE_ROOT|wx.TR_MULTIPLE|wx.TR_EXTENDED|wx.TR_DEFAULT_STYLE|wx.SUNKEN_BORDER)
         self.plotPanel = PlotPanel(self, -1)
         self.outputPanel = OutputPanel(self, -1)
+        self.journalPanel = JournalPanel(self, -1)
         self.panelDynamic = BlankPanel(self, -1)
 
         self.__customProperties()
@@ -211,6 +211,8 @@ class MainFrame(wx.Frame):
             self.treeCtrlMain.ExtendProjectTree(treelist)
             self.fullpath = fullpath
             self.fileHistory.AddFileToHistory(self.fullpath)
+            self.plotPanel.refresh()
+            self.journalPanel.refresh()
         return
 
     def __defineLocalIds(self):
@@ -327,11 +329,15 @@ class MainFrame(wx.Frame):
             self.dynamicPanels[key].key = key
             self.dynamicPanels[key].Enable(False)
 
-        # Do the same for the plotPanel
+        # Do the same for the plotPanel and journalPanel
         self.plotPanel.mainFrame = self
         self.plotPanel.treeCtrlMain = self.treeCtrlMain
         self.plotPanel.cP = self.cP
         self.plotPanel.Enable(False)
+
+        self.journalPanel.mainFrame = self
+        self.journalPanel.treeCtrlMain = self.treeCtrlMain
+        self.journalPanel.cP = self.cP
 
         # Position other panels. Note that currently MinimizeButton does not do
         # anything. It is to be implemented in future versions of PyAUI
@@ -365,6 +371,17 @@ class MainFrame(wx.Frame):
                           MinimizeButton().
                           BestSize(wx.Size(190,250)).
                           MinSize(wx.Size(190,150)))
+        self.auiManager.AddPane(self.journalPanel, PyAUI.PaneInfo().
+                          Name("journalPanel").Caption("Project Journal").
+                          Float().
+                          TopDockable().
+                          BottomDockable().
+                          LeftDockable().
+                          RightDockable().
+                          MinimizeButton().
+                          Hide().
+                          BestSize(wx.Size(500,600)).
+                          MinSize(wx.Size(200,100)))
 
 
         # Continue with initialization
@@ -437,7 +454,7 @@ class MainFrame(wx.Frame):
                 "&Open Project\tCtrl+o", "", wx.ITEM_NORMAL)
         self.fileMenu.AppendItem(self.openItem)
         self.recentMenu = wx.Menu()
-        self.fileMenu.AppendMenu(self.recentId, "Recent Files", self.recentMenu)
+        self.fileMenu.AppendMenu(self.recentId, "&Recent Files", self.recentMenu)
         self.fileMenu.AppendSeparator()
         self.saveItem = wx.MenuItem(self.fileMenu, self.saveId,
                 "&Save Project\tCtrl+s", "", wx.ITEM_NORMAL)
@@ -466,15 +483,10 @@ class MainFrame(wx.Frame):
         self.pasteLinkItem = wx.MenuItem(self.editMenu, self.pasteLinkId,
                 "Paste &Linked Fit", "", wx.ITEM_NORMAL)
         self.editMenu.AppendItem(self.pasteLinkItem)
-        self.editMenu.AppendSeparator()
-        self.journalItem = wx.MenuItem(self.editMenu, wx.NewId(), 
-                "&Journal\tCtrl+j", "", wx.ITEM_NORMAL)
-        self.editMenu.AppendItem(self.journalItem)
         #self.editMenu.AppendSeparator()
         #self.servItem = wx.MenuItem(self.editMenu, wx.NewId(), 
         #        "&Server Configuration", "", wx.ITEM_NORMAL)
         #self.editMenu.AppendItem(self.servItem)
-        self.editMenu.AppendSeparator()
         self.prefItem = wx.MenuItem(self.editMenu, wx.NewId(), 
                 "&Preferences", "", wx.ITEM_NORMAL)
         self.editMenu.AppendItem(self.prefItem)
@@ -497,6 +509,9 @@ class MainFrame(wx.Frame):
         self.showOutputItem = wx.MenuItem(self.viewMenu, wx.NewId(), 
                 "Show Output", "", wx.ITEM_NORMAL)
         self.viewMenu.AppendItem(self.showOutputItem)
+        self.showJournalItem = wx.MenuItem(self.viewMenu, wx.NewId(), 
+                "Show Journal\tCtrl+j", "", wx.ITEM_NORMAL)
+        self.viewMenu.AppendItem(self.showJournalItem)
         self.menuBar.Append(self.viewMenu, "&View")
 
         # Fits Menu
@@ -690,13 +705,15 @@ class MainFrame(wx.Frame):
         wx.EVT_MENU(self, self.copyId, self.onCopy)
         wx.EVT_MENU(self, self.pasteId, self.onPaste)
         wx.EVT_MENU(self, self.pasteLinkId, self.onPasteLink)
-        wx.EVT_MENU(self, self.journalItem.GetId(), self.onJournal)
         #wx.EVT_MENU(self, self.servItem.GetId(), self.onServerConfig)
         wx.EVT_MENU(self, self.prefItem.GetId(), self.onPreferences)
+
+        ## View menu
         wx.EVT_MENU(self, self.defaultLayoutItem.GetId(), self.onDefaultLayout)
         wx.EVT_MENU(self, self.showFitItem.GetId(), self.onShowFit)
         wx.EVT_MENU(self, self.showPlotItem.GetId(), self.onShowPlot)
         wx.EVT_MENU(self, self.showOutputItem.GetId(), self.onShowOutput)
+        wx.EVT_MENU(self, self.showJournalItem.GetId(), self.onShowJournal)
 
         ## Fits Menu
         wx.EVT_MENU(self, self.newFitId, self.onNewFit)
@@ -750,7 +767,7 @@ class MainFrame(wx.Frame):
         return
 
     # UTILITY FUNCTIONS ######################################################
-    
+
     def switchRightPanel(self, paneltype):
         """Switch the panel which is visible in the right hand side.
 
@@ -765,7 +782,7 @@ class MainFrame(wx.Frame):
 
         """
         self.rightPanel.Enable(False)
-	self.plotPanel.Enable(False)
+        self.plotPanel.Enable(False)
         for key in self.dynamicPanels:
             self.auiManager.GetPane(key).Hide()
 
@@ -777,7 +794,7 @@ class MainFrame(wx.Frame):
             paneltype = "blank"
 
         self.rightPanel = self.dynamicPanels[paneltype]
-	self.rightPanel.Enable(True)
+        self.rightPanel.Enable(True)
         self.setPanelSpecificData(paneltype)
         self.rightPanel.refresh()
         self.auiManager.GetPane(paneltype).Show()
@@ -1294,7 +1311,8 @@ class MainFrame(wx.Frame):
 
     def updateToolbar(self):
         """Update the toolbar based upon the status of the program."""
-        self.toolBar.EnableTool(self.saveId, pdfguiglobals.isAltered)
+        self.toolBar.EnableTool(self.saveId, (pdfguiglobals.isAltered and
+            self.runningDict == {}))
 
         itemtype = None
         selections = self.treeCtrlMain.GetSelections()
@@ -1607,6 +1625,11 @@ class MainFrame(wx.Frame):
         else:
             self.showOutputItem.SetText("Show Output")
 
+        # Show/Hide journalPanel
+        if self.auiManager.GetPane("journalPanel").IsShown():
+            self.showJournalItem.SetText("Hide Journal\tCtrl+j")
+        else:
+            self.showJournalItem.SetText("Show Journal\tCtrl+j")
 
         return
         
@@ -1795,6 +1818,7 @@ class MainFrame(wx.Frame):
         colors back to wxWHITE.
         """
         self.control.stop()
+        self.needsSave()
         return
 
     def onPreferences(self, event):
@@ -1850,23 +1874,14 @@ class MainFrame(wx.Frame):
         self.auiManager.Update()
         return
 
-    def onJournal(self, event):
-        """Bring up the journal window.
-        
-        This only instantiates the journal dialog when it is needed.
-        """
-        if not hasattr(self, 'journalPanel'):
-            # Create the journal
-            self.journalDialog = PanelDialog(self, -1, "Project Journal")
-            self.journalPanel = JournalPanel(self.journalDialog, -1)
-            self.journalDialog.setPanel(self.journalPanel)
-            self.journalPanel.mainFrame = self
-
-        if self.journalDialog.IsShown():
-            self.journalDialog.Show(False)
+    def onShowJournal(self, event):
+        """Bring up or hide the journal window."""
+        if self.auiManager.GetPane("journalPanel").IsShown():
+            self.auiManager.GetPane("journalPanel").Hide()
         else:
-            self.journalPanel.refresh()
-            self.journalDialog.Show(True)
+            self.auiManager.GetPane("journalPanel").Show()
+        self.journalPanel.refresh()
+        self.auiManager.Update()
         return
 
     def onPlotIStruct(self, event):
@@ -1952,6 +1967,7 @@ class MainFrame(wx.Frame):
             self.needsSave(False)
             self.fullpath = ""
             self.outputPanel.clearText()
+            self.journalPanel.refresh()
         self.updateTitle()
         return
 
@@ -1979,6 +1995,7 @@ class MainFrame(wx.Frame):
                 self.needsSave(False)
 
                 self.outputPanel.clearText()
+                self.journalPanel.refresh()
                 self.updateTitle()
             d.Destroy()
         return
@@ -2053,6 +2070,7 @@ class MainFrame(wx.Frame):
                 self.switchRightPanel('welcome')
                 self.needsSave(False)
                 self.outputPanel.clearText()
+                self.journalPanel.refresh()
                 self.updateTitle()
             except ControlError, e:
                 self.fileHistory.RemoveFileFromHistory(0)
@@ -2364,7 +2382,7 @@ class MainFrame(wx.Frame):
                     if node == selections[0]:
                         self.rightPanel.refresh()
                 self.runningDict.pop(name, None)
-                self.updateToolbar()
+                self.needsSave()
 
         return
         

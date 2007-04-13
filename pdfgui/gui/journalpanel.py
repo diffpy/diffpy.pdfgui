@@ -88,6 +88,8 @@ class JournalPanel(wx.Panel, PDFPanel):
     def refresh(self):
         """Fill the jounalTextCtrl with the journal."""
         self.journalTextCtrl.SetValue(self.mainFrame.control.journal)
+        return
+
 # end of class JournalPanel
 
 __id__ = "$Id$"
