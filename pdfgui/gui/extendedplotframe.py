@@ -33,13 +33,13 @@ import os.path
 _legendBoxProperties = {
     'loc':'upper right', 
     'shadow' : True,
-    'numpoints' : 3,        #=4 the number of points in the legend line
+    'numpoints' : 4,        #=4 the number of points in the legend line
     #'prop' : FontProperties('smaller'),  # the font properties
-    'pad' : 0.1,            #=0.2 the fractional whitespace inside the legend border
-    'labelsep' : 0.002,     #=0.005 the vertical space between the legend entries
-    'handlelen' : 0.02,     #=0.05 the length of the legend lines
-    'handletextsep' : 0.01, #=0.02 the space between the legend line and legend text
-    'axespad' : 0.01        #=0.02 the border between the axes and legend edge
+    'pad' : 0.2,            #=0.2 the fractional whitespace inside the legend border
+    'labelsep' : 0.005,     #=0.005 the vertical space between the legend entries
+    'handlelen' : 0.05,     #=0.05 the length of the legend lines
+    'handletextsep' : 0.02, #=0.02 the space between the legend line and legend text
+    'axespad' : 0.02        #=0.02 the border between the axes and legend edge
 }
 
 DATA_SAVE_ID  = wx.NewId()
@@ -124,7 +124,7 @@ class ExtendedPlotFrame(wx.Frame):
         self.SetBackgroundColour(wx.NamedColor("WHITE"))
 
         # figsize in inches
-        self.figure = Figure(figsize=(0.5,0.5), dpi=100)
+        self.figure = Figure(figsize=(0.5,0.5), dpi=72)
         self.subplot = self.figure.add_subplot(111)
         self.canvas = FigureCanvas(self, -1, self.figure)
         
@@ -238,7 +238,20 @@ class ExtendedPlotFrame(wx.Frame):
         """
         stylestr,properties = self.__translateStyles(style)
         curveRef = self.subplot.plot(xData, yData, stylestr, **properties)[0]
-        self.subplot.legend( **_legendBoxProperties )
+        # self.subplot.legend( **_legendBoxProperties )
+        # Instead of using automatc legend like above, we have to use our own in
+        # order not to show unlabeled lines in legend.
+        if  style.has_key ( 'legend' ) :
+            lg = self.subplot.get_legend()
+            if not lg: 
+                self.subplot.legend((curveRef,), (style['legend'],), **_legendBoxProperties)
+            else:
+                texts = lg.get_texts()
+                lines = lg.get_lines()
+                lines.append(curveRef)
+                texts = [ x.get_text() for x in texts ]
+                texts.append(style['legend'])
+                self.subplot.legend(lines, texts, **_legendBoxProperties)
         self.curverefs.append(curveRef)
         self.__updateViewLimits(curveRef)
         if bUpdate:
@@ -320,7 +333,7 @@ class ExtendedPlotFrame(wx.Frame):
         symbolDict ={'diamond':'d','square':'s','circle':'o',
         'cross':'+','xCross':'x','triangle':'^'}
         colorDict = {'blue':'b','green':'g','red':'r','cyan':'c',
-        'magenta':'m','yellow':'y','black':'k',
+        'magenta':'m','yellow':'y','black':'k','white':'w',
         'darkRed':'#8B0000', 'darkGreen':'#006400', 'darkCyan':'#008B8B', 
         'darkYellow':'#FFD700','darkBlue':'#00008B','darkMagenta':'#8B008B'}
             
@@ -404,7 +417,7 @@ if __name__ == "__main__":
             style['legend'] = 'cos(x)'
             frame.insertCurve(x,c, style)
             style = {'with':'lines', 'color':'black','line':'solid','width':2}
-            style['legend'] = 'sin(x)+cos(x)'
+            #style['legend'] = 'sin(x)+cos(x)'
             frame.insertCurve(x,t, style)
             frame.Show(True)
             return True

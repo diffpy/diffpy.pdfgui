@@ -19,14 +19,15 @@ from controlerrors import *
 
 # Preset plotting style
 colors = ("red","blue","black","magenta","cyan","green","yellow",
-   "darkRed","darkBlue","darkMagenta", "darkCyan", "darkGreen","darkYellow")
+   #"darkRed",
+   "darkBlue","darkMagenta", "darkCyan", "darkGreen","darkYellow")
 lines = ('solid','dash','dot','dashDot')
 symbols = ("circle","square","triangle","diamond")#,"cross","xCross")
 
 # this is to map 'r' to what it is supposed to be. For example, when user asks 
 # for plotting 'Gobs' against 'r', the real data objects are 'Gobs' and 'robs' 
 transdict = { 'Gobs':'robs', 'Gcalc':'rcalc','Gdiff':'rcalc','Gtrunc':'rcalc'}
-baselineStyle = {'with':'lines','line':'solid','color':'black','width':1, 'legend':'baseline'}
+baselineStyle = {'with':'lines','line':'solid','color':'black','width':1}
 def _transName( name ):
     '''translate name of y object
     
@@ -63,34 +64,36 @@ def _buildStyle(plotter, name, group):
     '''
     if name in ( 'Gcalc', 'Gdiff'): 
         style = plotter.buildLineStyle()
-        style['line'] = 'solid'
+        style['line']  = 'solid'
     elif name in ('Gobs', 'Gtrunc'):
         style = plotter.buildSymbolStyle()
+        
+        # Use open circle always
+        style['symbolColor'] = 'white'
+        style['symbol'] = 'circle'
+        style['symbolSize'] = 6
     else:
         style = plotter.buildLineSymbolStyle()
-        style['line'] = 'dot'
+        style['line'] = 'dash'
+        style['symbol'] = 'circle'
+        style['symbolSize'] = 8      
         
     # We only care about how to arrange Gdiff Gobs Gcalc Gtrunc nicely
     if group < 0:
         # use fixed style for single PDFFit picture
         if name == 'Gcalc':
             style['color'] = 'red'
-            style['line']  = 'solid'
         elif name in ('Gobs', 'Gtrunc'):
             style['color'] = 'blue'
-            style['symbolColor'] = 'blue'
-            style['symbol'] = 'circle'
         elif name == 'Gdiff':
             style['color'] = 'green'
-            style['line']  = 'solid'
     else:
-        # make sure Gcalc and Gobs are having same color
-        if name in ('Gcalc', 'Gdiff', 'Gobs', 'Gtrunc'):
+        # make sure Gidff and Gobs are having same color
+        if name in ( 'Gobs', 'Gtrunc', 'Gdiff'):
             color = colors[group%len(colors)]
             style['color'] = color
-            style['symbolColor'] = color
-        if name == 'Gdiff':
-            style['line'] = 'dot'
+        if name == 'Gcalc':
+            style['color'] = 'darkRed'
             
     return style
         
@@ -114,7 +117,7 @@ class Plotter(PDFComponent):
         yStr -- Data name (string) for y axis
         steps -- refinement step list
         ids -- The list of object ids that the curve is related to
-        shift -- curve displacement in y direction
+        offset -- curve displacement in y direction
         style --The drawing style of the curve        
         xData, yData -- data to be plotted
         x, y -- original data for exporting ( curve could be shifted)
@@ -124,7 +127,7 @@ class Plotter(PDFComponent):
         initialized -- if curve has been inserted
         dataChanged -- if curve data has changed
         """
-        def __init__(self, name, plotwnd, xStr, yStr, steps, ids, shift, style):
+        def __init__(self, name, plotwnd, xStr, yStr, steps, ids, offset, style):
             """initialize
             
             name  -- The curve name
@@ -133,7 +136,7 @@ class Plotter(PDFComponent):
             yStr -- Data name (string) for y axis
             steps -- refinement step list
             ids -- The list of object ids that the curve is related to
-            shift -- curve displacement in y direction
+            offset -- curve displacement in y direction
             style --The drawing style of the curve
             """
             self.name = name
@@ -142,7 +145,7 @@ class Plotter(PDFComponent):
             self.steps = steps
             self.xStr = xStr
             self.yStr = yStr
-            self.shift = shift
+            self.offset = offset
             self.style = style
             
             self.bMultiData = len ( self.ids ) > 1
@@ -212,7 +215,7 @@ class Plotter(PDFComponent):
                 #controlCenter.registerListener(dataId,self.plot.name,self.name)
                 pass
                 
-        def notify( self, changedIds, bUpdate = True):
+        def notify( self, changedIds = None, bUpdate = True, plotwnd = None):
             """notify Curve object certain data is updated
             
             changedIds -- objects to which changed data is associated with
@@ -220,17 +223,23 @@ class Plotter(PDFComponent):
                        will not be plotted until user call replot() function of 
                        plot window explicitly.
             """             
-            # find affected ids
-            affectedIds = []
-            for id in self.ids:
-                for changedId in changedIds:
-                    if  ( id  is changedId ) or ( id.owner is changedId ): 
-                        affectedIds.append(id)
-                        break
-                        
-            #If the change doesn't affect any id, do nothing
-            if not affectedIds:
-                return
+            if plotwnd:
+                self.plotwnd = plotwnd
+            
+            # in the case when changedIds are given explicitly, use it.
+            if changedIds:
+                affectedIds = []
+                for id in self.ids:
+                    for changedId in changedIds:
+                        if  ( id  is changedId ) or ( id.owner is changedId ): 
+                            affectedIds.append(id)
+                            break
+                            
+                #If the change doesn't affect any id, do nothing
+                if not affectedIds:
+                    return
+            else:
+                affectedIds = self.ids
             
             # translation may be required
             xStr = self.xStr
@@ -274,9 +283,9 @@ class Plotter(PDFComponent):
                 self.y = self.yData
     
                 def _shift ( y ):
-                    return y + self.shift
+                    return y + self.offset
     
-                if self.yData and self.shift: # not zero
+                if self.yData and self.offset: # not zero
                     self.yData = map ( _shift, self.yData)
 
             if self.xData and self.yData: # not empty or None
@@ -309,9 +318,16 @@ class Plotter(PDFComponent):
                 return
         
             # If it can get here, data is ready now.
-            if not self.initialized:
-                # need insert a curve first.
-                self.initialized = True
+            if self.ref is None:
+                if self.yStr == 'Gdiff': 
+                    # add a baseline for any Gdiff
+                    rs = self.ids[0].rcalc
+                    if not rs:
+                        rs = self.ids[0].robs
+                    hMin = min(rs)
+                    hMax = max(rs)
+                                  
+                    self.plotwnd.insertCurve([hMin, hMax], [self.offset, self.offset], baselineStyle)
                 self.ref = self.plotwnd.insertCurve(xs, ys, self.style, bUpdate)
             else:
                 # update only
@@ -409,20 +425,19 @@ class Plotter(PDFComponent):
         style['with'] = 'linespoints'
         return style
         
-    def plot ( self, xName, yNames, ids,  shift = 1.0):
+    def plot ( self, xName, yNames, ids,  shift, dry ):
         """Make a 2D plot
         
         xName --  x data item name
         yNames -- list of y data item names
         ids --    Objects where y data items are taken from
         shift -- y spacing for different ids
+        dry -- dry run
         """
         def _addCurve(dataIds):
             # add yNames one by one for given dataIds
-            
-            # firstly we don't want to change global shift
-            _shift = offset 
             for y in yNames:
+                _offset = offset
                 if len(dataIds) == 1 and group != -1:
                     #legend = dataIds[0].name  + ": " + _transName(y)
                     legend = _fullName(dataIds[0]) + ": " + _transName(y)
@@ -434,37 +449,11 @@ class Plotter(PDFComponent):
                 style = _buildStyle(self, y, group)
                 style['legend'] = legend
                
-                #NOTE: to deal with user's request
-                if y == 'Gdiff' and group == -1 and len(yNames) != 1: 
-                    # add a baseline
-                    rs = dataIds[0].rcalc
-                    if not rs:
-                        rs = dataIds[0].robs
-                    hMin = min(rs)
-                    hMax = max(rs)
-
-                    # Find the value of the baseline
-                    GobsMin = min(dataIds[0].Gobs)
-                    GcalcMin = GobsMin
-                    if len(dataIds[0].Gcalc) > 1:
-                        GcalcMin = min(dataIds[0].Gcalc)
-                    GMin = min(GobsMin, GcalcMin)
-                    GdiffMax = 0
-                    if len(dataIds[0].Gdiff) > 1:
-                        GdiffMax = max(dataIds[0].Gdiff)
-                    vMin = 1.1*(GMin - GdiffMax)
-                                  
-                    # offset moves the curves of same id, but this time _shift 
-                    # only applies to single curve Gdiff
-                    _shift = shift 
-                    self.window.insertCurve([hMin, hMax], [_shift, _shift], baselineStyle)
-                    
+                if y == 'Gdiff' and group == -1:
+                    _offset = shift
                 #Create curve, get data for it and update it in the plot
                 curve = Plotter.Curve(legend, self.window, xName, y,
-                                      step, dataIds, _shift, style)
-                #Initial notification, at this moment don't plot immediately. 
-                #This is to optimize plotting multiple curves.
-                curve.notify(dataIds, False)
+                                      step, dataIds, _offset, style)
                 self.curves.append(curve)
             return 
             
@@ -491,13 +480,6 @@ class Plotter(PDFComponent):
             self.lock.acquire()
             self.curves = []
             
-            if self.window is None:
-                # plotWindown may either not be ready or it has been closed
-                self.window = ExtendedPlotFrame(self.controlCenter.gui)
-                self.window.plotter = self
-            else:
-                self.window.clear()
-            
             # default is no shift, single group.
             offset = 0.0
             group = -1
@@ -508,9 +490,32 @@ class Plotter(PDFComponent):
                     offset += shift
             else:
                 _addCurve(ids)
-            
+                
+            # clean up, it's only a dry run
+            if dry:
+                self.curves = []
+                return
+                
+            if self.window is None:
+                # plotWindown may either not be ready or it has been closed
+                self.window = ExtendedPlotFrame(self.controlCenter.gui)
+                self.window.plotter = self
+            else:
+                self.window.clear()
+                
+            for curve in self.curves[:-1]:
+                #Initial notification, don't plot immediately, wait for last line to be added 
+                #This is to optimize plotting multiple curves.
+                curve.notify(plotwnd=self.window, bUpdate=False)
+            self.curves[-1].notify(plotwnd=self.window, bUpdate=True)
+        
             # make the graph title, x, y label
-            yLabel = ','.join([_transName(yName) for yName in yNames])
+            yStrs = [_transName(yName) for yName in yNames]
+            if yStrs[0].startswith('G'):
+                #then all are Gs
+                yLabel = 'G'
+            else:
+                yLabel = ','.join(yStrs)
             title = ''
             if len(ids) == 1:
                 title += ' '+ ids[0].name + ':' 
@@ -557,7 +562,7 @@ class Plotter(PDFComponent):
             if not self.curves or self.window is None:
                 return   
             for curve in self.curves:
-                curve.notify([data,])
+                curve.notify(changedIds=[data,])
         finally:
             self.lock.release()
 

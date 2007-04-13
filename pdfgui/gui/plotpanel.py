@@ -22,6 +22,7 @@ from diffpy.pdfgui.utils import numericStringSort
 from wxExtensions.listctrls import KeyEventsListCtrl
 from wxExtensions.validators import TextValidator, FLOAT_ONLY
 from pdfpanel import PDFPanel
+from diffpy.pdfgui.control.controlerrors import *
 
 class PlotPanel(wx.Panel, PDFPanel):
     def __init__(self, *args, **kwds):
@@ -34,7 +35,7 @@ class PlotPanel(wx.Panel, PDFPanel):
         self.xDataCombo = wx.ComboBox(self, -1, choices=[], style=wx.CB_DROPDOWN|wx.CB_READONLY)
         self.yDataList = KeyEventsListCtrl(self, -1, style=wx.LC_REPORT|wx.LC_NO_HEADER|wx.SUNKEN_BORDER)
         self.offsetLabel = wx.StaticText(self, -1, "offset", style=wx.ALIGN_RIGHT)
-        self.offsetTextCtrl = wx.TextCtrl(self, -1, "3")
+        self.offsetTextCtrl = wx.TextCtrl(self, -1, "-5")
         self.static_line_1 = wx.StaticLine(self, -1)
         self.plotButton = wx.Button(self, -1, "Plot")
         self.resetButton = wx.Button(self, -1, "Reset")
@@ -45,6 +46,9 @@ class PlotPanel(wx.Panel, PDFPanel):
         self.Bind(wx.EVT_BUTTON, self.onPlot, self.plotButton)
         self.Bind(wx.EVT_BUTTON, self.onReset, self.resetButton)
         # end wxGlade
+        self.Bind(wx.EVT_COMBOBOX, self._check, self.xDataCombo)
+        self.Bind(wx.EVT_LIST_ITEM_SELECTED, self._check,  self.yDataList)
+        self.Bind(wx.EVT_LIST_ITEM_DESELECTED, self._check,  self.yDataList)
         self.__customProperties()
 
     def __set_properties(self):
@@ -199,6 +203,7 @@ class PlotPanel(wx.Panel, PDFPanel):
                 self.yDataList.Select(0)
                 
             self.prevSelectionType = selectiontype
+            self._check(None)
 
         return
 
@@ -242,6 +247,10 @@ class PlotPanel(wx.Panel, PDFPanel):
     # EVENT CODE #############################################################
     def onPlot(self, event): # wxGlade: PlotPanel.<event_handler>
         """Plot some stuff."""
+        self._plot(event)
+        
+    def _plot (self,event):
+        """This function is not wrapped"""
         selections = self.treeCtrlMain.GetSelections()
         refs = [self.treeCtrlMain.GetControlData(node) for node in selections]
         xval = self.xDataCombo.GetValue()
@@ -253,7 +262,7 @@ class PlotPanel(wx.Panel, PDFPanel):
         offset = self.offsetTextCtrl.GetValue()
         offset = float(offset)
 
-        self.mainFrame.control.plot(xval, yvals, refs, shift=offset)
+        self.mainFrame.control.plot(xval, yvals, refs, shift=offset, dry=(event is None))
         return
 
     def onReset(self, event): # wxGlade: PlotPanel.<event_handler>
@@ -267,5 +276,12 @@ class PlotPanel(wx.Panel, PDFPanel):
         """Refresh this panel."""
         self.updateWidgets()
         return
+        
+    def _check(self, event):
+        try:
+            self._plot(None)
+            self.plotButton.Enable()
+        except ControlConfigError:
+            self.plotButton.Disable()
 
 __id__ = "$Id$"

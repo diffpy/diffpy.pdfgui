@@ -496,17 +496,18 @@ class PDFGuiControl:
         except (IOError,PickleError):
             raise ControlFileError, "Error when writing to %s"%self.projfile
     
-    def plot (self, xItem, yItems, Ids, shift = 1.0):
+    def plot (self, xItem, yItems, Ids, shift = 1.0, dry=False):
         """Make a 2D plot
         
         xItem --  x data item name
         yItems -- list of y data item names
         Ids --    Objects where y data items are taken from
         shift -- y displacement for each curve
+        dry -- not a real plot, only check if plot is valid
         """
         from plotter import Plotter
         plotter = Plotter()
-        plotter.plot(xItem, yItems, Ids, shift)
+        plotter.plot(xItem, yItems, Ids, shift, dry)
         self.plots.append(plotter)
 
     def start(self, IDlist):
