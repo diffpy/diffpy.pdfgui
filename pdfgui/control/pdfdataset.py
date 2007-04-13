@@ -123,7 +123,7 @@ class PDFDataSet(PDFComponent):
 
         returns self
         """
-        self.readStr(open(filename).read())
+        self.readStr(open(filename,'rb').read())
         self.filename = os.path.abspath(filename)
         return self
 
