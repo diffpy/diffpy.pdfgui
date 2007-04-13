@@ -256,7 +256,8 @@ class MainFrame(wx.Frame):
         """Custom Properties go here."""
         # Set some visual stuff
         import os.path
-        icon = wx.Icon(os.path.join(iconsDir, "C60_16x16.png"),
+        icon = wx.Icon(os.path.join(iconsDir, "pdfgui.ico"),
+#        icon = wx.Icon(os.path.join(iconsDir, "C60_16x16.png"),
                 wx.BITMAP_TYPE_ANY)
         self.SetIcon(icon)
 
