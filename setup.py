@@ -40,6 +40,7 @@ class smart_install_data(install_data):
 
 # build list of icon files
 iconfiles = glob.glob( os.path.join(setup_dir, 'pdfgui/gui/icons/*.png') )
+iconfiles += glob.glob( os.path.join(setup_dir, 'pdfgui/gui/icons/*.ico') )
 
 # define distribution
 setup_args = {
