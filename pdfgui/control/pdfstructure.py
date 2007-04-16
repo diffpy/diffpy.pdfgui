@@ -16,7 +16,7 @@ import copy
 import re
 from pdfcomponent import PDFComponent
 from diffpy.Structure import PDFFitStructure
-from controlerrors import ControlKeyError
+from controlerrors import ControlKeyError, ControlFileError
 
 class PDFStructure(PDFComponent, PDFFitStructure):
     """PDFStructure contains structure information, which can be used for 3D
@@ -31,6 +31,26 @@ class PDFStructure(PDFComponent, PDFFitStructure):
         PDFComponent.__init__(self, name)
         PDFFitStructure.__init__(self, *args, **kwargs)
         return
+
+    def read(self, filename, format='auto'):
+        """Load structure from a file, raise ControlFileError for invalid
+        or unknown structure format.
+
+        filename -- file to be loaded
+        format   -- structure format such as 'pdffit', 'pdb', 'xyz'.  When
+                    'auto' all available formats are tried in a row.
+
+        Return self.
+        """
+        from diffpy.Structure import InvalidStructureFormat
+        try:
+            PDFFitStructure.read(self, filename, format)
+        except InvalidStructureFormat:
+            import os.path
+            emsg = ("Could not open '%s' due to unsupported file format " +
+                    "or corrupted data.") % os.path.basename(filename)
+            raise ControlFileError, emsg
+        return self
 
     def copy(self, other=None):
         """copy self to other. if other is None, create an instance
