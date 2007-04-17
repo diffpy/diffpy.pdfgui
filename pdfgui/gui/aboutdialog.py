@@ -105,7 +105,7 @@ class DialogAbout(wx.Dialog):
         self.bitmap_button_msu.SetBitmapLabel(logo)
         
         # resize dialog window to fit version number nicely
-        size = [self.GetBestFittingSize()[0], self.GetSize()[1]]
+        size = [self.GetEffectiveMinSize()[0], self.GetSize()[1]]
         self.SetSize(size)
         
 
