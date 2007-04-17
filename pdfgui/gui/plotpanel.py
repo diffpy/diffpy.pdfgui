@@ -167,7 +167,10 @@ class PlotPanel(wx.Panel, PDFPanel):
             numericStringSort(xvals)
             
             # Fill the xDataCombo
-            current = self.xDataCombo.GetValue()
+            if self.xDataCombo.GetCount():
+                current = self.xDataCombo.GetValue()
+            else:
+                current = None
             self.xDataCombo.Clear()
             for item in xvals:
                 self.xDataCombo.Append(item)
@@ -176,7 +179,7 @@ class PlotPanel(wx.Panel, PDFPanel):
             # Either keep the current plot value selected, select 'r', or the
             # first in the list.
             defaultOrders = [ 'r', 'step', 'index']
-            if selectiontype == self.prevSelectionType:
+            if current and selectiontype == self.prevSelectionType:
                 defaultOrders.insert(0, current)
             for item in defaultOrders:
                 if item in xvals:
