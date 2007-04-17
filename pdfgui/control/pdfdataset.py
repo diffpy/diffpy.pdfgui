@@ -20,7 +20,7 @@ import os.path
 import re
 import copy
 from pdfcomponent import PDFComponent
-from controlerrors import ControlKeyError
+from controlerrors import ControlKeyError, ControlFileError
 
 class PDFDataSet(PDFComponent):
     """PDFDataSet is a class for experimental PDF data.
@@ -123,7 +123,12 @@ class PDFDataSet(PDFComponent):
 
         returns self
         """
-        self.readStr(open(filename,'rb').read())
+        try:
+            self.readStr(open(filename,'rb').read())
+        except 'InvalidDataFormat':
+            emsg = ("Could not open '%s' due to unsupported file format " +
+                    "or corrupted data.") % os.path.basename(filename)
+            raise ControlFileError, emsg
         self.filename = os.path.abspath(filename)
         return self
 
@@ -211,15 +216,17 @@ class PDFDataSet(PDFComponent):
                     break
 
         # read actual data - robs, Gobs, drobs, dGobs
-        for line in databody.split("\n"):
-            v = line.split()
-            # we want to raise exception if there is short data line
-            # if len(v) < 2:
-            #   continue
-            self.robs.append(float(v[0]))
-            self.Gobs.append(float(v[1]))
-            self.drobs.append(len(v) > 2 and float(v[2]) or 0.0)
-            self.dGobs.append(len(v) > 3 and float(v[3]) or 0.0)
+        # raise InvalidDataFormat if something goes wrong
+        try:
+            for line in databody.split("\n"):
+                v = line.split()
+                # there should be at least 2 value in the line
+                self.robs.append(float(v[0]))
+                self.Gobs.append(float(v[1]))
+                self.drobs.append(len(v) > 2 and float(v[2]) or 0.0)
+                self.dGobs.append(len(v) > 3 and float(v[3]) or 0.0)
+        except (ValueError, IndexError):
+            raise 'InvalidDataFormat', 'Cannot read Gobs'
         self.rmin = self.robs[0]
         self.rmax = self.robs[-1]
         return self
