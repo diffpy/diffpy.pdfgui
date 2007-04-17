@@ -22,7 +22,6 @@ from calculation import Calculation
 from fitdataset import FitDataSet
 from organizer import Organizer
 from fitstructure import FitStructure
-from serverhost import ServerHost
 from threading import Thread
 from controlerrors import *
 
@@ -538,6 +537,7 @@ class PDFGuiControl:
             self.host = None
         else:
             # create a host
+            from serverhost import ServerHost
             self.host = ServerHost(hostCfg['name'], hostCfg)
         
     def getHost(self):

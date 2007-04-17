@@ -15,7 +15,6 @@
 
 from controlerrors import *
 from pdfcomponent import PDFComponent
-from connection import Connection
 
 class ServerHost(PDFComponent):
     """ServerHost holds the information about a remote machine where the 
@@ -216,6 +215,7 @@ class ServerHost(PDFComponent):
         
         # otherwise, reconnect to remote host
         import os
+        from connection import Connection
         try:
             # extract info from configuration
             host = self.config['host']
@@ -246,6 +246,7 @@ class ServerHost(PDFComponent):
   
 if __name__ == '__main__':
     import sys,getopt,getpass
+    from connection import Connection
     def _usage():
         print "Usage: %s [-u user@host] [-p(passwd)|-r(rsa)|-d(dsa)]"%sys.argv[0]
     
