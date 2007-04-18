@@ -32,7 +32,7 @@ import wx
 import wx.lib.hyperlink
 import random
 import os.path
-from pdfguiglobals import iconsDir
+from pdfguiglobals import iconsDir, papersDir
 
 from diffpy.pdfgui.version import __version__
 
@@ -48,9 +48,11 @@ class DialogAbout(wx.Dialog):
     
     def __init__(self, *args, **kwds):
 
-        self.authors = ["Simon Billinge", "Emil Bozin", "Dmitriy Bryndin",
-                "Chris Farrow", "Pavol Juhas", "Jiwu Liu"]
+        self.authors = ["S. J. L. Billinge", "E. S. Bozin", "D. Bryndin",
+                "C. L. Farrow", "P. Juhas", "J. W. Liu"]
         self.homepage = "http://danse.us/trac/diffraction"
+	self.license = "LICENSE.txt"
+	self.paper = os.path.join(papersDir, 'Farrow-jpcm-subm.pdf')
         
         # begin wxGlade: DialogAbout.__init__
         kwds["style"] = wx.DEFAULT_DIALOG_STYLE
@@ -63,8 +65,10 @@ class DialogAbout(wx.Dialog):
         self.label_copyright = wx.StaticText(self, -1, "(c) 2005-2006,")
         self.label_author = wx.StaticText(self, -1, "author")
         self.hyperlink = wx.lib.hyperlink.HyperLinkCtrl(self, -1, self.homepage, URL=self.homepage)
+        self.hyperlink_license = wx.lib.hyperlink.HyperLinkCtrl(self, -1, "PDFgui paper (in print)", URL=self.paper)
+        self.hyperlink_paper = wx.lib.hyperlink.HyperLinkCtrl(self, -1, self.license, URL=self.license)
         self.static_line_1 = wx.StaticLine(self, -1)
-        self.text_ctrl_acknowledgement = wx.TextCtrl(self, -1, "", style=wx.TE_MULTILINE|wx.TE_READONLY|wx.NO_BORDER)
+        self.label_acknowledgement = wx.StaticText(self, -1, "This software was developed by the Billinge-group as part of the\nDistributed Data Analysis of Neutron Scattering Experiments (DANSE)\nproject funded by the US National Science Foundation under grant\nDMR-0520547.  Developments of PDFfit2 were funded by NSF grant\nDMR-0304391 in the Billinge-group, and with support from Michigan State\nUniversity.  Any opinions, findings, and conclusions or recommendations\nexpressed in this material are those of the author(s) and do not\nnecessarily reflect the views of the respective funding bodies.\n\nIf you use this program to do productive scientific research that leads\nto publication, we ask that you acknowledge use of the program by citing\nthe following paper in your publication:\n\n     C. L. Farrow, P. Juhas, J. W. Liu, D. Bryndin, J. Bloch, Th. Proffen\n     and S. J. L. Billinge, PDFfit2 and PDFgui: Computer programs for studying\n     nanostructure in crystals, J. Phys: Condens. Matter, in print.")
         self.static_line_2 = wx.StaticLine(self, -1)
         self.bitmap_button_nsf = wx.BitmapButton(self, -1, wx.NullBitmap)
         self.bitmap_button_danse = wx.BitmapButton(self, -1, wx.NullBitmap)
@@ -81,7 +85,7 @@ class DialogAbout(wx.Dialog):
         # end wxGlade
         
         # fill in acknowledgements
-        self.text_ctrl_acknowledgement.SetValue(__acknowledgement__)
+#       self.text_ctrl_acknowledgement.SetValue(__acknowledgement__)
 
         # randomly shuffle authors' names
         random.shuffle(self.authors)
@@ -105,17 +109,26 @@ class DialogAbout(wx.Dialog):
         self.bitmap_button_msu.SetBitmapLabel(logo)
         
         # resize dialog window to fit version number nicely
-        size = [self.GetEffectiveMinSize()[0], self.GetSize()[1]]
-        self.SetSize(size)
+        if wx.VERSION >= (2,7,2,0):
+            size = [self.GetEffectiveMinSize()[0], self.GetSize()[1]]
+        else:
+            size = [self.GetBestFittingSize()[0], self.GetSize()[1]]
+
+	self.Fit()
+#        self.SetSize(size)
+#       self.FitInside()
         
 
     def __set_properties(self):
         # begin wxGlade: DialogAbout.__set_properties
         self.SetTitle("About")
-        self.SetSize((600, 370))
+        self.SetSize((600, 595))
         self.label_title.SetFont(wx.Font(26, wx.DEFAULT, wx.NORMAL, wx.BOLD, 0, ""))
         self.label_version.SetFont(wx.Font(26, wx.DEFAULT, wx.NORMAL, wx.NORMAL, 0, ""))
-        self.text_ctrl_acknowledgement.Enable(False)
+        self.hyperlink_license.Enable(False)
+        self.hyperlink_license.Hide()
+        self.hyperlink_paper.Enable(False)
+        self.hyperlink_paper.Hide()
         self.bitmap_button_nsf.SetSize(self.bitmap_button_nsf.GetBestSize())
         self.bitmap_button_danse.SetSize(self.bitmap_button_danse.GetBestSize())
         self.bitmap_button_msu.SetSize(self.bitmap_button_msu.GetBestSize())
@@ -131,7 +144,7 @@ class DialogAbout(wx.Dialog):
         sizer_build = wx.BoxSizer(wx.HORIZONTAL)
         sizer_title = wx.BoxSizer(wx.HORIZONTAL)
         sizer_header.Add(self.bitmap_logo, 0, wx.EXPAND, 0)
-        sizer_title.Add(self.label_title, 0, wx.LEFT|wx.EXPAND|wx.ADJUST_MINSIZE, 20)
+        sizer_title.Add(self.label_title, 0, wx.LEFT|wx.EXPAND|wx.ADJUST_MINSIZE, 10)
         sizer_title.Add((20, 20), 0, wx.EXPAND|wx.ADJUST_MINSIZE, 0)
         sizer_title.Add(self.label_version, 0, wx.RIGHT|wx.ALIGN_BOTTOM|wx.ADJUST_MINSIZE, 10)
         sizer_titles.Add(sizer_title, 0, wx.EXPAND, 0)
@@ -141,10 +154,13 @@ class DialogAbout(wx.Dialog):
         sizer_titles.Add(self.label_copyright, 0, wx.LEFT|wx.RIGHT|wx.TOP|wx.ADJUST_MINSIZE, 10)
         sizer_titles.Add(self.label_author, 0, wx.LEFT|wx.RIGHT|wx.ADJUST_MINSIZE, 10)
         sizer_titles.Add(self.hyperlink, 0, wx.LEFT|wx.RIGHT, 10)
+        sizer_titles.Add((20, 20), 0, wx.ADJUST_MINSIZE, 0)
+        sizer_titles.Add(self.hyperlink_license, 0, wx.LEFT|wx.RIGHT, 10)
+        sizer_titles.Add(self.hyperlink_paper, 0, wx.LEFT|wx.RIGHT, 10)
         sizer_header.Add(sizer_titles, 0, wx.EXPAND, 0)
         sizer_main.Add(sizer_header, 0, wx.BOTTOM|wx.EXPAND, 3)
         sizer_main.Add(self.static_line_1, 0, wx.EXPAND, 0)
-        sizer_main.Add(self.text_ctrl_acknowledgement, 1, wx.ALL|wx.EXPAND|wx.ALIGN_CENTER_VERTICAL, 4)
+        sizer_main.Add(self.label_acknowledgement, 0, wx.LEFT|wx.TOP|wx.BOTTOM|wx.ADJUST_MINSIZE, 7)
         sizer_main.Add(self.static_line_2, 0, wx.EXPAND, 0)
         sizer_logos.Add(self.bitmap_button_nsf, 0, wx.LEFT|wx.ADJUST_MINSIZE, 2)
         sizer_logos.Add(self.bitmap_button_danse, 0, wx.LEFT|wx.ADJUST_MINSIZE, 2)
