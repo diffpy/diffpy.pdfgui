@@ -32,7 +32,7 @@ import wx
 import wx.lib.hyperlink
 import random
 import os.path
-from pdfguiglobals import iconsDir, papersDir
+from pdfguiglobals import iconsDir
 
 from diffpy.pdfgui.version import __version__
 
@@ -51,8 +51,10 @@ class DialogAbout(wx.Dialog):
         self.authors = ["S. J. L. Billinge", "E. S. Bozin", "D. Bryndin",
                 "C. L. Farrow", "P. Juhas", "J. W. Liu"]
         self.homepage = "http://danse.us/trac/diffraction"
-	self.license = "LICENSE.txt"
-	self.paper = os.path.join(papersDir, 'Farrow-jpcm-subm.pdf')
+#        self.license = "LICENSE.txt"
+        self.license = ""
+#        self.paper = os.path.join(papersDir, 'Farrow-jpcm-subm.pdf')
+        self.paper = ""
         
         # begin wxGlade: DialogAbout.__init__
         kwds["style"] = wx.DEFAULT_DIALOG_STYLE
