@@ -39,7 +39,7 @@ class FitDataSet(PDFDataSet):
         Gtrunc      -- truncated Gobs from fitmin to fitmax
         Gdiff       -- difference curve, Gdiff = Gtrunc - Gcalc
 
-    Refinable variables:  qsig, qalp, dscale, spdiameter
+    Refinable variables:  qdamp, qbroad, dscale, spdiameter
     Note: self.refvar is the same as self.initial[refvar].
 
     Global member:
@@ -264,10 +264,10 @@ class FitDataSet(PDFDataSet):
         # qmax
         if self.qmax:
             lines.append('qmax=%.2f' % self.qmax)
-        # qsig
-        lines.append('qsig=%g' % self.refined['qsig'])
-        # qalp
-        lines.append('qalp=%g' % self.refined['qalp'])
+        # qdamp
+        lines.append('qdamp=%g' % self.refined['qdamp'])
+        # qbroad
+        lines.append('qbroad=%g' % self.refined['qbroad'])
         # spdiameter
         lines.append('spdiameter=%g' % self.refined['spdiameter'])
         # dscale
@@ -410,8 +410,11 @@ class FitDataSet(PDFDataSet):
         if rootDict.has_key('constraints'):
             from pdfguicontrol import CtrlUnpickler
             self.constraints = CtrlUnpickler.loads(z.read(subpath+'constraints'))
-            #for k,v in constraints.items():
-            #    self.constraints[k] = Constraint(v)
+            # handle renamed variable from old project files
+            translate = {'qsig' : 'qdamp',  'qalp' : 'qbroad'}
+            for old, new in translate.items():
+                if old in self.constraints:
+                    self.constraints[new] = self.constraints.pop(old)
 
         return
         
@@ -432,10 +435,6 @@ class FitDataSet(PDFDataSet):
         
         # make a picklable dictionary of constraints
         if self.constraints:
-            # make a picklable dictionary of constraints
-            #constraints = {}
-            #for k,v in self.constraints.items():
-            #    constraints[k] = v.formula
             bytes = cPickle.dumps(self.constraints, cPickle.HIGHEST_PROTOCOL)
             z.writestr(subpath+'constraints', bytes)
         return

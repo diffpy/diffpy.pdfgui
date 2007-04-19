@@ -40,9 +40,9 @@ class FitStructure(PDFStructure):
                           Use setSelectedPairs() and getSelectedPairs() methods
                           to access its value.
 
-    Refinable variables: pscale, delta1, delta2, srat, lat(n), where n = 1..6,
+    Refinable variables: pscale, delta1, delta2, sratio, lat(n), where n=1..6,
                          x(i), y(i), z(i), occ(i), u11(i), u22(i), u33(i),
-                         u12(i), u13(i), u23(i), where i = 1..Natoms
+                         u12(i), u13(i), u23(i), where i=1..Natoms
 
     Non-refinable variable:  rcut
     """
@@ -599,7 +599,9 @@ class FitStructure(PDFStructure):
         if rootDict.has_key('constraints'):
             from pdfguicontrol import CtrlUnpickler
             self.constraints = CtrlUnpickler.loads(z.read(subpath+'constraints'))
-            translate = {'gamma' : 'delta1',  'delta' : 'delta2'}
+            translate = { 'gamma' : 'delta1',
+                          'delta' : 'delta2',
+                          'srat'  : 'sratio' }
             for old, new in translate.items():
                 if old in self.constraints:
                     self.constraints[new] = self.constraints.pop(old)

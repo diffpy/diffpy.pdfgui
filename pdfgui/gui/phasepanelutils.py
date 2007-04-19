@@ -43,7 +43,7 @@ def refreshTextCtrls(panel):
     textCtrlScaleFactor
     textCtrlDelta1
     textCtrlDelta2
-    textCtrlSrat
+    textCtrlSratio
     textCtrlRcut
     """
     if panel.structure == None:
@@ -57,7 +57,7 @@ def refreshTextCtrls(panel):
         panel.textCtrlScaleFactor.SetValue("")
         panel.textCtrlDelta1.SetValue("")
         panel.textCtrlDelta2.SetValue("")
-        panel.textCtrlSrat.SetValue("")
+        panel.textCtrlSratio.SetValue("")
         panel.textCtrlRcut.SetValue("")
 
     else:
@@ -72,7 +72,7 @@ def refreshTextCtrls(panel):
         panel.textCtrlScaleFactor.SetValue(float2str(panel.structure.pdffit['scale']) )
         panel.textCtrlDelta1.SetValue(float2str(panel.structure.pdffit['delta1']))
         panel.textCtrlDelta2.SetValue(float2str(panel.structure.pdffit['delta2']))
-        panel.textCtrlSrat.SetValue(float2str(panel.structure.pdffit['srat']))
+        panel.textCtrlSratio.SetValue(float2str(panel.structure.pdffit['sratio']))
         panel.textCtrlRcut.SetValue(float2str(panel.structure.pdffit['rcut']))
     return
 

@@ -202,8 +202,8 @@ def makeTemperatureSeries(control, fit, paths, temperatures):
         newdataset = FitDataSet(dsname)
         newdataset.readObs(filename)
 
-        newdataset.qsig = dataset.qsig
-        newdataset.qalp = dataset.qalp
+        newdataset.qdamp = dataset.qdamp
+        newdataset.qbroad = dataset.qbroad
         newdataset.spdiameter = dataset.spdiameter
         newdataset.dscale = dataset.dscale
         newdataset.fitrmin = dataset.fitrmin
@@ -301,8 +301,8 @@ def makeDopingSeries(control, fit, base, dopant, paths, doping):
         newdataset = FitDataSet(dsname)
         newdataset.readObs(filename)
 
-        newdataset.qsig = dataset.qsig
-        newdataset.qalp = dataset.qalp
+        newdataset.qdamp = dataset.qdamp
+        newdataset.qbroad = dataset.qbroad
         newdataset.spdiameter = dataset.spdiameter
         newdataset.dscale = dataset.dscale
         newdataset.fitrmin = dataset.fitrmin

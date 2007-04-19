@@ -72,8 +72,8 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
         self.textCtrlDelta1 = wx.TextCtrl(self, -1, "", style=wx.TE_PROCESS_ENTER)
         self.labelDelta2 = wx.StaticText(self, -1, "delta2")
         self.textCtrlDelta2 = wx.TextCtrl(self, -1, "", style=wx.TE_PROCESS_ENTER)
-        self.labelSrat = wx.StaticText(self, -1, "srat")
-        self.textCtrlSrat = wx.TextCtrl(self, -1, "", style=wx.TE_PROCESS_ENTER)
+        self.labelSratio = wx.StaticText(self, -1, "sratio")
+        self.textCtrlSratio = wx.TextCtrl(self, -1, "", style=wx.TE_PROCESS_ENTER)
         self.labelRcut = wx.StaticText(self, -1, "rcut")
         self.textCtrlRcut = wx.TextCtrl(self, -1, "", style=wx.TE_PROCESS_ENTER)
         self.labelIncludedPairs = wx.StaticText(self, -1, "Included Pairs")
@@ -114,8 +114,8 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
         self.textCtrlDelta1.SetToolTipString("linear atomic correlation factor")
         self.labelDelta2.SetToolTipString("quadratic atomic correlation factor")
         self.textCtrlDelta2.SetToolTipString("quadratic atomic correlation factor")
-        self.labelSrat.SetToolTipString("low r peak sharpening")
-        self.textCtrlSrat.SetToolTipString("low r peak sharpening")
+        self.labelSratio.SetToolTipString("low r peak sharpening")
+        self.textCtrlSratio.SetToolTipString("low r peak sharpening")
         self.labelRcut.SetToolTipString("peak sharpening cutoff")
         self.textCtrlRcut.SetToolTipString("peak sharpening cutoff")
         self.textCtrlIncludedPairs.SetMinSize((240, 25))
@@ -168,8 +168,8 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
         grid_sizer_4.Add(self.textCtrlDelta1, 0, wx.ALL|wx.ALIGN_CENTER_VERTICAL|wx.ADJUST_MINSIZE, 0)
         grid_sizer_4.Add(self.labelDelta2, 0, wx.ALL|wx.ALIGN_RIGHT|wx.ALIGN_CENTER_VERTICAL|wx.ADJUST_MINSIZE, 5)
         grid_sizer_4.Add(self.textCtrlDelta2, 0, wx.ALL|wx.ALIGN_CENTER_VERTICAL|wx.ADJUST_MINSIZE, 0)
-        grid_sizer_4.Add(self.labelSrat, 0, wx.ALL|wx.ALIGN_RIGHT|wx.ALIGN_CENTER_VERTICAL|wx.ADJUST_MINSIZE, 5)
-        grid_sizer_4.Add(self.textCtrlSrat, 0, wx.ALL|wx.ALIGN_CENTER_VERTICAL|wx.ADJUST_MINSIZE, 0)
+        grid_sizer_4.Add(self.labelSratio, 0, wx.ALL|wx.ALIGN_RIGHT|wx.ALIGN_CENTER_VERTICAL|wx.ADJUST_MINSIZE, 5)
+        grid_sizer_4.Add(self.textCtrlSratio, 0, wx.ALL|wx.ALIGN_CENTER_VERTICAL|wx.ADJUST_MINSIZE, 0)
         grid_sizer_4.Add(self.labelRcut, 0, wx.ALL|wx.ALIGN_RIGHT|wx.ALIGN_CENTER_VERTICAL|wx.ADJUST_MINSIZE, 5)
         grid_sizer_4.Add(self.textCtrlRcut, 0, wx.ALL|wx.ALIGN_CENTER_VERTICAL|wx.ADJUST_MINSIZE, 0)
         sizerAdditionalParameters.Add(grid_sizer_4, 1, wx.EXPAND, 0)
@@ -222,9 +222,9 @@ all-all, !Cl-, -!Cl  same as previous
                 'textCtrlBeta'          : 'lat(5)',
                 'textCtrlGamma'         : 'lat(6)',
                 'textCtrlScaleFactor'   : 'pscale',
-                'textCtrlDelta1'          : 'delta1',
-                'textCtrlDelta2'         : 'delta2',
-                'textCtrlSrat'          : 'srat',
+                'textCtrlDelta1'        : 'delta1',
+                'textCtrlDelta2'        : 'delta2',
+                'textCtrlSratio'        : 'sratio',
                 'textCtrlRcut'          : 'rcut',
                 }
 
@@ -238,7 +238,7 @@ all-all, !Cl-, -!Cl  same as previous
                 'textCtrlScaleFactor'   : "phase scale factor",
                 'textCtrlDelta1'        : "linear atomic correlation factor",
                 'textCtrlDelta2'        : "quadratic atomic correlation factor",
-                'textCtrlSrat'          : "low r peak sharpening",
+                'textCtrlSratio'        : "low r peak sharpening",
                 'textCtrlRcut'          : "peak sharpening cutoff",
                 }
 
@@ -337,8 +337,8 @@ all-all, !Cl-, -!Cl  same as previous
                 self.structure.pdffit['delta1'] = value
             elif id == self.textCtrlDelta2.GetId():
                 self.structure.pdffit['delta2']  = value
-            elif id == self.textCtrlSrat.GetId():
-                self.structure.pdffit['srat'] = value
+            elif id == self.textCtrlSratio.GetId():
+                self.structure.pdffit['sratio'] = value
             elif id == self.textCtrlRcut.GetId():
                 self.structure.pdffit['rcut']  = value
 

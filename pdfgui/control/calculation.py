@@ -40,9 +40,9 @@ class Calculation(PDFComponent):
     stype  -- scattering type, 'X' or 'N'
     qmax   -- maximum value of Q in inverse Angstroms.  Termination ripples
               are ignored for qmax=0.
-    qsig   -- specifies width of Gaussian damping factor in pdf_obs due
+    qdamp  -- specifies width of Gaussian damping factor in pdf_obs due
               to imperfect Q resolution
-    qalp   -- quadratic peak broadening factor related to dataset
+    qbroad -- quadratic peak broadening factor related to dataset
     spdiameter -- particle diameter for shape damping function
     dscale -- total scale factor
     """
@@ -61,8 +61,8 @@ class Calculation(PDFComponent):
         self.stype = 'X'
         # user must specify qmax to get termination ripples
         self.qmax = 0.0
-        self.qsig = 0.001
-        self.qalp = 0.0
+        self.qdamp = 0.001
+        self.qbroad = 0.0
         self.spdiameter = 0.0
         self.dscale = 1.0
         return
@@ -108,9 +108,9 @@ class Calculation(PDFComponent):
         if len(self.owner.strucs) == 0:
             raise ControlConfigError, "No structure is given for calculation"
         # dataset related variables
-        server.alloc(self.stype, self.qmax, self.qsig,
+        server.alloc(self.stype, self.qmax, self.qdamp,
                 self.rmin, self.rmax, self.rlen)
-        server.setvar('qalp', self.qalp)
+        server.setvar('qbroad', self.qbroad)
         server.setvar('spdiameter', self.spdiameter)
         # phase related variables
         # pair selection applies to current dataset, 
@@ -171,12 +171,12 @@ class Calculation(PDFComponent):
         # qmax
         if self.qmax:
             lines.append('qmax=%.2f' % self.qmax)
-        # qsig
-        if type(self.qsig) is types.FloatType:
-            lines.append('qsig=%g' % self.qsig)
-        # qalp
-        if self.qalp:
-            lines.append('qalp=%g' % self.qalp)
+        # qdamp
+        if type(self.qdamp) is types.FloatType:
+            lines.append('qdamp=%g' % self.qdamp)
+        # qbroad
+        if self.qbroad:
+            lines.append('qbroad=%g' % self.qbroad)
         # spdiameter
         if self.spdiameter:
             lines.append('spdiameter=%g' % self.spdiameter)
@@ -207,8 +207,8 @@ class Calculation(PDFComponent):
         self.Gcalc = config['Gcalc']
         self.stype = config['stype']
         self.qmax = config['qmax']
-        self.qsig = config['qsig']
-        self.qalp = config.get('qalp', 0.0)
+        self.qdamp = config.get('qdamp', config.get('qsig'))
+        self.qbroad = config.get('qbroad', config.get('qalp', 0.0))
         self.spdiameter = config.get('spdiameter', 0.0)
         self.dscale = config['dscale']
         return 
@@ -229,8 +229,8 @@ class Calculation(PDFComponent):
             'Gcalc'      : self.Gcalc,
             'stype'      : self.stype,
             'qmax'       : self.qmax,
-            'qsig'       : self.qsig,
-            'qalp'       : self.qalp,
+            'qdamp'      : self.qdamp,
+            'qbroad'     : self.qbroad,
             'spdiameter' : self.spdiameter,
             'dscale'     : self.dscale,
         }
@@ -251,8 +251,8 @@ class Calculation(PDFComponent):
         # rcalc and Gcalc may be assigned, they get replaced by new lists
         # after every calculation
         assign_attributes = ( 'rmin', 'rstep', 'rmax', 'rlen',
-                'rcalc', 'Gcalc', 'stype', 'qmax', 'qsig', 
-                'qalp', 'spdiameter', 'dscale', )
+                'rcalc', 'Gcalc', 'stype', 'qmax', 'qdamp', 
+                'qbroad', 'spdiameter', 'dscale', )
         copy_attributes = ( )
         for a in assign_attributes:
             setattr(other, a, getattr(self, a))

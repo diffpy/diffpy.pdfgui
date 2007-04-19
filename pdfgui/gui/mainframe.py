@@ -404,6 +404,9 @@ class MainFrame(wx.Frame):
         import traceback
         def _funcBuilder(funcName):
             func = getattr(self, funcName)
+            # do not catch anything when requested in dbopts
+            if pdfguiglobals.dbopts.noerrordialog:  return func
+            # otherwise wrap func within exceptions handler
             def _f(*args, **kwargs):
                 try:
                     return func(*args, **kwargs)
@@ -414,9 +417,6 @@ class MainFrame(wx.Frame):
                     else:
                         raise
                 except:
-                    # do not catch when requested in dbopts
-                    if pdfguiglobals.dbopts.noerrordialog:
-                        raise
                     msglines = traceback.format_exception(*sys.exc_info())
                     message = "".join(msglines)
                     if not self.quitting:
@@ -426,8 +426,7 @@ class MainFrame(wx.Frame):
                         dlg.Destroy()        
                     else:
                         raise
-                    
-                    return
+                return
 
             return _f
 

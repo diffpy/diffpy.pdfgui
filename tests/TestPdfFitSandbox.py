@@ -124,13 +124,13 @@ class TestPdfFitSandbox(unittest.TestCase):
         self.assertEqual('Ni_2-8.chi', d0.name)
         self.assertEqual('X', d0.stype)
         self.assertAlmostEqual(40.1, d0.qmax, 8)
-        self.assertAlmostEqual(0.05, d0.qsig, 8)
+        self.assertAlmostEqual(0.05, d0.qdamp, 8)
         self.assertEqual(2000, len(d0.robs))
         d1 = self.box._fits[-1].datasets[1]
         self.assertEqual('300K', d1.name)
         self.assertEqual('N', d1.stype)
         self.assertAlmostEqual(32.1, d1.qmax, 8)
-        self.assertAlmostEqual(0.05, d1.qsig, 8)
+        self.assertAlmostEqual(0.05, d1.qdamp, 8)
         self.assertEqual(2000, len(d1.robs))
         self.assertEqual(None, self.box._curphase)
         return
@@ -152,13 +152,13 @@ class TestPdfFitSandbox(unittest.TestCase):
         self.assertEqual('', d0.name)
         self.assertEqual('X', d0.stype)
         self.assertAlmostEqual(40.1, d0.qmax, 8)
-        self.assertAlmostEqual(0.05, d0.qsig, 8)
+        self.assertAlmostEqual(0.05, d0.qdamp, 8)
         self.assertEqual(2000, len(d0.robs))
         d1 = self.box._fits[-1].datasets[1]
         self.assertEqual('LaMnO3', d1.name)
         self.assertEqual('N', d1.stype)
         self.assertAlmostEqual(32.1, d1.qmax, 8)
-        self.assertAlmostEqual(0.05, d1.qsig, 8)
+        self.assertAlmostEqual(0.05, d1.qdamp, 8)
         self.assertEqual(2000, len(d1.robs))
         self.assertEqual(None, self.box._curphase)
         return
@@ -244,7 +244,7 @@ class TestPdfFitSandbox(unittest.TestCase):
         self.failUnless(isinstance(self.box._fits[-1], Calculation))
         c = self.box._fits[-1]
         self.assertEqual(37.0, c.qmax)
-        self.assertEqual(0.07, c.qsig)
+        self.assertEqual(0.07, c.qdamp)
         self.assertEqual(0.01, c.rmin)
         self.assertAlmostEqual(0.01, c.rstep, 8)
         self.assertAlmostEqual(10.0, c.rmax, 8)
@@ -374,10 +374,10 @@ class TestPdfFitSandbox(unittest.TestCase):
         fNi_stru = os.path.join(testdata_dir, 'Ni.stru')
         self.box.read_struct(fNi_stru)
         exec 'constrain(delta, 1)' in sandbox
-        self.assertRaises(ControlKeyError, self.box.constrain, 'qsig', 10)
+        self.assertRaises(ControlKeyError, self.box.constrain, 'qdamp', 10)
         fNi_data = os.path.join(testdata_dir, "Ni_2-8.chi.gr")
         self.box.read_data(fNi_data, "X", 40.1, 0.05)
-        exec 'constrain(qsig, 10)' in sandbox
+        exec 'constrain(qdamp, 10)' in sandbox
         exec 'constrain(dscale, 2)' in sandbox
         exec 'constrain(lat(1), 3)' in sandbox
         exec 'constrain(lat(2), 3)' in sandbox
@@ -395,7 +395,7 @@ class TestPdfFitSandbox(unittest.TestCase):
         self.assertEqual('@6', cphase.constraints['u11(1)'].formula)
         self.assertEqual('@7+0.5', cphase.constraints['x(1)'].formula)
         self.assertEqual(2, len(cdataset.constraints))
-        self.assertEqual('@10', cdataset.constraints['qsig'].formula)
+        self.assertEqual('@10', cdataset.constraints['qdamp'].formula)
         exec 'constrain(x(2), 21, IDENT)' in sandbox
         exec 'constrain(y(2), 22, FCOMP)' in sandbox
         exec 'constrain(z(2), 23, FSQR)' in sandbox
@@ -415,7 +415,7 @@ class TestPdfFitSandbox(unittest.TestCase):
         self.assertRaises(ControlRuntimeError,
                 self.box.constrain, 'delta', 1)
         self.assertRaises(ControlRuntimeError,
-                self.box.constrain, 'qsig', "@3*@3")
+                self.box.constrain, 'qdamp', "@3*@3")
         self.assertRaises(ControlRuntimeError,
                 self.box.constrain, 'delta', 1, 'FCOMP')
         return
@@ -515,12 +515,12 @@ class TestPdfFitSandbox(unittest.TestCase):
         curdataset = curfit.datasets[self.box._curdataset]
         curphase = curfit.strucs[self.box._curphase]
         self.assertEqual(40.1, curdataset.qmax)
-        exec "setvar(qsig, 0.007)" in sandbox
+        exec "setvar(qdamp, 0.007)" in sandbox
         exec "setvar(lat(1), 3.75)" in sandbox
         exec "setvar(x(4), 0.123)" in sandbox
         exec "setvar(u13(1), 0.00123)" in sandbox
         exec "setvar('pscale', 0.97)" in sandbox
-        self.assertEqual(0.007, curdataset.qsig)
+        self.assertEqual(0.007, curdataset.qdamp)
         self.assertEqual(3.75, curphase.lattice.a)
         self.assertEqual(0.123, curphase[3].xyz[0])
         self.assertEqual(0.00123, curphase[0].U[0,2])
@@ -538,7 +538,7 @@ class TestPdfFitSandbox(unittest.TestCase):
         sandbox.update({"f300K_stru" : f300K_stru, "f300K_data" : f300K_data})
         exec "read_data(f300K_data, 'N', 32.1, 0.05)" in sandbox
         exec "read_struct(f300K_stru)" in sandbox
-        self.assertEqual(0.05, eval("getvar(qsig)", sandbox))
+        self.assertEqual(0.05, eval("getvar(qdamp)", sandbox))
         self.assertEqual(1.0, eval("getvar('dscale')", sandbox))
         self.assertEqual(1.0, eval("getvar(dscale)", sandbox))
         self.assertAlmostEqual(0.95182216, eval("getvar(y(3))", sandbox), 8)
@@ -610,13 +610,13 @@ class TestPdfFitSandbox(unittest.TestCase):
         self.assertEqual(0, self.box._curdataset)
         self.box.read_data(f300K_data, 'N', 32.1, 0.07)
         self.assertEqual(1, self.box._curdataset)
-        self.assertEqual(0.07, eval("getvar('qsig')", sandbox))
+        self.assertEqual(0.07, eval("getvar('qdamp')", sandbox))
         exec "setdata(1)" in sandbox
         self.assertEqual(0, self.box._curdataset)
-        self.assertEqual(0.05, eval("getvar('qsig')", sandbox))
+        self.assertEqual(0.05, eval("getvar('qdamp')", sandbox))
         exec "setdata(2)" in sandbox
         self.assertEqual(1, self.box._curdataset)
-        self.assertEqual(0.07, eval("getvar('qsig')", sandbox))
+        self.assertEqual(0.07, eval("getvar('qdamp')", sandbox))
         self.assertRaises(IndexError, self.box.setdata, 3)
         return
 
@@ -803,15 +803,16 @@ class TestPdfFitSandbox(unittest.TestCase):
         self.assertEqual('pscale', eval('pfrac()', sandbox))
         return
  
-    def test_srat(self):
-        """check PdfFitSandbox.srat()
+    def test_sratio(self):
+        """check PdfFitSandbox.sratio() and PdfFitSandbox.srat()
         """
         sandbox = self.box.sandbox()
-        self.assertEqual('srat', eval('srat()', sandbox))
+        self.assertEqual('sratio', eval('sratio()', sandbox))
+        self.assertEqual('sratio', eval('srat()', sandbox))
         return
 
     def test_delta1(self):
-        """check PdfFitSandbox.delta1() alias PdfFitSandbox.gamma()
+        """check PdfFitSandbox.delta1() and PdfFitSandbox.gamma()
         """
         sandbox = self.box.sandbox()
         self.assertEqual('delta1', eval('delta1()', sandbox))
@@ -819,7 +820,7 @@ class TestPdfFitSandbox(unittest.TestCase):
         return
  
     def test_delta2(self):
-        """check PdfFitSandbox.delta2() alias PdfFitSandbox.delta()
+        """check PdfFitSandbox.delta2() and PdfFitSandbox.delta()
         """
         sandbox = self.box.sandbox()
         self.assertEqual('delta2', eval('delta2()', sandbox))
@@ -833,18 +834,20 @@ class TestPdfFitSandbox(unittest.TestCase):
         self.assertEqual('dscale', eval('dscale()', sandbox))
         return
  
-    def test_qsig(self):
-        """check PdfFitSandbox.qsig()
+    def test_qdamp(self):
+        """check PdfFitSandbox.qdamp() and PdfFitSandbox.qsig()
         """
         sandbox = self.box.sandbox()
-        self.assertEqual('qsig', eval('qsig()', sandbox))
+        self.assertEqual('qdamp', eval('qdamp()', sandbox))
+        self.assertEqual('qdamp', eval('qsig()', sandbox))
         return
  
-    def test_qalp(self):
-        """check PdfFitSandbox.qalp()
+    def test_qbroad(self):
+        """check PdfFitSandbox.qbroad() and PdfFitSandbox.qalp()
         """
         sandbox = self.box.sandbox()
-        self.assertEqual('qalp', eval('qalp()', sandbox))
+        self.assertEqual('qbroad', eval('qbroad()', sandbox))
+        self.assertEqual('qbroad', eval('qalp()', sandbox))
         return
  
     def test_rcut(self):

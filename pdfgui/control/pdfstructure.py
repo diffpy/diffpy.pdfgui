@@ -72,19 +72,17 @@ class PDFStructure(PDFComponent, PDFFitStructure):
         parameter values.
 
         var   -- string representation of PdfFit variable.  Possible values:
-                 pscale, delta1, delta2, srat, rcut, lat(n), where n = 1..6,
+                 pscale, delta1, delta2, sratio, rcut, lat(n), where n=1..6,
                  x(i), y(i), z(i), occ(i), u11(i), u22(i), u33(i),
-                 u12(i), u13(i), u23(i), where i = 1..Natoms
+                 u12(i), u13(i), u23(i), where i=1..Natoms
         value -- new value of the variable
         """
-        translate = {'gamma' : 'delta1',  'delta' : 'delta2'}
         barevar = var.strip()
-        barevar = translate.get(barevar, barevar)
         fvalue = float(value)
         parenthesis = re.match(r'^(\w+)\((\d+)\)$', barevar)
-        if barevar in ('pscale', 'pfrac'):
+        if barevar in ('pscale'):
             self.pdffit['scale'] = fvalue
-        elif barevar in ('delta1', 'delta2', 'srat', 'rcut'):
+        elif barevar in ('delta1', 'delta2', 'sratio', 'rcut'):
             self.pdffit[barevar] = fvalue
         elif barevar == 'lat(1)':
             self.lattice.setLatPar(a=fvalue)
@@ -127,19 +125,17 @@ class PDFStructure(PDFComponent, PDFFitStructure):
         dictionary.
 
         var   -- string representation of PdfFit variable.  Possible values:
-                 pscale, delta1, delta2, srat, rcut, lat(n), where n = 1..6,
+                 pscale, delta1, delta2, sratio, rcut, lat(n), where n = 1..6,
                  x(i), y(i), z(i), occ(i), u11(i), u22(i), u33(i),
-                 u12(i), u13(i), u23(i), where i = 1..Natoms
+                 u12(i), u13(i), u23(i), where i=1..Natoms
 
         returns value of var
         """
-        translate = {'gamma' : 'delta1',  'delta' : 'delta2'}
         barevar = var.strip()
-        barevar = translate.get(barevar, barevar)
         parenthesis = re.match(r'^(\w+)\((\d+)\)$', barevar)
-        if barevar in ('pscale', 'pfrac'):
+        if barevar in ('pscale'):
             value = self.pdffit['scale']
-        elif barevar in ('delta1', 'delta2', 'srat', 'rcut'):
+        elif barevar in ('delta1', 'delta2', 'sratio', 'rcut'):
             value = self.pdffit[barevar]
         elif barevar == 'lat(1)':
             value = self.lattice.a

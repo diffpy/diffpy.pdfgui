@@ -411,7 +411,7 @@ configuration information from the structure file. The top portion
 contains lattice parameters, phase scale factor, and a set of parameters 
 intended to be used to account for correlated atomic motion effects that 
 typically sharpen the nearest neighbor PDF peak. These are @i{delta1}, 
-@i{delta2}, @i{srat}, and @i{rcut}. Their usage is explained later. The 
+@i{delta2}, @i{sratio}, and @i{rcut}. Their usage is explained later. The 
 bottom part of the panel contains standard unit cell content related 
 information such as atomic species, their fractional coordinates, 
 anisotropic ADPs, and site occupancies.
@@ -454,8 +454,8 @@ type. The data range, fit range, data scale factor, maximum Q value used in
 Fourier transform to obtain the experimental PDF, spherical form factor diameter 
 (used for nanoparticle samples, to account for the PDF signal dampening due to 
 the finite particle size) and the experiment specific parameters are displayed. 
-These comprise parameters describing experimental resolution effects, Qsigma and 
-Qalpha, and experimental conditions, such as temperature and doping (currently used 
+These comprise parameters describing experimental resolution effects, Qdamp and 
+Qbroad, and experimental conditions, such as temperature and doping (currently used 
 for bookkeeping only). If no meta data are present in a data file, this 
 information should be supplied by the user. Note also that the changes occurred 
 at this stage in the Plot Control panel, allowing user to plot the data. 
@@ -485,14 +485,14 @@ Parameters tab. Since there is no physical information in the
 region of @i{r} below the nearest neighbor PDF peak position, and since 
 this region is often affected by noise and experimental artifacts, it is 
 wise to exclude it from fitting. We therefore set the value of the lower 
-boundary of the fitting range to 1.7. In addition, we set @i{Qsigma} 
+boundary of the fitting range to 1.7. In addition, we set @i{qdamp} 
 parameter to a more realistic starting value of 0.08. This parameter 
 is typically obtained through a conventional calibration process at each 
 PDF experiment using a standard sample such as Ni or Si. Next, we select 
 the ``Constraints'' tab, and type @i{@@1} into the ``Scale Factor'' edit 
 box. This will assign refinement parameter 1 to the data scale factor. 
 Note that this is the syntax used for assigning the refinement parameters 
-in PDFfit2 engine. Similarly, assign parameter 2 to @i{Qsigma} by inserting 
+in PDFfit2 engine. Similarly, assign parameter 2 to @i{qdamp} by inserting 
 @i{@@2} into the appropriate edit box. This is illustrated in Figure 
 @ref{fig2-04}.
 
@@ -851,7 +851,7 @@ We note here that there is also a linear atomic correlation factor
 @i{delta1}. This one is appropriate to use in cases of high temperature, 
 while @i{delta2} is more appropriate for the case of low temperatures. 
 Alternative way to include the correlated motion effects on PDF is to 
-introduce @i{srat} parameter that defines low-@i{r} to high-@i{r} PDF 
+introduce @i{sratio} parameter that defines low-@i{r} to high-@i{r} PDF 
 peak ratio, and @i{rcut} limit needs to be specified that defines a cutoff 
 distance. The two approaches of accounting for correlated motion should 
 @i{not} be used simultaneously. Details of this and other 
@@ -1263,7 +1263,7 @@ work for anisotropic atoms only, for isotropic atoms use uisoequiv(n).
 
 @smallskip
 @noindent 
-@b{qsig --> qdamp}
+@b{qdamp}
 (0 A**-1) PDF Gaussian dampening envelope due to limited Q-resolution. Not applied when equal zero. The Gaussian envelope is of the form 
 
 @tex
@@ -1274,7 +1274,7 @@ $$ B_{ij} = e^{-{({r_{ij}Q_{damp})}^{2}\over {2}}.$$
 
 @smallskip
 @noindent 
-@b{qalp --> qbroad}
+@b{qbroad}
 (0 A**-1) PDF peak broadening from increased intensity noise at high Q. 
 Not applied when equal zero. See the equation for PDF peak width below 
 and associated explanation for details. @b{NEEDS ATTENTION FOR PRECISE 
@@ -1286,7 +1286,7 @@ DEFINITION}
 
 @smallskip
 @noindent 
-@b{srat --> bvtol}
+@b{sratio}
 (1 unitless) bond vibration tolerance. Reduction factor for PDF peak width accounting for correlated motion of bonded atoms. 
 
 @bigskip
@@ -1300,21 +1300,6 @@ DEFINITION}
 @medskip
 @noindent 
 @i{Phase}:
-
-@smallskip
-@noindent 
-@b{pfrac}
-duplicate to pscale. 
-
-@smallskip
-@noindent 
-@b{delta}
-duplicate to delta2. 
-
-@smallskip
-@noindent 
-@b{gamma}
-duplicate to delta1. It creates confusion with lattice angle gamma. 
 
 @bigskip
 @noindent 
@@ -1415,7 +1400,7 @@ parameter @b{qdamp}.
 @smallskip
 @noindent 
 @b{rcut}
-(0 A) r-cutoff for applying bvtol (srat) sharpening factor. 
+(0 A) r-cutoff for applying bvtol (sratio) sharpening factor. 
 
 @c Ending of a TexInfo File
 @node Index, Top

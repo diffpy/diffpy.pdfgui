@@ -28,10 +28,10 @@ class DataSetResultsPanel(wx.Panel, PDFPanel):
         self.panelNameLabel = wx.StaticText(self, -1, "Data Set Results")
         self.labelScaleFactor = wx.StaticText(self, -1, "Scale Factor")
         self.textCtrlScaleFactor = wx.TextCtrl(self, -1, "", style=wx.TE_READONLY)
-        self.labelQsigma = wx.StaticText(self, -1, "Qsigma")
-        self.textCtrlQsigma = wx.TextCtrl(self, -1, "", style=wx.TE_READONLY)
-        self.labelQalpha = wx.StaticText(self, -1, "Qalpha")
-        self.textCtrlQalpha = wx.TextCtrl(self, -1, "", style=wx.TE_READONLY)
+        self.labelQdamp = wx.StaticText(self, -1, "Qdamp")
+        self.textCtrlQdamp = wx.TextCtrl(self, -1, "", style=wx.TE_READONLY)
+        self.labelQbroad = wx.StaticText(self, -1, "Qbroad")
+        self.textCtrlQbroad = wx.TextCtrl(self, -1, "", style=wx.TE_READONLY)
         self.labelSpdiameter = wx.StaticText(self, -1, "Spdiameter")
         self.textCtrlSpdiameter = wx.TextCtrl(self, -1, "", style=wx.TE_READONLY)
         self.buttonExport = wx.Button(self, wx.ID_OPEN, "Export PDF")
@@ -58,10 +58,10 @@ class DataSetResultsPanel(wx.Panel, PDFPanel):
         sizer_7.Add(sizer_panelname, 0, wx.LEFT|wx.RIGHT|wx.EXPAND, 5)
         grid_sizer_1.Add(self.labelScaleFactor, 0, wx.LEFT|wx.ALIGN_RIGHT|wx.ALIGN_CENTER_VERTICAL|wx.ADJUST_MINSIZE, 5)
         grid_sizer_1.Add(self.textCtrlScaleFactor, 0, wx.ALIGN_CENTER_VERTICAL|wx.ADJUST_MINSIZE, 20)
-        grid_sizer_1.Add(self.labelQsigma, 0, wx.LEFT|wx.ALIGN_RIGHT|wx.ALIGN_CENTER_VERTICAL|wx.ADJUST_MINSIZE, 5)
-        grid_sizer_1.Add(self.textCtrlQsigma, 0, wx.ALIGN_CENTER_VERTICAL|wx.ADJUST_MINSIZE, 20)
-        grid_sizer_1.Add(self.labelQalpha, 0, wx.LEFT|wx.ALIGN_RIGHT|wx.ALIGN_CENTER_VERTICAL|wx.ADJUST_MINSIZE, 5)
-        grid_sizer_1.Add(self.textCtrlQalpha, 0, wx.ALIGN_CENTER_VERTICAL|wx.ADJUST_MINSIZE, 20)
+        grid_sizer_1.Add(self.labelQdamp, 0, wx.LEFT|wx.ALIGN_RIGHT|wx.ALIGN_CENTER_VERTICAL|wx.ADJUST_MINSIZE, 5)
+        grid_sizer_1.Add(self.textCtrlQdamp, 0, wx.ALIGN_CENTER_VERTICAL|wx.ADJUST_MINSIZE, 20)
+        grid_sizer_1.Add(self.labelQbroad, 0, wx.LEFT|wx.ALIGN_RIGHT|wx.ALIGN_CENTER_VERTICAL|wx.ADJUST_MINSIZE, 5)
+        grid_sizer_1.Add(self.textCtrlQbroad, 0, wx.ALIGN_CENTER_VERTICAL|wx.ADJUST_MINSIZE, 20)
         grid_sizer_1.Add(self.labelSpdiameter, 0, wx.LEFT|wx.ALIGN_RIGHT|wx.ALIGN_CENTER_VERTICAL|wx.ADJUST_MINSIZE, 5)
         grid_sizer_1.Add(self.textCtrlSpdiameter, 0, wx.ALIGN_CENTER_VERTICAL|wx.ADJUST_MINSIZE, 20)
         sizer_7.Add(grid_sizer_1, 0, wx.ALL|wx.EXPAND, 5)
@@ -77,8 +77,8 @@ class DataSetResultsPanel(wx.Panel, PDFPanel):
     def __customProperties(self):
         self.results = {}
         self.ctrlMap = {'dscale'        :   'textCtrlScaleFactor',
-                        'qsig'          :   'textCtrlQsigma',
-                        'qalp'          :   'textCtrlQalpha',
+                        'qdamp'         :   'textCtrlQdamp',
+                        'qbroad'        :   'textCtrlQbroad',
                         'spdiameter'    :   'textCtrlSpdiameter',
                         }
 
@@ -93,8 +93,8 @@ class DataSetResultsPanel(wx.Panel, PDFPanel):
 
         The values are taken from the results member dictionary.
         dscale      --  float
-        qsig        --  float
-        qalp        --  float
+        qdamp       --  float
+        qbroad      --  float
         spdiameter  --  float
         """
         for name in self.ctrlMap:

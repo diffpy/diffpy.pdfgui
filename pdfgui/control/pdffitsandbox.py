@@ -45,7 +45,7 @@ class PdfFitSandbox:
     # scattering type identifiers
     _Sctp = { 'X' : 0, 'N' : 1 }
     # dataset variables
-    _dataset_vars = ( 'qsig', 'qalp', 'spdiameter', 'dscale' )
+    _dataset_vars = ( 'qdamp', 'qbroad', 'spdiameter', 'dscale' )
 
     def __init__(self):
         self._fits = [ Fitting('0').stripped() ]
@@ -144,13 +144,13 @@ class PdfFitSandbox:
         self._curphase = len(curfit.strucs) - 1
         return
 
-    def read_data(self, filename, stype, qmax, qsig):
+    def read_data(self, filename, stype, qmax, qdamp):
         """Read pdf data from file into memory.
  
         filename -- name of file from which to read data
         stype    -- 'X' (xray) or 'N' (neutron)
         qmax     -- maximum q value
-        qsig     -- instrumental q-resolution factor
+        qdamp    -- instrumental q-resolution factor
         
         Raises:
             IOError when the file cannot be read from disk
@@ -160,37 +160,37 @@ class PdfFitSandbox:
         fd = FitDataSet(name).read(filename)
         fd.stype = stype
         fd.qmax = qmax
-        fd.qsig = qsig
+        fd.qdamp = qdamp
         curfit.add(fd)
         self._curdataset = len(curfit.datasets) - 1
         return
 
-    def read_data_string(self, s, stype, qmax, qsig, name=""):
+    def read_data_string(self, s, stype, qmax, qdamp, name=""):
         """Read pdf data from a string into memory.
 
         s       -- string containing the contents of the data file
         stype   -- 'X' (xray) or 'N' (neutron)
         qmax    -- maximum q value
-        qsig    -- instrumental q-resolution factor
+        qdamp   -- instrumental q-resolution factor
         name    -- tag with which to label data
         """
         curfit = self._fits[-1]
         fd = FitDataSet(name).readStr(s)
         fd.stype = stype
         fd.qmax = qmax
-        fd.qsig = qsig
+        fd.qdamp = qdamp
         curfit.add(fd)
         self._curdataset = len(curfit.datasets) - 1
         return
 
-    def read_data_lists(self, stype, qmax, qsig, r_data, Gr_data,
+    def read_data_lists(self, stype, qmax, qdamp, r_data, Gr_data,
             dGr_data = None, name = "list"):
         """Read pdf data into memory from lists.
         
         All lists must be of the same length.
         stype       -- 'X' (xray) or 'N' (neutron)
         qmax        -- maximum q value
-        qsig        -- instrumental q-resolution factor
+        qdamp       -- instrumental q-resolution factor
         r_data      -- list of r-values
         Gr_data     -- list of G(r) values
         dGr_data    -- list of G(r) uncertainty values
@@ -236,14 +236,14 @@ class PdfFitSandbox:
         self._curphase = None
         return
 
-    def alloc(self, stype, qmax, qsig, rmin, rmax, rlen):
+    def alloc(self, stype, qmax, qdamp, rmin, rmax, rlen):
         """Allocate space for a PDF calculation.
         
         The structure from which to calculate the PDF must first be imported with
         the read_struct() or read_struct_string() method.
         stype   -- 'X' (xray) or 'N' (neutron)
         qmax    -- maximum q value
-        qsig    -- instrumental q-resolution factor
+        qdamp   -- instrumental q-resolution factor
         rmin    -- minimum r-value of calculation
         rmax    -- maximum r-value of calculation
         rlen    -- number of data points in calculation
@@ -255,7 +255,7 @@ class PdfFitSandbox:
         newcalc.strucs = last.strucs
         newcalc.stype = stype
         newcalc.qmax = qmax
-        newcalc.qsig = qsig
+        newcalc.qdamp = qdamp
         newcalc.rmin = rmin
         newcalc.rmax = rmax
         newcalc.rlen = rlen
@@ -412,7 +412,7 @@ class PdfFitSandbox:
         if isinstance(curfit, Calculation):
             raise ControlRuntimeError, \
                 "Cannot define constrain for calculation."
-        if type(var) is types.MethodType:
+        if callable(var):
             var = var()
         if fcon is not None:
             if fcon == "IDENT":
@@ -444,11 +444,11 @@ class PdfFitSandbox:
         Raises:
             KeyError when parameter is yet to be constrained
         """
-        # people do not use parenthesis, e.g., "setpar(3, qsig)"
+        # people do not use parenthesis, e.g., "setpar(3, qdamp)"
         # in such case val is a reference to PdfFit method
         import types
         curfit = self._fits[-1]
-        if type(val) is types.MethodType:
+        if callable(val):
             val = val()
         # here val can be either number or variable string
         if type(val) in (types.IntType, types.FloatType):
@@ -532,7 +532,7 @@ class PdfFitSandbox:
         """
         import types
         curfit = self._fits[-1]
-        if type(var) is types.MethodType:
+        if callable(var):
             var = var()
         # here var is string of either dataset variable
         if var in PdfFitSandbox._dataset_vars:
@@ -554,7 +554,7 @@ class PdfFitSandbox:
         """
         import types
         curfit = self._fits[-1]
-        if type(var) is types.MethodType:
+        if callable(var):
             var = var()
         # here var is string of either dataset variable
         if var in PdfFitSandbox._dataset_vars:
@@ -803,7 +803,7 @@ class PdfFitSandbox:
 
     # Begin refineable variables.
 
-    def lat(self, n):
+    def lat(n):
         """lat(n) --> Get reference to lattice variable n.
         
         n can be an integer or a string representing the lattice variable.
@@ -819,171 +819,222 @@ class PdfFitSandbox:
         if type(n) is types.StringType:
             n = LatParams[n]
         return "lat(%i)" % n
+    lat = staticmethod(lat)
 
 
-    def x(self, i):
+    def x(i):
         """x(i) --> Get reference to x-value of atom i."""
         return "x(%i)" % i
+    x = staticmethod(x)
 
 
-    def y(self, i):
+    def y(i):
         """y(i) --> Get reference to y-value of atom i."""
         return "y(%i)" % i
+    y = staticmethod(y)
 
 
-    def z(self, i):
+    def z(i):
         """z(i) --> Get reference to z-value of atom i."""
         return "z(%i)" % i
+    z = staticmethod(z)
 
 
-    def u11(self, i):
+    def u11(i):
         """u11(i) --> Get reference to U(1,1) for atom i.
         
         U is the anisotropic thermal factor tensor.
         """
         return "u11(%i)" % i
+    u11 = staticmethod(u11)
 
 
-    def u22(self, i):
+    def u22(i):
         """u22(i) --> Get reference to U(2,2) for atom i.
         
         U is the anisotropic thermal factor tensor.
         """
         return "u22(%i)" % i
+    u22 = staticmethod(u22)
 
 
-    def u33(self, i):
+    def u33(i):
         """u33(i) --> Get reference to U(3,3) for atom i.
         
         U is the anisotropic thermal factor tensor.
         """
         return "u33(%i)" % i
+    u33 = staticmethod(u33)
 
 
-    def u12(self, i):
+    def u12(i):
         """u12(i) --> Get reference to U(1,2) for atom i.
         
         U is the anisotropic thermal factor tensor.
         """
         return "u12(%i)" % i
+    u12 = staticmethod(u12)
 
 
-    def u13(self, i):
+    def u13(i):
         """u13(i) --> Get reference to U(1,3) for atom i.
         
         U is the anisotropic thermal factor tensor.
         """
         return "u13(%i)" % i
+    u13 = staticmethod(u13)
 
 
-    def u23(self, i):
+    def u23(i):
         """u23(i) --> Get reference to U(2,3) for atom i.
         
         U is the anisotropic thermal factor tensor.
         """
         return "u23(%i)" % i
+    u23 = staticmethod(u23)
 
 
-    def occ(self, i):
+    def occ(i):
         """occ(i) --> Get reference to occupancy of atom i."""
         return "occ(%i)" % i
+    occ = staticmethod(occ)
 
 
-    def pscale(self):
+    def pscale():
         """pscale() --> Get reference to pscale.
        
         pscale is the fraction of the total structure that the current phase
         represents.
         """
         return "pscale"
+    pscale = staticmethod(pscale)
 
 
-    def pfrac(self):
-        """pfrac() --> same as pscale.
+    def pfrac():
+        """pfrac() --> Deprecated reference to pscale.
        
         pscale is the fraction of the total structure that the current phase
         represents.
         """
-        return self.pscale()
+        return PdfFitSandbox.pscale()
+    pfrac = staticmethod(pfrac)
 
 
-    def srat(self):
-        """srat() --> Get reference to sigma ratio.
+    def sratio():
+        """sratio() --> Get reference to sigma ratio.
         
         The sigma ratio determines the reduction in the Debye-Waller factor for
         distances below rcut.
         """
-        return "srat"
+        return "sratio"
+    sratio = staticmethod(sratio)
 
 
-    def delta1(self):
+    def srat():
+        """srat() --> Deprecated reference to sigma ratio.
+        
+        The sigma ratio determines the reduction in the Debye-Waller factor for
+        distances below rcut.
+        """
+        return PdfFitSandbox.sratio()
+    srat = staticmethod(srat)
+
+
+    def delta1():
         """delta1() --> Get reference to linear sharpening factor
         
         1/R peak sharpening factor.
         """
         return "delta1"
+    delta1 = staticmethod(delta1)
 
 
-    def delta2(self):
+    def delta2():
         """delta2() --> Get reference to delta2
         
         The phenomenological correlation constant in the Debye-Waller factor.
         The (1/R^2) peak sharpening factor.
         """
         return "delta2"
+    delta2 = staticmethod(delta2)
 
 
-    def delta(self):
+    def delta():
         """delta() --> deprecated, same as delta2().
         """
-        return self.delta2()
+        return PdfFitSandbox.delta2()
+    delta = staticmethod(delta)
 
 
-    def gamma(self):
+    def gamma():
         """gamma() --> deprecated, same as delta1().
         """
-        return self.delta1()
+        return PdfFitSandbox.delta1()
+    gamma = staticmethod(gamma)
 
 
-    def dscale(self):
+    def dscale():
         """dscale() --> Get reference to dscale.
         
         The data scale factor.
         """
         return "dscale"
+    dscale = staticmethod(dscale)
 
-    def qsig(self):
-        """qsig() --> Get reference to qsig.
+    def qsig():
+        """qsig() --> Deprecated reference to qdamp.
        
         instrument q-resolution factor.
         """
-        return "qsig"
+        return PdfFitSandbox.qdamp()
+    qsig = staticmethod(qsig)
 
 
-    def qalp(self):
-        """qalp() --> Get reference to qalp.
+    def qdamp():
+        """qdamp() --> Get reference to qdamp.
+       
+        instrument q-resolution factor.
+        """
+        return "qdamp"
+    qdamp = staticmethod(qdamp)
+
+
+    def qalp():
+        """qalp() --> Deprecated reference to qbroad.
        
         Quadratic peak sharpening factor.
         """
-        return "qalp"
+        return PdfFitSandbox.qbroad()
+    qalp = staticmethod(qalp)
 
 
-    def spdiameter(self):
+    def qbroad():
+        """qbroad() --> Get reference to qbroad.
+       
+        Quadratic peak sharpening factor.
+        """
+        return "qbroad"
+    qbroad = staticmethod(qbroad)
+
+
+    def spdiameter():
         """spdiameter() --> Get reference to spdiameter.
 
         Diameter value for the spherical particle PDF correction. 
         Spherical envelope is not applied when spdiameter equals 0.
         """
         return "spdiameter"
+    spdiameter = staticmethod(spdiameter)
 
 
-    def rcut(self):
+    def rcut():
         """rcut() --> Get reference to rcut.
         
         rcut is the value of r below which peak sharpening, defined by the sigma
-        ratio (srat), applies.
+        ratio (sratio), applies.
         """
         return "rcut"
+    rcut = staticmethod(rcut)
 
     # End refineable variables.
     

@@ -58,8 +58,8 @@ class PhaseConstraintsPanel(wx.Panel, PDFPanel):
         self.textCtrlDelta1 = wx.TextCtrl(self, -1, "", style=wx.TE_PROCESS_ENTER)
         self.labelDelta2 = wx.StaticText(self, -1, "delta2")
         self.textCtrlDelta2 = wx.TextCtrl(self, -1, "", style=wx.TE_PROCESS_ENTER)
-        self.labelSrat = wx.StaticText(self, -1, "srat")
-        self.textCtrlSrat = wx.TextCtrl(self, -1, "", style=wx.TE_PROCESS_ENTER)
+        self.labelSratio = wx.StaticText(self, -1, "sratio")
+        self.textCtrlSratio = wx.TextCtrl(self, -1, "", style=wx.TE_PROCESS_ENTER)
         self.labelRcut = wx.StaticText(self, -1, "rcut")
         self.textCtrlRcut = wx.TextCtrl(self, -1, "", style=wx.TE_PROCESS_ENTER)
         self.labelIncludedPairs = wx.StaticText(self, -1, "Included Pairs")
@@ -99,8 +99,8 @@ class PhaseConstraintsPanel(wx.Panel, PDFPanel):
         self.textCtrlDelta1.SetToolTipString("linear atomic correlation factor")
         self.labelDelta2.SetToolTipString("quadratic atomic correlation factor")
         self.textCtrlDelta2.SetToolTipString("quadratic atomic correlation factor")
-        self.labelSrat.SetToolTipString("low r peak sharpening")
-        self.textCtrlSrat.SetToolTipString("low r peak sharpening")
+        self.labelSratio.SetToolTipString("low r peak sharpening")
+        self.textCtrlSratio.SetToolTipString("low r peak sharpening")
         self.labelRcut.SetToolTipString("peak sharpening cutoff")
         self.textCtrlRcut.SetToolTipString("peak sharpening cutoff")
         self.textCtrlIncludedPairs.SetMinSize((240, 25))
@@ -153,8 +153,8 @@ class PhaseConstraintsPanel(wx.Panel, PDFPanel):
         grid_sizer_4.Add(self.textCtrlDelta1, 0, wx.ALL|wx.ALIGN_CENTER_VERTICAL|wx.ADJUST_MINSIZE, 0)
         grid_sizer_4.Add(self.labelDelta2, 0, wx.ALL|wx.ALIGN_RIGHT|wx.ALIGN_CENTER_VERTICAL|wx.ADJUST_MINSIZE, 5)
         grid_sizer_4.Add(self.textCtrlDelta2, 0, wx.ALL|wx.ALIGN_CENTER_VERTICAL|wx.ADJUST_MINSIZE, 0)
-        grid_sizer_4.Add(self.labelSrat, 0, wx.ALL|wx.ALIGN_RIGHT|wx.ALIGN_CENTER_VERTICAL|wx.ADJUST_MINSIZE, 5)
-        grid_sizer_4.Add(self.textCtrlSrat, 0, wx.ALL|wx.ALIGN_CENTER_VERTICAL|wx.ADJUST_MINSIZE, 0)
+        grid_sizer_4.Add(self.labelSratio, 0, wx.ALL|wx.ALIGN_RIGHT|wx.ALIGN_CENTER_VERTICAL|wx.ADJUST_MINSIZE, 5)
+        grid_sizer_4.Add(self.textCtrlSratio, 0, wx.ALL|wx.ALIGN_CENTER_VERTICAL|wx.ADJUST_MINSIZE, 0)
         grid_sizer_4.Add(self.labelRcut, 0, wx.ALL|wx.ALIGN_RIGHT|wx.ALIGN_CENTER_VERTICAL|wx.ADJUST_MINSIZE, 5)
         grid_sizer_4.Add(self.textCtrlRcut, 0, wx.ALL|wx.ALIGN_CENTER_VERTICAL|wx.ADJUST_MINSIZE, 0)
         sizerAdditionalParameters.Add(grid_sizer_4, 1, wx.EXPAND, 0)
@@ -181,7 +181,7 @@ class PhaseConstraintsPanel(wx.Panel, PDFPanel):
         self._textctrls = ['textCtrlA', 'textCtrlB', 'textCtrlC',
                 'textCtrlAlpha', 'textCtrlBeta', 'textCtrlGamma',
                 'textCtrlScaleFactor', 'textCtrlDelta1', 'textCtrlDelta2',
-                'textCtrlSrat', 'textCtrlRcut']
+                'textCtrlSratio', 'textCtrlRcut']
         self._row = 0
         self._col = 0
         self._focusedText = None
@@ -197,7 +197,7 @@ class PhaseConstraintsPanel(wx.Panel, PDFPanel):
         # pdffit internal naming
         self.lConstraints = \
             ['lat(1)','lat(2)','lat(3)','lat(4)','lat(5)','lat(6)',
-            'pscale','delta1','delta2','srat','rcut']
+            'pscale','delta1','delta2','sratio','rcut']
         textCtrlIds = [getattr(self, n).GetId() for n in self._textctrls]
         self._id2varname = dict(zip(textCtrlIds, self.lConstraints))
 

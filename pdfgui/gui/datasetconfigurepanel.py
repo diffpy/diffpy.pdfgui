@@ -41,10 +41,10 @@ class DataSetConfigurePanel(wx.Panel, PDFPanel):
         self.textCtrlScaleFactor = wx.TextCtrl(self, -1, "1.0")
         self.labelQmax = wx.StaticText(self, -1, "Qmax", style=wx.ALIGN_RIGHT)
         self.textCtrlQmax = wx.TextCtrl(self, -1, "25.0")
-        self.labelQsigma = wx.StaticText(self, -1, "Qsigma", style=wx.ALIGN_RIGHT)
-        self.textCtrlQsigma = wx.TextCtrl(self, -1, "0.0")
-        self.labelQalpha = wx.StaticText(self, -1, "Qalpha", style=wx.ALIGN_RIGHT)
-        self.textCtrlQalpha = wx.TextCtrl(self, -1, "0.0")
+        self.labelQdamp = wx.StaticText(self, -1, "Qdamp", style=wx.ALIGN_RIGHT)
+        self.textCtrlQdamp = wx.TextCtrl(self, -1, "0.0")
+        self.labelQbroad = wx.StaticText(self, -1, "Qbroad", style=wx.ALIGN_RIGHT)
+        self.textCtrlQbroad = wx.TextCtrl(self, -1, "0.0")
         self.labelSpdiameter = wx.StaticText(self, -1, "Spdiameter")
         self.textCtrlSpdiameter = wx.TextCtrl(self, -1, "0.0")
         self.blank1 = wx.StaticText(self, -1, "")
@@ -92,10 +92,10 @@ class DataSetConfigurePanel(wx.Panel, PDFPanel):
         grid_sizer_1.Add(self.textCtrlScaleFactor, 0, wx.ALIGN_CENTER_VERTICAL|wx.ADJUST_MINSIZE, 0)
         grid_sizer_1.Add(self.labelQmax, 0, wx.LEFT|wx.ALIGN_RIGHT|wx.ALIGN_CENTER_VERTICAL|wx.ADJUST_MINSIZE, 20)
         grid_sizer_1.Add(self.textCtrlQmax, 0, wx.ALIGN_CENTER_VERTICAL|wx.ADJUST_MINSIZE, 0)
-        grid_sizer_1.Add(self.labelQsigma, 0, wx.LEFT|wx.ALIGN_RIGHT|wx.ALIGN_CENTER_VERTICAL|wx.ADJUST_MINSIZE, 5)
-        grid_sizer_1.Add(self.textCtrlQsigma, 0, wx.ALIGN_CENTER_VERTICAL|wx.ADJUST_MINSIZE, 0)
-        grid_sizer_1.Add(self.labelQalpha, 0, wx.LEFT|wx.ALIGN_RIGHT|wx.ALIGN_CENTER_VERTICAL|wx.ADJUST_MINSIZE, 20)
-        grid_sizer_1.Add(self.textCtrlQalpha, 0, wx.ALIGN_CENTER_VERTICAL|wx.ADJUST_MINSIZE, 0)
+        grid_sizer_1.Add(self.labelQdamp, 0, wx.LEFT|wx.ALIGN_RIGHT|wx.ALIGN_CENTER_VERTICAL|wx.ADJUST_MINSIZE, 5)
+        grid_sizer_1.Add(self.textCtrlQdamp, 0, wx.ALIGN_CENTER_VERTICAL|wx.ADJUST_MINSIZE, 0)
+        grid_sizer_1.Add(self.labelQbroad, 0, wx.LEFT|wx.ALIGN_RIGHT|wx.ALIGN_CENTER_VERTICAL|wx.ADJUST_MINSIZE, 20)
+        grid_sizer_1.Add(self.textCtrlQbroad, 0, wx.ALIGN_CENTER_VERTICAL|wx.ADJUST_MINSIZE, 0)
         grid_sizer_1.Add(self.labelSpdiameter, 0, wx.ALIGN_CENTER_HORIZONTAL|wx.ALIGN_CENTER_VERTICAL|wx.ADJUST_MINSIZE, 0)
         grid_sizer_1.Add(self.textCtrlSpdiameter, 0, wx.ALIGN_CENTER_VERTICAL|wx.ADJUST_MINSIZE, 0)
         grid_sizer_1.Add(self.blank1, 0, wx.ADJUST_MINSIZE, 0)
@@ -120,7 +120,7 @@ class DataSetConfigurePanel(wx.Panel, PDFPanel):
         self.constraints = {}
         self.stypeMap = {0: 'N', 1: 'X'}
         self.metaNames = ['doping', 'temperature']
-        self.constrainables = ['dscale', 'qsig', 'qalp', 'spdiameter']
+        self.constrainables = ['dscale', 'qdamp', 'qbroad', 'spdiameter']
 
         self.ctrlMap = {'fitrmin'       :   'textCtrlFitFrom',
                         'fitrmax'       :   'textCtrlFitTo',
@@ -128,8 +128,8 @@ class DataSetConfigurePanel(wx.Panel, PDFPanel):
                         'rmax'          :   'textCtrlDataTo',
                         'dscale'        :   'textCtrlScaleFactor',
                         'qmax'          :   'textCtrlQmax',
-                        'qsig'          :   'textCtrlQsigma',
-                        'qalp'          :   'textCtrlQalpha',
+                        'qdamp'         :   'textCtrlQdamp',
+                        'qbroad'        :   'textCtrlQbroad',
                         'spdiameter'    :   'textCtrlSpdiameter',
                         'temperature'   :   'textCtrlTemperature',
                         'doping'        :   'textCtrlDoping',
@@ -137,8 +137,8 @@ class DataSetConfigurePanel(wx.Panel, PDFPanel):
 
         self.toolTips = {
                         'dscale'        :   'Data scaling factor',
-                        'qsig'          :   'Resolution dampening factor',
-                        'qalp'          :   'Peak broadening factor',
+                        'qdamp'         :   'Resolution dampening factor',
+                        'qbroad'        :   'Peak broadening factor',
                         'spdiameter'    :   'Spherical form factor diameter',
                         }
 
@@ -166,7 +166,7 @@ class DataSetConfigurePanel(wx.Panel, PDFPanel):
         stype           --  'N' or 'X'
         dscale          --  float
         qmax            --  float
-        qsig            --  float
+        qdamp           --  float
         spdiameter      --  float
         rmin            --  float
         rmax            --  float
