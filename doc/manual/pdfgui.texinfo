@@ -2,6 +2,20 @@
 
 @c $Id$
 
+@ifnottex
+@macro smallskip{}
+@vskip 6pt
+@end macro
+
+@macro medskip{}
+@vskip 12pt
+@end macro
+
+@macro bigskip{}
+@vskip 24pt
+@end macro
+@end ifnottex
+
 @c start of header
 @setfilename pdfgui
 @settitle 1.0 Beta release 15 April 2007
@@ -13,7 +27,6 @@
 Copyright @copyright{} 2006, 2007, trustees of Michigan State University,
 all rights reserved.
 @end copying
-@cindex  copyright
 
 @c Part 2: title
 @titlepage
@@ -55,8 +68,8 @@ Condens. Matter, in press (2007).
 
 @end enumerate
 @bigskip
-Copyright @copyright{} 2006, 2007, trustees of Michigan State University,
-all rights reserved.
+@insertcopying
+@cindex  copyright
 @bigskip
 For more information please visit @url{http://danse.us/trac/diffraction}
 or contact Prof. Simon Billinge at @email{billinge@@pa.msu.edu}.
@@ -162,7 +175,7 @@ allowing it to inter-operate with other Python programs.
 * Installation::                
 @end menu
 
-@node    PDFfit2, PDFgui, Introduction, Top
+@node    PDFfit2, PDFgui, Introduction, Introduction
 @section PDFfit2
 @cindex  PDFfit2
 
@@ -214,7 +227,7 @@ libraries.  We make use of this capability with PDFgui as described below.
 
 @c chapter 1 section 2
 @c @node NODE-NAME, NEXT, PREVIOUS, UP
-@node    PDFgui, Availability, PDFfit2, Top
+@node    PDFgui, Availability, PDFfit2, Introduction
 @section PDFgui
 @cindex  PDFgui
 
@@ -300,7 +313,7 @@ different $r$-ranges of the PDF data.
 
 @c chapter 1 section 3
 @c @node NODE-NAME, NEXT, PREVIOUS, UP
-@node    Availability, Installation, PDFgui, Top
+@node    Availability, Installation, PDFgui, Introduction
 @section Availability
 @cindex  availability
 
@@ -314,7 +327,7 @@ Instructions for joining the email-list can be found on the web-page.
 
 @c chapter 1 section 4
 @c @node NODE-NAME, NEXT, PREVIOUS, UP
-@node    Installation, Quick start, Availability, Top
+@node    Installation, Quick start, Availability, Introduction
 @section Installation
 @cindex  Installation
 
@@ -339,7 +352,7 @@ or use @ref{PDFgui reference sheets}.
 * Simple fit::                  
 @end menu
 
-@node PDFgui layout, Simple fit, Quick start, Top
+@node PDFgui layout, Simple fit, Quick start, Quick start
 @section PDFgui layout
 @cindex PDFgui layout
 
@@ -366,7 +379,7 @@ operativity is also conveniently available through mouse operations such
 as select and right-click.
 
 @c @node NODE-NAME, NEXT, PREVIOUS, UP
-@node Simple fit, Symmetry expansion, PDFgui layout, Top
+@node Simple fit, Symmetry expansion, PDFgui layout, Quick start
 @section Creating a simple fit using a preexisting structure file
 @cindex simple fit
 
@@ -639,7 +652,7 @@ fits on a sequence of data sets.
 * Sequential fitting::          
 @end menu
 
-@node Symmetry expansion, Calculating PDF, Examples and tutorials, Top
+@node Symmetry expansion, Calculating PDF, Examples and tutorials, Examples and tutorials
 @section Building structure model using crystal symmetry
 @cindex building structure from scratch
 @cindex symmetry expansion
@@ -737,7 +750,7 @@ remaining steps of this example are identical to these described in @ref{Simple
 fit}. 
  
 @c @node NODE-NAME, NEXT, PREVIOUS, UP
-@node Calculating PDF, Sequential fitting, Symmetry expansion, Top
+@node Calculating PDF, Sequential fitting, Symmetry expansion, Examples and tutorials
 @section Calculating PDF from a structure
 @cindex calculating PDF
 
@@ -776,7 +789,7 @@ calculated PDF, use the @b{Export Selected Calculation} choice on the
 question on the Fit Tree. 
 
 @c @node NODE-NAME, NEXT, PREVIOUS, UP
-@node Sequential fitting, Multistage fitting, Calculating PDF, Top
+@node Sequential fitting, Multistage fitting, Calculating PDF, Examples and tutorials
 @section Sequential fitting
 @cindex sequential fitting
 
@@ -802,7 +815,7 @@ from the menu bar, ``Fits'' menu, @b{Macros} selection on the drop-down menu.
 * Doping series::               
 @end menu
 
-@node Multistage fitting, r-series, Sequential fitting, Top
+@node Multistage fitting, r-series, Sequential fitting, Sequential fitting
 @subsection Multistage fitting
 @cindex multistage fitting
 
@@ -858,7 +871,7 @@ distance. The two approaches of accounting for correlated motion should
 issues related to the PDF method can be found elsewhere.
 
 @c @node NODE-NAME, NEXT, PREVIOUS, UP
-@node r-series, Temperature series, Multistage fitting, Top
+@node r-series, Temperature series, Multistage fitting, Sequential fitting
 @subsection Sequential fitting of incremental r-series
 @cindex sequential fitting
 @cindex r-series
@@ -904,7 +917,7 @@ incremental limits. You select all four of them and execute the refinement.
 Once the sequence is done, you can review the results using Plot Control. 
 
 @c @node NODE-NAME, NEXT, PREVIOUS, UP
-@node Temperature series, Doping series, r-series, Top
+@node Temperature series, Doping series, r-series, Sequential fitting
 @subsection Sequential fitting of temperature series
 @cindex sequential fitting
 @cindex temperature series
@@ -989,7 +1002,7 @@ limit to say 5-6 Angstroms and observe the outcome. The refinement sequence
 execution should be very quick in this case.
 
 @c @node NODE-NAME, NEXT, PREVIOUS, UP
-@node Doping series, PDF plotting, Temperature series, Top
+@node Doping series, PDF plotting, Temperature series, Sequential fitting
 @subsection Sequential fitting of doping series
 @cindex sequential fitting
 @cindex doping series
@@ -1089,7 +1102,7 @@ lattice parameters.
 * Advanced usage and special needs::  
 @end menu
 
-@node PDF plotting, Displaying the structure, Extras, Top
+@node PDF plotting, Displaying the structure, Extras, Extras
 @section PDF plotting
 @cindex PDF plotting
 
@@ -1122,7 +1135,7 @@ on the tool bar of the plotting window.}
 @end float 
 
 @c @node NODE-NAME, NEXT, PREVIOUS, UP
-@node Displaying the structure, Advanced usage and special needs, PDF plotting, Top
+@node Displaying the structure, Advanced usage and special needs, PDF plotting, Extras
 @section Displaying the structure
 @cindex displaying the structure
 
@@ -1149,7 +1162,7 @@ structure.}
 @end float 
  
 @c @node NODE-NAME, NEXT, PREVIOUS, UP
-@node Advanced usage and special needs, PDFgui reference sheets, Displaying the structure, Top
+@node Advanced usage and special needs, PDFgui reference sheets, Displaying the structure, Extras
 @section Advanced usage and special needs 
 @cindex advanced usage 
 @cindex special needs
@@ -1167,7 +1180,6 @@ described elsewhere.
 
 @c Start of Chapter 5
 @c @node NODE-NAME, NEXT, PREVIOUS, UP
-@node 
 @node PDFgui reference sheets, PDFgui hot keys, Advanced usage and special needs, Top 
 @chapter PDFgui reference sheets
 @cindex PDFgui reference sheets
@@ -1179,7 +1191,7 @@ described elsewhere.
 * List of PDFfit2 variables::   
 @end menu
 
-@node PDFgui hot keys, List of PDFfit2 variables, PDFgui reference sheets, Top
+@node PDFgui hot keys, List of PDFfit2 variables, PDFgui reference sheets, PDFgui reference sheets
 @section PDFgui hot keys
 @cindex PDFgui hot keys
 @cindex hot keys
@@ -1214,7 +1226,7 @@ Phase constraints grid
 @b{Delete} Delete contents of selected cells.
 
 @c Start of Chapter 6
-@node List of PDFfit2 variables, Index, PDFgui hot keys, Top
+@node List of PDFfit2 variables, Index, PDFgui hot keys, PDFgui reference sheets
 @section List of PDFfit2 variables
 @cindex PDFfit2 variables
 @cindex list of variables
@@ -1267,10 +1279,8 @@ work for anisotropic atoms only, for isotropic atoms use uisoequiv(n).
 (0 A**-1) PDF Gaussian dampening envelope due to limited Q-resolution. Not applied when equal zero. The Gaussian envelope is of the form 
 
 @tex
-$$ B_{ij} = e^{-{({r_{ij}Q_{damp})}^{2}\over {2}}.$$ 
-
+$$ B(r) = e^{-{(r Q_{damp})^{2} \over 2} } $$
 @end tex
-
 
 @smallskip
 @noindent 
@@ -1321,8 +1331,8 @@ effect is calculated using the following equation
 @tex
 $$ G'(r) = {1 \over {\pi}} \int_{0}^{\infty} G(r')
 \left ( {{\sin{Q_{max}(r-r')}
-\over r-r'}-{{\sin{Q_{max}(r+r')}
-\over r+r'} \right ) dr' $$.
+\over r-r'}-{\sin{Q_{max}(r+r')}
+\over r+r'}} \right ) dr' $$.
 @end tex
 
 @smallskip
@@ -1379,7 +1389,7 @@ the first peak(s) in the observed PDF. The program PDFfit2 provides three
 different correction terms for the PDF peak width. The final width is given 
 by 
 @tex
-$$ \sigma_{ij} = \sigma'_{ij} \sqrt{{1 - {{\delta_1}
+$$ \sigma_{ij} = \sigma'_{ij} \sqrt{1 - {{\delta_1}
 \over r_{ij}}-{{\delta_2}
 \over r^{2}_{ij}}+Q_{broad}^2r^{2}_{ij}}.$$
 @end tex
