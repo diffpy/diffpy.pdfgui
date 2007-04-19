@@ -51,7 +51,7 @@ class FitDataSet(PDFDataSet):
 
     def __init__(self, name):
         """Initialize FitDataSet.
-    
+
         name -- name of the data set. It must be a unique identifier.
         """
         self.initial = {}
@@ -91,29 +91,29 @@ class FitDataSet(PDFDataSet):
         else:
             raise AttributeError, "A instance has no attribute '%s'" % name
         return value
-        
+
     def _getStrId(self):
         """make a string identifier
-        
+
         return value: string id
         """
         return "d_" + self.name
-        
+
     def getYNames(self):
-        """get names of data item which can be plotted as y 
+        """get names of data item which can be plotted as y
 
         returns list of strings
         """
         ynames = [ 'Gobs', 'Gcalc', 'Gdiff', 'Gtrunc', 'dGcalc' ] + \
                  self.constraints.keys()
         return ynames
-    
+
     def getXNames(self):
         """get names of data item which can be plotted as x
-        
+
         returns list of strings
         """
-        return ['r',] 
+        return ['r',]
 
     def getData(self, name, step = -1 ):
         """get self's data member
@@ -126,17 +126,17 @@ class FitDataSet(PDFDataSet):
 
         returns data object, be it a single number, a list, or a list of list
         """
-        # FIXME: for next plot interface, we need find how many steps the 
-        # plotter is requiring for and make exact same number of copies of 
+        # FIXME: for next plot interface, we need find how many steps the
+        # plotter is requiring for and make exact same number of copies of
         # data in below
         if name in self.metadata:
             return self.metadata[name]
         elif name in ( 'Gobs', 'Gcalc', 'Gtrunc', 'Gdiff', 'robs', 'rcalc'):
             return getattr(self, name)
-                    
+
         # fitting's repository is preferred
         return  self.owner._getData(self, name, step)
-        
+
     def clear(self):
         """Reset all data members to initial empty values.
         """
@@ -166,18 +166,13 @@ class FitDataSet(PDFDataSet):
         idataset -- index of this dataset in server
         """
         server.setdata(idataset)
+        # obtain rcalc, Gcalc and dGcalc from the server
         if not self.rcalc:
             # only need to update once
             self.rcalc = server.getR()
-    
         self.Gcalc = server.getpdf_fit()
-        # we need to replace this with direct interface to dGcalc
-        self.dGcalc = []
-        spdf = server.save_pdf_string(idataset).strip()
-        for line in spdf.split('\n'):
-            sdGcalc = line.split()[3]
-            self.dGcalc.append(float(sdGcalc))
-        # dGcalc done here
+        self.dGcalc = server.getpdf_diff()
+        # get variables from the server
         for var in PDFDataSet.refinableVars:
             self.refined[var] = server.getvar(var)
         return
@@ -189,7 +184,7 @@ class FitDataSet(PDFDataSet):
 
     def readObs(self, filename):
         """Load experimental PDF data from PDFGetX2 or PDFGetN gr file.
-        
+
         filename -- file to read from
 
         returns self
@@ -212,7 +207,7 @@ class FitDataSet(PDFDataSet):
 
     def readObsStr(self, datastring):
         """Read experimental PDF data from a string
-        
+
         datastring -- string of raw data
 
         returns self
@@ -227,7 +222,7 @@ class FitDataSet(PDFDataSet):
 
     def writeCalc(self, filename):
         """Write calculated PDF data to a file.
-        
+
         filename -- name of file to write to
         """
         bytes = self.writeCalcStr()
@@ -243,7 +238,7 @@ class FitDataSet(PDFDataSet):
 
     def writeCalcStr(self):
         """String representation of calculated PDF data.
-        
+
         returns data string
         """
         if self.Gcalc == []:
@@ -295,14 +290,14 @@ class FitDataSet(PDFDataSet):
 
     def writeObs(self, filename):
         """Write observed PDF data to a file.
-        
+
         filename -- name of file to write to
         """
         return PDFDataSet.write(self, filename)
 
     def writeObsStr(self):
         """String representation of observed PDF data.
-        
+
         returns data string
         """
         return PDFDataSet.writeStr(self)
@@ -362,7 +357,7 @@ class FitDataSet(PDFDataSet):
 
     def copy(self, other=None):
         """Copy self to other. if other is None, create new instance
-        
+
         other -- ref to other object
 
         returns reference to copied object
@@ -392,7 +387,7 @@ class FitDataSet(PDFDataSet):
         import cPickle
         # raw data
         self.readObsStr(z.read(subpath+'obs'))
-        
+
         # data from calculation
         content = cPickle.loads(z.read(subpath+'calc'))
         for item in self.persistentItems:
@@ -405,7 +400,7 @@ class FitDataSet(PDFDataSet):
                 self.refined.update(content[item])
             else:
                 setattr(self, item, content[item])
-           
+
         # constraints
         if rootDict.has_key('constraints'):
             from pdfguicontrol import CtrlUnpickler
@@ -417,7 +412,7 @@ class FitDataSet(PDFDataSet):
                     self.constraints[new] = self.constraints.pop(old)
 
         return
-        
+
     def save(self, z, subpath):
         """Save data to a zipped project file.
 
@@ -432,7 +427,7 @@ class FitDataSet(PDFDataSet):
             content[item] = getattr(self, item, None)
         bytes = cPickle.dumps(content, cPickle.HIGHEST_PROTOCOL)
         z.writestr(subpath+'calc', bytes)
-        
+
         # make a picklable dictionary of constraints
         if self.constraints:
             bytes = cPickle.dumps(self.constraints, cPickle.HIGHEST_PROTOCOL)
