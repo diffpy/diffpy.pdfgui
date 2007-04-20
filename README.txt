@@ -23,7 +23,6 @@ Also recommended:
 
 PDFgui installs the following executables:
     pdfgui          PDFgui launcher
-    pdfserver       server for PDF calculations on remote computer
 
 
 For more information on PDFgui please visit the project web-page:
