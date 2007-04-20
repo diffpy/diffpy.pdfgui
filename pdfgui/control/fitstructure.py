@@ -31,6 +31,9 @@ class FitStructure(PDFStructure):
     """FitStructure holds initial and refined structure and related fit
     parameters.  Inherited from PDFStructure.
 
+    Class data members:
+        symposeps   -- tolerance for recognizing site as symmetry position
+
     Data members (in adition to those in PDFStructure):
         owner       -- instance of parent Fitting (set in Organizer.add())
         initial     -- initial structure, same as self
@@ -46,6 +49,9 @@ class FitStructure(PDFStructure):
 
     Non-refinable variable:  rcut
     """
+
+    # class data members:
+    symposeps = 0.001
 
     def __init__(self, name, *args, **kwargs):
         """Initialize FitDataSet.
@@ -309,7 +315,7 @@ class FitStructure(PDFStructure):
         corepos = [a.xyz for a in coreatoms]
         coreUijs = [a.U for a in coreatoms]
         eau = ExpandAsymmetricUnit(spacegroup, corepos, coreUijs,
-                sgoffset=sgoffset)
+                sgoffset=sgoffset, eps=self.symposeps)
         # build a nested list of new atoms:
         newatoms = []
         for i in range(len(coreatoms)):
@@ -377,7 +383,7 @@ class FitStructure(PDFStructure):
         selpos = [a.xyz for a in selatoms]
         selUijs = [a.U for a in selatoms]
         symcon = SymmetryConstraints(spacegroup, selpos, selUijs,
-                sgoffset=sgoffset)
+                sgoffset=sgoffset, eps=self.symposeps)
         # deal with positions
         if posflag:
             # fix positions:

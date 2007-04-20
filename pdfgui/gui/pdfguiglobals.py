@@ -30,14 +30,13 @@ atomeyepath = ""
 
 # Useful paths
 guiDir = os.path.dirname(os.path.abspath(__file__))
+controlDir = os.path.join(os.path.dirname(guiDir), 'control')
 iconsDir = os.path.join(guiDir, 'icons')
-
 # fix icon path for py2exe
 import sys
-if hasattr(sys,"frozen"):
-    iconsDir = 'icons'
-
-controlDir = os.path.join(os.path.dirname(guiDir), 'control')
+if hasattr(sys, "frozen"):
+    for i in range(6):  iconsDir = os.path.dirname(iconsDir)
+    iconsDir = os.path.join(iconsDir, 'icons')
 
 # options and arguments passed on command line
 cmdopts = []
