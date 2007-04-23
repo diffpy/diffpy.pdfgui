@@ -133,11 +133,13 @@ class ErrorReportDialog(wx.Dialog):
                        'description' : description,
                        #'priority' : 'major',
                        #'type': 'defect',
-                       #'component' : '' , 
-                       #'version': '', 
+                       'component' : 'pdfgui' , 
+                       #'version': __version__, 
                        'reporter':reporter,
                        'action' :'create',
-                       'status' : 'new' 
+                       'status' : 'new',
+		       'milestone': '',
+		       'owner' : 'nobody'
                      }
         headers = {'User-agent':'PDFgui (compatible; MSIE 5.5; WindowsNT)'}
         tracurl = 'http://danse.us/trac/diffraction/newticket'
