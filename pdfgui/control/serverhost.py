@@ -57,7 +57,7 @@ class ServerHost(PDFComponent):
             """Start remote pdfserver. pdfserver.py must be in the user's PATH.
             It chooses the remote port on which it is running. 
             """
-            command = "pdfserver"
+            command = "pdffit2server"
             output = self.connection.execute(command)
             try:
                 self.port = int(output.splitlines()[0])

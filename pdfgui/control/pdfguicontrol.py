@@ -343,11 +343,18 @@ class PDFGuiControl:
         """
         pyexe = sys.executable
         from diffpy.pdfgui.gui.pdfguiglobals import controlDir
-        dumpscript = os.path.join(controlDir, 'dumppdffit2script.py')
+        # prepend controlDir to PYTHONPATH for execution of new python process
+        org_pythonpath = os.environ.get('PYTHONPATH')
+        sep = sys.platform == "win32" and ";" or ":"
+        os.environ['PYTHONPATH'] = controlDir + sep + (org_pythonpath or '')
+        pycommand = 'import dumppdffit2script; dumppdffit2script.main()'
         # this should take care of proper shell quoting
-        cmdwords = [pyexe, dumpscript, scriptfile] + args
+        cmdwords = [pyexe, '-c', pycommand, scriptfile] + args
         cmd = " ".join([repr(w.encode('ascii')) for w in cmdwords])
         (i, o, e) = os.popen3(cmd, mode='b')
+        # restore PYTHONPATH
+        if org_pythonpath is None:  del os.environ['PYTHONPATH']
+        else:   os.environ['PYTHONPATH'] = org_pythonpath
         # close child standard input
         i.close()
         err = e.read()

@@ -31,12 +31,10 @@ atomeyepath = ""
 # Useful paths
 guiDir = os.path.dirname(os.path.abspath(__file__))
 controlDir = os.path.join(os.path.dirname(guiDir), 'control')
-iconsDir = os.path.join(guiDir, 'icons')
-# fix icon path for py2exe
-import sys
-if hasattr(sys, "frozen"):
-    #for i in range(6):  iconsDir = os.path.dirname(iconsDir)
-    iconsDir = 'icons'   # should be adjusted, relating to a pdfgui.exe file, or an absolute path
+from diffpy import diffpyDataDir
+pdfguiDataDir = os.path.join(diffpyDataDir, 'pdfgui')
+iconsDir = os.path.join(pdfguiDataDir, 'icons')
+docDir = os.path.join(pdfguiDataDir, 'doc')
 
 # options and arguments passed on command line
 cmdopts = []

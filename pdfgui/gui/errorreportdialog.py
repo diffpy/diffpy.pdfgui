@@ -26,7 +26,7 @@ __revision__ = "$Revision$"
 import wx
 
 from diffpy.pdfgui.control.controlerrors import ControlError
-from diffpy.pdfgui.version import __version__
+from diffpy.pdfgui import __version__
 
 query_pdfgui_tickets = ''.join(["http://danse.us/trac/diffraction/query",
     '?status=new&status=assigned&status=reopened',
