@@ -25,6 +25,7 @@ from diffpy.pdfgui.control.constraint import Constraint
 from diffpy.pdfgui.control.controlerrors import *
 from insertrowsdialog import InsertRowsDialog
 from pdfpanel import PDFPanel
+from tooltips import phasepanel as toolTips
 from wxExtensions.autowidthlabelsgrid import AutoWidthLabelsGrid
 from wxExtensions.validators import TextValidator, FLOAT_ONLY
 from supercelldialog import SupercellDialog
@@ -190,19 +191,6 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
 
     def __customProperties(self):
         """Custom properties for the panel."""
-        pairsTooltip =\
-"""[!]{element|indexOrRange|all}-[!]{element|indexOrRange|all}
-Examples:
-all-all              all possible pairs
-Na-Na                only Na-Na pairs
-all-all, !Na-        all pairs except Na-Na
-all-all, -!Na        same as previous
-Na-1:4               pairs of Na and first 4 atoms
-all-all, !Cl-!Cl     exclude any pairs containing Cl
-all-all, !Cl-, -!Cl  same as previous
-1-all                only pairs including the first atom
-"""
-        self.textCtrlIncludedPairs.SetToolTipString(pairsTooltip)
         self.structure = None
         self.constraints = {}
         self.results = None
@@ -276,6 +264,8 @@ all-all, !Cl-, -!Cl  same as previous
     def restrictConstrainedParameters(self):
         """Set 'read-only' boxes that correspond to constrained parameters."""
 
+        self.setToolTips(toolTips)
+
         # First the TextCtrls
         for key, var in self.lConstraintsMap.iteritems():
             textCtrl = getattr(self, key)
@@ -287,7 +277,7 @@ all-all, !Cl-, -!Cl  same as previous
             else:
                 textCtrl.SetEditable(True)
                 textCtrl.SetBackgroundColour(wx.NullColour)
-                textCtrl.SetToolTipString(self.toolTips[key])
+#                textCtrl.SetToolTipString(self.toolTips[key])
 
         # Now the grid
         rows = self.gridAtoms.GetNumberRows()

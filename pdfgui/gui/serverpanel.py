@@ -18,6 +18,7 @@
 
 import wx
 from pdfpanel import PDFPanel
+from tooltips import serverpanel as toolTips
 from wxExtensions.listctrls import AutoWidthListCtrl
 from ConfigParser import ConfigParser
 from fittree import incrementName
@@ -90,6 +91,7 @@ class ServerPanel(wx.Panel, PDFPanel):
         self.keyfileBtn.Enable(False)
         self.passphraseText.Enable(False)
         # end wxGlade
+        self.setToolTips(toolTips)
 
     def __do_layout(self):
         # begin wxGlade: ServerPanel.__do_layout

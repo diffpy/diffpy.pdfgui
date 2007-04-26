@@ -103,3 +103,13 @@ class PDFPanel(object):
         NotImplementedError will be raised when this method is called.
         """ 
         _abstract()
+        
+    def setToolTips(self, toolTips):
+        '''Sets tooltips for controls
+        
+        @param toolTips: dictionary of the form {'contolname' : 'tooltip'}
+        '''
+        for (controlName, tooltip) in toolTips.items():
+            control = getattr(self, controlName)
+            control.SetToolTipString(tooltip)
+                

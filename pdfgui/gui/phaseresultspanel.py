@@ -6,7 +6,7 @@
 #                   (c) 2006 trustees of the Michigan State University.
 #                   All rights reserved.
 #
-# File coded by:    Chris Farrow
+# File coded by:    Chris Farrow, Dmitriy Bryndin
 #
 # See AUTHORS.txt for a list of people who contributed.
 # See LICENSE.txt for license information.
@@ -20,6 +20,7 @@ __id__ = "$Id$"
 import wx
 import wx.grid
 from pdfpanel import PDFPanel
+from tooltips import phasepanel as toolTips
 import phasepanelutils
 from wxExtensions.autowidthlabelsgrid import AutoWidthLabelsGrid
 
@@ -112,6 +113,8 @@ class PhaseResultsPanel(wx.Panel, PDFPanel):
         self.gridAtoms.SetColLabelValue(9, "u23")
         self.gridAtoms.SetColLabelValue(10, "occ")
         # end wxGlade
+        self.setToolTips(toolTips)
+        
 
     def __do_layout(self):
         # begin wxGlade: PhaseResultsPanel.__do_layout

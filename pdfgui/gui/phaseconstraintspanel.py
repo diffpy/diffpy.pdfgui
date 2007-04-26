@@ -23,6 +23,7 @@ import wx.grid
 from diffpy.pdfgui.control.constraint import Constraint
 from diffpy.pdfgui.control.controlerrors import *
 from pdfpanel import PDFPanel
+from tooltips import phasepanel as toolTips
 from wxExtensions.autowidthlabelsgrid import AutoWidthLabelsGrid
 from sgconstraindialog import SGConstrainDialog
 import phasepanelutils
@@ -118,6 +119,8 @@ class PhaseConstraintsPanel(wx.Panel, PDFPanel):
         self.gridAtoms.SetColLabelValue(9, "u23")
         self.gridAtoms.SetColLabelValue(10, "occ")
         # end wxGlade
+        self.setToolTips(toolTips)
+        
 
     def __do_layout(self):
         # begin wxGlade: PhaseConstraintsPanel.__do_layout

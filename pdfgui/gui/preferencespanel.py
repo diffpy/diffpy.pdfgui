@@ -5,6 +5,7 @@
 import wx
 import pdfguiglobals
 from pdfpanel import PDFPanel
+from tooltips import preferencespanel as toolTips
 import wx.lib.filebrowsebutton
 from diffpy.pdfgui.control.controlerrors import ControlFileError
 
@@ -37,6 +38,7 @@ class PreferencesPanel(wx.Panel, PDFPanel):
         self.structureDirCheckBox.SetToolTipString("Remember the structures directory across sessions. If unchecked, the initial structures directory will default to the current path.")
         self.dataDirCheckBox.SetToolTipString("Remember the data set directory across sessions. If unchecked, the initial data set directory will default to the current path.")
         # end wxGlade
+        self.setToolTips(toolTips)
 
     def __do_layout(self):
         # begin wxGlade: PreferencesPanel.__do_layout

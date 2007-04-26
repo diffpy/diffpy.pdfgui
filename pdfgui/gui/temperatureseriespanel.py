@@ -6,6 +6,7 @@ import wx
 import re, sys, os.path
 from diffpy.pdfgui.control.pdfguimacros import makeTemperatureSeries
 from pdfpanel import PDFPanel
+from tooltips import temperatureseriespanel as toolTips
 from wxExtensions.listctrls import AutoWidthListCtrl
 
 class TemperatureSeriesPanel(wx.Panel, PDFPanel):
@@ -47,6 +48,7 @@ class TemperatureSeriesPanel(wx.Panel, PDFPanel):
         self.buttonUp.SetSize(self.buttonUp.GetBestSize())
         self.buttonDown.SetSize(self.buttonDown.GetBestSize())
         # end wxGlade
+        self.setToolTips(toolTips)
 
     def __do_layout(self):
         # begin wxGlade: TemperatureSeriesPanel.__do_layout

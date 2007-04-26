@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 ########################################################################
 #
 # PDFgui            by DANSE Diffraction group
@@ -19,10 +18,12 @@
 import wx
 from wxExtensions.validators import TextValidator, FLOAT_ONLY
 from pdfpanel import PDFPanel
+from tooltips import datasetconfigurepanel as toolTips
 
 class DataSetConfigurePanel(wx.Panel, PDFPanel):
     def __init__(self, *args, **kwds):
         PDFPanel.__init__(self)
+        self.toolTips = toolTips
         # begin wxGlade: DataSetConfigurePanel.__init__
         kwds["style"] = wx.TAB_TRAVERSAL
         wx.Panel.__init__(self, *args, **kwds)
@@ -135,13 +136,6 @@ class DataSetConfigurePanel(wx.Panel, PDFPanel):
                         'doping'        :   'textCtrlDoping',
                         }
 
-        self.toolTips = {
-                        'dscale'        :   'Data scaling factor',
-                        'qdamp'         :   'Resolution dampening factor',
-                        'qbroad'        :   'Peak broadening factor',
-                        'spdiameter'    :   'Spherical form factor diameter',
-                        }
-
         # Give each textCtrl a name that can be referenced and setup the
         # validator
         for (key, value) in self.ctrlMap.items():
@@ -207,6 +201,8 @@ class DataSetConfigurePanel(wx.Panel, PDFPanel):
         """Set 'read-only' boxes that correspond to constrained parameters."""
         if not self.constraints: return
 
+        self.setToolTips(toolTips)
+        
         for key in self.constrainables:
             value = self.ctrlMap[key]
             textCtrl = getattr(self, value)
@@ -217,7 +213,7 @@ class DataSetConfigurePanel(wx.Panel, PDFPanel):
             else:
                 textCtrl.SetEditable(True)
                 textCtrl.SetBackgroundColour(wx.NullColour)
-                textCtrl.SetToolTipString(self.toolTips[key])
+#                textCtrl.SetToolTipString(self.toolTips[key])
 
         return
 

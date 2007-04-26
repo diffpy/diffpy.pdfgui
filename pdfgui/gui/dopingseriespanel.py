@@ -5,6 +5,7 @@
 import wx
 import re, sys, os.path
 from pdfpanel import PDFPanel
+from tooltips import dopingseriespanel as toolTips
 from diffpy.pdfgui.control.pdfguimacros import makeDopingSeries
 from wxExtensions.listctrls import AutoWidthListCtrl
 from wxExtensions.validators import TextValidator, ALPHA_ONLY
@@ -50,6 +51,7 @@ class DopingSeriesPanel(wx.Panel,PDFPanel):
         self.buttonUp.SetSize(self.buttonUp.GetBestSize())
         self.buttonDown.SetSize(self.buttonDown.GetBestSize())
         # end wxGlade
+        self.setToolTips(toolTips)
 
     def __do_layout(self):
         # begin wxGlade: DopingSeriesPanel.__do_layout

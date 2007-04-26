@@ -19,6 +19,7 @@
 import wx
 import sys
 from diffpy.pdfgui.utils import numericStringSort
+from tooltips import plotpanel as toolTips
 from wxExtensions.listctrls import KeyEventsListCtrl
 from wxExtensions.validators import TextValidator, FLOAT_ONLY
 from pdfpanel import PDFPanel
@@ -57,6 +58,7 @@ class PlotPanel(wx.Panel, PDFPanel):
         self.plotButton.SetToolTipString("Plot the selected data")
         self.resetButton.SetToolTipString("Reset the plot configuration")
         # end wxGlade
+        self.setToolTips(toolTips)
 
     def __do_layout(self):
         # begin wxGlade: PlotPanel.__do_layout
