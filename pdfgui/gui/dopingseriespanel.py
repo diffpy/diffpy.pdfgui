@@ -47,7 +47,6 @@ class DopingSeriesPanel(wx.Panel,PDFPanel):
     def __set_properties(self):
         # begin wxGlade: DopingSeriesPanel.__set_properties
         self.instructionsLabel.SetFont(wx.Font(10, wx.DEFAULT, wx.NORMAL, wx.NORMAL, 0, ""))
-        self.listCtrlFiles.SetToolTipString("Click header to sort by doping")
         self.buttonUp.SetSize(self.buttonUp.GetBestSize())
         self.buttonDown.SetSize(self.buttonDown.GetBestSize())
         # end wxGlade

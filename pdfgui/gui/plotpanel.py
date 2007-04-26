@@ -54,9 +54,6 @@ class PlotPanel(wx.Panel, PDFPanel):
 
     def __set_properties(self):
         # begin wxGlade: PlotPanel.__set_properties
-        self.offsetLabel.SetToolTipString("The vertical gap between stacked plots")
-        self.plotButton.SetToolTipString("Plot the selected data")
-        self.resetButton.SetToolTipString("Reset the plot configuration")
         # end wxGlade
         self.setToolTips(toolTips)
 

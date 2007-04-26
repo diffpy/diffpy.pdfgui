@@ -35,8 +35,6 @@ class PreferencesPanel(wx.Panel, PDFPanel):
     def __set_properties(self):
         # begin wxGlade: PreferencesPanel.__set_properties
         self.labelPanelName.SetFont(wx.Font(18, wx.DEFAULT, wx.NORMAL, wx.BOLD, 0, ""))
-        self.structureDirCheckBox.SetToolTipString("Remember the structures directory across sessions. If unchecked, the initial structures directory will default to the current path.")
-        self.dataDirCheckBox.SetToolTipString("Remember the data set directory across sessions. If unchecked, the initial data set directory will default to the current path.")
         # end wxGlade
         self.setToolTips(toolTips)
 

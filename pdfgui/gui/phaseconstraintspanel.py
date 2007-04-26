@@ -6,7 +6,7 @@
 #                   (c) 2006 trustees of the Michigan State University.
 #                   All rights reserved.
 #
-# File coded by:    Chris Farrow
+# File coded by:    Chris Farrow, Dmitriy Bryndin
 #
 # See AUTHORS.txt for a list of people who contributed.
 # See LICENSE.txt for license information.
@@ -80,30 +80,8 @@ class PhaseConstraintsPanel(wx.Panel, PDFPanel):
     def __set_properties(self):
         # begin wxGlade: PhaseConstraintsPanel.__set_properties
         self.labelPanelName.SetFont(wx.Font(18, wx.DEFAULT, wx.NORMAL, wx.BOLD, 0, ""))
-        self.labelA.SetToolTipString("lat(1)")
-        self.textCtrlA.SetToolTipString("lat(1)")
-        self.labelB.SetToolTipString("lat(2)")
-        self.textCtrlB.SetToolTipString("lat(2)")
-        self.labelC.SetToolTipString("lat(3)")
-        self.textCtrlC.SetToolTipString("lat(3)")
-        self.labelAlpha.SetToolTipString("lat(4)")
-        self.textCtrlAlpha.SetToolTipString("lat(4)")
-        self.labelBeta.SetToolTipString("lat(5)")
-        self.textCtrlBeta.SetToolTipString("lat(5)")
-        self.labelGamma.SetToolTipString("lat(6)")
-        self.textCtrlGamma.SetToolTipString("lat(6)")
-        self.labelScaleFactor.SetToolTipString("phase scale factor")
-        self.textCtrlScaleFactor.SetToolTipString("phase scale")
         self.labelCorrelationLimit.Hide()
         self.textCtrlCorrelationLimit.Hide()
-        self.labelDelta1.SetToolTipString("linear atomic correlation factor")
-        self.textCtrlDelta1.SetToolTipString("linear atomic correlation factor")
-        self.labelDelta2.SetToolTipString("quadratic atomic correlation factor")
-        self.textCtrlDelta2.SetToolTipString("quadratic atomic correlation factor")
-        self.labelSratio.SetToolTipString("low r peak sharpening")
-        self.textCtrlSratio.SetToolTipString("low r peak sharpening")
-        self.labelRcut.SetToolTipString("peak sharpening cutoff")
-        self.textCtrlRcut.SetToolTipString("peak sharpening cutoff")
         self.textCtrlIncludedPairs.SetMinSize((240, 25))
         self.gridAtoms.CreateGrid(0, 11)
         self.gridAtoms.EnableDragRowSize(0)

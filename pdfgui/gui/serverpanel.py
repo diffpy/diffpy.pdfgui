@@ -81,13 +81,11 @@ class ServerPanel(wx.Panel, PDFPanel):
 
     def __set_properties(self):
         # begin wxGlade: ServerPanel.__set_properties
-        self.serverList.SetToolTipString("Click \"Servers\" to choose local machine ")
         self.portText.Enable(False)
         self.portCheck.SetValue(1)
         self.authRadio.SetSelection(0)
         self.rsaCheck.SetValue(1)
         self.pathText.Enable(False)
-        self.keyfileBtn.SetToolTipString("Choose RSA/DSA key file")
         self.keyfileBtn.Enable(False)
         self.passphraseText.Enable(False)
         # end wxGlade
