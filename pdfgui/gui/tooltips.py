@@ -1,3 +1,21 @@
+########################################################################
+#
+# PDFgui            by DANSE Diffraction group
+#                   Simon J. L. Billinge
+#                   (c) 2006 trustees of the Michigan State University.
+#                   All rights reserved.
+#
+# File coded by:    Dmitriy Bryndin
+#
+# See AUTHORS.txt for a list of people who contributed.
+# See LICENSE.txt for license information.
+#
+########################################################################
+
+"""Tooltips for pdfgui panels."""
+__id__="$Id:  $"
+
+
 datasetconfigurepanel = {
 #    'panelNameLabel'      : '', # StaticText "Data Set Configuration"
 #    'radioBoxStype'       : '', # RadioBox "Scatterer Type", choices=["Neutron", "X-ray"]
