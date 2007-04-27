@@ -114,7 +114,7 @@
                                 <option>0</option>
                                 <object class="wxStaticText" name="label_copyright" base="EditStaticText">
                                     <attribute>1</attribute>
-                                    <label>(c) 2005-2006,</label>
+                                    <label>(c) 2005-2007,</label>
                                 </object>
                             </object>
                             <object class="sizeritem">

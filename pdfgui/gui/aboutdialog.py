@@ -64,7 +64,7 @@ class DialogAbout(wx.Dialog):
         self.label_version = wx.StaticText(self, -1, "")
         self.label_build = wx.StaticText(self, -1, "Build:")
         self.label_svnrevision = wx.StaticText(self, -1, "")
-        self.label_copyright = wx.StaticText(self, -1, "(c) 2005-2006,")
+        self.label_copyright = wx.StaticText(self, -1, "(c) 2005-2007,")
         self.label_author = wx.StaticText(self, -1, "author")
         self.hyperlink = wx.lib.hyperlink.HyperLinkCtrl(self, -1, self.homepage, URL=self.homepage)
         self.hyperlink_license = wx.lib.hyperlink.HyperLinkCtrl(self, -1, "PDFgui paper (in print)", URL=self.paper)
