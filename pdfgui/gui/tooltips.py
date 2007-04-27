@@ -2,7 +2,7 @@
 #
 # PDFgui            by DANSE Diffraction group
 #                   Simon J. L. Billinge
-#                   (c) 2006 trustees of the Michigan State University.
+#                   (c) 2007 trustees of the Michigan State University.
 #                   All rights reserved.
 #
 # File coded by:    Dmitriy Bryndin
@@ -12,9 +12,10 @@
 #
 ########################################################################
 
-"""Tooltips for pdfgui panels."""
-__id__="$Id:  $"
+"""Tooltips for pdfgui panels.
+"""
 
+__id__ = "$Id$"
 
 datasetconfigurepanel = {
 #    'panelNameLabel'      : '', # StaticText "Data Set Configuration"
