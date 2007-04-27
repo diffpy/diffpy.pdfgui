@@ -21,38 +21,38 @@ datasetconfigurepanel = {
 #    'panelNameLabel'      : '', # StaticText "Data Set Configuration"
 #    'radioBoxStype'       : '', # RadioBox "Scatterer Type", choices=["Neutron", "X-ray"]
 #    'labelDataRange'      : '', # StaticText "Data Range"
-#    'textCtrlDataFrom'    : '', # TextCtrl
+    'textCtrlDataFrom'    : 'Data r_min', # TextCtrl
 #    'labelDataTo'         : '', # StaticText "to"
-#    'textCtrlDataTo'      : '', # TextCtrl
+    'textCtrlDataTo'      : 'Data r_max', # TextCtrl
 #    'labelFitRange'       : '', # StaticText "Fit Range"
-#    'textCtrlFitFrom'     : '', # TextCtrl
+    'textCtrlFitFrom'     : 'Fit r_min', # TextCtrl
 #    'labelFitTo'          : '', # StaticText "to"
-#    'textCtrlFitTo'       : '', # TextCtrl
+    'textCtrlFitTo'       : 'Fit r_max', # TextCtrl
 #    'labelScaleFactor'    : '', # StaticText "Scale Factor"
-    'textCtrlScaleFactor' : 'Data scaling factor', # TextCtrl 
+    'textCtrlScaleFactor' : 'Data scale factor', # TextCtrl 
 #    'labelQmax'           : '', # StaticText "Qmax"
-#    'textCtrlQmax'        : '', # TextCtrl
+    'textCtrlQmax'        : 'Upper limit used for Fourier transform to obtain data PDF', # TextCtrl
 #    'labelQdamp'          : '', # StaticText "Qdamp"
     'textCtrlQdamp'       : 'Resolution dampening factor', # TextCtrl
-    'labelQbroad'         : 'Peak broadening factor', # StaticText "Qbroad"
-#    'textCtrlQbroad'      : '', # TextCtrl
+#    'labelQbroad'         : '', # StaticText "Qbroad"
+    'textCtrlQbroad'      : 'Resolution peak broadening factor', # TextCtrl
 #    'labelSpdiameter'     : '', # StaticText "Spdiameter"
     'textCtrlSpdiameter'  : 'Spherical form factor diameter', # TextCtrl
 #    'labelTemperature'    : '', # StaticText "Temperature"
-#    'textCtrlTemperature' : '', # TextCtrl
+    'textCtrlTemperature' : 'Temperature at which the data were collected', # TextCtrl
 #    'labelDoping'         : '', # StaticText "Doping"
-#    'textCtrlDoping'      : '', # TextCtrl
+    'textCtrlDoping'      : 'Sample characteristic doping level (if applicable)', # TextCtrl
     }
 
 datasetconstraintpanel = {
     'sizer_panelname_staticbox' : '', # StaticBox
     'panelNameLabel' : '', # StaticText "Data Set Constraints"
     'labelScaleFactor' : '', # StaticText "Scale Factor"
-    'textCtrlScaleFactor' : 'Data scaling factor', # TextCtrl
+    'textCtrlScaleFactor' : 'Data scale factor', # TextCtrl
     'labelQdamp' : '', # StaticText "Qdamp"
     'textCtrlQdamp' : 'Resolution dampening factor', # TextCtrl
     'labelQbroad' : '', # StaticText "Qbroad"
-    'textCtrlQbroad' : 'Peak broadening factor', # TextCtrl
+    'textCtrlQbroad' : 'Resolution peak broadening factor', # TextCtrl
     'labelSpdiameter' : '', # StaticText "Spdiameter"
     'textCtrlSpdiameter' : 'Spherical form factor diameter', # TextCtrl
     }
@@ -61,11 +61,11 @@ datasetresultspanel = {
     'sizer_panelname_staticbox' : '', # StaticBox
     'panelNameLabel' : '', # StaticText "Data Set Results"
     'labelScaleFactor' : '', # StaticText "Scale Factor"
-    'textCtrlScaleFactor' : 'Data scaling factor', # TextCtrl
+    'textCtrlScaleFactor' : 'Data scale factor', # TextCtrl
     'labelQdamp' : '', # StaticText "Qdamp"
     'textCtrlQdamp' : 'Resolution dampening factor', # TextCtrl
     'labelQbroad' : '', # StaticText "Qbroad"
-    'textCtrlQbroad' : 'Peak broadening factor', # TextCtrl
+    'textCtrlQbroad' : 'Resolution peak broadening factor', # TextCtrl
     'labelSpdiameter' : '', # StaticText "Spdiameter"
     'textCtrlSpdiameter' : 'Spherical form factor diameter', # TextCtrl
     'buttonExport' : '', # Button "Export PDF"
@@ -95,29 +95,29 @@ phasepanel = {
 #    'sizerPanelName_staticbox' : '', # StaticBox
 #    'labelPanelName' : '', # StaticText "Phase Configuration"
 #    'labelA' : '', # StaticText "a"
-#    'textCtrlA' : '', # TextCtrl
+    'textCtrlA' : 'Lattice parameter a', # TextCtrl
 #    'labelB' : '', # StaticText "b"
-#    'textCtrlB' : '', # TextCtrl
+    'textCtrlB' : 'Lattice parameter b', # TextCtrl
 #    'labelC' : '', # StaticText "c"
-#    'textCtrlC' : '', # TextCtrl
+    'textCtrlC' : 'Lattice parameter c', # TextCtrl
 #    'labelAlpha' : '', # StaticText "alpha"
-#    'textCtrlAlpha' : '', # TextCtrl
+    'textCtrlAlpha' : 'Lattice angle alpha', # TextCtrl
 #    'labelBeta' : '', # StaticText "beta"
-#    'textCtrlBeta' : '', # TextCtrl
+    'textCtrlBeta' : 'Lattice angle beta', # TextCtrl
 #    'labelGamma' : '', # StaticText "gamma"
-#    'textCtrlGamma' : '', # TextCtrl
+    'textCtrlGamma' : 'Lattice angle gamma', # TextCtrl
 #    'labelScaleFactor' : '', # StaticText "Scale Factor"
-    'textCtrlScaleFactor' : 'phase scale factor', # TextCtrl
+    'textCtrlScaleFactor' : 'Phase scale factor', # TextCtrl
 #    'labelCorrelationLimit' : '', # StaticText "Correlation limit"
 #    'textCtrlCorrelationLimit' : '', # TextCtrl
 #    'labelDelta1' : '', # StaticText "delta1"
-    'textCtrlDelta1' : 'linear atomic correlation factor', # TextCtrl
+    'textCtrlDelta1' : 'Linear atomic correlation factor', # TextCtrl
 #    'labelDelta2' : '', # StaticText "delta2"
-    'textCtrlDelta2' : 'quadratic atomic correlation factor', # TextCtrl
+    'textCtrlDelta2' : 'Quadratic atomic correlation factor', # TextCtrl
 #    'labelSratio' : '', # StaticText "sratio"
-    'textCtrlSratio' : 'low r peak sharpening', # TextCtrl
+    'textCtrlSratio' : 'Low r peak sharpening', # TextCtrl
 #    'labelRcut' : '', # StaticText "rcut"
-    'textCtrlRcut' : 'peak sharpening cutoff', # TextCtrl
+    'textCtrlRcut' : 'Peak sharpening cutoff', # TextCtrl
 #    'labelIncludedPairs' : '', # StaticText "Included Pairs"
     'textCtrlIncludedPairs' : 
 """[!]{element|indexOrRange|all}-[!]{element|indexOrRange|all}
