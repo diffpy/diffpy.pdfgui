@@ -44,6 +44,34 @@ datasetconfigurepanel = {
 #    'textCtrlDoping'      : '', # TextCtrl
     }
 
+datasetconstraintpanel = {
+    'sizer_panelname_staticbox' : '', # StaticBox
+    'panelNameLabel' : '', # StaticText "Data Set Constraints"
+    'labelScaleFactor' : '', # StaticText "Scale Factor"
+    'textCtrlScaleFactor' : 'Data scaling factor', # TextCtrl
+    'labelQdamp' : '', # StaticText "Qdamp"
+    'textCtrlQdamp' : 'Resolution dampening factor', # TextCtrl
+    'labelQbroad' : '', # StaticText "Qbroad"
+    'textCtrlQbroad' : 'Peak broadening factor', # TextCtrl
+    'labelSpdiameter' : '', # StaticText "Spdiameter"
+    'textCtrlSpdiameter' : 'Spherical form factor diameter', # TextCtrl
+    }
+
+datasetresultspanel = {
+    'sizer_panelname_staticbox' : '', # StaticBox
+    'panelNameLabel' : '', # StaticText "Data Set Results"
+    'labelScaleFactor' : '', # StaticText "Scale Factor"
+    'textCtrlScaleFactor' : 'Data scaling factor', # TextCtrl
+    'labelQdamp' : '', # StaticText "Qdamp"
+    'textCtrlQdamp' : 'Resolution dampening factor', # TextCtrl
+    'labelQbroad' : '', # StaticText "Qbroad"
+    'textCtrlQbroad' : 'Peak broadening factor', # TextCtrl
+    'labelSpdiameter' : '', # StaticText "Spdiameter"
+    'textCtrlSpdiameter' : 'Spherical form factor diameter', # TextCtrl
+    'buttonExport' : '', # Button "Export PDF"
+    }
+
+
                          
 dopingseriespanel = {
 #    'instructionsLabel' : '', # StaticText "Select a fit from the tree on the left then add datasets and assign\ndoping elements and values below. If you have not set up a fit to be\nthe template for the series, hit cancel and rerun this macro once a\nfit has been created."

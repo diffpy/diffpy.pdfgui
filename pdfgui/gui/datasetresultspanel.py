@@ -18,6 +18,7 @@
 
 import wx
 from pdfpanel import PDFPanel
+from tooltips import datasetresultspanel as toolTips
 
 class DataSetResultsPanel(wx.Panel, PDFPanel):
     def __init__(self, *args, **kwds):
@@ -48,6 +49,7 @@ class DataSetResultsPanel(wx.Panel, PDFPanel):
         self.panelNameLabel.SetFont(wx.Font(18, wx.DEFAULT, wx.NORMAL, wx.BOLD, 0, ""))
         self.buttonExport.Hide()
         # end wxGlade
+        self.setToolTips(toolTips)
 
     def __do_layout(self):
         # begin wxGlade: DataSetResultsPanel.__do_layout

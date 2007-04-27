@@ -18,6 +18,7 @@
 
 import wx
 from pdfpanel import PDFPanel
+from tooltips import datasetconstraintpanel as toolTips
 from diffpy.pdfgui.control.constraint import Constraint
 from diffpy.pdfgui.control.controlerrors import ControlSyntaxError
 
@@ -47,6 +48,7 @@ class DataSetConstraintPanel(wx.Panel, PDFPanel):
         # begin wxGlade: DataSetConstraintPanel.__set_properties
         self.panelNameLabel.SetFont(wx.Font(18, wx.DEFAULT, wx.NORMAL, wx.BOLD, 0, ""))
         # end wxGlade
+        self.setToolTips(toolTips)
 
     def __do_layout(self):
         # begin wxGlade: DataSetConstraintPanel.__do_layout
