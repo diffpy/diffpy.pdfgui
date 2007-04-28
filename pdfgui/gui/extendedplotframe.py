@@ -121,7 +121,6 @@ class ExtendedPlotFrame(wx.Frame):
         """
         wx.Frame.__init__(self,parent,-1,'ExtendedPlotFrame',size=(550,350))
 
-        self.SetBackgroundColour(wx.NamedColor("WHITE"))
 
         # figsize in inches
         self.figure = Figure(figsize=(0.5,0.5), dpi=72)
@@ -137,36 +136,37 @@ class ExtendedPlotFrame(wx.Frame):
         self.toolbar = ExtendedToolbar(self.canvas, True)
         self.toolbar.Realize()
         
-        self.statbar = wx.StatusBar(self,-1)
-        self.statbar.SetFieldsCount(1)
-        
+        self.coordLabel = wx.StaticText(self,-1,style = wx.ALIGN_RIGHT|wx.NO_BORDER)
         if wx.Platform == '__WXMAC__':
             # Mac platform (OSX 10.3, MacPython) does not seem to cope with
             # having a toolbar in a sizer. This work-around gets the buttons
             # back, but at the expense of having the toolbar at the top
             self.SetToolBar(self.toolbar)
-            self.SetStatusBar(self.statbar)
+            self.sizer.Add(self.coordLabel, 0, wx.EXPAND)
         else:
             # On Windows platform, default window size is incorrect, so set
             # toolbar width to figure width.
             tw, th = self.toolbar.GetSizeTuple()
-            sw, sh = self.statbar.GetSizeTuple()
+            sw, sh = self.coordLabel.GetSizeTuple()
             fw, fh = self.canvas.GetSizeTuple()
             # By adding toolbar in sizer, we are able to put it at the bottom
             # of the frame - so appearance is closer to GTK version.
             # As noted above, doesn't work for Mac.
-            self.statbar.SetSize(wx.Size(fw-tw, sh))
+            self.coordLabel.SetSize(wx.Size(sw, th))
+            #self.coordLabel.SetBackgroundColour(self.toolbar.GetBackgroundColour())
             barSizer = wx.BoxSizer(wx.HORIZONTAL)
-            self.sizer.Add(barSizer, 0, wx.EXPAND)
+            self.sizer.Add(barSizer, 0, wx.EXPAND|wx.CENTER)
             barSizer.Add(self.toolbar, 0, wx.CENTER)
-            barSizer.Add(self.statbar, 0, wx.CENTER|wx.EXPAND)
+            barSizer.Add((20,10),0)
+            barSizer.Add(self.coordLabel, 0, wx.CENTER)
 
         # update the axes menu on the toolbar
         self.toolbar.update()  
         self.SetSizer(self.sizer)
         self.Fit()
         self.SetSize((600,400))
-  
+        #Use toolbar's color for label.
+        self.SetBackgroundColour(self.toolbar.GetBackgroundColour())
         self.canvas.mpl_connect('motion_notify_event', self.UpdateStatusBar)
         wx.EVT_PAINT(self, self.OnPaint)   
         wx.EVT_TOOL(self, DATA_SAVE_ID, self.savePlotData)
@@ -220,7 +220,7 @@ class ExtendedPlotFrame(wx.Frame):
         if event.inaxes:
             x, y = event.xdata, event.ydata
             xystr = "x = %g, y = %g" % (x, y)
-            self.statbar.SetStatusText(xystr)
+            self.coordLabel.SetLabel(xystr)
             
     def replot ( self ):
         """officially call function in matplotlib to do drawing
