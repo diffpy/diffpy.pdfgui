@@ -1013,20 +1013,22 @@ important sequential modeling aspect that is supported in PDFgui.
 PDFgui has a pre-written macro that allows for this modeling situation 
 to be accommodated. 
 
-We will describe the procedure using an example of 
-a series of data collected on LaMnO3 and series of Ca-doped LaMnO3 
-samples with various Ca content from 0 to 0.28 at GEM instrument 
-at ISIS, UK. To begin, from the ``File'' menu use @b{Open Project} 
-selection to open @i{lcmo-template.dpp} project from the tutorial directory. 
+We will describe the procedure using an example of a series of data 
+collected on LaMnO3 and series of Ca-doped LaMnO3 samples with various 
+Ca content from 0 to 0.28 at GEM instrument at ISIS, UK. To begin, from 
+the ``File'' menu use @b{Open Project} selection to open @i{lcmo-template.dpp} 
+project from the tutorial directory, which has an initial setup for this exercise. 
 Note the letter @i{c} in the file name, in contrast to the name used in 
-the previous example. This project consists of a fit called @i{lcmo-pbnm }, 
+the previous example. This project consists of a fit called @i{lcmo-pbnm}, 
 which will serve as a template and which contains @i{Pbnm} phase of LaMnO3 
-and a 300 K data set. The difference here with respect to the template used 
-in the previous example is that Ca sites are introduced in the structure, 
-but are assigned zero occupancy. Effectively the template in this and in 
-the previous example yield the same result when 300 K LaMnO3 data are refined. 
-However, existence of the Ca dopant species in the structure of the template 
-is essential for the macro to operate. 
+and a 10 K data set, @i{x000t010q35.gr}. The difference here with respect 
+to the template used in the previous example is that Ca sites are introduced 
+in the structure, but are assigned zero occupancy. However, existence of 
+the Ca dopant species in the structure of the template is essential for 
+the macro to operate. Also, upper limit used in Fourier transform for 
+obtaining this set of data is 35 inverse Angstroms, in contrast to 32 
+inverse Angstroms in previous example. Since different instrument was 
+used, the value of Qsigma is different than in previous example. 
 
 @float Figure,fig3-08 
 @image{images/fig3-08}
@@ -1038,8 +1040,7 @@ to generate the linked sequence of fits.}
 @end float 
 
 In the same directory data corresponding to various Ca contents exist, 
-collected at 10 K temperature, in particular @i{x000t010q35.gr}, 
-@i{x004t010q35.gr}, @i{x012t010q35.gr}, 
+collected at 10 K temperature, in particular @i{x004t010q35.gr}, @i{x012t010q35.gr}, 
 @i{x016t010q35.gr}, @i{x020t010q35.gr}, @i{x024t010q35.gr}, and 
 @i{x028t010q35.gr}. It should be noted at this point that the data 
 files do not contain any relevant meta data in the file headers. However, 
@@ -1065,14 +1066,15 @@ The data can be ordered by doping by clicking the header.
 After you are done with editing, order the data by doping, as otherwise 
 the series of fits that is to be automatically generated in the next step 
 will be linked in an arbitrary way in which the data were loaded, rather 
-than to reflect the scientific logic. There should be 7 data sets. 
-Next, ensure that the template fit is selected on the Fit Tree. If this 
-is the case, the ``OK'' button becomes clickable. Clicking on the ``OK'' 
-button will generate a sequence of linked fits in the Fit Tree in the 
-order of the Ca content increase. These fits are linked, which can be 
-verified by inspecting the initial values on the ``Parameters'' tab of 
-each fit. Highlight all the fits in the Fit Tree to start the sequential 
-refinement of the doping series. 
+than to reflect the scientific logic. There should be 6 data sets (with 
+the initial x=0.0 data set there will be 7 chained fits total after this 
+setup is done) . Next, ensure that the template fit is selected on the 
+Fit Tree. If this is the case, the ``OK'' button becomes clickable. 
+Clicking on the ``OK'' button will generate a sequence of linked fits 
+in the Fit Tree in the order of the Ca content increase. These fits 
+are linked, which can be verified by inspecting the initial values on 
+the ``Parameters'' tab of each fit. Highlight all the fits in the Fit 
+Tree to start the sequential refinement of the doping series. 
 
 @float Figure,fig3-09 
 @image{images/fig3-09}
@@ -1082,11 +1084,10 @@ parameter @i{b} in @i{Pbnm} space group setting for series of Ca-doped LaMnO3
 samples for doping concentrations between 0 and 0.28 at 10 K temperature.}
 @end float 
 
-After the convergence is achieved for 
-all the fits in the Fit Tree, the results can be displayed in Fit Control 
-such that various converged fit parameters are plotted versus Ca content. 
-An example is provided in Figure  @ref{fig3-09} featuring one of the 
-lattice parameters.
+After the convergence is achieved for all the fits in the Fit Tree, the results 
+can be displayed in Fit Control such that various converged fit parameters are 
+plotted versus Ca content. An example is provided in Figure  @ref{fig3-09} featuring 
+one of the lattice parameters.
 
 @c Start of Chapter 4
 @c @node NODE-NAME, NEXT, PREVIOUS, UP
