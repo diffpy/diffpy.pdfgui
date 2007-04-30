@@ -199,7 +199,7 @@ class DataSetConfigurePanel(wx.Panel, PDFPanel):
 
     def restrictConstrainedParameters(self):
         """Set 'read-only' boxes that correspond to constrained parameters."""
-        if not self.constraints: return
+        if not self.configuration: return
 
         self.setToolTips(toolTips)
         
