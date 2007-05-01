@@ -68,6 +68,9 @@ setup_args = {
             'doc/manual/images/*.png',
             'doc/manual/images/*.jpg'
             ]),
+        ('pdfgui/doc/tutorial', [
+            'doc/tutorial/*'
+            ]),
         ],
     }
 
