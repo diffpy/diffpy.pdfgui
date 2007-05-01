@@ -149,7 +149,7 @@ We may have a menu in the top section of the manual
 @c @node NODE-NAME, NEXT, PREVIOUS, UP
 @node    Introduction, PDFfit2, Top
 @chapter Introduction
-@cindex  Introduction
+@cindex  introduction
 
 PDFgui is a graphical interface built on the PDFfit2 engine, which
 is a program as well as library for real-space refinement of crystal
@@ -329,7 +329,7 @@ Instructions for joining the email-list can be found on the web-page.
 @c @node NODE-NAME, NEXT, PREVIOUS, UP
 @node    Installation, Quick start, Availability, Introduction
 @section Installation
-@cindex  Installation
+@cindex  installation
 
 @b{NOTE: Detailed installation instructions come here}
 
@@ -382,6 +382,8 @@ as select and right-click.
 @node Simple fit, Symmetry expansion, PDFgui layout, Quick start
 @section Creating a simple fit using a preexisting structure file
 @cindex simple fit
+@cindex fit
+@cindex refinement
 
 The purpose of this example is to familiarize the novice user with the 
 PDFgui basics. The goal is to create a simple fit of Ni PDF from a 
@@ -437,7 +439,11 @@ menu and selecting @b{New Data Set}. The current action panel changes
 accordingly, giving an option for a data set to be loaded from a file. 
 In this exercise Ni PDF data obtained using synchrotron x-ray radiation 
 collected at 6-ID-D at the Advanced Photon Source is used. This is 
-contained in a file @i{Ni-xray.gr}, which is to be loaded.  
+contained in a file @i{Ni-xray.gr}, which is to be loaded. Note that among 
+the exercise files there is also a file  @i{Ni-neutron.gr}, obtained using 
+neutron radiation at the GPPD diffractometer at the IPNS facility at the Argonne 
+National Laboratory. Both x-ray and neutron datasets were collected at 
+300 K.
 
 @float Figure,fig2-02
 @image{images/fig2-02}
@@ -541,6 +547,8 @@ expressed as @i{@@3}, the refined structure will remain cubic.
 @caption{Reviewing the fit parameters and conditions.}
 @end float 
 
+@cindex fit
+@cindex refinement
 The setup for the present example is now completed. By selecting Fit 1 on 
 the Fit Tree the current action window shows ``Parameters'' tab, which 
 displays the used refinement parameters for review, Figure @ref{fig2-06}. 
