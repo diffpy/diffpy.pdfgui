@@ -71,7 +71,7 @@ Condens. Matter, in press (2007).
 @insertcopying
 @cindex  copyright
 @bigskip
-For more information please visit @url{http://danse.us/trac/diffraction}
+For more information please visit @url{http://www.diffpy.org/}
 or contact Prof. Simon Billinge at @email{billinge@@pa.msu.edu}.
 
 @page
