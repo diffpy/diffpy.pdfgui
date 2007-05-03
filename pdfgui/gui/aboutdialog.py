@@ -43,7 +43,7 @@ the following paper in your publication:
           and S. J. L. Billinge, PDFfit2 and PDFgui: Computer programs for studying
                nanostructure in crystals, J. Phys: Condens. Matter, in print.'''
 
-_homepage = "http://danse.us/trac/diffraction"
+_homepage = "http://www.diffpy.org"
 
 # authors list is shuffled randomly every time
 _authors = ["S. J. L. Billinge", "E. S. Bozin", "D. Bryndin",
