@@ -35,6 +35,7 @@ from diffpy import diffpyDataDir
 pdfguiDataDir = os.path.join(diffpyDataDir, 'pdfgui')
 iconsDir = os.path.join(pdfguiDataDir, 'icons')
 docDir = os.path.join(pdfguiDataDir, 'doc')
+docMainFile = 'pdfgui.htm'
 
 # options and arguments passed on command line
 cmdopts = []

@@ -52,7 +52,19 @@ import wx.lib.newevent
 (PDFCustomEvent, EVT_PDFCUSTOM) = wx.lib.newevent.NewEvent()
 
 import pdfguiglobals
-from pdfguiglobals import iconsDir
+from pdfguiglobals import iconsDir, docDir, docMainFile
+
+
+def launchBrowser(url):
+    '''Launches browser and opens specified url
+    
+    In some cases may require BROWSER environment variable to be set up.
+    
+    @param url: URL to open
+    '''
+    import webbrowser
+    webbrowser.open(url)
+    
 
 # WARNING - This file cannot be maintained with wxglade any longer. Do not make
 # modifications with wxglade!!!
@@ -2280,13 +2292,7 @@ class MainFrame(wx.Frame):
 
     def onDocumentation(self, event):
         """Show information about the documentation."""
-        message =  "Documentation for PDFgui is not yet available.\n"
-        message += "To get started, please see the doc/TUTORIAL.txt\n"
-        message += "file included in PDFgui distribution."
-        d = wx.MessageDialog( self, message,
-                "Documentation", wx.OK)
-        d.ShowModal()
-        d.Destroy()
+        launchBrowser(os.path.join(docDir, docMainFile))
         return
 
     # MISC INTERACTION ITEMS

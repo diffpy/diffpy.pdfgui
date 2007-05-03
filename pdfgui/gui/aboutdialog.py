@@ -17,8 +17,16 @@
 __id__ = "$Id$"
 __revision__ = "$Revision$"
 
-__acknowledgement__ = """
-This software was developed by the Billinge-group as part of the
+import wx
+import wx.lib.hyperlink
+import random
+import os.path
+from pdfguiglobals import iconsDir
+from diffpy.pdfgui import __version__
+
+
+_acknowledgement =  \
+'''This software was developed by the Billinge-group as part of the
 Distributed Data Analysis of Neutron Scattering Experiments (DANSE)
 project funded by the US National Science Foundation under grant
 DMR-0520547.  Developments of PDFfit2 were funded by NSF grant
@@ -26,36 +34,44 @@ DMR-0304391 in the Billinge-group, and with support from Michigan State
 University.  Any opinions, findings, and conclusions or recommendations
 expressed in this material are those of the author(s) and do not
 necessarily reflect the views of the respective funding bodies.
-""".strip().replace('\n', ' ')
 
-import wx
-import wx.lib.hyperlink
-import random
-import os.path
-from pdfguiglobals import iconsDir
+If you use this program to do productive scientific research that leads
+to publication, we ask that you acknowledge use of the program by citing
+the following paper in your publication:
 
-from diffpy.pdfgui import __version__
+     C. L. Farrow, P. Juhas, J. W. Liu, D. Bryndin, J. Bloch, Th. Proffen
+          and S. J. L. Billinge, PDFfit2 and PDFgui: Computer programs for studying
+               nanostructure in crystals, J. Phys: Condens. Matter, in print.'''
+
+_homepage = "http://danse.us/trac/diffraction"
+
+# authors list is shuffled randomly every time
+_authors = ["S. J. L. Billinge", "E. S. Bozin", "D. Bryndin",
+                "C. L. Farrow", "P. Juhas", "J. W. Liu"]
+_paper = ""
+_license = ""
+
+
+def launchBrowser(url):
+    '''Launches browser and opens specified url
+    
+    In some cases may require BROWSER environment variable to be set up.
+    
+    @param url: URL to open
+    '''
+    import webbrowser
+    webbrowser.open(url)
+
 
 class DialogAbout(wx.Dialog):
     '''"About" Dialog
     
     Shows product name, current version, authors, and link to the product page.
     Current version is taken from version.py
-    
-    self.authors  - is a list of all authors, which is shuffled randomly
-    self.homepage - link to the project web page
     '''
     
     def __init__(self, *args, **kwds):
 
-        self.authors = ["S. J. L. Billinge", "E. S. Bozin", "D. Bryndin",
-                "C. L. Farrow", "P. Juhas", "J. W. Liu"]
-        self.homepage = "http://danse.us/trac/diffraction"
-#        self.license = "LICENSE.txt"
-        self.license = ""
-#        self.paper = os.path.join(papersDir, 'Farrow-jpcm-subm.pdf')
-        self.paper = ""
-        
         # begin wxGlade: DialogAbout.__init__
         kwds["style"] = wx.DEFAULT_DIALOG_STYLE
         wx.Dialog.__init__(self, *args, **kwds)
@@ -66,11 +82,11 @@ class DialogAbout(wx.Dialog):
         self.label_svnrevision = wx.StaticText(self, -1, "")
         self.label_copyright = wx.StaticText(self, -1, "(c) 2005-2007,")
         self.label_author = wx.StaticText(self, -1, "author")
-        self.hyperlink = wx.lib.hyperlink.HyperLinkCtrl(self, -1, self.homepage, URL=self.homepage)
-        self.hyperlink_license = wx.lib.hyperlink.HyperLinkCtrl(self, -1, "PDFgui paper (in print)", URL=self.paper)
-        self.hyperlink_paper = wx.lib.hyperlink.HyperLinkCtrl(self, -1, self.license, URL=self.license)
+        self.hyperlink = wx.lib.hyperlink.HyperLinkCtrl(self, -1, _homepage, URL=_homepage)
+        self.hyperlink_license = wx.lib.hyperlink.HyperLinkCtrl(self, -1, "PDFgui paper (in print)", URL=_paper)
+        self.hyperlink_paper = wx.lib.hyperlink.HyperLinkCtrl(self, -1, _license, URL=_license)
         self.static_line_1 = wx.StaticLine(self, -1)
-        self.label_acknowledgement = wx.StaticText(self, -1, "This software was developed by the Billinge-group as part of the\nDistributed Data Analysis of Neutron Scattering Experiments (DANSE)\nproject funded by the US National Science Foundation under grant\nDMR-0520547.  Developments of PDFfit2 were funded by NSF grant\nDMR-0304391 in the Billinge-group, and with support from Michigan State\nUniversity.  Any opinions, findings, and conclusions or recommendations\nexpressed in this material are those of the author(s) and do not\nnecessarily reflect the views of the respective funding bodies.\n\nIf you use this program to do productive scientific research that leads\nto publication, we ask that you acknowledge use of the program by citing\nthe following paper in your publication:\n\n     C. L. Farrow, P. Juhas, J. W. Liu, D. Bryndin, J. Bloch, Th. Proffen\n     and S. J. L. Billinge, PDFfit2 and PDFgui: Computer programs for studying\n     nanostructure in crystals, J. Phys: Condens. Matter, in print.")
+        self.label_acknowledgement = wx.StaticText(self, -1, _acknowledgement)
         self.static_line_2 = wx.StaticLine(self, -1)
         self.bitmap_button_nsf = wx.BitmapButton(self, -1, wx.NullBitmap)
         self.bitmap_button_danse = wx.BitmapButton(self, -1, wx.NullBitmap)
@@ -90,8 +106,8 @@ class DialogAbout(wx.Dialog):
 #       self.text_ctrl_acknowledgement.SetValue(__acknowledgement__)
 
         # randomly shuffle authors' names
-        random.shuffle(self.authors)
-        strLabel = ", ".join(self.authors)
+        random.shuffle(_authors)
+        strLabel = ", ".join(_authors)
         
         # display version and svn revison numbers
         verwords = __version__.split('.')
@@ -179,20 +195,23 @@ class DialogAbout(wx.Dialog):
         self.Centre()
         # end wxGlade
 
-    def _launchBrowser(self, url):
-        import webbrowser
-        webbrowser.open(url)
+#    def _launchBrowser(self, url):
+#        import webbrowser
+#        webbrowser.open(url)
 
     def onNsfLogo(self, event): # wxGlade: DialogAbout.<event_handler>
-        self._launchBrowser("http://www.nsf.gov")
+#        self._launchBrowser("http://www.nsf.gov")
+        launchBrowser("http://www.nsf.gov")
         event.Skip()
 
     def onDanseLogo(self, event): # wxGlade: DialogAbout.<event_handler>
-        self._launchBrowser("http://wiki.cacr.caltech.edu/danse")
+#        self._launchBrowser("http://wiki.cacr.caltech.edu/danse")
+        launchBrowser("http://wiki.cacr.caltech.edu/danse")
         event.Skip()
 
     def onMsuLogo(self, event): # wxGlade: DialogAbout.<event_handler>
-        self._launchBrowser("http://www.msu.edu")
+#        self._launchBrowser("http://www.msu.edu")
+        launchBrowser("http://www.msu.edu")
         event.Skip()
 
 # end of class DialogAbout
