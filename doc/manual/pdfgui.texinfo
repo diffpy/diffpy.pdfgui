@@ -695,7 +695,7 @@ fit of Ni PDF, but this time from scratch rather than from a preexisting
 structure file. Further goal is to associate a dataset with the refinement, 
 configure and execute a refinement, and display the result. The focus will 
 be on the symmetry expansion features only, and the steps that are described 
-earlier in @ref{Simple Fit} are left for the user to recreate. File to 
+earlier in @ref{Simple fit} are left for the user to recreate. File to 
 be used in this exercise is @i{Ni-xray.gr}. To start, invoke PDFgui. 
 
 To begin, a new fit again needs to be established by right-clicking the 
@@ -776,7 +776,7 @@ There is often a need for obtaining a calculated PDF profile for a given
 structure instead of performing a fit. In order to carry out a calculation, 
 an underlying structure needs to be specified. This can either be loaded 
 from a file or generated from scratch. Suppose that we have a Ni structure 
-populating a Fit Tree using steps described in either @ref{Simple Fit} or 
+populating a Fit Tree using steps described in either @ref{Simple fit} or 
 in @ref{Symmetry Expansion}, and that we would like to calculate Ni PDF 
 using neutron radiation. Highlight the Ni structure on Fit Tree. On 
 menu bar, select @b{New Calculation} from ``Calculation'' drop-down menu. 
@@ -903,7 +903,7 @@ a situation when details of crossover from local to average structure are
 examined. PDFgui has a pre-written macro that allows for this modeling 
 situation to be accommodated. We will illustrate these capabilities through 
 a simple Ni example. Generate a complete fit, including a phase and a dataset, 
-as explained in @ref{Simple Fit}. Select the fit from the Fit Tree. From the 
+as explained in @ref{Simple fit}. Select the fit from the Fit Tree. From the 
 ``Fits'' menu, select @b{Macros}, and choose ``r-Series'' option. The 
 Current Action panel will display simple setting requirements, arranged in 
 two rows of three dialog boxes each, that need to be filled with values 
