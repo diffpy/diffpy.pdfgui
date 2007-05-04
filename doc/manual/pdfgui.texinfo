@@ -128,8 +128,6 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 @node Top
 @top
 
-We may have a menu in the top section of the manual
-
 @c menu
 @menu
 * Introduction::                
@@ -321,7 +319,7 @@ PDFfit2 and PDFgui are open source and distributed under a BSD license.
 They run on Windows, Mac OS, Linux, and all major Unix systems. The source
 code is freely available. For more information please contact Professor
 Simon Billinge (@email{billinge@@pa.msu.edu}) or consult the web-page
-@url{http://www.totalscattering.org}. News of updates and releases will
+@url{http://www.diffpy.org}. News of updates and releases will
 be posted at this website and on the total-scattering email-list.
 Instructions for joining the email-list can be found on the web-page.
 
@@ -364,17 +362,17 @@ new project or opening an existing one, saving a project, executing a
 refinement or calculation, stopping a refinement or calculation, and 
 making a quick plot of a refinement. The four panes consist of fitting, 
 plotting, current action, and PDFfit2 output. The fitting pane is home 
-for FIT Tree and is used in setting up a fit protocol. The Plot Control 
-panel serves the user needs for graphically displaying the fits, as well 
-as various fit-related parameters. The content of the current action panel 
+for Fit Tree and is used in setting up a fit protocol. The Plot Control 
+panel serves the user's needs for graphically displaying the fits, as well 
+as various fit-related parameters. The content of the Current Action panel 
 changes as the refinement is being set up. It is a functional panel through 
 which the user configures the fit attributes, sets the fit constraints, reviews 
 the fit settings, displays fitting results, and also carries out other 
 setup steps. The progress of the PDFfit2 program is displayed in the PDFfit2 
-Output panel. All panels except the current action panel are dockable windows 
+output panel. All panels except the Current Action panel are dockable windows 
 that can be dragged across the screen, resized and arranged to accommodate the 
-visual needs of the user. The window layout can also be controlled via the 
-View drop-down menu on the menu bar. An important part of the PDFgui 
+individual visual needs of the user. The window layout can also be controlled 
+via the "View" drop-down menu on the menu bar. An important part of the PDFgui 
 operativity is also conveniently available through mouse operations such 
 as select and right-click.
 
@@ -392,9 +390,9 @@ configure and execute a refinement, and display the result. Files to
 be used in this exercise are @i{Ni.stru} and @i{Ni-xray.gr}. To start, 
 invoke PDFgui. 
 
-First a new fit needs to be established. In the fit tree pane right-click 
+First a new fit needs to be established. In the Fit Tree pane right-click 
 the mouse button, and select @b{New Fit}. This will generate a new fit 
-called Fit 1 into the fit tree. The current action panel will change 
+called Fit 1 in the Fit Tree. The Current Action panel will change 
 accordingly, with generic appearance reflecting the fact that the fitting 
 three is not populated with neither structure nor data. Note that the same 
 action could be achieved by selecting the @b{New Fit} option from the 
@@ -402,7 +400,7 @@ action could be achieved by selecting the @b{New Fit} option from the
 
 The next step in populating the fitting tree is to load structural model. 
 This is achieved through a simple sequence of actions: first select the 
-fit icon in the fit tree pane. Then right-click the mouse, invoking a 
+fit icon in the Fit Tree pane. Then right-click the mouse, invoking a 
 drop-down menu. Select @b{Insert Phase}, which will modify the current 
 action panel. The same action could be performed from the ``Phases'' 
 drop-down menu on the menu bar by selecting @b{New Phase}. In the current 
@@ -413,13 +411,13 @@ generate it from scratch. In this exercise a preexisting structure file
 @float Figure,fig2-01
 @image{images/fig2-01}
 @caption{PDFgui window with Fit Tree and Plot Control panels to the left 
-and current action panel to the right. The Fit Tree panel features the 
+and Current Action panel to the right. The Fit Tree panel features the 
 current fit and the loaded Ni structure which is selected. The current 
 action panel displays phase configuration within the ``Configure'' tab.}
 @end float
 
-Figure @ref{fig2-01} shows the PDFgui appearance at this stage of 
-the exercise. The current action panel has three tabs, ``Configure'', 
+@ref{fig2-01} shows the PDFgui appearance at this stage of 
+the exercise. The Current Action panel has three tabs, ``Configure'', 
 ``Constraints'', and ``Results'' that could be selected using mouse. 
 These will be returned to later. The ``Configure'' panel displays 
 configuration information from the structure file. The top portion 
@@ -432,10 +430,10 @@ information such as atomic species, their fractional coordinates,
 anisotropic ADPs, and site occupancies.
 
 The next step is to load an experimental data set to be fit. To achieve 
-this Fit 1 is selected on a fit tree, and a drop down window is invoked 
+this Fit 1 is selected on a Fit Tree, and a drop down window is invoked 
 by a right-click of a mouse. From the menu @b{Insert Data Set} is chosen. 
 The same action could be performed through a menu bar ``Data'' drop-down 
-menu and selecting @b{New Data Set}. The current action panel changes 
+menu and selecting @b{New Data Set}. The Current Action panel changes 
 accordingly, giving an option for a data set to be loaded from a file. 
 In this exercise Ni PDF data obtained using synchrotron x-ray radiation 
 collected at 6-ID-D at the Advanced Photon Source is used. This is 
@@ -449,13 +447,13 @@ National Laboratory. Both x-ray and neutron datasets were collected at
 @image{images/fig2-02}
 @caption{Appearance of a PDFgui window after a PDF dataset is loaded. 
 The Fit Tree panel features the current fit, loaded Ni structure, and 
-loaded Ni PDF dataset, G(r), which is selected. The current action panel 
+loaded Ni PDF dataset, G(r), which is selected. The Current Action panel 
 displays data set configuration within the ``Configure'' tab.}
 @end float
 
 @cindex  nanoparticle size
-Figure @ref{fig2-02} shows the PDFgui appearance at this stage of 
-the exercise. The current action panel has three tabs, ``Configure'', 
+@ref{fig2-02} shows the PDFgui appearance at this stage of 
+the exercise. The Current Action panel has three tabs, ``Configure'', 
 ``Constraints'', and ``Results'' that could be selected using mouse. 
 These will be returned to later. The ``Configure'' panel displays 
 configuration information from the data file. It should be noted that 
@@ -465,7 +463,7 @@ experimental conditions and configuration. For example, software PDFgetX2
 and PDFgetN used to prepare PDFs from x-ray and neutron total scattering 
 experiments respectively, are supplying meta data in the header of the 
 data file. The PDFgui is picking up this information and filling the 
-appropriate fields in the current action panel for data set configuration. 
+appropriate fields in the Current Action panel for data set configuration. 
 Caution should be exercised by the user to verify that these data indeed 
 correspond to the experimental conditions. In the present example, x-ray 
 radiation is used, and so the x-ray selection is turned on for the scatterer 
@@ -474,13 +472,14 @@ Fourier transform to obtain the experimental PDF, spherical form factor diameter
 (used for nanoparticle samples, to account for the PDF signal dampening due to 
 the finite particle size) and the experiment specific parameters are displayed. 
 These comprise parameters describing experimental resolution effects, Qdamp and 
-Qbroad, and experimental conditions, such as temperature and doping (currently used 
-for bookkeeping only). If no meta data are present in a data file, this 
-information should be supplied by the user. Note also that the changes occurred 
-at this stage in the Plot Control panel, allowing user to plot the data. 
-This is achieved by selecting an observed G(r) and clicking on a plot button 
-that will invoke a plot. Since no fitting has occurred so far, an attempt to 
-plot calculated PDF profile or a difference yields a blank plot. 
+Qbroad, and experimental conditions, such as temperature and doping (used 
+for bookkeeping and for parametric plots). If no meta data are present in a 
+data file, this information should be supplied by the user. Note also that 
+the changes occurred at this stage in the Plot Control panel, allowing user 
+to plot the data. This is achieved by selecting an observed G(r) and clicking 
+on a plot button that will invoke a plot. Since no fitting has occurred so 
+far, an attempt to plot calculated PDF profile or a difference yields a blank 
+plot. 
 
 Having specified the initial structure to be refined, and the data set to 
 be fit, one proceeds to the refinement setup. This is carried out through 
@@ -495,7 +494,7 @@ the data related setup will be done first.
 @caption{Adjusting data set related configuration.}
 @end float
 
-Click on the @i{Ni-xray.gr} in the Fit Tree. In Figure @ref{fig2-03} 
+Click on the @i{Ni-xray.gr} in the Fit Tree. In @ref{fig2-03} 
 ``Data Set Configuration'' panel is shown. At this stage we adjust the 
 fitting range, as well as other parameters that reflect the experimental 
 conditions, as appropriate. Initial values for refined parameters can 
@@ -504,14 +503,14 @@ Parameters tab. Since there is no physical information in the
 region of @i{r} below the nearest neighbor PDF peak position, and since 
 this region is often affected by noise and experimental artifacts, it is 
 wise to exclude it from fitting. We therefore set the value of the lower 
-boundary of the fitting range to 1.7. In addition, we set @i{qdamp} 
+boundary of the fitting range to 1.7. In addition, we set @i{Qdamp} 
 parameter to a more realistic starting value of 0.08. This parameter 
 is typically obtained through a conventional calibration process at each 
 PDF experiment using a standard sample such as Ni or Si. Next, we select 
 the ``Constraints'' tab, and type @i{@@1} into the ``Scale Factor'' edit 
 box. This will assign refinement parameter 1 to the data scale factor. 
 Note that this is the syntax used for assigning the refinement parameters 
-in PDFfit2 engine. Similarly, assign parameter 2 to @i{qdamp} by inserting 
+in PDFfit2 engine. Similarly, assign parameter 2 to @i{Qdamp} by inserting 
 @i{@@2} into the appropriate edit box. This is illustrated in Figure 
 @ref{fig2-04}.
 
@@ -550,8 +549,8 @@ expressed as @i{@@3}, the refined structure will remain cubic.
 @cindex fit
 @cindex refinement
 The setup for the present example is now completed. By selecting Fit 1 on 
-the Fit Tree the current action window shows ``Parameters'' tab, which 
-displays the used refinement parameters for review, Figure @ref{fig2-06}. 
+the Fit Tree the Current Action window shows ``Parameters'' tab, which 
+displays the used refinement parameters for review, @ref{fig2-06}. 
 It shows the initial values, and allows for updates and for refinement 
 parameters to be released or fixed depending on whether the corresponding 
 ``Fixed'' box is unchecked or checked, respectively. The ``Refined'' column, 
@@ -560,7 +559,7 @@ parameters. The refinement is executed by clicking the ``gear'' icon on the
 tool bar. The refinement could be stopped by clicking on the ``stop'' icon 
 on the tool bar. During the refinement the refinement progress will be 
 directly reported in the PDFfit2 Output panel. This is illustrated in 
-Figure @ref{fig2-07}.
+@ref{fig2-07}.
 
 @float Figure,fig2-07
 @image{images/fig2-07}
@@ -569,7 +568,7 @@ displayed in the PDFfit2 Output panel.}
 @end float 
 
 After the fitting is completed, the fit summary is provided in the 
-``Results'' tab of the current action panel when Fit 1 is selected on 
+``Results'' tab of the Current Action panel when Fit 1 is selected on 
 the Fit Tree. Similarly, if ``Results'' tab is displayed when @i{Ni.stru} 
 or @i{Ni-xray.gr} are selected, values of all corresponding refined parameters 
 for the converged model are displayed. 
@@ -580,7 +579,7 @@ appropriate. This can be done when Fit 1 is selected on the ``Parameters''
 tab. By highlighting refined parameters to be copied, and right-clicking on 
 mouse a drop-down menu is invoked. Selecting @b{Copy Refined To Initial} will 
 perform the desired initial parameter update, as illustrated in 
-Figure @ref{fig2-08}.
+@ref{fig2-08}.
 
 @float Figure,fig2-08
 @image{images/fig2-08}
@@ -592,8 +591,8 @@ on the tool bar. Alternatively, desired items to be displayed can be selected
 from the Plot Control and plotted on the screen. Depending on whether the 
 structure or the data are selected on the Fit Tree, either refined structural 
 parameters or the experiment related parameters and fit could be plotted. 
-An example of the fit display is shown in Figure @ref{fig2-09}, and a 
-selected parameter plot vs iteration step in Figure @ref{fig2-10}. If 
+An example of the fit display is shown in @ref{fig2-09}, and a 
+selected parameter plot vs iteration step in @ref{fig2-10}. If 
 the plotting window remains open while the fitting is in progress, the content 
 will be updated after each fit iteration.
 
@@ -610,7 +609,7 @@ will be updated after each fit iteration.
 PDFgui is furnished with ``Journal'' capability, which can be found under the 
 ``Edit'' menu, and represents a convenient way for generating, storing, and 
 using for further reference of project related notes, as illustrated in 
-Figure @ref{fig2-11}. These notes can be exported as a text file, or saved 
+@ref{fig2-11}. These notes can be exported as a text file, or saved 
 along with the entire project.
 
 @float Figure,fig2-11
@@ -689,24 +688,24 @@ earlier in @ref{Simple Fit} are left for the user to recreate. File to
 be used in this exercise is @i{Ni-xray.gr}. To start, invoke PDFgui. 
 
 To begin, a new fit again needs to be established by right-clicking the 
-mouse button on the fit tree pane, and selecting @b{New Fit}. This will 
+mouse button on the Fit Tree pane, and selecting @b{New Fit}. This will 
 generate a new fit called Fit 1 as in the previous example. The next step 
 in populating the fitting tree is to introduce a structural model. This 
 time a new phase will be added and the model built up from scratch. Select 
-the fit icon in the fit tree pane. Then right-click the mouse, invoking a 
+the fit icon in the Fit Tree pane. Then right-click the mouse, invoking a 
 drop-down menu. Select @b{Insert Phase}, which will modify the current 
 action panel. The same action could be performed from the ``Phases'' 
 drop-down menu on the menu bar by selecting @b{New Phase}. In the current 
 action panel options are offered to load a structure from a file or to 
 generate it from scratch. Select ``New'' to build up structure from scratch. 
 The Fit Tree will be populated with a new item ``New Phase''. Rename this 
-phase to ``Ni fcc''. The current action panel now displays default phase 
+phase to ``Ni fcc''. The Current Action panel now displays default phase 
 configuration with ``dummy'' values and no atoms. Edit the lattice parameters 
 and set them to reflect the symmetry, in this case set the lengths to 3.52 
 Angstroms and all the angles to 90 degrees. The ``Tab'' keyboard shortcut 
 feature can be used for moving quickly from one form-field to the next. 
 To introduce new atoms right-click with your mouse onto @i{elem} tab in the 
-current action panel, and select desired number of atoms in the asymmetric 
+Current Action panel, and select desired number of atoms in the asymmetric 
 unit via the dialog box that pops up. In Ni case select one row only. After 
 action is invoked, a new row will show up in the table. This can also be
 performed by hitting ``Control'', ``Shift'' and ``+'' simulataneously .Type in
@@ -723,7 +722,7 @@ type in the initial value 0.0025.
 
 Now right-click with the mouse on the 
 element name, and select ``Expand space group...'' option. A dialog box will 
-appear, as shown in Figure @ref{fig3-01}, requesting space group 
+appear, as shown in @ref{fig3-01}, requesting space group 
 information and the choice of origin. Choose ``Fm-3m'' and hit enter. You can
 also type ``Fm-3m'' or ``225'', the symmetry group number.
 This will expand the unit cell accordingly showing 4 Ni sites. 
@@ -737,10 +736,10 @@ This will expand the unit cell accordingly showing 4 Ni sites.
 In order to set the symmetry constraints for the refinement, select
 ``Constraints'' tab, highlight all the atoms, and right-click to invoke a menu.
 Note that hitting ``Control'' and ``A'' simlutaneously will select all the atoms
-if the grid is active. (If the fit tree is active, it will select all tree
+if the grid is active. (If the Fit Tree is active, it will select all tree
 items). Click on ``Symmetry constraints...'', and a dialog box will appear
 asking for the space group to be used and whether you want the positions and/or
-the thermal parameters to be constrained, as shown in Figure @ref{fig3-02}. The
+the thermal parameters to be constrained, as shown in @ref{fig3-02}. The
 default is to use the space group used for expansion, and to constrain
 everything according to the symmetry. Since all the positions are special, these
 will not be refinable by symmetry, and the thermal parameters will be isotropic.
@@ -771,7 +770,7 @@ in @ref{Symmetry Expansion}, and that we would like to calculate Ni PDF
 using neutron radiation. Highlight the Ni structure on Fit Tree. On 
 menu bar, select @b{New Calculation} from ``Calculation'' drop-down menu. 
 Current activity panel will display information very similar to that 
-when a data set is loaded, as shown in Figure @ref{fig3-03}.
+when a data set is loaded, as shown in @ref{fig3-03}.
 
 @float Figure,fig3-03 
 @image{images/fig3-03}
@@ -834,7 +833,7 @@ selecting ``Copy'' option from the pop-up menu. Once this is done, a paste
 fit operation is done by right-clicking at the empty space on the Fit Tree, 
 and selecting ``Paste Fit'' option from the pop-up menu. This will create 
 ``Fit 1_copy'', a copy of ``Fit 1'' in the Fit Tree. The next step is to link 
-the fits. Select ``Fit 1_copy'' on the fit tree. In the ``Parameters'' panel, 
+the fits. Select ``Fit 1_copy'' on the Fit Tree. In the ``Parameters'' panel, 
 select the entire ``Initial'' column. Type ``=Fit 1'' and then press 
 ``Enter''. The ``Initial'' values of the parameters should now read 
 ``=Fit 1:n'', where @i{n} is the index of the parameter. This brings us to 
@@ -843,7 +842,7 @@ another fit to which the link is made, and ``index'' is the index of a
 parameter in that fit. If ``index'' is omitted, it will default to the index 
 of the parameter one is linking from. A linked parameter uses the refined 
 value of the link as its @i{initial} value. This is useful when one runs 
-several related fits. An example of this is shown in Figure @ref{fig3-04}.
+several related fits. An example of this is shown in @ref{fig3-04}.
 
 @float Figure,fig3-04 
 @image{images/fig3-04}
@@ -895,7 +894,7 @@ situation to be accommodated. We will illustrate these capabilities through
 a simple Ni example. Generate a complete fit, including a phase and a dataset, 
 as explained in @ref{Simple Fit}. Select the fit from the Fit Tree. From the 
 ``Fits'' menu, select @b{Macros}, and choose ``r-Series'' option. The 
-current action panel will display simple setting requirements, arranged in 
+Current Action panel will display simple setting requirements, arranged in 
 two rows of three dialog boxes each, that need to be filled with values 
 to be specified by the user. An example of this is shown in Figure 
 @ref{fig3-05}.
@@ -919,7 +918,7 @@ with 4 steps total, and fixed lower limit. To achieve this, type 5 for the
 first upper limit, 20 for the last upper limit, and the step of 5 Angstroms. 
 Leave the second row blank. Once this is done, make sure that the Ni fit, 
 which in this situation serves as a template, is highlighted, and then click 
-``OK'' in the current action panel. This will generate 4 new fits below the 
+``OK'' in the Current Action panel. This will generate 4 new fits below the 
 original fit, and these four fits will constitute your series, with desired 
 incremental limits. You select all four of them and execute the refinement. 
 Once the sequence is done, you can review the results using Plot Control. 
@@ -957,7 +956,7 @@ particular
 @i{740K.gr}, @i{750K.gr}, @i{800K.gr}, @i{880K.gr}, @i{980K.gr}, @i{1050K.gr}, 
 @i{1100K.gr}, and @i{1150K.gr}. We will establish a T-series fit sequence. 
 Select @b{Macros} from the ``Fit'' menu on the menu bar, and choose 
-``Temperature Series''. The current action panel will reflect the selection. 
+``Temperature Series''. The Current Action panel will reflect the selection. 
 A tool is provided that allows for data sets to be added. Click on ``Add'' 
 button. Using ``Shift'' and mouse-select operation you should select all 
 the data sets mentioned in the above list, except the 300 K one, as this 
@@ -973,7 +972,7 @@ can be ordered by temperature by clicking the ``Temperature'' header.
 by temperature will ensure that the fits are linked correctly.}
 @end float 
 
-Order the data by temperature (Figure @ref{fig3-06}), as otherwise the 
+Order the data by temperature (@ref{fig3-06}), as otherwise the 
 series of fits that is 
 to be automatically generated in the next step will be linked in an arbitrary 
 way in which the data were loaded, rather than to reflect the scientific 
@@ -987,7 +986,7 @@ start the sequential refinement of the T-series. The results can then be
 displayed in Fit Control such that various converged fit parameters are 
 plotted versus temperature. In terms of the science behind the LaMnO3 
 example, it is interesting to plot isotropic ADP of the oxygen at 
-general position. Select all the phases on the fit tree by selecting one 
+general position. Select all the phases on the Fit Tree by selecting one 
 and then clicking on ``Control'', ``Shift'' and ``A'' keys simultaneously. 
 This will select all the phases at once. On the Plot Control choose the 
 temperature for @i{x} axis, and select the Uiso of O2 (for example atom 20). 
@@ -1002,12 +1001,12 @@ just above 700 K (Jahn-Teller transition), and at around 1000 K when sample
 converts from orthorhombic to rhombohedral symmetry.}
 @end float 
 
-Despite quite high temperatures, an onset of static offset above the 
-transition temperature is apparent in this parameter, as apparent in 
-Figure (Figure @ref{fig3-07}). Curious user could 
-repeat the same T-series refinement restricting the refinement range upper 
-limit to say 5-6 Angstroms and observe the outcome. The refinement sequence 
-execution should be very quick in this case.
+Despite quite high temperatures, an onset of the static offset above the 
+transition temperature is clearly marked by this parameter, as apparent 
+in @ref{fig3-07}. Curious user could repeat the same T-series refinement 
+restricting the refinement range upper limit to say 5-6 Angstroms and 
+observe the outcome. The refinement sequence execution should be very 
+quick in this case.
 
 @c @node NODE-NAME, NEXT, PREVIOUS, UP
 @node Doping series, Nanoparticle structure, Temperature series, Sequential fitting
@@ -1054,7 +1053,7 @@ collected at 10 K temperature, in particular @i{x004t010q35.gr}, @i{x012t010q35.
 files do not contain any relevant meta data in the file headers. However, 
 the doping level is somehow encrypted into the file names. We will establish 
 a doping series fit sequence. Select @b{Macros} from the ``Fit'' menu on the 
-menu bar, and choose ``Doping Series''. The current action panel will reflect 
+menu bar, and choose ``Doping Series''. The Current Action panel will reflect 
 the selection. Base element and dopant need to be specified. A tool is 
 provided that allows for data sets to be added. Click on ``Add'' button. 
 Using ``Shift'' and mouse-select operation you should select all 
@@ -1139,7 +1138,7 @@ The structure used for both data sets is wurtzite, space group P63mc. From calib
 on Ni standard @i{Qdamp} value of 0.0486 was obtained and is used here. We first carry 
 out a refinement on the bulk reference. This is carried out over a range from 1.7 to 
 19.8 Angstroms, using 7 parameters: lattice parameters @i{a} and @i{c} 
-(@i{@@1} and @i{@@2} respectively), Se z fractional coordinate (@i{@@11}), isotropic 
+(@i{@@1} and @i{@@2} respectively), selenium @i{z} fractional coordinate (@i{@@11}), isotropic 
 ADPs for Cd and Se (@i{@@21} and @i{@@23} respectively), the data scale factor (@i{@@100}), 
 and finally correlated motion related quadratic term coefficient @i{delta2} (@i{@@200}). 
 The converged fit results in parameter values that can be further used for reference 
@@ -1154,7 +1153,7 @@ except for @i{delta2} and the nanoparticle diameter. The former is set to 5.69, 
 later to 25 Angstroms. In other cases an approximate value of the spherical nanoparticle 
 size is usually known, and it is the best to start from a reasonably good guess. Refining 
 the nanoparticle data reveals nanoparticle diameter of approximately 30 Angstroms, as 
-further illustrated in Figure @ref{fig3-10}. Enlarged values of isotropic ADPs are again 
+further illustrated in @ref{fig3-10}. Enlarged values of isotropic ADPs are again 
 observed, and the fit is reasonably good. Further improvements can be obtained by introducing 
 anisotropic ADPs, where again values related to the z-direction will remain abnormally 
 large most probably due to the stacking related disorder. The fitting protocol is not very 
@@ -1204,7 +1203,7 @@ and internal can be plotted instead. Since several formal plotting examples were
 given through the tutorial exercise, and having simplicity of usage in mind, no
 other plotting examples are provided, hoping that the usage is sufficiently
 simple for users to master individually with ease. An example plot of Rw vs
-refinement step is shown in Figure @ref{fig4-01} for Ni example.
+refinement step is shown in @ref{fig4-01} for Ni example.
 
 @float Figure,fig4-01 
 @image{images/fig4-01}
@@ -1231,7 +1230,7 @@ be adjusted, rotated and zoomed in and out through the mouse functionality.
 The size of the displayed atoms can be controlled via ``Page Up'' and 
 ``Page Down'' keys. For advanced AtomEye usage please consult corresponding 
 AtomEye user documentation. An example Ni structure visualization is shown 
-in Figure @ref{fig4-02}.
+in @ref{fig4-02}.
 
 @float Figure,fig4-02 
 @image{images/fig4-02}
@@ -1276,8 +1275,8 @@ described elsewhere.
 @cindex hot keys
 
 @noindent 
-Fit tree
-@b{Ctrl+A} Select all items in the fit tree.
+Fit Tree
+@b{Ctrl+A} Select all items in the Fit Tree.
 @b{Ctrl+Shift+A} Once an object is selected on the Fit Tree, using this hot 
 key will sellect all the objects on the tree that are of the same type. For 
 example, if a single data set is selected on the tree, hitting this hot 
@@ -1354,7 +1353,7 @@ work for anisotropic atoms only, for isotropic atoms use uisoequiv(n).
 
 @smallskip
 @noindent 
-@b{qdamp}
+@b{Qdamp}
 (0 A**-1) PDF Gaussian dampening envelope due to limited Q-resolution. Not applied when equal zero. The Gaussian envelope is of the form 
 
 @tex
@@ -1484,7 +1483,7 @@ in the equation models the PDF peak broadening as a result of the Q resolution
 of the diffractometer. In many cases this term will only be significant for 
 refinements over wider @i{r}-ranges. Note that the Q resolution also results 
 in an exponential dampening of the PDF peaks which is modeled  using the 
-parameter @b{qdamp}.
+parameter @b{Qdamp}.
 
 @smallskip
 @noindent 
