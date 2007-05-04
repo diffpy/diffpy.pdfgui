@@ -735,7 +735,7 @@ Now right-click with the mouse on the
 element name, and select ``Expand space group...'' option. A dialog box will 
 appear, as shown in @ref{fig3-01}, requesting space group 
 information and the choice of origin. Choose ``Fm-3m'' and hit enter. You can
-also type ``Fm-3m'' or ``225'', the symmetry group number.
+also type ``Fm-3m'' or ``225'', the space group number.
 This will expand the unit cell accordingly showing 4 Ni sites. 
 
 @float Figure,fig3-02 
