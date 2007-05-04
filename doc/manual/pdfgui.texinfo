@@ -1124,7 +1124,7 @@ characteristic parameters such as nanoparticle diameter can be obtained.
 
 One of the fatures of this PDF modeling suite is a capability of modeling the effect 
 of the finite nanoparticle size using a spherical form factor. Relevant PDF parameter 
-is @i{Spdiameter} whichi is the diameter of the nanoparticle. The PDF nalysis is rather 
+is @i{Spdiameter} which is the diameter of the nanoparticle. The PDF nalysis is rather 
 difficult, as this parameter is highly correlated with various other parameters one 
 would like to refine, such as anisotropic ADPs, scale factors, correlated motion parameters 
 and so on. The refinement procedure is therefore rather delicate and the solutions are 
