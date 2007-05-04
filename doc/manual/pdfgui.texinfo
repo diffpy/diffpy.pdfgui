@@ -924,7 +924,7 @@ lower @i{r} refinement limit. Again, the user sets the first and the last
 value, and step. This allows for a box car of either fixed or variable width 
 to be defined. If the second row is left  blank, the corresponding refinement 
 series will be with incremental maximum @i{r} only, and fixed lower limit. 
-For the purpose of this exercise lest perform incremental fitting of Ni-data 
+For the purpose of this exercise lets perform incremental fitting of Ni-data 
 with 4 steps total, and fixed lower limit. To achieve this, type 5 for the 
 first upper limit, 20 for the last upper limit, and the step of 5 Angstroms. 
 Leave the second row blank. Once this is done, make sure that the Ni fit, 
