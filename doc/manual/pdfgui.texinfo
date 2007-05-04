@@ -539,7 +539,16 @@ can also be defined as a math expression @i{f(@@n1,@@n2,@@n3,...)} where
 @i{@@n1} stands for fitted parameter, and @i{n1}, @i{n2},... are arbitrary 
 positive integers enumerating the parameters. This allows simple linking of 
 related variables. For example, since cell lengths a, b, and c are all 
-expressed as @i{@@3}, the refined structure will remain cubic. 
+expressed as @i{@@3}, the refined structure will remain cubic. Also note 
+that the enumeration of the parameters can be arbitrary, enumeration does 
+not have to follow any particular order. The quantities within a fit that 
+are enumeratued with the same number will be assigned the same parameter, 
+hence caution should be exercised to avoid unintentional assignment of 
+the same parameter to physically different quantities. The automatic 
+parameter assignment is done in such a way as to disallow for such 
+situations to happen. If assignment is done in part manually, in particular 
+for complex setups, it is recommended to verify that the parameter assignment 
+is done correctly. 
 
 @float Figure,fig2-06
 @image{images/fig2-06}
