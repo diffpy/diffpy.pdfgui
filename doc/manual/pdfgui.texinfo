@@ -1327,95 +1327,99 @@ Note that some of the variables used in PDFFIT are renamed in PDFfit2. The
 reference of these changes is provided for the convenience and orientation 
 of those users that are used to the old naming scheme.
 
-@bigskip
-@noindent 
-@b{New Variables}
+@c ---------------------------------------------------------------------
+@unnumberedsubsec New Variables
 
-@medskip
-@noindent 
-@i{Dataset}:
+@defvr {Dataset} spdiameter
+(float @AA, default 0 @AA) @*
+@var{spdiameter} is a particle diameter for PDF shape damping function.
+Shape damping is not applied when @var{spdiameter} equals zero.
+@end defvr
 
-@noindent 
-@b{spdiameter} 
-(0 A) particle diameter for PDF shape damping function. Not applied when equal zero. 
 
-@medskip
-@noindent 
-@i{Phase}:
-
-@smallskip
-@noindent 
+@defvr {Phase} anisotropy(n)
 @b{anisotropy(n)}
-(False) flag for anisotropic thermal displacements of atom n. Assignment to uij will 
-work for anisotropic atoms only, for isotropic atoms use uisoequiv(n). 
+(bool, inferred from @var{uij(n)} values) @*
+Flag for anisotropic thermal displacements of atom n.
+Setting of @var{anisotropy(n)} updates the @var{uij(n)}
+or @var{uisoequiv(n)} values.
+@end defvr
 
-@smallskip
-@noindent 
-@b{uisoequiv(n)}
-(0 A**2) isotropic thermal displacement or equivalent displacement for anisotropic sites 
+@defvr {Phase} uisoequiv(n)
+(float @AA@math{^2}, calculated from @var{uij(n)} values) @*
+Isotropic thermal displacement of atom n or equivalent displacement for
+anisotropic atom.  For anisotropic sites the setting of @var{uisoequiv(n)}
+scales values of the @var{uij(n)} elements.  @var{uisoequiv(n)} can be
+constrained only for isotropic atoms.
+@end defvr
 
-@bigskip
-@noindent 
-@b{Renamed Variables}
- 
-@medskip
-@noindent 
-@i{Dataset}:
+@c ---------------------------------------------------------------------
+@unnumberedsubsec Renamed Variables
 
-@smallskip
-@noindent 
-@b{Qdamp}
-(0 A**-1) PDF Gaussian dampening envelope due to limited Q-resolution. Not applied when equal zero. The Gaussian envelope is of the form 
+@defvr {Dataset} dscale
+(float unitless, @var{dsca[s]} in PDFFIT) @*
+Scale factor for the selected dataset.
+@end defvr
 
+@defvr {Dataset} qdamp
+(float @AA@math{^{-1}}, default 0 @AA@math{^{-1}}, @var{qsig} in PDFFIT) @*
+PDF Gaussian dampening envelope due to limited Q-resolution.
+Not applied when equal zero. The Gaussian envelope is of the form 
 @tex
 $$ B(r) = e^{-{(r Q_{damp})^{2} \over 2} } $$
 @end tex
+@end defvr
 
-@smallskip
-@noindent 
-@b{qbroad}
-(0 A**-1) PDF peak broadening from increased intensity noise at high Q. 
-Not applied when equal zero. See the equation for PDF peak width below 
-and associated explanation for details.
+@defvr {Dataset} qbroad
+(float @AA@math{^{-1}}, default 0 @AA@math{^{-1}}, @var{qalp} in PDFFIT) @*
+PDF peak broadening from increased intensity noise at high Q. 
+Not applied when equal zero. 
+See definition of @ref{PDF Peak Width} for detailed explanation.
+@end defvr
 
+@defvr {Phase} uij(n)
+(float @AA@math{^2}, ij=(11, 22, 33, 12, 13, 23), @var{u[i,n]} in PDFFIT) @*
+Elements of anisotropic displacement tensor of atom n.
+@end defvr
 
-@medskip
-@noindent 
-@i{Phase}:
+@defvr {Phase} occ(n)
+(float unitless, @var{o[n]} in PDFFIT) @*
+Occupancy of site n.
+@end defvr
 
-@smallskip
-@noindent 
-@b{sratio}
-(1 unitless) bond vibration tolerance. Reduction factor for PDF peak width accounting for correlated motion of bonded atoms. 
+@defvr {Phase} pscale
+(float unitless, @var{csca[p]} in PDFFIT) @*
+Scale factor of the current phase.
+@end defvr
 
-@bigskip
-@noindent 
-@b{Removed Variables}
- 
-@medskip
-@noindent 
-@i{Dataset}:
+@defvr {Phase} delta1 
+(float @AA, default 0 @AA, @var{gamm} in PDFFIT) @*
+Coefficient for (1/r) contribution to the peak sharpening.
+See definition of @ref{PDF Peak Width} for detailed explanation.
+@end defvr
 
-@medskip
-@noindent 
-@i{Phase}:
+@defvr {Phase} delta2
+(float @AA@math{^2}, default 0 @AA@math{^2}, @var{delt} in PDFFIT) @*
+Coefficient for 1/r@math{^2} contribution to the peak sharpening.
+See definition of @ref{PDF Peak Width} for detailed explanation.
+@end defvr
 
-@bigskip
-@noindent 
-@b{Preserved Variables}
+@defvr {Phase} sratio
+(float unitless, default 1, @var{srat} in PDFFIT) @*
+Sigma ratio for bonded atoms.  Reduction factor for PDF peak width accounting
+for correlated motion of bonded atoms. 
+@end defvr
 
-@medskip
-@noindent 
-@i{Dataset}:
+@c ---------------------------------------------------------------------
+@unnumberedsubsec Preserved Variables
 
-@smallskip
-@noindent 
-@b{qmax}
-(0 A) Qmax cutoff is an experimental parameter having fixed 
+@defvr {Dataset} qmax
+(float @AA@math{^{-1}}, default 0 @AA) @*
+@var{qmax} cutoff is an experimental parameter having fixed 
 value determined during the PDF data processing in the Fourier 
 transform step. Finite data range used in the Fourier transform 
 is a source of termination ripples. Termination ripples are 
-@i{not} applied in PDF calculation when Qmax is set to zero. The 
+@i{not} applied in PDF calculation when @var{qmax} is set to zero. The 
 effect is calculated using the following equation 
 @tex
 $$ G'(r) = {1 \over {\pi}} \int_{0}^{\infty} G(r')
@@ -1423,54 +1427,29 @@ $$ G'(r) = {1 \over {\pi}} \int_{0}^{\infty} G(r')
 \over r-r'}-{\sin{Q_{max}(r+r')}
 \over r+r'}} \right ) dr' $$.
 @end tex
+@end defvr
 
-@smallskip
-@noindent 
-@b{dscale} 
-(1.0 unitless) dataset scale factor.
+@defvr {Phase} lat(i)
+(float @AA or degrees, i=1,2,...,6) @*
+Lattice parameters a, b, c, alpha, beta, gamma of the current phase.
+Can be also used as lat('a') etc. 
+@end defvr
 
-@medskip
-@noindent 
-@i{Phase}:
+@defvr {Phase} {x(n), y(n), z(n)}
+(float unitless) @*
+Fractional coordinates for atom n. 
+@end defvr
 
-@smallskip
-@noindent 
-@b{lat(1..6)} 
-(1.0 A or 90.0 degrees) lattice parameters a, b, c, alpha, beta, gamma. Can be also used as lat('a') etc. 
+@defvr {Phase} rcut
+(float @AA, default 0 @AA) @*
+Radius cutoff for applying @var{sratio} sharpening factor. 
+@end defvr
 
-@smallskip
-@noindent 
-@b{x(n), y(n), z(n)} 
-(unitless) fractional coordinates for atom n. 
+@c ---------------------------------------------------------------------
+@node PDF Peak Width
+@unnumberedsubsec PDF Peak Width
 
-@smallskip
-@noindent 
-@b{uij(n)}
-(0 A**2) elements of anisotropic displacement matrix U for atom n. 
-
-@smallskip
-@noindent 
-@b{occ(n)} 
-(1.0 unitless) occupancy for atom n. 
-
-@smallskip
-@noindent 
-@b{pscale}
-(1.0 unitless) phase scale factor.
-
-@smallskip
-@noindent 
-@b{delta1}
-(0 A) coefficient for 1/r contribution to the peak sharpening. See the 
-equation below and explanation for details.
-
-@smallskip
-@noindent 
-@b{delta2} 
-(0 A**2) coefficient for 1/(r*r) contribution to the peak sharpening. 
-See the equation below and explanation for details. 
-
-The PDF Peak width contains contributions from thermal and zero point 
+The PDF peak width contains contributions from thermal and zero point 
 displacements as well as static disorder. For large distances @i{r} the 
 motion of the two contributing atoms is uncorrelated, for small distances, 
 however, the motion can be strongly correlated leading to a sharpening of 
@@ -1478,28 +1457,24 @@ the first peak(s) in the observed PDF. The program PDFfit2 provides three
 different correction terms for the PDF peak width. The final width is given 
 by 
 @tex
-$$ \sigma_{ij} = \sigma'_{ij} \sqrt{1 - {{\delta_1}
-\over r_{ij}}-{{\delta_2}
-\over r^{2}_{ij}}+Q_{broad}^2r^{2}_{ij}}.$$
+$$ 
+\sigma_{ij} = \sigma^{\prime}_{ij} \sqrt{ 1 - {\delta_1 \over r_{ij}} -
+    {\delta_2 \over r_{ij}^2} + Q_{broad}^2 \, r_{ij}^2 }
+$$
 @end tex
 
 @noindent Here the primed sigma is the peak width without correlation, given 
 by the structural model. The first two terms correct for the effects of 
 correlated motion. Within the scope of the users guide, we just mention 
-that the term @b{delta2}/r*r describes the low temperature behavior, and 
-term @b{delta1}/r describes the high temperature case. Since the two 
+that the term @var{delta2/r@math{^2}} describes the low temperature behavior, and 
+term @var{delta1/r} describes the high temperature case. Since the two 
 parameters are highly correlated, one will in practice choose which one 
 to refine. The last term 
 in the equation models the PDF peak broadening as a result of the Q resolution 
 of the diffractometer. In many cases this term will only be significant for 
 refinements over wider @i{r}-ranges. Note that the Q resolution also results 
 in an exponential dampening of the PDF peaks which is modeled  using the 
-parameter @b{Qdamp}.
-
-@smallskip
-@noindent 
-@b{rcut}
-(0 A) r-cutoff for applying bvtol (sratio) sharpening factor. 
+parameter @var{qdamp}.
 
 @c Ending of a TexInfo File
 @node Index, Top
