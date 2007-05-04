@@ -944,7 +944,7 @@ More frequent modeling scenario is handling a large number of data sets
 originating from a single sample collected at various temperatures. One 
 of the common modeling schemes in such cases is to perform sequential 
 fitting of such data series, which is known to yield well behaved 
-parameters modeling parameters.  PDFgui has a pre-written macro that 
+modeling parameters.  PDFgui has a pre-written macro that 
 allows for this modeling situation to be accommodated. 
 
 We will describe 
