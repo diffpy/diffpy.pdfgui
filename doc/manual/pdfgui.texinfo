@@ -564,7 +564,9 @@ It shows the initial values, and allows for updates and for refinement
 parameters to be released or fixed depending on whether the corresponding 
 ``Fixed'' box is unchecked or checked, respectively. The ``Refined'' column, 
 which is currently empty, will be populated with the refined values of the 
-parameters. The refinement is executed by clicking the ``gear'' icon on the 
+parameters. If the initial parameter values are to be changed, using ``Apply 
+parameters'' button will update the values of the parameters on all relevant 
+setup tabs. The refinement is executed by clicking the ``gear'' icon on the 
 tool bar. The refinement could be stopped by clicking on the ``stop'' icon 
 on the tool bar. During the refinement the refinement progress will be 
 directly reported in the PDFfit2 Output panel. This is illustrated in 
