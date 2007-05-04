@@ -777,7 +777,7 @@ structure instead of performing a fit. In order to carry out a calculation,
 an underlying structure needs to be specified. This can either be loaded 
 from a file or generated from scratch. Suppose that we have a Ni structure 
 populating a Fit Tree using steps described in either @ref{Simple fit} or 
-in @ref{Symmetry Expansion}, and that we would like to calculate Ni PDF 
+in @ref{Symmetry expansion}, and that we would like to calculate Ni PDF 
 using neutron radiation. Highlight the Ni structure on Fit Tree. On 
 menu bar, select @b{New Calculation} from ``Calculation'' drop-down menu. 
 Current activity panel will display information very similar to that 
