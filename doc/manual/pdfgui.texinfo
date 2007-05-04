@@ -1331,7 +1331,7 @@ of those users that are used to the old naming scheme.
 @unnumberedsubsec New Variables
 
 @defvr {Dataset} spdiameter
-(float @AA, default 0 @AA) @*
+(float @AA{}, default 0 @AA{}) @*
 @var{spdiameter} is a particle diameter for PDF shape damping function.
 Shape damping is not applied when @var{spdiameter} equals zero.
 @end defvr
@@ -1346,7 +1346,7 @@ or @var{uisoequiv(n)} values.
 @end defvr
 
 @defvr {Phase} uisoequiv(n)
-(float @AA@math{^2}, calculated from @var{uij(n)} values) @*
+(float @AA{}@math{^2}, calculated from @var{uij(n)} values) @*
 Isotropic thermal displacement of atom n or equivalent displacement for
 anisotropic atom.  For anisotropic sites the setting of @var{uisoequiv(n)}
 scales values of the @var{uij(n)} elements.  @var{uisoequiv(n)} can be
@@ -1362,7 +1362,7 @@ Scale factor for the selected dataset.
 @end defvr
 
 @defvr {Dataset} qdamp
-(float @AA@math{^{-1}}, default 0 @AA@math{^{-1}}, @var{qsig} in PDFFIT) @*
+(float @AA{}@math{^{-1}}, default 0 @AA{}@math{^{-1}}, @var{qsig} in PDFFIT) @*
 PDF Gaussian dampening envelope due to limited Q-resolution.
 Not applied when equal zero. The Gaussian envelope is of the form 
 @tex
@@ -1371,14 +1371,14 @@ $$ B(r) = e^{-{(r Q_{damp})^{2} \over 2} } $$
 @end defvr
 
 @defvr {Dataset} qbroad
-(float @AA@math{^{-1}}, default 0 @AA@math{^{-1}}, @var{qalp} in PDFFIT) @*
+(float @AA{}@math{^{-1}}, default 0 @AA{}@math{^{-1}}, @var{qalp} in PDFFIT) @*
 PDF peak broadening from increased intensity noise at high Q. 
 Not applied when equal zero. 
 See definition of @ref{PDF Peak Width} for detailed explanation.
 @end defvr
 
 @defvr {Phase} uij(n)
-(float @AA@math{^2}, ij=(11, 22, 33, 12, 13, 23), @var{u[i,n]} in PDFFIT) @*
+(float @AA{}@math{^2}, ij=(11, 22, 33, 12, 13, 23), @var{u[i,n]} in PDFFIT) @*
 Elements of anisotropic displacement tensor of atom n.
 @end defvr
 
@@ -1393,13 +1393,13 @@ Scale factor of the current phase.
 @end defvr
 
 @defvr {Phase} delta1 
-(float @AA, default 0 @AA, @var{gamm} in PDFFIT) @*
+(float @AA{}, default 0 @AA{}, @var{gamm} in PDFFIT) @*
 Coefficient for (1/r) contribution to the peak sharpening.
 See definition of @ref{PDF Peak Width} for detailed explanation.
 @end defvr
 
 @defvr {Phase} delta2
-(float @AA@math{^2}, default 0 @AA@math{^2}, @var{delt} in PDFFIT) @*
+(float @AA{}@math{^2}, default 0 @AA{}@math{^2}, @var{delt} in PDFFIT) @*
 Coefficient for 1/r@math{^2} contribution to the peak sharpening.
 See definition of @ref{PDF Peak Width} for detailed explanation.
 @end defvr
@@ -1414,7 +1414,7 @@ for correlated motion of bonded atoms.
 @unnumberedsubsec Preserved Variables
 
 @defvr {Dataset} qmax
-(float @AA@math{^{-1}}, default 0 @AA) @*
+(float @AA{}@math{^{-1}}, default 0 @AA{}) @*
 @var{qmax} cutoff is an experimental parameter having fixed 
 value determined during the PDF data processing in the Fourier 
 transform step. Finite data range used in the Fourier transform 
@@ -1430,7 +1430,7 @@ $$ G'(r) = {1 \over {\pi}} \int_{0}^{\infty} G(r')
 @end defvr
 
 @defvr {Phase} lat(i)
-(float @AA or degrees, i=1,2,...,6) @*
+(float @AA{} or degrees, i=1,2,...,6) @*
 Lattice parameters a, b, c, alpha, beta, gamma of the current phase.
 Can be also used as lat('a') etc. 
 @end defvr
@@ -1441,7 +1441,7 @@ Fractional coordinates for atom n.
 @end defvr
 
 @defvr {Phase} rcut
-(float @AA, default 0 @AA) @*
+(float @AA{}, default 0 @AA{}) @*
 Radius cutoff for applying @var{sratio} sharpening factor. 
 @end defvr
 
