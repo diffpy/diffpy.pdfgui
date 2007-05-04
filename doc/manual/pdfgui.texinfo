@@ -1115,7 +1115,7 @@ one of the lattice parameters.
 
 Determining the structure of a nanoparticle is notoriously difficult. Diffraction 
 experiments on nanoparticle samples yield broad diffraction patterns that are hard 
-to analyze using conventional crystallographic approach. One of the optios that 
+to analyze using conventional crystallographic approach. One of the options that 
 remain is to approach the problem through the PDF analysis. The PDF of a nanoparticle 
 features sharp peaks conveying structural information. The PDF signal gets damped at 
 higher distances due to the convolution caused by the finite nanoparticle size. For 
