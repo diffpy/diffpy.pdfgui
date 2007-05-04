@@ -755,7 +755,7 @@ default is to use the space group used for expansion, and to constrain
 everything according to the symmetry. Since all the positions are special, these
 will not be refinable by symmetry, and the thermal parameters will be isotropic.
 The program will assign parameters according to symmetry using default names
-that can be renamed and/or reassigned by user. To be consistent with the naming
+that can be renamed and/or reassigned by the user. To be consistent with the naming
 from the first example, one could assign the lattice parameters as @i{@@3} and
 the isotropic ADPs as @i{@@4}. Note that parameters can be quickly renamed or
 consolidated in the ``Parameters'' panel of the Fit node using the right-click
