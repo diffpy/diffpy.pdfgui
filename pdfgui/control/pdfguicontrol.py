@@ -467,7 +467,10 @@ class PDFGuiControl:
             z.close()
             return organizations
         
-        except (IOError, zipfile.error, PickleError):
+        except IOError:
+            raise ControlFileError, "No such file or directory:\n%s" % projfile
+
+        except (zipfile.error, PickleError):
             raise ControlFileError, "%s is invalid project file"%projfile
 
     def save(self, projfile=None):
