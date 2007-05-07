@@ -1,6 +1,8 @@
 # This module is imported from top level diffpy setup.py.
 # It has to define the following variables:
 #     name, description, diffpy_deps, other_deps, setup_args
+# Optional variables:
+#     makefiles -- a list of Makefiles to be build before installation
 
 """PDFgui - graphical user interface for real space structure refinement.
 
@@ -17,6 +19,9 @@ import glob
 thisfile = os.path.abspath(locals().get('__file__', 'setup_args.py'))
 thisdir = os.path.dirname(thisfile)
 
+def prependThisDir(files):
+    return [os.path.join(thisdir, f) for f in files]
+
 # name of this subpackage
 name = "diffpy.pdfgui"
 description = "GUI for PDF simulation and structure refinement.",
@@ -26,6 +31,9 @@ diffpy_deps = [
         "diffpy.Structure",
         "diffpy.pdffit2"
     ]
+
+# things to make
+makefiles = prependThisDir(['doc/manual/Makefile'])
 
 # third-party dependencies
 other_deps = [
@@ -47,15 +55,15 @@ setup_args = {
     "package_dir" : {
         "diffpy.pdfgui" : os.path.join(thisdir, "pdfgui")
         },
-    "scripts" : [
-        os.path.join(thisdir, "applications/pdfgui"),
-        ],
+    "scripts" : prependThisDir([
+        "applications/pdfgui",
+        ]),
     "data_files" : [
-        ('pdfgui/icons', [
+        ('pdfgui/icons', prependThisDir([
             'icons/*.png',
             'icons/*.ico',
-            ]),
-        ('pdfgui/doc', [
+            ]) ),
+        ('pdfgui/doc', prependThisDir([
             'AUTHORS.txt',
             'LICENSE.txt',
             'README.txt',
@@ -63,22 +71,15 @@ setup_args = {
             'doc/Farrow-jpcm-subm.pdf',
             'doc/manual/*.pdf',
             'doc/manual/*.html',
-            ]),
-        ('pdfgui/doc/images', [
+            ]) ),
+        ('pdfgui/doc/images', prependThisDir([
             'doc/manual/images/*.png',
             'doc/manual/images/*.jpg'
-            ]),
-        ('pdfgui/doc/tutorial', [
+            ]) ),
+        ('pdfgui/doc/tutorial', prependThisDir([
             'doc/tutorial/*'
-            ]),
+            ]) ),
         ],
     }
-
-# expand data_files
-edf = []
-for d, lst in setup_args["data_files"]:
-    lst = [f for pat in lst for f in glob.glob(os.path.join(thisdir, pat))]
-    edf.append((d, lst))
-setup_args["data_files"] = edf
 
 # End of file 
