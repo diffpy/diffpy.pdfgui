@@ -167,10 +167,11 @@ allowing it to inter-operate with other Python programs.
 @c chapter 1 section 1
 @c @node NODE-NAME, NEXT, PREVIOUS, UP
 @menu
-* PDFfit2::                     
-* PDFgui::                      
-* Availability::                
-* Installation::                
+* PDFfit2::
+* PDFgui::
+* Availability::
+* Installation::
+* Community::
 @end menu
 
 @node    PDFfit2, PDFgui, Introduction, Introduction
@@ -320,16 +321,128 @@ They run on Windows, Mac OS, Linux, and all major Unix systems. The source
 code is freely available. For more information please contact Professor
 Simon Billinge (@email{billinge@@pa.msu.edu}) or consult the web-page
 @url{http://www.diffpy.org}. News of updates and releases will
-be posted at this website and on the total-scattering email-list.
-Instructions for joining the email-list can be found on the web-page.
+be posted at this website and on the diffpy-users group at
+@url{http://groups.google.com/group/diffpy-users}.
 
 @c chapter 1 section 4
 @c @node NODE-NAME, NEXT, PREVIOUS, UP
-@node    Installation, Quick start, Availability, Introduction
+@node    Installation, Community, Availability, Introduction
 @section Installation
 @cindex  installation
 
-@b{NOTE: Detailed installation instructions come here}
+PDFgui is included as a part of DiffPy, a Python library for structure
+analysis from diffraction data.  The latest version of DiffPy can be
+obtained from @url{http://www.diffpy.org/download}.  Refer to the section
+corresponding to your operating system for specific installation
+instructions.
+
+@unnumberedsubsec Unix/Linux/MAC
+
+For unix-like operating systems DiffPy is provided as a source archive, which
+needs to be built and installed.  A successful build of DiffPy requires
+several libraries and applications.  Before proceeding any further, make sure
+the packages below are installed.  All of these packages should
+be available as RPM files for recent Linux systems, and it is then best to
+install them using the respective package manager such as @samp{apt-get} or
+@samp{yum}.  In case an RPM package is not available, refer to the
+corresponding project page for other installation options.
+
+@b{Required packages:}
+
+@table @t
+@item python
+@url{www.python.org} Python interpreter, minimum version 2.3
+
+@item python-dev
+@url{www.python.org} development files for Python
+
+@item gsl-devel
+@url{http://www.gnu.org/software/gsl} GNU Scientific Library
+
+@item numpy
+@url{http://numpy.scipy.org} Numerical Python, minimum version 0.9.8
+
+@item wxPython
+@url{http://wxpython.org} GUI toolkit for Python, minimum version 2.6,
+recommended 2.8
+
+@item python-matplotlib
+@url{http://matplotlib.sourceforge.net} plotting library for Python,
+minimum version 0.90
+@end table
+
+Once all of these are in place and working,
+download the latest @samp{.tgz} archive of the DiffPy sources from
+@url{http://www.diffpy.org/download}.
+The version number is embedded as part of the file name.
+Unpack the sources using the command
+@example
+gzip -d -c diffpy-VERSION.tgz | tar xf -
+@end example
+where you need to change VERSION to match the name of the archive file.
+This will create a new @samp{diffpy-VERSION} directory.  Change to this
+directory and execute as a root
+@example
+python setup.py install
+@end example
+This installs DiffPy to a default location in python @samp{site-packages}
+directory and executable scripts @command{pdfgui} and @command{pdffit2}
+to @samp{python-prefix/bin/}.  If you don't have root access, you can install
+DiffPy to other locations by adding suitable options to setup.py script.  For a
+list of available options, see @samp{python setup.py --help} or
+@samp{python setup.py install --help}.
+
+@unnumberedsubsec Windows
+
+DiffPy is provided as self-installing archive for Windows systems.  Download
+the latest @samp{diffpy-VERSION.exe} file, launch the executable and follow
+the prompts.  That's all - PDFgui and PDFfit2 should be now ready for use.
+
+@unnumberedsubsec Building from Subversion repository
+
+The latest development sources of DiffPy are available in a public Subversion
+code repository.  To obtain the latest code, run
+@example
+svn checkout  svn://svn@@danse.us/diffraction/diffraction/diffpy
+@end example
+You need to have @command{svn}, a subversion client, installed on your computer.
+In addition a GNU documentation system Texinfo
+(@url{http://www.gnu.org/software/texinfo/}) is required to compile users manual.
+
+Otherwise the installation procedure is the same as for Unix-like operating systems.
+Change to the @samp{diffpy} directory and execute
+@example
+python setup.py install
+@end example
+The checked-out diffpy directory can be kept around for future updates.  To
+bring it up to date with the latest sources, one just needs to execute
+@example
+svn update
+@end example
+inside this directory.
+
+@c chapter 1 section 5
+@c @node NODE-NAME, NEXT, PREVIOUS, UP
+@node    Community, Quick start, Installation, Introduction
+@section Community
+@cindex  Community
+@cindex  mail-list
+@cindex  user groups
+
+There are several Google groups for support and development of PDFgui
+and other DiffPy software.  Visit the links below for message archives
+or instructions on subscription and posting.
+
+@table @t
+@item @b{diffpy-users} @url{http://groups.google.com/group/diffpy-users}
+Help on usage of PDFgui, PDFfit2 and other DiffPy packages.  This
+group should become a knowledge base of PDFgui user tips, tricks and
+troubleshooting.  Feel free to ask your question here.
+     
+@item @b{diffpy-dev} @url{http://groups.google.com/group/diffpy-dev}
+For discussions about development and changes of PDFgui, PDFfit2 and
+DiffPy library in general.
+@end table
 
 @page
 @vskip 0pt plus 1filll
@@ -342,7 +455,8 @@ Instructions for joining the email-list can be found on the web-page.
 In this chapter the PDFgui layout is briefly described, followed by a simple 
 tutorial example, spanning the gui functionality and aimed at novice users. 
 Users familiar with the basics can proceed to @ref{Examples and tutorials}, 
-or use @ref{PDFgui reference sheets}.
+or use @ref{PDFgui reference sheets}.  All the files used in examples are
+available in the tutorial subdirectory relative to this document.
 
 @c @node NODE-NAME, NEXT, PREVIOUS, UP
 @menu
@@ -668,6 +782,7 @@ fits on a sequence of data sets.
 * Symmetry expansion::          
 * Calculating PDF::             
 * Sequential fitting::          
+* Nanoparticle structure::
 @end menu
 
 @node Symmetry expansion, Calculating PDF, Examples and tutorials, Examples and tutorials
@@ -1108,7 +1223,7 @@ plotted versus Ca content. An example is provided in Figure  @ref{fig3-09} featu
 one of the lattice parameters.
 
 @c @node NODE-NAME, NEXT, PREVIOUS, UP
-@node nanoparticle structure, PDF plotting, Doping series, Sequential fitting
+@node Nanoparticle structure, PDF plotting, Doping series, Examples and tutorials
 @section Nanoparticle structure
 @cindex nanoparticle structure
 @cindex nanoparticle diameter
