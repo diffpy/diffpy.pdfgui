@@ -1054,7 +1054,10 @@ class MainFrame(wx.Frame):
         shorttitle = os.path.basename(self.fullpath)
         udir = os.path.expanduser("~/")
         if shorttitle:
-            fullpath = re.sub(udir, "~/", self.fullpath)
+            ludir = len(udir)
+            fullpath = self.fullpath
+            if fullpath and len(fullpath) > ludir and fullpath[:ludir] == udir:
+                fullpath = "~/" + fullpath[ludir:]
             fulltitle = "%s (%s) - %s" % (shorttitle, fullpath, self.name)
         else:
             fulltitle = self.name
