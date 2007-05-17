@@ -1052,13 +1052,13 @@ class MainFrame(wx.Frame):
     def updateTitle(self):
         """Update the title according to the name of the current file."""
         shorttitle = os.path.basename(self.fullpath)
-        udir = os.path.expanduser("~/")
+        udirnamed = "~" + os.path.sep
+        udir = os.path.expanduser(udirnamed)
         if shorttitle:
-            ludir = len(udir)
-            fullpath = self.fullpath
-            if fullpath and len(fullpath) > ludir and fullpath[:ludir] == udir:
-                fullpath = "~/" + fullpath[ludir:]
-            fulltitle = "%s (%s) - %s" % (shorttitle, fullpath, self.name)
+            namedpath = self.fullpath
+            if namedpath.startswith(udir):
+                namedpath = namedpath.replace(udir, udirnamed)
+            fulltitle = "%s (%s) - %s" % (shorttitle, namedpath, self.name)
         else:
             fulltitle = self.name
         self.SetTitle(fulltitle)
