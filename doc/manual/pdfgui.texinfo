@@ -732,7 +732,7 @@ will be updated after each fit iteration.
 @end float 
 
 PDFgui is furnished with ``Journal'' capability, which can be found under the 
-``Edit'' menu, and represents a convenient way for generating, storing, and 
+``View'' menu, and represents a convenient way for generating, storing, and 
 using for further reference of project related notes, as illustrated in 
 @ref{fig2-11}. These notes can be exported as a text file, or saved 
 along with the entire project.
