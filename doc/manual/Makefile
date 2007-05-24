@@ -1,3 +1,12 @@
+# Makefile for compiling and publishing pdfgui manual
+# Available targets:
+#
+#   all      -- (default) build pdfgui manual in HTML and PDF formats
+#   publish  -- upload the latest manual to www.diffpy.org
+#   clean    -- remove intermediate texinfo files
+#   cleanALL -- delete all generated files
+#
+
 all: images pdfgui.html pdfgui.pdf
 
 .PHONY: images
@@ -18,3 +27,10 @@ clean:
 
 cleanALL: clean
 	/bin/rm -f pdfgui.html pdfgui.pdf
+	$(MAKE) -C images clean
+
+WEBDOCDIR = nirt-pc.pa.msu.edu:/var/www/html/diffpy/doc/pdfgui
+
+publish: all
+	rsync -e /usr/bin/ssh -pRt --chmod=a+rwx,o-w,Dg+s,Fa-x \
+	    pdfgui.html pdfgui.pdf images/*.png $(WEBDOCDIR)
