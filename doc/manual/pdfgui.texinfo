@@ -71,7 +71,7 @@ Condens. Matter, in press (2007).
 @insertcopying
 @cindex  copyright
 @bigskip
-For more information please visit @url{http://www.diffpy.org/}
+For more information please visit @url{http://www.diffpy.org}
 or contact Prof. Simon Billinge at @email{billinge@@pa.msu.edu}.
 
 @page
@@ -332,7 +332,7 @@ be posted at this website and on the diffpy-users group at
 
 PDFgui is included as a part of DiffPy, a Python library for structure
 analysis from diffraction data.  The latest version of DiffPy can be
-obtained from @url{http://www.diffpy.org/download}.  Refer to the section
+obtained from @url{http://www.diffpy.org}.  Refer to the section
 corresponding to your operating system for specific installation
 instructions.
 
@@ -373,7 +373,7 @@ minimum version 0.90
 
 Once all of these are in place and working,
 download the latest @samp{.tgz} archive of the DiffPy sources from
-@url{http://www.diffpy.org/download}.
+@url{http://www.diffpy.org}.
 The version number is embedded as part of the file name.
 Unpack the sources using the command
 @example
