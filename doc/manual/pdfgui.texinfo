@@ -1,4 +1,4 @@
-\input texinfo	@c -*-texinfo-*-
+\input texinfo  @c -*-texinfo-*-
 
 @c $Id$
 
@@ -49,10 +49,10 @@ Scattering Data (DANSE) project which is funded by NSF under DMR-0520547.
 The PDFfit2 development was funded by NSF under contract DMR-0304391.
 The program is part of the DiffPy and DANSE open-source projects at
 Michigan State University and is available subject to the conditions
-and terms laid out below. Several of the examples in the tutorial part 
-were made possible and benefited from samples synthesized by J. F. 
-Mitchell, and from data collected and processed by M. Schmidt, 
-P. G. Radaelli, and X. Qiu. 
+and terms laid out below. Several of the examples in the tutorial part
+were made possible and benefited from samples synthesized by J. F.
+Mitchell, and from data collected and processed by M. Schmidt,
+P. G. Radaelli, and X. Qiu.
 @bigskip
 If you use this program to do productive scientific research that leads
 to publication, we ask that you acknowledge use of the program by citing
@@ -130,12 +130,12 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 @c menu
 @menu
-* Introduction::                
-* Quick start::                 
-* Examples and tutorials::      
-* Extras::                      
-* PDFgui reference sheets::     
-* Index::                       
+* Introduction::
+* Quick start::
+* Examples and tutorials::
+* Extras::
+* PDFgui reference sheets::
+* Index::
 @end menu
 
 @c  @insertcopying
@@ -151,16 +151,16 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 PDFgui is a graphical interface built on the PDFfit2 engine, which
 is a program as well as library for real-space refinement of crystal
-structures based on the atomic pair distribution function (PDF) method. 
-PDFgui organizes fits and simplifies many data analysis tasks, such 
-as configuring and plotting multiple fits. PDFfit2 is capable of fitting 
-a theoretical three dimensional structure to atomic pair distribution 
-function data and is ideal for nanoscale investigations. The fit system 
-accounts for lattice constants, atomic positions and anisotropic atomic 
-displacement parameters, correlated atomic motion, and experimental factors 
-that may affect the data. The atomic positions and thermal coefficients 
-can be constrained to follow symmetry requirements of an arbitrary space 
-group. The PDFfit2 engine is written in C++ and accessible via Python, 
+structures based on the atomic pair distribution function (PDF) method.
+PDFgui organizes fits and simplifies many data analysis tasks, such
+as configuring and plotting multiple fits. PDFfit2 is capable of fitting
+a theoretical three dimensional structure to atomic pair distribution
+function data and is ideal for nanoscale investigations. The fit system
+accounts for lattice constants, atomic positions and anisotropic atomic
+displacement parameters, correlated atomic motion, and experimental factors
+that may affect the data. The atomic positions and thermal coefficients
+can be constrained to follow symmetry requirements of an arbitrary space
+group. The PDFfit2 engine is written in C++ and accessible via Python,
 allowing it to inter-operate with other Python programs.
 
 
@@ -212,16 +212,18 @@ possibility of errors. In addition, new fitting parameters for handling
 dynamic atomic correlations and experimental resolution have been introduced
 as well.
 
-Instead of rewriting the PDFfit command interpreter, which is used to define
-the fitting problem and to control and run the refinement, its functions are
-carried out using the Python language (@url{www.python.org}).
-Python is a powerful, cross-platform, open-source interpreted programming
-language (i.e., it does not need to be compiled to run, similar to scripting)
-that emphasizes object-oriented and modular design. PDFfit2 scripts written in
-Python syntax take the place of PDFfit macros and the Python interpreter can
-handle everything that the old interpreter could, and more. Using Python as an
-interpreter allows PDFfit2 to be combined with and enhanced by other Python
-libraries.  We make use of this capability with PDFgui as described below.
+Instead of rewriting the PDFfit command interpreter, which is used
+to define the fitting problem and to control and run the refinement,
+its functions are carried out using the Python language
+(@url{http://www.python.org}). Python is a powerful, cross-platform,
+open-source interpreted programming language (i.e., it does not need
+to be compiled to run, similar to scripting) that emphasizes
+object-oriented and modular design. PDFfit2 scripts written in
+Python syntax take the place of PDFfit macros and the Python
+interpreter can handle everything that the old interpreter could,
+and more. Using Python as an interpreter allows PDFfit2 to be
+combined with and enhanced by other Python libraries.  We make use
+of this capability with PDFgui as described below.
 
 
 @c chapter 1 section 2
@@ -253,11 +255,12 @@ task. Software codes written in a variety of programming languages can be
 bound into Python, which allows them to be used together. Python is becoming
 a popular choice in the scientific computation community.
 
-PDFgui's interface is built using wxPython (@url{www.wxPython.org}), the
-Python package for wxWidgets, a mature cross-platform GUI library.  Graphical
-applications written in wxPython provide a look and feel native to the
-platform on which they are run.  PDFgui is designed to run on Windows, Mac
-OS, Linux, and all major Unix systems.
+PDFgui's interface is built using wxPython
+(@url{http://www.wxPython.org}), the Python package for wxWidgets, a
+mature cross-platform GUI library.  Graphical applications written
+in wxPython provide a look and feel native to the platform on which
+they are run.  PDFgui is designed to run on Windows, Mac OS, Linux,
+and all major Unix systems.
 
 @subsection Capabilities
 
@@ -278,31 +281,33 @@ this distributed mode the core fitting computation does not compete for system
 resources with the graphical functions, which speeds up the fit over fast
 network connections and gives faster user response at the console.
 
-PDFgui supports space group operations.  Users can define an asymmetric unit
-and let PDFgui expand it to a full cell with all symmetry related positions.
-PDFgui can also generate symmetry constraints for atom positions and atomic 
-ADPs.
-Users just need to specify the space group, and the program will identify
-equivalent sites and generate constraint equations for their coordinates and
-temperature factors to keep the structure consistent with the symmetry
-requirements. This can be done either for all atoms in the structure or
-for an arbitrary subset - for example when it is known that only a certain
-species show a local distortion. The code for space group definitions was
-provided by the Python Macromolecular Library (mmLib,
-@url{pymmlib.sourceforge.net}).  PDFgui also supports supercell expansion
-of a normal unit cell.
+PDFgui supports space group operations.  Users can define an
+asymmetric unit and let PDFgui expand it to a full cell with all
+symmetry related positions. PDFgui can also generate symmetry
+constraints for atom positions and atomic ADPs. Users just need to
+specify the space group, and the program will identify equivalent
+sites and generate constraint equations for their coordinates and
+temperature factors to keep the structure consistent with the
+symmetry requirements. This can be done either for all atoms in the
+structure or for an arbitrary subset - for example when it is known
+that only a certain species show a local distortion. The code for
+space group definitions was provided by the Python Macromolecular
+Library (mmLib, @url{http://pymmlib.sourceforge.net}).  PDFgui also
+supports supercell expansion of a normal unit cell.
 
-PDFgui uses the matplotlib (@url{matplotlib.sourceforge.net}) Python package
-for 2D plotting of data and results. Matplotlib has a friendly interface so
-the user can quickly and easily view the results of a fitting. PDFgui lets
-users plot data from a series of fits and plot it against selected meta-data
-(temperature, doping, etc.), plot the results of several fits in the same
-window, plot the PDF in real time as the fitting is running, plot the
-parameters or variables in real time as the refinement evolves, and save
-plots in common image formats or export the data to a text file.  PDFgui
-uses AtomEye (@url{http://164.107.79.177/Archive/Graphics/A/}) for 3D
-visualization.  The modular nature of PDFgui allows for other alternatives
-in the future, such as PyMOL (@url{pymol.sourceforge.net}).
+PDFgui uses the matplotlib (@url{http://matplotlib.sourceforge.net})
+Python package for 2D plotting of data and results. Matplotlib has a
+friendly interface so the user can quickly and easily view the
+results of a fitting. PDFgui lets users plot data from a series of
+fits and plot it against selected meta-data (temperature, doping,
+etc.), plot the results of several fits in the same window, plot the
+PDF in real time as the fitting is running, plot the parameters or
+variables in real time as the refinement evolves, and save plots in
+common image formats or export the data to a text file.  PDFgui uses
+AtomEye (@url{http://164.107.79.177/Archive/Graphics/A/}) for 3D
+visualization.  The modular nature of PDFgui allows for other
+alternatives in the future, such as PyMOL
+(@url{http://pymol.sourceforge.net}).
 
 PDFgui supports built-in macros for advanced fits. For example for a set of
 experimental data from one system at different temperatures or doping levels,
@@ -350,11 +355,12 @@ corresponding project page for other installation options.
 @b{Required packages:}
 
 @table @t
-@item python
-@url{www.python.org} Python interpreter, minimum version 2.3
+@item python @url{http://www.python.org} Python
+interpreter, minimum version 2.3
 
 @item python-dev
-@url{www.python.org} development files for Python
+@url{http://www.python.org} development files for
+Python
 
 @item gsl-devel
 @url{http://www.gnu.org/software/gsl} GNU Scientific Library
@@ -438,7 +444,7 @@ or instructions on subscription and posting.
 Help on usage of PDFgui, PDFfit2 and other DiffPy packages.  This
 group should become a knowledge base of PDFgui user tips, tricks and
 troubleshooting.  Feel free to ask your question here.
-     
+
 @item @b{diffpy-dev} @url{http://groups.google.com/group/diffpy-dev}
 For discussions about development and changes of PDFgui, PDFfit2 and
 DiffPy library in general.
@@ -452,42 +458,42 @@ DiffPy library in general.
 @chapter Quick start
 @cindex quick start
 
-In this chapter the PDFgui layout is briefly described, followed by a simple 
-tutorial example, spanning the gui functionality and aimed at novice users. 
-Users familiar with the basics can proceed to @ref{Examples and tutorials}, 
+In this chapter the PDFgui layout is briefly described, followed by a simple
+tutorial example, spanning the gui functionality and aimed at novice users.
+Users familiar with the basics can proceed to @ref{Examples and tutorials},
 or use @ref{PDFgui reference sheets}.  All the files used in examples are
 available in the tutorial subdirectory relative to this document.
 
 @c @node NODE-NAME, NEXT, PREVIOUS, UP
 @menu
-* PDFgui layout::               
-* Simple fit::                  
+* PDFgui layout::
+* Simple fit::
 @end menu
 
 @node PDFgui layout, Simple fit, Quick start, Quick start
 @section PDFgui layout
 @cindex PDFgui layout
 
-Once PDFgui is invoked, a PDFgui window comes up. Its layout consists 
-of a menu bar, a tool bar, and a set of four panes. The menu bar contains 
-drop-down menus that provide various aspects of PDFgui functionality. 
-The tool bar features icons for commonly used operations: starting a 
-new project or opening an existing one, saving a project, executing a 
-refinement or calculation, stopping a refinement or calculation, and 
-making a quick plot of a refinement. The four panes consist of fitting, 
-plotting, current action, and PDFfit2 output. The fitting pane is home 
-for Fit Tree and is used in setting up a fit protocol. The Plot Control 
-panel serves the user's needs for graphically displaying the fits, as well 
-as various fit-related parameters. The content of the Current Action panel 
-changes as the refinement is being set up. It is a functional panel through 
-which the user configures the fit attributes, sets the fit constraints, reviews 
-the fit settings, displays fitting results, and also carries out other 
-setup steps. The progress of the PDFfit2 program is displayed in the PDFfit2 
-output panel. All panels except the Current Action panel are dockable windows 
-that can be dragged across the screen, resized and arranged to accommodate the 
-individual visual needs of the user. The window layout can also be controlled 
-via the "View" drop-down menu on the menu bar. An important part of the PDFgui 
-operativity is also conveniently available through mouse operations such 
+Once PDFgui is invoked, a PDFgui window comes up. Its layout consists
+of a menu bar, a tool bar, and a set of four panes. The menu bar contains
+drop-down menus that provide various aspects of PDFgui functionality.
+The tool bar features icons for commonly used operations: starting a
+new project or opening an existing one, saving a project, executing a
+refinement or calculation, stopping a refinement or calculation, and
+making a quick plot of a refinement. The four panes consist of fitting,
+plotting, current action, and PDFfit2 output. The fitting pane is home
+for Fit Tree and is used in setting up a fit protocol. The Plot Control
+panel serves the user's needs for graphically displaying the fits, as well
+as various fit-related parameters. The content of the Current Action panel
+changes as the refinement is being set up. It is a functional panel through
+which the user configures the fit attributes, sets the fit constraints, reviews
+the fit settings, displays fitting results, and also carries out other
+setup steps. The progress of the PDFfit2 program is displayed in the PDFfit2
+output panel. All panels except the Current Action panel are dockable windows
+that can be dragged across the screen, resized and arranged to accommodate the
+individual visual needs of the user. The window layout can also be controlled
+via the "View" drop-down menu on the menu bar. An important part of the PDFgui
+operativity is also conveniently available through mouse operations such
 as select and right-click.
 
 @c @node NODE-NAME, NEXT, PREVIOUS, UP
@@ -497,135 +503,135 @@ as select and right-click.
 @cindex fit
 @cindex refinement
 
-The purpose of this example is to familiarize the novice user with the 
-PDFgui basics. The goal is to create a simple fit of Ni PDF from a 
-preexisting structure file, associate a dataset with the refinement, 
-configure and execute a refinement, and display the result. Files to 
-be used in this exercise are @i{Ni.stru} and @i{Ni-xray.gr}. To start, 
-invoke PDFgui. 
+The purpose of this example is to familiarize the novice user with the
+PDFgui basics. The goal is to create a simple fit of Ni PDF from a
+preexisting structure file, associate a dataset with the refinement,
+configure and execute a refinement, and display the result. Files to
+be used in this exercise are @i{Ni.stru} and @i{Ni-xray.gr}. To start,
+invoke PDFgui.
 
-First a new fit needs to be established. In the Fit Tree pane right-click 
-the mouse button, and select @b{New Fit}. This will generate a new fit 
-called Fit 1 in the Fit Tree. The Current Action panel will change 
-accordingly, with generic appearance reflecting the fact that the fitting 
-three is not populated with neither structure nor data. Note that the same 
-action could be achieved by selecting the @b{New Fit} option from the 
+First a new fit needs to be established. In the Fit Tree pane right-click
+the mouse button, and select @b{New Fit}. This will generate a new fit
+called Fit 1 in the Fit Tree. The Current Action panel will change
+accordingly, with generic appearance reflecting the fact that the fitting
+three is not populated with neither structure nor data. Note that the same
+action could be achieved by selecting the @b{New Fit} option from the
 ``Fits'' drop-down menu on the menu bar.
 
-The next step in populating the fitting tree is to load structural model. 
-This is achieved through a simple sequence of actions: first select the 
-fit icon in the Fit Tree pane. Then right-click the mouse, invoking a 
-drop-down menu. Select @b{Insert Phase}, which will modify the current 
-action panel. The same action could be performed from the ``Phases'' 
-drop-down menu on the menu bar by selecting @b{New Phase}. In the current 
-action panel options are offered to load a structure from a file or to 
-generate it from scratch. In this exercise a preexisting structure file 
-@i{Ni.stru} is to be loaded.  
- 
+The next step in populating the fitting tree is to load structural model.
+This is achieved through a simple sequence of actions: first select the
+fit icon in the Fit Tree pane. Then right-click the mouse, invoking a
+drop-down menu. Select @b{Insert Phase}, which will modify the current
+action panel. The same action could be performed from the ``Phases''
+drop-down menu on the menu bar by selecting @b{New Phase}. In the current
+action panel options are offered to load a structure from a file or to
+generate it from scratch. In this exercise a preexisting structure file
+@i{Ni.stru} is to be loaded.
+
 @float Figure,fig2-01
 @image{images/fig2-01}
-@caption{PDFgui window with Fit Tree and Plot Control panels to the left 
-and Current Action panel to the right. The Fit Tree panel features the 
-current fit and the loaded Ni structure which is selected. The current 
+@caption{PDFgui window with Fit Tree and Plot Control panels to the left
+and Current Action panel to the right. The Fit Tree panel features the
+current fit and the loaded Ni structure which is selected. The current
 action panel displays phase configuration within the ``Configure'' tab.}
 @end float
 
-@ref{fig2-01} shows the PDFgui appearance at this stage of 
-the exercise. The Current Action panel has three tabs, ``Configure'', 
-``Constraints'', and ``Results'' that could be selected using mouse. 
-These will be returned to later. The ``Configure'' panel displays 
-configuration information from the structure file. The top portion 
-contains lattice parameters, phase scale factor, and a set of parameters 
-intended to be used to account for correlated atomic motion effects that 
-typically sharpen the nearest neighbor PDF peak. These are @i{delta1}, 
-@i{delta2}, @i{sratio}, and @i{rcut}. Their usage is explained later. The 
-bottom part of the panel contains standard unit cell content related 
-information such as atomic species, their fractional coordinates, 
+@ref{fig2-01} shows the PDFgui appearance at this stage of
+the exercise. The Current Action panel has three tabs, ``Configure'',
+``Constraints'', and ``Results'' that could be selected using mouse.
+These will be returned to later. The ``Configure'' panel displays
+configuration information from the structure file. The top portion
+contains lattice parameters, phase scale factor, and a set of parameters
+intended to be used to account for correlated atomic motion effects that
+typically sharpen the nearest neighbor PDF peak. These are @i{delta1},
+@i{delta2}, @i{sratio}, and @i{rcut}. Their usage is explained later. The
+bottom part of the panel contains standard unit cell content related
+information such as atomic species, their fractional coordinates,
 anisotropic ADPs, and site occupancies.
 
-The next step is to load an experimental data set to be fit. To achieve 
-this Fit 1 is selected on a Fit Tree, and a drop down window is invoked 
-by a right-click of a mouse. From the menu @b{Insert Data Set} is chosen. 
-The same action could be performed through a menu bar ``Data'' drop-down 
-menu and selecting @b{New Data Set}. The Current Action panel changes 
-accordingly, giving an option for a data set to be loaded from a file. 
-In this exercise Ni PDF data obtained using synchrotron x-ray radiation 
-collected at 6-ID-D at the Advanced Photon Source is used. This is 
-contained in a file @i{Ni-xray.gr}, which is to be loaded. Note that among 
-the exercise files there is also a file  @i{Ni-neutron.gr}, obtained using 
-neutron radiation at the GPPD diffractometer at the IPNS facility at the Argonne 
-National Laboratory. Both x-ray and neutron datasets were collected at 
+The next step is to load an experimental data set to be fit. To achieve
+this Fit 1 is selected on a Fit Tree, and a drop down window is invoked
+by a right-click of a mouse. From the menu @b{Insert Data Set} is chosen.
+The same action could be performed through a menu bar ``Data'' drop-down
+menu and selecting @b{New Data Set}. The Current Action panel changes
+accordingly, giving an option for a data set to be loaded from a file.
+In this exercise Ni PDF data obtained using synchrotron x-ray radiation
+collected at 6-ID-D at the Advanced Photon Source is used. This is
+contained in a file @i{Ni-xray.gr}, which is to be loaded. Note that among
+the exercise files there is also a file  @i{Ni-neutron.gr}, obtained using
+neutron radiation at the GPPD diffractometer at the IPNS facility at the Argonne
+National Laboratory. Both x-ray and neutron datasets were collected at
 300 K.
 
 @float Figure,fig2-02
 @image{images/fig2-02}
-@caption{Appearance of a PDFgui window after a PDF dataset is loaded. 
-The Fit Tree panel features the current fit, loaded Ni structure, and 
-loaded Ni PDF dataset, G(r), which is selected. The Current Action panel 
+@caption{Appearance of a PDFgui window after a PDF dataset is loaded.
+The Fit Tree panel features the current fit, loaded Ni structure, and
+loaded Ni PDF dataset, G(r), which is selected. The Current Action panel
 displays data set configuration within the ``Configure'' tab.}
 @end float
 
 @cindex  nanoparticle size
-@ref{fig2-02} shows the PDFgui appearance at this stage of 
-the exercise. The Current Action panel has three tabs, ``Configure'', 
-``Constraints'', and ``Results'' that could be selected using mouse. 
-These will be returned to later. The ``Configure'' panel displays 
-configuration information from the data file. It should be noted that 
-depending on the software used to prepare the experimental PDF from the 
-raw data, the file may (or may not) contain meta data reflecting the 
-experimental conditions and configuration. For example, software PDFgetX2 
-and PDFgetN used to prepare PDFs from x-ray and neutron total scattering 
-experiments respectively, are supplying meta data in the header of the 
-data file. The PDFgui is picking up this information and filling the 
-appropriate fields in the Current Action panel for data set configuration. 
-Caution should be exercised by the user to verify that these data indeed 
-correspond to the experimental conditions. In the present example, x-ray 
-radiation is used, and so the x-ray selection is turned on for the scatterer 
-type. The data range, fit range, data scale factor, maximum Q value used in 
-Fourier transform to obtain the experimental PDF, spherical form factor diameter 
-(used for nanoparticle samples, to account for the PDF signal dampening due to 
-the finite particle size) and the experiment specific parameters are displayed. 
-These comprise parameters describing experimental resolution effects, Qdamp and 
-Qbroad, and experimental conditions, such as temperature and doping (used 
-for bookkeeping and for parametric plots). If no meta data are present in a 
-data file, this information should be supplied by the user. Note also that 
-the changes occurred at this stage in the Plot Control panel, allowing user 
-to plot the data. This is achieved by selecting an observed G(r) and clicking 
-on a plot button that will invoke a plot. Since no fitting has occurred so 
-far, an attempt to plot calculated PDF profile or a difference yields a blank 
-plot. 
+@ref{fig2-02} shows the PDFgui appearance at this stage of
+the exercise. The Current Action panel has three tabs, ``Configure'',
+``Constraints'', and ``Results'' that could be selected using mouse.
+These will be returned to later. The ``Configure'' panel displays
+configuration information from the data file. It should be noted that
+depending on the software used to prepare the experimental PDF from the
+raw data, the file may (or may not) contain meta data reflecting the
+experimental conditions and configuration. For example, software PDFgetX2
+and PDFgetN used to prepare PDFs from x-ray and neutron total scattering
+experiments respectively, are supplying meta data in the header of the
+data file. The PDFgui is picking up this information and filling the
+appropriate fields in the Current Action panel for data set configuration.
+Caution should be exercised by the user to verify that these data indeed
+correspond to the experimental conditions. In the present example, x-ray
+radiation is used, and so the x-ray selection is turned on for the scatterer
+type. The data range, fit range, data scale factor, maximum Q value used in
+Fourier transform to obtain the experimental PDF, spherical form factor diameter
+(used for nanoparticle samples, to account for the PDF signal dampening due to
+the finite particle size) and the experiment specific parameters are displayed.
+These comprise parameters describing experimental resolution effects, Qdamp and
+Qbroad, and experimental conditions, such as temperature and doping (used
+for bookkeeping and for parametric plots). If no meta data are present in a
+data file, this information should be supplied by the user. Note also that
+the changes occurred at this stage in the Plot Control panel, allowing user
+to plot the data. This is achieved by selecting an observed G(r) and clicking
+on a plot button that will invoke a plot. Since no fitting has occurred so
+far, an attempt to plot calculated PDF profile or a difference yields a blank
+plot.
 
-Having specified the initial structure to be refined, and the data set to 
-be fit, one proceeds to the refinement setup. This is carried out through 
-adjusting the initial parameters and variables, as well as setting up the 
-constraints. The adjustments and constraint setup are done on both the 
-experimental data and the refined structure levels, toggling between the 
-corresponding ``Configure'' and ``Constraints'' tabs. In the present example 
-the data related setup will be done first. 
+Having specified the initial structure to be refined, and the data set to
+be fit, one proceeds to the refinement setup. This is carried out through
+adjusting the initial parameters and variables, as well as setting up the
+constraints. The adjustments and constraint setup are done on both the
+experimental data and the refined structure levels, toggling between the
+corresponding ``Configure'' and ``Constraints'' tabs. In the present example
+the data related setup will be done first.
 
 @float Figure,fig2-03
 @image{images/fig2-03}
 @caption{Adjusting data set related configuration.}
 @end float
 
-Click on the @i{Ni-xray.gr} in the Fit Tree. In @ref{fig2-03} 
-``Data Set Configuration'' panel is shown. At this stage we adjust the 
-fitting range, as well as other parameters that reflect the experimental 
-conditions, as appropriate. Initial values for refined parameters can 
-be set and reviewed when the fit is selected on the Fit Tree, on the 
-Parameters tab. Since there is no physical information in the 
-region of @i{r} below the nearest neighbor PDF peak position, and since 
-this region is often affected by noise and experimental artifacts, it is 
-wise to exclude it from fitting. We therefore set the value of the lower 
-boundary of the fitting range to 1.7. In addition, we set @i{Qdamp} 
-parameter to a more realistic starting value of 0.08. This parameter 
-is typically obtained through a conventional calibration process at each 
-PDF experiment using a standard sample such as Ni or Si. Next, we select 
-the ``Constraints'' tab, and type @i{@@1} into the ``Scale Factor'' edit 
-box. This will assign refinement parameter 1 to the data scale factor. 
-Note that this is the syntax used for assigning the refinement parameters 
-in PDFfit2 engine. Similarly, assign parameter 2 to @i{Qdamp} by inserting 
-@i{@@2} into the appropriate edit box. This is illustrated in Figure 
+Click on the @i{Ni-xray.gr} in the Fit Tree. In @ref{fig2-03}
+``Data Set Configuration'' panel is shown. At this stage we adjust the
+fitting range, as well as other parameters that reflect the experimental
+conditions, as appropriate. Initial values for refined parameters can
+be set and reviewed when the fit is selected on the Fit Tree, on the
+Parameters tab. Since there is no physical information in the
+region of @i{r} below the nearest neighbor PDF peak position, and since
+this region is often affected by noise and experimental artifacts, it is
+wise to exclude it from fitting. We therefore set the value of the lower
+boundary of the fitting range to 1.7. In addition, we set @i{Qdamp}
+parameter to a more realistic starting value of 0.08. This parameter
+is typically obtained through a conventional calibration process at each
+PDF experiment using a standard sample such as Ni or Si. Next, we select
+the ``Constraints'' tab, and type @i{@@1} into the ``Scale Factor'' edit
+box. This will assign refinement parameter 1 to the data scale factor.
+Note that this is the syntax used for assigning the refinement parameters
+in PDFfit2 engine. Similarly, assign parameter 2 to @i{Qdamp} by inserting
+@i{@@2} into the appropriate edit box. This is illustrated in Figure
 @ref{fig2-04}.
 
 @float Figure,fig2-04
@@ -633,133 +639,133 @@ in PDFfit2 engine. Similarly, assign parameter 2 to @i{Qdamp} by inserting
 @caption{Setting up the refinement parameters and constraints.}
 @end float
 
-Further, we set constraints related to the structural model, by selecting 
-the @i{Ni.stru} on the Fit Tree, adjusting the initial parameter values if 
-necessary (not done here), and proceeding to the ``Constraints'' tab. We 
-assign the refinement parameter 3 to all three lattice constants, a, b, and 
-c, reflecting the fact that the structure is cubic. Isotropic ADPs are 
-assigned to all Ni atoms in the refined cell as refinement parameter 4. 
-This can conveniently be done by highlighting all the appropriate boxes 
-together, and type only once @i{@@4}. The outcome is shown in Figure 
+Further, we set constraints related to the structural model, by selecting
+the @i{Ni.stru} on the Fit Tree, adjusting the initial parameter values if
+necessary (not done here), and proceeding to the ``Constraints'' tab. We
+assign the refinement parameter 3 to all three lattice constants, a, b, and
+c, reflecting the fact that the structure is cubic. Isotropic ADPs are
+assigned to all Ni atoms in the refined cell as refinement parameter 4.
+This can conveniently be done by highlighting all the appropriate boxes
+together, and type only once @i{@@4}. The outcome is shown in Figure
 @ref{fig2-05}.
- 
+
 @float Figure,fig2-05
 @image{images/fig2-05}
 @caption{Setting up the refinement parameters and constraints.}
-@end float 
+@end float
 
-It should be noted that as a part of the PDFfit2 syntax a refined variable 
-can also be defined as a math expression @i{f(@@n1,@@n2,@@n3,...)} where 
-@i{@@n1} stands for fitted parameter, and @i{n1}, @i{n2},... are arbitrary 
-positive integers enumerating the parameters. This allows simple linking of 
-related variables. For example, since cell lengths a, b, and c are all 
-expressed as @i{@@3}, the refined structure will remain cubic. Also note 
-that the enumeration of the parameters can be arbitrary, enumeration does 
-not have to follow any particular order. The quantities within a fit that 
-are enumeratued with the same number will be assigned the same parameter, 
-hence caution should be exercised to avoid unintentional assignment of 
-the same parameter to physically different quantities. The automatic 
-parameter assignment is done in such a way as to disallow for such 
-situations to happen. If assignment is done in part manually, in particular 
-for complex setups, it is recommended to verify that the parameter assignment 
-is done correctly. 
+It should be noted that as a part of the PDFfit2 syntax a refined variable
+can also be defined as a math expression @i{f(@@n1,@@n2,@@n3,...)} where
+@i{@@n1} stands for fitted parameter, and @i{n1}, @i{n2},... are arbitrary
+positive integers enumerating the parameters. This allows simple linking of
+related variables. For example, since cell lengths a, b, and c are all
+expressed as @i{@@3}, the refined structure will remain cubic. Also note
+that the enumeration of the parameters can be arbitrary, enumeration does
+not have to follow any particular order. The quantities within a fit that
+are enumeratued with the same number will be assigned the same parameter,
+hence caution should be exercised to avoid unintentional assignment of
+the same parameter to physically different quantities. The automatic
+parameter assignment is done in such a way as to disallow for such
+situations to happen. If assignment is done in part manually, in particular
+for complex setups, it is recommended to verify that the parameter assignment
+is done correctly.
 
 @float Figure,fig2-06
 @image{images/fig2-06}
 @caption{Reviewing the fit parameters and conditions.}
-@end float 
+@end float
 
 @cindex fit
 @cindex refinement
-The setup for the present example is now completed. By selecting Fit 1 on 
-the Fit Tree the Current Action window shows ``Parameters'' tab, which 
-displays the used refinement parameters for review, @ref{fig2-06}. 
-It shows the initial values, and allows for updates and for refinement 
-parameters to be released or fixed depending on whether the corresponding 
-``Fixed'' box is unchecked or checked, respectively. The ``Refined'' column, 
-which is currently empty, will be populated with the refined values of the 
-parameters. If the initial parameter values are to be changed, using ``Apply 
-parameters'' button will update the values of the parameters on all relevant 
-setup tabs. The refinement is executed by clicking the ``gear'' icon on the 
-tool bar. The refinement could be stopped by clicking on the ``stop'' icon 
-on the tool bar. During the refinement the refinement progress will be 
-directly reported in the PDFfit2 Output panel. This is illustrated in 
+The setup for the present example is now completed. By selecting Fit 1 on
+the Fit Tree the Current Action window shows ``Parameters'' tab, which
+displays the used refinement parameters for review, @ref{fig2-06}.
+It shows the initial values, and allows for updates and for refinement
+parameters to be released or fixed depending on whether the corresponding
+``Fixed'' box is unchecked or checked, respectively. The ``Refined'' column,
+which is currently empty, will be populated with the refined values of the
+parameters. If the initial parameter values are to be changed, using ``Apply
+parameters'' button will update the values of the parameters on all relevant
+setup tabs. The refinement is executed by clicking the ``gear'' icon on the
+tool bar. The refinement could be stopped by clicking on the ``stop'' icon
+on the tool bar. During the refinement the refinement progress will be
+directly reported in the PDFfit2 Output panel. This is illustrated in
 @ref{fig2-07}.
 
 @float Figure,fig2-07
 @image{images/fig2-07}
-@caption{While the refinement is running, the refinement progress is 
+@caption{While the refinement is running, the refinement progress is
 displayed in the PDFfit2 Output panel.}
-@end float 
+@end float
 
-After the fitting is completed, the fit summary is provided in the 
-``Results'' tab of the Current Action panel when Fit 1 is selected on 
-the Fit Tree. Similarly, if ``Results'' tab is displayed when @i{Ni.stru} 
-or @i{Ni-xray.gr} are selected, values of all corresponding refined parameters 
-for the converged model are displayed. 
+After the fitting is completed, the fit summary is provided in the
+``Results'' tab of the Current Action panel when Fit 1 is selected on
+the Fit Tree. Similarly, if ``Results'' tab is displayed when @i{Ni.stru}
+or @i{Ni-xray.gr} are selected, values of all corresponding refined parameters
+for the converged model are displayed.
 
-If the fit results are acceptable, one or more refined values could be copied 
-to become new initial parameters for possible further refinement, where 
-appropriate. This can be done when Fit 1 is selected on the ``Parameters'' 
-tab. By highlighting refined parameters to be copied, and right-clicking on 
-mouse a drop-down menu is invoked. Selecting @b{Copy Refined To Initial} will 
-perform the desired initial parameter update, as illustrated in 
+If the fit results are acceptable, one or more refined values could be copied
+to become new initial parameters for possible further refinement, where
+appropriate. This can be done when Fit 1 is selected on the ``Parameters''
+tab. By highlighting refined parameters to be copied, and right-clicking on
+mouse a drop-down menu is invoked. Selecting @b{Copy Refined To Initial} will
+perform the desired initial parameter update, as illustrated in
 @ref{fig2-08}.
 
 @float Figure,fig2-08
 @image{images/fig2-08}
 @caption{Updating the set of initial values of refined parameters.}
-@end float 
+@end float
 
-The fit can be displayed graphically by clicking at the quick plot icon 
-on the tool bar. Alternatively, desired items to be displayed can be selected 
-from the Plot Control and plotted on the screen. Depending on whether the 
-structure or the data are selected on the Fit Tree, either refined structural 
-parameters or the experiment related parameters and fit could be plotted. 
-An example of the fit display is shown in @ref{fig2-09}, and a 
-selected parameter plot vs iteration step in @ref{fig2-10}. If 
-the plotting window remains open while the fitting is in progress, the content 
+The fit can be displayed graphically by clicking at the quick plot icon
+on the tool bar. Alternatively, desired items to be displayed can be selected
+from the Plot Control and plotted on the screen. Depending on whether the
+structure or the data are selected on the Fit Tree, either refined structural
+parameters or the experiment related parameters and fit could be plotted.
+An example of the fit display is shown in @ref{fig2-09}, and a
+selected parameter plot vs iteration step in @ref{fig2-10}. If
+the plotting window remains open while the fitting is in progress, the content
 will be updated after each fit iteration.
 
 @float Figure,fig2-09
 @image{images/fig2-09}
 @caption{An example of PDFgui plotting capabilities: displaying a fit.}
-@end float 
+@end float
 
 @float Figure,fig2-10
 @image{images/fig2-10}
 @caption{An example of PDFgui plotting capabilities: displaying a parameter.}
-@end float 
+@end float
 
-PDFgui is furnished with ``Journal'' capability, which can be found under the 
-``View'' menu, and represents a convenient way for generating, storing, and 
-using for further reference of project related notes, as illustrated in 
-@ref{fig2-11}. These notes can be exported as a text file, or saved 
+PDFgui is furnished with ``Journal'' capability, which can be found under the
+``View'' menu, and represents a convenient way for generating, storing, and
+using for further reference of project related notes, as illustrated in
+@ref{fig2-11}. These notes can be exported as a text file, or saved
 along with the entire project.
 
 @float Figure,fig2-11
 @image{images/fig2-11}
 @caption{Using ``Journal'' feature can be a convenient way for taking notes.}
-@end float 
+@end float
 
-The project can be saved at any stage in its present configuration through 
-choice of @b{Save Project as} or @b{Save Project} as appropriate from 
-the ``File'' drop-down menu. The PDFgui project file has ``ddp'' extension. 
-In addition to saving a project, various parts of the project, both structure 
-related and data related, can be exported to external files by making 
-an appropriate selection from the ``Phases'' and ``Data'' drop-down menus. 
-The phases (starting or converged) are saved as standard PDFFIT ``.stru'' 
-files. The model PDF profile can be exported through ``Data'' menu and 
-will be saved as a five-column ``.fgr'' file. The first four columns 
-are @i{r}, @i{G(r)}, @i{dr}, and @i{dG(r)}, and the fifth column is the 
-difference curve between the data and the model. Note that the model PDF 
-and the difference are only calculated within the user-specified fitting 
+The project can be saved at any stage in its present configuration through
+choice of @b{Save Project as} or @b{Save Project} as appropriate from
+the ``File'' drop-down menu. The PDFgui project file has ``ddp'' extension.
+In addition to saving a project, various parts of the project, both structure
+related and data related, can be exported to external files by making
+an appropriate selection from the ``Phases'' and ``Data'' drop-down menus.
+The phases (starting or converged) are saved as standard PDFFIT ``.stru''
+files. The model PDF profile can be exported through ``Data'' menu and
+will be saved as a five-column ``.fgr'' file. The first four columns
+are @i{r}, @i{G(r)}, @i{dr}, and @i{dG(r)}, and the fifth column is the
+difference curve between the data and the model. Note that the model PDF
+and the difference are only calculated within the user-specified fitting
 range.
 
-PDFgui allows for PDFfit2 scripts written to operate refinements in the 
-expert mode to be imported into the gui. This option, along with the option 
-of exporting gui generated scripts and exporting the refinement results is 
-available through the ``Fits'' menu on the menu bar. 
+PDFgui allows for PDFfit2 scripts written to operate refinements in the
+expert mode to be imported into the gui. This option, along with the option
+of exporting gui generated scripts and exporting the refinement results is
+available through the ``Fits'' menu on the menu bar.
 
 @page
 @vskip 0pt plus 1filll
@@ -770,18 +776,18 @@ available through the ``Fits'' menu on the menu bar.
 @cindex examples
 @cindex tutorials
 
-In this chapter we present series of examples and tutorials aimed at 
-users already comfortable with the gui, to provide training in advanced 
-gui features designed for most common modeling situations, such as 
-building the structure from scratch, calculating the PDF based on a 
-given structure, linking two fits, and creating and executing a series of 
-fits on a sequence of data sets. 
+In this chapter we present series of examples and tutorials aimed at
+users already comfortable with the gui, to provide training in advanced
+gui features designed for most common modeling situations, such as
+building the structure from scratch, calculating the PDF based on a
+given structure, linking two fits, and creating and executing a series of
+fits on a sequence of data sets.
 
 @c @node NODE-NAME, NEXT, PREVIOUS, UP
 @menu
-* Symmetry expansion::          
-* Calculating PDF::             
-* Sequential fitting::          
+* Symmetry expansion::
+* Calculating PDF::
+* Sequential fitting::
 * Nanoparticle structure::
 @end menu
 
@@ -790,73 +796,73 @@ fits on a sequence of data sets.
 @cindex building structure from scratch
 @cindex symmetry expansion
 
-@c @b{NB: this part either can be kept or replaced, I felt it's kind of useful 
-@c to have it to define the purpose of the expansion tool. Please read through 
+@c @b{NB: this part either can be kept or replaced, I felt it's kind of useful
+@c to have it to define the purpose of the expansion tool. Please read through
 @c and decide if needed, or erase it.--
-@c It should be noted that PDFfit2 operates within the P1 symmetry framework, 
-@c and extended unit is traditionally used for refinement with the constraints 
-@c explicitly set, since PDF is used to obtain structure beyond crystallography. 
-@c Note that the expansion tool is provided in PDFgui for the convenience of the 
-@c user, and that the space group information serves the purpose of building the 
-@c constraints within the P1 framework, rather than maintaining the symmetry. 
-@c Once the constraints are built the symmetry expansion tool finished its job 
-@c and its services (and more importantly information typed in) are no longer 
-@c available to the fitting program. The symmetry can be (and frequently is) 
-@c broken by the user, hopefully intentionally.} 
+@c It should be noted that PDFfit2 operates within the P1 symmetry framework,
+@c and extended unit is traditionally used for refinement with the constraints
+@c explicitly set, since PDF is used to obtain structure beyond crystallography.
+@c Note that the expansion tool is provided in PDFgui for the convenience of the
+@c user, and that the space group information serves the purpose of building the
+@c constraints within the P1 framework, rather than maintaining the symmetry.
+@c Once the constraints are built the symmetry expansion tool finished its job
+@c and its services (and more importantly information typed in) are no longer
+@c available to the fitting program. The symmetry can be (and frequently is)
+@c broken by the user, hopefully intentionally.}
 
-The purpose of this example is to demonstrate to the user the symmetry 
-expansion capabilities of PDFgui. The goal is again to create a simple 
-fit of Ni PDF, but this time from scratch rather than from a preexisting 
-structure file. Further goal is to associate a dataset with the refinement, 
-configure and execute a refinement, and display the result. The focus will 
-be on the symmetry expansion features only, and the steps that are described 
-earlier in @ref{Simple fit} are left for the user to recreate. File to 
-be used in this exercise is @i{Ni-xray.gr}. To start, invoke PDFgui. 
+The purpose of this example is to demonstrate to the user the symmetry
+expansion capabilities of PDFgui. The goal is again to create a simple
+fit of Ni PDF, but this time from scratch rather than from a preexisting
+structure file. Further goal is to associate a dataset with the refinement,
+configure and execute a refinement, and display the result. The focus will
+be on the symmetry expansion features only, and the steps that are described
+earlier in @ref{Simple fit} are left for the user to recreate. File to
+be used in this exercise is @i{Ni-xray.gr}. To start, invoke PDFgui.
 
-To begin, a new fit again needs to be established by right-clicking the 
-mouse button on the Fit Tree pane, and selecting @b{New Fit}. This will 
-generate a new fit called Fit 1 as in the previous example. The next step 
-in populating the fitting tree is to introduce a structural model. This 
-time a new phase will be added and the model built up from scratch. Select 
-the fit icon in the Fit Tree pane. Then right-click the mouse, invoking a 
-drop-down menu. Select @b{Insert Phase}, which will modify the current 
-action panel. The same action could be performed from the ``Phases'' 
-drop-down menu on the menu bar by selecting @b{New Phase}. In the current 
-action panel options are offered to load a structure from a file or to 
-generate it from scratch. Select ``New'' to build up structure from scratch. 
-The Fit Tree will be populated with a new item ``New Phase''. Rename this 
-phase to ``Ni fcc''. The Current Action panel now displays default phase 
-configuration with ``dummy'' values and no atoms. Edit the lattice parameters 
-and set them to reflect the symmetry, in this case set the lengths to 3.52 
-Angstroms and all the angles to 90 degrees. The ``Tab'' keyboard shortcut 
-feature can be used for moving quickly from one form-field to the next. 
-To introduce new atoms right-click with your mouse onto @i{elem} tab in the 
-Current Action panel, and select desired number of atoms in the asymmetric 
-unit via the dialog box that pops up. In Ni case select one row only. After 
+To begin, a new fit again needs to be established by right-clicking the
+mouse button on the Fit Tree pane, and selecting @b{New Fit}. This will
+generate a new fit called Fit 1 as in the previous example. The next step
+in populating the fitting tree is to introduce a structural model. This
+time a new phase will be added and the model built up from scratch. Select
+the fit icon in the Fit Tree pane. Then right-click the mouse, invoking a
+drop-down menu. Select @b{Insert Phase}, which will modify the current
+action panel. The same action could be performed from the ``Phases''
+drop-down menu on the menu bar by selecting @b{New Phase}. In the current
+action panel options are offered to load a structure from a file or to
+generate it from scratch. Select ``New'' to build up structure from scratch.
+The Fit Tree will be populated with a new item ``New Phase''. Rename this
+phase to ``Ni fcc''. The Current Action panel now displays default phase
+configuration with ``dummy'' values and no atoms. Edit the lattice parameters
+and set them to reflect the symmetry, in this case set the lengths to 3.52
+Angstroms and all the angles to 90 degrees. The ``Tab'' keyboard shortcut
+feature can be used for moving quickly from one form-field to the next.
+To introduce new atoms right-click with your mouse onto @i{elem} tab in the
+Current Action panel, and select desired number of atoms in the asymmetric
+unit via the dialog box that pops up. In Ni case select one row only. After
 action is invoked, a new row will show up in the table. This can also be
 performed by hitting ``Control'', ``Shift'' and ``+'' simulataneously .Type in
 @i{Ni} for the element name. It is important that the element name is typed in
-correctly, as this is further used to search a database for the scattering 
-characteristics of that site. Further, highlight the three diagonal ADPs, and 
-type in the initial value 0.0025. 
+correctly, as this is further used to search a database for the scattering
+characteristics of that site. Further, highlight the three diagonal ADPs, and
+type in the initial value 0.0025.
 
 
-@float Figure,fig3-01 
+@float Figure,fig3-01
 @image{images/fig3-01}
 @caption{Expanding the unit cell using space group information.}
-@end float 
+@end float
 
-Now right-click with the mouse on the 
-element name, and select ``Expand space group...'' option. A dialog box will 
-appear, as shown in @ref{fig3-01}, requesting space group 
+Now right-click with the mouse on the
+element name, and select ``Expand space group...'' option. A dialog box will
+appear, as shown in @ref{fig3-01}, requesting space group
 information and the choice of origin. Choose ``Fm-3m'' and hit enter. You can
 also type ``Fm-3m'' or ``225'', the space group number.
-This will expand the unit cell accordingly showing 4 Ni sites. 
+This will expand the unit cell accordingly showing 4 Ni sites.
 
-@float Figure,fig3-02 
+@float Figure,fig3-02
 @image{images/fig3-02}
 @caption{Setting up symmetry constraints to be used in a refinement.}
-@end float 
+@end float
 
 
 In order to set the symmetry constraints for the refinement, select
@@ -880,127 +886,127 @@ be used, and if the table is tampered with, then the original symmetry obtained
 using symmetry expansion feature will @i{not} be preserved. Therefore, the
 expansion tool represents a convenience tool and nothing more than that. The
 remaining steps of this example are identical to these described in @ref{Simple
-fit}. 
- 
+fit}.
+
 @c @node NODE-NAME, NEXT, PREVIOUS, UP
 @node Calculating PDF, Sequential fitting, Symmetry expansion, Examples and tutorials
 @section Calculating PDF from a structure
 @cindex calculating PDF
 
-There is often a need for obtaining a calculated PDF profile for a given 
-structure instead of performing a fit. In order to carry out a calculation, 
-an underlying structure needs to be specified. This can either be loaded 
-from a file or generated from scratch. Suppose that we have a Ni structure 
-populating a Fit Tree using steps described in either @ref{Simple fit} or 
-in @ref{Symmetry expansion}, and that we would like to calculate Ni PDF 
-using neutron radiation. Highlight the Ni structure on Fit Tree. On 
-menu bar, select @b{New Calculation} from ``Calculation'' drop-down menu. 
-Current activity panel will display information very similar to that 
+There is often a need for obtaining a calculated PDF profile for a given
+structure instead of performing a fit. In order to carry out a calculation,
+an underlying structure needs to be specified. This can either be loaded
+from a file or generated from scratch. Suppose that we have a Ni structure
+populating a Fit Tree using steps described in either @ref{Simple fit} or
+in @ref{Symmetry expansion}, and that we would like to calculate Ni PDF
+using neutron radiation. Highlight the Ni structure on Fit Tree. On
+menu bar, select @b{New Calculation} from ``Calculation'' drop-down menu.
+Current activity panel will display information very similar to that
 when a data set is loaded, as shown in @ref{fig3-03}.
 
-@float Figure,fig3-03 
+@float Figure,fig3-03
 @image{images/fig3-03}
 @caption{An example of the calculation configuration panel.}
-@end float 
+@end float
 
-User has to specify conditions to be used for 
-the calculation, such as radiation type, calculation range and corresponding 
-@i{r}-grid size, as well as instrument resolution and maximum momentum 
-transfer parameters. For the later two, the default values of parameters 
-could be used, or values could be specified that closely mimic the 
-experimental conditions on some particular instrument of interest. After the 
-conditions are set, the gear icon on the tool bar can be used to execute the 
-calculation (or alternatively select @b{Run Selected Calculation} from 
-the ``Calculations'' menu). For our exercise, select neutrons for radiation. 
-The defaults for the range and other parameters would work just fine. To get 
-an experiment data lookalike calculation, select for example 0.01 for 
-the @i{r}-grid size, and use 0.08 and 25.0 for resolution and maximum 
-momentum transfer parameters respectively. Execute the calculation. Observe 
-the result by clicking on the quick plot icon on the tool bar. To export the 
-calculated PDF, use the @b{Export Selected Calculation} choice on the 
-``Calculations'' menu, after highlighting the performed calculation in 
-question on the Fit Tree. 
+User has to specify conditions to be used for
+the calculation, such as radiation type, calculation range and corresponding
+@i{r}-grid size, as well as instrument resolution and maximum momentum
+transfer parameters. For the later two, the default values of parameters
+could be used, or values could be specified that closely mimic the
+experimental conditions on some particular instrument of interest. After the
+conditions are set, the gear icon on the tool bar can be used to execute the
+calculation (or alternatively select @b{Run Selected Calculation} from
+the ``Calculations'' menu). For our exercise, select neutrons for radiation.
+The defaults for the range and other parameters would work just fine. To get
+an experiment data lookalike calculation, select for example 0.01 for
+the @i{r}-grid size, and use 0.08 and 25.0 for resolution and maximum
+momentum transfer parameters respectively. Execute the calculation. Observe
+the result by clicking on the quick plot icon on the tool bar. To export the
+calculated PDF, use the @b{Export Selected Calculation} choice on the
+``Calculations'' menu, after highlighting the performed calculation in
+question on the Fit Tree.
 
 @c @node NODE-NAME, NEXT, PREVIOUS, UP
 @node Sequential fitting, Multistage fitting, Calculating PDF, Examples and tutorials
 @section Sequential fitting
 @cindex sequential fitting
 
-In many practical situations there is a need to set a series of refinements 
-that are linked in a sequence. Whether motivated by following certain fitting 
-protocol on a single data set, or such that numeric fluctuations of refined 
-parameters are avoided in a temperature series data, or any other similar 
-situation, sequential fitting capability is of clear importance and is 
-supported in PDFgui. In what follows we will describe multi-stage fitting 
-capabilities of PDFgui, followed by description of three pre-made macros 
-that implement sequential fitting: fitting of @i{r}-series on a single data 
+In many practical situations there is a need to set a series of refinements
+that are linked in a sequence. Whether motivated by following certain fitting
+protocol on a single data set, or such that numeric fluctuations of refined
+parameters are avoided in a temperature series data, or any other similar
+situation, sequential fitting capability is of clear importance and is
+supported in PDFgui. In what follows we will describe multi-stage fitting
+capabilities of PDFgui, followed by description of three pre-made macros
+that implement sequential fitting: fitting of @i{r}-series on a single data
 set, temperature series on a set of data corresponding to various temperatures,
-and a doping series on a set of data corresponding to samples whose 
-chemical content changes in some systematic way. These macros can be accessed 
+and a doping series on a set of data corresponding to samples whose
+chemical content changes in some systematic way. These macros can be accessed
 from the menu bar, ``Fits'' menu, @b{Macros} selection on the drop-down menu.
 
 
 @c @node NODE-NAME, NEXT, PREVIOUS, UP
 @menu
-* Multistage fitting::          
-* r-series::                    
-* Temperature series::          
-* Doping series::               
+* Multistage fitting::
+* r-series::
+* Temperature series::
+* Doping series::
 @end menu
 
 @node Multistage fitting, r-series, Sequential fitting, Sequential fitting
 @subsection Multistage fitting
 @cindex multistage fitting
 
-Here we describe how to string together several fits. To begin, create a fit 
-as explained earlier. The next step is to copy the fit. This is achieved by 
-right-clicking on the existing fit name ``Fit 1'' in the the Fit Tree, and 
-selecting ``Copy'' option from the pop-up menu. Once this is done, a paste 
-fit operation is done by right-clicking at the empty space on the Fit Tree, 
-and selecting ``Paste Fit'' option from the pop-up menu. This will create 
-``Fit 1_copy'', a copy of ``Fit 1'' in the Fit Tree. The next step is to link 
-the fits. Select ``Fit 1_copy'' on the Fit Tree. In the ``Parameters'' panel, 
-select the entire ``Initial'' column. Type ``=Fit 1'' and then press 
-``Enter''. The ``Initial'' values of the parameters should now read 
-``=Fit 1:n'', where @i{n} is the index of the parameter. This brings us to 
-the linking syntax, which is ``=name:index''. Here, ``name'' is the name of 
-another fit to which the link is made, and ``index'' is the index of a 
-parameter in that fit. If ``index'' is omitted, it will default to the index 
-of the parameter one is linking from. A linked parameter uses the refined 
-value of the link as its @i{initial} value. This is useful when one runs 
+Here we describe how to string together several fits. To begin, create a fit
+as explained earlier. The next step is to copy the fit. This is achieved by
+right-clicking on the existing fit name ``Fit 1'' in the the Fit Tree, and
+selecting ``Copy'' option from the pop-up menu. Once this is done, a paste
+fit operation is done by right-clicking at the empty space on the Fit Tree,
+and selecting ``Paste Fit'' option from the pop-up menu. This will create
+``Fit 1_copy'', a copy of ``Fit 1'' in the Fit Tree. The next step is to link
+the fits. Select ``Fit 1_copy'' on the Fit Tree. In the ``Parameters'' panel,
+select the entire ``Initial'' column. Type ``=Fit 1'' and then press
+``Enter''. The ``Initial'' values of the parameters should now read
+``=Fit 1:n'', where @i{n} is the index of the parameter. This brings us to
+the linking syntax, which is ``=name:index''. Here, ``name'' is the name of
+another fit to which the link is made, and ``index'' is the index of a
+parameter in that fit. If ``index'' is omitted, it will default to the index
+of the parameter one is linking from. A linked parameter uses the refined
+value of the link as its @i{initial} value. This is useful when one runs
 several related fits. An example of this is shown in @ref{fig3-04}.
 
-@float Figure,fig3-04 
+@float Figure,fig3-04
 @image{images/fig3-04}
-@caption{An example of linked fits. The output of a converged fit will 
+@caption{An example of linked fits. The output of a converged fit will
 be fed into the succeeding fit in the sequence as an input.}
-@end float 
+@end float
 
-Additional fit parameters can be introduced when needed to the new fit. If 
-our Ni example was used and copied in this exercise, one can select 
-@i{Ni.stru} phase of ``Fit 1_copy'' and introduce parameter @i{delta2} by 
-inserting ``@@5'' in the appropriate box of the ``Constraints'' tab of that 
-phase. This is a quadratic atomic correlation factor, a parameter related 
-to the correlated motion of atoms, and as such should help in sharpening up 
-the nearest neighbor PDF peak in the model PDF profile. Highlight the fits 
-on the Fit Tree, and run them in the same way as described earlier. Only 
-the highlighted fits will be executed. The fitting will proceed in stages, 
-so the first fit is executed first, and, after it is converged, the second 
-one. After the fitting of the sequence is over, you may plot the results as 
-described earlier. This time hold down ``Control'' and select the data sets 
-from both ``Fit 1'' and ``Fit 1_copy''. You can change the offset in the 
-plotting window to 0 if you would like to display the profiles on top of 
-each other. Notable is a sharper nearest neighbor PDF peak in the second 
+Additional fit parameters can be introduced when needed to the new fit. If
+our Ni example was used and copied in this exercise, one can select
+@i{Ni.stru} phase of ``Fit 1_copy'' and introduce parameter @i{delta2} by
+inserting ``@@5'' in the appropriate box of the ``Constraints'' tab of that
+phase. This is a quadratic atomic correlation factor, a parameter related
+to the correlated motion of atoms, and as such should help in sharpening up
+the nearest neighbor PDF peak in the model PDF profile. Highlight the fits
+on the Fit Tree, and run them in the same way as described earlier. Only
+the highlighted fits will be executed. The fitting will proceed in stages,
+so the first fit is executed first, and, after it is converged, the second
+one. After the fitting of the sequence is over, you may plot the results as
+described earlier. This time hold down ``Control'' and select the data sets
+from both ``Fit 1'' and ``Fit 1_copy''. You can change the offset in the
+plotting window to 0 if you would like to display the profiles on top of
+each other. Notable is a sharper nearest neighbor PDF peak in the second
 fit, improving the fit to the Ni data compared to the ``Fit 1'' achievement.
 
-We note here that there is also a linear atomic correlation factor 
-@i{delta1}. This one is appropriate to use in cases of high temperature, 
-while @i{delta2} is more appropriate for the case of low temperatures. 
-Alternative way to include the correlated motion effects on PDF is to 
-introduce @i{sratio} parameter that defines low-@i{r} to high-@i{r} PDF 
-peak ratio, and @i{rcut} limit needs to be specified that defines a cutoff 
-distance. The two approaches of accounting for correlated motion should 
-@i{not} be used simultaneously. Details of this and other 
+We note here that there is also a linear atomic correlation factor
+@i{delta1}. This one is appropriate to use in cases of high temperature,
+while @i{delta2} is more appropriate for the case of low temperatures.
+Alternative way to include the correlated motion effects on PDF is to
+introduce @i{sratio} parameter that defines low-@i{r} to high-@i{r} PDF
+peak ratio, and @i{rcut} limit needs to be specified that defines a cutoff
+distance. The two approaches of accounting for correlated motion should
+@i{not} be used simultaneously. Details of this and other
 issues related to the PDF method can be found elsewhere.
 
 @c @node NODE-NAME, NEXT, PREVIOUS, UP
@@ -1009,45 +1015,45 @@ issues related to the PDF method can be found elsewhere.
 @cindex sequential fitting
 @cindex r-series
 
-In certain modeling situations user could benefit from fitting a data set 
-through a series of refinements that differ one from another by the 
-corresponding fitting ranges. This could either be a case when upper 
-@i{r}-limit is to be changed incrementally, or when a fixed width @i{r}-window 
-is to be defined for a box-car fitting approach. An example of this would be 
-a situation when details of crossover from local to average structure are 
-examined. PDFgui has a pre-written macro that allows for this modeling 
-situation to be accommodated. We will illustrate these capabilities through 
-a simple Ni example. Generate a complete fit, including a phase and a dataset, 
-as explained in @ref{Simple fit}. Select the fit from the Fit Tree. From the 
-``Fits'' menu, select @b{Macros}, and choose ``r-Series'' option. The 
-Current Action panel will display simple setting requirements, arranged in 
-two rows of three dialog boxes each, that need to be filled with values 
-to be specified by the user. An example of this is shown in Figure 
+In certain modeling situations user could benefit from fitting a data set
+through a series of refinements that differ one from another by the
+corresponding fitting ranges. This could either be a case when upper
+@i{r}-limit is to be changed incrementally, or when a fixed width @i{r}-window
+is to be defined for a box-car fitting approach. An example of this would be
+a situation when details of crossover from local to average structure are
+examined. PDFgui has a pre-written macro that allows for this modeling
+situation to be accommodated. We will illustrate these capabilities through
+a simple Ni example. Generate a complete fit, including a phase and a dataset,
+as explained in @ref{Simple fit}. Select the fit from the Fit Tree. From the
+``Fits'' menu, select @b{Macros}, and choose ``r-Series'' option. The
+Current Action panel will display simple setting requirements, arranged in
+two rows of three dialog boxes each, that need to be filled with values
+to be specified by the user. An example of this is shown in Figure
 @ref{fig3-05}.
 
-@float Figure,fig3-05 
+@float Figure,fig3-05
 @image{images/fig3-05}
-@caption{Appearance of the setup panel for specifying an incremental r-series 
+@caption{Appearance of the setup panel for specifying an incremental r-series
 fit conditions.}
-@end float 
+@end float
 
-The first row deals with the increment setup 
-of the upper @i{r} of the refinements. User should specify the first and the 
-last fit maximum @i{r}-value, and corresponding step (increment), all in 
-units of Angstroms. In the second row information is needed to specify the 
-lower @i{r} refinement limit. Again, the user sets the first and the last 
-value, and step. This allows for a box car of either fixed or variable width 
-to be defined. If the second row is left  blank, the corresponding refinement 
-series will be with incremental maximum @i{r} only, and fixed lower limit. 
-For the purpose of this exercise lets perform incremental fitting of Ni-data 
-with 4 steps total, and fixed lower limit. To achieve this, type 5 for the 
-first upper limit, 20 for the last upper limit, and the step of 5 Angstroms. 
-Leave the second row blank. Once this is done, make sure that the Ni fit, 
-which in this situation serves as a template, is highlighted, and then click 
-``OK'' in the Current Action panel. This will generate 4 new fits below the 
-original fit, and these four fits will constitute your series, with desired 
-incremental limits. You select all four of them and execute the refinement. 
-Once the sequence is done, you can review the results using Plot Control. 
+The first row deals with the increment setup
+of the upper @i{r} of the refinements. User should specify the first and the
+last fit maximum @i{r}-value, and corresponding step (increment), all in
+units of Angstroms. In the second row information is needed to specify the
+lower @i{r} refinement limit. Again, the user sets the first and the last
+value, and step. This allows for a box car of either fixed or variable width
+to be defined. If the second row is left  blank, the corresponding refinement
+series will be with incremental maximum @i{r} only, and fixed lower limit.
+For the purpose of this exercise lets perform incremental fitting of Ni-data
+with 4 steps total, and fixed lower limit. To achieve this, type 5 for the
+first upper limit, 20 for the last upper limit, and the step of 5 Angstroms.
+Leave the second row blank. Once this is done, make sure that the Ni fit,
+which in this situation serves as a template, is highlighted, and then click
+``OK'' in the Current Action panel. This will generate 4 new fits below the
+original fit, and these four fits will constitute your series, with desired
+incremental limits. You select all four of them and execute the refinement.
+Once the sequence is done, you can review the results using Plot Control.
 
 @c @node NODE-NAME, NEXT, PREVIOUS, UP
 @node Temperature series, Doping series, r-series, Sequential fitting
@@ -1055,83 +1061,83 @@ Once the sequence is done, you can review the results using Plot Control.
 @cindex sequential fitting
 @cindex temperature series
 
-More frequent modeling scenario is handling a large number of data sets 
-originating from a single sample collected at various temperatures. One 
-of the common modeling schemes in such cases is to perform sequential 
-fitting of such data series, which is known to yield well behaved 
-modeling parameters.  PDFgui has a pre-written macro that 
-allows for this modeling situation to be accommodated. 
+More frequent modeling scenario is handling a large number of data sets
+originating from a single sample collected at various temperatures. One
+of the common modeling schemes in such cases is to perform sequential
+fitting of such data series, which is known to yield well behaved
+modeling parameters.  PDFgui has a pre-written macro that
+allows for this modeling situation to be accommodated.
 
-We will describe 
-the procedure using an example of a temperature series of data collected 
-on LaMnO3 at various temperatures from 300 K to 1150 K at NPDF instrument 
-at LANSCE at Los Alamos National Laboratory. This material exhibits 
-Jahn-Teller (JT) order-disorder phase transition just above 700 K, where the 
-long range orbital order is lost at high temperature, but the local JT 
-distortion survives. The formal space group does not change at this 
-transition. To begin, from the ``File'' menu use @b{Open Project} 
-selection to open @i{lmo-template.dpp} project from the tutorial directory. 
-This project consists of a fit called @i{lmo-pbnm }, which will serve as a 
-template and which contains @i{Pbnm} phase of LaMnO3 and a 300 K data set. 
-The fit refinement is set up to cover 1.7-19.5 Angstroms range, and all 
-the parameter values are set to their converged values for this temperature. 
-The fit setup uses isotropic ADPs for all atomic sites. 
-In the same directory data corresponding to various temperatures exist, in 
-particular 
-@i{300K.gr}, @i{550K.gr}, @i{650K.gr}, @i{700K.gr}, @i{720K.gr}, @i{730K.gr}, 
-@i{740K.gr}, @i{750K.gr}, @i{800K.gr}, @i{880K.gr}, @i{980K.gr}, @i{1050K.gr}, 
-@i{1100K.gr}, and @i{1150K.gr}. We will establish a T-series fit sequence. 
-Select @b{Macros} from the ``Fit'' menu on the menu bar, and choose 
-``Temperature Series''. The Current Action panel will reflect the selection. 
-A tool is provided that allows for data sets to be added. Click on ``Add'' 
-button. Using ``Shift'' and mouse-select operation you should select all 
-the data sets mentioned in the above list, except the 300 K one, as this 
-is already in the template fit, and then press ``Open'' button. 
-All the data sets will be loaded. Since the files contain meta data, as 
-mentioned earlier, the gui is going to pick up temperature information from 
-the files. User should verify that the information is correct. The data 
-can be ordered by temperature by clicking the ``Temperature'' header. 
+We will describe
+the procedure using an example of a temperature series of data collected
+on LaMnO3 at various temperatures from 300 K to 1150 K at NPDF instrument
+at LANSCE at Los Alamos National Laboratory. This material exhibits
+Jahn-Teller (JT) order-disorder phase transition just above 700 K, where the
+long range orbital order is lost at high temperature, but the local JT
+distortion survives. The formal space group does not change at this
+transition. To begin, from the ``File'' menu use @b{Open Project}
+selection to open @i{lmo-template.dpp} project from the tutorial directory.
+This project consists of a fit called @i{lmo-pbnm }, which will serve as a
+template and which contains @i{Pbnm} phase of LaMnO3 and a 300 K data set.
+The fit refinement is set up to cover 1.7-19.5 Angstroms range, and all
+the parameter values are set to their converged values for this temperature.
+The fit setup uses isotropic ADPs for all atomic sites.
+In the same directory data corresponding to various temperatures exist, in
+particular
+@i{300K.gr}, @i{550K.gr}, @i{650K.gr}, @i{700K.gr}, @i{720K.gr}, @i{730K.gr},
+@i{740K.gr}, @i{750K.gr}, @i{800K.gr}, @i{880K.gr}, @i{980K.gr}, @i{1050K.gr},
+@i{1100K.gr}, and @i{1150K.gr}. We will establish a T-series fit sequence.
+Select @b{Macros} from the ``Fit'' menu on the menu bar, and choose
+``Temperature Series''. The Current Action panel will reflect the selection.
+A tool is provided that allows for data sets to be added. Click on ``Add''
+button. Using ``Shift'' and mouse-select operation you should select all
+the data sets mentioned in the above list, except the 300 K one, as this
+is already in the template fit, and then press ``Open'' button.
+All the data sets will be loaded. Since the files contain meta data, as
+mentioned earlier, the gui is going to pick up temperature information from
+the files. User should verify that the information is correct. The data
+can be ordered by temperature by clicking the ``Temperature'' header.
 
-@float Figure,fig3-06 
+@float Figure,fig3-06
 @image{images/fig3-06}
-@caption{Setting up a T-series sequential refinement for LaMnO3. Ordering 
+@caption{Setting up a T-series sequential refinement for LaMnO3. Ordering
 by temperature will ensure that the fits are linked correctly.}
-@end float 
+@end float
 
-Order the data by temperature (@ref{fig3-06}), as otherwise the 
-series of fits that is 
-to be automatically generated in the next step will be linked in an arbitrary 
-way in which the data were loaded, rather than to reflect the scientific 
-logic. There should be 13 data sets. Next, ensure that the template fit is 
-selected on the Fit Tree. If this is the case, the ``OK'' button becomes 
-clickable. Clicking on the ``OK'' button will generate a sequence of linked 
-fits in the Fit Tree in the order of the temperature increase. These fits 
-are linked, which can be verified by inspecting the initial values on the 
-``Parameters'' tab of each fit. Highlight all the fits in the Fit Tree to 
-start the sequential refinement of the T-series. The results can then be 
-displayed in Fit Control such that various converged fit parameters are 
-plotted versus temperature. In terms of the science behind the LaMnO3 
-example, it is interesting to plot isotropic ADP of the oxygen at 
-general position. Select all the phases on the Fit Tree by selecting one 
-and then clicking on ``Control'', ``Shift'' and ``A'' keys simultaneously. 
-This will select all the phases at once. On the Plot Control choose the 
-temperature for @i{x} axis, and select the Uiso of O2 (for example atom 20). 
-Clicking on ``Plot'' button a plot will be displayed featuring Uiso vs T. 
+Order the data by temperature (@ref{fig3-06}), as otherwise the
+series of fits that is
+to be automatically generated in the next step will be linked in an arbitrary
+way in which the data were loaded, rather than to reflect the scientific
+logic. There should be 13 data sets. Next, ensure that the template fit is
+selected on the Fit Tree. If this is the case, the ``OK'' button becomes
+clickable. Clicking on the ``OK'' button will generate a sequence of linked
+fits in the Fit Tree in the order of the temperature increase. These fits
+are linked, which can be verified by inspecting the initial values on the
+``Parameters'' tab of each fit. Highlight all the fits in the Fit Tree to
+start the sequential refinement of the T-series. The results can then be
+displayed in Fit Control such that various converged fit parameters are
+plotted versus temperature. In terms of the science behind the LaMnO3
+example, it is interesting to plot isotropic ADP of the oxygen at
+general position. Select all the phases on the Fit Tree by selecting one
+and then clicking on ``Control'', ``Shift'' and ``A'' keys simultaneously.
+This will select all the phases at once. On the Plot Control choose the
+temperature for @i{x} axis, and select the Uiso of O2 (for example atom 20).
+Clicking on ``Plot'' button a plot will be displayed featuring Uiso vs T.
 
-@float Figure,fig3-07 
+@float Figure,fig3-07
 @image{images/fig3-07}
-@caption{Displaying the refinement results as a function of external 
-parameter: T-series refinement of LaMnO3, example of isotropic ADP of 
-oxygen atom on general position in @i{Pbnm} setting. Notable are the offsets 
-just above 700 K (Jahn-Teller transition), and at around 1000 K when sample 
+@caption{Displaying the refinement results as a function of external
+parameter: T-series refinement of LaMnO3, example of isotropic ADP of
+oxygen atom on general position in @i{Pbnm} setting. Notable are the offsets
+just above 700 K (Jahn-Teller transition), and at around 1000 K when sample
 converts from orthorhombic to rhombohedral symmetry.}
-@end float 
+@end float
 
-Despite quite high temperatures, an onset of the static offset above the 
-transition temperature is clearly marked by this parameter, as apparent 
-in @ref{fig3-07}. Curious user could repeat the same T-series refinement 
-restricting the refinement range upper limit to say 5-6 Angstroms and 
-observe the outcome. The refinement sequence execution should be very 
+Despite quite high temperatures, an onset of the static offset above the
+transition temperature is clearly marked by this parameter, as apparent
+in @ref{fig3-07}. Curious user could repeat the same T-series refinement
+restricting the refinement range upper limit to say 5-6 Angstroms and
+observe the outcome. The refinement sequence execution should be very
 quick in this case.
 
 @c @node NODE-NAME, NEXT, PREVIOUS, UP
@@ -1140,86 +1146,86 @@ quick in this case.
 @cindex sequential fitting
 @cindex doping series
 
-Fitting a series of PDF data that correspond to a set of samples with 
-related chemistry, such as various doping series, represents another 
-important sequential modeling aspect that is supported in PDFgui. 
-PDFgui has a pre-written macro that allows for this modeling situation 
-to be accommodated. 
+Fitting a series of PDF data that correspond to a set of samples with
+related chemistry, such as various doping series, represents another
+important sequential modeling aspect that is supported in PDFgui.
+PDFgui has a pre-written macro that allows for this modeling situation
+to be accommodated.
 
-We will describe the procedure using an example of a series of data 
-collected on LaMnO3 and series of Ca-doped LaMnO3 samples with various 
-Ca content from 0 to 0.28 at GEM instrument at ISIS, UK. To begin, from 
-the ``File'' menu use @b{Open Project} selection to open @i{lcmo-template.dpp} 
-project from the tutorial directory, which has an initial setup for this exercise. 
-Note the letter @i{c} in the file name, in contrast to the name used in 
-the previous example. This project consists of a fit called @i{lcmo-pbnm}, 
-which will serve as a template and which contains @i{Pbnm} phase of LaMnO3 
-and a 10 K data set, @i{x000t010q35.gr}. The difference here with respect 
-to the template used in the previous example is that Ca sites are introduced 
-in the structure, but are assigned zero occupancy. However, existence of 
-the Ca dopant species in the structure of the template is essential for 
-the macro to operate. Also, upper limit used in Fourier transform for 
-obtaining this set of data is 35 inverse Angstroms, in contrast to 32 
-inverse Angstroms in previous example. Since different instrument was 
-used, the value of @i{Qdamp} is different than in previous example. 
+We will describe the procedure using an example of a series of data
+collected on LaMnO3 and series of Ca-doped LaMnO3 samples with various
+Ca content from 0 to 0.28 at GEM instrument at ISIS, UK. To begin, from
+the ``File'' menu use @b{Open Project} selection to open @i{lcmo-template.dpp}
+project from the tutorial directory, which has an initial setup for this exercise.
+Note the letter @i{c} in the file name, in contrast to the name used in
+the previous example. This project consists of a fit called @i{lcmo-pbnm},
+which will serve as a template and which contains @i{Pbnm} phase of LaMnO3
+and a 10 K data set, @i{x000t010q35.gr}. The difference here with respect
+to the template used in the previous example is that Ca sites are introduced
+in the structure, but are assigned zero occupancy. However, existence of
+the Ca dopant species in the structure of the template is essential for
+the macro to operate. Also, upper limit used in Fourier transform for
+obtaining this set of data is 35 inverse Angstroms, in contrast to 32
+inverse Angstroms in previous example. Since different instrument was
+used, the value of @i{Qdamp} is different than in previous example.
 
-@float Figure,fig3-08 
+@float Figure,fig3-08
 @image{images/fig3-08}
-@caption{After loading of the Ca-doping data series of LaMnO3 system, proper 
-doping assignment needs to be carried out, as the doping levels introspected 
-from the file names in this example incorrectly reflect the scientific 
-situation. Note that dopant atom has to be present in the template seed used 
+@caption{After loading of the Ca-doping data series of LaMnO3 system, proper
+doping assignment needs to be carried out, as the doping levels introspected
+from the file names in this example incorrectly reflect the scientific
+situation. Note that dopant atom has to be present in the template seed used
 to generate the linked sequence of fits.}
-@end float 
+@end float
 
-In the same directory data corresponding to various Ca contents exist, 
-collected at 10 K temperature, in particular @i{x004t010q35.gr}, @i{x012t010q35.gr}, 
-@i{x016t010q35.gr}, @i{x020t010q35.gr}, @i{x024t010q35.gr}, and 
-@i{x028t010q35.gr}. It should be noted at this point that the data 
-files do not contain any relevant meta data in the file headers. However, 
-the doping level is somehow encrypted into the file names. We will establish 
-a doping series fit sequence. Select @b{Macros} from the ``Fit'' menu on the 
-menu bar, and choose ``Doping Series''. The Current Action panel will reflect 
-the selection. Base element and dopant need to be specified. A tool is 
-provided that allows for data sets to be added. Click on ``Add'' button. 
-Using ``Shift'' and mouse-select operation you should select all 
-the data sets mentioned in the above list, and then press ``Open'' button. 
-All the data sets will be loaded. The gui will introspect both the file 
-names and files themselves in attempt to obtain the doping (or in previous 
-example temperature) information. Since the files do not contain meta data, as 
-mentioned earlier, the gui is going to pick up doping information from 
-the file names. User should verify that the information is correct. In this 
-particular case the doping information will not be correctly picked up, as 
-for example 004 from the name is meant to be 0.04 doping, and the gui would 
-try to interpret it as 4.0 doping. Similarly 028 would be interpreted as 
-28.0, while it was intended to mean 0.28 doping. These values should be 
-edited and fixed manually by clicking on the corresponding values and 
-simply typing in the correct values (Figure  @ref{fig3-08}). 
+In the same directory data corresponding to various Ca contents exist,
+collected at 10 K temperature, in particular @i{x004t010q35.gr}, @i{x012t010q35.gr},
+@i{x016t010q35.gr}, @i{x020t010q35.gr}, @i{x024t010q35.gr}, and
+@i{x028t010q35.gr}. It should be noted at this point that the data
+files do not contain any relevant meta data in the file headers. However,
+the doping level is somehow encrypted into the file names. We will establish
+a doping series fit sequence. Select @b{Macros} from the ``Fit'' menu on the
+menu bar, and choose ``Doping Series''. The Current Action panel will reflect
+the selection. Base element and dopant need to be specified. A tool is
+provided that allows for data sets to be added. Click on ``Add'' button.
+Using ``Shift'' and mouse-select operation you should select all
+the data sets mentioned in the above list, and then press ``Open'' button.
+All the data sets will be loaded. The gui will introspect both the file
+names and files themselves in attempt to obtain the doping (or in previous
+example temperature) information. Since the files do not contain meta data, as
+mentioned earlier, the gui is going to pick up doping information from
+the file names. User should verify that the information is correct. In this
+particular case the doping information will not be correctly picked up, as
+for example 004 from the name is meant to be 0.04 doping, and the gui would
+try to interpret it as 4.0 doping. Similarly 028 would be interpreted as
+28.0, while it was intended to mean 0.28 doping. These values should be
+edited and fixed manually by clicking on the corresponding values and
+simply typing in the correct values (Figure  @ref{fig3-08}).
 The data can be ordered by doping by clicking the header.
-After you are done with editing, order the data by doping, as otherwise 
-the series of fits that is to be automatically generated in the next step 
-will be linked in an arbitrary way in which the data were loaded, rather 
-than to reflect the scientific logic. There should be 6 data sets (with 
-the initial x=0.0 data set there will be 7 chained fits total after this 
-setup is done) . Next, ensure that the template fit is selected on the 
-Fit Tree. If this is the case, the ``OK'' button becomes clickable. 
-Clicking on the ``OK'' button will generate a sequence of linked fits 
-in the Fit Tree in the order of the Ca content increase. These fits 
-are linked, which can be verified by inspecting the initial values on 
-the ``Parameters'' tab of each fit. Highlight all the fits in the Fit 
-Tree to start the sequential refinement of the doping series. 
+After you are done with editing, order the data by doping, as otherwise
+the series of fits that is to be automatically generated in the next step
+will be linked in an arbitrary way in which the data were loaded, rather
+than to reflect the scientific logic. There should be 6 data sets (with
+the initial x=0.0 data set there will be 7 chained fits total after this
+setup is done) . Next, ensure that the template fit is selected on the
+Fit Tree. If this is the case, the ``OK'' button becomes clickable.
+Clicking on the ``OK'' button will generate a sequence of linked fits
+in the Fit Tree in the order of the Ca content increase. These fits
+are linked, which can be verified by inspecting the initial values on
+the ``Parameters'' tab of each fit. Highlight all the fits in the Fit
+Tree to start the sequential refinement of the doping series.
 
-@float Figure,fig3-09 
+@float Figure,fig3-09
 @image{images/fig3-09}
-@caption{Sequence of refined parameters, such as lattice constants, can be 
-plotted vs doping using PDFgui plotting facilities. Figure features lattice 
-parameter @i{b} in @i{Pbnm} space group setting for series of Ca-doped LaMnO3 
+@caption{Sequence of refined parameters, such as lattice constants, can be
+plotted vs doping using PDFgui plotting facilities. Figure features lattice
+parameter @i{b} in @i{Pbnm} space group setting for series of Ca-doped LaMnO3
 samples for doping concentrations between 0 and 0.28 at 10 K temperature.}
-@end float 
+@end float
 
-After the convergence is achieved for all the fits in the Fit Tree, the results 
-can be displayed in Fit Control such that various converged fit parameters are 
-plotted versus Ca content. An example is provided in Figure  @ref{fig3-09} featuring 
+After the convergence is achieved for all the fits in the Fit Tree, the results
+can be displayed in Fit Control such that various converged fit parameters are
+plotted versus Ca content. An example is provided in Figure  @ref{fig3-09} featuring
 one of the lattice parameters.
 
 @c @node NODE-NAME, NEXT, PREVIOUS, UP
@@ -1228,69 +1234,69 @@ one of the lattice parameters.
 @cindex nanoparticle structure
 @cindex nanoparticle diameter
 
-Determining the structure of a nanoparticle is notoriously difficult. Diffraction 
-experiments on nanoparticle samples yield broad diffraction patterns that are hard 
-to analyze using conventional crystallographic approach. One of the options that 
-remain is to approach the problem through the PDF analysis. The PDF of a nanoparticle 
-features sharp peaks conveying structural information. The PDF signal gets damped at 
-higher distances due to the convolution caused by the finite nanoparticle size. For 
-certain simpler cases when nanoparticles can be assumed to have spherical shape, 
-characteristic parameters such as nanoparticle diameter can be obtained. 
+Determining the structure of a nanoparticle is notoriously difficult. Diffraction
+experiments on nanoparticle samples yield broad diffraction patterns that are hard
+to analyze using conventional crystallographic approach. One of the options that
+remain is to approach the problem through the PDF analysis. The PDF of a nanoparticle
+features sharp peaks conveying structural information. The PDF signal gets damped at
+higher distances due to the convolution caused by the finite nanoparticle size. For
+certain simpler cases when nanoparticles can be assumed to have spherical shape,
+characteristic parameters such as nanoparticle diameter can be obtained.
 
-One of the fatures of this PDF modeling suite is a capability of modeling the effect 
-of the finite nanoparticle size using a spherical form factor. Relevant PDF parameter 
-is @i{Spdiameter} which is the diameter of the nanoparticle. The PDF nalysis is rather 
-difficult, as this parameter is highly correlated with various other parameters one 
-would like to refine, such as anisotropic ADPs, scale factors, correlated motion parameters 
-and so on. The refinement procedure is therefore rather delicate and the solutions are 
-not as robust as we are used to in cases of crystalline materials. 
+One of the fatures of this PDF modeling suite is a capability of modeling the effect
+of the finite nanoparticle size using a spherical form factor. Relevant PDF parameter
+is @i{Spdiameter} which is the diameter of the nanoparticle. The PDF nalysis is rather
+difficult, as this parameter is highly correlated with various other parameters one
+would like to refine, such as anisotropic ADPs, scale factors, correlated motion parameters
+and so on. The refinement procedure is therefore rather delicate and the solutions are
+not as robust as we are used to in cases of crystalline materials.
 
-@float Figure,fig3-10 
+@float Figure,fig3-10
 @image{images/fig3-10}
-@caption{Fitting the structure of a nanoparticle: 3nm CdSe 
+@caption{Fitting the structure of a nanoparticle: 3nm CdSe
 nanoparticle example.}
-@end float 
+@end float
 
-To illustrate the program capabilities we present a case of CdSe nanoparticle 
-approximately 3nm in size. It useful to have PDF data for a crystalline reference, 
-where available/applicable. In this exercise we start from a prepared project file 
-@i{CdSe-nano.ddp}. This project contains two fits: the first one is a bulk CdSe 
-reference, and the other pertains to the CdSe nanoparticle. For consistency the PDFs 
-of both bulk and nano samples were obtained using @i{Qmax} of 14 inverse Angstroms, 
-although the bulk material PDF could have been processed using a higher value. 
-Synchrotron x-ray radiation was used to obtain the data at 300 K, based on an experiment 
-carried out at 6-ID-D at the Advanced Photon Source at Argonne National Laboratory. 
-The structure used for both data sets is wurtzite, space group P63mc. From calibrations 
-on Ni standard @i{Qdamp} value of 0.0486 was obtained and is used here. We first carry 
-out a refinement on the bulk reference. This is carried out over a range from 1.7 to 
-19.8 Angstroms, using 7 parameters: lattice parameters @i{a} and @i{c} 
-(@i{@@1} and @i{@@2} respectively), selenium @i{z} fractional coordinate (@i{@@11}), isotropic 
-ADPs for Cd and Se (@i{@@21} and @i{@@23} respectively), the data scale factor (@i{@@100}), 
-and finally correlated motion related quadratic term coefficient @i{delta2} (@i{@@200}). 
-The converged fit results in parameter values that can be further used for reference 
-when modeling the nanoparticle data. We note that while the fit is reasonable, the values 
-of the isotropic ADPs are enlarged. The fit can be further improved if anisotropic ADPs 
-are introduced, although the z-direciton related components will remain enlarged due to 
-the stacking disorder present in the structure. The referent value of 5.69 for @i{delta2} 
+To illustrate the program capabilities we present a case of CdSe nanoparticle
+approximately 3nm in size. It useful to have PDF data for a crystalline reference,
+where available/applicable. In this exercise we start from a prepared project file
+@i{CdSe-nano.ddp}. This project contains two fits: the first one is a bulk CdSe
+reference, and the other pertains to the CdSe nanoparticle. For consistency the PDFs
+of both bulk and nano samples were obtained using @i{Qmax} of 14 inverse Angstroms,
+although the bulk material PDF could have been processed using a higher value.
+Synchrotron x-ray radiation was used to obtain the data at 300 K, based on an experiment
+carried out at 6-ID-D at the Advanced Photon Source at Argonne National Laboratory.
+The structure used for both data sets is wurtzite, space group P63mc. From calibrations
+on Ni standard @i{Qdamp} value of 0.0486 was obtained and is used here. We first carry
+out a refinement on the bulk reference. This is carried out over a range from 1.7 to
+19.8 Angstroms, using 7 parameters: lattice parameters @i{a} and @i{c}
+(@i{@@1} and @i{@@2} respectively), selenium @i{z} fractional coordinate (@i{@@11}), isotropic
+ADPs for Cd and Se (@i{@@21} and @i{@@23} respectively), the data scale factor (@i{@@100}),
+and finally correlated motion related quadratic term coefficient @i{delta2} (@i{@@200}).
+The converged fit results in parameter values that can be further used for reference
+when modeling the nanoparticle data. We note that while the fit is reasonable, the values
+of the isotropic ADPs are enlarged. The fit can be further improved if anisotropic ADPs
+are introduced, although the z-direciton related components will remain enlarged due to
+the stacking disorder present in the structure. The referent value of 5.69 for @i{delta2}
 will be used as a starting value for the nanoparticle fit.
 
-In the nanoparticle refinement we will use the same starting values for all the parameters, 
-except for @i{delta2} and the nanoparticle diameter. The former is set to 5.69, and the 
-later to 25 Angstroms. In other cases an approximate value of the spherical nanoparticle 
-size is usually known, and it is the best to start from a reasonably good guess. Refining 
-the nanoparticle data reveals nanoparticle diameter of approximately 30 Angstroms, as 
-further illustrated in @ref{fig3-10}. Enlarged values of isotropic ADPs are again 
-observed, and the fit is reasonably good. Further improvements can be obtained by introducing 
-anisotropic ADPs, where again values related to the z-direction will remain abnormally 
-large most probably due to the stacking related disorder. The fitting protocol is not very 
-robust, as mentioned earlier. Enthusiastic user is encouraged to play around with the 
-refinement conditions and witness the difficulties. Going into the greater details of 
-the structural properties of nanosized CdSe is beyond the scope of this tutorial. The 
-successful fitting scenario depends on particular details of a structural problem one is 
-determined to solve. The problem of determining the structure of a nanopartcle remains 
-difficult. The PDFgui suite is not intended to necessarily provide @i{the} solution, it is 
-rather a helpful tool in the process of determining new details and exploring the space 
-of possible solution candidates, yielding success in some instances.  
+In the nanoparticle refinement we will use the same starting values for all the parameters,
+except for @i{delta2} and the nanoparticle diameter. The former is set to 5.69, and the
+later to 25 Angstroms. In other cases an approximate value of the spherical nanoparticle
+size is usually known, and it is the best to start from a reasonably good guess. Refining
+the nanoparticle data reveals nanoparticle diameter of approximately 30 Angstroms, as
+further illustrated in @ref{fig3-10}. Enlarged values of isotropic ADPs are again
+observed, and the fit is reasonably good. Further improvements can be obtained by introducing
+anisotropic ADPs, where again values related to the z-direction will remain abnormally
+large most probably due to the stacking related disorder. The fitting protocol is not very
+robust, as mentioned earlier. Enthusiastic user is encouraged to play around with the
+refinement conditions and witness the difficulties. Going into the greater details of
+the structural properties of nanosized CdSe is beyond the scope of this tutorial. The
+successful fitting scenario depends on particular details of a structural problem one is
+determined to solve. The problem of determining the structure of a nanopartcle remains
+difficult. The PDFgui suite is not intended to necessarily provide @i{the} solution, it is
+rather a helpful tool in the process of determining new details and exploring the space
+of possible solution candidates, yielding success in some instances.
 
 @c Start of Chapter 4
 @c @node NODE-NAME, NEXT, PREVIOUS, UP
@@ -1301,9 +1307,9 @@ of possible solution candidates, yielding success in some instances.
 @c Start of Chapter 4
 @c @node NODE-NAME, NEXT, PREVIOUS, UP
 @menu
-* PDF plotting::                
-* Displaying the structure::    
-* Advanced usage and special needs::  
+* PDF plotting::
+* Displaying the structure::
+* Advanced usage and special needs::
 @end menu
 
 @node PDF plotting, Displaying the structure, Extras, Extras
@@ -1331,68 +1337,68 @@ other plotting examples are provided, hoping that the usage is sufficiently
 simple for users to master individually with ease. An example plot of Rw vs
 refinement step is shown in @ref{fig4-01} for Ni example.
 
-@float Figure,fig4-01 
+@float Figure,fig4-01
 @image{images/fig4-01}
-@caption{Plotting window featuring Rw vs refinement step for Ni example. 
-The basic functionality for manipulating the plot is provided through icons 
+@caption{Plotting window featuring Rw vs refinement step for Ni example.
+The basic functionality for manipulating the plot is provided through icons
 on the tool bar of the plotting window.}
-@end float 
+@end float
 
 @c @node NODE-NAME, NEXT, PREVIOUS, UP
 @node Displaying the structure, Advanced usage and special needs, PDF plotting, Extras
 @section Displaying the structure
 @cindex displaying the structure
 
-For those users having AtomEye structural visualizer available in their 
-system configuration, PDFgui allows for initial or refined structures to 
-be visualized by passing required structural information to AtomEye that 
-is invoked and corresponding 3D structure displayed on screen. This is 
-achieved by highlighting a desired phase on the Fit Tree, and then selecting 
-@b{Plot Initial Structure} or @b{Plot Refined Structure} from the ``Phases'' 
+For those users having AtomEye structural visualizer available in their
+system configuration, PDFgui allows for initial or refined structures to
+be visualized by passing required structural information to AtomEye that
+is invoked and corresponding 3D structure displayed on screen. This is
+achieved by highlighting a desired phase on the Fit Tree, and then selecting
+@b{Plot Initial Structure} or @b{Plot Refined Structure} from the ``Phases''
 drop-down menu. The quickplot button will also invoke AtomEye with the refined
-struture, or initial structure if the refined structure does not yet exist. 
-Corresponding structure visualization is displayed, which can 
-be adjusted, rotated and zoomed in and out through the mouse functionality. 
-The size of the displayed atoms can be controlled via ``Page Up'' and 
-``Page Down'' keys. For advanced AtomEye usage please consult corresponding 
-AtomEye user documentation. An example Ni structure visualization is shown 
+struture, or initial structure if the refined structure does not yet exist.
+Corresponding structure visualization is displayed, which can
+be adjusted, rotated and zoomed in and out through the mouse functionality.
+The size of the displayed atoms can be controlled via ``Page Up'' and
+``Page Down'' keys. For advanced AtomEye usage please consult corresponding
+AtomEye user documentation. An example Ni structure visualization is shown
 in @ref{fig4-02}.
 
-@float Figure,fig4-02 
+@float Figure,fig4-02
 @image{images/fig4-02}
-@caption{Using AtomEye functionality (if installed on your system) for 3D 
-visualization of the initial and refined PDF structures: example of Ni 
+@caption{Using AtomEye functionality (if installed on your system) for 3D
+visualization of the initial and refined PDF structures: example of Ni
 structure.}
-@end float 
- 
+@end float
+
 @c @node NODE-NAME, NEXT, PREVIOUS, UP
 @node Advanced usage and special needs, PDFgui reference sheets, Displaying the structure, Extras
-@section Advanced usage and special needs 
-@cindex advanced usage 
+@section Advanced usage and special needs
+@cindex advanced usage
 @cindex special needs
 
-The PDFgui is designed to accommodate most common modeling situations. However, 
-it is not encapsulating all the capabilities available within the modeling 
-engine, such as calculation of differential PDFs, handling atoms with 
-special scattering properties, etc. Advanced usage of PDFfit2 engine to resolve 
-any such special modeling need that user may have is available through usage of 
-Python scripts in the expert command line mode, similar to that featured in 
-the PDFFIT program, where various special situations could be accounted for. 
-Handling these situations requires detailed knowledge of the PDFfit2 syntax 
-based on Python, which is beyond the scope of this user guide and will be 
+The PDFgui is designed to accommodate most common modeling situations. However,
+it is not encapsulating all the capabilities available within the modeling
+engine, such as calculation of differential PDFs, handling atoms with
+special scattering properties, etc. Advanced usage of PDFfit2 engine to resolve
+any such special modeling need that user may have is available through usage of
+Python scripts in the expert command line mode, similar to that featured in
+the PDFFIT program, where various special situations could be accounted for.
+Handling these situations requires detailed knowledge of the PDFfit2 syntax
+based on Python, which is beyond the scope of this user guide and will be
 described elsewhere.
 
 @c Start of Chapter 5
 @c @node NODE-NAME, NEXT, PREVIOUS, UP
-@node PDFgui reference sheets, PDFgui hot keys, Advanced usage and special needs, Top 
+@node PDFgui reference sheets, PDFgui hot keys, Advanced usage and special needs, Top
 @chapter PDFgui reference sheets
 @cindex PDFgui reference sheets
 @cindex reference sheets
 
 @c Start of Chapter 6
 @menu
-* PDFgui hot keys::             
-* List of PDFfit2 variables::   
+* PDFgui hot keys::
+* List of PDFfit2 variables::
 @end menu
 
 @node PDFgui hot keys, List of PDFfit2 variables, PDFgui reference sheets, PDFgui reference sheets
@@ -1400,14 +1406,14 @@ described elsewhere.
 @cindex PDFgui hot keys
 @cindex hot keys
 
-@noindent 
+@noindent
 Fit Tree
 @b{Ctrl+A} Select all items in the Fit Tree.
-@b{Ctrl+Shift+A} Once an object is selected on the Fit Tree, using this hot 
-key will sellect all the objects on the tree that are of the same type. For 
-example, if a single data set is selected on the tree, hitting this hot 
-key will make all the data sets belonging to all the fits in the tree to 
-become selected. This is particularly useful for simultaneously plotting 
+@b{Ctrl+Shift+A} Once an object is selected on the Fit Tree, using this hot
+key will sellect all the objects on the tree that are of the same type. For
+example, if a single data set is selected on the tree, hitting this hot
+key will make all the data sets belonging to all the fits in the tree to
+become selected. This is particularly useful for simultaneously plotting
 various fit results across the Fit Tree.
 @b{Ctrl+C} Copy selected item.
 @b{Ctrl+X} Delete selected item. Note that this does not place a copy of the
@@ -1417,14 +1423,14 @@ item in the clipboard.
 to a legal position in the tree. For example, a phase node cannot be pasted into
 an empty tree.
 
-@noindent 
+@noindent
 Phase configuration grid
 @b{Ctrl+A} Select all items.
 @b{Delete} Delete row. This will delete any wholly selected row.
 @b{Ctrl++} Add an atom to the grid.
 @b{Ctrl+-} Same as @b{Delete}.
 
-@noindent 
+@noindent
 Phase constraints grid
 @b{Ctrl+A} Select all items.
 @b{Delete} Delete contents of selected cells.
@@ -1436,10 +1442,10 @@ Phase constraints grid
 @cindex list of variables
 @cindex variables
 
-The following is the list of PDFfit2 variables, including their default 
-values in parentheses, and a brief description and a note, where appropriate. 
-Note that some of the variables used in PDFFIT are renamed in PDFfit2. The 
-reference of these changes is provided for the convenience and orientation 
+The following is the list of PDFfit2 variables, including their default
+values in parentheses, and a brief description and a note, where appropriate.
+Note that some of the variables used in PDFFIT are renamed in PDFfit2. The
+reference of these changes is provided for the convenience and orientation
 of those users that are used to the old naming scheme.
 
 @c ---------------------------------------------------------------------
@@ -1479,7 +1485,7 @@ Scale factor for the selected dataset.
 @defvr {Dataset} qdamp
 (float @AA{}@math{^{-1}}, default 0 @AA{}@math{^{-1}}, @var{qsig} in PDFFIT) @*
 PDF Gaussian dampening envelope due to limited Q-resolution.
-Not applied when equal zero. The Gaussian envelope is of the form 
+Not applied when equal zero. The Gaussian envelope is of the form
 @tex
 $$ B(r) = e^{-{(r Q_{damp})^{2} \over 2} } $$
 @end tex
@@ -1487,8 +1493,8 @@ $$ B(r) = e^{-{(r Q_{damp})^{2} \over 2} } $$
 
 @defvr {Dataset} qbroad
 (float @AA{}@math{^{-1}}, default 0 @AA{}@math{^{-1}}, @var{qalp} in PDFFIT) @*
-PDF peak broadening from increased intensity noise at high Q. 
-Not applied when equal zero. 
+PDF peak broadening from increased intensity noise at high Q.
+Not applied when equal zero.
 See definition of @ref{PDF Peak Width} for detailed explanation.
 @end defvr
 
@@ -1507,7 +1513,7 @@ Occupancy of site n.
 Scale factor of the current phase.
 @end defvr
 
-@defvr {Phase} delta1 
+@defvr {Phase} delta1
 (float @AA{}, default 0 @AA{}, @var{gamm} in PDFFIT) @*
 Coefficient for (1/r) contribution to the peak sharpening.
 See definition of @ref{PDF Peak Width} for detailed explanation.
@@ -1522,7 +1528,7 @@ See definition of @ref{PDF Peak Width} for detailed explanation.
 @defvr {Phase} sratio
 (float unitless, default 1, @var{srat} in PDFFIT) @*
 Sigma ratio for bonded atoms.  Reduction factor for PDF peak width accounting
-for correlated motion of bonded atoms. 
+for correlated motion of bonded atoms.
 @end defvr
 
 @c ---------------------------------------------------------------------
@@ -1530,12 +1536,12 @@ for correlated motion of bonded atoms.
 
 @defvr {Dataset} qmax
 (float @AA{}@math{^{-1}}, default 0 @AA{}) @*
-@var{qmax} cutoff is an experimental parameter having fixed 
-value determined during the PDF data processing in the Fourier 
-transform step. Finite data range used in the Fourier transform 
-is a source of termination ripples. Termination ripples are 
-@i{not} applied in PDF calculation when @var{qmax} is set to zero. The 
-effect is calculated using the following equation 
+@var{qmax} cutoff is an experimental parameter having fixed
+value determined during the PDF data processing in the Fourier
+transform step. Finite data range used in the Fourier transform
+is a source of termination ripples. Termination ripples are
+@i{not} applied in PDF calculation when @var{qmax} is set to zero. The
+effect is calculated using the following equation
 @tex
 $$ G'(r) = {1 \over {\pi}} \int_{0}^{\infty} G(r')
 \left ( {{\sin{Q_{max}(r-r')}
@@ -1547,48 +1553,48 @@ $$ G'(r) = {1 \over {\pi}} \int_{0}^{\infty} G(r')
 @defvr {Phase} lat(i)
 (float @AA{} or degrees, i=1,2,...,6) @*
 Lattice parameters a, b, c, alpha, beta, gamma of the current phase.
-Can be also used as lat('a') etc. 
+Can be also used as lat('a') etc.
 @end defvr
 
 @defvr {Phase} {x(n), y(n), z(n)}
 (float unitless) @*
-Fractional coordinates for atom n. 
+Fractional coordinates for atom n.
 @end defvr
 
 @defvr {Phase} rcut
 (float @AA{}, default 0 @AA{}) @*
-Radius cutoff for applying @var{sratio} sharpening factor. 
+Radius cutoff for applying @var{sratio} sharpening factor.
 @end defvr
 
 @c ---------------------------------------------------------------------
 @node PDF Peak Width
 @unnumberedsubsec PDF Peak Width
 
-The PDF peak width contains contributions from thermal and zero point 
-displacements as well as static disorder. For large distances @i{r} the 
-motion of the two contributing atoms is uncorrelated, for small distances, 
-however, the motion can be strongly correlated leading to a sharpening of 
-the first peak(s) in the observed PDF. The program PDFfit2 provides three 
-different correction terms for the PDF peak width. The final width is given 
-by 
+The PDF peak width contains contributions from thermal and zero point
+displacements as well as static disorder. For large distances @i{r} the
+motion of the two contributing atoms is uncorrelated, for small distances,
+however, the motion can be strongly correlated leading to a sharpening of
+the first peak(s) in the observed PDF. The program PDFfit2 provides three
+different correction terms for the PDF peak width. The final width is given
+by
 @tex
-$$ 
+$$
 \sigma_{ij} = \sigma^{\prime}_{ij} \sqrt{ 1 - {\delta_1 \over r_{ij}} -
     {\delta_2 \over r_{ij}^2} + Q_{broad}^2 \, r_{ij}^2 }
 $$
 @end tex
 
-@noindent Here the primed sigma is the peak width without correlation, given 
-by the structural model. The first two terms correct for the effects of 
-correlated motion. Within the scope of the users guide, we just mention 
-that the term @var{delta2/r@math{^2}} describes the low temperature behavior, and 
-term @var{delta1/r} describes the high temperature case. Since the two 
-parameters are highly correlated, one will in practice choose which one 
-to refine. The last term 
-in the equation models the PDF peak broadening as a result of the Q resolution 
-of the diffractometer. In many cases this term will only be significant for 
-refinements over wider @i{r}-ranges. Note that the Q resolution also results 
-in an exponential dampening of the PDF peaks which is modeled  using the 
+@noindent Here the primed sigma is the peak width without correlation, given
+by the structural model. The first two terms correct for the effects of
+correlated motion. Within the scope of the users guide, we just mention
+that the term @var{delta2/r@math{^2}} describes the low temperature behavior, and
+term @var{delta1/r} describes the high temperature case. Since the two
+parameters are highly correlated, one will in practice choose which one
+to refine. The last term
+in the equation models the PDF peak broadening as a result of the Q resolution
+of the diffractometer. In many cases this term will only be significant for
+refinements over wider @i{r}-ranges. Note that the Q resolution also results
+in an exponential dampening of the PDF peaks which is modeled  using the
 parameter @var{qdamp}.
 
 @c Ending of a TexInfo File
