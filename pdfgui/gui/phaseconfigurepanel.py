@@ -20,7 +20,7 @@ __id__ = "$Id$"
 import wx
 import wx.grid
 from diffpy.Structure import Atom
-from diffpy.Structure.PeriodicTable import is_element
+from diffpy.pdffit2 import is_element
 from diffpy.pdfgui.control.constraint import Constraint
 from diffpy.pdfgui.control.controlerrors import *
 from insertrowsdialog import InsertRowsDialog
@@ -349,11 +349,11 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
             elif j == 6:
                 self.structure[i].U[2,2]    = value # U(3,3)
             elif j == 7:
-                self.structure[i].U[0,1]    = value # U(1,2)
+                self.structure[i].U[0,1] = self.structure[i].U[1,0] = value # U(1,2)
             elif j == 8:
-                self.structure[i].U[0,2]    = value # U(1,3)
+                self.structure[i].U[0,2] = self.structure[i].U[2,0] = value # U(1,3)
             elif j == 9:
-                self.structure[i].U[1,2]    = value # U(2,3)
+                self.structure[i].U[1,2] = self.structure[i].U[2,1] = value # U(2,3)
             elif j == 10:
                 self.structure[i].occupancy = value # occupancy
 
