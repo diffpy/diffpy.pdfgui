@@ -56,22 +56,23 @@ class Fitting(Organizer):
             """overload function from Thread """
             from diffpy.pdffit2.pdffit2 import dataError, unassignedError,\
                 constraintError, structureError, calculationError
+            engine_exceptions = ( dataError, unassignedError, constraintError,
+                    structureError, calculationError )
             try:
                 self.fitting.run()
             except ControlError,error:
                 gui = self.fitting.controlCenter.gui
                 if gui:
-                    gui.postEvent(gui.ERROR, "<Fitting exception> %s"%error.info)
+                    gui.postEvent(gui.ERROR, "<Fitting exception> %s" % error.info)
                 else:
-                    print "<Fitting exception> %s"%error.info
-            except (dataError,unassignedError,constraintError,
-                     structureError, calculationError), error:
+                    print "<Fitting exception> %s" % error.info
+            except engine_exceptions, error:
                 gui = self.fitting.controlCenter.gui
-                errorInfo = "(%s)%s"%(error.__class__.__name__, str(error))
+                errorInfo = "(%s)\n%s" % (error.__class__.__name__, str(error))
                 if gui:
-                    gui.postEvent(gui.ERROR, "<Engine exception> %s"%errorInfo)
+                    gui.postEvent(gui.ERROR, "<Engine exception> %s" % errorInfo)
                 else:
-                    print "<Engine exception> %s"%errorInfo
+                    print "<Engine exception> %s" % errorInfo
                 
     def __init__(self, name):
         """initialize
@@ -352,15 +353,24 @@ class Fitting(Organizer):
         
         calc -- a calculation object
         """
+        from diffpy.pdffit2.pdffit2 import dataError, unassignedError,\
+            constraintError, structureError, calculationError
+        engine_exceptions = ( dataError, unassignedError, constraintError,
+                structureError, calculationError )
         try:
             self.connect()
             self.configure()
             calc._calculate()
-            
             #NOTE: for reliability, next calculation/fitting should start all over
             self.__changeStatus(fitStatus=Fitting.INITIALIZED)
-        finally:
-            self.__release()
+        except engine_exceptions, error:
+            gui = self.controlCenter.gui
+            errorInfo = "(%s)\n%s" % (error.__class__.__name__, str(error))
+            if gui:
+                gui.postEvent(gui.ERROR, "<Engine exception> %s" % errorInfo)
+            else:
+                print "<Engine exception> %s" % errorInfo
+        self.__release()
             
     def resetStatus ( self ):
         """reset status back to initialized"""
