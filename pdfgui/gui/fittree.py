@@ -326,13 +326,19 @@ class FitTree(wx.TreeCtrl):
         self.SetNodeType(newfit, 'fit')
         self.SetItemImage(newfit, self.fitbmid, wx.TreeItemIcon_Normal)
         pos = self.GetPositionInSubtree(newfit)
-        # Set the node data for the new node
-        if cdata is None:
-            cdata = self.control.newFitting(fitname, pos)
-        elif paste:
-            cdata = self.control.paste(cdata, None, fitname, pos)
-        self.SetControlData(newfit, cdata)
-        return newfit
+
+        try:
+            # Set the node data for the new node
+            if cdata is None:
+                cdata = self.control.newFitting(fitname, pos)
+            elif paste:
+                cdata = self.control.paste(cdata, None, fitname, pos)
+            self.SetControlData(newfit, cdata)
+            return newfit
+        except:
+            self.Delete(newfit)
+            raise
+        return
 
     def AddPhase(self, node, label, insertafter=None, filename=None, 
             makedata = True, cdata=None):
@@ -388,17 +394,23 @@ class FitTree(wx.TreeCtrl):
         # Set the control data to the new phase
         pdata = self.GetControlData(node)
         pos = self.GetPositionInSubtree(newphase)
-        #print "makedata", makedata
-        #print "cdata", cdata is not None
-        if makedata:
-            if filename is None:
-                self.control.newStructure(pdata, label, pos)
-            else:
-                self.control.loadStructure(pdata, filename, label, pos)
 
-        elif cdata is not None:
-            self.control.paste(cdata, pdata, label, pos)
-        return newphase
+        # Try to get/make the node data from the control. If it doesn't work,
+        # then delete the new node.
+        try:
+            if makedata:
+                if filename is None:
+                    self.control.newStructure(pdata, label, pos)
+                else:
+                    self.control.loadStructure(pdata, filename, label, pos)
+
+            elif cdata is not None:
+                self.control.paste(cdata, pdata, label, pos)
+            return newphase
+        except:
+            self.Delete(newphase)
+            raise
+        return
 
     def AddDataSet(self, node, label, insertafter=None, filename=None,
             makedata=True, cdata=None):
@@ -451,14 +463,20 @@ class FitTree(wx.TreeCtrl):
         # Attach the control center data to the new dataset
         pos = self.GetPositionInSubtree(newset)
         pdata = self.GetControlData(node)
-        if makedata:
-            if filename is not None:
-                self.control.loadDataset(pdata, filename, label, pos)
-            else:
-                raise FitTreeError, "Cannot load a dataset without a name!"
-        elif cdata is not None:
-            self.control.paste(cdata, pdata, label, pos)
-        return newset
+
+        try:
+            if makedata:
+                if filename is not None:
+                    self.control.loadDataset(pdata, filename, label, pos)
+                else:
+                    raise FitTreeError, "Cannot load a dataset without a name!"
+            elif cdata is not None:
+                self.control.paste(cdata, pdata, label, pos)
+            return newset
+        except:
+            self.Delete(newset)
+            raise
+        return
 
     def AddCalc(self, node, label, insertafter=None, makedata=True, cdata=None):
         """Add a new DataSet to the tree as a child of fit. 
@@ -509,11 +527,17 @@ class FitTree(wx.TreeCtrl):
         # Attach the control center data to the new datacalc
         pos = self.GetPositionInSubtree(newcalc)
         pdata = self.GetControlData(node)
-        if makedata:
-            self.control.newCalculation(pdata, label, pos)
-        elif cdata is not None:
-            self.control.paste(cdata, pdata, label, pos)
-        return newcalc
+
+        try:
+            if makedata:
+                self.control.newCalculation(pdata, label, pos)
+            elif cdata is not None:
+                self.control.paste(cdata, pdata, label, pos)
+            return newcalc
+        except:
+            self.Delete(newcalc)
+            raise
+        return
 
     def CopyBranch(self, startnode):
         """Make a copy of a tree branch.

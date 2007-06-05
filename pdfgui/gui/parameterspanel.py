@@ -155,6 +155,7 @@ class ParametersPanel(wx.Panel, PDFPanel):
     #         gives no coordinates.
     def onCellLeftClick(self, event): # wxGlade: ParametersPanel.<event_handler>
         """Toggle a fix/free cell when it is selected."""
+        return
         # Toggle the check box if it is selected
         r = event.GetRow()
         c = event.GetCol()
