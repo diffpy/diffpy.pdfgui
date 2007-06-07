@@ -1407,33 +1407,45 @@ described elsewhere.
 @cindex hot keys
 
 @noindent
-Fit Tree
-@b{Ctrl+A} Select all items in the Fit Tree.
-@b{Ctrl+Shift+A} Once an object is selected on the Fit Tree, using this hot
+@b{Fit Tree}
+
+@noindent @kbd{Ctrl+A} Select all items in the Fit Tree.
+
+@noindent @kbd{Ctrl+Shift+A} Once an object is selected on the Fit Tree, using this hot
 key will sellect all the objects on the tree that are of the same type. For
 example, if a single data set is selected on the tree, hitting this hot
 key will make all the data sets belonging to all the fits in the tree to
 become selected. This is particularly useful for simultaneously plotting
 various fit results across the Fit Tree.
-@b{Ctrl+C} Copy selected item.
-@b{Ctrl+X} Delete selected item. Note that this does not place a copy of the
+
+@noindent @kbd{Ctrl+C} Copy selected item.
+
+@noindent @kbd{Ctrl+X} Delete selected item. Note that this does not place a copy of the
 item in the clipboard.
-@b{Delete} Same as @b{Ctrl+X}
-@b{Ctrl+V} Paste previously copied item. Note that this will only paste the item
+
+@noindent @kbd{Delete} Same as @kbd{Ctrl+X}
+
+@noindent @kbd{Ctrl+V} Paste previously copied item. Note that this will only paste the item
 to a legal position in the tree. For example, a phase node cannot be pasted into
 an empty tree.
 
 @noindent
-Phase configuration grid
-@b{Ctrl+A} Select all items.
-@b{Delete} Delete row. This will delete any wholly selected row.
-@b{Ctrl++} Add an atom to the grid.
-@b{Ctrl+-} Same as @b{Delete}.
+@b{Phase configuration grid}
+
+@noindent @kbd{Ctrl+A} Select all items.
+
+@noindent @kbd{Delete} Delete row. This will delete any wholly selected row.
+
+@noindent @kbd{Ctrl++} Add an atom to the grid.
+
+@noindent @kbd{Ctrl+-} Same as @kbd{Delete}.
 
 @noindent
-Phase constraints grid
-@b{Ctrl+A} Select all items.
-@b{Delete} Delete contents of selected cells.
+@b{Phase constraints grid}
+
+@noindent @kbd{Ctrl+A} Select all items.
+
+@noindent @kbd{Delete} Delete contents of selected cells.
 
 @c Start of Chapter 6
 @node List of PDFfit2 variables, Index, PDFgui hot keys, PDFgui reference sheets
