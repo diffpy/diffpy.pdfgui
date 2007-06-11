@@ -361,11 +361,14 @@ class Plotter(PDFComponent):
         
         force -- if True, close forcibly
         """
-        # NOTE: Not gonna be called because gui has no way of doing this
-        if self.window is not None:
-            #self.window.Close(True)
-            #self.window.Destroy()
-            pass
+        try:
+            self.lock.acquire()
+            if self.window is not None:
+                #self.window.Close(True)
+                self.window.Destroy()
+                self.window = None
+        finally:
+            self.lock.release()
             
     def onWindowClose(self):
         """get called when self.window is closed by user

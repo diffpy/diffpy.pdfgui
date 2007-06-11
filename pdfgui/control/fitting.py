@@ -437,12 +437,6 @@ class Fitting(Organizer):
             self.pause(False)
             return 
             
-        # Otherwise it should be a new run, in this case firstly cleanup 
-        # when user called this function, it must be true that the status 
-        # of current thread is not Fitting.RUNNING
-        if self.thread is not None:
-            self.thread.join()
-        
         # clean up control variable
         self.stopped = False
         self.paused = False
@@ -466,6 +460,12 @@ class Fitting(Organizer):
         return: True if running, False otherwise
         """
         return self.thread is not None and self.thread.isAlive()
+            
+    def join (self):
+        """wait for current fitting to finish"""
+        if self.thread:
+            self.thread.join()
+            self.thread = None
             
     def close ( self, force = False ):
         """close up the fitting in order to exit

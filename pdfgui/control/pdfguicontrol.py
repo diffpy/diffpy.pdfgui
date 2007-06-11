@@ -77,31 +77,34 @@ class PDFGuiControl:
                         gui.postEvent(gui.ERROR, "<Queue exception> %s"%error.info)
                     else:
                         print "<Queue exception> %s"%error.info
+                # another check before go to sleep
+                if not self.running: break
                 time.sleep(1)
 
     def startQueue(self):
         """start queue manager"""
-        ##self.queueManager.setDaemon(True)
+        self.queueManager.setDaemon(True)
         self.queueManager.start()
         
     def checkQueue(self):
         """find next fitting in the queue and start it"""
-        if self.currentFitting and self.currentFitting.isThreadRunning():
-            return 
-        
+        if self.currentFitting:
+            # wait for currentFitting
+            self.currentFitting.join()
+
         # No fitting in the queue is running.
         try:
             self.lock.acquire()
             if len(self.fittingQueue) > 0 :
-                fit = self.fittingQueue.pop(0)
+                self.currentFitting = self.fittingQueue.pop(0)
             else:
+                self.currentFitting = None
                 return
         finally:
             self.lock.release()
         
-        self.currentFitting = fit
-        fit.start()
-            
+        self.currentFitting.start()
+        
     def enqueue(self, fits, enter = True):
         """enqueue or dequeue fittings
         
@@ -139,6 +142,7 @@ class PDFGuiControl:
         
         force -- if exit forciably
         """
+        self.stop()
         for plot in self.plots:
             plot.close(force)
         for fit in self.fits:
@@ -154,10 +158,8 @@ class PDFGuiControl:
         if self.host:
             self.host.close()
         
-        #stop queuemanager,wait for queue thread 
         if self.queueManager.isAlive():
             self.queueManager.running = False            
-            self.queueManager.join()
         
     def newFitting(self, name, position=None):
         """insert a new instance of Fitting
@@ -523,12 +525,12 @@ class PDFGuiControl:
         """execute Calculations and Fittings in IDlist.
         """
         self.redirectStdout()
-        for ID in IDlist:
-            if isinstance(ID, Calculation):
-                ID.start()
-            else:
-                self.enqueue([ID,])
-
+        fits = [ ID for ID in IDlist if isinstance(ID, Fitting) ]
+        calcs = [ ID for ID in IDlist if isinstance(ID, Calculation)]
+        for calc in calcs:
+            calc.start()
+        self.enqueue(fits)
+        
     def stop(self):
         """stop all Fittings
         """
