@@ -1816,12 +1816,6 @@ class MainFrame(wx.Frame):
                 self.runningDict[name] = sel
         self.needsSave()
 
-        # redirect engine output to cStringIO if not done yet
-        from diffpy.pdffit2 import redirect_stdout, output
-        if output.stdout is sys.stdout:
-            import cStringIO
-            redirect_stdout(cStringIO.StringIO())
-
         IDlist = map(self.treeCtrlMain.GetControlData, allnodes)
         self.control.start(IDlist)
         return 
@@ -2397,11 +2391,9 @@ class MainFrame(wx.Frame):
         
     def updateOutput(self):
         """Update text in outputPanel with text in stdout."""
-        from diffpy.pdffit2 import output, redirect_stdout
-        self.outputPanel.updateText(output.stdout.getvalue())
-        output.stdout.close()
-        import cStringIO
-        redirect_stdout( cStringIO.StringIO() )
+        # FIXME - This does not belong in the gui. The gui should not have to
+        # know the specifics of the engine!
+        self.outputPanel.updateText(self.control.getEngineOutput())
         return
 
 # end of class MainPanel

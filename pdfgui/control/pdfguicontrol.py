@@ -522,6 +522,7 @@ class PDFGuiControl:
     def start(self, IDlist):
         """execute Calculations and Fittings in IDlist.
         """
+        self.redirectStdout()
         for ID in IDlist:
             if isinstance(ID, Calculation):
                 ID.start()
@@ -564,6 +565,25 @@ class PDFGuiControl:
             raise ControlTypeError, "Can't insert to %s"%\
                   self.__class__.__name__
    
+    def redirectStdout(self):
+        """Redirect standard out.
+        
+        This redirect engine output to cStringIO if not done yet.
+        """
+        from diffpy.pdffit2 import redirect_stdout, output
+        if output.stdout is sys.stdout:
+            import cStringIO
+            redirect_stdout(cStringIO.StringIO())
+        return
+
+    def getEngineOutput(self):
+        """Get the output from the engine."""
+        from diffpy.pdffit2 import output, redirect_stdout
+        txt = output.stdout.getvalue()
+        output.stdout.close()
+        import cStringIO
+        redirect_stdout( cStringIO.StringIO() )
+        return txt
 
 _pdfguicontrol = None
 def pdfguicontrol(*args, **kwargs):
