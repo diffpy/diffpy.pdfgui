@@ -122,11 +122,13 @@ class Fitting(Organizer):
                 gui.postEvent(gui.UPDATE, self)
                 gui.postEvent(gui.OUTPUT, None)
                 
-    def __release(self):
+    def _release(self):
         """release resources"""
         if self.host: # is not None (running on a remote server)
             self.host.releaseServer(self.server)
             self.host = None
+        else:
+            self.server.reset()
         
     def _getStrId(self):
         """make a string identifier
@@ -370,7 +372,6 @@ class Fitting(Organizer):
                 gui.postEvent(gui.ERROR, "<Engine exception> %s" % errorInfo)
             else:
                 print "<Engine exception> %s" % errorInfo
-        self.__release()
             
     def resetStatus ( self ):
         """reset status back to initialized"""
@@ -409,7 +410,7 @@ class Fitting(Organizer):
                     
         finally:
             # whatever happened, resource should be released.
-            self.__release()
+            self._release()
         
             # job status should be changed because of thread exit
             self.__changeStatus ( jobStatus = Fitting.VOID)

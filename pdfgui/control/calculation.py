@@ -96,6 +96,7 @@ class Calculation(PDFComponent):
     def start(self):
         """entry function for calculation"""
         self.owner.calculate(self)
+        self.owner._release()
         
     def _calculate(self):
         """do the real calculation"""
