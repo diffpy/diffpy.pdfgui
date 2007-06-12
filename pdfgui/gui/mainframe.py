@@ -1968,6 +1968,7 @@ class MainFrame(wx.Frame):
         """Create a new project."""
         retval = self.checkForSave()
         if retval != wx.ID_CANCEL:
+            self.control.stop()
             self.control.close()
             self.treeCtrlMain.DeleteAllItems()
             self.treeCtrlMain.InitializeTree()
@@ -1993,6 +1994,7 @@ class MainFrame(wx.Frame):
             if d.ShowModal() == wx.ID_OK:
                 fullpath = d.GetPath()
                 # Load this file into the control center.
+                self.control.stop()
                 self.control.close()
                 treelist = self.control.load(fullpath)
                 self.treeCtrlMain.ExtendProjectTree(treelist)
@@ -2072,6 +2074,7 @@ class MainFrame(wx.Frame):
         if retval != wx.ID_CANCEL:
             self.fullpath = filename
             self.fileHistory.AddFileToHistory(self.fullpath)
+            self.control.stop()
             self.control.close()
             try:
                 treelist = self.control.load(self.fullpath)
