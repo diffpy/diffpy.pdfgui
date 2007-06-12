@@ -55,17 +55,6 @@ import pdfguiglobals
 from pdfguiglobals import iconsDir, docDir, docMainFile
 
 
-def launchBrowser(url):
-    '''Launches browser and opens specified url
-    
-    In some cases may require BROWSER environment variable to be set up.
-    
-    @param url: URL to open
-    '''
-    import webbrowser
-    webbrowser.open(url)
-    
-
 # WARNING - This file cannot be maintained with wxglade any longer. Do not make
 # modifications with wxglade!!!
 
@@ -452,7 +441,7 @@ class MainFrame(wx.Frame):
 
     def __setupMainMenu(self):
         """This sets up the menu in the main frame."""
-	self.menulength = 8
+        self.menulength = 8
 
         self.menuBar = wx.MenuBar()
         self.SetMenuBar(self.menuBar)
@@ -495,7 +484,7 @@ class MainFrame(wx.Frame):
         self.pasteLinkItem = wx.MenuItem(self.editMenu, self.pasteLinkId,
                 "Paste &Linked Fit", "", wx.ITEM_NORMAL)
         self.editMenu.AppendItem(self.pasteLinkItem)
-        #self.editMenu.AppendSeparator()
+        self.editMenu.AppendSeparator()
         #self.servItem = wx.MenuItem(self.editMenu, wx.NewId(), 
         #        "&Server Configuration", "", wx.ITEM_NORMAL)
         #self.editMenu.AppendItem(self.servItem)
@@ -876,51 +865,51 @@ class MainFrame(wx.Frame):
     def setMode(self, mode):
         """Set the mode of the program.
         
-	This method takes care of any widget properties that must change when
-	the mode is changed. If the mode is changing due to the change in the
-	right panel, always call setMode before switchRightPanel.
-        
+        This method takes care of any widget properties that must change when
+        the mode is changed. If the mode is changing due to the change in the
+        right panel, always call setMode before switchRightPanel.
+            
         "fitting" mode:
-	 * treeCtrlMain is enabled
-         * plotPanel panel is enabled
-	 * toolBar is enabled
-	 * menuBar is enabled
-
+            * treeCtrlMain is enabled
+            * plotPanel panel is enabled
+            * toolBar is enabled
+            * menuBar is enabled
+        
         "addingdata" mode: 
         "addingphase" mode:
         "config" mode:
-	 * treeCtrlMain is disabled
-         * plotPanel panel is disabled
-	 * toolBar is disabled
-	 * menuBar is disabled
-
-         "rseries" mode:
-         "tseries" mode:
-         "dseries" mode:
-	 * treeCtrlMain is enabled
-         * plotPanel panel is disabled
-	 * toolBar is disabled
-	 * menuBar is disabled
+            * treeCtrlMain is disabled
+            * plotPanel panel is disabled
+            * toolBar is disabled
+            * menuBar is disabled
+        
+        "rseries" mode:
+        "tseries" mode:
+        "dseries" mode:
+            * treeCtrlMain is enabled
+            * plotPanel panel is disabled
+            * toolBar is disabled
+            * menuBar is disabled
         """
         self.mode = mode
         if mode == 'fitting':
-	    self.treeCtrlMain.Enable(True)
+            self.treeCtrlMain.Enable(True)
             self.plotPanel.Enable(True)
-	    self.toolBar.Enable(True)
-	    for i in range(self.menulength):
-	        self.menuBar.EnableTop(i, True)
-	elif mode in ["addingdata", "addingphase", "config"]:
-	    self.treeCtrlMain.Enable(False)
+            self.toolBar.Enable(True)
+            for i in range(self.menulength):
+                self.menuBar.EnableTop(i, True)
+        elif mode in ["addingdata", "addingphase", "config"]:
+            self.treeCtrlMain.Enable(False)
             self.plotPanel.Enable(False)
-	    self.toolBar.Enable(False)
-	    for i in range(self.menulength):
-	        self.menuBar.EnableTop(i, False)
-	elif mode in ["rseries", "tseries", "dseries"]:
-	    self.treeCtrlMain.Enable(True)
+            self.toolBar.Enable(False)
+            for i in range(self.menulength):
+                self.menuBar.EnableTop(i, False)
+        elif mode in ["rseries", "tseries", "dseries"]:
+            self.treeCtrlMain.Enable(True)
             self.plotPanel.Enable(False)
-	    self.toolBar.Enable(False)
-	    for i in range(self.menulength):
-	        self.menuBar.EnableTop(i, False)
+            self.toolBar.Enable(False)
+            for i in range(self.menulength):
+                self.menuBar.EnableTop(i, False)
         return
 
     def loadConfiguration(self):
@@ -1087,13 +1076,22 @@ class MainFrame(wx.Frame):
         * The behavior is defined in the associated panel
         """
         selections = self.treeCtrlMain.GetSelections()
-        if event:
+
+        # Note: this is performed this way to avoid deselecion problems.
+        if selections:
+            node = selections[0]
+            if not event:
+                # FIXME
+                # Make sure that the item is visible.
+                # This takes place when onTreeSelChanged is called manually, in
+                # which case event is None. onTreeSelChanged should not be
+                # called manually.
+                self.treeCtrlMain.EnsureVisible(node)
+                self.treeCtrlMain.ScrollTo(node)
+        elif event:
             node = event.GetItem()
         else:
-            node = selections[0]
-            # Make sure that the item is visible.
-            self.treeCtrlMain.EnsureVisible(node)
-            self.treeCtrlMain.ScrollTo(node)
+            return
 	    self.treeCtrlMain.SetFocus()
 
         # "fitting" mode 
@@ -1129,17 +1127,19 @@ class MainFrame(wx.Frame):
         elif self.mode in ["rseries", "tseries", "dseries"]:
             self.rightPanel.onTreeSelChanged(event)
 
-        # update the toolbar
+        # update the toolbar and menu
         self.updateToolbar()
+        if self.runningDict:
+            self.disableMainMenuItems()
         return
 
     def onTreeSelChanging(self, event): # wxGlade: MainPanel.<event_handler>
         """Set the click behavior for each mode.
         
-	Note that this doesn't work on Windows. Be sure to build in redundancy
-	so that the program behaves as if this does not even get called. If the
-	Windows bug does not get fixed, this method will probably be
-	eliminated.
+        Note that this doesn't work on Windows. Be sure to build in redundancy
+        so that the program behaves as if this does not even get called. If the
+        Windows bug does not get fixed, this method will probably be
+        eliminated.
 
         "addingdata" mode:
             * can select nothing
@@ -1159,16 +1159,16 @@ class MainFrame(wx.Frame):
          "dseries" mode:
             * can only select fit items
         """
-	# THIS DOESNT WORK ON WINDOWS!
+        # THIS DOESNT WORK ON WINDOWS!
         node = event.GetItem()
-	if not node: return
+        if not node: return
         if self.mode in ["addingdata", "addingphase", "config"]:
             event.Veto()
         elif self.mode in ["rseries", "tseries", "dseries"]:
             nodetype = self.treeCtrlMain.GetNodeType(node)
             if nodetype != "fit":
                 event.Veto()
-
+        
         return
 
     def onBeginLabelEdit(self, event): # wxGlade: MainPanel.<event_handler>
@@ -1192,7 +1192,7 @@ class MainFrame(wx.Frame):
         label = event.GetLabel()
 
         # No ''
-        if label in [""]:
+        if label.strip() == "":
             event.Veto()
             return
 
@@ -1509,6 +1509,8 @@ class MainFrame(wx.Frame):
         menu.EnableTop(3, True)
         menu.EnableTop(4, True)
         menu.EnableTop(5, True)
+        menu.EnableTop(6, True)
+        menu.EnableTop(7, True)
         # Menu Items
         menu.Enable(self.runFitId, True)
         menu.Enable(self.stopFitId, True)
@@ -1525,10 +1527,11 @@ class MainFrame(wx.Frame):
         # Reset the save menus so that they can be disabled if a fit is running.
         menu.Enable(self.saveId, pdfguiglobals.isAltered)
         menu.Enable(self.saveAsId, True)
+        menu.Enable(self.openId, True)
+        menu.Enable(self.recentId, True)
 
         # FIXME
         # Disable things that are not yet implemented.
-        #menu.Enable(self.prefItem.GetId(), False)
         menu.Enable(self.expFitItem.GetId(), False)
         #from diffpy.pdfgui.control.connection import RemoteExecution
         #menu.Enable(self.servItem.GetId(), RemoteExecution)
@@ -1616,13 +1619,13 @@ class MainFrame(wx.Frame):
             menu.Enable(self.recentId, False)
 
             # Disallow certain things during a running fit
-            if node in self.runningDict.values():
+            pnode = self.treeCtrlMain.GetFitRoot(node)
+            if pnode in self.runningDict.values():
                 menu.EnableTop(1, False)
-                menu.EnableTop(2, False)
                 menu.EnableTop(3, False)
                 menu.EnableTop(4, False)
                 menu.EnableTop(5, False)
-
+                menu.EnableTop(6, False)
         else:
             menu.Enable(self.stopFitId, False)
 
@@ -2299,7 +2302,8 @@ class MainFrame(wx.Frame):
 
     def onDocumentation(self, event):
         """Show information about the documentation."""
-        launchBrowser(os.path.join(docDir, docMainFile))
+        import webbrowser
+        webbrowser.open(os.path.join(docDir, docMainFile))
         return
 
     # MISC INTERACTION ITEMS
@@ -2374,6 +2378,7 @@ class MainFrame(wx.Frame):
             name = job.name
             fitStatus = job.fitStatus
             jobStatus = job.jobStatus
+            print fitStatus
             try:
                 node = self.runningDict[name]
             except KeyError:
@@ -2397,12 +2402,13 @@ class MainFrame(wx.Frame):
                 self.runningDict.pop(name, None)
                 self.needsSave()
 
+        # Update the menus and toolbars whenever an event is posted.
+        self.disableMainMenuItems()
+        self.updateToolbar()
         return
         
     def updateOutput(self):
         """Update text in outputPanel with text in stdout."""
-        # FIXME - This does not belong in the gui. The gui should not have to
-        # know the specifics of the engine!
         self.outputPanel.updateText(self.control.getEngineOutput())
         return
 
