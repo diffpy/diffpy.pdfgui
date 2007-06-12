@@ -1091,6 +1091,7 @@ class MainFrame(wx.Frame):
         elif event:
             node = event.GetItem()
         else:
+            # How did we even get here?
             return
 	    self.treeCtrlMain.SetFocus()
 
@@ -1101,7 +1102,7 @@ class MainFrame(wx.Frame):
                 self.switchRightPanel("blank")
                 self.plotPanel.Enable(False)
                 return
-	    else:
+            else:
                 self.plotPanel.Enable(True)
 
             # Don't change the panel if there are multiple items selected
@@ -2378,7 +2379,6 @@ class MainFrame(wx.Frame):
             name = job.name
             fitStatus = job.fitStatus
             jobStatus = job.jobStatus
-            print fitStatus
             try:
                 node = self.runningDict[name]
             except KeyError:
