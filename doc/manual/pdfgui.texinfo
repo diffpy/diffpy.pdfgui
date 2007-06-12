@@ -355,8 +355,8 @@ corresponding project page for other installation options.
 @b{Required packages:}
 
 @table @t
-@item python @url{http://www.python.org} Python
-interpreter, minimum version 2.3
+@item python 
+@url{http://www.python.org} Python interpreter, minimum version 2.3
 
 @item python-dev
 @url{http://www.python.org} development files for
@@ -376,6 +376,13 @@ recommended 2.8
 @url{http://matplotlib.sourceforge.net} plotting library for Python,
 minimum version 0.90
 @end table
+
+@b{Optional packages:}
+@table @t
+@item AtomEye
+@url{http://164.107.79.177/Archive/Graphics/A/} structure viewer
+@end table
+
 
 Once all of these are in place and working,
 download the latest @samp{.tgz} archive of the DiffPy sources from
@@ -398,11 +405,18 @@ DiffPy to other locations by adding suitable options to setup.py script.  For a
 list of available options, see @samp{python setup.py --help} or
 @samp{python setup.py install --help}.
 
+Once PDFgui is up and running, enter the location of the AtomEye executable
+under Edit->Preferences.
+
 @unnumberedsubsec Windows
 
 DiffPy is provided as self-installing archive for Windows systems.  Download
 the latest @samp{diffpy-VERSION.exe} file, launch the executable and follow
-the prompts.  That's all - PDFgui and PDFfit2 should be now ready for use.
+the prompts.  That's all - PDFgui and PDFfit2 should be now ready for use. If
+you wish to have structure plotting capabilities, download and install AtomEye
+as directed on the AtomEye web page
+@url{http://164.107.79.177/Archive/Graphics/A/}.  Once PDFgui is up and running,
+enter the location of the AtomEye executable under Edit->Preferences.
 
 @unnumberedsubsec Building from Subversion repository
 
@@ -1406,46 +1420,63 @@ described elsewhere.
 @cindex PDFgui hot keys
 @cindex hot keys
 
-@noindent
 @b{Fit Tree}
+@table @t
 
-@noindent @kbd{Ctrl+A} Select all items in the Fit Tree.
+@item @kbd{Ctrl+A} 
+Select all items in the Fit Tree.
 
-@noindent @kbd{Ctrl+Shift+A} Once an object is selected on the Fit Tree, using this hot
-key will sellect all the objects on the tree that are of the same type. For
-example, if a single data set is selected on the tree, hitting this hot
-key will make all the data sets belonging to all the fits in the tree to
-become selected. This is particularly useful for simultaneously plotting
-various fit results across the Fit Tree.
+@item @kbd{Ctrl+Shift+A} 
+Once an object is selected on the Fit Tree, using this hot key will sellect all
+the objects on the tree that are of the same type. For example, if a single data
+set is selected on the tree, hitting this hot key will make all the data sets
+belonging to all the fits in the tree to become selected. This is particularly
+useful for simultaneously plotting various fit results across the Fit Tree.
 
-@noindent @kbd{Ctrl+C} Copy selected item.
+@item @kbd{Ctrl+C} 
+Copy selected item.
 
-@noindent @kbd{Ctrl+X} Delete selected item. Note that this does not place a copy of the
-item in the clipboard.
+@item @kbd{Ctrl+X} 
+Delete selected item. Note that this does not place a copy of the item in the
+clipboard.
 
-@noindent @kbd{Delete} Same as @kbd{Ctrl+X}
+@item @kbd{Delete} 
+Same as @kbd{Ctrl+X}
 
-@noindent @kbd{Ctrl+V} Paste previously copied item. Note that this will only paste the item
-to a legal position in the tree. For example, a phase node cannot be pasted into
-an empty tree.
+@item @kbd{Ctrl+V} 
+Paste previously copied item. Note that this will only paste the item to a legal
+position in the tree. For example, a phase node cannot be pasted into an empty
+tree.
 
-@noindent
+@end table
+
 @b{Phase configuration grid}
+@table @t
 
-@noindent @kbd{Ctrl+A} Select all items.
+@item @kbd{Ctrl+A} 
+Select all items.
 
-@noindent @kbd{Delete} Delete row. This will delete any wholly selected row.
+@item @kbd{Delete} 
+Delete row. This will delete any wholly selected row.
 
-@noindent @kbd{Ctrl++} Add an atom to the grid.
+@item @kbd{Ctrl++} 
+Add an atom to the grid.
 
-@noindent @kbd{Ctrl+-} Same as @kbd{Delete}.
+@item @kbd{Ctrl+-} 
+Same as @kbd{Delete}.
 
-@noindent
+@end table
+
 @b{Phase constraints grid}
+@table @t
 
-@noindent @kbd{Ctrl+A} Select all items.
+@item @kbd{Ctrl+A} 
+Select all items.
 
-@noindent @kbd{Delete} Delete contents of selected cells.
+@item @kbd{Delete} 
+Delete contents of selected cells.
+
+@end table
 
 @c Start of Chapter 6
 @node List of PDFfit2 variables, Index, PDFgui hot keys, PDFgui reference sheets
