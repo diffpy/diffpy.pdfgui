@@ -2055,7 +2055,6 @@ class MainFrame(wx.Frame):
 
     def onQuit(self, event):
         """Shut down gracefully."""
-        self.control.exit()
         retval = self.checkForSave()
         if retval != wx.ID_CANCEL:
             self.quitting = True
