@@ -66,7 +66,7 @@ class PreferencesPanel(wx.Panel, PDFPanel):
     def __customProperties(self):
         """Set the custom properties."""
         import os.path
-        self.atomeyeFileBrowser.SetLabel("Atomeye path:")
+        self.atomeyeFileBrowser.SetLabel("AtomEye path:")
         self.atomeyeFileBrowser.startDirectory = os.path.abspath('.')
         return
 
@@ -88,13 +88,14 @@ class PreferencesPanel(wx.Panel, PDFPanel):
 
         # Atomeye Path
         path = self.atomeyeFileBrowser.GetValue()
-        if path: 
-            if not os.path.exists(path):
-                raise ControlFileError("Atomeye executable '%s' does not exist" % path)
-            if not self.cP.has_section("ATOMEYEPATH"):
-                self.cP.add_section("ATOMEYEPATH")
-            self.cP.set("ATOMEYEPATH", "path", path)
-        pdfguiglobals.atomeyepath = path
+        #if path: 
+        #    if not os.path.exists(path):
+        #        raise ControlFileError("AtomEye executable '%s' does not exist" % path)
+        #    if not self.cP.has_section("ATOMEYEPATH"):
+        #        self.cP.add_section("ATOMEYEPATH")
+        #    self.cP.set("ATOMEYEPATH", "path", path)
+        #else:
+        self.cP.set("ATOMEYEPATH", "path", "")
 
         # Structures path
         remember = str(self.structureDirCheckBox.GetValue())

@@ -962,8 +962,8 @@ class MainFrame(wx.Frame):
             self.auiManager.LoadPerspective(default)
 
         # Load the window dimensions
-	w = 800
-	h = 600
+        w = 800
+        h = 600
         if self.cP.has_option("SIZE", "width"):
             w = self.cP.get("SIZE", "width")
             w = int(w)
@@ -971,12 +971,6 @@ class MainFrame(wx.Frame):
             h = self.cP.get("SIZE", "height")
             h = int(h)
         self.SetSize((w,h))
-
-        # Load the atomeye path
-        path = ""
-        if self.cP.has_option("ATOMEYEPATH", "path"):
-            path = self.cP.get("ATOMEYEPATH", "path")
-        pdfguiglobals.atomeyepath = path
 
         return
 
@@ -1027,6 +1021,17 @@ class MainFrame(wx.Frame):
         from stat import S_IRUSR, S_IWUSR
         os.chmod(filename, S_IRUSR|S_IWUSR)
         return
+
+    def getAtomEyePath(self):
+        """Get the full AtomEye path from configuration parser.
+        
+        If the full path is not available, then "atomeye" is returned.
+        """
+        atomeyepath = "atomeye"
+        if self.cP.has_option("ATOMEYEPATH", "path"):
+            atomeyepath = self.cP.get("ATOMEYEPATH", "path")
+            if not atomeyepath: atomeyepath = "atomeye"
+        return atomeyepath
 
     def checkForSave(self):
         """Pop up a dialog if the project needs to be saved.
@@ -1905,7 +1910,8 @@ class MainFrame(wx.Frame):
             if itemtype == "phase":
                 panel = self.dynamicPanels['phase']
                 cdata = self.treeCtrlMain.GetControlData(node)
-                atomeyecontrol.plot(cdata.initial)
+                atomeyepath = self.getAtomEyePath()
+                atomeyecontrol.plot(cdata.initial, atomeyepath)
         return
 
     
@@ -1921,11 +1927,12 @@ class MainFrame(wx.Frame):
             if itemtype == "phase":
                 panel = self.dynamicPanels['phase']
                 cdata = self.treeCtrlMain.GetControlData(node)
-                atomeyecontrol.plot(cdata.refined)
+                atomeyepath = self.getAtomEyePath()
+                atomeyecontrol.plot(cdata.refined, atomeyepath)
         return
 
     def onQuickPlot(self, event):
-        """Quickly plot the Gobs, Gfit, and Gdiff for a selected dataset."""
+        """Quickly plot information for the selected node."""
         selections = self.treeCtrlMain.GetSelections()
         if len(selections) != 1: return
         node = selections[0]
