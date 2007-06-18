@@ -854,10 +854,14 @@ To introduce new atoms right-click with your mouse onto @i{elem} tab in the
 Current Action panel, and select desired number of atoms in the asymmetric
 unit via the dialog box that pops up. In Ni case select one row only. After
 action is invoked, a new row will show up in the table. This can also be
-performed by hitting ``Control'', ``Shift'' and ``+'' simulataneously .Type in
+performed by hitting ``Control'', ``Shift'' and ``+'' simulataneously. Type in
 @i{Ni} for the element name. It is important that the element name is typed in
 correctly, as this is further used to search a database for the scattering
-characteristics of that site. Further, highlight the three diagonal ADPs, and
+characteristics of that site@footnote{@cindex isotope
+To enter a specific isotope, use the "NucleonNumber-Symbol" syntax, for
+example ``12-C''.  This does not apply for deuterium and tricium, which
+have isotope symbols ``D'' and ``T''.}.
+Further, highlight the three diagonal ADPs, and
 type in the initial value 0.0025.
 
 
@@ -1221,7 +1225,7 @@ the series of fits that is to be automatically generated in the next step
 will be linked in an arbitrary way in which the data were loaded, rather
 than to reflect the scientific logic. There should be 6 data sets (with
 the initial x=0.0 data set there will be 7 chained fits total after this
-setup is done) . Next, ensure that the template fit is selected on the
+setup is done).  Next, ensure that the template fit is selected on the
 Fit Tree. If this is the case, the ``OK'' button becomes clickable.
 Clicking on the ``OK'' button will generate a sequence of linked fits
 in the Fit Tree in the order of the Ca content increase. These fits
@@ -1404,20 +1408,21 @@ described elsewhere.
 
 @c Start of Chapter 5
 @c @node NODE-NAME, NEXT, PREVIOUS, UP
-@node PDFgui reference sheets, PDFgui hot keys, Advanced usage and special needs, Top
+@node PDFgui reference sheets, PDFgui shortcut keys, Advanced usage and special needs, Top
 @chapter PDFgui reference sheets
 @cindex PDFgui reference sheets
 @cindex reference sheets
 
 @c Start of Chapter 6
 @menu
-* PDFgui hot keys::
+* PDFgui shortcut keys::
 * List of PDFfit2 variables::
 @end menu
 
-@node PDFgui hot keys, List of PDFfit2 variables, PDFgui reference sheets, PDFgui reference sheets
-@section PDFgui hot keys
-@cindex PDFgui hot keys
+@node PDFgui shortcut keys, List of PDFfit2 variables, PDFgui reference sheets, PDFgui reference sheets
+@section PDFgui shortcut keys
+@cindex PDFgui shortcut keys
+@cindex shortcuts
 @cindex hot keys
 
 @b{Fit Tree}
@@ -1427,7 +1432,8 @@ described elsewhere.
 Select all items in the Fit Tree.
 
 @item @kbd{Ctrl+Shift+A} 
-Once an object is selected on the Fit Tree, using this hot key will sellect all
+Once an object is selected on the Fit Tree, using this shortcut key will
+sellect all
 the objects on the tree that are of the same type. For example, if a single data
 set is selected on the tree, hitting this hot key will make all the data sets
 belonging to all the fits in the tree to become selected. This is particularly
@@ -1450,6 +1456,7 @@ tree.
 
 @end table
 
+@noindent
 @b{Phase configuration grid}
 @table @t
 
@@ -1467,6 +1474,7 @@ Same as @kbd{Delete}.
 
 @end table
 
+@noindent
 @b{Phase constraints grid}
 @table @t
 
@@ -1479,7 +1487,7 @@ Delete contents of selected cells.
 @end table
 
 @c Start of Chapter 6
-@node List of PDFfit2 variables, Index, PDFgui hot keys, PDFgui reference sheets
+@node List of PDFfit2 variables, Index, PDFgui shortcut keys, PDFgui reference sheets
 @section List of PDFfit2 variables
 @cindex PDFfit2 variables
 @cindex list of variables
