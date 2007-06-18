@@ -616,6 +616,9 @@ class MainFrame(wx.Frame):
         self.requestItem = wx.MenuItem(self.helpMenu, wx.NewId(), 
                 "Request a Feature", "", wx.ITEM_NORMAL)
         self.helpMenu.AppendItem(self.requestItem)
+        self.communityItem = wx.MenuItem(self.helpMenu, wx.NewId(), 
+                "PDFgui Community", "", wx.ITEM_NORMAL)
+        self.helpMenu.AppendItem(self.communityItem)
         self.aboutItem = wx.MenuItem(self.helpMenu, wx.NewId(), 
                 "&About", "", wx.ITEM_NORMAL)
         self.helpMenu.AppendItem(self.aboutItem)
@@ -747,6 +750,7 @@ class MainFrame(wx.Frame):
         wx.EVT_MENU(self, self.docItem.GetId(), self.onDocumentation)
         wx.EVT_MENU(self, self.aboutItem.GetId(), self.onAbout)
         wx.EVT_MENU(self, self.requestItem.GetId(), self.onRequest)
+        wx.EVT_MENU(self, self.communityItem.GetId(), self.onCommunity)
 
         # The generic menu-check.
         wx.EVT_MENU_OPEN(self, self.onMainMenu)
@@ -1974,6 +1978,21 @@ class MainFrame(wx.Frame):
         dlg.ShowModal()
         dlg.Destroy()
         return
+
+    def onCommunity(self, event):
+        """Open the brower and go to
+
+        http://groups.google.com/group/diffpy-users
+        """
+        import webbrowser
+        url = "http://groups.google.com/group/diffpy-users"
+        try:
+            webbrowser.open(url)
+        except Error, e:
+            errorinfo = 'Failed to open "%s"'%str(e)
+            raise ControlError(errorinfo)
+        return
+
 
     def onNew(self, event):
         """Create a new project."""
