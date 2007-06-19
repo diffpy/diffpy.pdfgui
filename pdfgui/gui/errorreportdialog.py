@@ -118,6 +118,7 @@ class ErrorReportDialog(wx.Dialog):
             self.label_header.SetLabel(" Share you thoughts about PDFgui!")
             self.label_text.SetLabel("To help us improve this software, please provide a short summary of the problem or request.  When you click the Send Report button, the short summary, full description and the version of the software will be sent to developers.")
             self.ticketlink.SetURL(diffpy_users)
+            self.ticketlink.SetToolTip(wx.ToolTip(diffpy_users))
             self.label_log.SetLabel("")
             self.text_ctrl_log.Hide()
             self.errorReport = False
