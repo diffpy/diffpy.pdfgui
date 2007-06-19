@@ -614,7 +614,7 @@ class MainFrame(wx.Frame):
                 "&Documentation\tF1", "", wx.ITEM_NORMAL)
         self.helpMenu.AppendItem(self.docItem)
         self.requestItem = wx.MenuItem(self.helpMenu, wx.NewId(), 
-                "Request a Feature", "", wx.ITEM_NORMAL)
+                "Request a Feature / Report a Bug", "", wx.ITEM_NORMAL)
         self.helpMenu.AppendItem(self.requestItem)
         self.communityItem = wx.MenuItem(self.helpMenu, wx.NewId(), 
                 "PDFgui Community", "", wx.ITEM_NORMAL)

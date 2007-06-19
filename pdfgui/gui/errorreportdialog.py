@@ -31,6 +31,7 @@ from diffpy.pdfgui import __version__
 query_pdfgui_tickets = ''.join(["http://danse.us/trac/diffraction/query",
     '?status=new&status=assigned&status=reopened',
     '&component=pdfgui&component=pdffit2&order=priority'])
+diffpy_users = "http://groups.google.com/group/diffpy-users"
 
 class ErrorReportDialog(wx.Dialog):
     def __init__(self, *args, **kwds):
@@ -58,6 +59,7 @@ class ErrorReportDialog(wx.Dialog):
 
         self.Bind(wx.EVT_BUTTON, self.onSend, self.button_send)
         # end wxGlade
+        self.__customProperties()
         self.text_ctrl_summary.Bind(wx.EVT_SET_FOCUS, self.onSetFocus)
         self.text_ctrl_summary.Bind(wx.EVT_KILL_FOCUS, self.onKillFocus)
         self.errorReport = True
@@ -101,20 +103,33 @@ class ErrorReportDialog(wx.Dialog):
         self.Layout()
         # end wxGlade
 
+    def __customProperties(self):
+        """Set custom properties."""
+        self.label_text.SetLabel("To help us improve this software, please provide a short summary of the problem or request.  When you click the Send Report button, the short summary, full description and the version of the software will be sent to developers.")
+        self.label_view_ticket.SetLabel(" Discuss PDFgui and learn about new developments and features ") 
+        self.ticketlink.SetLabel("here.") 
+        self.ticketlink.SetURL("")
+        return
+        
     def ShowModal(self):
         # there are 2 mode: error report and feature request
         if self.text_ctrl_log.GetValue().strip() == "":
-            self.errorReport = False
-        else:
-            self.errorReport = True
-        # if we are in feature request mode, modify the panel
-        if not self.errorReport:
-            self.SetTitle('Feature Request')
+            self.SetTitle("Feature Request / Bug Report")
             self.label_header.SetLabel(" Share you thoughts about PDFgui!")
-            self.label_text.SetLabel("To help us improve this software, please provide at least a short summary of the problem. When you click the Send Report button, the short summary, full description and the version of the software will be sent to developers.")
+            self.label_text.SetLabel("To help us improve this software, please provide a short summary of the problem or request.  When you click the Send Report button, the short summary, full description and the version of the software will be sent to developers.")
+            self.ticketlink.SetURL(diffpy_users)
             self.label_log.SetLabel("")
             self.text_ctrl_log.Hide()
-        
+            self.errorReport = False
+        else:
+            self.SetTitle("Problem Report for PDFgui")
+            self.label_header.SetLabel(" PDFgui has encountered a problem. We are sorry for the inconvenience.")
+            self.label_text.SetLabel("To help us improve this software, please provide a short summary of how the error occurred. When you click the Send Report button, the short summary, full description and the version of the software will be sent to developers.")
+            self.ticketlink.SetURL(query_pdfgui_tickets)
+            self.label_log.SetLabel("Error log:")
+            self.text_ctrl_log.Show()
+            self.errorReport = True
+
         wx.Dialog.ShowModal(self)
 
         
