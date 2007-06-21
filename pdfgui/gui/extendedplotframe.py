@@ -46,24 +46,29 @@ DATA_SAVE_ID  = wx.NewId()
 class ExtendedToolbar(NavToolbar):
     """An extended plotting toolbar with a save and close button."""
     def __init__(self, canvas, cankill):
-        NavToolbar.__init__(self, canvas)
-
-        #NOTE: It is a quick workaround since below customization doesn't work on MAC. 
         if wx.Platform != '__WXMAC__':
-            # Get rid of the configure subplots button
-            self.DeleteToolByPos(6)
+            NavToolbar.__init__(self, canvas)
+        else:
+            _realizer = self.Realize
+            def f (): pass
+            self.Realize = f
+            NavToolbar.__init__(self, canvas)
+            self.Realize = _realizer
+
+        # Get rid of the configure subplots button
+        self.DeleteToolByPos(6)
             
-            # Add new buttons
-            self.AddSimpleTool(wx.ID_PRINT,
-                   wx.ArtProvider.GetBitmap(wx.ART_PRINT, wx.ART_TOOLBAR),
-                   'Print', 'print graph')
-            self.AddSimpleTool(DATA_SAVE_ID,
-                   _load_bitmap('stock_save_as.xpm'),
-                   'Export plot data', 'Export plot data to file')
-            self.AddSeparator()
-            self.AddSimpleTool(wx.ID_CLOSE,
-                   _load_bitmap('stock_close.xpm'),
-                   'Close window', 'Close window')
+        # Add new buttons
+        self.AddSimpleTool(wx.ID_PRINT,
+               wx.ArtProvider.GetBitmap(wx.ART_PRINT, wx.ART_TOOLBAR),
+               'Print', 'print graph')
+        self.AddSimpleTool(DATA_SAVE_ID,
+               _load_bitmap('stock_save_as.xpm'),
+               'Export plot data', 'Export plot data to file')
+        self.AddSeparator()
+        self.AddSimpleTool(wx.ID_CLOSE,
+               _load_bitmap('stock_close.xpm'),
+               'Close window', 'Close window')
                
     def save(self, evt):
         # Fetch the required filename and file type.
