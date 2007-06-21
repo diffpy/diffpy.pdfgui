@@ -213,7 +213,6 @@ class DataSetConfigurePanel(wx.Panel, PDFPanel):
             else:
                 textCtrl.SetEditable(True)
                 textCtrl.SetBackgroundColour(wx.NullColour)
-#                textCtrl.SetToolTipString(self.toolTips[key])
 
         return
 
@@ -254,6 +253,7 @@ class DataSetConfigurePanel(wx.Panel, PDFPanel):
 
     def onLoseFocus(self, event):
         """Record the user's selection for the text ctrl data."""
+        if not self.configuration: return
         textCtrl = event.GetEventObject()
         value = textCtrl.GetValue()
         value = self.__coerseText(value)
