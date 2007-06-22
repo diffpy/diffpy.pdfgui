@@ -622,7 +622,7 @@ class FitStructure(PDFStructure):
         z       -- zipped project file
         subpath -- path to its own storage within project file
         """
-        import cPickle
+        from diffpy.pdfgui.utils import safeCPickleDumps
         z.writestr(subpath+'initial', self.initial.writeStr('pdffit'))
         if self.refined:
             z.writestr(subpath+'refined', self.refined.writeStr('pdffit'))
@@ -631,7 +631,7 @@ class FitStructure(PDFStructure):
             #constraints = {}
             #for k,v in self.constraints.items():
             #    constraints[k] = v.formula
-            bytes = cPickle.dumps(self.constraints, cPickle.HIGHEST_PROTOCOL)
+            bytes = safeCPickleDumps(self.constraints)
             z.writestr(subpath+'constraints', bytes)
         z.writestr(subpath+'selected_pairs', self.selected_pairs)
         return

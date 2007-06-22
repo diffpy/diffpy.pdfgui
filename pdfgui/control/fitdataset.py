@@ -419,18 +419,18 @@ class FitDataSet(PDFDataSet):
         z       -- zipped project file
         subpath -- path to its own storage within project file
         """
-        import cPickle
+        from diffpy.pdfgui.utils import safeCPickleDumps
         # write raw data
         z.writestr(subpath + 'obs', self.writeObsStr())
         content = {}
         for item in self.persistentItems:
             content[item] = getattr(self, item, None)
-        bytes = cPickle.dumps(content, cPickle.HIGHEST_PROTOCOL)
+        bytes = safeCPickleDumps(content)
         z.writestr(subpath+'calc', bytes)
 
         # make a picklable dictionary of constraints
         if self.constraints:
-            bytes = cPickle.dumps(self.constraints, cPickle.HIGHEST_PROTOCOL)
+            bytes = safeCPickleDumps(self.constraints)
             z.writestr(subpath+'constraints', bytes)
         return
 

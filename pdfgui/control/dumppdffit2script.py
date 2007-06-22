@@ -25,9 +25,9 @@ __id__ = "$Id$"
 
 import sys
 import os
-import cPickle
 
 from diffpy.pdfgui.control.pdffitsandbox import PdfFitSandbox
+from diffpy.pdfgui.utils import safeCPickleDumps
 
 def main():
     if len(sys.argv) < 2:
@@ -55,7 +55,7 @@ def main():
     # http://www.python.org/doc/current/lib/popen2-flow-control.html
     os.close(sys.stderr.fileno())
     # all is ready, dump it
-    sys.stdout.write( cPickle.dumps(box.allfits()) )
+    sys.stdout.write( safeCPickleDumps(box.allfits()) )
     return
 
 if __name__ == "__main__":

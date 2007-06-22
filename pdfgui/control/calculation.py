@@ -220,7 +220,7 @@ class Calculation(PDFComponent):
         z       -- zipped project file
         subpath -- path to its own storage within project file
         """
-        import cPickle
+        from diffpy.pdfgui.utils import safeCPickleDumps
         config = {
             'rmin'       : self.rmin,
             'rstep'      : self.rstep,
@@ -235,8 +235,7 @@ class Calculation(PDFComponent):
             'spdiameter' : self.spdiameter,
             'dscale'     : self.dscale,
         }
-        z.writestr( subpath+'config',
-                    cPickle.dumps(config, cPickle.HIGHEST_PROTOCOL) )
+        z.writestr(subpath+'config', safeCPickleDumps(config))
         return
 
     def copy(self, other=None):

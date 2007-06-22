@@ -13,7 +13,8 @@
 ########################################################################
 
 """Small shared routines:
-    numericStringSort -- sort list of strings according to numeric value
+    numericStringSort   -- sort list of strings according to numeric value
+    nanSafeCPickleDumps -- same as cPickleDumps, but safe for NaN and Inf
 """
 
 __id__ = "$Id$"
@@ -35,5 +36,22 @@ def numericStringSort(lst):
     newlst.sort()
     lst[:] = [kv[1] for kv in newlst]
     return
+
+def safeCPickleDumps(obj):
+    """Get cPickle representation of an object possibly containing NaN or Inf.
+    By default it uses cPickle.HIGHEST_PROTOCOL, but falls back to ASCII
+    protocol 0 if there is SystemError frexp() exception.
+
+    obj -- object to be pickled
+
+    Return cPickle string.
+    """
+    import cPickle
+    ascii_protocol = 0
+    try:
+        s = cPickle.dumps(obj, cPickle.HIGHEST_PROTOCOL)
+    except SystemError:
+        s = cPickle.dumps(obj, ascii_protocol)
+    return s
 
 # End of file

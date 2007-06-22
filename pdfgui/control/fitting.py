@@ -154,7 +154,7 @@ class Fitting(Organizer):
         other.itemIndex = self.itemIndex
         return other
 
-    def load ( self, z, subpath):
+    def load(self, z, subpath):
         """load data from a zipped project file
 
         z -- zipped project file
@@ -178,22 +178,22 @@ class Fitting(Organizer):
 
         return Organizer.load(self, z, subpath)
 
-    def save ( self, z, subpath ):
+    def save(self, z, subpath):
         """save data from a zipped project file
 
-        z -- zipped project file
+        z       -- zipped project file
         subpath -- path to its own storage within project file
         """
-        import cPickle
+        from diffpy.pdfgui.utils import safeCPickleDumps
         if self.parameters:
-            bytes = cPickle.dumps(self.parameters, cPickle.HIGHEST_PROTOCOL)
+            bytes = safeCPickleDumps(self.parameters)
             z.writestr(subpath + 'parameters', bytes)
         if self.res:
-            bytes = cPickle.dumps((self.rw, self.res), cPickle.HIGHEST_PROTOCOL)
+            bytes = safeCPickleDumps((self.rw, self.res))
             z.writestr(subpath + 'result', bytes)
         if self.snapshots:
-            bytes = cPickle.dumps((self.itemIndex, self.dataNameDict,
-                               self.snapshots), cPickle.HIGHEST_PROTOCOL)
+            bytes = safeCPickleDumps(
+                    (self.itemIndex, self.dataNameDict, self.snapshots) )
             z.writestr(subpath + 'steps', bytes)
         Organizer.save(self, z, subpath)
         return
@@ -390,7 +390,7 @@ class Fitting(Organizer):
             for calc in self.calcs:
                 self.calculate(calc)
                 
-            while not self.stopped:
+            while not self.stopped and self.datasets:
                 if not self.paused:
                     # quick check to make sure status is right
                     # will do nothing if status is CONFIGURED
@@ -534,7 +534,7 @@ class Fitting(Organizer):
         # assign to self
         self.dataNameDict = dataNameDict
 
-    def appendStep (self, source):
+    def appendStep(self, source):
         """after a refinement step is done, append all data from self to the 
         historical storage, i.e., self.snapshots        
         
