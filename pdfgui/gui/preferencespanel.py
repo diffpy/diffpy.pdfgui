@@ -88,14 +88,9 @@ class PreferencesPanel(wx.Panel, PDFPanel):
 
         # Atomeye Path
         path = self.atomeyeFileBrowser.GetValue()
-        #if path: 
-        #    if not os.path.exists(path):
-        #        raise ControlFileError("AtomEye executable '%s' does not exist" % path)
-        #    if not self.cP.has_section("ATOMEYEPATH"):
-        #        self.cP.add_section("ATOMEYEPATH")
-        #    self.cP.set("ATOMEYEPATH", "path", path)
-        #else:
-        self.cP.set("ATOMEYEPATH", "path", "")
+        if not self.cP.has_section("ATOMEYEPATH"):
+            self.cP.add_section("ATOMEYEPATH")
+        self.cP.set("ATOMEYEPATH", "path", path)
 
         # Structures path
         remember = str(self.structureDirCheckBox.GetValue())

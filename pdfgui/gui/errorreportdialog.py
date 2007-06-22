@@ -28,21 +28,23 @@ import wx
 from diffpy.pdfgui.control.controlerrors import ControlError
 from diffpy.pdfgui import __version__
 
-query_pdfgui_tickets = ''.join(["http://danse.us/trac/diffraction/query",
+queryPDFguiTickets = ''.join(["http://danse.us/trac/diffraction/query",
     '?status=new&status=assigned&status=reopened',
     '&component=pdfgui&component=pdffit2&order=priority'])
-diffpy_users = "http://groups.google.com/group/diffpy-users"
+diffpyUsers = "http://groups.google.com/group/diffpy-users"
 
 class ErrorReportDialog(wx.Dialog):
     def __init__(self, *args, **kwds):
         # begin wxGlade: ErrorReportDialog.__init__
         kwds["style"] = wx.DEFAULT_DIALOG_STYLE|wx.RESIZE_BORDER|wx.MAXIMIZE_BOX|wx.MINIMIZE_BOX|wx.THICK_FRAME
         wx.Dialog.__init__(self, *args, **kwds)
-        self.label_header = wx.StaticText(self, -1, " PDFgui has encountered a problem. We are sorry for the inconvenience.")
+        self.label_header = wx.StaticText(self, -1, "PDFGui has encountered a problem. We are sorry for the inconvenience.")
         self.label_text = wx.StaticText(self, -1, "To help us improve this software, please provide at least a short summary of the problem. When you click the Send Error Report button, the short summary, full description, error log and the version of the software will be sent to developers.")
-        self.label_view_ticket = wx.StaticText(self, -1, " You can view current bug reports and feature requests ")
-        self.ticketlink = wx.lib.hyperlink.HyperLinkCtrl(self, -1, "here", URL=query_pdfgui_tickets)
-        self.label_email = wx.StaticText(self, -1, " Your email address  (optional) ")
+        self.label_view_ticket = wx.StaticText(self, -1, "You can view current bug reports and feature requests ")
+        self.ticketlink = wx.lib.hyperlink.HyperLinkCtrl(self, -1, "here.")
+        self.label_view_community = wx.StaticText(self, -1, "Discuss PDFgui and learn about new developments and features")
+        self.communitylink = wx.lib.hyperlink.HyperLinkCtrl(self, -1, "here.")
+        self.label_email = wx.StaticText(self, -1, "Your email address  (optional) ")
         self.text_ctrl_reporter = wx.TextCtrl(self, -1, "")
         self.label_summary = wx.StaticText(self, -1, "Short summary:")
         self.text_ctrl_summary = wx.TextCtrl(self, -1, "")
@@ -57,16 +59,15 @@ class ErrorReportDialog(wx.Dialog):
         self.__set_properties()
         self.__do_layout()
 
+        self.Bind(wx.EVT_TEXT, self.onSummaryText, self.text_ctrl_summary)
         self.Bind(wx.EVT_BUTTON, self.onSend, self.button_send)
         # end wxGlade
         self.__customProperties()
-        self.text_ctrl_summary.Bind(wx.EVT_SET_FOCUS, self.onSetFocus)
-        self.text_ctrl_summary.Bind(wx.EVT_KILL_FOCUS, self.onKillFocus)
-        self.errorReport = True
+        return
         
     def __set_properties(self):
         # begin wxGlade: ErrorReportDialog.__set_properties
-        self.SetTitle("Problem Report for PDFgui")
+        self.SetTitle("Problem Report for PDFGui")
         self.SetSize((870, 642))
         self.label_text.SetMinSize((640, 54))
         self.button_send.Enable(False)
@@ -77,21 +78,24 @@ class ErrorReportDialog(wx.Dialog):
         sizer_main = wx.BoxSizer(wx.VERTICAL)
         sizer_buttons = wx.BoxSizer(wx.HORIZONTAL)
         sizer_email = wx.BoxSizer(wx.HORIZONTAL)
+        sizer_ticket_copy = wx.BoxSizer(wx.HORIZONTAL)
         sizer_ticket = wx.BoxSizer(wx.HORIZONTAL)
-        sizer_main.Add(self.label_header, 0, wx.TOP|wx.BOTTOM|wx.ADJUST_MINSIZE, 15)
+        sizer_main.Add(self.label_header, 0, wx.ALL|wx.EXPAND|wx.ADJUST_MINSIZE, 5)
         sizer_main.Add(self.label_text, 0, wx.ALL|wx.EXPAND|wx.ALIGN_CENTER_VERTICAL|wx.ADJUST_MINSIZE, 5)
-        sizer_main.Add((20, 10), 0, wx.ADJUST_MINSIZE, 0)
-        sizer_ticket.Add(self.label_view_ticket, 0, wx.BOTTOM|wx.EXPAND|wx.ADJUST_MINSIZE, 8)
-        sizer_ticket.Add(self.ticketlink, 1, 0, 0)
-        sizer_main.Add(sizer_ticket, 0, 0, 0)
-        sizer_email.Add(self.label_email, 0, wx.TOP|wx.BOTTOM|wx.ADJUST_MINSIZE, 15)
+        sizer_ticket.Add(self.label_view_ticket, 0, wx.ALL|wx.EXPAND|wx.ADJUST_MINSIZE, 5)
+        sizer_ticket.Add(self.ticketlink, 1, wx.TOP|wx.BOTTOM, 5)
+        sizer_main.Add(sizer_ticket, 0, wx.TOP|wx.BOTTOM, 5)
+        sizer_ticket_copy.Add(self.label_view_community, 0, wx.ALL|wx.EXPAND|wx.ADJUST_MINSIZE, 5)
+        sizer_ticket_copy.Add(self.communitylink, 1, wx.TOP|wx.BOTTOM, 5)
+        sizer_main.Add(sizer_ticket_copy, 0, wx.TOP|wx.BOTTOM, 5)
+        sizer_email.Add(self.label_email, 0, wx.ALL|wx.ADJUST_MINSIZE, 5)
         sizer_email.Add(self.text_ctrl_reporter, 1, wx.ALIGN_CENTER_VERTICAL|wx.ADJUST_MINSIZE, 0)
-        sizer_main.Add(sizer_email, 0, wx.EXPAND, 0)
-        sizer_main.Add(self.label_summary, 0, wx.LEFT|wx.RIGHT|wx.TOP|wx.ADJUST_MINSIZE, 5)
+        sizer_main.Add(sizer_email, 0, wx.TOP|wx.BOTTOM|wx.EXPAND, 10)
+        sizer_main.Add(self.label_summary, 0, wx.LEFT|wx.RIGHT|wx.TOP|wx.EXPAND|wx.ADJUST_MINSIZE, 5)
         sizer_main.Add(self.text_ctrl_summary, 0, wx.LEFT|wx.RIGHT|wx.BOTTOM|wx.EXPAND|wx.ADJUST_MINSIZE, 5)
-        sizer_main.Add(self.label_description, 0, wx.LEFT|wx.RIGHT|wx.TOP|wx.ADJUST_MINSIZE, 5)
+        sizer_main.Add(self.label_description, 0, wx.LEFT|wx.RIGHT|wx.TOP|wx.EXPAND|wx.ADJUST_MINSIZE, 5)
         sizer_main.Add(self.text_ctrl_description, 1, wx.LEFT|wx.RIGHT|wx.BOTTOM|wx.EXPAND|wx.ADJUST_MINSIZE, 5)
-        sizer_main.Add(self.label_log, 0, wx.LEFT|wx.RIGHT|wx.TOP|wx.ADJUST_MINSIZE, 5)
+        sizer_main.Add(self.label_log, 0, wx.LEFT|wx.RIGHT|wx.TOP|wx.EXPAND|wx.ADJUST_MINSIZE, 5)
         sizer_main.Add(self.text_ctrl_log, 1, wx.LEFT|wx.RIGHT|wx.BOTTOM|wx.EXPAND|wx.ADJUST_MINSIZE, 5)
         sizer_main.Add(self.static_line_1, 0, wx.LEFT|wx.RIGHT|wx.TOP|wx.EXPAND, 5)
         sizer_buttons.Add((20, 20), 1, wx.ADJUST_MINSIZE, 0)
@@ -105,28 +109,28 @@ class ErrorReportDialog(wx.Dialog):
 
     def __customProperties(self):
         """Set custom properties."""
-        self.label_text.SetLabel("To help us improve this software, please provide a short summary of the problem or request.  When you click the Send Report button, the short summary, full description and the version of the software will be sent to developers.")
-        self.label_view_ticket.SetLabel(" Discuss PDFgui and learn about new developments and features ") 
-        self.ticketlink.SetLabel("here.") 
-        self.ticketlink.SetURL("")
+        # Events
+        self.errorReport = True
+
+        self.ticketlink.SetURL(queryPDFguiTickets)
+        self.ticketlink.SetToolTip(wx.ToolTip(queryPDFguiTickets))
+        self.communitylink.SetURL(diffpyUsers)
+        self.communitylink.SetToolTip(wx.ToolTip(diffpyUsers))
         return
         
     def ShowModal(self):
-        # there are 2 mode: error report and feature request
+        # there are 2 modes: error report and feature request
         if self.text_ctrl_log.GetValue().strip() == "":
             self.SetTitle("Feature Request / Bug Report")
-            self.label_header.SetLabel(" Share you thoughts about PDFgui!")
+            self.label_header.SetLabel("Share you thoughts about PDFgui!")
             self.label_text.SetLabel("To help us improve this software, please provide a short summary of the problem or request.  When you click the Send Report button, the short summary, full description and the version of the software will be sent to developers.")
-            self.ticketlink.SetURL(diffpy_users)
-            self.ticketlink.SetToolTip(wx.ToolTip(diffpy_users))
             self.label_log.SetLabel("")
             self.text_ctrl_log.Hide()
             self.errorReport = False
         else:
             self.SetTitle("Problem Report for PDFgui")
-            self.label_header.SetLabel(" PDFgui has encountered a problem. We are sorry for the inconvenience.")
+            self.label_header.SetLabel("PDFgui has encountered a problem. We are sorry for the inconvenience.")
             self.label_text.SetLabel("To help us improve this software, please provide a short summary of how the error occurred. When you click the Send Report button, the short summary, full description and the version of the software will be sent to developers.")
-            self.ticketlink.SetURL(query_pdfgui_tickets)
             self.label_log.SetLabel("Error log:")
             self.text_ctrl_log.Show()
             self.errorReport = True
@@ -173,16 +177,11 @@ class ErrorReportDialog(wx.Dialog):
         self.Close()
         event.Skip()
 
-    def onSetFocus(self, event):
+    def onSummaryText(self, event): # wxGlade: ErrorReportDialog.<event_handler>
+        """Enable sending only if short summary is filled out."""
         self.button_send.Enable(True)
-        event.Skip()
-
-    def onKillFocus(self, event):
-        textctrl = event.GetEventObject()
-        value = textctrl.GetValue()
-        value = value.strip()
-
-        if value.strip() == "":
+        value = self.text_ctrl_summary.GetValue()
+        if not value.strip():
             self.button_send.Enable(False)
         event.Skip()
 
