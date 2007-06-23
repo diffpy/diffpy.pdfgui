@@ -70,11 +70,11 @@ def plot(structure, executable):
                 return "/cygdrive/%s/%s"%(drive,path)
             command = 'bash.exe -l -c "DISPLAY=127.0.0.1:0.0 %s %s"'%(toCygwin(executable), toCygwin(fullpath))
         else:
-            command = "%s %s"%(executable, fullpath)
+            command = [executable, fullpath]  
 
         try:
             structure.write(fullpath,"xcfg")
-            proc = subprocess.Popen(command, shell=True)
+            proc = subprocess.Popen(command)
             T.start()
         except OSError:
             # The executable does not exist
