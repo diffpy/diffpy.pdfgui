@@ -60,9 +60,21 @@ def plot(structure, executable):
 
         # This should be done with try...except...finally, but this only works
         # properly in python 2.5.
+        import platform
+        if platform.system() == 'Windows': 
+            # replace string
+            def toCygwin(winpath):
+                drive,path=os.path.splitdrive(winpath)
+                path = path.replace('\\', '/')
+                if drive.endswith(':'): drive = drive[:-1]
+                return "/cygdrive/%s/%s"%(drive,path)
+            command = 'bash.exe -l -c "DISPLAY=127.0.0.1:0.0 %s %s"'%(toCygwin(executable), toCygwin(fullpath))
+        else:
+            command = "%s %s"%(executable, fullpath)
+
         try:
             structure.write(fullpath,"xcfg")
-            proc = subprocess.Popen([executable, fullpath])
+            proc = subprocess.Popen(command, shell=True)
             T.start()
         except OSError:
             # The executable does not exist
