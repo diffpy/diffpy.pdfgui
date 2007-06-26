@@ -128,7 +128,6 @@ class DataSetConstraintPanel(wx.Panel, PDFPanel):
 
     def onLoseFocus(self, event):
         """Record the user's selection for the text ctrl data."""
-        if not self.constraints: return
         textCtrl = event.GetEventObject()
         value = textCtrl.GetValue()
         par = textCtrl.GetName()
