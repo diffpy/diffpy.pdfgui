@@ -1948,8 +1948,12 @@ class MainFrame(wx.Frame):
         nodetype = self.treeCtrlMain.GetNodeType(selections[0])
         if nodetype == "dataset":
             xval = 'r'
-            # For quick plotting, keep this order. Gdiff must be the last. 
-            yvals = ['Gtrunc', 'Gcalc', 'Gdiff']
+            cdata = self.treeCtrlMain.GetControlData(node)
+            if cdata.refined:
+                # For quick plotting, keep this order. Gdiff must be the last.
+                yvals = ['Gtrunc', 'Gcalc', 'Gdiff']
+            else:
+                yvals = ['Gobs']
             offset = float(self.plotPanel.offsetTextCtrl.GetValue())
             self.control.plot(xval, yvals, refs, shift=offset)
         elif nodetype == "calculation":
