@@ -262,14 +262,11 @@ class ExtendedPlotFrame(wx.Frame):
         # NOTE:
         # we need to adjust view limits by ourselves because Matplotlib can't 
         # set the legend nicely when there are multiple curves in the plot. 
-        # In addition, update_datalim is required anyway when updating curve 
-        # data.
-        
-        # when insertCurve, code below is done automatically. However, it 
-        # doesn't hurt to call them again. They are required for updating
-        # curve data only
-        self.subplot.update_datalim_numerix(curveRef.get_xdata(),
-                                    curveRef.get_ydata())
+        # Beside, current version of autoscale doesn't shrink size properly. 
+        self.subplot.dataLim.ignore(True)
+        for curveRef in self.curverefs:
+            self.subplot.update_datalim_numerix(curveRef.get_xdata(),
+                                curveRef.get_ydata())
         self.subplot.autoscale_view()
 
         # If multiple curve, we need calculate new x limits because legend box
@@ -313,6 +310,7 @@ class ExtendedPlotFrame(wx.Frame):
         Not implemented because Matplotlib doesn't seem to support and we 
         do not really need this function
         """
+        self.curverefs.remove(curveRef)
         self.figure.gca().lines.remove(curveRef)
         self.__updateViewLimits(self.subplot.lines, True)
 
