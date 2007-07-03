@@ -132,9 +132,19 @@ class FitDataSet(PDFDataSet):
         if name in self.metadata:
             return self.metadata[name]
         elif name in ( 'Gobs', 'Gcalc', 'Gtrunc', 'Gdiff', 'robs', 'rcalc'):
-            return getattr(self, name)
+            d = getattr(self, name)
+            
+            # for Gtrunc and rcalc, we can use Gobs and robs instead when they 
+            # are not ready.
+            if not d :
+                if name == 'Gtrunc':
+                    return getattr(self, 'Gobs')
+                if name == 'rcalc':
+                    return getattr(self, 'robs')
+                    
+            return d
 
-        # fitting's repository is preferred
+        # otherwise fitting's repository is preferred
         return  self.owner._getData(self, name, step)
 
     def clear(self):
