@@ -16,8 +16,8 @@ Lesson 1:  Creating simple fit of Ni PDF
 
   Input files:
 
-    tests/testdata/Ni_2-8.chi.gr    experimental X-ray PDF data
-    tests/testdata/Ni.stru          Ni f.c.c. structure in PDFfit format
+    tutorial/Ni-xray.gr     experimental X-ray PDF data
+    tutorial/Ni.stru        Ni f.c.c. structure in PDFfit format
 
   Procedure:
 
@@ -41,12 +41,12 @@ Lesson 1:  Creating simple fit of Ni PDF
     4.  Load experimental PDF data:
         (a) Select the title of "Fit 1", click the right button and choose
             "Insert Data Set" in the pop-up menu.
-        (b) Load the "Ni_2-8.chi.gr" file.
+        (b) Load the "Ni-xray.gr" file.
 
         Again, the right panel shows 3 tabs for properties of this dataset.
 
     5.  Define what is refined:
-        (a) Click on the "Ni_2-8.chi.gr" data and select the "Constraints" tab.
+        (a) Click on the "Ni-xray.gr" data and select the "Constraints" tab.
         (b) Type "@1" into "Scale Factor" edit box.
         (c) Select the "Ni.stru" phase and its "Constraints" tab.
         (d) Fill "a", "b", "c" boxes with "@5".
@@ -67,7 +67,7 @@ Lesson 1:  Creating simple fit of Ni PDF
 
     7.  Plot the results:
         (a) Select "PLOTTING" in the left-most vertical tab.
-        (b) Select the "Ni_2-8.chi.gr" dataset
+        (b) Select the "Ni-xray.gr" dataset
         (c) Select "r" as the X plotting variable.
         (d) Hold down shift and select "Gcalc" and "Gtrunc" as the Y plotting
             variables.
@@ -182,6 +182,6 @@ References:
 2. Farrow-jpcm-subm.pdf
    C. L. Farrow, P. Juhas, J. W. Liu, D. Bryndin, J. Bloch, Th. Proffen
    and S. J. L. Billinge, PDFfit2 and PDFgui: Computer programs for studying
-   nanostructure in crystals, J. Phys: Condens. Matter, 19:335219, 2007
+   nanostructure in crystals, J. Phys.: Condens. Matter 19, 335219 (2007)
 
 Last modified $Date$

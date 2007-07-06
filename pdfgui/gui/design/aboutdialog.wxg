@@ -197,7 +197,7 @@
                 <option>0</option>
                 <object class="wxStaticText" name="label_acknowledgement" base="EditStaticText">
                     <attribute>1</attribute>
-                    <label>This software was developed by the Billinge-group as part of the\nDistributed Data Analysis of Neutron Scattering Experiments (DANSE)\nproject funded by the US National Science Foundation under grant\nDMR-0520547.  Developments of PDFfit2 were funded by NSF grant\nDMR-0304391 in the Billinge-group, and with support from Michigan State\nUniversity.  Any opinions, findings, and conclusions or recommendations\nexpressed in this material are those of the author(s) and do not\nnecessarily reflect the views of the respective funding bodies.\n\nIf you use this program to do productive scientific research that leads\nto publication, we ask that you acknowledge use of the program by citing\nthe following paper in your publication:\n\n     C. L. Farrow, P. Juhas, J. W. Liu, D. Bryndin, J. Bloch, Th. Proffen\n     and S. J. L. Billinge, PDFfit2 and PDFgui: Computer programs for studying\n     nanostructure in crystals, J. Phys: Condens. Matter, 19:335219, 2007.</label>
+                    <label>diffpy.pdfgui.gui.aboutdialog._acknowledgement</label>
                 </object>
             </object>
             <object class="sizeritem">

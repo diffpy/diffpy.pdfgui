@@ -39,16 +39,17 @@ If you use this program to do productive scientific research that leads
 to publication, we ask that you acknowledge use of the program by citing
 the following paper in your publication:
 
-     C. L. Farrow, P. Juhas, J. W. Liu, D. Bryndin, J. Bloch, Th. Proffen
-          and S. J. L. Billinge, PDFfit2 and PDFgui: Computer programs for studying
-               nanostructure in crystals, J. Phys: Condens. Matter, 19:335219, 2007.'''
+    C. L. Farrow, P. Juhas, J. W. Liu, D. Bryndin, E. S. Bozin,
+    J. Bloch, Th. Proffen and S. J. L. Billinge, PDFfit2 and PDFgui:
+    computer programs for studying nanostructure in crystals,
+    J. Phys.: Condens. Matter 19, 335219 (2007).'''
 
 _homepage = "http://www.diffpy.org"
 
 # authors list is shuffled randomly every time
 _authors = ["S. J. L. Billinge", "E. S. Bozin", "D. Bryndin",
                 "C. L. Farrow", "P. Juhas", "J. W. Liu"]
-_paper = ""
+_paper = "http://stacks.iop.org/0953-8984/19/335219"
 _license = ""
 
 
