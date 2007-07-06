@@ -41,7 +41,7 @@ the following paper in your publication:
 
      C. L. Farrow, P. Juhas, J. W. Liu, D. Bryndin, J. Bloch, Th. Proffen
           and S. J. L. Billinge, PDFfit2 and PDFgui: Computer programs for studying
-               nanostructure in crystals, J. Phys: Condens. Matter, in print.'''
+               nanostructure in crystals, J. Phys: Condens. Matter, 19:335219, 2007.'''
 
 _homepage = "http://www.diffpy.org"
 

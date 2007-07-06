@@ -34,7 +34,7 @@ C. L. Farrow, P. Juhas, J. W. Liu, D. Bryndin, E. S. Bozin,
 J. Bloch, Th. Proffen and S. J. L. Billinge
 PDFfit2 and PDFgui: Computer programs for
 studying nanostructures in crystals
-Journal of Physics: Condensed Matter, in press
+Journal of Physics: Condensed Matter, 19:335219, 2007
 """
         line6 = '</font>'
         
