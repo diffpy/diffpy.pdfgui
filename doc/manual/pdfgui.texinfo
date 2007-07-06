@@ -18,7 +18,7 @@
 
 @c start of header
 @setfilename pdfgui
-@settitle 1.0 Beta release 15 April 2007
+@settitle 1.0 Beta release 06 July 2007
 @c @setcontentsaftertitlepage
 @c end of header
 
@@ -33,7 +33,7 @@ all rights reserved.
 
 @title PDFgui user guide
 @subtitle 1.0 Beta release
-@subtitle 04 May 2007
+@subtitle 06 July 2007
 @author C. L. Farrow, P. Juh@'as, J. W. Liu, D. Bryndin, E. S. Bo@v{z}in,
 @author J. Bloch, Th. Proffen, and S. J. L. Billinge
 
