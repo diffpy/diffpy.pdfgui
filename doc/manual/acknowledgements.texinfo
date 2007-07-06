@@ -1,0 +1,30 @@
+PDFgui was developed as part of the Distributed Analysis of Neutron
+Scattering Data (DANSE) project which is funded by NSF under DMR-0520547.
+The PDFfit2 development was funded by NSF under contract DMR-0304391.
+The program is part of the DiffPy and DANSE open-source projects at
+Michigan State University and is available subject to the conditions
+and terms laid out below. Several of the examples in the tutorial part
+were made possible and benefited from samples synthesized by J. F.
+Mitchell, and from data collected and processed by M. Schmidt,
+P. G. Radaelli, and X. Qiu.
+@bigskip
+If you use this program to do productive scientific research that leads
+to publication, we ask that you acknowledge use of the program by citing
+the following paper in your publication:
+@bigskip
+
+@enumerate
+@item
+C. L. Farrow, P. Juh@'as, J. W. Liu, D. Bryndin, E. S. Bo@v{z}in,
+J. Bloch, Th. Proffen and S. J. L. Billinge,
+@url{http://stacks.iop.org/0953-8984/19/335219, 
+PDFfit2 and PDFgui: computer programs for studying nanostructure in crystals},
+J. Phys.: Condens. Matter, @b{19}, 335219 (2007)
+@end enumerate
+
+@bigskip
+@insertcopying
+@cindex  copyright
+@bigskip
+For more information please visit @url{http://www.diffpy.org}
+or contact Prof. Simon Billinge at @email{billinge@@pa.msu.edu}.

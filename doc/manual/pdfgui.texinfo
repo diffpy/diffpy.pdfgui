@@ -43,76 +43,19 @@ all rights reserved.
 
 @heading Acknowledgements
 @cindex  acknowledgements
+@include acknowledgements.texinfo
 
-PDFgui was developed as part of the Distributed Analysis of Neutron
-Scattering Data (DANSE) project which is funded by NSF under DMR-0520547.
-The PDFfit2 development was funded by NSF under contract DMR-0304391.
-The program is part of the DiffPy and DANSE open-source projects at
-Michigan State University and is available subject to the conditions
-and terms laid out below. Several of the examples in the tutorial part
-were made possible and benefited from samples synthesized by J. F.
-Mitchell, and from data collected and processed by M. Schmidt,
-P. G. Radaelli, and X. Qiu.
-@bigskip
-If you use this program to do productive scientific research that leads
-to publication, we ask that you acknowledge use of the program by citing
-the following paper in your publication:
-@bigskip
-@enumerate
-
-@item
-C. L. Farrow, P. Juh@'as, J. W. Liu, D. Bryndin, E. S. Bo@v{z}in,
-J. Bloch, Th. Proffen and S. J. L. Billinge,
-@url{http://stacks.iop.org/0953-8984/19/335219, 
-PDFfit2 and PDFgui: computer programs for studying nanostructure in crystals},
-J. Phys.: Condens. Matter, @b{19}, 335219 (2007)
-@end enumerate
-@bigskip
-@insertcopying
-@cindex  copyright
-@bigskip
-For more information please visit @url{http://www.diffpy.org}
-or contact Prof. Simon Billinge at @email{billinge@@pa.msu.edu}.
 
 @page
 @vskip 0pt plus 1filll
 @majorheading Preface
 @heading Using PDFGui and PDFfit2
-Redistribution and use in source and binary forms, with or without
-modification, are permitted provided that the following conditions
-are met:
+@include redistribution.texinfo
 
-@bigskip
-
-Redistributions of source code must retain the above copyright
-notice, this list of conditions and the following disclaimer.
-
-@bigskip
-
-Redistributions in binary form must reproduce the above copyright
-notice, this list of conditions and the following disclaimer in the
-documentation and/or other materials provided with the distribution.
-
-@bigskip
-
-Neither the name of MICHIGAN STATE UNIVERSITY nor the names of its
-contributors may be used to endorse or promote products derived from
-this software without specific prior written permission.
 
 @heading Disclaimer
 
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
-"AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT
-OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
-SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED
-TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-
+@include disclaimer.texinfo
 
 @end titlepage
 
@@ -121,15 +64,15 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 @contents
 
 
-@c if not TEX (for top)
-@ifnottex
-@c @node NODE-NAME, NEXT, PREVIOUS, UP
+@c Make menu if html
+@ifhtml
 
 @node Top
 @top
 
-@c menu
+
 @menu
+* Preface::
 * Introduction::
 * Quick start::
 * Examples and tutorials::
@@ -138,13 +81,23 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 * Index::
 @end menu
 
-@c  @insertcopying
-@end ifnottex
+@c Preface chapter, for html version only. 
+@node    Preface, Introduction, Top
+@chapter Preface
+@cindex  preface
+
+@include acknowledgements.texinfo
+
+@section Using PDFGui and PDFfit2
+@include redistribution.texinfo
+
+@section Disclaimer
+@include disclaimer.texinfo
+
+@end ifhtml
 
 @page
 @vskip 0pt plus 1filll
-@c chapter 1
-@c @node NODE-NAME, NEXT, PREVIOUS, UP
 @node    Introduction, PDFfit2, Top
 @chapter Introduction
 @cindex  introduction
