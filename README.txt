@@ -1,7 +1,7 @@
 PDFgui - graphical user interface for real space structure refinement.
 PDFgui is a friendly interface to PDFfit2 refinement engine, with many
 powerful extensions.  To get started, please follow the doc/TUTORIAL.txt
-file.  A detailed description is available in doc/Farrow-jpcm-subm.pdf.
+file.  A detailed description is available in doc/Farrow-jpcm-2007.pdf.
 
 
 PDFgui is normally installed as a part of DiffPy library.
@@ -17,7 +17,6 @@ PDFgui requires:
     matplotlib 0.85
 
 Also recommended:
-    Paramiko 1.5.3  http://www.lag.net/paramiko
     AtomEye         http://alum.mit.edu/www/liju99/Graphics/A
                     (Needs to be saved as "atomeye".)
 

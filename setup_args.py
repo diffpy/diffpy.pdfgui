@@ -68,7 +68,7 @@ setup_args = {
             'LICENSE.txt',
             'README.txt',
             'doc/TUTORIAL.txt',
-            'doc/Farrow-jpcm-subm.pdf',
+            'doc/Farrow-jpcm-2007.pdf',
             'doc/manual/*.pdf',
             'doc/manual/*.html',
             ]) ),
