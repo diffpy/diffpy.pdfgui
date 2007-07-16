@@ -262,7 +262,10 @@ class PlotPanel(wx.Panel, PDFPanel):
         yvals = [ int(par[1:]) for par in temp if par[0] == '@']
         yvals.extend([val for val in temp if val[0] != '@'])
         offset = self.offsetTextCtrl.GetValue()
-        offset = float(offset)
+        try:
+            offset = float(offset)
+        except ValueError: # offset can be empty string 
+            offset = 0.0
 
         self.mainFrame.control.plot(xval, yvals, refs, shift=offset, dry=(event is None))
         return
