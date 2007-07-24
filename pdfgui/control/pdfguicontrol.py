@@ -353,7 +353,7 @@ class PDFGuiControl:
         # this should take care of proper shell quoting
         cmdwords = [pyexe, '-c', pycommand, scriptfile] + args
         cmd = " ".join([repr(w.encode('ascii')) for w in cmdwords])
-        (i, o, e) = os.popen3(cmd, mode='b')
+        (i, o, e) = os.popen3(cmd, 'b')
         # restore PYTHONPATH
         if org_pythonpath is None:  del os.environ['PYTHONPATH']
         else:   os.environ['PYTHONPATH'] = org_pythonpath
