@@ -1272,6 +1272,7 @@ class MainFrame(wx.Frame):
             y = event.GetY()
             node, flags = self.treeCtrlMain.HitTest((x,y))
 
+
             if flags in [
             wx.TREE_HITTEST_ABOVE,wx.TREE_HITTEST_BELOW,wx.TREE_HITTEST_NOWHERE]:
                 # The hit is not on an item.
@@ -1293,7 +1294,16 @@ class MainFrame(wx.Frame):
 
         # Bring up the popup menu. Must have the coordinates of the right-click
         # event that summoned the menu.
-        self.PopupMenu(menu, (x,y))
+
+        # This is to position the menu correctly on a floating frame.
+        # wx.treeCtrlMain.GetPositionTuple() will return (0,0) if the frame is
+        # not docked. This is a bit of a hack, since pane.floating_pos is not
+        # designed to be a public attribute.
+        pane = self.auiManager.GetPane("treeCtrlMain")
+        (x0, y0) = self.treeCtrlMain.GetPositionTuple()
+        if pane.IsFloating():
+            (x0, y0) = self.ScreenToClient(pane.floating_pos)
+        self.PopupMenu(menu, (x0+x,y0+y))
         menu.Destroy()
         return
 
