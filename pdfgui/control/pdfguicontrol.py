@@ -433,6 +433,7 @@ class PDFGuiControl:
         organizations = []
         import zipfile
         from cPickle import PickleError
+        from urllib import quote_plus
         try:
             z = zipfile.ZipFile(projfile, 'r')
             z.fileTree = _nameParser(z.namelist())
@@ -458,8 +459,8 @@ class PDFGuiControl:
                 if not name: # empty string
                     continue
                 fit = Fitting(name)
-                if rootDict.has_key(name):
-                    org = fit.load(z, projName + '/' + name + '/')
+                if rootDict.has_key(quote_plus(name)):
+                    org = fit.load(z, projName + '/' + quote_plus(name) + '/')
                 else:
                     # it's simply a blank fitting, has no info in proj file yet
                     org = fit.organization()
@@ -471,7 +472,6 @@ class PDFGuiControl:
         
         except IOError:
             raise ControlFileError, "No such file or directory:\n%s" % projfile
-
         except (zipfile.error, PickleError):
             raise ControlFileError, "%s is invalid project file"%projfile
 
@@ -488,14 +488,15 @@ class PDFGuiControl:
         tmpfile = self.projfile + '~'
         # prepare to write
         import zipfile,shutil
+        from cPickle import PickleError
+        from urllib import quote_plus
         fitnames = []
         calcnames = []
-        from cPickle import PickleError
         try :
             z = zipfile.ZipFile(tmpfile, 'w', zipfile.ZIP_DEFLATED)
             for fit in self.fits: # also calculations
                 name = fit.name.encode('ascii')
-                fit.save(z, projName + '/' + name + '/')
+                fit.save(z, projName + '/' + quote_plus(name) + '/')
                 fitnames.append(name)
             if self.journal:
                 z.writestr(projName +'/journal', self.journal)
@@ -504,6 +505,8 @@ class PDFGuiControl:
             shutil.copyfile(tmpfile, self.projfile)
             os.remove(tmpfile)
             
+        except UnicodeError:
+            raise ControlValueError, "Non-ascii character can not be used for fit/dataset/structure names"
         except (IOError,PickleError):
             raise ControlFileError, "Error when writing to %s"%self.projfile
     

@@ -427,7 +427,7 @@ class MainFrame(wx.Frame):
                         dlg.Destroy()        
                     else:
                         raise
-                return
+                return wx.ID_CANCEL
 
             return _f
 
