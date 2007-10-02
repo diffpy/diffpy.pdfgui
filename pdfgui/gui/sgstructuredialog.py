@@ -148,7 +148,7 @@ class SGStructureDialog(wx.Dialog, PDFPanel):
             try:
                 val = float(eval("1.0*"+val, dict(math.__dict__)))
             except (NameError, TypeError, SyntaxError):
-                val = 0
+                val = 0.0
             textctrl.SetValue("%s"%val)
             self.offset[i] = val
         
