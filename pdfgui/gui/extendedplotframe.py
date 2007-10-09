@@ -128,10 +128,11 @@ class ExtendedPlotFrame(wx.Frame):
         """
         wx.Frame.__init__(self,parent,-1,'ExtendedPlotFrame',size=(550,350))
 
-
         # figsize in inches
         self.figure = Figure(figsize=(0.5,0.5), dpi=72)
-        self.subplot = self.figure.add_subplot(111)
+        
+        # we will manage view scale ourselves
+        self.subplot = self.figure.add_subplot(111, autoscale_on=False)
         self.canvas = FigureCanvas(self, -1, self.figure)
         
         # Introspection data
@@ -183,8 +184,7 @@ class ExtendedPlotFrame(wx.Frame):
         wx.EVT_TOOL(self, wx.ID_PRINT_SETUP, self.onPrintSetup)
         wx.EVT_TOOL(self, wx.ID_PREVIEW_PRINT, self.onPrintPreview)
         
-        ## user initialization ##
-        self.curverefs = []
+        self.datalims = {}
 
     # CUSTOM METHODS ########################################################
 
@@ -234,50 +234,23 @@ class ExtendedPlotFrame(wx.Frame):
         """
         self.canvas.draw()
 
-    def insertCurve(self, xData, yData, style, bUpdate = True):
+    def insertCurve(self, xData, yData, style):
         """insert a new curve to the plot
         
         xData, yData -- x, y data to used for the curve
         style -- the way curve should be plotted
-        bUpdate -- if update the plot immediately ( if False, user should call 
-                  replot() later explicitly )
         return:  internal reference to the newly added curve
         """
         stylestr,properties = self.__translateStyles(style)
         curveRef = self.subplot.plot(xData, yData, stylestr, **properties)[0]
         self.subplot.legend( **_legendBoxProperties )
-        self.curverefs.append(curveRef)
-        self.__updateViewLimits(curveRef)
-        if bUpdate:
-            self.replot()
+        try:
+            self.datalims[curveRef] = ( min(xData), max(xData), min(yData), max(yData) )
+        except ValueError:
+            self.datalims[curveRef] = ( 0,0,0,0)
+        self.__updateViewLimits()
         return curveRef
     
-    def __updateViewLimits(self, curveRef):
-        """adjust the subplot range in order to show all curves correctly.
-        It should be called everytime a curve is inserted or its data is 
-        updated.
-        
-        curveRef -- internal reference to the curve involved
-        """
-        # NOTE:
-        # we need to adjust view limits by ourselves because Matplotlib can't 
-        # set the legend nicely when there are multiple curves in the plot. 
-        # Beside, current version of autoscale doesn't shrink size properly. 
-        self.subplot.dataLim.ignore(True)
-        for curveRef in self.curverefs:
-            self.subplot.update_datalim_numerix(curveRef.get_xdata(),
-                                curveRef.get_ydata())
-        self.subplot.autoscale_view()
-
-        # If multiple curve, we need calculate new x limits because legend box
-        # take up some space
-        #NOTE: 3 and 0.33 is our best estimation for a good view 
-        if len(self.curverefs) > 3: 
-            # leave extra room for legend by shift the upper bound for x axis
-            lower,upper = self.subplot.get_xlim()
-            upper += (upper-lower)*0.33 
-            self.subplot.set_xlim(lower, upper)
-        
     def updateData(self, curveRef, xData, yData):
         """update data for a existing curve
         
@@ -285,8 +258,11 @@ class ExtendedPlotFrame(wx.Frame):
         xData, yData -- x, y data to used for the curve
         """
         curveRef.set_data(xData, yData)
-        self.__updateViewLimits(curveRef)
-        self.replot()
+        try:
+            self.datalims[curveRef] = ( min(xData), max(xData), min(yData), max(yData) )
+        except ValueError:
+            self.datalims[curveRef] = ( 0,0,0,0)
+        self.__updateViewLimits()
         
     def changeStyle(self, curveRef, style):
         """change curve style 
@@ -294,26 +270,50 @@ class ExtendedPlotFrame(wx.Frame):
         curveRef -- internal reference to curves
         style -- style dictionary
         """
-        stylestr, properties = self.__translateStyles(style)
-        
+        stylestr, properties = self.__translateStyles(style)        
         #FIXME: we discard stylestr because it seems there's no way
         # it can be changed afterwards.
         setp((curveRef,), **properties )
         self.subplot.legend( **_legendBoxProperties )
-        self.replot()
         
     def removeCurve(self, curveRef):
         """remove curve from plot
         
         curveRef -- internal reference to curves
-
-        Not implemented because Matplotlib doesn't seem to support and we 
-        do not really need this function
         """
-        self.curverefs.remove(curveRef)
+        del self.datalims[curveRef]
         self.figure.gca().lines.remove(curveRef)
-        self.__updateViewLimits(self.subplot.lines, True)
+        self.subplot.legend( **_legendBoxProperties )
+        self.__updateViewLimits()
 
+    def __updateViewLimits(self):
+        """adjust the subplot range in order to show all curves correctly. 
+        """
+        # NOTE:
+        # we need to adjust view limits by ourselves because Matplotlib can't 
+        # set the legend nicely when there are multiple curves in the plot. 
+        # Beside, autoscale can not automatically respond to data change. 
+        if len(self.datalims) == 0 :
+            return
+        # ignore previous range
+        self.subplot.dataLim.ignore(True)
+        bounds = self.datalims.values()
+        xmin = min([b[0] for b in bounds])
+        xmax = max([b[1] for b in bounds])
+        ymin = min([b[2] for b in bounds])
+        ymax = max([b[3] for b in bounds])
+
+        # If multiple curve, we need calculate new x limits because legend box
+        # take up some space
+        #NOTE: 3 and 0.33 is our best estimation for a good view 
+        if len(self.datalims) > 3: 
+            # leave extra room for legend by shift the upper bound for x axis
+            xmax += (xmax-xmin)*0.33 
+        if xmax > xmin:
+            self.subplot.set_xlim(xmin, xmax)
+        if ymax > ymin:
+            self.subplot.set_ylim(ymin, ymax)
+        
     def __translateStyles(self, style):
         """Private function to translate general probabilities to 
         Matplotlib specific ones

@@ -214,13 +214,10 @@ class Plotter(PDFComponent):
                 #controlCenter.registerListener(dataId,self.plot.name,self.name)
                 pass
                 
-        def notify( self, changedIds = None, bUpdate = True, plotwnd = None):
+        def notify( self, changedIds = None, plotwnd = None):
             """notify Curve object certain data is updated
             
             changedIds -- objects to which changed data is associated with
-            bUpdate -- if update the plot immediately. If set to false, change 
-                       will not be plotted until user call replot() function of 
-                       plot window explicitly.
             """             
             if plotwnd:
                 self.plotwnd = plotwnd
@@ -236,7 +233,7 @@ class Plotter(PDFComponent):
                             
                 #If the change doesn't affect any id, do nothing
                 if not affectedIds:
-                    return
+                    return False
             else:
                 affectedIds = self.ids
             
@@ -288,13 +285,13 @@ class Plotter(PDFComponent):
                     self.yData = map ( _shift, self.yData)
 
             if self.xData and self.yData: # not empty or None
-                self.draw(bUpdate)
+                return self.draw()
+            else:
+                return False
                         
-        def draw(self, bUpdate):
+        def draw(self):
             """draw the curve in the graph. It will make sure the data is OK, 
             and plot to the screen.
-            
-            bUpdate -- if update the plot immediately 
             """
             if self.bMultiData:
                 # xs and ys initialize here. They are actual data object to be 
@@ -314,11 +311,11 @@ class Plotter(PDFComponent):
                 ys = self.yData
                 
             if not xs or not ys:
-                return
+                return False
         
             # If it can get here, data is ready now.
             if self.ref is None:
-                self.ref = self.plotwnd.insertCurve(xs, ys, self.style, bUpdate)
+                self.ref = self.plotwnd.insertCurve(xs, ys, self.style)
                 if self.yStr == 'Gdiff': 
                     # add a baseline for any Gdiff
                     rs = self.ids[0].rcalc
@@ -331,6 +328,8 @@ class Plotter(PDFComponent):
             else:
                 # update only
                 self.plotwnd.updateData(self.ref, xs, ys)
+                
+            return True
 
     def __init__(self, name = None):
         """initialize
@@ -509,11 +508,10 @@ class Plotter(PDFComponent):
             else:
                 self.window.clear()
                 
-            for curve in self.curves[:-1]:
+            for curve in self.curves:
                 #Initial notification, don't plot immediately, wait for last line to be added 
                 #This is to optimize plotting multiple curves.
-                curve.notify(plotwnd=self.window, bUpdate=False)
-            self.curves[-1].notify(plotwnd=self.window, bUpdate=True)
+                curve.notify(plotwnd=self.window)
         
             # make the graph title, x, y label
             yStrs = [_transName(yName) for yName in yNames]
@@ -566,9 +564,12 @@ class Plotter(PDFComponent):
         try:
             self.lock.acquire()
             if not self.curves or self.window is None:
-                return   
+                return  
+            ret = False
             for curve in self.curves:
-                curve.notify(changedIds=[data,])
+                ret |= (curve.notify(changedIds=[data,]))
+            if ret:
+                self.window.replot()
         finally:
             self.lock.release()
 
