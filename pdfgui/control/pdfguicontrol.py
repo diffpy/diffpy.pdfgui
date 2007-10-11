@@ -459,8 +459,13 @@ class PDFGuiControl:
                 if not name: # empty string
                     continue
                 fit = Fitting(name)
-                if rootDict.has_key(quote_plus(name)):
-                    org = fit.load(z, projName + '/' + quote_plus(name) + '/')
+                # fitting name stored in rootDict should be quoted
+                rdname = quote_plus(name)
+                # but let's also handle old project files
+                if rdname not in rootDict:
+                    rdname = name
+                if rootDict.has_key(rdname):
+                    org = fit.load(z, projName + '/' + rdname + '/')
                 else:
                     # it's simply a blank fitting, has no info in proj file yet
                     org = fit.organization()
