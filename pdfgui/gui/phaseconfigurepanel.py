@@ -29,7 +29,6 @@ from tooltips import phasepanel as toolTips
 from wxExtensions.autowidthlabelsgrid import AutoWidthLabelsGrid
 from wxExtensions.validators import TextValidator, FLOAT_ONLY
 from supercelldialog import SupercellDialog
-from sgstructuredialog import SGStructureDialog
 import phasepanelutils
 
 
@@ -644,6 +643,7 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
 
     def onPopupSpaceGroup(self, event):
         """Create a supercell with the supercell dialog."""
+        from sgstructuredialog import SGStructureDialog
         if self.structure != None:
 
             indices = phasepanelutils.getSelectedAtoms(self)

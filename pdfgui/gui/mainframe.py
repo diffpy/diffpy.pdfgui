@@ -248,6 +248,8 @@ class MainFrame(wx.Frame):
         self.exportNewStruId = wx.NewId() # Export a 'new' structure
         self.plotIStructId = wx.NewId() # Plot initial structure
         self.plotFStructId = wx.NewId() # Plot final structure
+        self.printBLId = wx.NewId() # Print the bond lengths of a structure
+        self.printBAId = wx.NewId() # Print the bond angles of a structure
         self.exportResId = wx.NewId()     # Save the results file
         self.runCalcId = wx.NewId()     # Run a calculation
         self.exportCalcPDFId = wx.NewId() # Save a calculated PDF
@@ -560,6 +562,13 @@ class MainFrame(wx.Frame):
                 "&New Phase\tCtrl+p", "", wx.ITEM_NORMAL)
         self.phasesMenu.AppendItem(self.newPhaseItem)
         self.phasesMenu.AppendSeparator()
+        self.printBLItem = wx.MenuItem(self.phasesMenu, self.printBLId,
+                "Calculate bond lengths", "", wx.ITEM_NORMAL)
+        self.phasesMenu.AppendItem(self.printBLItem)
+        self.printBAItem = wx.MenuItem(self.phasesMenu, self.printBAId,
+                "Calculate bond angles", "", wx.ITEM_NORMAL)
+        self.phasesMenu.AppendItem(self.printBAItem)
+        self.phasesMenu.AppendSeparator()
         self.expNewPhaseItem = wx.MenuItem(self.phasesMenu,
                 self.exportNewStruId, "Export &Selected Phase", "",
                 wx.ITEM_NORMAL)
@@ -576,6 +585,9 @@ class MainFrame(wx.Frame):
                 self.plotFStructId, "&Plot Final Structure", "",
                 wx.ITEM_NORMAL)
         self.phasesMenu.AppendItem(self.plotFStructItem)
+
+
+
         self.menuBar.Append(self.phasesMenu, "&Phases")
         # End Phases Menu
 
@@ -732,6 +744,8 @@ class MainFrame(wx.Frame):
 
         ## Phases Menu
         wx.EVT_MENU(self, self.newPhaseId, self.onInsPhase)
+        wx.EVT_MENU(self, self.printBLId, self.onPrintBL)
+        wx.EVT_MENU(self, self.printBAId, self.onPrintBA)
         wx.EVT_MENU(self, self.exportNewStruId, self.onExportNewStruct)
         wx.EVT_MENU(self, self.exportFitStruId, self.onExportStruct)
         wx.EVT_MENU(self, self.plotIStructId, self.onPlotIStruct)
@@ -1534,6 +1548,8 @@ class MainFrame(wx.Frame):
         menu.Enable(self.exportResId, True)
         menu.Enable(self.runCalcId, True)
         menu.Enable(self.exportCalcPDFId, True)
+        menu.Enable(self.printBLId, True)
+        menu.Enable(self.printBAId, True)
         menu.Enable(self.exportNewStruId, True)
         menu.Enable(self.plotIStructId, True)
         menu.Enable(self.plotFStructId, True)
@@ -1599,11 +1615,15 @@ class MainFrame(wx.Frame):
         if itemtype != "phase":
             menu.Enable(self.exportNewStruId, False)
             menu.Enable(self.exportFitStruId, False)
+            menu.Enable(self.printBLId, False)
+            menu.Enable(self.printBAId, False)
             menu.Enable(self.plotIStructId, False)
             menu.Enable(self.plotFStructId, False)
         elif numsel > 1:
             menu.Enable(self.plotIStructId, False)
             menu.Enable(self.plotFStructId, False)
+            menu.Enable(self.printBLId, False)
+            menu.Enable(self.printBAId, False)
             menu.Enable(self.exportFitStruId, False)
             menu.Enable(self.exportNewStruId, False)
         else:
@@ -1948,6 +1968,41 @@ class MainFrame(wx.Frame):
                 atomeyepath = self.getAtomEyePath()
                 atomeyecontrol.plot(cdata.refined, atomeyepath)
         return
+
+    def onPrintBL(self, event):
+        """Print the bond lengths of a selected structure to the output panel.
+        """
+        pass
+
+
+    def onPrintBA(self, event):
+        """Print the bond angles of a selected structure to the output panel.
+        """
+        from bondangledialog import BondAngleDialog
+        selections = self.treeCtrlMain.GetSelections()
+        if selections:
+            node = selections[0]
+            itemtype = self.treeCtrlMain.GetNodeType(node)
+            if itemtype == "phase":
+                panel = self.dynamicPanels['phase']
+                cdata = self.treeCtrlMain.GetControlData(node)
+                S = cdata.refined
+                if not S: S = cdata.initial
+
+                dlg = BondAngleDialog(self)
+                dlg.setStructure(S)
+
+                if dlg.ShowModal() == wx.ID_OK:
+                    # Structure starts from 0
+                    a = dlg.a
+                    b = dlg.b
+                    c = dlg.c
+                    ang = S.angle(S[a-1],S[b-1],S[c-1])
+                    out = \
+                    "\n\nAngle (degrees) between atoms %i, %i, %i = %f\n" %\
+                            (a, b, c, ang)
+                    self.outputPanel.updateText(out)
+                    dlg.Destroy()        
 
     def onQuickPlot(self, event):
         """Quickly plot information for the selected node."""
