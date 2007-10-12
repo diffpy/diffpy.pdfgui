@@ -1814,10 +1814,32 @@ class MainFrame(wx.Frame):
     def onDelete(self, event):
         """Remove the subtrees starting from the selected nodes."""
         selections = self.treeCtrlMain.GetSelections()
+
+        # find a node to choose after deletion
+        fitroot = None
+        roots = map(self.treeCtrlMain.GetFitRoot,selections)
+        # Find the first one that is not to be deleted. This will be the new
+        # selection.
+        for root in roots:
+            if root not in selections:
+                fitroot = root
+                break
+
+        # Delete!
         if selections:
             self.treeCtrlMain.DeleteBranches(selections)
             self.needsSave()
-        self.switchRightPanel('blank')
+
+        # Select the fit root it it exists. If not, select the first fit node.
+        # If that does not exist, then go blank.
+        if fitroot:
+            self.treeCtrlMain.SelectItem(fitroot)
+        else:
+            fits = self.treeCtrlMain.GetChildren(self.treeCtrlMain.root)
+            if fits:
+                self.treeCtrlMain.SelectItem(fits[0])
+            else:
+                self.switchRightPanel("blank")
         return
 
     # Main menu items
