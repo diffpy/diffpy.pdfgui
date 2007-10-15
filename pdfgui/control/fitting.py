@@ -436,6 +436,8 @@ class Fitting(Organizer):
         """Prepare server for bond angle or bond length calculation.
 
         struc   -- instance of PDFStructure
+
+        No return value.
         """
         # struc can be handle to FitStructure.initial
         # let's make sure it is synchronized with current parameters
@@ -455,8 +457,8 @@ class Fitting(Organizer):
         struc   -- instance of PDFStructure
         i, j, k -- atom indices starting at 1
 
-        No return.  The result should be automatically added to the
-        Output Window, because all server output is sent there.
+        No return value.  The result should be automatically added to
+        the Output Window, because all server output is sent there.
         
         Raise ControlValueError for invalid indices i, j, k.
         """
@@ -479,8 +481,8 @@ class Fitting(Organizer):
         struc   -- instance of PDFStructure
         i, j    -- atom indices starting at 1
 
-        No return.  The result should be automatically added to the
-        Output Window, because all server output is sent there.
+        No return value.  The result should be automatically added to
+        the Output Window, because all server output is sent there.
         
         Raise ControlValueError for invalid indices i, j.
         """
@@ -505,8 +507,8 @@ class Fitting(Organizer):
         lb     -- lower bond length boundary
         ub     -- upper bond length boundary
 
-        No return.  The result should be automatically added to the
-        Output Window, because all server output is sent there.
+        No return value.  The result should be automatically added to
+        the Output Window, because all server output is sent there.
         
         Raise ControlValueError for invalid element symbols.
         """
