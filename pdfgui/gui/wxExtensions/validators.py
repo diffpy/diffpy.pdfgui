@@ -136,4 +136,11 @@ class TextValidator(wx.PyValidator):
         # gets to the text control
         return
 
+    # These are needed so the validator can work in dialogs.
+    def TransferToWindow(self):
+        return True
+
+    def TransferFromWindow(self):
+        return True
+
 # End of class TextValidator

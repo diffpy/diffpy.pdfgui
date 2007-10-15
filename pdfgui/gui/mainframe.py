@@ -1994,7 +1994,44 @@ class MainFrame(wx.Frame):
     def onPrintBL(self, event):
         """Print the bond lengths of a selected structure to the output panel.
         """
-        pass
+        from bondlengthdialog import BondLengthDialog
+        selections = self.treeCtrlMain.GetSelections()
+        if selections:
+            node = selections[0]
+            itemtype = self.treeCtrlMain.GetNodeType(node)
+            if itemtype == "phase":
+                panel = self.dynamicPanels['phase']
+                cdata = self.treeCtrlMain.GetControlData(node)
+                S = cdata.refined
+                if not S: S = cdata.initial
+
+                dlg = BondLengthDialog(self)
+                dlg.setStructure(S)
+
+                if dlg.ShowModal() == wx.ID_OK:
+                    fitroot = self.treeCtrlMain.GetFitRoot(node)
+                    fitting = self.treeCtrlMain.GetControlData(fitroot)
+
+                    self.control.redirectStdout()
+
+                    # Figure out what to calculate. If the upper and lower bound
+                    # is too small, it is assumed that a single distance is
+                    # intended to be calculated.
+                    a = dlg.a
+                    b = dlg.b
+                    ea = dlg.ea
+                    eb = dlg.eb
+                    lb = min(dlg.lb, dlg.ub)
+                    ub = max(dlg.lb, dlg.ub)
+                    
+                    if lb == ub == 0.1 or ub < lb:
+                        fitting.outputBondLengthAtoms(S, a, b)
+                    else:
+                        fitting.outputBondLengthTypes(S, ea, eb, lb, ub)
+
+                    self.updateOutput()
+                    dlg.Destroy()        
+        return
 
 
     def onPrintBA(self, event):
