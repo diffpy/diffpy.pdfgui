@@ -19,6 +19,36 @@ from controlerrors import *
 from pdfstructure import PDFStructure
 from pdfdataset import PDFDataSet
 
+# helper routines to deal with PDFfit2 exceptions
+
+def getEngineExceptions():
+    """Return a tuple of possible exceptions from diffpy.pdffit2.pdffit2.
+    """
+    from diffpy.pdffit2.pdffit2 import dataError, unassignedError, \
+            constraintError, structureError, calculationError
+    engine_exceptions = (
+            dataError,
+            unassignedError,
+            constraintError,
+            structureError,
+            calculationError,
+            )
+    return engine_exceptions
+
+def handleEngineException(error, gui=None):
+    """Common handler of PDFfit2 engine exceptions.
+
+    error -- instance of PDFfit2 exception
+    gui   -- reference to GUI when active
+    """
+    errorInfo = "(%s)\n%s" % (error.__class__.__name__, str(error))
+    if gui:
+        gui.postEvent(gui.ERROR, "<Engine exception> %s" % errorInfo)
+    else:
+        print "<Engine exception> %s" % errorInfo
+    return
+
+########################################################################
 class Fitting(Organizer):
     """Fitting is the class to control a PdfFit process, which can be either 
     running on a remote machine or locally. Fitting will start a thread to 
@@ -54,10 +84,6 @@ class Fitting(Organizer):
             
         def run ( self ):
             """overload function from Thread """
-            from diffpy.pdffit2.pdffit2 import dataError, unassignedError,\
-                constraintError, structureError, calculationError
-            engine_exceptions = ( dataError, unassignedError, constraintError,
-                    structureError, calculationError )
             try:
                 self.fitting.run()
             except ControlError,error:
@@ -66,13 +92,10 @@ class Fitting(Organizer):
                     gui.postEvent(gui.ERROR, "<Fitting exception> %s" % error.info)
                 else:
                     print "<Fitting exception> %s" % error.info
-            except engine_exceptions, error:
+            except getEngineExceptions(), error:
                 gui = self.fitting.controlCenter.gui
-                errorInfo = "(%s)\n%s" % (error.__class__.__name__, str(error))
-                if gui:
-                    gui.postEvent(gui.ERROR, "<Engine exception> %s" % errorInfo)
-                else:
-                    print "<Engine exception> %s" % errorInfo
+                handleEngineException(error, gui)
+            return
                 
     def __init__(self, name):
         """initialize
@@ -355,24 +378,17 @@ class Fitting(Organizer):
         
         calc -- a calculation object
         """
-        from diffpy.pdffit2.pdffit2 import dataError, unassignedError,\
-            constraintError, structureError, calculationError
-        engine_exceptions = ( dataError, unassignedError, constraintError,
-                structureError, calculationError )
         try:
             self.connect()
             self.configure()
             calc._calculate()
             #NOTE: for reliability, next calculation/fitting should start all over
             self.__changeStatus(fitStatus=Fitting.INITIALIZED)
-        except engine_exceptions, error:
+        except getEngineExceptions(), error:
             gui = self.controlCenter.gui
-            errorInfo = "(%s)\n%s" % (error.__class__.__name__, str(error))
-            if gui:
-                gui.postEvent(gui.ERROR, "<Engine exception> %s" % errorInfo)
-            else:
-                print "<Engine exception> %s" % errorInfo
-            
+            handleEngineException(error, gui)
+        return
+
     def resetStatus ( self ):
         """reset status back to initialized"""
         self.snapshots = []
@@ -414,6 +430,97 @@ class Fitting(Organizer):
         
             # job status should be changed because of thread exit
             self.__changeStatus ( jobStatus = Fitting.VOID)
+        return
+
+    def _configureBondCalculation(self, struc):
+        """Prepare server for bond angle or bond length calculation.
+
+        struc   -- instance of PDFStructure
+        """
+        # struc can be handle to FitStructure.initial
+        # let's make sure it is synchronized with current parameters
+        self.applyParameters()
+        self.connect()
+        self.server.reset()
+        strucstr = struc.writeStr("pdffit")
+        self.server.read_struct_string(strucstr)
+        return
+
+
+    def outputBondAngle(self, struc, i, j, k):
+        """Output bond angle defined by atoms i, j, k.
+        The angle is calculated using the shortest lengths ji and jk with
+        respect to periodic boundary conditions.
+
+        struc   -- instance of PDFStructure
+        i, j, k -- atom indices starting at 1
+
+        No return.  The result should be automatically added to the
+        Output Window, because all server output is sent there.
+        
+        Raise ControlValueError for invalid indices i, j, k.
+        """
+        try:
+            self._configureBondCalculation(struc)
+            self.server.bang(i, j, k)
+            self._release()
+        except getEngineExceptions(), error:
+            gui = self.controlCenter.gui
+            handleEngineException(error, gui)
+        except ValueError, error:
+            raise ControlValueError, str(error)
+        return
+
+
+    def outputBondLengthAtoms(self, struc, i, j):
+        """Output shortest bond between atoms i, j.
+        Periodic boundary conditions are applied to find the shortest bond.
+
+        struc   -- instance of PDFStructure
+        i, j    -- atom indices starting at 1
+
+        No return.  The result should be automatically added to the
+        Output Window, because all server output is sent there.
+        
+        Raise ControlValueError for invalid indices i, j.
+        """
+        try:
+            self._configureBondCalculation(struc)
+            self.server.blen(i, j)
+            self._release()
+        except getEngineExceptions(), error:
+            gui = self.controlCenter.gui
+            handleEngineException(error, gui)
+        except ValueError, error:
+            raise ControlValueError, str(error)
+        return
+
+
+    def outputBondLengthTypes(self, struc, a1, a2, lb, ub):
+        """Output all a1-a2 bond lenghts within specified range.
+
+        struc  -- instance of PDFStructure
+        a1     -- symbol of the first element in pair or "ALL"
+        a2     -- symbol of the second element in pair or "ALL"
+        lb     -- lower bond length boundary
+        ub     -- upper bond length boundary
+
+        No return.  The result should be automatically added to the
+        Output Window, because all server output is sent there.
+        
+        Raise ControlValueError for invalid element symbols.
+        """
+        try:
+            self._configureBondCalculation(struc)
+            self.server.blen(a1, a2, lb, ub)
+            self._release()
+        except getEngineExceptions(), error:
+            gui = self.controlCenter.gui
+            handleEngineException(error, gui)
+        except ValueError, error:
+            raise ControlValueError, str(error)
+        return
+
         
     def pause ( self,  bPause = None ):
         """pause ( self, bPause = None ) --> pause a fitting process
