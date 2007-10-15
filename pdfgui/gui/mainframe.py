@@ -2015,15 +2015,11 @@ class MainFrame(wx.Frame):
                 dlg.setStructure(S)
 
                 if dlg.ShowModal() == wx.ID_OK:
-                    # Structure starts from 0
-                    a = dlg.a
-                    b = dlg.b
-                    c = dlg.c
-                    ang = S.angle(S[a-1],S[b-1],S[c-1])
-                    out = \
-                    "\n\nAngle (degrees) between atoms %i, %i, %i = %f\n" %\
-                            (a, b, c, ang)
-                    self.outputPanel.updateText(out)
+                    fitroot = self.treeCtrlMain.GetFitRoot(node)
+                    fitting = self.treeCtrlMain.GetControlData(fitroot)
+                    self.control.redirectStdout()
+                    fitting.outputBondAngle(S, dlg.a, dlg.b, dlg.c)
+                    self.updateOutput()
                     dlg.Destroy()        
 
     def onQuickPlot(self, event):
@@ -2049,8 +2045,7 @@ class MainFrame(wx.Frame):
                 self.onPlotFStruct(event)
             else:
                 self.onPlotIStruct(event)
-        else:
-            return
+        return
                         
     def onAbout(self, event):
         dlg = DialogAbout(self)
