@@ -359,10 +359,10 @@ class PDFGuiControl:
         else:   os.environ['PYTHONPATH'] = org_pythonpath
         # close child standard input
         i.close()
-        err = e.read()
-        e.close()
         out = o.read()
         o.close()
+        err = e.read()
+        e.close()
         status = os.wait()[1]
         if os.WEXITSTATUS(status) != 0:
             raise ControlRuntimeError, \
