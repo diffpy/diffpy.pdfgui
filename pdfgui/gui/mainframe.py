@@ -2024,7 +2024,7 @@ class MainFrame(wx.Frame):
                     lb = min(dlg.lb, dlg.ub)
                     ub = max(dlg.lb, dlg.ub)
                     
-                    if lb == ub == 0.1 or ub < lb:
+                    if lb == ub == 0:
                         fitting.outputBondLengthAtoms(S, a, b)
                     else:
                         fitting.outputBondLengthTypes(S, ea, eb, lb, ub)

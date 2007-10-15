@@ -93,8 +93,8 @@ class BondLengthDialog(wx.Dialog):
         self.b = 2
         self.ea = "ALL"
         self.eb = "ALL"
-        self.lb = 0.1
-        self.ub = 0.1
+        self.lb = 0
+        self.ub = 0
 
         # Set the textCtrl validators and focus events
         textCtrls = [self.lbTextCtrl, self.ubTextCtrl]
@@ -142,22 +142,13 @@ class BondLengthDialog(wx.Dialog):
         self.aComboBox.SetValue("All")
         self.bComboBox.SetValue("All")
 
-        self.lbTextCtrl.SetValue("0.1")
-        self.ubTextCtrl.SetValue("0.1")
+        self.lbTextCtrl.SetValue("0.0")
+        self.ubTextCtrl.SetValue("0.0")
         return
 
     def onTextKillFocus(self, event):
         self.lb = float(self.lbTextCtrl.GetValue())
         self.ub = float(self.ubTextCtrl.GetValue())
-
-        if self.lb < 0.1: 
-            self.lb = 0.1
-            val = min(0.1, self.ub)
-            self.lbTextCtrl.SetValue("%s"%val)
-        if self.ub < 0.1: 
-            self.ub = 0.1
-            val = max(0.1, self.lb)
-            self.ubTextCtrl.SetValue("%s"%val)
         return
 
     def onComboKillFocus(self, event):

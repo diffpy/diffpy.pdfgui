@@ -215,11 +215,6 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
         self.textCtrlIncludedPairs.Bind(wx.EVT_SET_FOCUS, self.onSetFocus)
         self.textCtrlIncludedPairs.Bind(wx.EVT_KILL_FOCUS, self.onSelectedPairs)
 
-        # set cells as float type
-        attr = wx.grid.GridCellAttr()
-        attr.SetEditor(wx.grid.GridCellFloatEditor())
-        attr.SetRenderer(wx.grid.GridCellFloatRenderer())
-
         # catch key events and apply them to the grid
         self.Bind(wx.EVT_KEY_DOWN, self.onKey)
         return
