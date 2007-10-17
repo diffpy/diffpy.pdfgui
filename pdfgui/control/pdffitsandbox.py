@@ -122,7 +122,8 @@ class PdfFitSandbox:
         """
         curfit = self._fits[-1]
         name, ext = os.path.splitext(os.path.basename(filename))
-        fs = FitStructure(name).read(filename, 'pdffit')
+        fs = FitStructure(name)
+        fs.read(filename, 'pdffit')
         curfit.add(fs)
         self._curphase = len(curfit.strucs) - 1
         return
@@ -139,7 +140,8 @@ class PdfFitSandbox:
             pdffit2.structureError when a structure file is malformed
         """
         curfit = self._fits[-1]
-        fs = FitStructure(name).readStr(s, 'pdffit')
+        fs = FitStructure(name)
+        fs.readStr(s, 'pdffit')
         curfit.add(fs)
         self._curphase = len(curfit.strucs) - 1
         return
@@ -157,7 +159,8 @@ class PdfFitSandbox:
         """
         curfit = self._fits[-1]
         name, ext = os.path.splitext(os.path.basename(filename))
-        fd = FitDataSet(name).read(filename)
+        fd = FitDataSet(name)
+        fd.read(filename)
         fd.stype = stype
         fd.qmax = qmax
         fd.qdamp = qdamp
@@ -175,7 +178,8 @@ class PdfFitSandbox:
         name    -- tag with which to label data
         """
         curfit = self._fits[-1]
-        fd = FitDataSet(name).readStr(s)
+        fd = FitDataSet(name)
+        fd.readStr(s)
         fd.stype = stype
         fd.qmax = qmax
         fd.qdamp = qdamp
