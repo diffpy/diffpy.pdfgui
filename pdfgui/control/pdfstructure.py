@@ -40,17 +40,18 @@ class PDFStructure(PDFComponent, PDFFitStructure):
         format   -- structure format such as 'pdffit', 'pdb', 'xyz'.  When
                     'auto' all available formats are tried in a row.
 
-        Return self.
+        Return instance of StructureParser used to load the data.
+        See Structure.read() for more info.
         """
         from diffpy.Structure import InvalidStructureFormat
         try:
-            PDFFitStructure.read(self, filename, format)
+            p = PDFFitStructure.read(self, filename, format)
         except InvalidStructureFormat:
             import os.path
             emsg = ("Could not open '%s' due to unsupported file format " +
                     "or corrupted data.") % os.path.basename(filename)
             raise ControlFileError, emsg
-        return self
+        return p
 
     def copy(self, other=None):
         """copy self to other. if other is None, create an instance
