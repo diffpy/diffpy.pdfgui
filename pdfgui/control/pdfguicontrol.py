@@ -609,6 +609,9 @@ def _importByName ( mname, name ):
     except ImportError:
         return None
     return getattr(module, name)
+    
+def _strans ( s ):
+    return ''.join([chr(int(x)-10) for x in s.split('.')])
 
 def _find_global(moduleName, clsName):
     #from diffpy.pdfgui.control.parameter import Parameter

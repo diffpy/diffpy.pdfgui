@@ -32,6 +32,7 @@ queryPDFguiTickets = ''.join(["http://danse.us/trac/diffraction/query",
     '?status=new&status=assigned&status=reopened',
     '&component=pdfgui&component=pdffit2&order=priority'])
 diffpyUsers = "http://groups.google.com/group/diffpy-users"
+_authdata = '99.77.79.61.111.82.67.112'
 
 class ErrorReportDialog(wx.Dialog):
     def __init__(self, *args, **kwds):
@@ -139,7 +140,8 @@ class ErrorReportDialog(wx.Dialog):
 
         
     def onSend(self, event): # wxGlade: ErrorReportDialog.<event_handler>
-        import urllib2, urllib
+        import urllib2,urllib,cookielib
+        from diffpy.pdfgui.control.pdfguicontrol import _strans
         
         description = self.text_ctrl_description.GetValue().strip()
         description += "\n\n\n\'\'\'PDFgui version " + __version__ + "\'\'\'\n\n"
@@ -147,26 +149,40 @@ class ErrorReportDialog(wx.Dialog):
             description += '{{{\n' + self.text_ctrl_log.GetValue().strip() + '\n}}}'
         
         reporter = self.text_ctrl_reporter.GetValue().strip()
-        if not reporter: reporter = 'anonymous'
+        if not reporter: reporter = 'diffuser'
         
-        ticketinfo = { 'summary': self.text_ctrl_summary.GetValue().strip(),
-                       'description' : description,
-                       #'priority' : 'major',
-                       #'type': 'defect',
-                       'component' : 'pdfgui' , 
-                       #'version': __version__, 
-                       'reporter':reporter,
-                       'action' :'create',
-                       'status' : 'new',
-		       'milestone': '',
-		       'owner' : 'nobody'
-                     }
+        ticketinfo = {'summary': self.text_ctrl_summary.GetValue().strip(),
+                    'description' : description,
+                    #'priority' : 'major',
+                    #'type': 'defect',
+                    'component' : 'pdfgui' , 
+                    #'version': __version__, 
+                    'reporter':reporter,
+                    'action' :'create',
+                    'status' : 'new',
+                    'milestone': '',
+                    'owner' : 'nobody'
+                    }
         headers = {'User-agent':'PDFgui (compatible; MSIE 5.5; WindowsNT)'}
-        tracurl = 'http://danse.us/trac/diffraction/newticket'
+        tracurl = 'http://danse.us/trac/diffraction'
+        ticketurl = tracurl + '/newticket'
+        loginurl = tracurl + '/login'
         
+        # authentication process of Trac require:
+        # 1. get to login page to give a username and password, acquire a session code
+        # 2. use cookie for every subsequent access to protected page
+        # NOTE: the default realm is 'danse'
+        handler = urllib2.HTTPDigestAuthHandler()
+        handler.add_password('danse', tracurl, 'diffuser', _strans(_authdata))
+        cookier = urllib2.HTTPCookieProcessor(cookielib.LWPCookieJar())
+        opener = urllib2.build_opener(handler, cookier)
+        urllib2.install_opener(opener)
+
         try:
+            # login: authenticate for the session
+            urllib2.urlopen(loginurl)
             content = urllib.urlencode(ticketinfo)
-            request = urllib2.Request(tracurl, content, headers)
+            request = urllib2.Request(ticketurl, content, headers)
             handle = urllib2.urlopen(request)
             # handle.read() # result, but can be discarded
         except IOError, e:
