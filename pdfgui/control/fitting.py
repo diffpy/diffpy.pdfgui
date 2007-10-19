@@ -378,6 +378,9 @@ class Fitting(Organizer):
         
         calc -- a calculation object
         """
+        if self.fitStatus == Fitting.DONE:
+            self.__changeStatus(fitStatus=Fitting.INITIALIZED)
+
         try:
             self.connect()
             self.configure()
