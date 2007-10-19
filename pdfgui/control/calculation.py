@@ -95,13 +95,23 @@ class Calculation(PDFComponent):
 
     def start(self):
         """entry function for calculation"""
-        self.owner.calculate(self)
-        self.owner._release()
+        from diffpy.pdffit2.PdfFit import PdfFit
+        from diffpy.pdfgui.control.fitting import getEngineExceptions,handleEngineException
+        server = PdfFit()
+        try:
+            # ask the owner ( fitting instance ) to configure server use its settings.
+            self.owner._configure(server)
+            self.calculate(server)
+        except getEngineExceptions(), error:
+            gui = self.owner.controlCenter.gui
+            handleEngineException(error, gui)
+        return
         
-    def _calculate(self):
-        """do the real calculation"""
-        server = self.owner.server
-
+    def calculate(self, server):
+        """do the real calculation
+        
+        server -- PdfFit instance to run the calculation
+        """
         # server is up, clean up old results
         self.rcalc = []
         self.Gcalc = []
@@ -131,7 +141,7 @@ class Calculation(PDFComponent):
         # inform gui of change
         gui = self.owner.controlCenter.gui
         if gui:
-            #gui.postEvent(gui.UPDATE, self)
+            gui.postEvent(gui.OUTPUT, None)
             try:
                 gui.lock()
                 for plot in self.owner.controlCenter.plots:
