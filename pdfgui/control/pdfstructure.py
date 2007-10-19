@@ -48,10 +48,8 @@ class PDFStructure(PDFComponent, PDFFitStructure):
             p = PDFFitStructure.read(self, filename, format)
         except InvalidStructureFormat, err:
             import os.path
-            emsg = ("Could not open '%s' due to unsupported file format " +
-                    "or corrupted data.") % os.path.basename(filename)
-            import sys
-            print >> sys.stderr, err
+            emsg = "Unable to read file '%s'." % os.path.basename(filename)
+            emsg += "\n" + str(err)
             raise ControlFileError, emsg
         return p
 
