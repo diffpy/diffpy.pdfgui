@@ -84,7 +84,6 @@ class PlotPanel(wx.Panel, PDFPanel):
         """Custom Properties go here."""
         self.yDataList.InsertColumn(0, "Y data")
         self.offsetTextCtrl.SetValidator(TextValidator(FLOAT_ONLY,allowNeg=True))
-        self.prevSelectionType = None
 
         # Testing Code. Comment or delete this block when finished.
         #self.yDataList.InsertStringItem(sys.maxint, "y1")
@@ -111,101 +110,97 @@ class PlotPanel(wx.Panel, PDFPanel):
         """Enable or disable certain widgets depending upon what is selected in
         the tree and in the plotting widgets.
         """
+        # selections: selected nodes in treeCtrl
+        # fits:  only different fittings
+        # refs:  data item ids ( can be calculation, fit, structure and dataset 
         selections = self.treeCtrlMain.GetSelections()
-
         # Only proceed if we have compatible items selected from the tree.
-        if self.checkTreeSelections():
+        if not selections: 
+            self.enableWidgets(False)
+            return
+        self.enableWidgets(True)
+        fits = dict.fromkeys([self.treeCtrlMain.GetControlData(self.treeCtrlMain.GetFitRoot(sel)) 
+                              for sel in selections])          
+        refs = [self.treeCtrlMain.GetControlData(sel) for sel in selections]
+        
+        xdata = []
+        # step is added if selections include type other than calculation
+        for type in [ self.treeCtrlMain.GetNodeType(sel) for sel in selections ]:
+            if type != 'calculation':
+                xdata.append('step')
+                break
 
-            selectiontype = self.treeCtrlMain.GetNodeType(selections[0])
-            # Since 'dataset' and 'calculation' items are treated the same, just
-            # replace 'calculation' with 'dataset'.
+        # index is added if mutiple selections are chosen from different fits
+        if len(fits) > 1:
+            xdata.append('index')
 
-            # X-DATA
-            # Setup the xDataCombo
-            # r     -   dataset, calculation
-            # step  -   All item types.
-            # doping, temperature, index
-            #       -   All item types, but only if mutiple selections are chosen
-            #            from different fits
-            # cdata.getXNames() will provide the above names, except that 'step'
-            # and 'index' has to be added manually
-            refs = [self.treeCtrlMain.GetControlData(node) for node in
-            selections]
-            if selectiontype == 'calculation':
-                xdata = []
-            else:
-                xdata = ['step',]
+        for ref in refs:
+            xdata.extend(ref.getXNames())
 
-            for cdata in refs:
-                xdata.extend(cdata.getXNames())
+        for fit in fits:
+            xdata.extend(fit.getMetaDataNames())
+            # also can plot y against y so add yNames as well
+            xdata.extend(fit.getYNames())
 
-            fits = dict.fromkeys([self.treeCtrlMain.GetControlData(self.treeCtrlMain.GetFitRoot(sel))
-            for sel in selections])          
-            if len(fits) > 1:
-                for cdata in fits:
-                    xdata.extend(cdata.getMetaDataNames())
-                    # also can plot y against  y so add yNames as well
-                    xdata.extend(cdata.getYNames())
-                xdata.append('index')
+        # reduce 
+        xdata = dict.fromkeys(xdata).keys()
 
-            xdata = dict.fromkeys(xdata).keys()
-
-            # Make the parameter entries a bit more presentable.
-            def _represent(mixedNames):
-                vals = ["@%i"%item for item in mixedNames if isinstance(item, int)]
-                others  = [item for item in mixedNames if not isinstance(item, int)]
-                vals.extend(others)
-                numericStringSort(vals)
-                return vals
-                
-            xvals = _represent(xdata)
-            try:
-                xvals.remove('rw')    
-            except:
-                pass
-            numericStringSort(xvals)
+        # Make the parameter entries a bit more presentable.
+        def _represent(mixedNames):
+            vals = ["@%i"%item for item in mixedNames if isinstance(item, int)]
+            others  = [item for item in mixedNames if not isinstance(item, int)]
+            vals.extend(others)
+            numericStringSort(vals)
+            return vals
             
-            # Fill the xDataCombo
-            if self.xDataCombo.GetCount():
-                current = self.xDataCombo.GetValue()
-            else:
-                current = None
-            self.xDataCombo.Clear()
-            for item in xvals:
-                self.xDataCombo.Append(item)
-                
-            # Set default value for xDataCombo
-            # Either keep the current plot value selected, select 'r', or the
-            # first in the list.
-            defaultOrders = [ 'r', 'step', 'index']
-            if current and selectiontype == self.prevSelectionType:
-                defaultOrders.insert(0, current)
-            for item in defaultOrders:
-                if item in xvals:
-                    self.xDataCombo.SetValue(item)
-                    break
-            else:
-                self.xDataCombo.SetSelection(0)
+        xvals = _represent(xdata)
+        try:
+            xvals.remove('rw')    
+        except:
+            pass
+        numericStringSort(xvals)
+        
+        # Fill the xDataCombo
+        if self.xDataCombo.GetCount():
+            current = self.xDataCombo.GetValue()
+        else:
+            current = None
+        self.xDataCombo.Clear()
+        for item in xvals:
+            self.xDataCombo.Append(item)
+            
+        # Set default value for xDataCombo
+        # Either keep the current plot value selected, select 'r', or the
+        # first in the list.
+        defaultOrders = [ 'r', 'step', 'index']
+        if current:
+            defaultOrders.insert(0, current)
+        for item in defaultOrders:
+            if item in xvals:
+                self.xDataCombo.SetValue(item)
+                break
+        else:
+            self.xDataCombo.SetSelection(0)
 
-            # Y-DATA
-            ydata = []
-            for cdata in refs:
-                ydata.extend(cdata.getYNames())
-            ydata = dict.fromkeys(ydata).keys()
+        # Y-DATA is the common subset of all data id
+        ydata = refs[0].getYNames()
+        for ref in refs[1:]:
+            for name in ydata[:]:
+                if name not in ref.getYNames(): ydata.remove(name)
 
-            yvals = _represent(ydata)
+        yvals = _represent(ydata)
 
-            # Fill the List
-            self.yDataList.DeleteAllItems()
-            for val in yvals:
-                self.yDataList.InsertStringItem(sys.maxint, str(val))
-            self.yDataList.makeIDM()
-            self.yDataList.initializeSorter()
-            if yvals:
-                self.yDataList.Select(0)
-                
-            self.prevSelectionType = selectiontype
-            self._check(None)
+        # Fill the List
+        self.yDataList.DeleteAllItems()
+        for val in yvals:
+            self.yDataList.InsertStringItem(sys.maxint, str(val))
+        self.yDataList.makeIDM()
+        self.yDataList.initializeSorter()
+        if yvals:
+            self.yDataList.Select(0)
+            
+        #self.prevSelectionType = selectiontype
+        self._check(None)
 
         return
 
@@ -220,31 +215,6 @@ class PlotPanel(wx.Panel, PDFPanel):
             item = self.yDataList.GetNextSelected(item)
         return yvals
 
-    def checkTreeSelections(self):
-        """Make sure that the tree selections are appropriate for plotting.
-
-        Make sure that all selections are the same type. If not, then plotting
-        is disabled.
-        """
-        selections = self.treeCtrlMain.GetSelections()
-
-        if not selections: 
-            self.enableWidgets(False)
-            return False
-
-        # Get the type of the first valid node
-        nodetype = self.treeCtrlMain.GetNodeType(selections[0])
-
-        # Now deselect all nodes of the wrong type
-        for node in selections:
-            if nodetype != self.treeCtrlMain.GetNodeType(node):
-                self.enableWidgets(False)
-                return False
-
-        # We only get here if there are selected nodes and they are all the same
-        # type.
-        self.enableWidgets(True)
-        return True
 
     # EVENT CODE #############################################################
     def onPlot(self, event): # wxGlade: PlotPanel.<event_handler>

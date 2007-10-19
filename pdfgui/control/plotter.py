@@ -49,7 +49,7 @@ def _fullName ( dataId ):
     else:
         return dataId.name
         
-def _buildStyle(plotter, name, group):
+def _buildStyle(plotter, name, group, yNames):
     '''trying to figure out a good style
     
     1. generally we want line style for Gcalc and Gdiff, symbol style for Gobs,
@@ -59,6 +59,7 @@ def _buildStyle(plotter, name, group):
     plotter -- A plotter instance
     name -- what is to be plotted ( y name)
     group -- which group the curve is in( group = -1 means it is the only group)
+    yNames -- all y to be plotted
     return: style dictionay
     '''
     if name in ( 'Gcalc', 'Gdiff'): 
@@ -87,12 +88,13 @@ def _buildStyle(plotter, name, group):
         elif name == 'Gdiff':
             style['color'] = 'green'
     else:
-        # make sure Gidff and Gobs are having same color
-        if name in ( 'Gobs', 'Gtrunc', 'Gdiff'):
-            color = colors[group%len(colors)]
-            style['color'] = color
-        if name == 'Gcalc':
-            style['color'] = 'black'
+        # make sure Gidff, Gtrunc, Gobs are having same color
+        if name in ( 'Gobs', 'Gtrunc', 'Gdiff', 'Gcalc'):
+            style['color'] = colors[group%len(colors)]
+        if name == 'Gcalc': 
+            # for visual effect, change Gcalc to black if it's going to be plotted against Gobs/Gtrunc
+            if 'Gobs' in yNames or 'Gtrunc' in yNames:
+                style['color'] = 'black'
             
     return style
         
@@ -435,19 +437,22 @@ class Plotter(PDFComponent):
             # add yNames one by one for given dataIds
             for y in yNames:
                 _offset = offset
-                if len(dataIds) == 1 and group != -1:
-                    #legend = dataIds[0].name  + ": " + _transName(y)
-                    legend = _fullName(dataIds[0]) + ": " + _transName(y)
-                else:
-                    # 1.Group = -1, multiple ids give a single curve 
-                    # 2.there is only one dataId so that prefix unneeded
-                    legend = _transName(y)
-                
-                style = _buildStyle(self, y, group)
-                style['legend'] = legend
+                legend = None
+                style = None
+                if not dry:
+                    if len(dataIds) == 1 and group != -1:
+                        #legend = dataIds[0].name  + ": " + _transName(y)
+                        legend = _fullName(dataIds[0]) + ": " + _transName(y)
+                    else:
+                        # 1.Group = -1, multiple ids give a single curve 
+                        # 2.there is only one dataId so that prefix unneeded
+                        legend = _transName(y)
+                    
+                    style = _buildStyle(self, y, group, yNames)
+                    style['legend'] = legend
                
-                if y == 'Gdiff' and group == -1:
-                    _offset = shift
+                    if y == 'Gdiff' and group == -1:
+                        _offset = shift
                 #Create curve, get data for it and update it in the plot
                 curve = Plotter.Curve(legend, self.window, xName, y,
                                       step, dataIds, _offset, style)
@@ -495,6 +500,7 @@ class Plotter(PDFComponent):
             self.curves = []
             return
             
+        # Real plot starts  
         if self.window is None:
             # plotWindown may either not be ready or it has been closed
             self.window = ExtendedPlotFrame(self.controlCenter.gui)
