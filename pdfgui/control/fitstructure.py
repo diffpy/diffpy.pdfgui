@@ -40,8 +40,12 @@ class FitStructure(PDFStructure):
         refined     -- refined structure when available or None
         constraints -- dictionary of { refvar_string : Constraint_instance }
         selected_pairs -- string of selected pairs, by default "all-all".
-                          Use setSelectedPairs() and getSelectedPairs() methods
-                          to access its value.
+                       Use setSelectedPairs() and getSelectedPairs() methods
+                       to access its value.
+        custom_spacegroup -- instance of SpaceGroup which has no equivalent
+                       in diffpy.Structure.SpaceGroups module.  This can happen
+                       after reading from a CIF file.  When equivalent space
+                       group exists, custom_spacegroup is None.
 
     Refinable variables: pscale, delta1, delta2, sratio, lat(n), where n=1..6,
                          x(i), y(i), z(i), occ(i), u11(i), u22(i), u33(i),
@@ -52,6 +56,8 @@ class FitStructure(PDFStructure):
 
     # class data members:
     symposeps = 0.001
+    # evaluation of sorted_standard_space_groups deferred when necessary
+    sorted_standard_space_groups = []   
 
     def __init__(self, name, *args, **kwargs):
         """Initialize FitDataSet.
@@ -67,8 +73,64 @@ class FitStructure(PDFStructure):
         self.refined = None
         self.constraints = {}
         self.selected_pairs = "all-all"
+        self.initial.pdffit['sgoffset'] = [0.0, 0.0, 0.0]
+        self.custom_spacegroup = None
         return
-        
+
+
+    def _update_custom_spacegroup(self, parser):
+        """Helper method for read() and readStr(), which takes care
+        of setting custom_spacegroup after successful reading.
+
+        parser -- instance of StructureParser used in reading.
+
+        No return value.
+        """
+        self.custom_spacegroup = None
+        self.initial.pdffit['sgoffset'] = [0.0, 0.0, 0.0]
+        if hasattr(parser, "spacegroup"):
+            sg = parser.spacegroup
+            # when sg.number is None or 0, we have a custom spacegroup
+            if not sg.number:
+                # overwrite sg.number with 0, an identifier for custom SG
+                sg.number = 0
+                self.custom_spacegroup = sg
+            # here sg.number is 0 or positive integer
+            self.initial.pdffit['spcgr'] = sg.short_name
+        return
+
+
+    def read(self, filename, format='auto'):
+        """Load structure from a file, raise ControlFileError for invalid
+        or unknown structure format.  Overloads PDFStructure.read()
+        to handle custom_spacegroup attribute.
+
+        filename -- file to be loaded
+        format   -- structure format such as 'pdffit', 'pdb', 'xyz'.  When
+                    'auto' all available formats are tried in a row.
+
+        Return instance of StructureParser used to load the data.
+        See Structure.read() for more info.
+        """
+        p = PDFStructure.read(self, filename, format)
+        # update data only after successful reading
+        self._update_custom_spacegroup(p)
+        return p
+
+
+    def readStr(self, s, format='auto'):
+        """Same as PDFStructure.readStr, but handle the
+        custom_spacegroup data.
+
+        Return instance of StructureParser used to load the data.
+        See Structure.readStr() for more info.
+        """
+        p = PDFStructure.readStr(self, s, format)
+        # update data only after successful reading
+        self._update_custom_spacegroup(p)
+        return p
+
+
     def __getattr__(self, name):
         """Map self.initial to self.
         This is called only when normal attribute lookup fails.
@@ -294,6 +356,49 @@ class FitStructure(PDFStructure):
         from diffpy.Structure.SymmetryUtilities import isSpaceGroupLatPar
         return isSpaceGroupLatPar(spacegroup, *self.initial.lattice.abcABG())
 
+
+    def getSpaceGroupList(self):
+        """Return a list of SpaceGroup instances sorted by International
+        Tables number.  When custom_spacegroup is defined, the list starts
+        with custom_spacegroup.
+        """
+        if not FitStructure.sorted_standard_space_groups:
+            import diffpy.Structure.SpaceGroups as SG
+            existing_names = {}
+            unique_named_list = []
+            for sg in SG.SpaceGroupList:
+                if sg.short_name not in existing_names:
+                    unique_named_list.append(sg)
+                existing_names[sg.short_name] = True
+            # sort by International Tables number, stay compatible with 2.3
+            n_sg = [(sg.number % 1000, sg) for sg in unique_named_list]
+            n_sg.sort()
+            FitStructure.sorted_standard_space_groups = [sg for n, sg in n_sg]
+        sglist = list(FitStructure.sorted_standard_space_groups)
+        if self.custom_spacegroup:
+            sglist.insert(0, self.custom_spacegroup)
+        return sglist
+
+    def getSpaceGroup(self, sgname):
+        """Find space group in getSpaceGroupList() by short_name or number. 
+        Use P1 when nothing else matches.
+        
+        Return instance of SpaceGroup.
+        """
+        sgfound = None
+        sglist = self.getSpaceGroupList()
+        try:
+            sgno = int(sgname)
+            sgmatch = [sg for sg in sglist if sg.number == sgno]
+            if sgmatch: sgfound = sgmatch[0]
+        except ValueError:
+            sgmatch = [sg for sg in sglist if sg.short_name == sgname]
+            if sgmatch: sgfound = sgmatch[0]
+        # use P1 when nothing found
+        if sgfound is None:
+            sgfound = FitStructure.sorted_standard_space_groups[0]
+        return sgfound
+
     def expandAsymmetricUnit(self, spacegroup, indices, sgoffset=[0,0,0]):
         """Perform symmetry expansion for atoms at given indices.
         Temperature factors may be corrected to reflect the symmetry. 
@@ -336,6 +441,7 @@ class FitStructure(PDFStructure):
         # insert new atoms where they belong
         for i, atomlist in zip(ruindices, newatoms):
             self.initial[i:i+1] = atomlist
+        # remember this spacegroup as the last one used
         self.initial.pdffit["spcgr"] = spacegroup.short_name
         self.initial.pdffit["sgoffset"] = list(sgoffset)
         # tidy constraints
@@ -594,6 +700,7 @@ class FitStructure(PDFStructure):
         subpath -- path to its own storage within project file
         """
         #subpath = projname/fitname/structure/myname/
+        from pdfguicontrol import CtrlUnpickler
         subs = subpath.split('/')
         rootDict = z.fileTree[subs[0]][subs[1]][subs[2]][subs[3]]
         self.initial.readStr(z.read(subpath+'initial'), 'pdffit')
@@ -603,7 +710,6 @@ class FitStructure(PDFStructure):
             self.refined.readStr(z.read(subpath+'refined'), 'pdffit')
         # constraints
         if rootDict.has_key('constraints'):
-            from pdfguicontrol import CtrlUnpickler
             self.constraints = CtrlUnpickler.loads(z.read(subpath+'constraints'))
             translate = { 'gamma' : 'delta1',
                           'delta' : 'delta2',
@@ -614,6 +720,15 @@ class FitStructure(PDFStructure):
         # selected_pairs
         if rootDict.has_key("selected_pairs"):
             self.selected_pairs = z.read(subpath+'selected_pairs')
+        # sgoffset
+        if rootDict.has_key("sgoffset"):
+            sgoffsetstr = z.read(subpath+'sgoffset')
+            sgoffset = [float(w) for w in sgoffsetstr.split()]
+            self.initial.pdffit['sgoffset'] = sgoffset
+        # custom_spacegroup
+        if rootDict.has_key("custom_spacegroup"):
+            bytes = z.read(subpath+'custom_spacegroup')
+            self.custom_spacegroup = CtrlUnpickler.loads(bytes)
         return
         
     def save(self, z, subpath):
@@ -627,13 +742,16 @@ class FitStructure(PDFStructure):
         if self.refined:
             z.writestr(subpath+'refined', self.refined.writeStr('pdffit'))
         if self.constraints:
-            # make a picklable dictionary of constraints
-            #constraints = {}
-            #for k,v in self.constraints.items():
-            #    constraints[k] = v.formula
             bytes = safeCPickleDumps(self.constraints)
             z.writestr(subpath+'constraints', bytes)
         z.writestr(subpath+'selected_pairs', self.selected_pairs)
+        # sgoffset
+        sgoffset = self.initial.pdffit.get('sgoffset', [0.0, 0.0, 0.0])
+        sgoffsetstr = "%g %g %g" % tuple(sgoffset)
+        z.writestr(subpath+'sgoffset', sgoffsetstr)
+        if self.custom_spacegroup:
+            bytes = safeCPickleDumps(self.custom_spacegroup)
+            z.writestr(subpath+'custom_spacegroup', bytes)
         return
         
     def getYNames(self):

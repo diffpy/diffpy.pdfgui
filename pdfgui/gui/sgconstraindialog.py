@@ -19,7 +19,6 @@
 import wx
 from copy import copy
 import math
-from diffpy.Structure import SpaceGroups
 from diffpy.pdfgui.control.controlerrors import *
 from pdfpanel import PDFPanel
 
@@ -99,15 +98,8 @@ class SGConstrainDialog(wx.Dialog, PDFPanel):
 
     def __customProperties(self):
         """Set the custom properties."""
-        # Get the available space group names and add them to the ComboBox
-        self.sgComboBox.Clear()
-        sgnames = [(sg.number, sg.short_name) for sg in\
-                SpaceGroups.SpaceGroupList]
-        sgnames.sort()
-        for (number, name) in sgnames[:230]:
-            self.sgComboBox.Append(name)
-
-        self.spacegroup = SpaceGroups.GetSpaceGroup('P1')
+        # setting of combo box items was deferred to updateSpaceGroupList()
+        self.spacegroup = None
         self.offset = [0.0,0.0,0.0]
         self.posflag = True
         self.tempflag = True
@@ -123,9 +115,22 @@ class SGConstrainDialog(wx.Dialog, PDFPanel):
         self.sgComboBox.Bind(wx.EVT_KILL_FOCUS, self.onKillFocus) 
         return
 
+    def updateSpaceGroupList(self):
+        """Update space group choices in combobox according to
+        self.structure.getSpaceGroupList().
+        Requires that structure attribute is defined.
+        """
+        self.sgComboBox.Clear()
+        sglist = self.structure.getSpaceGroupList()
+        self.spacegroup = self.structure.getSpaceGroup('P1')
+        for sg in sglist:
+            self.sgComboBox.Append(sg.short_name)
+        return
+
     def setStructure(self, structure):
         """Set the structure and update the widgets."""
         self.structure = structure
+        self.updateSpaceGroupList()
         sgname = self.structure.pdffit.get("spcgr")
         offset = self.structure.pdffit.get("sgoffset")
         if sgname:
@@ -161,7 +166,7 @@ class SGConstrainDialog(wx.Dialog, PDFPanel):
             sgname = int(sgname)
         except ValueError:
             pass
-        self.spacegroup = SpaceGroups.GetSpaceGroup(sgname)
+        self.spacegroup = self.structure.getSpaceGroup(sgname)
         self.sgComboBox.SetValue(self.spacegroup.short_name)
         # Update offset
         for i in range(3):

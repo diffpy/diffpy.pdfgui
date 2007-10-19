@@ -19,7 +19,6 @@
 import wx
 from copy import copy
 import math
-from diffpy.Structure import SpaceGroups
 from diffpy.pdfgui.control.controlerrors import *
 from pdfpanel import PDFPanel
 
@@ -92,17 +91,9 @@ class SGStructureDialog(wx.Dialog, PDFPanel):
 
     def __customProperties(self):
         """Set the custom properties."""
-        # Get the available space group names and add them to the ComboBox
-        self.sgComboBox.Clear()
-        sgnames = [(sg.number, sg.short_name) for sg in\
-                SpaceGroups.SpaceGroupList]
-        sgnames.sort()
-        for (number, name) in sgnames[:230]:
-            self.sgComboBox.Append(name)
-        self.sgComboBox.SetValue('P1')
-
-        self.spacegroup = SpaceGroups.GetSpaceGroup('P1')
-        self.offset = [0,0,0]
+        # setting of combo box items was deferred to updateSpaceGroupList()
+        self.spacegroup = None
+        self.offset = [0.0,0.0,0.0]
         self.structure = None
         self.indices = []
 
@@ -115,9 +106,30 @@ class SGStructureDialog(wx.Dialog, PDFPanel):
         self.sgComboBox.Bind(wx.EVT_KILL_FOCUS, self.onKillFocus) 
         return
 
+    def updateSpaceGroupList(self):
+        """Update space group choices in combobox according to
+        self.structure.getSpaceGroupList().
+        Requires that structure attribute is defined.
+        """
+        self.sgComboBox.Clear()
+        sglist = self.structure.getSpaceGroupList()
+        self.spacegroup = self.structure.getSpaceGroup('P1')
+        for sg in sglist:
+            self.sgComboBox.Append(sg.short_name)
+        return
+
     def setStructure(self, structure):
         """Set the structure and update the dialog."""
         self.structure = structure
+        self.updateSpaceGroupList()
+        sgname = self.structure.pdffit.get("spcgr")
+        offset = self.structure.pdffit.get("sgoffset")
+        if sgname:
+            self.sgComboBox.SetValue(sgname)
+        if offset:
+            self.offsetTextCtrlX.SetValue(str(offset[0]))
+            self.offsetTextCtrlY.SetValue(str(offset[1]))
+            self.offsetTextCtrlZ.SetValue(str(offset[2]))
         self.updateWidgets()
         return
 
@@ -137,7 +149,7 @@ class SGStructureDialog(wx.Dialog, PDFPanel):
             sgname = int(sgname)
         except ValueError:
             pass
-        self.spacegroup = SpaceGroups.GetSpaceGroup(sgname)
+        self.spacegroup = self.structure.getSpaceGroup(sgname)
         self.sgComboBox.SetValue(self.spacegroup.short_name)
 
         # Update offset
@@ -151,7 +163,7 @@ class SGStructureDialog(wx.Dialog, PDFPanel):
                 val = 0.0
             textctrl.SetValue("%s"%val)
             self.offset[i] = val
-        
+
         # Check the space group
         error = ""
         if sgname != self.spacegroup.short_name and \
