@@ -151,7 +151,8 @@ class Fitting(Organizer):
             self.host.releaseServer(self.server)
             self.host = None
         else:
-            self.server.reset()
+            if self.server: # server has been allocated, we need free the memory
+                self.server.reset()
         
     def _getStrId(self):
         """make a string identifier
@@ -309,9 +310,8 @@ class Fitting(Organizer):
             if self.jobStatus == Fitting.QUEUED:
                 self.__changeStatus(jobStatus=Fitting.VOID)
         
-    def connect(self):
-        """start PDFServer.py process and connect to it.  PDFServer.py must
-        be on the PATH of the host machine.
+    def getServer(self):
+        """get a PDFFit2 instance either locally or remotely
         """
         if self.fitStatus != Fitting.INITIALIZED:
             return 
@@ -328,69 +328,56 @@ class Fitting(Organizer):
         self.__changeStatus(fitStatus=Fitting.CONNECTED)
                                     
     def configure(self):
-        """run configuration for fitting"""        
+        """configure fitting"""        
         if self.fitStatus != Fitting.CONNECTED:
             return
         
+        self._configure(self.server)
+        # build name dict
+        self.buildNameDict()
+    
+        self.__changeStatus(fitStatus=Fitting.CONFIGURED)
+       
+    def _configure(self, server):
+        """configure a PdfFit2 instance using internal settings. It can be called by fit or calc
+        
+        server -- PdfFit2 instance to be configured
+        """
         # make sure parameters are initialized
         self.updateParameters()
-        self.server.reset()
+        server.reset()
         for struc in self.strucs:
             struc.clearRefined()
-            self.server.read_struct_string(struc.initial.writeStr("pdffit") )
+            server.read_struct_string(struc.initial.writeStr("pdffit") )
             for key,var in struc.constraints.items():
-                self.server.constrain(key.encode('ascii'), var.formula.encode('ascii'))
+                server.constrain(key.encode('ascii'), var.formula.encode('ascii'))
         
         seq = 1
         for dataset in self.datasets:
             dataset.clearRefined()
-            self.server.read_data_string(dataset.writeObsStr(), 
+            server.read_data_string(dataset.writeObsStr(), 
                                          dataset.stype.encode('ascii'), 
                                          dataset.qmax, 
                                          dataset.qdamp)
-            self.server.setvar('qbroad', dataset.qbroad)
-            self.server.setvar('spdiameter', dataset.spdiameter)
+            server.setvar('qbroad', dataset.qbroad)
+            server.setvar('spdiameter', dataset.spdiameter)
             for key,var in dataset.constraints.items():
-                self.server.constrain(key.encode('ascii'), var.formula.encode('ascii'))
-            self.server.pdfrange(seq, dataset.fitrmin, dataset.fitrmax)
+                server.constrain(key.encode('ascii'), var.formula.encode('ascii'))
+            server.pdfrange(seq, dataset.fitrmin, dataset.fitrmax)
             # pair selection applies only to the current dataset, 
             # therefore it has to be done here.
             nstrucs = len(self.strucs)
             for phaseidx, struc in zip(range(1, nstrucs + 1), self.strucs):
-                struc.applyPairSelection(self.server, phaseidx)
+                struc.applyPairSelection(server, phaseidx)
             seq += 1
 
         for index, par in self.parameters.items():
             # clean any refined value
             par.refined = None
-            self.server.setpar(index, par.initialValue()) # info[0] = init value
+            server.setpar(index, par.initialValue()) # info[0] = init value
             # fix if fixed.  Note: all parameters are free after server.reset().
             if par.fixed:
-                self.server.fixpar(index)
-                
-        # build name dict
-        self.buildNameDict()
-    
-        self.__changeStatus(fitStatus=Fitting.CONFIGURED)
-
-    def calculate(self, calc):
-        """calculate speicified calculation
-        
-        calc -- a calculation object
-        """
-        if self.fitStatus == Fitting.DONE:
-            self.__changeStatus(fitStatus=Fitting.INITIALIZED)
-
-        try:
-            self.connect()
-            self.configure()
-            calc._calculate()
-            #NOTE: for reliability, next calculation/fitting should start all over
-            self.__changeStatus(fitStatus=Fitting.INITIALIZED)
-        except getEngineExceptions(), error:
-            gui = self.controlCenter.gui
-            handleEngineException(error, gui)
-        return
+                server.fixpar(index)
 
     def resetStatus ( self ):
         """reset status back to initialized"""
@@ -398,6 +385,8 @@ class Fitting(Organizer):
         self.step = 0
         if self.fitStatus == Fitting.INITIALIZED:
             return  # already reset
+            
+        # This status will mandate allocation of a new PdfFit instance
         self.__changeStatus(fitStatus=Fitting.INITIALIZED)
         
     def run ( self ):
@@ -407,13 +396,13 @@ class Fitting(Organizer):
         self.__changeStatus ( jobStatus = Fitting.RUNNING )
         try:
             for calc in self.calcs:
-                self.calculate(calc)
+                calc.start()
                 
             while not self.stopped and self.datasets:
                 if not self.paused:
                     # quick check to make sure status is right
                     # will do nothing if status is CONFIGURED
-                    self.connect()
+                    self.getServer()
                     self.configure()
                     
                     # if self.refine_step return True, fitting is finished
@@ -445,7 +434,7 @@ class Fitting(Organizer):
         # struc can be handle to FitStructure.initial
         # let's make sure it is synchronized with current parameters
         self.applyParameters()
-        self.connect()
+        self.getServer()
         self.server.reset()
         strucstr = struc.writeStr("pdffit")
         self.server.read_struct_string(strucstr)
@@ -543,7 +532,7 @@ class Fitting(Organizer):
             self.pauseEvent.set()
             
     def start ( self ):
-        """start fitting thread """
+        """start fitting"""
         # check if paused
         if self.jobStatus == Fitting.PAUSED:
             self.pause(False)
@@ -559,7 +548,7 @@ class Fitting(Organizer):
         self.thread.start()
         
     def stop ( self ):
-        """stop the fitting process"""        
+        """stop the fitting"""        
         self.stopped = True
         
         # wake up daemon thread if it is paused
