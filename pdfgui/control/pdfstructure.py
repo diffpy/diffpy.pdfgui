@@ -46,10 +46,12 @@ class PDFStructure(PDFComponent, PDFFitStructure):
         from diffpy.Structure import InvalidStructureFormat
         try:
             p = PDFFitStructure.read(self, filename, format)
-        except InvalidStructureFormat:
+        except InvalidStructureFormat, err:
             import os.path
             emsg = ("Could not open '%s' due to unsupported file format " +
                     "or corrupted data.") % os.path.basename(filename)
+            import sys
+            print >> sys.stderr, err
             raise ControlFileError, emsg
         return p
 
