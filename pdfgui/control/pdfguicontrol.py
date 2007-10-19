@@ -159,7 +159,7 @@ class PDFGuiControl:
             self.host.close()
         
         if self.queueManager.isAlive():
-            self.queueManager.running = False            
+            self.queueManager.running = False      
         
     def newFitting(self, name, position=None):
         """insert a new instance of Fitting

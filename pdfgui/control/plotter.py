@@ -360,14 +360,10 @@ class Plotter(PDFComponent):
         
         force -- if True, close forcibly
         """
-        try:
-            self.lock.acquire()
-            if self.window is not None:
-                #self.window.Close(True)
-                self.window.Destroy()
-                self.window = None
-        finally:
-            self.lock.release()
+        if self.window is not None:
+            #self.window.Close(True)
+            self.window.Destroy()
+            self.window = None
             
     def onWindowClose(self):
         """get called when self.window is closed by user
@@ -477,63 +473,59 @@ class Plotter(PDFComponent):
         else:
             step = -1
                 
-        try:
-            self.lock.acquire()
-            self.curves = []
-            
-            if 'Gcalc' in yNames:
-                yNames.remove('Gcalc')
-                yNames.append('Gcalc')
-            
-            # default is no shift, single group.
-            offset = 0.0
-            group = -1
-            if bSeparateID:
-                for id in ids:
-                    group += 1
-                    _addCurve([id,])
-                    offset += shift
-            else:
-                _addCurve(ids)
-                
-            # clean up, it's only a dry run
-            if dry:
-                self.curves = []
-                return
-                
-            if self.window is None:
-                # plotWindown may either not be ready or it has been closed
-                self.window = ExtendedPlotFrame(self.controlCenter.gui)
-                self.window.plotter = self
-            else:
-                self.window.clear()
-                
-            for curve in self.curves:
-                #Initial notification, don't plot immediately, wait for last line to be added 
-                #This is to optimize plotting multiple curves.
-                curve.notify(plotwnd=self.window)
+        self.curves = []
         
-            # make the graph title, x, y label
-            yStrs = [_transName(yName) for yName in yNames]
-            if yStrs[0].startswith('G'):
-                #then all are Gs
-                yLabel = 'G'
-            else:
-                yLabel = ','.join(yStrs)
-            title = ''
-            if len(ids) == 1:
-                title += ' '+ ids[0].name + ':' 
-            title += yLabel
-            self.window.setTitle(self.name+' '+title, title)
-            self.window.setXLabel( _transName(xName) )
-            self.window.setYLabel( yLabel )
+        if 'Gcalc' in yNames:
+            yNames.remove('Gcalc')
+            yNames.append('Gcalc')
+        
+        # default is no shift, single group.
+        offset = 0.0
+        group = -1
+        if bSeparateID:
+            for id in ids:
+                group += 1
+                _addCurve([id,])
+                offset += shift
+        else:
+            _addCurve(ids)
             
-            # show the graph
-            self.window.replot()
-            self.show(True)
+        # clean up, it's only a dry run
+        if dry:
+            self.curves = []
+            return
             
-        finally:
-            self.lock.release()
+        if self.window is None:
+            # plotWindown may either not be ready or it has been closed
+            self.window = ExtendedPlotFrame(self.controlCenter.gui)
+            self.window.plotter = self
+        else:
+            self.window.clear()
+            
+        for curve in self.curves:
+            #Initial notification, don't plot immediately, wait for last line to be added 
+            #This is to optimize plotting multiple curves.
+            curve.notify(plotwnd=self.window)
+    
+        # make the graph title, x, y label
+        yStrs = [_transName(yName) for yName in yNames]
+        if yStrs[0].startswith('G'):
+            #then all are Gs
+            yLabel = 'G'
+        else:
+            yLabel = ','.join(yStrs)
+        title = ''
+        if len(ids) == 1:
+            title += ' '+ ids[0].name + ':' 
+        title += yLabel
+        self.window.setTitle(self.name+' '+title, title)
+        self.window.setXLabel( _transName(xName) )
+        self.window.setYLabel( yLabel )
+        
+        # show the graph
+        self.window.replot()
+        self.show(True)
+            
 
     def show ( self, bShow = None) :
         """show the plot on screen
@@ -541,37 +533,29 @@ class Plotter(PDFComponent):
         bShow -- True to show, False to Hide. None to toggle
         return value: current status of window
         """
-        try:
-            self.lock.acquire()
-            if self.window is None:
-                raise ControlStatusError, "Plot: %s has no window"%self.name
-            if bShow is None:
-                bShow = not self.isShown
-            self.window.Show(bShow)
-            if bShow: # True 
-                # further bring it to top
-                self.window.Raise()
-            self.isShown = bShow        
-            return self.isShown
-        finally:
-            self.lock.release()
+        if self.window is None:
+            raise ControlStatusError, "Plot: %s has no window"%self.name
+        if bShow is None:
+            bShow = not self.isShown
+        self.window.Show(bShow)
+        if bShow: # True 
+            # further bring it to top
+            self.window.Raise()
+        self.isShown = bShow        
+        return self.isShown
         
     def notify ( self , data ):
         '''change of the data is notified
         
         data -- data object that has changed
         '''
-        try:
-            self.lock.acquire()
-            if not self.curves or self.window is None:
-                return  
-            ret = False
-            for curve in self.curves:
-                ret |= (curve.notify(changedIds=[data,]))
-            if ret:
-                self.window.replot()
-        finally:
-            self.lock.release()
+        if not self.curves or self.window is None:
+            return  
+        ret = False
+        for curve in self.curves:
+            ret |= (curve.notify(changedIds=[data,]))
+        if ret:
+            self.window.replot()
 
     def export( self, filename):
         '''export current data to external file

@@ -272,7 +272,7 @@ class Calculation(PDFComponent):
         
         returns a name str list
         """
-        return ['rcalc', ]
+        return ['r', ]
 
     def getData(self, dataname, step=None):
         """get Calculation data member
