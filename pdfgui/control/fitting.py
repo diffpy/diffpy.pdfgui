@@ -332,53 +332,47 @@ class Fitting(Organizer):
         if self.fitStatus != Fitting.CONNECTED:
             return
         
-        self._configure(self.server)
-        # build name dict
-        self.buildNameDict()
-    
-        self.__changeStatus(fitStatus=Fitting.CONFIGURED)
-       
-    def _configure(self, server):
-        """configure a PdfFit2 instance using internal settings. It can be called by fit or calc
-        
-        server -- PdfFit2 instance to be configured
-        """
         # make sure parameters are initialized
         self.updateParameters()
-        server.reset()
+        self.server.reset()
         for struc in self.strucs:
             struc.clearRefined()
-            server.read_struct_string(struc.initial.writeStr("pdffit") )
+            self.server.read_struct_string(struc.initial.writeStr("pdffit") )
             for key,var in struc.constraints.items():
-                server.constrain(key.encode('ascii'), var.formula.encode('ascii'))
+                self.server.constrain(key.encode('ascii'), var.formula.encode('ascii'))
         
         seq = 1
         for dataset in self.datasets:
             dataset.clearRefined()
-            server.read_data_string(dataset.writeObsStr(), 
+            self.server.read_data_string(dataset.writeObsStr(), 
                                          dataset.stype.encode('ascii'), 
                                          dataset.qmax, 
                                          dataset.qdamp)
-            server.setvar('qbroad', dataset.qbroad)
-            server.setvar('spdiameter', dataset.spdiameter)
+            self.server.setvar('qbroad', dataset.qbroad)
+            self.server.setvar('spdiameter', dataset.spdiameter)
             for key,var in dataset.constraints.items():
-                server.constrain(key.encode('ascii'), var.formula.encode('ascii'))
-            server.pdfrange(seq, dataset.fitrmin, dataset.fitrmax)
+                self.server.constrain(key.encode('ascii'), var.formula.encode('ascii'))
+            self.server.pdfrange(seq, dataset.fitrmin, dataset.fitrmax)
             # pair selection applies only to the current dataset, 
             # therefore it has to be done here.
             nstrucs = len(self.strucs)
             for phaseidx, struc in zip(range(1, nstrucs + 1), self.strucs):
-                struc.applyPairSelection(server, phaseidx)
+                struc.applyPairSelection(self.server, phaseidx)
             seq += 1
 
         for index, par in self.parameters.items():
             # clean any refined value
             par.refined = None
-            server.setpar(index, par.initialValue()) # info[0] = init value
-            # fix if fixed.  Note: all parameters are free after server.reset().
+            self.server.setpar(index, par.initialValue()) # info[0] = init value
+            # fix if fixed.  Note: all parameters are free after self.server.reset().
             if par.fixed:
-                server.fixpar(index)
-
+                self.server.fixpar(index)
+                
+        # build name dict
+        self.buildNameDict()
+    
+        self.__changeStatus(fitStatus=Fitting.CONFIGURED)
+       
     def resetStatus ( self ):
         """reset status back to initialized"""
         self.snapshots = []

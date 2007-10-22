@@ -95,50 +95,14 @@ class Calculation(PDFComponent):
 
     def start(self):
         """entry function for calculation"""
-        from diffpy.pdffit2.PdfFit import PdfFit
         from diffpy.pdfgui.control.fitting import getEngineExceptions,handleEngineException
-        server = PdfFit()
         try:
-            # ask the owner ( fitting instance ) to configure server use its settings.
-            self.owner._configure(server)
-            self.calculate(server)
+            self.calculate()
         except getEngineExceptions(), error:
             gui = self.owner.controlCenter.gui
             handleEngineException(error, gui)
-        return
-        
-    def calculate(self, server):
-        """do the real calculation
-        
-        server -- PdfFit instance to run the calculation
-        """
-        # server is up, clean up old results
-        self.rcalc = []
-        self.Gcalc = []
-        # do the job
-        if len(self.owner.strucs) == 0:
-            raise ControlConfigError, "No structure is given for calculation"
-        # dataset related variables
-        server.alloc(self.stype, self.qmax, self.qdamp,
-                self.rmin, self.rmax, self.rlen)
-        server.setvar('qbroad', self.qbroad)
-        server.setvar('spdiameter', self.spdiameter)
-        # phase related variables
-        # pair selection applies to current dataset, 
-        # therefore it has to be done after alloc
-        nstrucs = len(self.owner.strucs)
-        for phaseidx, struc in zip(range(1, nstrucs + 1), self.owner.strucs):
-            server.read_struct_string(struc.writeStr('pdffit'))
-            server.setvar('pscale', struc.getvar('pscale'))
-            struc.applyPairSelection(server, phaseidx)
-        # all ready here
-        server.calc()
-        
-        # get results
-        self.rcalc = server.getR()
-        self.Gcalc = server.getpdf_fit()
-       
-        # inform gui of change
+            
+        # inform gui of change ( when engine calculation fails, it will update gui as well )
         gui = self.owner.controlCenter.gui
         if gui:
             gui.postEvent(gui.OUTPUT, None)
@@ -150,6 +114,56 @@ class Calculation(PDFComponent):
                 gui.unlock()        
         return
 
+    def calculate(self):
+        """do the real calculation
+        """
+        # clean up old results
+        self.rcalc = []
+        self.Gcalc = []
+        
+        # do the job
+        if len(self.owner.strucs) == 0:
+            raise ControlConfigError, "No structure is given for calculation"
+            
+        # make sure parameters are initialized
+        self.owner.updateParameters()
+        from diffpy.pdffit2.PdfFit import PdfFit
+        server = PdfFit()
+        
+        # structure needs to be read before dataset allocation
+        for struc in self.owner.strucs:
+            server.read_struct_string(struc.writeStr('pdffit'))
+            for key,var in struc.constraints.items():
+                server.constrain(key.encode('ascii'), var.formula.encode('ascii'))
+                
+        # set up dataset 
+        server.alloc(self.stype, self.qmax, self.qdamp,
+                self.rmin, self.rmax, self.rlen)
+        server.setvar('qbroad', self.qbroad)
+        server.setvar('spdiameter', self.spdiameter)
+        
+        # phase related variables
+        # pair selection applies to current dataset, 
+        # therefore it has to be done after alloc
+        nstrucs = len(self.owner.strucs)
+        for phaseidx, struc in zip(range(1, nstrucs + 1), self.owner.strucs):
+            server.setvar('pscale', struc.getvar('pscale'))
+            struc.applyPairSelection(server, phaseidx)
+
+        # set up parameters
+        for index, par in self.owner.parameters.items():
+            server.setpar(index, par.initialValue()) # info[0] = init value
+            # fix if fixed.  Note: all parameters are free after server.reset().
+            if par.fixed:
+                server.fixpar(index)
+
+        # all ready here
+        server.calc()
+        
+        # get results
+        self.rcalc = server.getR()
+        self.Gcalc = server.getpdf_fit()
+       
     def write(self, filename):
         """write this calculated PDF to a file
         
