@@ -13,7 +13,7 @@
 #
 ########################################################################
 
-class PDFComponent:
+class PDFComponent(object):
     """Common base class.""" 
     def __init__(self, name):
         """initialize

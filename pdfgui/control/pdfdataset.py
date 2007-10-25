@@ -232,9 +232,11 @@ class PDFDataSet(PDFComponent):
         return self
 
     def write(self, filename):
-        """write experimental PDF data to a file
+        """Write experimental PDF data to a file.
 
         filename -- name of file to write to
+
+        No return value.
         """
         bytes = self.writeStr()
         f = open(filename, 'w')
@@ -243,9 +245,9 @@ class PDFDataSet(PDFComponent):
         return
 
     def writeStr(self):
-        """string representation of experimental PDF data
+        """String representation of experimental PDF data.
 
-        returns data string
+        Return data string.
         """
         import time
         from getpass import getuser

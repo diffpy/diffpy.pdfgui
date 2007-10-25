@@ -344,7 +344,7 @@ class Fitting(Organizer):
         seq = 1
         for dataset in self.datasets:
             dataset.clearRefined()
-            self.server.read_data_string(dataset.writeObsStr(), 
+            self.server.read_data_string(dataset.writeResampledObsStr(), 
                                          dataset.stype.encode('ascii'), 
                                          dataset.qmax, 
                                          dataset.qdamp)
@@ -352,8 +352,10 @@ class Fitting(Organizer):
             self.server.setvar('spdiameter', dataset.spdiameter)
             for key,var in dataset.constraints.items():
                 self.server.constrain(key.encode('ascii'), var.formula.encode('ascii'))
-            self.server.pdfrange(seq, dataset.fitrmin, dataset.fitrmax)
-            # pair selection applies only to the current dataset, 
+            # Removed call to pdfrange call, because data were already
+            # resampled to at fit range.
+            #
+            # Pair selection applies only to the current dataset, 
             # therefore it has to be done here.
             nstrucs = len(self.strucs)
             for phaseidx, struc in zip(range(1, nstrucs + 1), self.strucs):

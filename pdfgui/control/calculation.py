@@ -168,6 +168,8 @@ class Calculation(PDFComponent):
         """write this calculated PDF to a file
         
         filename -- name of file to write to
+
+        No return value.
         """
         bytes = self.writeStr()
         f = open( filename, 'w' )
@@ -176,9 +178,9 @@ class Calculation(PDFComponent):
         return
         
     def writeStr(self):
-        """string representation of calculated PDF
+        """String representation of calculated PDF.
         
-        returns data string
+        Returns data string
         """
         import time
         from getpass import getuser
