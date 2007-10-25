@@ -2204,6 +2204,8 @@ class MainFrame(wx.Frame):
 
     def onQuit(self, event):
         """Shut down gracefully."""
+        # Make sure that we have focus.
+        self.SetFocus()
         retval = self.checkForSave()
         if retval != wx.ID_CANCEL:
             self.quitting = True
