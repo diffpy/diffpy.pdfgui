@@ -508,9 +508,9 @@ class FitDataSet(PDFDataSet):
         Return a string, possible values are "data", "Nyquist" or "custom".
         """
         eps = 1e-8
-        if abs(self.fitrmin - self.getObsSampling()) < eps:
+        if abs(self.fitrstep - self.getObsSampling()) < eps:
             rv = "data"
-        elif abs(self.fitrmin - self.getNyquistSampling()) < eps:
+        elif abs(self.fitrstep - self.getNyquistSampling()) < eps:
             rv = "Nyquist"
         else:
             rv = "custom"
@@ -523,18 +523,18 @@ class FitDataSet(PDFDataSet):
                  "data"    ... same as used in experimental PDF
                  "Nyquist" ... sampling at Nyquist spacing
                  "custom"  ... user specified value
-        value -- new value of fitrmin, only used when tp is "custom".
+        value -- new value of fitrstep, only used when tp is "custom".
 
         No return value.
 
         Raises ValueError for unknown tp string.
         """
         if tp == "data":
-            self.fitrmin = self.getObsSampling()
+            self.fitrstep = self.getObsSampling()
         elif tp == "Nyquist":
-            self.fitrmin = self.getNyquistSampling()
+            self.fitrstep = self.getNyquistSampling()
         elif tp == "custom":
-            self.fitrmin = value
+            self.fitrstep = value
         else:
             emsg = "Invalid value for fit sampling type."
             raise ValueError, emsg

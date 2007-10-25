@@ -19,15 +19,18 @@ __id__ = "$Id$"
 
 datasetconfigurepanel = {
 #    'panelNameLabel'      : '', # StaticText "Data Set Configuration"
-#    'radioBoxStype'       : '', # RadioBox "Scatterer Type", choices=["Neutron", "X-ray"]
+    'radioBoxStype'       : 'Radiation type', # RadioBox "Scatterer Type", choices=["Neutron", "X-ray"]
+    'radioBoxSampling'       : 'Fit sampling type', # RadioBox "Scatterer Type", choices=["Default", "Nyquist", "Custom"]
 #    'labelDataRange'      : '', # StaticText "Data Range"
     'textCtrlDataFrom'    : 'Data r_min', # TextCtrl
 #    'labelDataTo'         : '', # StaticText "to"
     'textCtrlDataTo'      : 'Data r_max', # TextCtrl
 #    'labelFitRange'       : '', # StaticText "Fit Range"
+    'textCtrlDataStep'      : 'Step size in the data', # TextCtrl
     'textCtrlFitFrom'     : 'Fit r_min', # TextCtrl
 #    'labelFitTo'          : '', # StaticText "to"
     'textCtrlFitTo'       : 'Fit r_max', # TextCtrl
+    'textCtrlFitStep'      : 'Step size in the fit', # TextCtrl
 #    'labelScaleFactor'    : '', # StaticText "Scale Factor"
     'textCtrlScaleFactor' : 'Data scale factor', # TextCtrl 
 #    'labelQmax'           : '', # StaticText "Qmax"

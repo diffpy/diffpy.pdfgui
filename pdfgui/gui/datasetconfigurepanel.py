@@ -30,35 +30,49 @@ class DataSetConfigurePanel(wx.Panel, PDFPanel):
         self.sizer_panelname_staticbox = wx.StaticBox(self, -1, "")
         self.panelNameLabel = wx.StaticText(self, -1, "Data Set Configuration")
         self.radioBoxStype = wx.RadioBox(self, -1, "Scatterer Type", choices=["Neutron", "X-ray"], majorDimension=2, style=wx.RA_SPECIFY_COLS)
+        self.radioBoxSampling = wx.RadioBox(self, -1, "Data Sampling", choices=["Data", "Nyquist", "Custom"], majorDimension=3, style=wx.RA_SPECIFY_COLS)
         self.labelDataRange = wx.StaticText(self, -1, "Data Range")
         self.textCtrlDataFrom = wx.TextCtrl(self, -1, "", style=wx.TE_READONLY)
         self.labelDataTo = wx.StaticText(self, -1, "to")
         self.textCtrlDataTo = wx.TextCtrl(self, -1, "", style=wx.TE_READONLY)
+        self.labelDataStep = wx.StaticText(self, -1, "step")
+        self.textCtrlDataStep = wx.TextCtrl(self, -1, "", style=wx.TE_READONLY)
         self.labelFitRange = wx.StaticText(self, -1, "Fit Range", style=wx.ALIGN_RIGHT)
         self.textCtrlFitFrom = wx.TextCtrl(self, -1, "1.0")
         self.labelFitTo = wx.StaticText(self, -1, "to", style=wx.ALIGN_RIGHT)
         self.textCtrlFitTo = wx.TextCtrl(self, -1, "10.0")
+        self.labelFitStep = wx.StaticText(self, -1, "step")
+        self.textCtrlFitStep = wx.TextCtrl(self, -1, "0")
         self.labelScaleFactor = wx.StaticText(self, -1, "Scale Factor", style=wx.ALIGN_RIGHT)
         self.textCtrlScaleFactor = wx.TextCtrl(self, -1, "1.0")
         self.labelQmax = wx.StaticText(self, -1, "Qmax", style=wx.ALIGN_RIGHT)
         self.textCtrlQmax = wx.TextCtrl(self, -1, "25.0")
+        self.blank1_copy = wx.StaticText(self, -1, "")
+        self.blank1_copy_4 = wx.StaticText(self, -1, "")
         self.labelQdamp = wx.StaticText(self, -1, "Qdamp", style=wx.ALIGN_RIGHT)
         self.textCtrlQdamp = wx.TextCtrl(self, -1, "0.0")
         self.labelQbroad = wx.StaticText(self, -1, "Qbroad", style=wx.ALIGN_RIGHT)
         self.textCtrlQbroad = wx.TextCtrl(self, -1, "0.0")
+        self.blank1_copy_1 = wx.StaticText(self, -1, "")
+        self.blank1_copy_5 = wx.StaticText(self, -1, "")
         self.labelSpdiameter = wx.StaticText(self, -1, "Spdiameter")
         self.textCtrlSpdiameter = wx.TextCtrl(self, -1, "0.0")
         self.blank1 = wx.StaticText(self, -1, "")
         self.blank2 = wx.StaticText(self, -1, "")
+        self.blank1_copy_2 = wx.StaticText(self, -1, "")
+        self.blank1_copy_6 = wx.StaticText(self, -1, "")
         self.labelTemperature = wx.StaticText(self, -1, "Temperature", style=wx.ALIGN_RIGHT)
         self.textCtrlTemperature = wx.TextCtrl(self, -1, "300.0")
         self.labelDoping = wx.StaticText(self, -1, "Doping", style=wx.ALIGN_RIGHT)
         self.textCtrlDoping = wx.TextCtrl(self, -1, "1.0")
+        self.blank1_copy_3 = wx.StaticText(self, -1, "")
+        self.blank1_copy_7 = wx.StaticText(self, -1, "")
 
         self.__set_properties()
         self.__do_layout()
 
         self.Bind(wx.EVT_RADIOBOX, self.onStype, self.radioBoxStype)
+        self.Bind(wx.EVT_RADIOBOX, self.onSampling, self.radioBoxSampling)
         # end wxGlade
         self.__customProperties()
 
@@ -67,50 +81,64 @@ class DataSetConfigurePanel(wx.Panel, PDFPanel):
         self.panelNameLabel.SetFont(wx.Font(18, wx.DEFAULT, wx.NORMAL, wx.BOLD, 0, ""))
         self.radioBoxStype.SetMinSize((330, 43))
         self.radioBoxStype.SetSelection(0)
+        self.radioBoxSampling.SetMinSize((232, 44))
+        self.radioBoxSampling.SetSelection(0)
         self.textCtrlDataFrom.SetBackgroundColour(wx.SystemSettings_GetColour(wx.SYS_COLOUR_GRAYTEXT))
         self.textCtrlDataTo.SetBackgroundColour(wx.SystemSettings_GetColour(wx.SYS_COLOUR_GRAYTEXT))
+        self.textCtrlDataStep.SetBackgroundColour(wx.SystemSettings_GetColour(wx.SYS_COLOUR_GRAYTEXT))
         # end wxGlade
 
     def __do_layout(self):
         # begin wxGlade: DataSetConfigurePanel.__do_layout
         sizer_1 = wx.BoxSizer(wx.HORIZONTAL)
         outerSizer = wx.BoxSizer(wx.VERTICAL)
-        grid_sizer_1 = wx.FlexGridSizer(7, 4, 5, 10)
+        grid_sizer_1 = wx.FlexGridSizer(8, 6, 5, 10)
         sizer_panelname = wx.StaticBoxSizer(self.sizer_panelname_staticbox, wx.HORIZONTAL)
-        sizer_panelname.Add(self.panelNameLabel, 0, wx.LEFT|wx.RIGHT|wx.ALIGN_CENTER_VERTICAL|wx.ADJUST_MINSIZE, 5)
+        sizer_panelname.Add(self.panelNameLabel, 0, wx.LEFT|wx.RIGHT|wx.ALIGN_CENTER_VERTICAL, 5)
         outerSizer.Add(sizer_panelname, 0, wx.LEFT|wx.RIGHT|wx.EXPAND, 5)
-        outerSizer.Add((450, 5), 0, wx.ADJUST_MINSIZE, 0)
-        outerSizer.Add(self.radioBoxStype, 0, wx.ALL|wx.ALIGN_CENTER_VERTICAL|wx.ADJUST_MINSIZE, 5)
-        grid_sizer_1.Add(self.labelDataRange, 0, wx.LEFT|wx.ALIGN_RIGHT|wx.ALIGN_CENTER_VERTICAL|wx.ADJUST_MINSIZE, 5)
-        grid_sizer_1.Add(self.textCtrlDataFrom, 0, wx.ADJUST_MINSIZE, 0)
-        grid_sizer_1.Add(self.labelDataTo, 0, wx.LEFT|wx.ALIGN_RIGHT|wx.ALIGN_CENTER_VERTICAL|wx.ADJUST_MINSIZE, 20)
-        grid_sizer_1.Add(self.textCtrlDataTo, 0, wx.ADJUST_MINSIZE, 0)
-        grid_sizer_1.Add(self.labelFitRange, 0, wx.LEFT|wx.ALIGN_RIGHT|wx.ALIGN_CENTER_VERTICAL|wx.ADJUST_MINSIZE, 5)
-        grid_sizer_1.Add(self.textCtrlFitFrom, 0, wx.ALIGN_CENTER_VERTICAL|wx.ADJUST_MINSIZE, 0)
-        grid_sizer_1.Add(self.labelFitTo, 0, wx.LEFT|wx.ALIGN_RIGHT|wx.ALIGN_CENTER_VERTICAL|wx.ADJUST_MINSIZE, 20)
-        grid_sizer_1.Add(self.textCtrlFitTo, 0, wx.ALIGN_CENTER_VERTICAL|wx.ADJUST_MINSIZE, 0)
-        grid_sizer_1.Add(self.labelScaleFactor, 0, wx.LEFT|wx.ALIGN_RIGHT|wx.ALIGN_CENTER_VERTICAL|wx.ADJUST_MINSIZE, 5)
-        grid_sizer_1.Add(self.textCtrlScaleFactor, 0, wx.ALIGN_CENTER_VERTICAL|wx.ADJUST_MINSIZE, 0)
-        grid_sizer_1.Add(self.labelQmax, 0, wx.LEFT|wx.ALIGN_RIGHT|wx.ALIGN_CENTER_VERTICAL|wx.ADJUST_MINSIZE, 20)
-        grid_sizer_1.Add(self.textCtrlQmax, 0, wx.ALIGN_CENTER_VERTICAL|wx.ADJUST_MINSIZE, 0)
-        grid_sizer_1.Add(self.labelQdamp, 0, wx.LEFT|wx.ALIGN_RIGHT|wx.ALIGN_CENTER_VERTICAL|wx.ADJUST_MINSIZE, 5)
-        grid_sizer_1.Add(self.textCtrlQdamp, 0, wx.ALIGN_CENTER_VERTICAL|wx.ADJUST_MINSIZE, 0)
-        grid_sizer_1.Add(self.labelQbroad, 0, wx.LEFT|wx.ALIGN_RIGHT|wx.ALIGN_CENTER_VERTICAL|wx.ADJUST_MINSIZE, 20)
-        grid_sizer_1.Add(self.textCtrlQbroad, 0, wx.ALIGN_CENTER_VERTICAL|wx.ADJUST_MINSIZE, 0)
-        grid_sizer_1.Add(self.labelSpdiameter, 0, wx.ALIGN_CENTER_HORIZONTAL|wx.ALIGN_CENTER_VERTICAL|wx.ADJUST_MINSIZE, 0)
-        grid_sizer_1.Add(self.textCtrlSpdiameter, 0, wx.ALIGN_CENTER_VERTICAL|wx.ADJUST_MINSIZE, 0)
-        grid_sizer_1.Add(self.blank1, 0, wx.ADJUST_MINSIZE, 0)
-        grid_sizer_1.Add(self.blank2, 0, wx.ADJUST_MINSIZE, 0)
-        grid_sizer_1.Add(self.labelTemperature, 0, wx.LEFT|wx.ALIGN_RIGHT|wx.ALIGN_CENTER_VERTICAL|wx.ADJUST_MINSIZE, 5)
-        grid_sizer_1.Add(self.textCtrlTemperature, 0, wx.ALIGN_CENTER_VERTICAL|wx.ADJUST_MINSIZE, 0)
-        grid_sizer_1.Add(self.labelDoping, 0, wx.LEFT|wx.ALIGN_RIGHT|wx.ALIGN_CENTER_VERTICAL|wx.ADJUST_MINSIZE, 20)
-        grid_sizer_1.Add(self.textCtrlDoping, 0, wx.ALIGN_CENTER_VERTICAL|wx.ADJUST_MINSIZE, 0)
+        outerSizer.Add((450, 5), 0, 0, 0)
+        outerSizer.Add(self.radioBoxStype, 0, wx.ALL|wx.ALIGN_CENTER_VERTICAL, 5)
+        outerSizer.Add(self.radioBoxSampling, 0, wx.ALL|wx.ALIGN_CENTER_VERTICAL, 5)
+        grid_sizer_1.Add(self.labelDataRange, 0, wx.LEFT|wx.ALIGN_RIGHT|wx.ALIGN_CENTER_VERTICAL, 5)
+        grid_sizer_1.Add(self.textCtrlDataFrom, 0, 0, 0)
+        grid_sizer_1.Add(self.labelDataTo, 0, wx.LEFT|wx.ALIGN_RIGHT|wx.ALIGN_CENTER_VERTICAL, 20)
+        grid_sizer_1.Add(self.textCtrlDataTo, 0, 0, 0)
+        grid_sizer_1.Add(self.labelDataStep, 0, wx.LEFT|wx.ALIGN_RIGHT|wx.ALIGN_CENTER_VERTICAL, 20)
+        grid_sizer_1.Add(self.textCtrlDataStep, 0, 0, 0)
+        grid_sizer_1.Add(self.labelFitRange, 0, wx.LEFT|wx.ALIGN_RIGHT|wx.ALIGN_CENTER_VERTICAL, 5)
+        grid_sizer_1.Add(self.textCtrlFitFrom, 0, wx.ALIGN_CENTER_VERTICAL, 0)
+        grid_sizer_1.Add(self.labelFitTo, 0, wx.LEFT|wx.ALIGN_RIGHT|wx.ALIGN_CENTER_VERTICAL, 20)
+        grid_sizer_1.Add(self.textCtrlFitTo, 0, wx.ALIGN_CENTER_VERTICAL, 0)
+        grid_sizer_1.Add(self.labelFitStep, 0, wx.LEFT|wx.ALIGN_RIGHT|wx.ALIGN_CENTER_VERTICAL, 20)
+        grid_sizer_1.Add(self.textCtrlFitStep, 0, wx.ALIGN_CENTER_VERTICAL, 0)
+        grid_sizer_1.Add(self.labelScaleFactor, 0, wx.LEFT|wx.ALIGN_RIGHT|wx.ALIGN_CENTER_VERTICAL, 5)
+        grid_sizer_1.Add(self.textCtrlScaleFactor, 0, wx.ALIGN_CENTER_VERTICAL, 0)
+        grid_sizer_1.Add(self.labelQmax, 0, wx.LEFT|wx.ALIGN_RIGHT|wx.ALIGN_CENTER_VERTICAL, 20)
+        grid_sizer_1.Add(self.textCtrlQmax, 0, wx.ALIGN_CENTER_VERTICAL, 0)
+        grid_sizer_1.Add(self.blank1_copy, 0, 0, 0)
+        grid_sizer_1.Add(self.blank1_copy_4, 0, 0, 0)
+        grid_sizer_1.Add(self.labelQdamp, 0, wx.LEFT|wx.ALIGN_RIGHT|wx.ALIGN_CENTER_VERTICAL, 5)
+        grid_sizer_1.Add(self.textCtrlQdamp, 0, wx.ALIGN_CENTER_VERTICAL, 0)
+        grid_sizer_1.Add(self.labelQbroad, 0, wx.LEFT|wx.ALIGN_RIGHT|wx.ALIGN_CENTER_VERTICAL, 20)
+        grid_sizer_1.Add(self.textCtrlQbroad, 0, wx.ALIGN_CENTER_VERTICAL, 0)
+        grid_sizer_1.Add(self.blank1_copy_1, 0, 0, 0)
+        grid_sizer_1.Add(self.blank1_copy_5, 0, 0, 0)
+        grid_sizer_1.Add(self.labelSpdiameter, 0, wx.ALIGN_CENTER_HORIZONTAL|wx.ALIGN_CENTER_VERTICAL, 0)
+        grid_sizer_1.Add(self.textCtrlSpdiameter, 0, wx.ALIGN_CENTER_VERTICAL, 0)
+        grid_sizer_1.Add(self.blank1, 0, 0, 0)
+        grid_sizer_1.Add(self.blank2, 0, 0, 0)
+        grid_sizer_1.Add(self.blank1_copy_2, 0, 0, 0)
+        grid_sizer_1.Add(self.blank1_copy_6, 0, 0, 0)
+        grid_sizer_1.Add(self.labelTemperature, 0, wx.LEFT|wx.ALIGN_RIGHT|wx.ALIGN_CENTER_VERTICAL, 5)
+        grid_sizer_1.Add(self.textCtrlTemperature, 0, wx.ALIGN_CENTER_VERTICAL, 0)
+        grid_sizer_1.Add(self.labelDoping, 0, wx.LEFT|wx.ALIGN_RIGHT|wx.ALIGN_CENTER_VERTICAL, 20)
+        grid_sizer_1.Add(self.textCtrlDoping, 0, wx.ALIGN_CENTER_VERTICAL, 0)
+        grid_sizer_1.Add(self.blank1_copy_3, 0, 0, 0)
+        grid_sizer_1.Add(self.blank1_copy_7, 0, 0, 0)
         outerSizer.Add(grid_sizer_1, 0, wx.ALL|wx.EXPAND, 5)
         sizer_1.Add(outerSizer, 1, wx.EXPAND, 0)
-        self.SetAutoLayout(True)
         self.SetSizer(sizer_1)
         sizer_1.Fit(self)
-        sizer_1.SetSizeHints(self)
         # end wxGlade
 
     # USER CONFIGURATION CODE #################################################
@@ -122,13 +150,15 @@ class DataSetConfigurePanel(wx.Panel, PDFPanel):
         self.stypeMap = {0: 'N', 1: 'X'}
         self.metaNames = ['doping', 'temperature']
         self.constrainables = ['dscale', 'qdamp', 'qbroad', 'spdiameter']
+        self.sampList = ["data", "Nyquist", "custom"]
 
+        # Note that the rstep and fitrstep attributes are special cases, so they
+        # are handled separately. Qmax is also handled with these.
         self.ctrlMap = {'fitrmin'       :   'textCtrlFitFrom',
                         'fitrmax'       :   'textCtrlFitTo',
                         'rmin'          :   'textCtrlDataFrom',
                         'rmax'          :   'textCtrlDataTo',
                         'dscale'        :   'textCtrlScaleFactor',
-                        'qmax'          :   'textCtrlQmax',
                         'qdamp'         :   'textCtrlQdamp',
                         'qbroad'        :   'textCtrlQbroad',
                         'spdiameter'    :   'textCtrlSpdiameter',
@@ -148,8 +178,10 @@ class DataSetConfigurePanel(wx.Panel, PDFPanel):
             textCtrl = getattr(self, ctrlName)
             textCtrl.Bind(wx.EVT_KILL_FOCUS, self.onLoseFocus)
 
+        self.textCtrlFitStep.Bind(wx.EVT_KILL_FOCUS, self.onSampling)
+        self.textCtrlQmax.Bind(wx.EVT_KILL_FOCUS, self.onSampling)
+
         # For blocked text controls.
-        self.message = "constrained"
         self.message = "This variable is constrained. Edit the associated parameter."
         return
 
@@ -195,6 +227,23 @@ class DataSetConfigurePanel(wx.Panel, PDFPanel):
             else:
                 textCtrl.SetValue('0.0')
 
+        # Set qmax
+        val = self.configuration.qmax
+        self.textCtrlQmax.SetValue(str(val))
+
+        # Set the data step
+        val = self.configuration.getObsSampling()
+        self.textCtrlDataStep.SetValue(str(val))
+
+        # Set up the sampling type and fit step type
+        st = self.configuration.getFitSamplingType()
+        si = self.sampList.index(st)
+        self.radioBoxSampling.SetSelection(si)
+        val = self.configuration.fitrstep
+        self.textCtrlFitStep.SetValue(str(val))
+
+        # Make sure the sampling info is consistent
+        self.onSampling(None)
         return
 
     def restrictConstrainedParameters(self):
@@ -248,6 +297,36 @@ class DataSetConfigurePanel(wx.Panel, PDFPanel):
         """Record the user's selection for stype."""
         value = event.GetInt()
         self.configuration.stype = self.stypeMap[value]
+        self.mainFrame.needsSave()
+        return
+
+    def onSampling(self, event): # wxGlade: DataSetConfigurePanel.<event_handler>
+        """Record how the data is to be sampled during the fit.
+        
+        This does not use the event argument, so feel free to call this method
+        programmatically.
+        """
+        si = self.radioBoxSampling.GetSelection()
+        sampling = self.sampList[si]
+        # Get the value of the custom sampling and enable/disable status
+        if sampling == "custom": # "custom"
+            step = self.__coerseText(self.textCtrlFitStep.GetValue())
+            self.textCtrlFitStep.SetEditable(True)
+            self.textCtrlFitStep.SetBackgroundColour(wx.NullColour)
+        else:
+            step = None
+            self.textCtrlFitStep.SetEditable(False)
+            self.textCtrlFitStep.SetBackgroundColour(wx.SystemSettings_GetColour(wx.SYS_COLOUR_GRAYTEXT))
+
+        # Set the value of qmax
+        val = self.__coerseText(self.textCtrlQmax.GetValue())
+        self.configuration.qmax = val
+
+        # Set the configured value
+        self.configuration.setFitSamplingType(sampling, step)
+
+        # Update the text control
+        self.textCtrlFitStep.SetValue(str(self.configuration.fitrstep))
         self.mainFrame.needsSave()
         return
 
