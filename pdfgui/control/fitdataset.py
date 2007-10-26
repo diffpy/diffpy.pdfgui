@@ -709,7 +709,10 @@ class FitDataSet(PDFDataSet):
 
     def _get_Gdiff(self):
         import operator
-        rv = map(operator.sub, self.Gtrunc, self.Gcalc)
+        if len(self.Gcalc):
+            rv = map(operator.sub, self.Gtrunc, self.Gcalc)
+        else:
+            rv = []
         return rv
 
     Gdiff = property(_get_Gdiff, doc =
