@@ -306,9 +306,10 @@ class ExtendedPlotFrame(wx.Frame):
         # If multiple curve, we need calculate new x limits because legend box
         # take up some space
         #NOTE: 3 and 0.33 is our best estimation for a good view 
-        if len(self.datalims) > 3: 
-            # leave extra room for legend by shift the upper bound for x axis
-            xmax += (xmax-xmin)*0.33 
+        # 2007-10-25 PJ: it is better to use full plot area
+        # if len(self.datalims) > 3: 
+        #     # leave extra room for legend by shift the upper bound for x axis
+        #     xmax += (xmax-xmin)*0.33 
         if xmax > xmin:
             self.subplot.set_xlim(xmin, xmax)
         if ymax > ymin:
