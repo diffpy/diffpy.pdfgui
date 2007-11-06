@@ -43,10 +43,10 @@ class PDFStructure(PDFComponent, PDFFitStructure):
         Return instance of StructureParser used to load the data.
         See Structure.read() for more info.
         """
-        from diffpy.Structure import InvalidStructureFormat
+        from diffpy.Structure import StructureFormatError
         try:
             p = PDFFitStructure.read(self, filename, format)
-        except InvalidStructureFormat, err:
+        except StructureFormatError, err:
             import os.path
             emsg = "Unable to read file '%s'." % os.path.basename(filename)
             emsg += "\n" + str(err)

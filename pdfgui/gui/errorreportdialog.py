@@ -236,7 +236,7 @@ Traceback (most recent call last):\n\
     stru = p.parseLines(lines)\n\
   File "/u23b/farrowch/Programming/Pyre/diffraction/Structure/Structure/Parsers/P_pdffit.py", line 85, in parseLines\n\
     xyz = [ float(w) for w in wl1[1:4] ]\n\
-InvalidStructureFormat: 10: file is not in PDFFit format"""
+StructureFormatError: 10: file is not in PDFFit format"""
 
 #         self.dialog.text_ctrl_log.SetValue(errortext)
          self.dialog.text_ctrl_log.SetValue(" ")
