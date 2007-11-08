@@ -1558,7 +1558,7 @@ effect is calculated using the following equation
 $$ G'(r) = {1 \over {\pi}} \int_{0}^{\infty} G(r')
 \left ( {{\sin{Q_{max}(r-r')}
 \over r-r'}-{\sin{Q_{max}(r+r')}
-\over r+r'}} \right ) dr' $$
+\over r+r'}} \right ) \, {\rm d} r' $$
 @end tex
 @end defvr
 

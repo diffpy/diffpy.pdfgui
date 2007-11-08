@@ -16,9 +16,10 @@ rc = {
 
 eqlatex = r"""
 \documentclass{article}
+\usepackage{exscale}
 \pagestyle{empty}
-\setlength{\oddsidemargin}{0.25in}
-\setlength{\textwidth}{6in}
+\setlength{\oddsidemargin}{0in}
+\setlength{\textwidth}{7in}
 \begin{document}
 \huge
 %s

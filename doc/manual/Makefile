@@ -25,7 +25,7 @@ clean:
 	/bin/rm -f -- \
 	    pdfgui.vr pdfgui.tp pdfgui.pg pdfgui.ky pdfgui.fn \
 	    pdfgui.cps pdfgui.cp pdfgui.toc pdfgui.aux pdfgui.log \
-	    pdfgui.vrs
+	    pdfgui.vrs pdfgui.html
 	/bin/rm -f -- images/eq-*.png
 
 cleanALL: clean
