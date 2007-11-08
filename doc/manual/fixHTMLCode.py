@@ -2,6 +2,7 @@
 
 """Replace all equation marks in HTML file with <img> tag to display
 corresponding PNG file.  This assumes PNG files are in correct sequence.
+Also fix any accented characters texinfo does not get right.
 """
 
 # constants
@@ -34,19 +35,27 @@ def eqreplace(mx):
     s = '</p><p align="center"><img src="%s" alt="%s">' % (imgurl, imgurl)
     return s
 
-def replaceEquationMarks(filename):
-    """Replace equation marks in given file.
-    Overwrite the file if it gets modified.
-    No return value.
+def replaceEquationMarks(s):
+    """Replace equation marks in given string.
+    Return modified string.
     """
-    s = open(filename).read()
     s1 = re.sub(eqmark, eqreplace, s)
-    if s1 != s:     open(filename, 'w').write(s1)
-    return
+    return s1
+
+def fixAccents(s):
+    """Fix accented characters in texinfo HTML output.
+    Return string with fixed characters.
+    """
+    s1 = s.replace('Boz&lt;in', 'Bo&#382;in')
+    return s1
 
 def main():
     for f in sys.argv[1:]:
-        replaceEquationMarks(f)
+        s = open(f).read()
+        s1 = replaceEquationMarks(s)
+        s1 = fixAccents(s1)
+        if s1 != s:     open(f, 'w').write(s1)
+
 
 if __name__ == "__main__":
     main()

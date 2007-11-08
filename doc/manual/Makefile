@@ -16,7 +16,7 @@ images:
 pdfgui.html: pdfgui.texinfo
 	texi2html $<
 	python extractEquations.py $<
-	python insertEquationImages.py $@
+	python fixHTMLCode.py $@
 
 pdfgui.pdf: pdfgui.texinfo
 	texi2pdf $<
