@@ -16,6 +16,12 @@
 @end macro
 @end ifnottex
 
+@macro EquationMark{}
+@html
+<!-- EquationMark -->
+@end html
+@end macro
+
 @c start of header
 @setfilename pdfgui
 @settitle 1.0 Beta release 06 July 2007
@@ -1490,6 +1496,7 @@ Scale factor for the selected dataset.
 (float @AA{}@math{^{-1}}, default 0 @AA{}@math{^{-1}}, @var{qsig} in PDFFIT) @*
 PDF Gaussian dampening envelope due to limited Q-resolution.
 Not applied when equal zero. The Gaussian envelope is of the form
+@EquationMark
 @tex
 $$ B(r) = e^{-{(r Q_{damp})^{2} \over 2} } $$
 @end tex
@@ -1546,11 +1553,12 @@ transform step. Finite data range used in the Fourier transform
 is a source of termination ripples. Termination ripples are
 @i{not} applied in PDF calculation when @var{qmax} is set to zero. The
 effect is calculated using the following equation
+@EquationMark
 @tex
 $$ G'(r) = {1 \over {\pi}} \int_{0}^{\infty} G(r')
 \left ( {{\sin{Q_{max}(r-r')}
 \over r-r'}-{\sin{Q_{max}(r+r')}
-\over r+r'}} \right ) dr' $$.
+\over r+r'}} \right ) dr' $$
 @end tex
 @end defvr
 
@@ -1581,6 +1589,7 @@ however, the motion can be strongly correlated leading to a sharpening of
 the first peak(s) in the observed PDF. The program PDFfit2 provides three
 different correction terms for the PDF peak width. The final width is given
 by
+@EquationMark
 @tex
 $$
 \sigma_{ij} = \sigma^{\prime}_{ij} \sqrt{ 1 - {\delta_1 \over r_{ij}} -

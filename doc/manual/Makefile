@@ -15,6 +15,8 @@ images:
 
 pdfgui.html: pdfgui.texinfo
 	texi2html $<
+	python extractEquations.py $<
+	python insertEquationImages.py $@
 
 pdfgui.pdf: pdfgui.texinfo
 	texi2pdf $<
@@ -24,6 +26,7 @@ clean:
 	    pdfgui.vr pdfgui.tp pdfgui.pg pdfgui.ky pdfgui.fn \
 	    pdfgui.cps pdfgui.cp pdfgui.toc pdfgui.aux pdfgui.log \
 	    pdfgui.vrs
+	/bin/rm -f -- images/eq-*.png
 
 cleanALL: clean
 	/bin/rm -f pdfgui.html pdfgui.pdf
