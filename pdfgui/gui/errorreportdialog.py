@@ -28,6 +28,8 @@ import wx
 from diffpy.pdfgui.control.controlerrors import ControlError
 from diffpy.pdfgui import __version__
 
+# don't use trac ticket submission
+useTrac = 0
 queryPDFguiTickets = ''.join(["http://danse.us/trac/diffraction/query",
     '?status=new&status=assigned&status=reopened',
     '&component=pdfgui&component=pdffit2&order=priority'])
@@ -145,8 +147,9 @@ class ErrorReportDialog(wx.Dialog):
         
         description = self.text_ctrl_description.GetValue().strip()
         description += "\n\n\n\'\'\'PDFgui version " + __version__ + "\'\'\'\n\n"
+        traceback = 'N/A'
         if self.errorReport:
-            description += '{{{\n' + self.text_ctrl_log.GetValue().strip() + '\n}}}'
+            traceback = '{{{\n' + self.text_ctrl_log.GetValue().strip() + '\n}}}'
         
         reporter = self.text_ctrl_reporter.GetValue().strip()
         if not reporter: reporter = 'diffuser'
@@ -156,24 +159,38 @@ class ErrorReportDialog(wx.Dialog):
                     #'priority' : 'major',
                     #'type': 'defect',
                     'component' : 'pdfgui' , 
-                    #'version': __version__, 
+                    'version': __version__, 
                     'reporter':reporter,
-                    'action' :'create',
-                    'status' : 'new',
-                    'milestone': '',
-                    'owner' : 'nobody'
+                    'traceback': traceback,
+                    #'action' :'create',
+                    #'status' : 'new',
+                    #'milestone': '',
+                    #'owner' : 'nobody'
                     }
         headers = {'User-agent':'PDFgui (compatible; MSIE 5.5; WindowsNT)'}
-        tracurl = 'http://danse.us/trac/diffraction'
-        ticketurl = tracurl + '/newticket'
-        loginurl = tracurl + '/login'
+        
+        #@ This is for trac
+        if useTrac:
+            rooturl = 'http://danse.us/trac/diffraction'
+            loginurl = tracurl + '/login'
+            ticketurl = tracurl + '/newticket'
+        else:
+            rooturl = 'http://www.diffpy.org'
+            loginurl = rooturl + '/bugreport/pdfgui'
+            ticketurl = rooturl + '/pybin/postbugreport.py/email'
         
         # authentication process of Trac require:
         # 1. get to login page to give a username and password, acquire a session code
         # 2. use cookie for every subsequent access to protected page
-        # NOTE: the default realm is 'danse'
-        handler = urllib2.HTTPDigestAuthHandler()
-        handler.add_password('danse', tracurl, 'diffuser', _strans(_authdata))
+        if useTrac:
+            # trac use digest authentication, the default realm is 'danse'
+            handler = urllib2.HTTPDigestAuthHandler()
+            handler.add_password('danse', rooturl, 'diffuser', _strans(_authdata))
+        else:
+            #diffpy use basic authentication, the default realm is 'diffpy'
+            handler = urllib2.HTTPBasicAuthHandler()
+            handler.add_password('diffpy', rooturl, 'diffuser', _strans(_authdata))
+            
         cookier = urllib2.HTTPCookieProcessor(cookielib.LWPCookieJar())
         opener = urllib2.build_opener(handler, cookier)
         urllib2.install_opener(opener)
@@ -185,12 +202,20 @@ class ErrorReportDialog(wx.Dialog):
             request = urllib2.Request(ticketurl, content, headers)
             handle = urllib2.urlopen(request)
             # handle.read() # result, but can be discarded
-        except IOError, e:
-            errorinfo = 'Failed to open "%s"'%str(e)
+        except IOError,e:
+            errorinfo = str(e)
             if hasattr(e, 'code'):
-                errorinfo += ':Error code = %s.'%e.code
-            raise ControlError, errorinfo
-        self.Close()
+                errorinfo += '< Error code = %s >'%e.code
+            dlg = wx.MessageDialog(self, "Report can not be sent: " + errorinfo, "Error", wx.CANCEL|wx.ICON_ERROR)
+            dlg.ShowModal()
+            dlg.Destroy()
+        except:
+            raise 
+        else: # success
+            dlg = wx.MessageDialog(self, "Your report has been sent", "Message sent", wx.OK|wx.ICON_INFORMATION)
+            dlg.ShowModal()
+            dlg.Destroy()
+            self.Close()
         event.Skip()
 
     def onSummaryText(self, event): # wxGlade: ErrorReportDialog.<event_handler>
