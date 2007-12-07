@@ -145,8 +145,7 @@ class ErrorReportDialog(wx.Dialog):
         import urllib2,urllib,cookielib
         from diffpy.pdfgui.control.pdfguicontrol import _strans
         
-        description = self.text_ctrl_description.GetValue().strip()
-        description += "\n\n\n\'\'\'PDFgui version " + __version__ + "\'\'\'\n\n"
+        description = self.text_ctrl_description.GetValue().strip() + "\n"
         traceback = 'N/A'
         if self.errorReport:
             traceback = '{{{\n' + self.text_ctrl_log.GetValue().strip() + '\n}}}'
