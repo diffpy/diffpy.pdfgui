@@ -690,6 +690,13 @@ class MainFrame(wx.Frame):
         """
         # Allow a general right-click to work on the tree
         self.treeCtrlMain.Bind(wx.EVT_RIGHT_DOWN, self.onRightClick)
+        # Double-click select all type on tree
+        # FIXME - this doesn't work, I suspect the problem is with the tree
+        # selection code.
+        #self.treeCtrlMain.Bind(wx.EVT_LEFT_DCLICK, self.onDoubleClick2)
+        #self.Bind(wx.EVT_TREE_ITEM_ACTIVATED, self.onDoubleClick, self.treeCtrlMain)
+        # Middle-click quickplot
+        self.Bind(wx.EVT_TREE_ITEM_MIDDLE_CLICK, self.onMiddleClick, self.treeCtrlMain)
         # Catch key events for the tree
         self.treeCtrlMain.Bind(wx.EVT_KEY_DOWN, self.onKey)
         # Catch the close event
@@ -1102,8 +1109,7 @@ class MainFrame(wx.Frame):
                 # FIXME
                 # Make sure that the item is visible.
                 # This takes place when onTreeSelChanged is called manually, in
-                # which case event is None. onTreeSelChanged should not be
-                # called manually.
+                # which case event is None. This should be factored out.
                 self.treeCtrlMain.EnsureVisible(node)
                 self.treeCtrlMain.ScrollTo(node)
         elif event:
@@ -1319,6 +1325,34 @@ class MainFrame(wx.Frame):
             (x0, y0) = self.ScreenToClient(pane.floating_pos)
         self.PopupMenu(menu, (x0+x,y0+y))
         menu.Destroy()
+        return
+
+    def onMiddleClick(self, event):
+        """Quickplot on item middle click."""
+        node = event.GetItem()
+        self.treeCtrlMain.UnselectAll()
+        self.treeCtrlMain.SelectItem(node)
+        self.onQuickPlot(None)
+        return
+
+    def onDoubleClick2(self, event):
+        """Select-all type on item double click."""
+        x = event.GetX()
+        y = event.GetY()
+        node, flags = self.treeCtrlMain.HitTest((x,y))
+
+        if flags not in [ wx.TREE_HITTEST_ABOVE,wx.TREE_HITTEST_BELOW,wx.TREE_HITTEST_NOWHERE]:
+            if self.mode == "fitting":
+                wx.CallAfter(self.treeCtrlMain.SelectAllType, node)
+                wx.CallAfter(self.onTreeSelChanged, None)
+        return
+
+    def onDoubleClick(self, event):
+        """Select-all type on item double click."""
+        node = event.GetItem()
+        if self.mode == "fitting":
+            wx.CallAfter(self.treeCtrlMain.SelectAllType, node)
+            wx.CallAfter(self.onTreeSelChanged, None)
         return
 
     def onKey(self, event):

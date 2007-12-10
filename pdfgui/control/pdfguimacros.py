@@ -208,6 +208,9 @@ def makeTemperatureSeries(control, fit, paths, temperatures):
         newdataset.dscale = dataset.dscale
         newdataset.fitrmin = dataset.fitrmin
         newdataset.fitrmax = dataset.fitrmax
+        rstep = dataset.fitrstep
+        st = dataset.getFitSamplingType()
+        newdataset.setFitSamplingType(st, rstep)
         doping = dataset.metadata.get("doping")
         if doping is None: doping = 0.0
         newdataset.metadata["doping"] = doping
@@ -307,6 +310,9 @@ def makeDopingSeries(control, fit, base, dopant, paths, doping):
         newdataset.dscale = dataset.dscale
         newdataset.fitrmin = dataset.fitrmin
         newdataset.fitrmax = dataset.fitrmax
+        rstep = dataset.fitrstep
+        st = dataset.getFitSamplingType()
+        newdataset.setFitSamplingType(st, rstep)
         temperature = dataset.metadata.get("temperature")
         if temperature is None: temperature = 300.0
         newdataset.metadata["temperature"] = temperature
