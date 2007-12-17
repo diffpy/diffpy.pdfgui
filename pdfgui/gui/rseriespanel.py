@@ -135,15 +135,11 @@ class RSeriesPanel(wx.Panel, PDFPanel):
         self.mainFrame.switchRightPanel("blank")
         return 
 
-    def onTreeSelChanged(self, event):
+    def treeSelectionUpdate(self, node):
         """Set the current fit when the tree selection changes."""
-        selections = self.treeCtrlMain.GetSelections()
-        self.fit = None
-        if len(selections) == 1:
-            node = selections[0]
-            nodetype = self.treeCtrlMain.GetNodeType(node)
-            if nodetype == 'fit':
-                self.fit = self.treeCtrlMain.GetControlData(node)
+        nodetype = self.treeCtrlMain.GetNodeType(node)
+        if nodetype == 'fit':
+            self.fit = self.treeCtrlMain.GetControlData(node)
         self.refresh()
         return
 

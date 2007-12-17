@@ -1090,8 +1090,27 @@ class MainFrame(wx.Frame):
         self.disableMainMenuItems()
         return
 
-    def onTreeSelChanged(self, event):
-        """Set the click behavior for each mode.
+    def makeTreeSelection(self, node):
+        """Manually select a node of the tree and update according to selection.
+
+        This makes sure that the node is visible after selection.
+        
+        If node is None, this does nothing.
+        """
+        if node is None: return
+
+        self.treeCtrlMain.SelectItem(node)
+
+        # Make sure that the node is visible.
+        self.treeCtrlMain.SetFocus()
+        self.treeCtrlMain.EnsureVisible(node)
+        self.treeCtrlMain.ScrollTo(node)
+
+        self.treeSelectionUpdate(node)
+        return
+
+    def treeSelectionUpdate(self, node):
+        """Update the widgets based on a tree selection.
         
         "fitting" mode:
         * Right panel changes depending upon the type of item selected from the
@@ -1102,60 +1121,45 @@ class MainFrame(wx.Frame):
         """
         selections = self.treeCtrlMain.GetSelections()
 
-        # Note: this is performed this way to avoid deselecion problems.
-        if selections:
-            node = selections[0]
-            if not event:
-                # FIXME
-                # Make sure that the item is visible.
-                # This takes place when onTreeSelChanged is called manually, in
-                # which case event is None. This should be factored out.
-                self.treeCtrlMain.EnsureVisible(node)
-                self.treeCtrlMain.ScrollTo(node)
-        elif event:
-            node = event.GetItem()
-        else:
-            # How did we even get here?
-            return
-	    self.treeCtrlMain.SetFocus()
-
         # "fitting" mode 
         if self.mode == "fitting":
 	    # This doesn't work on Windows.
+            self.plotPanel.Enable(True)
             if len(selections) == 0: 
                 self.switchRightPanel("blank")
                 self.plotPanel.Enable(False)
-                return
-            else:
-                self.plotPanel.Enable(True)
-
-            # Don't change the panel if there are multiple items selected
-            if len(selections) == 1:
+                #return
+            elif len(selections) == 1:
                 self.rightPanel.Enable()
                 selectiontype = self.treeCtrlMain.GetNodeType(node)
                 self.switchRightPanel(selectiontype)
             else:
                 self.rightPanel.Enable(False)
+                self.plotPanel.Enable(True)
 
             # Don't let the user edit the right panel of a running fit.
-            if event is not None:
-                node = event.GetItem()
-                fp = self.treeCtrlMain.GetFitRoot(node)
-                if fp:
-                    name = self.treeCtrlMain.GetItemText(fp)
-                    if name in self.runningDict:
-                        self.rightPanel.Enable(False)
-
-            # Update the plotPanel
-            self.plotPanel.refresh()
+            fp = self.treeCtrlMain.GetFitRoot(node)
+            if fp:
+                name = self.treeCtrlMain.GetItemText(fp)
+                if name in self.runningDict:
+                    self.rightPanel.Enable(False)
 
         elif self.mode in ["rseries", "tseries", "dseries"]:
-            self.rightPanel.onTreeSelChanged(event)
+            self.rightPanel.treeSelectionUpdate(node)
+
+        # Update the plotPanel
+        self.plotPanel.refresh()
 
         # update the toolbar and menu
         self.updateToolbar()
         if self.runningDict:
             self.disableMainMenuItems()
+        return
+
+    def onTreeSelChanged(self, event):
+        """Set the click behavior for each mode."""
+        node = event.GetItem()
+        self.treeSelectionUpdate(node)
         return
 
     def onTreeSelChanging(self, event): # wxGlade: MainPanel.<event_handler>
@@ -1344,7 +1348,7 @@ class MainFrame(wx.Frame):
         if flags not in [ wx.TREE_HITTEST_ABOVE,wx.TREE_HITTEST_BELOW,wx.TREE_HITTEST_NOWHERE]:
             if self.mode == "fitting":
                 wx.CallAfter(self.treeCtrlMain.SelectAllType, node)
-                wx.CallAfter(self.onTreeSelChanged, None)
+                wx.CallAfter(self.treeSelectionUpdate, node)
         return
 
     def onDoubleClick(self, event):
@@ -1352,7 +1356,7 @@ class MainFrame(wx.Frame):
         node = event.GetItem()
         if self.mode == "fitting":
             wx.CallAfter(self.treeCtrlMain.SelectAllType, node)
-            wx.CallAfter(self.onTreeSelChanged, None)
+            wx.CallAfter(self.treeSelectionUpdate, node)
         return
 
     def onKey(self, event):
@@ -1370,14 +1374,14 @@ class MainFrame(wx.Frame):
         if event.ShiftDown() and event.ControlDown() and key == 65:
             if self.mode == "fitting":
                 self.treeCtrlMain.SelectAllType(node)
-                self.onTreeSelChanged(None)
+                self.treeSelectionUpdate(node)
 
         # Ctrl+A
         # "fitting" mode    --  Select all nodes
         elif event.ControlDown() and key == 65:
             if self.mode == "fitting":
                 self.treeCtrlMain.SelectAll()
-                self.onTreeSelChanged(None)
+                self.treeSelectionUpdate(node)
 
         # Delete
         # "fitting" mode    --  Delete selected noded
