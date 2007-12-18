@@ -37,7 +37,7 @@ makefiles = prependThisDir(['doc/manual/Makefile'])
 
 # third-party dependencies
 other_deps = [
-    "wxPython",
+    "wx",
     "numpy",
     "matplotlib",
     ]
