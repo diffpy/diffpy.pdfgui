@@ -148,7 +148,7 @@ class ErrorReportDialog(wx.Dialog):
         description = self.text_ctrl_description.GetValue().strip() + "\n"
         traceback = 'N/A'
         if self.errorReport:
-            traceback = '{{{\n' + self.text_ctrl_log.GetValue().strip() + '\n}}}'
+            traceback = '\n' + self.text_ctrl_log.GetValue().strip() + '\n'
         
         reporter = self.text_ctrl_reporter.GetValue().strip()
         if not reporter: reporter = 'diffuser'
