@@ -580,7 +580,9 @@ class Plotter(PDFComponent):
         # write curve data one by one
         for curve in self.curves:
             if curve.x and curve.y:
-                description = "#L " + curve.xStr + " " + curve.yStr + "\n"
+                xname = _transName(curve.xStr)
+                yname = _transName(curve.yStr)
+                description = "#L %s %s\n" % (xname, yname)
                 outfile.write(description)
                 for a,b in zip(curve.x,curve.y):
                     line =  "%10.8f %10.8f\n"%(a,b)

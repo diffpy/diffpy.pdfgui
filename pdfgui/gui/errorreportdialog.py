@@ -151,7 +151,7 @@ class ErrorReportDialog(wx.Dialog):
             traceback = '\n' + self.text_ctrl_log.GetValue().strip() + '\n'
         
         reporter = self.text_ctrl_reporter.GetValue().strip()
-        if not reporter: reporter = 'diffuser'
+        if not reporter: reporter = 'anonymous'
         
         ticketinfo = {'summary': self.text_ctrl_summary.GetValue().strip(),
                     'description' : description,
