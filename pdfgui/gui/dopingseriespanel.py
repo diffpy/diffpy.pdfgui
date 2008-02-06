@@ -93,7 +93,7 @@ class DopingSeriesPanel(wx.Panel,PDFPanel):
         """Set the custom properties."""
         self.fit = None
         self.reverse = False # Reverse the sort?
-        self.fullpath = '.'
+        self.fullpath = ""
         self.datasets = [] # Contains (doping, filename) tuples
                            # doping comes first for easy sorting
 
@@ -158,7 +158,8 @@ class DopingSeriesPanel(wx.Panel,PDFPanel):
     def onAdd(self, event): # wxGlade: DopingSeriesPanel.<event_handler>
         """Append files to the list."""
         dir, filename = os.path.split(self.fullpath)
-        if not dir: dir = os.path.abspath('.')
+        if not dir:
+            dir = self.mainFrame.workpath
 
         matchstring = "PDF data files (*.gr)|*.gr|PDF fit files (*.fgr)|*.fgr|PDF fit files (*.fit)|*.fit|PDF calculation files (*.cgr)|*.cgr|PDF calculation files (*.calc)|*.calc|All Files|*"
         d = wx.FileDialog(None, "Choose files", dir, "", matchstring,
@@ -172,6 +173,7 @@ class DopingSeriesPanel(wx.Panel,PDFPanel):
         newdatasets = []
         for path in paths:
             self.fullpath = path
+            self.mainFrame.workpath = os.path.dirname(self.fullpath)
 
             # Look for the doping in the filename
             doping = 0.0

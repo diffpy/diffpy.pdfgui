@@ -154,7 +154,8 @@ class TemperatureSeriesPanel(wx.Panel, PDFPanel):
     def onAdd(self, event): # wxGlade: TemperatureSeriesPanel.<event_handler>
         """Append files to the list."""
         dir, filename = os.path.split(self.fullpath)
-        if not dir: dir = os.path.abspath('.')
+        if not dir:
+            dir = self.mainFrame.workpath
 
         matchstring = "PDF data files (*.gr)|*.gr|PDF fit files (*.fgr)|*.fgr|PDF fit files (*.fit)|*.fit|PDF calculation files (*.cgr)|*.cgr|PDF calculation files (*.calc)|*.calc|All Files|*"
         d = wx.FileDialog(None, "Choose files", dir, "", matchstring,
@@ -168,6 +169,7 @@ class TemperatureSeriesPanel(wx.Panel, PDFPanel):
         newdatasets = []
         for path in paths:
             self.fullpath = path
+            self.mainFrame.workpath = os.path.dirname(path)
 
             # Look for the temperature in the filename
             temperature = 300.0
@@ -202,7 +204,6 @@ class TemperatureSeriesPanel(wx.Panel, PDFPanel):
                         start_data = 0
                 header = datastring[:start_data]
                 # parse header to get temperature
-                # temperature
                 regexp = r"\b(?:temp|temperature|T)\ *=\ *(%(f)s)\b" % rx
                 res = re.search(regexp, header)
                 if res:

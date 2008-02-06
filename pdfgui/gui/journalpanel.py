@@ -18,6 +18,7 @@
 
 import wx
 from pdfpanel import PDFPanel
+import os.path
 
 class JournalPanel(wx.Panel, PDFPanel):
     def __init__(self, *args, **kwds):
@@ -57,8 +58,7 @@ class JournalPanel(wx.Panel, PDFPanel):
 
     def __customProperties(self):
         """Custom Properties go here."""
-        self.dirname = ""
-        self.filename = ""
+        self.fullpath = ""
 
     def onText(self, event): # wxGlade: JournalPanel.<event_handler>
         """Record anything that is written into the journal."""
@@ -69,16 +69,16 @@ class JournalPanel(wx.Panel, PDFPanel):
     def onExport(self, event): # wxGlade: JournalPanel.<event_handler>
         """Export the journal to an external file."""
         matchstring = "Text files (*.txt)|*.txt|All Files|*"
+        dir, filename = os.path.split(self.fullpath)
+        if not dir: dir = self.mainFrame.workpath
         d = wx.FileDialog(None, "Export to...",
-                self.dirname, self.filename, matchstring, 
+                dir, filename, matchstring, 
                 wx.SAVE|wx.OVERWRITE_PROMPT)
 
         if d.ShowModal() == wx.ID_OK:
-            import os.path
-            self.dirname = d.GetDirectory()
-            self.filename = d.GetFilename()
-            fullpath = os.path.join(self.dirname, self.filename)
-            outfile = open(fullpath, 'w')
+            self.fullpath = d.GetPath()
+            self.mainFrame.workpath = os.path.dirname(self.fullpath)
+            outfile = open(self.fullpath, 'w')
             outfile.write(self.mainFrame.control.journal)
             outfile.close()
         d.Destroy()

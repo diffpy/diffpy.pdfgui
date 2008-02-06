@@ -100,7 +100,7 @@ class AddPhasePanel(wx.Panel, PDFPanel):
         'last'      --  The last structure file added to the project. This is
                         stored in the class variable fullpath.
         """
-	remember = "False"
+        remember = "False"
         if self.cP.has_option("PHASE", "remember"):
             remember = self.cP.get("PHASE", "remember")
 
@@ -134,7 +134,7 @@ class AddPhasePanel(wx.Panel, PDFPanel):
         newnode = None
         dir, filename = os.path.split(self.fullpath)
         if not dir:
-            dir = os.path.abspath('.')
+            dir = self.mainFrame.workpath
         matchstring = "|".join((
             "PDFfit structure files (*.stru)", "*.stru",
             "Crystallographic Information File (*.cif)", "*.cif",
@@ -145,12 +145,14 @@ class AddPhasePanel(wx.Panel, PDFPanel):
         d = wx.FileDialog(None, "Choose a file", dir, "", matchstring, wx.OPEN)
         if d.ShowModal() == wx.ID_OK:
             self.fullpath = d.GetPath()
+            self.mainFrame.workpath = os.path.dirname(self.fullpath)
 
             # Update the configuration
             self.updateConfiguration()
 
             # Add the item to the tree.
-            (dir, name) = os.path.split(self.fullpath)
+            name = os.path.basename(self.fullpath)
+
             # Check the name and alter it if necessary
             siblings = self.treeCtrlMain.GetChildren(self.entryfit)
             names = [self.treeCtrlMain.GetItemText(i) for i in siblings]

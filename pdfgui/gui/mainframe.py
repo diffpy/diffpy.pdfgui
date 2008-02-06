@@ -142,7 +142,9 @@ class MainFrame(wx.Frame):
 
     rightPanel  --  The current right panel.
     fullpath    --  The full path to the most recently accessed project file.
-    importscript -- The full path to the most recently loaded pdffit2 script.
+    workpath    --  The full path to the working directory. This is modified
+                    whenever something is loaded or saved to file. It is
+                    preserved in the current session and across new projects.
     cP          --  A python SafeConfigurationParser object. This is in charge
                     of storing configuration information about the most recently
                     used files list. It is also used by serverpanel to store
@@ -211,7 +213,8 @@ class MainFrame(wx.Frame):
             treelist = self.control.load(fullpath)
             self.treeCtrlMain.ExtendProjectTree(treelist)
             self.fullpath = fullpath
-            self.fileHistory.AddFileToHistory(self.fullpath)
+            self.workpath = os.path.dirname(fullpath)
+            self.fileHistory.AddFileToHistory(fullpath)
             self.plotPanel.refresh()
             self.journalPanel.refresh()
         return
@@ -285,8 +288,7 @@ class MainFrame(wx.Frame):
         self.__wrapEvents()
         # Needed for loading and saving
         self.fullpath = ""
-        self.importscript = ""
-        self.exportpath = ""
+        self.workpath = os.path.abspath('.')
 
         # The dictionary of running fits/calculations
         self.runningDict = {}
@@ -950,9 +952,6 @@ class MainFrame(wx.Frame):
                 if self.cP.has_option("MRU", str(i)):
                     filename = self.cP.get("MRU", str(i))
                     self.fileHistory.AddFileToHistory(filename)
-        # disabled in response to ticket #117
-        #if self.cP.has_option("SCRIPT", "lastimport"):
-        #    self.importscript = self.cP.get("SCRIPT", "lastimport")
 
         # Give the host info to control
         ptemp = self.dynamicPanels['serverconfig']
@@ -1000,12 +999,6 @@ class MainFrame(wx.Frame):
         for i in range(self.fileHistory.GetCount()):
             item = self.fileHistory.GetHistoryFile(i)
             self.cP.set("MRU", str(i+1), item)
-
-        # Most recently imported script
-        if not self.cP.has_section("SCRIPT"):
-            self.cP.add_section("SCRIPT")
-
-        self.cP.set("SCRIPT", "lastimport", self.importscript)
 
         # Window size
         if not self.cP.has_section("SIZE"):
@@ -2162,7 +2155,7 @@ class MainFrame(wx.Frame):
             self.switchRightPanel('welcome')
             self.plotPanel.refresh()
             self.needsSave(False)
-            self.fullpath = ""
+            self.fullpath = "" 
             self.outputPanel.clearText()
             self.journalPanel.refresh()
         self.updateTitle()
@@ -2174,7 +2167,7 @@ class MainFrame(wx.Frame):
         if retval != wx.ID_CANCEL:
             dir, filename = os.path.split(self.fullpath)
             if not dir:
-                dir = os.path.abspath('.')
+                dir = self.workpath
             matchstring = "PDFgui project files (*.ddp)|*.ddp|All Files|*"
             d = wx.FileDialog(None, "Choose a file", dir
                     , "", matchstring, wx.OPEN)
@@ -2189,7 +2182,8 @@ class MainFrame(wx.Frame):
                 self.switchRightPanel('welcome')
 
                 self.fullpath = fullpath
-                self.fileHistory.AddFileToHistory(self.fullpath)
+                self.workpath = os.path.dirname(fullpath)
+                self.fileHistory.AddFileToHistory(fullpath)
                 self.needsSave(False)
 
                 self.outputPanel.clearText()
@@ -2221,10 +2215,9 @@ class MainFrame(wx.Frame):
         self.treeCtrlMain.SetFocus()
 
         matchstring = "PDFgui project files (*.ddp)|*.ddp|All Files|*"
-        filename = os.path.basename(self.fullpath)
-        dir = os.path.abspath('.')
-        #if not dir:
-        #    dir = os.path.abspath('.')
+        dir, filename = os.path.split(self.fullpath)
+        if not dir:
+            dir = self.workpath
         d = wx.FileDialog(None, "Save as...", dir, filename or "project.ddp",
                 matchstring, wx.SAVE|wx.OVERWRITE_PROMPT)
         code = d.ShowModal()
@@ -2232,6 +2225,7 @@ class MainFrame(wx.Frame):
             self.fullpath = d.GetPath()
             if len(self.fullpath) < 4 or self.fullpath[-4:] != '.ddp':
                 self.fullpath += '.ddp'
+            self.workpath = os.path.dirname(self.fullpath)
             self.fileHistory.AddFileToHistory(self.fullpath)
             # Save the file
             self.control.save(self.fullpath)
@@ -2260,21 +2254,22 @@ class MainFrame(wx.Frame):
         filename = self.fileHistory.GetHistoryFile(index)
         retval = self.checkForSave()
         if retval != wx.ID_CANCEL:
-            self.fullpath = filename
-            self.fileHistory.AddFileToHistory(self.fullpath)
             self.control.stop()
             self.control.close()
             try:
-                treelist = self.control.load(self.fullpath)
+                treelist = self.control.load(filename)
                 self.treeCtrlMain.ExtendProjectTree(treelist)
                 self.setMode('fitting')
                 self.switchRightPanel('welcome')
                 self.needsSave(False)
                 self.outputPanel.clearText()
                 self.journalPanel.refresh()
+                self.fullpath = filename
+                self.workpath = os.path.dirname(self.fullpath)
+                self.fileHistory.AddFileToHistory(self.fullpath)
                 self.updateTitle()
             except ControlError, e:
-                self.fileHistory.RemoveFileFromHistory(0)
+                self.fileHistory.RemoveFileFromHistory(index)
                 raise e
         return
 
@@ -2289,42 +2284,33 @@ class MainFrame(wx.Frame):
         name = self.treeCtrlMain.GetItemText(node)
         basename = '.'.join(name.split('.')[:-1]) or name
         matchstring = "PDFgui results files (*.res)|*.res|All Files|*"
-        dir, temp = os.path.split(self.exportpath)
-        if not dir:
-            dir = os.path.abspath('.')
-        d = wx.FileDialog(None, "Save as...", dir, basename,
+        d = wx.FileDialog(None, "Save as...", self.workpath, basename,
                 matchstring, wx.SAVE|wx.OVERWRITE_PROMPT)
         if d.ShowModal() == wx.ID_OK:
             path = d.GetPath()
-            psplit = list(os.path.split(path))
-            savename = psplit[-1]
+            self.workpath, savename = os.path.split(path)
             # Add the right extention if it doesn't already have it.
             if len(savename) < 3 or savename[-3:] != "res":
                 savename += ".res"
-            psplit[-1] = savename
-            self.exportpath = os.path.join(*psplit)
-            text = cdata.res
-            outfile = file(self.exportpath, 'w')
-            outfile.write(text)
+            path = os.path.join(self.workpath, savename)
+            outfile = file(path, 'w')
+            outfile.write(cdata.res)
             outfile.close()
         d.Destroy()
         return 
 
     def onImportScript(self, event):
-        dir, filename = os.path.split(self.importscript)
-        if not dir:
-            dir = os.path.abspath('.')
         matchstring = "pdffit2 script files (*.py)|*.py|All Files|*"
-        d = wx.FileDialog(None, "Choose a file", dir
-                , "", matchstring, wx.OPEN)
+        d = wx.FileDialog(None, "Choose a file", self.workpath, "", matchstring,
+                wx.OPEN)
         if d.ShowModal() == wx.ID_OK:
             fullpath = d.GetPath()
+            self.workpath = os.path.dirname(fullpath)
             # Load this file into the control center.
             organizations = self.control.importPdffit2Script(fullpath)
             if organizations:
                 self.treeCtrlMain.ExtendProjectTree(organizations, clear=False)
                 self.needsSave()
-            self.importscript = fullpath
         d.Destroy()
         return
 
@@ -2360,24 +2346,19 @@ class MainFrame(wx.Frame):
         name = self.treeCtrlMain.GetItemText(node)
         basename = '.'.join(name.split('.')[:-1]) or name
         matchstring = "PDFfit structure file (*.stru)|*.stru|Crystallographic Information File (*.cif)|*.cif|Protein Data Bank file (*.pdb)|*.pdb|Labeled coordinate file (*.xyz)|*.xyz|Raw corrdinate file (*.xyz)|*.xyz|AtomEye configuration file|*"
-        dir, temp = os.path.split(self.exportpath)
-        if not dir:
-            dir = os.path.abspath('.')
-        d = wx.FileDialog(None, "Save as...", dir, basename,
+        d = wx.FileDialog(None, "Save as...", self.workpath, basename,
                 matchstring, wx.SAVE|wx.OVERWRITE_PROMPT)
         if d.ShowModal() == wx.ID_OK:
             i = d.GetFilterIndex()
             path = d.GetPath()
-            psplit = list(os.path.split(path))
-            savename = psplit[-1]
+            self.workpath, savename = os.path.split(path)
             # Add the right extention if the file needs it.
             if len(savename) < 3 or \
                 (extlist[i] and savename[-3:] != extlist[i][-3:]):
                 savename += ".%s" % extlist[i]
-            psplit[-1] = savename
-            self.exportpath = os.path.join(*psplit)
+            path = os.path.join(self.workpath, savename)
             text = cdata.initial.writeStr(fmtlist[i])
-            outfile = file(self.exportpath, 'w')
+            outfile = file(path, 'w')
             outfile.write(text)
             outfile.close()
         d.Destroy()
@@ -2397,24 +2378,19 @@ class MainFrame(wx.Frame):
         name = self.treeCtrlMain.GetItemText(node)
         basename = '.'.join(name.split('.')[:-1]) or name
         matchstring = "PDFfit structure file (*.stru)|*.stru|Crystallographic Information File (*.cif)|*.cif|Protein Data Bank file (*.pdb)|*.pdb|Labeled coordinate file (*.xyz)|*.xyz|Raw corrdinate file (*.xyz)|*.xyz|AtomEye configuration file|*"
-        dir, temp = os.path.split(self.exportpath)
-        if not dir:
-            dir = os.path.abspath('.')
-        d = wx.FileDialog(None, "Save as...", dir, basename,
+        d = wx.FileDialog(None, "Save as...", self.workpath, basename,
                 matchstring, wx.SAVE|wx.OVERWRITE_PROMPT)
         if d.ShowModal() == wx.ID_OK:
             i = d.GetFilterIndex()
             path = d.GetPath()
-            psplit = list(os.path.split(path))
-            savename = psplit[-1]
+            self.workpath, savename = os.path.split(path)
             # Add the right extention if the file needs it.
             if len(savename) < 3 or \
                 (extlist[i] and savename[-3:] != extlist[i][-3:]):
                 savename += ".%s" % extlist[i]
-            psplit[-1] = savename
-            self.exportpath = os.path.join(*psplit)
+            path = os.path.join(self.workpath, savename)
             text = cdata.refined.writeStr(fmtlist[i])
-            outfile = file(self.exportpath, 'w')
+            outfile = file(path, 'w')
             outfile.write(text)
             outfile.close()
         d.Destroy()
@@ -2432,21 +2408,16 @@ class MainFrame(wx.Frame):
         name = self.treeCtrlMain.GetItemText(node)
         basename = '.'.join(name.split('.')[:-1]) or name
         matchstring = "PDF fit data file (*.fgr)|*.fgr|All Files|*"
-        dir, temp = os.path.split(self.exportpath)
-        if not dir:
-            dir = os.path.abspath('.')
-        d = wx.FileDialog(None, "Save as...", dir, name,
+        d = wx.FileDialog(None, "Save as...", self.workpath, name,
                 matchstring, wx.SAVE|wx.OVERWRITE_PROMPT)
         if d.ShowModal() == wx.ID_OK:
             path = d.GetPath()
-            psplit = list(os.path.split(path))
-            savename = psplit[-1]
+            self.workpath, savename = os.path.split(path)
             # Add the right extention if it doesn't already have it.
             if len(savename) < 3 or savename[-3:] != "fgr":
                 savename += ".fgr"
-            psplit[-1] = savename
-            self.exportpath = os.path.join(*psplit)
-            cdata.writeCalc(self.exportpath)
+            path = os.path.join(self.workpath, savename)
+            cdata.writeCalc(path)
         d.Destroy()
         return 
 
@@ -2461,21 +2432,16 @@ class MainFrame(wx.Frame):
         name = self.treeCtrlMain.GetItemText(node)
         basename = '.'.join(name.split('.')[:-1]) or name
         matchstring = "PDF calculated data file (*.cgr)|*.cgr|All Files|*"
-        dir, temp = os.path.split(self.exportpath)
-        if not dir:
-            dir = os.path.abspath('.')
-        d = wx.FileDialog(None, "Save as...", dir, basename,
+        d = wx.FileDialog(None, "Save as...", self.workpath, basename,
                 matchstring, wx.SAVE|wx.OVERWRITE_PROMPT)
         if d.ShowModal() == wx.ID_OK:
             path = d.GetPath()
-            psplit = list(os.path.split(path))
-            savename = psplit[-1]
+            self.workpath, savename = os.path.split(path)
             # Add the right extention if it doesn't already have it.
             if len(savename) < 3 or savename[-3:] != "cgr":
                 savename += ".cgr"
-            psplit[-1] = savename
-            self.exportpath = os.path.join(*psplit)
-            cdata.write(self.exportpath)
+            path = os.path.join(self.workpath, savename)
+            cdata.write(path)
         d.Destroy()
         return 
 

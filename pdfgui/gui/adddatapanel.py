@@ -91,7 +91,7 @@ class AddDataPanel(wx.Panel, PDFPanel):
         'last'      --  The last dataset file added to the project. This is
                         stored in the class variable fullpath.
         """
-	remember = "False"
+        remember = "False"
         if self.cP.has_option("DATASET", "remember"):
             remember = self.cP.get("DATASET", "remember")
 
@@ -120,17 +120,18 @@ class AddDataPanel(wx.Panel, PDFPanel):
         newnode = None
         dir, filename = os.path.split(self.fullpath)
         if not dir:
-            dir = os.path.abspath('.')
+            dir = self.mainFrame.workpath
         matchstring = "PDF data files (*.gr)|*.gr|PDF fit files (*.fgr)|*.fgr|PDF fit files (*.fit)|*.fit|PDF calculation files (*.cgr)|*.cgr|PDF calculation files (*.calc)|*.calc|All Files|*"
         d = wx.FileDialog(None, "Choose a file", dir, "", matchstring, wx.OPEN)
         if d.ShowModal() == wx.ID_OK:
             self.fullpath = d.GetPath()
+            self.mainFrame.workpath = os.path.dirname(self.fullpath)
 
             # Update the configuration
             self.updateConfiguration()
 
             # Add the item to the tree.
-            (dir, name) = os.path.split(self.fullpath)
+            name = os.path.basename(self.fullpath)
 
             # Check the name and alter it if necessary
             siblings = self.treeCtrlMain.GetChildren(self.entryfit)
