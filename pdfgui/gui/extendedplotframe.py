@@ -25,7 +25,7 @@ from matplotlib.backends.backend_wxagg import NavigationToolbar2WxAgg as NavTool
 from matplotlib.figure import Figure
 
 from matplotlib.backends.backend_wx import _load_bitmap
-from pylab import setp
+from matplotlib.artist import setp
 
 import wx
 import os.path
