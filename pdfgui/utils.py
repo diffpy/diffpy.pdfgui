@@ -14,7 +14,7 @@
 
 """Small shared routines:
     numericStringSort   -- sort list of strings according to numeric value
-    nanSafeCPickleDumps -- same as cPickleDumps, but safe for NaN and Inf
+    safeCPickleDumps    -- same as cPickleDumps, but safe for NaN and Inf
 """
 
 __id__ = "$Id$"
