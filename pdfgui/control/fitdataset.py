@@ -306,9 +306,10 @@ class FitDataSet(PDFDataSet):
         lines.append('#L r(A) G(r) d_r d_Gr Gdiff')
         # cache Gdiff here so it is not calculated many times
         Gdiff = self.Gdiff
+        drcalc = 0.0
         for i in range(len(self.rcalc)):
             lines.append( '%g %g %.1f %g %g' % (self.rcalc[i],
-                          self.Gcalc[i], 0.0, self.dGcalc[i], Gdiff[i]) )
+                          self.Gcalc[i], drcalc, self.dGcalc[i], Gdiff[i]) )
         # lines are ready here
         datastring = "\n".join(lines) + "\n"
         return datastring
@@ -337,6 +338,7 @@ class FitDataSet(PDFDataSet):
         resampled = PDFDataSet(self.name)
         self.copy(resampled)
         resampled.robs = self.rcalc
+        resampled.drobs = len(self.rcalc) * [0.0]
         resampled.Gobs = self.Gtrunc
         resampled.dGobs = self.dGtrunc
         return resampled
@@ -694,7 +696,7 @@ class FitDataSet(PDFDataSet):
     def _get_dGtrunc(self):
         self._updateRcalcSampling()
         if not self._dGtrunc:
-            newdGtrunc = grid_interpolation(self.robs, self.Gobs, self.rcalc)
+            newdGtrunc = grid_interpolation(self.robs, self.dGobs, self.rcalc)
             self._dGtrunc = list(newdGtrunc)
         return self._dGtrunc
 
@@ -733,7 +735,7 @@ def grid_interpolation(x0, y0, x1, youtside=0.0):
 
     x0       -- original x-grid, must be equally spaced
     y0       -- original y values
-    x1       -- new x-grid, must be equally spaced
+    x1       -- new x-grid, it can have any spacing
     youtside -- value for interpolated y1 outside of x0 range
 
     Return numpy.array of interpolated y1 values.

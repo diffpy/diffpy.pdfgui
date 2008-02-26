@@ -12,7 +12,7 @@
 #
 ########################################################################
 
-"""Unit tests for pdfgui.control.constraint.py
+"""Unit tests for constraint.py
 """
 
 # version

@@ -1,4 +1,16 @@
-#!/usr/bin/env python
+########################################################################
+#
+# PDFgui            by DANSE Diffraction group
+#                   Simon J. L. Billinge
+#                   (c) 2008 trustees of the Michigan State University.
+#                   All rights reserved.
+#
+# File coded by:    Pavol Juhas
+#
+# See AUTHORS.txt for a list of people who contributed.
+# See LICENSE.txt for license information.
+#
+########################################################################
 
 """Unit tests for fitdataset.py
 """
@@ -10,12 +22,14 @@ import os
 import unittest
 import numpy
 
+import diffpy.pdfgui.control.fitdataset as fds
+from diffpy.pdfgui.control.fitdataset import FitDataSet
+
 # useful variables
 thisfile = locals().get('__file__', 'file.py')
 tests_dir = os.path.dirname(os.path.abspath(thisfile))
-# testdata_dir = os.path.join(tests_dir, 'testdata')
+testdata_dir = os.path.join(tests_dir, 'testdata')
 
-import diffpy.pdfgui.control.fitdataset as fds
 
 ##############################################################################
 class TestRoutines(unittest.TestCase):
@@ -176,12 +190,30 @@ class TestRoutines(unittest.TestCase):
 #       """check FitDataSet.writeObsStr()
 #       """
 #       return
-#
-#   def test__resampledPDFDataSet(self):
-#       """check FitDataSet._resampledPDFDataSet()
-#       """
-#       return
-#
+
+    def test__resampledPDFDataSet(self):
+        """check FitDataSet._resampledPDFDataSet()
+        """
+        fNi_data = os.path.join(testdata_dir, "Ni_2-8.chi.gr")
+        fds = FitDataSet('Ni')
+        fds.read(fNi_data)
+        npts = len(fds.rcalc)
+        rds = fds._resampledPDFDataSet()
+        self.assertEqual(npts, len(rds.robs))
+        self.assertEqual(npts, len(rds.drobs))
+        self.assertEqual(npts, len(rds.Gobs))
+        self.assertEqual(npts, len(rds.dGobs))
+        # reduce fitrmax to one half
+        fds.fitrmax = fds.rmax / 2.0
+        npts1 = len(fds.rcalc)
+        self.failUnless(npts1 < npts)
+        rds1 = fds._resampledPDFDataSet()
+        self.assertEqual(npts1, len(rds1.robs))
+        self.assertEqual(npts1, len(rds1.drobs))
+        self.assertEqual(npts1, len(rds1.Gobs))
+        self.assertEqual(npts1, len(rds1.dGobs))
+        return
+
 #   def test_writeResampledObs(self):
 #       """check FitDataSet.writeResampledObs()
 #       """

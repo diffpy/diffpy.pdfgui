@@ -132,6 +132,7 @@ class PDFDataSet(PDFComponent):
         self.filename = os.path.abspath(filename)
         return self
 
+
     def readStr(self, datastring):
         """read experimental PDF data from a string
 
@@ -216,6 +217,8 @@ class PDFDataSet(PDFComponent):
                     break
 
         # read actual data - robs, Gobs, drobs, dGobs
+        has_drobs = True
+        has_dGobs = True
         # raise InvalidDataFormat if something goes wrong
         try:
             for line in databody.split("\n"):
@@ -223,13 +226,30 @@ class PDFDataSet(PDFComponent):
                 # there should be at least 2 value in the line
                 self.robs.append(float(v[0]))
                 self.Gobs.append(float(v[1]))
-                self.drobs.append(len(v) > 2 and float(v[2]) or 0.0)
-                self.dGobs.append(len(v) > 3 and float(v[3]) or 0.0)
+                # drobs is valid if all values are defined and positive
+                has_drobs = has_drobs and len(v) > 2
+                if has_drobs:
+                    v2 = float(v[2])
+                    has_drobs = v2 > 0.0
+                    self.drobs.append(v2)
+                # dGobs is valid if all values are defined and positive
+                has_dGobs = has_dGobs and len(v) > 3
+                if has_dGobs:
+                    v3 = float(v[3])
+                    has_dGobs = v3 > 0.0
+                    self.dGobs.append(v3)
+            if not has_drobs:
+                self.drobs = len(self.robs) * [0.0]
+            if not has_dGobs:
+                self.dGobs = len(self.robs) * [0.0]
         except (ValueError, IndexError):
             raise 'InvalidDataFormat', 'Cannot read Gobs'
         self.rmin = self.robs[0]
         self.rmax = self.robs[-1]
+        if not has_drobs:   self.drobs = len(self.robs) * [0.0]
+        if not has_dGobs:   self.dGobs = len(self.robs) * [0.0]
         return self
+
 
     def write(self, filename):
         """Write experimental PDF data to a file.
