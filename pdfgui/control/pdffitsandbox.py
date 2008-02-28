@@ -769,31 +769,32 @@ class PdfFitSandbox:
             NotImplementedError
         """
         raise NotImplementedError, "show_scat_string() is not supported"
-        return ""
+
+    def get_scat(self, *args):
+        """Return scattering factor of given element.
+        Not supported.
+
+        Raises: 
+            NotImplementedError
+        """
+        raise NotImplementedError, "get_scat() is not supported"
 
     def set_scat(self, *args):
-        """set_scat('N', itype, len) --> Set neutron scattering length for itype
-        atoms.  
-        
-        set_scat('X', a1, b1, a2, b2, a3, b3, a4, b4, c) --> I don't know what
-        this does.  
-        
+        """set_scat() --> Change neutron or x-ray scattering factor for given
+        element.  Not supported.
+
         Raises: 
             NotImplementedError
-            ValueError if input variables are bad 
         """
         raise NotImplementedError, "set_scat() is not supported"
-        return
 
-    def reset_scat(self, stype, itype):
-        """reset_scat(stype, itype) --> I don't know what this does.
+    def reset_scat(self, *args):
+        """reset_scat() --> reset scattering factor.  Not supported.
         
         Raises: 
             NotImplementedError
-            ValueError if input variables are bad 
         """
         raise NotImplementedError, "reset_scat() is not supported"
-        return
 
     def num_atoms(self):
         """Get number of atoms in current phase.

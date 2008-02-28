@@ -684,16 +684,22 @@ class TestPdfFitSandbox(unittest.TestCase):
         self.assertRaises(NotImplementedError, self.box.show_scat_string, 'X')
         return
  
+    def test_get_scat(self):
+        """check PdfFitSandbox.get_scat()
+        """
+        self.assertRaises(NotImplementedError, self.box.get_scat)
+        return
+ 
     def test_set_scat(self):
         """check PdfFitSandbox.set_scat()
         """
-        self.assertRaises(NotImplementedError, self.box.set_scat, 'X', 0.1)
+        self.assertRaises(NotImplementedError, self.box.set_scat)
         return
  
     def test_reset_scat(self):
         """check PdfFitSandbox.reset_scat()
         """
-        self.assertRaises(NotImplementedError, self.box.reset_scat, 'X', 1)
+        self.assertRaises(NotImplementedError, self.box.reset_scat)
         return
  
     def test_num_atoms(self):
