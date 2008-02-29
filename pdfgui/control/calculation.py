@@ -81,16 +81,37 @@ class Calculation(PDFComponent):
 
         rmin  -- new low rcalc boundary
         rstep -- new r-grid step
-        rmax  -- new maximum rcalc, slightly adjusted to accomodate rstep
+        rmax  -- new maximum rcalc, slightly adjusted to accommodate rstep
+
+        No return value.
+        Raise ControlValueError for invalid range specification.
         """
-        if rmin is not None:    self.rmin = float(rmin)
-        if rstep is not None:   self.rstep = float(rstep)
-        if rmax is not None:    self.rmax = float(rmax)
-        if self.rstep <= 0.0:
-            raise ControlRuntimeError, \
-                    "Invalid value of rstep, rstep must be positive"
-        self.rlen = int(math.ceil( (self.rmax - self.rmin)/self.rstep )) + 1
-        self.rmax = self.rmin + self.rstep*(self.rlen - 1)
+        if rmin is None:    rmin = self.rmin
+        if rstep is None:   rstep = self.rstep
+        if rmax is None:    rmax = self.rmax
+        rstep = float(rstep)
+        # check if arguments are valid
+        if not rmin > 0:
+            emsg = "Low range boundary must be positive."
+            raise ControlValueError, emsg
+        if not rmin < rmax:
+            emsg = "Invalid range boundaries."
+            raise ControlValueError, emsg
+        if rstep <= 0.0:
+            emsg = "Invalid value of rstep, rstep must be positive."
+            raise ControlValueError, emsg
+        # find number of r bins
+        nbins = int( math.ceil( (rmax - rmin)/rstep ) )
+        # check for overshot due to round-off 
+        epsilonr = 1.0e-8 * rstep
+        deltarmax = abs(rmin + (nbins - 1)*rstep - rmax)
+        if nbins > 1 and deltarmax < epsilonr:
+            nbins -= 1
+        # All went well, let us go ahead and set the attributes.
+        self.rmin = rmin
+        self.rstep = rstep
+        self.rmax = rmin + nbins*rstep
+        self.rlen = nbins + 1
         return
 
     def start(self):

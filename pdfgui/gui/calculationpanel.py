@@ -98,13 +98,13 @@ class CalculationPanel(wx.Panel, PDFPanel):
 
     def __customProperties(self):
         """Set up the custom properites."""
-        self.textCtrlCalcFrom.Bind(wx.EVT_KILL_FOCUS, self.onLoseFocus)
-        self.textCtrlCalcTo.Bind(wx.EVT_KILL_FOCUS, self.onLoseFocus)
+        self.textCtrlCalcFrom.Bind(wx.EVT_KILL_FOCUS, self.onCalcRange)
+        self.textCtrlCalcTo.Bind(wx.EVT_KILL_FOCUS, self.onCalcRange)
         self.textCtrlQmax.Bind(wx.EVT_KILL_FOCUS, self.onLoseFocus)
         self.textCtrlQdamp.Bind(wx.EVT_KILL_FOCUS, self.onLoseFocus)
         self.textCtrlQbroad.Bind(wx.EVT_KILL_FOCUS, self.onLoseFocus)
         self.textCtrlSpdiameter.Bind(wx.EVT_KILL_FOCUS, self.onLoseFocus)
-        self.textCtrlRStep.Bind(wx.EVT_KILL_FOCUS, self.onRStep)
+        self.textCtrlRStep.Bind(wx.EVT_KILL_FOCUS, self.onCalcRange)
         self.calculation = None
         self.stypeMap = {0: 'N', 1: 'X'}
 
@@ -161,11 +161,16 @@ class CalculationPanel(wx.Panel, PDFPanel):
         self.mainFrame.needsSave()
         return
 
-    def onRStep(self, event): # wxGlade: CalculationPanel.<event_handler>
-        textCtrl = event.GetEventObject()
-        value = textCtrl.GetValue()
-        value = self.__coerseText(value)
-        self.calculation.setRGrid(rstep=value)
+    def onCalcRange(self, event): # wxGlade: CalculationPanel.<event_handler>
+        # Since calculation.rmax gets adjusted by setRGrid,
+        # always obtain all range parameters.
+        rminvalue = self.textCtrlCalcFrom.GetValue()
+        rstepvalue = self.textCtrlRStep.GetValue()
+        rmaxvalue = self.textCtrlCalcTo.GetValue()
+        rmin = self.__coerseText(rminvalue)
+        rstep = self.__coerseText(rstepvalue)
+        rmax = self.__coerseText(rmaxvalue)
+        self.calculation.setRGrid(rmin, rstep, rmax)
         self.mainFrame.needsSave()
         return
 
