@@ -276,7 +276,7 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
         id      --  textctrl id
         value   --  new value  
         """
-        if self.structure == None: return
+        if self.structure is None: return
             #raise ControlValueError, "structure is not defined."
         
         try:
@@ -316,7 +316,7 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
         j       --  cell position
         value   --  new value  
         """
-        if not self.mainFrame or self.structure == None: return
+        if not self.mainFrame or self.structure is None: return
 
         # The element name
         if j == 0:
@@ -391,7 +391,7 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
     # Grid Events
     def onLabelRightClick(self, event): # wxGlade: PhaseConfigurePanel.<event_handler>
         """Bring up right-click menu."""
-        if self.structure != None:
+        if self.structure is not None:
             dx = dy = 0
             if event.GetRow() == -1:
                 dy = self.gridAtoms.GetGridCornerLabelWindow().GetSize().y
@@ -584,7 +584,7 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
 
     def onPopupInsert(self, event):
         """Adds rows to the grid."""
-        if self.structure != None:
+        if self.structure is not None:
             dlg = InsertRowsDialog(self)
             if dlg.ShowModal() == wx.ID_OK:
                 rows = dlg.spin_ctrl_Rows.GetValue()
@@ -607,7 +607,7 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
 
     def onPopupDelete(self, event):
         """Deletes the row under mouse pointer from the grid."""
-        if self.structure != None:
+        if self.structure is not None:
             indices = phasepanelutils.getSelectedAtoms(self)
             self.structure.deleteAtoms(indices)
             self.refresh()
@@ -626,7 +626,7 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
 
     def onPopupSupercell(self, event):
         """Create a supercell with the supercell dialog."""
-        if self.structure != None:
+        if self.structure is not None:
             dlg = SupercellDialog(self)
             if dlg.ShowModal() == wx.ID_OK:
                 mno = dlg.getMNO()
@@ -639,7 +639,7 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
     def onPopupSpaceGroup(self, event):
         """Create a supercell with the supercell dialog."""
         from sgstructuredialog import SGStructureDialog
-        if self.structure != None:
+        if self.structure is not None:
 
             indices = phasepanelutils.getSelectedAtoms(self)
             dlg = SGStructureDialog(self)

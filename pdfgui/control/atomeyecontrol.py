@@ -39,7 +39,7 @@ def plot(structure, executable):
     Filename is given according to the structure's title.
     '''
     # do not plot empty structure
-    if (structure != None) and (len(structure) > 0):
+    if (structure is not None) and (len(structure) > 0):
         dirname = tempfile.mkdtemp()
         filename = structure.title
         if not filename:

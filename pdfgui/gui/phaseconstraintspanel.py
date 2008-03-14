@@ -198,7 +198,7 @@ class PhaseConstraintsPanel(wx.Panel, PDFPanel):
 
     def refresh(self):
         """Refresh wigets on the panel."""
-        if self.structure == None:
+        if self.structure is None:
             raise ValueError, "structure is not defined."
 
         self.refreshTextCtrls()
@@ -323,7 +323,7 @@ class PhaseConstraintsPanel(wx.Panel, PDFPanel):
     # Grid Events
     def onLabelRightClick(self, event): # wxGlade: PhaseConstraintsPanel.<event_handler>
         """Bring up right-click menu."""
-        if self.structure != None:
+        if self.structure is not None:
             dx = dy = 0
             if event.GetRow() == -1:
                 dy = self.gridAtoms.GetGridCornerLabelWindow().GetSize().y
@@ -492,7 +492,7 @@ class PhaseConstraintsPanel(wx.Panel, PDFPanel):
 
     def onPopupSpaceGroup(self, event):
         """Create a supercell with the supercell dialog."""
-        if self.structure != None:
+        if self.structure is not None:
 
             indices = phasepanelutils.getSelectedAtoms(self)
             dlg = SGConstrainDialog(self)

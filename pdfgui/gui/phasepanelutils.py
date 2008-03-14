@@ -46,7 +46,7 @@ def refreshTextCtrls(panel):
     textCtrlSratio
     textCtrlRcut
     """
-    if panel.structure == None:
+    if panel.structure is None:
         # clear textcontrols
         panel.textCtrlA.SetValue("")
         panel.textCtrlB.SetValue("")
@@ -84,7 +84,7 @@ def refreshGrid(panel):
     This method fills the grid with the contents of the structure member
     variable of the panel. It is expected that the grid is named 'gridAtoms'.
     """
-    if panel.structure == None:
+    if panel.structure is None:
         # remove all rows from grid
         panel.gridAtoms.BeginBatch()
         if panel.gridAtoms.GetNumberRows() != 0:

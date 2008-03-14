@@ -133,7 +133,7 @@ class ParametersPanel(wx.Panel, PDFPanel):
             self.grid_parameters.SetCellValue(i,1, str(int(self.parameters[key].fixed))   )
             # refined value
             self.grid_parameters.SetReadOnly(i,2)
-            if self.parameters[key].refined == None:
+            if self.parameters[key].refined is None:
                 self.grid_parameters.SetCellValue(i,2, "" )
             else:
                 self.grid_parameters.SetCellValue(i,2, str(self.parameters[key].refined)  )
