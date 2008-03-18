@@ -662,7 +662,7 @@ class MainFrame(wx.Frame):
                 "Save this project")
         self.toolBar.AddSeparator()
         # This fixes the shadowing problem on Windows.
-	# The bitmap has a white transparency color (mask) 
+        # The bitmap has a white transparency color (mask) 
         bitmap = wx.Bitmap(os.path.join(iconsDir, "run.png"))
         mask = wx.Mask(bitmap, wx.Colour(red=255,green=255,blue=255))
         bitmap.SetMask(mask)
@@ -681,7 +681,7 @@ class MainFrame(wx.Frame):
         self.toolBar.AddLabelTool(self.quickPlotId, "Quick plot",
                 wx.Bitmap(os.path.join(iconsDir,"datasetitem.png")),
                 wx.NullBitmap, wx.ITEM_NORMAL,
-                "Plot fit or calculation")
+                "Plot PDF or structure")
         self.toolBar.Realize()
         return
 
@@ -1100,6 +1100,9 @@ class MainFrame(wx.Frame):
         self.treeCtrlMain.ScrollTo(node)
 
         self.treeSelectionUpdate(node)
+
+        # The right-panel probably stole focus, but we want it back.
+        self.treeCtrlMain.SetFocus()
         return
 
     def treeSelectionUpdate(self, node):
@@ -1381,6 +1384,11 @@ class MainFrame(wx.Frame):
         elif key == 127:
             if self.mode == "fitting":
                 self.onDelete(None)
+
+        # Tab
+        # Move to the right panel
+        elif key == 9:
+            self.rightPanel.SetFocus()
 
         else:
             event.Skip()
@@ -1849,12 +1857,11 @@ class MainFrame(wx.Frame):
         # find a node to choose after deletion
         fitroot = None
         roots = map(self.treeCtrlMain.GetFitRoot,selections)
-        # Find the first one that is not to be deleted. This will be the new
-        # selection.
-        for root in roots:
-            if root not in selections:
-                fitroot = root
+        # Find the fit node previous to the first removed node.
+        for root in self.treeCtrlMain.GetChildren(self.treeCtrlMain.root):
+            if root in roots:
                 break
+            fitroot = root
 
         # Delete!
         if selections:

@@ -172,6 +172,7 @@ class DataSetConfigurePanel(wx.Panel, PDFPanel):
             textCtrl = getattr(self, value)
             textCtrl.SetName(key)
             textCtrl.SetValidator(TextValidator(FLOAT_ONLY))
+        self.textCtrlFitStep.SetValidator(TextValidator(FLOAT_ONLY))
 
         # Setup the event code.
         for ctrlName in self.ctrlMap.values():

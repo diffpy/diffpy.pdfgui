@@ -536,7 +536,7 @@ class FitDataSet(PDFDataSet):
         elif tp == "Nyquist":
             self.fitrstep = self.getNyquistSampling()
         elif tp == "custom":
-            self.fitrstep = value
+            self.fitrstep = max(value, self.getObsSampling())
         else:
             emsg = "Invalid value for fit sampling type."
             raise ValueError, emsg

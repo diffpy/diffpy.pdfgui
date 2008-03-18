@@ -255,6 +255,7 @@ class DopingSeriesPanel(wx.Panel,PDFPanel):
         
         More detailed checking is done in the control method.
         """
+        from diffpy.pdfgui.control.controlerrors import ControlValueError
         from diffpy.pdffit2 import is_element
         base = self.textCtrlBaseElement.GetValue()
         dopant = self.textCtrlDopant.GetValue()
