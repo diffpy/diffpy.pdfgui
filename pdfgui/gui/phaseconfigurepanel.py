@@ -224,7 +224,6 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
 
     def refresh(self):
         """Refreshes widgets on the panel."""
-        # make sure things have changed!
         phasepanelutils.refreshTextCtrls(self)
         pairs = self.structure.getSelectedPairs()
         self.textCtrlIncludedPairs.SetValue(pairs)
@@ -508,7 +507,8 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
             elif self.structure:
                 pos = len(self.structure)
             # insert "rows" atoms into the structure
-            atoms = [Atom("",[0.0,0.0,0.0])]
+            atoms = [Atom("C",[0.0,0.0,0.0],
+                U=[[0.003,0,0],[0,0.003,0],[0,0,0.003]])]
             self.structure.insertAtoms(pos, atoms)
             self.refresh()
             self.mainFrame.needsSave()
@@ -596,7 +596,8 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
                 # insert "rows" atoms into the structure
                 atoms = []
                 for i in xrange(rows):
-                    atoms.append(Atom("",[0.0,0.0,0.0]))
+                    atoms = [Atom("C",[0.0,0.0,0.0],
+                        U=[[0.003,0,0],[0,0.003,0],[0,0,0.003]])]
                 self.structure.insertAtoms(self._row, atoms)
                 self.refresh()
                 self.mainFrame.needsSave()
