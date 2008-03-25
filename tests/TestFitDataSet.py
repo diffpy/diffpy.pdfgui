@@ -26,7 +26,7 @@ import diffpy.pdfgui.control.fitdataset as fds
 from diffpy.pdfgui.control.fitdataset import FitDataSet
 
 # useful variables
-thisfile = locals().get('__file__', 'file.py')
+thisfile = locals().get('__file__', 'TestFitDataSet.py')
 tests_dir = os.path.dirname(os.path.abspath(thisfile))
 testdata_dir = os.path.join(tests_dir, 'testdata')
 

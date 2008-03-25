@@ -24,7 +24,7 @@ import unittest
 from diffpy.pdfgui.control.pdfdataset import PDFDataSet
 
 # useful variables
-thisfile = locals().get('__file__', 'file.py')
+thisfile = locals().get('__file__', 'TestPDFDataSet.py')
 tests_dir = os.path.dirname(os.path.abspath(thisfile))
 testdata_dir = os.path.join(tests_dir, 'testdata')
 

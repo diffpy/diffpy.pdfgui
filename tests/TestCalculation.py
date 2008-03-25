@@ -22,7 +22,7 @@ import os
 import unittest
 
 # useful variables
-thisfile = locals().get('__file__', 'file.py')
+thisfile = locals().get('__file__', 'TestCalculation.py')
 tests_dir = os.path.dirname(os.path.abspath(thisfile))
 # testdata_dir = os.path.join(tests_dir, 'testdata')
 
