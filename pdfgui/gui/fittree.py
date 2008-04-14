@@ -28,8 +28,9 @@ from pdfguiglobals import iconsDir
 from diffpy.pdfgui.control.pdfguicontrol import pdfguicontrol
 from diffpy.pdfgui.control.calculation import Calculation
 from diffpy.pdfgui.control.fitting import Fitting
+from pdfpanel import PDFPanel
 
-class FitTree(wx.TreeCtrl):
+class FitTree(wx.TreeCtrl, PDFPanel):
     """TreeCtrl designed to organize pdffit fits.
     
     The root of the tree is hidden. Below that there are several levels
@@ -62,6 +63,7 @@ class FitTree(wx.TreeCtrl):
             style=wx.TR_HAS_BUTTONS|wx.TR_HIDE_ROOT|wx.TR_MULTIPLE,
             validator=wx.DefaultValidator, name="FitTree"):
         wx.TreeCtrl.__init__(self, parent, id, pos, size, style)
+        PDFPanel.__init__(self)
 
         # Define the control
         # This is set by the mainFrame
