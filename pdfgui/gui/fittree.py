@@ -28,6 +28,7 @@ from pdfguiglobals import iconsDir
 from diffpy.pdfgui.control.pdfguicontrol import pdfguicontrol
 from diffpy.pdfgui.control.calculation import Calculation
 from diffpy.pdfgui.control.fitting import Fitting
+from diffpy.pdfgui.control.controlerrors import ControlError
 from pdfpanel import PDFPanel
 
 class FitTree(wx.TreeCtrl, PDFPanel):
@@ -887,7 +888,7 @@ class FitTree(wx.TreeCtrl, PDFPanel):
 
 
 # Exceptions
-class FitTreeError(Exception):
+class FitTreeError(ControlError):
     def __init__(self, *args):
         Exception.__init__(self, *args)
         return
