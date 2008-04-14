@@ -890,7 +890,7 @@ class FitTree(wx.TreeCtrl, PDFPanel):
 # Exceptions
 class FitTreeError(ControlError):
     def __init__(self, *args):
-        Exception.__init__(self, *args)
+        ControlError.__init__(self, *args)
         return
 # End class FitTreeError
 

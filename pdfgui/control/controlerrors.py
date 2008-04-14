@@ -21,7 +21,7 @@ class ControlError ( Exception ):
         info -- description string
         """
         Exception.__init__(self)
-        self. info = info
+        self.info = info
     
     def __str__(self):
         return self.info
