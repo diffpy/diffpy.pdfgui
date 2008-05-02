@@ -261,7 +261,6 @@ class MainFrame(wx.Frame):
     def __customProperties(self):
         """Custom Properties go here."""
         # Set some visual stuff
-        import os.path
         icon = wx.Icon(os.path.join(iconsDir, "pdfgui.ico"),
 #        icon = wx.Icon(os.path.join(iconsDir, "C60_16x16.png"),
                 wx.BITMAP_TYPE_ANY)
@@ -1019,7 +1018,6 @@ class MainFrame(wx.Frame):
 
     def writeConfiguration(self):
         """Write the program configuration to file."""
-        import os
         filename = os.path.expanduser(pdfguiglobals.configfilename)
         outfile = file(filename, 'w')
         self.cP.write(outfile)
@@ -1761,7 +1759,10 @@ class MainFrame(wx.Frame):
         ep = None
         if selections:
             ep = selections[0]
-        newnode = self.treeCtrlMain.PasteBranch(ep)
+        try:
+            newnode = self.treeCtrlMain.PasteBranch(ep)
+        except FitTreeError:
+            return
         self.treeCtrlMain.Expand(newnode)
         self.treeCtrlMain.EditLabel(newnode)
         self.treeCtrlMain.SelectItem(newnode)
