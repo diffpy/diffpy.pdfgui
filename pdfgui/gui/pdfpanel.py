@@ -15,10 +15,7 @@
 # version
 __id__ = "$Id$"
 
-import wx
-excluded = list(dir(wx.Panel))
-excluded.extend(list(dir(wx.Dialog)))
-excluded = dict.fromkeys(excluded).keys()
+from errorwrapper import catchObjectErrors
 
 def _abstract():
     """Raise a specific exception that referrs to the failing method."""
@@ -43,59 +40,9 @@ class PDFPanel(object):
         # key is used to determine the node type associated with the given panel.
         self.key = ""
         # Wrap all events so that the exceptions get handled.
-        self.__wrapEvents()
+        catchObjectErrors(self)
         return
 
-    def __wrapEvents(self):
-        """This method wraps all of the event to handle exceptions."""
-        import traceback
-        from errorreportdialog import ErrorReportDialog
-        import pdfguiglobals
-
-        # get access to controlerrors.py
-        import sys,os
-        
-        from diffpy.pdfgui.control.controlerrors import ControlError
-
-        def _funcBuilder(funcName):
-            func = getattr(self, funcName)
-            def _f(*args, **kwargs):
-                try:
-                    return func(*args, **kwargs)
-                except ControlError, e:
-                    message = str(e)
-                    if self.mainFrame and not self.mainFrame.quitting:
-                        self.mainFrame.showMessage(message, 'Oops!')
-                    else:
-                        raise
-                except:
-                    # do not catch when disabled in dbopts
-                    if pdfguiglobals.dbopts.noerrordialog:
-                        raise
-                    msglines = traceback.format_exception(*sys.exc_info())
-                    message = "".join(msglines)
-                    dlg = ErrorReportDialog(self)
-                    dlg.text_ctrl_log.SetValue(message)
-                    if self.mainFrame and not self.mainFrame.quitting:
-                        dlg.ShowModal()
-                        dlg.Destroy()
-                    else:
-                        raise
-        
-                    return
-
-            return _f
-
-        funcNames = [item for item in dir(self) if item[:1] != '_' and item not
-                in excluded]
-        # filter out non-functions
-        for name in funcNames:
-            obj = getattr(self, name)
-            if callable(obj):
-                setattr(self, name, _funcBuilder(name))
-
-        return
-    
     def refresh(self):
         """Refreshes wigets of the panel.
         
