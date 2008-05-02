@@ -273,9 +273,11 @@ class DopingSeriesPanel(wx.Panel,PDFPanel):
         self.listCtrlFiles.DeleteAllItems()
         names = [pair[1] for pair in self.datasets]
         cp = os.path.commonprefix(names)
-        lcp = len(cp)
+        # We want to break at the last path/separator in the common prefix
+        idx = cp.rfind(os.path.sep)
+        if idx == -1: idx = len(cp)
         for doping, filename in self.datasets:
-            shortname = ".../" + filename[lcp:]
+            shortname = "..." + filename[idx:]
             index = self.listCtrlFiles.InsertStringItem(sys.maxint, str(doping))
             self.listCtrlFiles.SetStringItem(index, 1, shortname)
         return

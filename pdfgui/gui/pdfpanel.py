@@ -18,7 +18,6 @@ __id__ = "$Id$"
 import wx
 excluded = list(dir(wx.Panel))
 excluded.extend(list(dir(wx.Dialog)))
-excluded.extend(list(dir(wx.TreeCtrl)))
 excluded = dict.fromkeys(excluded).keys()
 
 def _abstract():
