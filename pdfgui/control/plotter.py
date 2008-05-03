@@ -585,12 +585,16 @@ class Plotter(PDFComponent):
                 description = "#L %s %s\n" % (xname, yname)
                 outfile.write(description)
                 for a,b in zip(curve.x,curve.y):
-                    line =  "%10.8f %10.8f\n"%(a,b)
+                    line =  "%10.8f %10.8f\n" % (a, b)
                     outfile.write(line)
                 # additional newline to separate different curve data
                 outfile.write('\n')
                 
         outfile.close()        
+        return
+
+# End of class Plotter
+
 # version
 __id__ = "$Id$"
 
