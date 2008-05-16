@@ -25,7 +25,8 @@ symbols = ("circle","square","triangle","diamond")#,"cross","xCross")
 
 # this is to map 'r' to what it is supposed to be. For example, when user asks 
 # for plotting 'Gobs' against 'r', the real data objects are 'Gobs' and 'robs' 
-transdict = { 'Gobs':'robs', 'Gcalc':'rcalc','Gdiff':'rcalc','Gtrunc':'rcalc'}
+transdict = { 'Gobs':'robs',
+        'Gcalc':'rcalc','Gdiff':'rcalc','Gtrunc':'rcalc','crw':'rcalc'}
 baselineStyle = {'with':'lines','line':'solid','color':'black','width':1, 'legend':'_nolegend_'}
 def _transName( name ):
     '''translate name of y object
@@ -52,7 +53,7 @@ def _fullName ( dataId ):
 def _buildStyle(plotter, name, group, yNames):
     '''trying to figure out a good style
     
-    1. generally we want line style for Gcalc and Gdiff, symbol style for Gobs,
+    1. generally we want line style for Gcalc, Gdiff, crw, symbol style for Gobs,
     and line-symbol style for the rest
     2. there is a preferred style for plotting a single PDF curve
     
@@ -62,7 +63,7 @@ def _buildStyle(plotter, name, group, yNames):
     yNames -- all y to be plotted
     return: style dictionay
     '''
-    if name in ( 'Gcalc', 'Gdiff'): 
+    if name in ( 'Gcalc', 'Gdiff', 'crw'): 
         style = plotter.buildLineStyle()
         style['line']  = 'solid'
     elif name in ('Gobs', 'Gtrunc'):
@@ -78,18 +79,18 @@ def _buildStyle(plotter, name, group, yNames):
         style['symbol'] = 'circle'
         style['symbolSize'] = 8      
         
-    # We only care about how to arrange Gdiff Gobs Gcalc Gtrunc nicely
+    # We only care about how to arrange Gdiff Gobs Gcalc Gtrunc crw nicely
     if group < 0:
         # use fixed style for single PDFFit picture
         if name == 'Gcalc':
             style['color'] = 'red'
         elif name in ('Gobs', 'Gtrunc'):
             style['color'] = 'blue'
-        elif name == 'Gdiff':
+        elif name in ('Gdiff', 'crw'):
             style['color'] = 'green'
     else:
-        # make sure Gidff, Gtrunc, Gobs are having same color
-        if name in ( 'Gobs', 'Gtrunc', 'Gdiff', 'Gcalc'):
+        # make sure Gdiff, Gtrunc, Gobs, crw are having same color
+        if name in ( 'Gobs', 'Gtrunc', 'Gdiff', 'Gcalc', 'crw'):
             style['color'] = colors[group%len(colors)]
         if name == 'Gcalc': 
             # for visual effect, change Gcalc to black if it's going to be plotted against Gobs/Gtrunc
@@ -175,14 +176,14 @@ class Plotter(PDFComponent):
             """
             bItemIsVector = False
             if self.xStr in ( 'r', 'rcalc', 'robs'):
-                if self.yStr not in ('Gobs', 'Gcalc', 'Gdiff', 'Gtrunc'):
+                if self.yStr not in ('Gobs', 'Gcalc', 'Gdiff', 'Gtrunc','crw'):
                     raise  ControlConfigError, "x=%s, y=%s don't match"\
                            %(self.xStr, self.yStr)
                 bItemIsVector = True
-            elif self.xStr in ('Gobs', 'Gcalc', 'Gdiff', 'Gtrunc'):
+            elif self.xStr in ('Gobs', 'Gcalc', 'Gdiff', 'Gtrunc','crw'):
                 raise ControlConfigError, "%s can't be x axis"\
                         %self.xStr
-            elif self.yStr in ('Gobs', 'Gcalc', 'Gdiff', 'Gtrunc'):
+            elif self.yStr in ('Gobs', 'Gcalc', 'Gdiff', 'Gtrunc','crw'):
                 # Get called when x is not r but y is not Gobs, Gtrunc Gdiff...
                 raise ControlConfigError, "%s can only be plotted against r"\
                     %self.yStr
@@ -434,6 +435,12 @@ class Plotter(PDFComponent):
         dry -- dry run
         """
         def _addCurve(dataIds):
+            # Identify the plot type. This is used to automatically modify
+            # 'Gdiff' and 'crw' in certain types of plots.
+            yset = dict.fromkeys(yNames).keys()
+            if 'Gdiff' in yset: yset.remove('Gdiff')
+            if 'crw' in yset: yset.remove('crw')
+
             # add yNames one by one for given dataIds
             for y in yNames:
                 _offset = offset
@@ -451,7 +458,9 @@ class Plotter(PDFComponent):
                     style = _buildStyle(self, y, group, yNames)
                     style['legend'] = legend
                
-                    if y == 'Gdiff' and group == -1:
+                    # automatically apply offset if we're plotting more than
+                    # just 'Gdiff' and 'crw'
+                    if y in ('Gdiff','crw') and group == -1 and len(yset) > 0:
                         _offset = shift
                 #Create curve, get data for it and update it in the plot
                 curve = Plotter.Curve(legend, self.window, xName, y,

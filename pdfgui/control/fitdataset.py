@@ -44,6 +44,7 @@ class FitDataSet(PDFDataSet):
     Gtrunc      -- Gobs resampled to rcalc grid, cached property
     dGtrunc     -- dGobs resampled to rcalc grid, cached property
     Gdiff       -- difference curve, Gdiff = Gtrunc - Gcalc, property
+    crw         -- cumulative rw of the fit
 
     The data in rcalc, Gcalc, dGcalc, Gtrunc, dGtrunc are recalculated
     and cached when r-sampling changes.  Any change to fitrmin,
@@ -103,7 +104,7 @@ class FitDataSet(PDFDataSet):
 
         returns list of strings
         """
-        ynames = [ 'Gobs', 'Gcalc', 'Gdiff', 'Gtrunc', 'dGcalc' ] + \
+        ynames = [ 'Gobs', 'Gcalc', 'Gdiff', 'Gtrunc', 'dGcalc', 'crw' ] + \
                  self.constraints.keys()
         return ynames
 
@@ -130,7 +131,7 @@ class FitDataSet(PDFDataSet):
         # data in below
         if name in self.metadata:
             return self.metadata[name]
-        elif name in ( 'Gobs', 'Gcalc', 'Gtrunc', 'Gdiff', 'robs', 'rcalc'):
+        elif name in ( 'Gobs', 'Gcalc', 'Gtrunc', 'Gdiff', 'crw', 'robs', 'rcalc'):
             d = getattr(self, name)
             
             # for Gtrunc and rcalc, we can use Gobs and robs instead when they 
@@ -156,6 +157,7 @@ class FitDataSet(PDFDataSet):
         self._dGcalc = []
         self._Gtrunc = []
         self._dGtrunc = []
+        self._crw = []
         self._fitrmin = None
         self._fitrmax = None
         self._fitrstep = None
@@ -168,6 +170,7 @@ class FitDataSet(PDFDataSet):
         """
         self.Gcalc = []
         self.dGcalc = []
+        self.crw = []
         self.refined = {}
         return
 
@@ -178,9 +181,10 @@ class FitDataSet(PDFDataSet):
         idataset -- index of this dataset in server
         """
         server.setdata(idataset)
-        # obtain Gcalc and dGcalc from the server
+        # obtain Gcalc, dGcalc and crw from the server
         self.Gcalc = server.getpdf_fit()
         self.dGcalc = server.getpdf_diff()
+        self.crw = server.getcrw()
         # get variables from the server
         for var in PDFDataSet.refinableVars:
             self.refined[var] = server.getvar(var)
@@ -564,7 +568,8 @@ class FitDataSet(PDFDataSet):
 
     def _updateRcalcSampling(self):
         """Helper method for resampling rcalc and interpolating related data.
-        This method interpolates Gcalc, dGcalc, Gtrunc, dGtrunc to new r grid.
+        This method interpolates Gcalc, dGcalc, Gtrunc, dGtrunc, crw to new r
+        grid.
 
         No return value.
         """
@@ -719,6 +724,24 @@ class FitDataSet(PDFDataSet):
 
     Gdiff = property(_get_Gdiff, doc =
             "Difference between observed and calculated PDF on rcalc grid.")
+
+    # crw
+    def _get_crw(self):
+        # crw comes from the engine, so it doesn't need rescaling
+        return self._crw
+
+    def _set_crw(self, value):
+        self._crw = value[:]
+        if len(self._crw) != len(self.rcalc):
+            self._crw = [1.0] * len(self.rcalc)
+            return
+        inf = float("inf")
+        while inf in self._crw:
+            self._crw[self._crw.index(inf)] = 1.0
+        return
+
+    crw = property(_get_crw, _set_crw, doc =
+            "cumulative rw on rcalc grid")
 
     # End of Property Attributes
 

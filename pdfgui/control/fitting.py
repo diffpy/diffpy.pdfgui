@@ -607,7 +607,7 @@ class Fitting(Organizer):
         for dataset in self.datasets:
             id = dataset._getStrId()
             dataNameDict[id] = {}
-            for itemName in dataset.constraints.keys() + ['Gcalc',]:
+            for itemName in dataset.constraints.keys() + ['Gcalc','crw']:
                 dataNameDict[id][itemName] = self.itemIndex
                 self.itemIndex += 1
         
@@ -653,6 +653,7 @@ class Fitting(Organizer):
                 snapshot[nameDict[name]] = source.getvar(name)
             
             snapshot[nameDict['Gcalc']] = dataset.Gcalc
+            snapshot[nameDict['crw']] = dataset.crw
             seq += 1
         
         # udpate strucs
