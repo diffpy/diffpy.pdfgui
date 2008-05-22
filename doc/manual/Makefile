@@ -32,7 +32,7 @@ cleanALL: clean
 	/bin/rm -f pdfgui.html pdfgui.pdf
 	$(MAKE) -C images clean
 
-WEBDOCDIR = www.diffpy.org:/var/www/html/diffpy/doc/pdfgui
+WEBDOCDIR = www.diffpy.org:/var/www/html/www.diffpy.org/doc/pdfgui
 
 publish: all
 	rsync -e /usr/bin/ssh -pRt --chmod=a+rwx,o-w,Dg+s,Fa-x \

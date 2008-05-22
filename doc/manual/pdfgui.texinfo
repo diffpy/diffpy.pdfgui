@@ -1552,14 +1552,14 @@ value determined during the PDF data processing in the Fourier
 transform step. Finite data range used in the Fourier transform
 is a source of termination ripples. Termination ripples are
 @i{not} applied in PDF calculation when @var{qmax} is set to zero. The
-effect is calculated using the following equation
-@EquationMark
-@tex
-$$ G'(r) = {1 \over {\pi}} \int_{0}^{\infty} G(r')
-\left ( {{\sin{Q_{max}(r-r')}
-\over r-r'}-{\sin{Q_{max}(r+r')}
-\over r+r'}} \right ) \, {\rm d} r' $$
-@end tex
+effect is simulated using fast Fourier transformation (FFT). 
+The original array of @i{G} values is first padded by the same number of zeros
+and then by more zeros to reach the next power of 2.  The padded
+@i{G} array is transformed by FFT and any coefficients @i{F} that correspond
+to @i{Q} values greater than @var{qmax} are reset to zero.  The adjusted
+coefficient array @i{F} is then transformed by inverse FFT back to @i{G'}
+and cut out at the original length of @i{G}.  The imaginary components
+in @i{G'} are ignored as they are only due to roundoff errors.
 @end defvr
 
 @defvr {Phase} lat(i)
