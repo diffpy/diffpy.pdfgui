@@ -775,6 +775,7 @@ class FitTree(wx.TreeCtrl):
                     makedata=False, cdata=cdata)
         else:
             raise FitTreeError, "Unrecognized node type: %s" % branchtype
+
         return newnode
 
     def DeleteBranches(self, selections):

@@ -442,6 +442,9 @@ class FitDataSet(PDFDataSet):
             other.constraints = copy.deepcopy(self.constraints)
             other.initial = copy.deepcopy(self.initial)
             other.refined = copy.deepcopy(self.refined)
+            # must also update the sampling on the new object
+            st = self.getFitSamplingType()
+            other.setFitSamplingType(st, self.fitrstep)
         return other
 
     def load(self, z, subpath):
