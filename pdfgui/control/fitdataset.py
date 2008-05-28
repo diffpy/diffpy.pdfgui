@@ -784,9 +784,12 @@ def grid_interpolation(x0, y0, x1, youtside=0.0):
     # all fine here
     ilo0 = numpy.floor((x1[m1] - x0[0])/dx0)
     ilo0 = numpy.array(ilo0, dtype=int)
+    # because of round-off error, ilo0 can equal n0 - 1
+    # make sure hi indices remain valid
+    ihi0 = numpy.where(ilo0 < n0 - 1, ilo0 + 1, n0 - 1)
     w0hi = (x1[m1] - x0[ilo0]) / dx0
     w0lo = 1.0 - w0hi
-    y1[m1] = w0lo*y0[ilo0] + w0hi*y0[ilo0+1]
+    y1[m1] = w0lo*y0[ilo0] + w0hi*y0[ihi0]
     return y1
 
 # simple test code
