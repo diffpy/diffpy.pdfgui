@@ -29,7 +29,6 @@ from diffpy.pdfgui.control.controlerrors import ControlError
 from diffpy.pdfgui import __version__
 
 # don't use trac ticket submission
-useTrac = 0
 queryPDFguiTickets = ''.join(["http://danse.us/trac/diffraction/query",
     '?status=new&status=assigned&status=reopened',
     '&component=pdfgui&component=pdffit2&order=priority'])
@@ -47,7 +46,7 @@ class ErrorReportDialog(wx.Dialog):
         self.ticketlink = wx.lib.hyperlink.HyperLinkCtrl(self, -1, "here.")
         self.label_view_community = wx.StaticText(self, -1, "Discuss PDFgui and learn about new developments and features")
         self.communitylink = wx.lib.hyperlink.HyperLinkCtrl(self, -1, "here.")
-        self.label_email = wx.StaticText(self, -1, "Your email address  (optional) ")
+        self.label_email = wx.StaticText(self, -1, "Your email address (optional):")
         self.text_ctrl_reporter = wx.TextCtrl(self, -1, "")
         self.label_summary = wx.StaticText(self, -1, "Short summary:")
         self.text_ctrl_summary = wx.TextCtrl(self, -1, "")
@@ -67,7 +66,7 @@ class ErrorReportDialog(wx.Dialog):
         # end wxGlade
         self.__customProperties()
         return
-        
+
     def __set_properties(self):
         # begin wxGlade: ErrorReportDialog.__set_properties
         self.SetTitle("Problem Report for PDFGui")
@@ -118,7 +117,7 @@ class ErrorReportDialog(wx.Dialog):
         self.communitylink.SetURL(diffpyUsers)
         self.communitylink.SetToolTip(wx.ToolTip(diffpyUsers))
         return
-        
+
     def ShowModal(self):
         # there are 2 modes: error report and feature request
         if self.text_ctrl_log.GetValue().strip() == "":
@@ -138,82 +137,47 @@ class ErrorReportDialog(wx.Dialog):
 
         wx.Dialog.ShowModal(self)
 
-        
-    def onSend(self, event): # wxGlade: ErrorReportDialog.<event_handler>
-        import urllib2,urllib,cookielib
-        from diffpy.pdfgui.control.pdfguicontrol import _strans
-        
-        description = self.text_ctrl_description.GetValue().strip() + "\n"
-        traceback = 'N/A'
-        if self.errorReport:
-            traceback = '\n' + self.text_ctrl_log.GetValue().strip() + '\n'
-        
-        reporter = self.text_ctrl_reporter.GetValue().strip()
-        if not reporter: reporter = 'anonymous'
-        
-        ticketinfo = {'summary': self.text_ctrl_summary.GetValue().strip(),
-                    'description' : description,
-                    #'priority' : 'major',
-                    #'type': 'defect',
-                    'component' : 'pdfgui' , 
-                    'version': __version__, 
-                    'reporter':reporter,
-                    'traceback': traceback,
-                    #'action' :'create',
-                    #'status' : 'new',
-                    #'milestone': '',
-                    #'owner' : 'nobody'
-                    }
-        headers = {'User-agent':'PDFgui (compatible; MSIE 5.5; WindowsNT)'}
-        
-        #@ This is for trac
-        if useTrac:
-            rooturl = 'http://danse.us/trac/diffraction'
-            loginurl = tracurl + '/login'
-            ticketurl = tracurl + '/newticket'
-        else:
-            rooturl = 'http://www.diffpy.org'
-            loginurl = rooturl + '/bugreport/pdfgui'
-            ticketurl = rooturl + '/pybin/postbugreport.py/email'
-        
-        # authentication process of Trac require:
-        # 1. get to login page to give a username and password, acquire a session code
-        # 2. use cookie for every subsequent access to protected page
-        if useTrac:
-            # trac use digest authentication, the default realm is 'danse'
-            handler = urllib2.HTTPDigestAuthHandler()
-            handler.add_password('danse', rooturl, 'diffuser', _strans(_authdata))
-        else:
-            #diffpy use basic authentication, the default realm is 'diffpy'
-            handler = urllib2.HTTPBasicAuthHandler()
-            handler.add_password('diffpy', rooturl, 'diffuser', _strans(_authdata))
-            
-        cookier = urllib2.HTTPCookieProcessor(cookielib.LWPCookieJar())
-        opener = urllib2.build_opener(handler, cookier)
-        urllib2.install_opener(opener)
 
+    def onSend(self, event): # wxGlade: ErrorReportDialog.<event_handler>
+        from diffpy.pdfgui.bugreport import submitBugReport
+        if self.errorReport:
+            traceback = self.text_ctrl_log.GetValue()
+        else:
+            traceback = 'N/A'
+        # build the bugdata dictionary
+        bugdata = {
+                'summary' : self.text_ctrl_summary.GetValue(),
+                'description' : self.text_ctrl_description.GetValue(),
+                'reporter' : self.text_ctrl_reporter.GetValue(),
+                'traceback' : traceback,
+                # let submitBugReport fill the defaults for
+                # 'component' and 'version'
+        }
+        # handle failed submission gracefully
         try:
-            # login: authenticate for the session
-            urllib2.urlopen(loginurl)
-            content = urllib.urlencode(ticketinfo)
-            request = urllib2.Request(ticketurl, content, headers)
-            handle = urllib2.urlopen(request)
-            # handle.read() # result, but can be discarded
-        except IOError,e:
+            submitBugReport(bugdata)
+        except IOError, e:
             errorinfo = str(e)
             if hasattr(e, 'code'):
-                errorinfo += '< Error code = %s >'%e.code
-            dlg = wx.MessageDialog(self, "Report can not be sent: " + errorinfo, "Error", wx.CANCEL|wx.ICON_ERROR)
+                errorinfo += '< Error code = %s >' % e.code
+            emsg = "Report can not be sent: " + errorinfo
+            dlg = wx.MessageDialog(self,
+                    emsg, "Error", wx.CANCEL|wx.ICON_ERROR)
             dlg.ShowModal()
             dlg.Destroy()
         except:
-            raise 
-        else: # success
-            dlg = wx.MessageDialog(self, "Your report has been sent", "Message sent", wx.OK|wx.ICON_INFORMATION)
+            raise
+        # success
+        else:
+            dlg = wx.MessageDialog(self,
+                    "Your report has been sent", "Message sent",
+                    wx.OK|wx.ICON_INFORMATION)
             dlg.ShowModal()
             dlg.Destroy()
             self.Close()
         event.Skip()
+        return
+
 
     def onSummaryText(self, event): # wxGlade: ErrorReportDialog.<event_handler>
         """Enable sending only if short summary is filled out."""
@@ -236,7 +200,7 @@ class MyApp(wx.App):
         self.dialog.ShowModal()
         self.dialog.Destroy()
         return 1
-    
+
     def test(self):
          '''Testing code goes here.'''
          errortext = """\
@@ -267,5 +231,5 @@ StructureFormatError: 10: file is not in PDFFit format"""
 if __name__ == "__main__":
     app = MyApp(0)
     app.MainLoop()
-    
+
 ##### end of testing code #####################################################
