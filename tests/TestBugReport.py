@@ -104,11 +104,10 @@ class Test_getFormAction(unittest.TestCase):
         return
 
     def test_invalid_html(self):
-        """check if invalid HTML raises HTMLParseError.
+        """check if invalid HTML raises ValueError.
         """
-        from HTMLParser import HTMLParseError
         badhtml = re.sub(r'(?s)<body>.*', '<bo', HTMLFORM)
-        self.assertRaises(HTMLParseError, getFormAction, badhtml)
+        self.assertRaises(ValueError, getFormAction, badhtml)
         return
 
 # End of class Test_getFormAction

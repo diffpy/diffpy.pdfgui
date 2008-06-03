@@ -87,8 +87,9 @@ def submitBugReport(formfields):
     # find where does the form post its data
     try:
         action = getFormAction(formcontent)
-    # raise invalid web form as IOError so there is a meaningful error message
-    except HTMLParser.HTMLParseError, err:
+    # invalid web form would throw ValueError, raise this as
+    # IOError so we get a meaningful error message from the gui.
+    except ValueError, err:
         emsg = "Invalid webform - %s" % err
         raise IOError, emsg
     post_url = urlparse.urljoin(FORM_URL, getFormAction(formcontent))
@@ -106,8 +107,7 @@ def getFormAction(content):
     content -- HTML code
 
     Return string.
-    Raise ValueError if form action attribute is not defined.
-    Raise HTMLParseError for invalid HTML code.
+    Raise ValueError if form action attribute cannot be extracted.
     """
     extract_action = _HTMLFormActionGetter()
     action = extract_action(content)
@@ -148,12 +148,16 @@ class _HTMLFormActionGetter(HTMLParser.HTMLParser):
         content -- HTML code
 
         Return action string.
-        Raise ValueError when there is no form or when action is not defined.
+        Raise ValueError for invalid HTML code or when action cannot be
+        extracted.
         """
         self.reset()
         self._form_actions = []
-        self.feed(content)
-        self.close()
+        try:
+            self.feed(content)
+            self.close()
+        except HTMLParser.HTMLParseError, err:
+            raise ValueError, str(err)
         if len(self._form_actions) == 0 or self._form_actions[0] is None:
             emsg = "Cannot find <form> with action attribute."
             raise ValueError, emsg
