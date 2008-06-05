@@ -217,8 +217,11 @@ class Calculation(PDFComponent):
         elif self.stype == 'N':
             lines.append('stype=N  neutron scattering')
         # qmax
-        if self.qmax:
-            lines.append('qmax=%.2f' % self.qmax)
+        if self.qmax == 0:
+            qmax_line = 'qmax=0   correction not applied'
+        else:
+            qmax_line = 'qmax=%.2f' % self.qmax
+        lines.append(qmax_line)
         # qdamp
         if type(self.qdamp) is types.FloatType:
             lines.append('qdamp=%g' % self.qdamp)
