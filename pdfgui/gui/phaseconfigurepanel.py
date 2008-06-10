@@ -362,7 +362,6 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
     def onSetFocus(self, event):
         """Saves a TextCtrl value, to be compared in onKillFocus later."""
         self._focusedText = event.GetEventObject().GetValue()
-        raise ValueError("hi")
         return
         
     def onKillFocus(self, event):
