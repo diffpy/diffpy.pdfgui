@@ -162,6 +162,7 @@ class Calculation(PDFComponent):
                 self.rmin, self.rmax, self.rlen)
         server.setvar('qbroad', self.qbroad)
         server.setvar('spdiameter', self.spdiameter)
+        server.setvar('dscale', self.dscale)
         
         # phase related variables
         # pair selection applies to current dataset, 
@@ -216,6 +217,9 @@ class Calculation(PDFComponent):
             lines.append('stype=X  x-ray scattering')
         elif self.stype == 'N':
             lines.append('stype=N  neutron scattering')
+        # dscale
+        if self.dscale:
+            lines.append('dscale=%g' % self.dscale)
         # qmax
         if self.qmax == 0:
             qmax_line = 'qmax=0   correction not applied'
