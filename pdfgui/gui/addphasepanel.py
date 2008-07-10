@@ -165,6 +165,7 @@ class AddPhasePanel(wx.Panel, PDFPanel):
             self.treeCtrlMain.SetItemBold(self.entrypoint, False)
             self.treeCtrlMain.UnselectAll()
             self.mainFrame.makeTreeSelection(newnode)
+            self.validateStructure(newnode)
         d.Destroy()
         return
 
@@ -195,6 +196,19 @@ class AddPhasePanel(wx.Panel, PDFPanel):
         self.treeCtrlMain.UnselectAll()
         self.mainFrame.makeTreeSelection(self.entrypoint)
         return 
+
+    def validateStructure(self, node):
+        """Make sure that the structure is valid."""
+        from diffpy.pdfgui.control.controlerrors import ControlError
+        dataobject = self.treeCtrlMain.GetControlData(node)
+        stru = dataobject.initial
+        for a in stru:
+            nonzero = 0
+            for row in a.U:
+                nonzero += row.any()
+            if not nonzero:
+                raise ControlError("Structure has atoms with all zero ADP values.")
+        return
 
     # Methods overloaded from PDFPanel
     def refresh(self):
