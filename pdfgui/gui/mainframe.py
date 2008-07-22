@@ -1823,12 +1823,16 @@ class MainFrame(wx.Frame):
 
         # find a node to choose after deletion
         fitroot = None
-        roots = map(self.treeCtrlMain.GetFitRoot,selections)
-        # Find the fit node previous to the first removed node.
-        for root in self.treeCtrlMain.GetChildren(self.treeCtrlMain.root):
-            if root in roots:
+        roots = self.treeCtrlMain.GetChildren(self.treeCtrlMain.root)
+        delroots = map(self.treeCtrlMain.GetFitRoot, selections)
+        # Find the fit node above the first removed node.
+        for root in roots:
+            if root in selections:
                 break
+
             fitroot = root
+            if root in delroots:
+                break
 
         # Delete!
         if selections:

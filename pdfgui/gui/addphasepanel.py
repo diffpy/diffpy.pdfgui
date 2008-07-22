@@ -136,10 +136,10 @@ class AddPhasePanel(wx.Panel, PDFPanel):
         if not dir:
             dir = self.mainFrame.workpath
         matchstring = "|".join((
-            "PDFfit structure files (*.stru)", "*.stru",
-            "Crystallographic Information File (*.cif)", "*.cif",
-            "Protein Data Bank files (*.pdb)", "*.pdb",
-            "Coordinate files (*.xyz)", "*.xyz",
+            "PDFfit structure files (*.stru)", "*.stru;*.STRU",
+            "Crystallographic Information File (*.cif)", "*.cif;*.CIF",
+            "Protein Data Bank files (*.pdb)", "*.pdb;*.PDB",
+            "Coordinate files (*.xyz)", "*.xyz;*.XYZ",
             "All Files", "*",
             ))
         d = wx.FileDialog(None, "Choose a file", dir, "", matchstring, wx.OPEN)

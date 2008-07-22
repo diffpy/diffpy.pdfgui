@@ -287,6 +287,7 @@ class PDFDataSet(PDFComponent):
             qmax_line = 'qmax=0   correction not applied'
         else:
             qmax_line = 'qmax=%.2f' % self.qmax
+        lines.append(qmax_line)
         # qdamp
         lines.append('qdamp=%g' % self.qdamp)
         # qbroad
