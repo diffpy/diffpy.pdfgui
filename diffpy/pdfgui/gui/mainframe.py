@@ -54,7 +54,7 @@ from errorreportdialog import ErrorReportDialog
 import diffpy.pdfgui.control.atomeyecontrol as atomeyecontrol
 
 import pdfguiglobals
-from pdfguiglobals import iconsDir, docDir, docMainFile
+from pdfguiglobals import iconpath, docDir, docMainFile
 from errorwrapper import catchObjectErrors
 
 (PDFCustomEvent, EVT_PDFCUSTOM) = wx.lib.newevent.NewEvent()
@@ -265,8 +265,7 @@ class MainFrame(wx.Frame):
     def __customProperties(self):
         """Custom Properties go here."""
         # Set some visual stuff
-        icon = wx.Icon(os.path.join(iconsDir, "pdfgui.ico"),
-                wx.BITMAP_TYPE_ANY)
+        icon = wx.Icon(iconpath("pdfgui.ico"), wx.BITMAP_TYPE_ANY)
         self.SetIcon(icon)
 
         # The panel should know its name
@@ -628,14 +627,14 @@ class MainFrame(wx.Frame):
         self.toolBar.AddSeparator()
         # This fixes the shadowing problem on Windows.
         # The bitmap has a white transparency color (mask) 
-        bitmap = wx.Bitmap(os.path.join(iconsDir, "run.png"))
+        bitmap = wx.Bitmap(iconpath("run.png"))
         mask = wx.Mask(bitmap, wx.Colour(red=255,green=255,blue=255))
         bitmap.SetMask(mask)
         self.toolBar.AddLabelTool(self.runFitId, "Start",
                 bitmap,
                 wx.NullBitmap, wx.ITEM_NORMAL,
                 "Start a fit or calculation")
-        bitmap = wx.Bitmap(os.path.join(iconsDir, "stop.png"))
+        bitmap = wx.Bitmap(iconpath("stop.png"))
         mask = wx.Mask(bitmap, wx.Colour(red=255,green=255,blue=255))
         bitmap.SetMask(mask)
         self.toolBar.AddLabelTool(self.stopFitId, "Stop",
@@ -644,7 +643,7 @@ class MainFrame(wx.Frame):
                 "Stop running fits or calculations")
         self.toolBar.AddSeparator()
         self.toolBar.AddLabelTool(self.quickPlotId, "Quick plot",
-                wx.Bitmap(os.path.join(iconsDir,"datasetitem.png")),
+                wx.Bitmap(iconpath("datasetitem.png")),
                 wx.NullBitmap, wx.ITEM_NORMAL,
                 "Plot PDF or structure")
         self.toolBar.Realize()

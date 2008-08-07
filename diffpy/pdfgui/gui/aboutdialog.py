@@ -21,7 +21,7 @@ import wx
 import wx.lib.hyperlink
 import random
 import os.path
-from pdfguiglobals import iconsDir
+from pdfguiglobals import iconpath
 from diffpy.pdfgui import __version__
 
 
@@ -76,7 +76,7 @@ class DialogAbout(wx.Dialog):
         # begin wxGlade: DialogAbout.__init__
         kwds["style"] = wx.DEFAULT_DIALOG_STYLE
         wx.Dialog.__init__(self, *args, **kwds)
-        self.bitmap_logo = wx.StaticBitmap(self, -1, wx.Bitmap(os.path.join(iconsDir,"logo.png")))
+        self.bitmap_logo = wx.StaticBitmap(self, -1, wx.Bitmap(iconpath("logo.png")))
         self.label_title = wx.StaticText(self, -1, "PDFgui")
         self.label_version = wx.StaticText(self, -1, "")
         self.label_build = wx.StaticText(self, -1, "Build:")
@@ -120,11 +120,11 @@ class DialogAbout(wx.Dialog):
         self.label_svnrevision.SetLabel(revision)
         
         # set bitmaps for logo buttons
-        logo = wx.Bitmap(os.path.join(iconsDir,"nsf_logo.png"))
+        logo = wx.Bitmap(iconpath("nsf_logo.png"))
         self.bitmap_button_nsf.SetBitmapLabel(logo)
-        logo = wx.Bitmap(os.path.join(iconsDir,"danse_logo.png"))
+        logo = wx.Bitmap(iconpath("danse_logo.png"))
         self.bitmap_button_danse.SetBitmapLabel(logo)
-        logo = wx.Bitmap(os.path.join(iconsDir,"msu_logo.png"))
+        logo = wx.Bitmap(iconpath("msu_logo.png"))
         self.bitmap_button_msu.SetBitmapLabel(logo)
         
         # resize dialog window to fit version number nicely

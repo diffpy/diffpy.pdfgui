@@ -33,9 +33,22 @@ guiDir = os.path.dirname(os.path.abspath(__file__))
 controlDir = os.path.join(os.path.dirname(guiDir), 'control')
 from diffpy import diffpyDataDir
 pdfguiDataDir = os.path.join(diffpyDataDir, 'pdfgui')
-iconsDir = os.path.join(pdfguiDataDir, 'icons')
 docDir = os.path.join(pdfguiDataDir, 'doc')
 docMainFile = 'pdfgui.html'
+
+def iconpath(iconfilename):
+    """Full path to the icon file in pdfgui installation.
+    This function should be used whenever GUI needs access
+    to custom icons.
+
+    iconfilename -- icon file name without any path
+
+    Return string.
+    """
+    from pkg_resources import Requirement, resource_filename
+    rv = resource_filename(Requirement.parse("diffpy.pdffit2"),
+        "icons/" + iconfilename)
+    return rv
 
 # options and arguments passed on command line
 cmdopts = []

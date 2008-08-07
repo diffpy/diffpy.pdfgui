@@ -24,7 +24,7 @@ Exceptions:
 import wx
 import sys, os, re, cPickle
 
-from pdfguiglobals import iconsDir
+from pdfguiglobals import iconpath
 from diffpy.pdfgui.control.pdfguicontrol import pdfguicontrol
 from diffpy.pdfgui.control.calculation import Calculation
 from diffpy.pdfgui.control.fitting import Fitting
@@ -69,10 +69,10 @@ class FitTree(wx.TreeCtrl):
         # self.control = pdfguicontrol()
 
         # Define bitmaps
-        datasetbmp = wx.Bitmap(os.path.join(iconsDir,"datasetitem.png"))
-        phasebmp = wx.Bitmap(os.path.join(iconsDir,"phaseitem.png"))
-        fitbmp = wx.Bitmap(os.path.join(iconsDir,"fititem.png"))
-        calcbmp = wx.Bitmap(os.path.join(iconsDir,"calculationitem.png"))
+        datasetbmp = wx.Bitmap(iconpath("datasetitem.png"))
+        phasebmp = wx.Bitmap(iconpath("phaseitem.png"))
+        fitbmp = wx.Bitmap(iconpath("fititem.png"))
+        calcbmp = wx.Bitmap(iconpath("calculationitem.png"))
         isz = (16,16)
         il = wx.ImageList(isz[0], isz[1])
         self.fitbmid = il.Add(fitbmp)
