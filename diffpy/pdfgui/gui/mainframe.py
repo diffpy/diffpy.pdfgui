@@ -54,7 +54,7 @@ from errorreportdialog import ErrorReportDialog
 import diffpy.pdfgui.control.atomeyecontrol as atomeyecontrol
 
 import pdfguiglobals
-from pdfguiglobals import iconpath, docDir, docMainFile
+from pdfguiglobals import iconpath, docMainFile
 from errorwrapper import catchObjectErrors
 
 (PDFCustomEvent, EVT_PDFCUSTOM) = wx.lib.newevent.NewEvent()
@@ -2425,7 +2425,7 @@ class MainFrame(wx.Frame):
     def onDocumentation(self, event):
         """Show information about the documentation."""
         import webbrowser
-        webbrowser.open(os.path.join(docDir, docMainFile))
+        webbrowser.open(docMainFile)
         return
 
     # MISC INTERACTION ITEMS

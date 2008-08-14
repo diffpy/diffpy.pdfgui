@@ -15,6 +15,7 @@
 """This module contains gloabal parameters needed by PDFgui."""
 
 import os.path
+from pkg_resources import Requirement, resource_filename
 
 # Name of the program
 name = "PDFgui"
@@ -31,12 +32,15 @@ atomeyepath = ""
 # Useful paths
 guiDir = os.path.dirname(os.path.abspath(__file__))
 controlDir = os.path.join(os.path.dirname(guiDir), 'control')
-from diffpy import diffpyDataDir
-pdfguiDataDir = os.path.join(diffpyDataDir, 'pdfgui')
-docDir = os.path.join(pdfguiDataDir, 'doc')
-docMainFile = 'pdfgui.html'
+
+docMainFile = resource_filename(Requirement.parse("diffpy.pdfgui"),
+        'doc/manual/pdfgui.html')
+
+# static variable for the iconpath function
+_cached_iconpaths = {}
 
 def iconpath(iconfilename):
+    # cached_iconpaths is a static variable
     """Full path to the icon file in pdfgui installation.
     This function should be used whenever GUI needs access
     to custom icons.
@@ -46,8 +50,11 @@ def iconpath(iconfilename):
     Return string.
     """
     from pkg_resources import Requirement, resource_filename
-    rv = resource_filename(Requirement.parse("diffpy.pdffit2"),
-        "icons/" + iconfilename)
+    if iconfilename not in _cached_iconpaths:
+        f = resource_filename(Requirement.parse("diffpy.pdfgui"),
+                "icons/" + iconfilename)
+        _cached_iconpaths[iconfilename] = f
+    rv = _cached_iconpaths[iconfilename]
     return rv
 
 # options and arguments passed on command line

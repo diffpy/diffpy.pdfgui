@@ -8,35 +8,34 @@ Packages:   diffpy.pdfgui
 Scripts:    pdfgui
 """
 
+import os
 from setuptools import setup, find_packages
 import fix_setuptools_chmod
+
+def dirglob(d, *patterns):
+    from glob import glob
+    rv = []
+    for p in patterns:
+        rv += glob(os.path.join(d, p))
+    return rv
 
 # define distribution
 setup(
         name = 'diffpy.pdfgui',
         namespace_packages = ['diffpy'],
         version = '1.0c1',
-        packages = [
-            'diffpy',
-            'diffpy.pdfgui',
-            'diffpy.pdfgui.control',
-            'diffpy.pdfgui.gui',
-            'diffpy.pdfgui.gui.wxExtensions',
+        packages = find_packages(),
+        scripts = ['applications/pdfgui'],
+        data_files = [
+            ('icons', dirglob('icons', '*.png', '*.ico')),
+            ('doc', dirglob('doc', '*.pdf')),
+            ('doc/manual', dirglob('doc/manual', '*.html', '*.pdf')),
+            ('doc/manual/images', dirglob('doc/manual/images', '*.png')),
+            ('doc/tutorial', dirglob('doc/tutorial', '*')),
         ],
-        scripts = 'applications/pdfgui',
-        package_data = {
-            'icons' : ['*.png', '*.ico'],
-            'doc' : ['*.pdf'],
-            'doc/manual' : ['*.html', '*.pdf'],
-            'doc/manual/images' : ['*.png'],
-            'doc/tutorial' : ['*'],
-        },
         install_requires = [
             'diffpy.Structure',
             'diffpy.pdffit2',
-            'wx',
-            'numpy',
-            'matplotlib',
         ],
         dependency_links = [
             'http://diffpy.org/packages/',
