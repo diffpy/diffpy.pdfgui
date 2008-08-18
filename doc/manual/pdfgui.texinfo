@@ -1,7 +1,5 @@
 \input texinfo  @c -*-texinfo-*-
 
-@c $Id$
-
 @ifnottex
 @macro smallskip{}
 @vskip 6pt

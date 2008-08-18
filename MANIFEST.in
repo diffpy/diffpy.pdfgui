@@ -1,1 +1,2 @@
 prune tests
+exclude doc/manual/images/*.pdf
