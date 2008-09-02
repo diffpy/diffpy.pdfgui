@@ -77,7 +77,7 @@ class ExtendedToolbar(NavToolbar):
         # sortedtypes put png in the first
         sortedtypes = []
         import re
-        types = filetypes.split('|')
+        types = filetypes[0].split('|')
         n = 0
         for ext in types[1::2]:
             # Extract only the file extension

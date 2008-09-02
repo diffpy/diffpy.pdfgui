@@ -196,22 +196,15 @@ class DialogAbout(wx.Dialog):
         self.Centre()
         # end wxGlade
 
-#    def _launchBrowser(self, url):
-#        import webbrowser
-#        webbrowser.open(url)
-
     def onNsfLogo(self, event): # wxGlade: DialogAbout.<event_handler>
-#        self._launchBrowser("http://www.nsf.gov")
         launchBrowser("http://www.nsf.gov")
         event.Skip()
 
     def onDanseLogo(self, event): # wxGlade: DialogAbout.<event_handler>
-#        self._launchBrowser("http://wiki.cacr.caltech.edu/danse")
-        launchBrowser("http://wiki.cacr.caltech.edu/danse")
+        launchBrowser("http://danse.us")
         event.Skip()
 
     def onMsuLogo(self, event): # wxGlade: DialogAbout.<event_handler>
-#        self._launchBrowser("http://www.msu.edu")
         launchBrowser("http://www.msu.edu")
         event.Skip()
 
