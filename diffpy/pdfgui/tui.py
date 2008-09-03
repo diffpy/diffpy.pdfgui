@@ -35,10 +35,25 @@ class LoadProject:
         filename -- path to PDFgui project file.
         """
         from diffpy.pdfgui.control.pdfguicontrol import PDFGuiControl
+        self.load(filename)
+        return
+
+    def load(self, filename):
+        """Load a project.
+        
+        filename -- path to PDFgui project file.
+        """
         self._project = PDFGuiControl()
         self._project.load(filename)
         return
 
+    def save(self, filename):
+        """Save the project.
+        
+        filename -- path to PDFgui project file.
+        """
+        self._project.save(filename)
+        return
 
     def getFits(self):
         """Get all fits defined in the project file.
