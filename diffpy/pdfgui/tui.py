@@ -34,7 +34,9 @@ class LoadProject:
         
         filename -- path to PDFgui project file.
         """
-        from diffpy.pdfgui.control.pdfguicontrol import PDFGuiControl
+        # data declaration
+        self._project = None
+        # business
         self.load(filename)
         return
 
@@ -42,7 +44,10 @@ class LoadProject:
         """Load a project.
         
         filename -- path to PDFgui project file.
+
+        No return value.
         """
+        from diffpy.pdfgui.control.pdfguicontrol import PDFGuiControl
         self._project = PDFGuiControl()
         self._project.load(filename)
         return
@@ -50,7 +55,9 @@ class LoadProject:
     def save(self, filename):
         """Save the project.
         
-        filename -- path to PDFgui project file.
+        filename -- path where to write the PDFgui project.
+
+        No return value.
         """
         self._project.save(filename)
         return
