@@ -38,7 +38,7 @@ setup(
             'diffpy.pdffit2',
         ],
         dependency_links = [
-            'http://diffpy.org/packages/',
+            'http://www.diffpy.org/packages/',
         ],
 
         author = 'Simon J.L. Billinge',
