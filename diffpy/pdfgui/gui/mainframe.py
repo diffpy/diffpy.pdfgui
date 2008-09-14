@@ -177,7 +177,7 @@ class MainFrame(wx.Frame):
 
         wx.Frame.__init__(self, *args, **kwds)
 
-        self.SetMinSize((792,569))
+        self.SetMinSize((700,500))
         self.auiManager = PyAUI.FrameManager()
         self.auiManager.SetFrame(self)
 
@@ -915,7 +915,8 @@ class MainFrame(wx.Frame):
             for i in range(pdfguiglobals.MAXMRU, 0, -1):
                 if self.cP.has_option("MRU", str(i)):
                     filename = self.cP.get("MRU", str(i))
-                    self.fileHistory.AddFileToHistory(filename)
+                    if filename:
+                        self.fileHistory.AddFileToHistory(filename)
 
         # Give the host info to control
         ptemp = self.dynamicPanels['serverconfig']
@@ -960,7 +961,7 @@ class MainFrame(wx.Frame):
         if not self.cP.has_section("MRU"):
             self.cP.add_section("MRU")
         
-        for i in range(self.fileHistory.GetCount()):
+        for i in range(5):
             item = self.fileHistory.GetHistoryFile(i)
             self.cP.set("MRU", str(i+1), item)
 
@@ -2247,6 +2248,8 @@ class MainFrame(wx.Frame):
                 self.updateTitle()
             except ControlError, e:
                 self.fileHistory.RemoveFileFromHistory(index)
+                self.updateConfiguration()
+                self.writeConfiguration()
                 raise e
         return
 
