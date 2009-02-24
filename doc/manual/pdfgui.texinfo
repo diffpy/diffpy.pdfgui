@@ -261,7 +261,7 @@ etc.), plot the results of several fits in the same window, plot the
 PDF in real time as the fitting is running, plot the parameters or
 variables in real time as the refinement evolves, and save plots in
 common image formats or export the data to a text file.  PDFgui uses
-AtomEye (@url{http://164.107.79.177/Archive/Graphics/A/}) for 3D
+AtomEye (@url{http://mt.seas.upenn.edu/Archive/Graphics/A/}) for 3D
 visualization.  The modular nature of PDFgui allows for other
 alternatives in the future, such as PyMOL
 (@url{http://pymol.sourceforge.net}).
