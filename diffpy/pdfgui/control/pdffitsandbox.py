@@ -18,14 +18,14 @@ import sys
 import os
 import copy
 
-from calculation import Calculation
-from fitting import Fitting
-from fitstructure import FitStructure
-from fitdataset import FitDataSet
-from controlerrors import ControlRuntimeError
-from controlerrors import ControlKeyError
-from parameter import Parameter
-from constraint import Constraint
+from diffpy.pdfgui.control.calculation import Calculation
+from diffpy.pdfgui.control.fitting import Fitting
+from diffpy.pdfgui.control.fitstructure import FitStructure
+from diffpy.pdfgui.control.fitdataset import FitDataSet
+from diffpy.pdfgui.control.controlerrors import ControlRuntimeError
+from diffpy.pdfgui.control.controlerrors import ControlKeyError
+from diffpy.pdfgui.control.parameter import Parameter
+from diffpy.pdfgui.control.constraint import Constraint
 
 class PdfFitSandbox:
     """PdfFit sandbox for importing pdffit2 scripts.

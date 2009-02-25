@@ -351,22 +351,19 @@ class PDFGuiControl:
         pyexe = sys.executable
         from diffpy.pdfgui.gui.pdfguiglobals import controlDir
         # prepend controlDir to PYTHONPATH for execution of new python process
-        cmdenv = dict(os.environ)
-        sep = sys.platform == "win32" and ";" or ":"
-        cmdenv['PYTHONPATH'] = controlDir + sep + cmdenv.get('PYTHONPATH', '')
-        pycommand = 'import dumppdffit2script; dumppdffit2script.main()'
-        # this should take care of proper shell quoting
-        cmdargs = [pyexe, '-c', pycommand, scriptfile] + args
+        pycommand = '\n'.join([
+            'from diffpy.pdfgui.control.dumppdffit2script import main',
+            'main()',
+            ])
+        # Build argument list.  Include the '-u' options so that
+        # child Python opens it streams in binary mode.
+        cmdargs = [pyexe, '-u', '-c', pycommand, scriptfile] + args
         from subprocess import Popen, PIPE
         cfds = (sys.platform != 'win32')
-        pcmd = Popen(cmdargs, env=cmdenv, stdin=PIPE,
-                stdout=PIPE, stderr=PIPE, close_fds=cfds)
+        pcmd = Popen(cmdargs,
+                stdin=PIPE, stdout=PIPE, stderr=PIPE, close_fds=cfds)
         # close child standard input
-        pcmd.stdin.close()
-        out = pcmd.stdout.read()
-        pcmd.stdout.close()
-        err = pcmd.stderr.read()
-        pcmd.stderr.close()
+        out, err = pcmd.communicate()
         status = pcmd.wait()
         if status != 0:
             raise ControlRuntimeError, \
