@@ -20,6 +20,7 @@ __id__ = "$Id$"
 
 import sys
 import os
+import threading
 
 from diffpy.pdfgui.control.pdflist import PDFList
 from diffpy.pdfgui.control.fitting import Fitting
@@ -27,7 +28,6 @@ from diffpy.pdfgui.control.calculation import Calculation
 from diffpy.pdfgui.control.fitdataset import FitDataSet
 from diffpy.pdfgui.control.organizer import Organizer
 from diffpy.pdfgui.control.fitstructure import FitStructure
-from diffpy.pdfgui.control.threading import Thread
 from diffpy.pdfgui.control.controlerrors import *
 
 
@@ -42,7 +42,6 @@ class PDFGuiControl:
         gui: main panel of GUI
         """        
         # Lock , Gui and host machine
-        import threading
         self.lock = threading.RLock()
         self.gui = gui
         self.host = None
@@ -66,9 +65,9 @@ class PDFGuiControl:
         #self.saved = False
         
     # a simple thread to handle fitting queue
-    class QueueManager(Thread):
+    class QueueManager(threading.Thread):
         def __init__(self, control):
-            Thread.__init__(self)
+            threading.Thread.__init__(self)
             self.control = control
             self.running = True
             
@@ -497,7 +496,8 @@ class PDFGuiControl:
         projName = os.path.basename(self.projfile).split('.')[0]
         tmpfile = self.projfile + '~'
         # prepare to write
-        import zipfile,shutil
+        import zipfile
+        import shutil
         from cPickle import PickleError
         from urllib import quote_plus
         fitnames = []
@@ -529,7 +529,7 @@ class PDFGuiControl:
         shift -- y displacement for each curve
         dry -- not a real plot, only check if plot is valid
         """
-        from plotter import Plotter
+        from diffpy.pdfgui.control.plotter import Plotter
         plotter = Plotter()
         plotter.plot(xItem, yItems, Ids, shift, dry)
         self.plots.append(plotter)
