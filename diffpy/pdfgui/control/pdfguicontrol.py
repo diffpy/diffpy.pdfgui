@@ -561,7 +561,7 @@ class PDFGuiControl:
             self.host = None
         else:
             # create a host
-            from serverhost import ServerHost
+            from diffpy.pdfgui.control.serverhost import ServerHost
             self.host = ServerHost(hostCfg['name'], hostCfg)
         
     def getHost(self):

@@ -13,7 +13,7 @@
 #
 ########################################################################
 
-from controlerrors import ControlKeyError
+from diffpy.pdfgui.control.controlerrors import ControlKeyError
 
 class PDFList(list):
     """list class of PDFComponent, which can be accessed through index or a

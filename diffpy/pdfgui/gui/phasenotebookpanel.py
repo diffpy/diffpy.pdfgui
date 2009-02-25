@@ -24,11 +24,11 @@ __id__ = "$Id$"
 
 import wx
 
-from pdfpanel import PDFPanel
+from diffpy.pdfgui.gui.pdfpanel import PDFPanel
 
-from phaseconfigurepanel   import PhaseConfigurePanel
-from phaseconstraintspanel import PhaseConstraintsPanel
-from phaseresultspanel     import PhaseResultsPanel
+from diffpy.pdfgui.gui.phaseconfigurepanel import PhaseConfigurePanel
+from diffpy.pdfgui.gui.phaseconstraintspanel import PhaseConstraintsPanel
+from diffpy.pdfgui.gui.phaseresultspanel import PhaseResultsPanel
 
 
 

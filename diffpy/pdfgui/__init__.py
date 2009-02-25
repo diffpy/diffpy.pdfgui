@@ -17,15 +17,15 @@ Functions:
     main()      PDFgui driver
 """
 
-from version import __version__
+from diffpy.pdfgui.version import __version__
 
 def main():
     """PDFgui kick starter.
     Command line options and arguments can be passed via cmdopts
     and cmdargs variables in pdfgui.gui.pdfguiglobals module.
     """
-    import gui.Main
-    gui.Main.main()
+    import diffpy.pdfgui.gui.Main as Main
+    Main.main()
     return
 
 # version

@@ -18,7 +18,7 @@
 
 import sys
 import wx
-from mainframe import MainFrame
+from diffpy.pdfgui.gui.mainframe import MainFrame
 
 class PDFGuiApp(wx.App):
     def OnInit(self):

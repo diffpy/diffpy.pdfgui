@@ -18,8 +18,8 @@
 
 import wx
 from diffpy.pdfgui.control.pdfguimacros import makeRSeries
-from pdfpanel import PDFPanel
-from wxExtensions.validators import TextValidator, FLOAT_ONLY
+from diffpy.pdfgui.gui.pdfpanel import PDFPanel
+from diffpy.pdfgui.gui.wxExtensions.validators import TextValidator, FLOAT_ONLY
 
 class RSeriesPanel(wx.Panel, PDFPanel):
     def __init__(self, *args, **kwds):

@@ -13,11 +13,12 @@
 #
 ########################################################################
 
-from organizer import Organizer
-from threading import Event, Thread
-from controlerrors import *
-from pdfstructure import PDFStructure
-from pdfdataset import PDFDataSet
+import threading
+
+from diffpy.pdfgui.control.organizer import Organizer
+from diffpy.pdfgui.control.controlerrors import *
+from diffpy.pdfgui.control.pdfstructure import PDFStructure
+from diffpy.pdfgui.control.pdfdataset import PDFDataSet
 
 # helper routines to deal with PDFfit2 exceptions
 
@@ -72,17 +73,17 @@ class Fitting(Organizer):
     RUNNING     = 1<<10
     PAUSED      = 1<<11
 
-    class Worker ( Thread ):
+    class Worker(threading.Thread):
         """Worker is the daemon thread of fitting"""
         def __init__( self, fitting ):
             """Worker ( self, fitting) --> initialize
             
             fitting -- fitting object
             """
-            Thread.__init__(self)
+            threading.Thread.__init__(self)
             self.fitting = fitting
             
-        def run ( self ):
+        def run(self):
             """overload function from Thread """
             try:
                 self.fitting.run()
@@ -106,7 +107,7 @@ class Fitting(Organizer):
                 
         # Thread, status, and control variables 
         self.thread = None
-        self.pauseEvent = Event()
+        self.pauseEvent = threading.Event()
         self.fitStatus = Fitting.INITIALIZED
         self.jobStatus = Fitting.VOID
         self.stopped = False
@@ -192,7 +193,7 @@ class Fitting(Organizer):
 
         import cPickle
         if rootDict.has_key('parameters'):
-            from pdfguicontrol import CtrlUnpickler
+            from diffpy.pdfgui.control.pdfguicontrol import CtrlUnpickler
             self.parameters = CtrlUnpickler.loads(z.read(subpath+'parameters'))
         if rootDict.has_key('steps'):
             self.itemIndex, self.dataNameDict, self.snapshots = \
@@ -288,7 +289,7 @@ class Fitting(Organizer):
         fiteq = "=%s:%i" % (self.name, oldidx)
         newfiteq = "=%s:%i" % (self.name, newidx)
 
-        from pdfguicontrol import pdfguicontrol
+        from diffpy.pdfgui.control.pdfguicontrol import pdfguicontrol
         fits = pdfguicontrol().fits
         for fit in fits:
             parameters = fit.parameters

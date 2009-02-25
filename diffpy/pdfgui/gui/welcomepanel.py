@@ -14,10 +14,10 @@
 ########################################################################
 
 
+import string
 import wx
 import wx.lib.fancytext as fancytext
-from pdfpanel import PDFPanel
-from string import center
+from diffpy.pdfgui.gui.pdfpanel import PDFPanel
 
 class WelcomePanel(wx.Panel, PDFPanel):
     def __init__(self, *args, **kwds):
@@ -38,9 +38,9 @@ in crystals, Journal of Physics: Condensed Matter 19, 335219 (2007)
         line6 = '</font>'
         
         # format the title text
-        line2 = center(line2, 16)
+        line2 = string.center(line2, 16)
         line5sp = line5.split('\n')
-        line5 = '\n'.join( map(center, line5sp, [80]*len(line5sp)))
+        line5 = '\n'.join( map(string.center, line5sp, [80]*len(line5sp)))
         line1 += line2 + line3 + line4 + line5 + line6
 
         self.labelWelcome = fancytext.StaticFancyText(self, -1, line1, style=wx.ALIGN_CENTRE)

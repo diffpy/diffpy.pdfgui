@@ -19,10 +19,10 @@
 import wx
 import sys
 from diffpy.pdfgui.utils import numericStringSort
-from tooltips import plotpanel as toolTips
-from wxExtensions.listctrls import KeyEventsListCtrl
-from wxExtensions.validators import TextValidator, FLOAT_ONLY
-from pdfpanel import PDFPanel
+from diffpy.pdfgui.gui.tooltips import plotpanel as toolTips
+from diffpy.pdfgui.gui.wxExtensions.listctrls import KeyEventsListCtrl
+from diffpy.pdfgui.gui.wxExtensions.validators import TextValidator, FLOAT_ONLY
+from diffpy.pdfgui.gui.pdfpanel import PDFPanel
 from diffpy.pdfgui.control.controlerrors import *
 
 class PlotPanel(wx.Panel, PDFPanel):

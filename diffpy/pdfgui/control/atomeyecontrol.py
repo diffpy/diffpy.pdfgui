@@ -79,7 +79,7 @@ def plot(structure, executable):
     except OSError:
         # The executable does not exist
         T.start()
-        from controlerrors import ControlConfigError
+        from diffpy.pdfgui.control.controlerrors import ControlConfigError
         raise ControlConfigError("Either AtomEye is not present on your system or you have not specified the path to AtomEye under Edit->Preferences.")
     except:
         T.start()

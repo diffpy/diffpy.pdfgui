@@ -13,9 +13,9 @@
 #
 ########################################################################
 
-from pdfcomponent import PDFComponent
+from diffpy.pdfgui.control.pdfcomponent import PDFComponent
+from diffpy.pdfgui.control.controlerrors import *
 from diffpy.pdfgui.gui.extendedplotframe import ExtendedPlotFrame
-from controlerrors import *
 
 # Preset plotting style
 colors = ("red","blue","magenta","cyan","green","yellow", #"black", 
@@ -44,8 +44,8 @@ def _transName( name ):
 
 def _fullName ( dataId ):
     '''construct full name'''
-    import fitting
-    if hasattr(dataId, 'owner') and isinstance(dataId.owner, fitting.Fitting):
+    from diffpy.pdfgui.control.fitting import Fitting
+    if hasattr(dataId, 'owner') and isinstance(dataId.owner, Fitting):
         return _fullName(dataId.owner) + "/" + dataId.name
     else:
         return dataId.name
@@ -349,7 +349,7 @@ class Plotter(PDFComponent):
         self.curves = []
         self.window = None
         self.isShown = False
-        from pdfguicontrol import pdfguicontrol
+        from diffpy.pdfgui.control.pdfguicontrol import pdfguicontrol
         self.controlCenter = pdfguicontrol()
         
         # add some flavor by starting with random style

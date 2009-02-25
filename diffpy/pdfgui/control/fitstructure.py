@@ -21,10 +21,11 @@ __id__ = "$Id$"
 import copy
 import re
 import numpy
-from pdfstructure import PDFStructure
-from constraint import Constraint
-from parameter import Parameter
-from controlerrors import ControlTypeError, ControlValueError
+
+from diffpy.pdfgui.control.pdfstructure import PDFStructure
+from diffpy.pdfgui.control.constraint import Constraint
+from diffpy.pdfgui.control.parameter import Parameter
+from diffpy.pdfgui.control.controlerrors import ControlTypeError, ControlValueError
 from diffpy.Structure import Atom
 
 class FitStructure(PDFStructure):
@@ -700,7 +701,7 @@ class FitStructure(PDFStructure):
         subpath -- path to its own storage within project file
         """
         #subpath = projname/fitname/structure/myname/
-        from pdfguicontrol import CtrlUnpickler
+        from diffpy.pdfgui.control.pdfguicontrol import CtrlUnpickler
         subs = subpath.split('/')
         rootDict = z.fileTree[subs[0]][subs[1]][subs[2]][subs[3]]
         self.initial.readStr(z.read(subpath+'initial'), 'pdffit')

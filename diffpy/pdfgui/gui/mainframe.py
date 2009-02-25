@@ -18,44 +18,43 @@
 """This module contains the main window of PDFgui."""
 
 import sys
-import os
 import os.path
 import re
 from ConfigParser import SafeConfigParser
 
 import wx
 import wx.lib.newevent
-import PyAUI
+import diffpy.pdfgui.gui.PyAUI as PyAUI
 
-from fittree import FitTree, FitTreeError
+from diffpy.pdfgui.gui.fittree import FitTree, FitTreeError
 from diffpy.pdfgui.control.pdfguicontrol import pdfguicontrol
 from diffpy.pdfgui.control.controlerrors import ControlError
 
-from adddatapanel import AddDataPanel
-from addphasepanel import AddPhasePanel
-from calculationpanel import CalculationPanel
-from datasetpanel import DataSetPanel
-from fitnotebookpanel import FitNotebookPanel
-from journalpanel import JournalPanel
-from phasenotebookpanel import PhaseNotebookPanel
-from plotpanel import PlotPanel
-from rseriespanel import RSeriesPanel
-from temperatureseriespanel import TemperatureSeriesPanel
-from dopingseriespanel import DopingSeriesPanel
-from serverpanel import ServerPanel
-from preferencespanel import PreferencesPanel
-from welcomepanel import WelcomePanel
-from outputpanel import OutputPanel
-from blankpanel import BlankPanel
+from diffpy.pdfgui.gui.adddatapanel import AddDataPanel
+from diffpy.pdfgui.gui.addphasepanel import AddPhasePanel
+from diffpy.pdfgui.gui.calculationpanel import CalculationPanel
+from diffpy.pdfgui.gui.datasetpanel import DataSetPanel
+from diffpy.pdfgui.gui.fitnotebookpanel import FitNotebookPanel
+from diffpy.pdfgui.gui.journalpanel import JournalPanel
+from diffpy.pdfgui.gui.phasenotebookpanel import PhaseNotebookPanel
+from diffpy.pdfgui.gui.plotpanel import PlotPanel
+from diffpy.pdfgui.gui.rseriespanel import RSeriesPanel
+from diffpy.pdfgui.gui.temperatureseriespanel import TemperatureSeriesPanel
+from diffpy.pdfgui.gui.dopingseriespanel import DopingSeriesPanel
+from diffpy.pdfgui.gui.serverpanel import ServerPanel
+from diffpy.pdfgui.gui.preferencespanel import PreferencesPanel
+from diffpy.pdfgui.gui.welcomepanel import WelcomePanel
+from diffpy.pdfgui.gui.outputpanel import OutputPanel
+from diffpy.pdfgui.gui.blankpanel import BlankPanel
 
-from aboutdialog import DialogAbout
-from errorreportdialog import ErrorReportDialog
+from diffpy.pdfgui.gui.aboutdialog import DialogAbout
+from diffpy.pdfgui.gui.errorreportdialog import ErrorReportDialog
 
 import diffpy.pdfgui.control.atomeyecontrol as atomeyecontrol
 
-import pdfguiglobals
-from pdfguiglobals import iconpath, docMainFile
-from errorwrapper import catchObjectErrors
+import diffpy.pdfgui.gui.pdfguiglobals as pdfguiglobals
+from diffpy.pdfgui.gui.pdfguiglobals import iconpath, docMainFile
+from diffpy.pdfgui.gui.errorwrapper import catchObjectErrors
 
 (PDFCustomEvent, EVT_PDFCUSTOM) = wx.lib.newevent.NewEvent()
 
@@ -933,10 +932,10 @@ class MainFrame(wx.Frame):
             try:
                 self.auiManager.LoadPerspective(perspective)
             except:
-                from windowperspective import default
+                from diffpy.pdfgui.gui.windowperspective import default
                 self.auiManager.LoadPerspective(default)
         else:
-            from windowperspective import default
+            from diffpy.pdfgui.gui.windowperspective import default
             self.auiManager.LoadPerspective(default)
 
         # Load the window dimensions
@@ -1925,7 +1924,7 @@ class MainFrame(wx.Frame):
 
     def onDefaultLayout(self, event):
         """Place the fit tree and plot panel in default locations."""
-        from windowperspective import default
+        from diffpy.pdfgui.gui.windowperspective import default
         self.auiManager.LoadPerspective(default)
         self.auiManager.Update()
         return
@@ -2003,7 +2002,7 @@ class MainFrame(wx.Frame):
     def onPrintBL(self, event):
         """Print the bond lengths of a selected structure to the output panel.
         """
-        from bondlengthdialog import BondLengthDialog
+        from diffpy.pdfgui.gui.bondlengthdialog import BondLengthDialog
         selections = self.treeCtrlMain.GetSelections()
         if selections:
             node = selections[0]
@@ -2046,7 +2045,7 @@ class MainFrame(wx.Frame):
     def onPrintBA(self, event):
         """Print the bond angles of a selected structure to the output panel.
         """
-        from bondangledialog import BondAngleDialog
+        from diffpy.pdfgui.gui.bondangledialog import BondAngleDialog
         selections = self.treeCtrlMain.GetSelections()
         if selections:
             node = selections[0]

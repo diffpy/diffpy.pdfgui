@@ -17,11 +17,11 @@
 __id__ = "$Id$"
 __revision__ = "$Revision$"
 
-import wx
-import wx.lib.hyperlink
 import random
 import os.path
-from pdfguiglobals import iconpath
+import wx
+import wx.lib.hyperlink
+from diffpy.pdfgui.gui.pdfguiglobals import iconpath
 from diffpy.pdfgui import __version__
 
 

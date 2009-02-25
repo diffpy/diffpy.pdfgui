@@ -14,9 +14,11 @@
 
 import copy
 import re
-from pdfcomponent import PDFComponent
+
 from diffpy.Structure import PDFFitStructure
-from controlerrors import ControlKeyError, ControlFileError
+from diffpy.pdfgui.control.pdfcomponent import PDFComponent
+from diffpy.pdfgui.control.controlerrors import \
+        ControlKeyError, ControlFileError
 
 class PDFStructure(PDFComponent, PDFFitStructure):
     """PDFStructure contains structure information, which can be used for 3D

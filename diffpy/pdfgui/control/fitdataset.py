@@ -18,10 +18,11 @@
 
 import copy
 import numpy
-from pdfdataset import PDFDataSet
-from parameter import Parameter
-from constraint import Constraint
-from controlerrors import ControlStatusError
+
+from diffpy.pdfgui.control.pdfdataset import PDFDataSet
+from diffpy.pdfgui.control.parameter import Parameter
+from diffpy.pdfgui.control.constraint import Constraint
+from diffpy.pdfgui.control.controlerrors import ControlStatusError
 
 class FitDataSet(PDFDataSet):
     """FitDataSet stores experimental and calculated PDF data and related
@@ -476,7 +477,7 @@ class FitDataSet(PDFDataSet):
 
         # constraints
         if rootDict.has_key('constraints'):
-            from pdfguicontrol import CtrlUnpickler
+            from diffpy.pdfgui.control.pdfguicontrol import CtrlUnpickler
             self.constraints = CtrlUnpickler.loads(z.read(subpath+'constraints'))
             # handle renamed variable from old project files
             translate = {'qsig' : 'qdamp',  'qalp' : 'qbroad'}

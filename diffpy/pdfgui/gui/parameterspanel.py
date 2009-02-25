@@ -26,8 +26,9 @@ __id__ = "$Id$"
 #import wx
 import wx.grid
 
-from pdfpanel import PDFPanel
-from wxExtensions.autowidthlabelsgrid import AutoWidthLabelsGrid
+from diffpy.pdfgui.gui.pdfpanel import PDFPanel
+from diffpy.pdfgui.gui.wxExtensions.autowidthlabelsgrid import \
+        AutoWidthLabelsGrid
 
 class ParametersPanel(wx.Panel, PDFPanel):
     '''GUI Panel, parameters viewer/editor

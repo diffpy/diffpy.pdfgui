@@ -18,8 +18,9 @@ To be stored in Fitting.parameters { idx : parameter } dictionary
 
 import sys
 import types
-from controlerrors import ControlTypeError, ControlKeyError
-from controlerrors import ControlRuntimeError, ControlError
+
+from diffpy.pdfgui.control.controlerrors import \
+        ControlTypeError, ControlKeyError, ControlRuntimeError, ControlError
 
 class Parameter:
     """Parameter is class for value and properties of refined parameter.
@@ -62,7 +63,7 @@ class Parameter:
                    "=fitname:idx" format.
         """
         self.__fitrepr = None
-        from fitting import Fitting
+        from diffpy.pdfgui.control.fitting import Fitting
         try:
             self.__initial = float(initial)
             return
@@ -165,7 +166,7 @@ class Parameter:
             fitname = self.__initial[1:]
             srcidx = self.idx
             self.__initial += ":%i" % srcidx
-        from pdfguicontrol import pdfguicontrol
+        from diffpy.pdfgui.control.pdfguicontrol import pdfguicontrol
         fits = pdfguicontrol().fits
         fitnames = [ f.name for f in fits ]
         fitrepres = [ repr(f) for f in fits ]

@@ -19,9 +19,10 @@
 import copy
 import math
 import types
-from controlerrors import *
-from fitstructure import FitStructure
-from pdfcomponent import PDFComponent
+
+from diffpy.pdfgui.control.controlerrors import *
+from diffpy.pdfgui.control.fitstructure import FitStructure
+from diffpy.pdfgui.control.pdfcomponent import PDFComponent
 
 class Calculation(PDFComponent):
     """Perform a theoretical computation of PDF from model structure.

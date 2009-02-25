@@ -13,9 +13,13 @@
 ########################################################################
 
 """Methods for macros used in pdfgui."""
-from controlerrors import ControlValueError, ControlTypeError
-from fitdataset import FitDataSet
-import os, copy
+
+import os
+import copy
+
+from diffpy.pdfgui.control.controlerrors import \
+        ControlValueError, ControlTypeError
+from diffpy.pdfgui.control.fitdataset import FitDataSet
 
 def makeRSeries(control, fit, maxfirst = None, maxlast = None, maxstep = None,
         minfirst = None, minlast = None, minstep = None):
@@ -347,7 +351,7 @@ def makeDopingSeries(control, fit, base, dopant, paths, doping):
     return [f.organization() for f in fits]
 
 if __name__ == "__main__":
-    from pdfguicontrol import PDFGuiControl
+    from diffpy.pdfgui.control.pdfguicontrol import PDFGuiControl
     control = PDFGuiControl()
     control.load("../../tests/testdata/ni.ddp")
     fit = control.fits[0]

@@ -62,7 +62,7 @@ cmdopts = []
 cmdargs = []
 
 # debugging options:
-import debugoptions
+import diffpy.pdfgui.gui.debugoptions as debugoptions
 dbopts = debugoptions.DebugOptions()
 
 # version

@@ -23,12 +23,13 @@ from diffpy.Structure import Atom
 from diffpy.pdffit2 import is_element
 from diffpy.pdfgui.control.constraint import Constraint
 from diffpy.pdfgui.control.controlerrors import *
-from insertrowsdialog import InsertRowsDialog
-from pdfpanel import PDFPanel
-from tooltips import phasepanel as toolTips
-from wxExtensions.autowidthlabelsgrid import AutoWidthLabelsGrid
-from wxExtensions.validators import TextValidator, FLOAT_ONLY
-import phasepanelutils
+from diffpy.pdfgui.gui.insertrowsdialog import InsertRowsDialog
+from diffpy.pdfgui.gui.pdfpanel import PDFPanel
+from diffpy.pdfgui.gui.tooltips import phasepanel as toolTips
+from diffpy.pdfgui.gui.wxExtensions.autowidthlabelsgrid import \
+        AutoWidthLabelsGrid
+from diffpy.pdfgui.gui.wxExtensions.validators import TextValidator, FLOAT_ONLY
+import diffpy.pdfgui.gui.phasepanelutils as phasepanelutils
 
 
 class PhaseConfigurePanel(wx.Panel, PDFPanel):
@@ -626,7 +627,7 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
 
     def onPopupSupercell(self, event):
         """Create a supercell with the supercell dialog."""
-        from supercelldialog import SupercellDialog
+        from diffpy.pdfgui.gui.supercelldialog import SupercellDialog
         if self.structure is not None:
             dlg = SupercellDialog(self)
             if dlg.ShowModal() == wx.ID_OK:
@@ -639,7 +640,7 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
 
     def onPopupSpaceGroup(self, event):
         """Create a supercell with the supercell dialog."""
-        from sgstructuredialog import SGStructureDialog
+        from diffpy.pdfgui.gui.sgstructuredialog import SGStructureDialog
         if self.structure is not None:
 
             indices = phasepanelutils.getSelectedAtoms(self)

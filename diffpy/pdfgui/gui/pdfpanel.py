@@ -15,7 +15,7 @@
 # version
 __id__ = "$Id$"
 
-from errorwrapper import catchObjectErrors
+from diffpy.pdfgui.gui.errorwrapper import catchObjectErrors
 
 def _abstract():
     """Raise a specific exception that referrs to the failing method."""

@@ -18,7 +18,8 @@ constraints will be stored in { variable : constraint } dictionary
 
 import re
 import math
-from controlerrors import ControlSyntaxError
+
+from diffpy.pdfgui.control.controlerrors import ControlSyntaxError
 
 class Constraint:
     """Constraint --> storage and check of a single constraint equation

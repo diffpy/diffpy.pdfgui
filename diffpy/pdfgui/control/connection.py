@@ -13,8 +13,11 @@
 #
 ########################################################################
 
-import xmlrpclib,httplib,socket
-from controlerrors import *
+import xmlrpclib
+import httplib
+import socket
+
+from diffpy.pdfgui.control.controlerrors import *
 
 RemoteExecution = 0
 try:

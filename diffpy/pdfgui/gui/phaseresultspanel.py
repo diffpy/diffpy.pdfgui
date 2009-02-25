@@ -19,10 +19,11 @@ __id__ = "$Id$"
 
 import wx
 import wx.grid
-from pdfpanel import PDFPanel
-from tooltips import phasepanel as toolTips
-import phasepanelutils
-from wxExtensions.autowidthlabelsgrid import AutoWidthLabelsGrid
+from diffpy.pdfgui.gui.pdfpanel import PDFPanel
+from diffpy.pdfgui.gui.tooltips import phasepanel as toolTips
+import diffpy.pdfgui.gui.phasepanelutils as phasepanelutils
+from diffpy.pdfgui.gui.wxExtensions.autowidthlabelsgrid import \
+        AutoWidthLabelsGrid
 
 class PhaseResultsPanel(wx.Panel, PDFPanel):
     """GUI Panel, holds phase (structure) related constraints."""

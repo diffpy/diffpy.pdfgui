@@ -13,10 +13,10 @@
 #
 ########################################################################
 
-from pdfcomponent import PDFComponent
-from fitdataset import FitDataSet
-from fitstructure import FitStructure
-from calculation import Calculation
+from diffpy.pdfgui.control.pdfcomponent import PDFComponent
+from diffpy.pdfgui.control.fitdataset import FitDataSet
+from diffpy.pdfgui.control.fitstructure import FitStructure
+from diffpy.pdfgui.control.calculation import Calculation
 
 class Organizer(PDFComponent):
     """Base class for Fitting. It holds separate lists of datasets, 
@@ -32,7 +32,7 @@ class Organizer(PDFComponent):
 
         name -- component name
         """
-        from pdflist import PDFList
+        from diffpy.pdfgui.control.pdflist import PDFList
         PDFComponent.__init__(self, name)
 
         self.datasets = PDFList()
@@ -44,8 +44,8 @@ class Organizer(PDFComponent):
         self.metadata = {}
         
         # controlCenter is the reference to global PDFGuiControl object
-        import pdfguicontrol
-        self.controlCenter = pdfguicontrol.pdfguicontrol()
+        from diffpy.pdfgui.control.pdfguicontrol import pdfguicontrol
+        self.controlCenter = pdfguicontrol()
     
     def __findList(self, id):
         if isinstance(id, FitDataSet):

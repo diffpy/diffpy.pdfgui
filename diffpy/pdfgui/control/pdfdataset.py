@@ -19,8 +19,10 @@
 import os.path
 import re
 import copy
-from pdfcomponent import PDFComponent
-from controlerrors import ControlKeyError, ControlFileError
+
+from diffpy.pdfgui.control.pdfcomponent import PDFComponent
+from diffpy.pdfgui.control.controlerrors import \
+        ControlKeyError, ControlFileError
 
 class PDFDataSet(PDFComponent):
     """PDFDataSet is a class for experimental PDF data.

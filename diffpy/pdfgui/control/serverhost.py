@@ -13,8 +13,8 @@
 #
 ########################################################################
 
-from controlerrors import *
-from pdfcomponent import PDFComponent
+from diffpy.pdfgui.control.controlerrors import *
+from diffpy.pdfgui.control.pdfcomponent import PDFComponent
 
 class ServerHost(PDFComponent):
     """ServerHost holds the information about a remote machine where the 
@@ -117,7 +117,7 @@ class ServerHost(PDFComponent):
         self.lock = threading.RLock()
         self.servers = []
         
-        from connection import Connection
+        from diffpy.pdfgui.control.connection import Connection
         self.connection = Connection(self)
         
         self.quit = False
@@ -215,7 +215,7 @@ class ServerHost(PDFComponent):
         
         # otherwise, reconnect to remote host
         import os
-        from connection import Connection
+        from diffpy.pdfgui.control.connection import Connection
         try:
             # extract info from configuration
             host = self.config['host']
@@ -245,8 +245,10 @@ class ServerHost(PDFComponent):
         
   
 if __name__ == '__main__':
-    import sys,getopt,getpass
-    from connection import Connection
+    import sys
+    import getopt
+    import getpass
+    from diffpy.pdfgui.control.connection import Connection
     def _usage():
         print "Usage: %s [-u user@host] [-p(passwd)|-r(rsa)|-d(dsa)]"%sys.argv[0]
     

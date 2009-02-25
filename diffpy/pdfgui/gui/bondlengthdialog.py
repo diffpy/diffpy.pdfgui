@@ -4,8 +4,8 @@
 
 import wx
 from diffpy.pdfgui.control.controlerrors import *
-from wxExtensions.validators import TextValidator, FLOAT_ONLY
-from pdfpanel import PDFPanel
+from diffpy.pdfgui.gui.wxExtensions.validators import TextValidator, FLOAT_ONLY
+from diffpy.pdfgui.gui.pdfpanel import PDFPanel
 
 # begin wxGlade: extracode
 # end wxGlade

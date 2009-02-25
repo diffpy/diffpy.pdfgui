@@ -16,7 +16,7 @@
 """This module contains the BlankPanel class."""
 
 import wx
-from pdfpanel import PDFPanel
+from diffpy.pdfgui.gui.pdfpanel import PDFPanel
 
 class BlankPanel(wx.Panel, PDFPanel):
     """A blank panel needed as a right panel in mainframe.py."""
