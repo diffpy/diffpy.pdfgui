@@ -13,17 +13,23 @@
 #
 ########################################################################
 
+
+# module version
+__id__ = "$Id$"
+
+
 import sys
 import os
 
-from pdflist import PDFList
-from fitting import Fitting
-from calculation import Calculation
-from fitdataset import FitDataSet
-from organizer import Organizer
-from fitstructure import FitStructure
-from threading import Thread
-from controlerrors import *
+from diffpy.pdfgui.control.pdflist import PDFList
+from diffpy.pdfgui.control.fitting import Fitting
+from diffpy.pdfgui.control.calculation import Calculation
+from diffpy.pdfgui.control.fitdataset import FitDataSet
+from diffpy.pdfgui.control.organizer import Organizer
+from diffpy.pdfgui.control.fitstructure import FitStructure
+from diffpy.pdfgui.control.threading import Thread
+from diffpy.pdfgui.control.controlerrors import *
+
 
 class PDFGuiControl:
     """PDFGuiControl holds all the data GUI needs to access or change
@@ -346,25 +352,24 @@ class PDFGuiControl:
         pyexe = sys.executable
         from diffpy.pdfgui.gui.pdfguiglobals import controlDir
         # prepend controlDir to PYTHONPATH for execution of new python process
-        org_pythonpath = os.environ.get('PYTHONPATH')
+        cmdenv = dict(os.environ)
         sep = sys.platform == "win32" and ";" or ":"
-        os.environ['PYTHONPATH'] = controlDir + sep + (org_pythonpath or '')
+        cmdenv['PYTHONPATH'] = controlDir + sep + cmdenv.get('PYTHONPATH', '')
         pycommand = 'import dumppdffit2script; dumppdffit2script.main()'
         # this should take care of proper shell quoting
-        cmdwords = [pyexe, '-c', pycommand, scriptfile] + args
-        cmd = " ".join([repr(w.encode('ascii')) for w in cmdwords])
-        (i, o, e) = os.popen3(cmd, 'b')
-        # restore PYTHONPATH
-        if org_pythonpath is None:  del os.environ['PYTHONPATH']
-        else:   os.environ['PYTHONPATH'] = org_pythonpath
+        cmdargs = [pyexe, '-c', pycommand, scriptfile] + args
+        from subprocess import Popen, PIPE
+        cfds = (sys.platform != 'win32')
+        pcmd = Popen(cmdargs, env=cmdenv, stdin=PIPE,
+                stdout=PIPE, stderr=PIPE, close_fds=cfds)
         # close child standard input
-        i.close()
-        out = o.read()
-        o.close()
-        err = e.read()
-        e.close()
-        status = os.wait()[1]
-        if os.WEXITSTATUS(status) != 0:
+        pcmd.stdin.close()
+        out = pcmd.stdout.read()
+        pcmd.stdout.close()
+        err = pcmd.stderr.read()
+        pcmd.stderr.close()
+        status = pcmd.wait()
+        if status != 0:
             raise ControlRuntimeError, \
                 "Import of pdffit2 script failed:\n" + err
         # seems that everything worked fine here
@@ -646,7 +651,5 @@ class CtrlUnpickler:
             return unpickler.load()
     loads = _StaticMethod(loads)
         
-# version
-__id__ = "$Id$"
 
 # End of file

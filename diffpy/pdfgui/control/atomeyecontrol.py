@@ -30,8 +30,8 @@ from threading import Timer
 def plot(structure, executable):
     '''Plots the structure in AtomEye.
     
-    @param structure: (Structure class) structure to be plotted
-    @param executable: (string) Name of atomeye executable. If the executable is
+    structure -- (Structure class) structure to be plotted
+    executable --  (string) Name of atomeye executable. If the executable is
     not on the user's PATH, then the full path to the executable is needed.
     
     Creates a file in some temporary directory and plot it in Atomeye, then
@@ -39,51 +39,52 @@ def plot(structure, executable):
     Filename is given according to the structure's title.
     '''
     # do not plot empty structure
-    if (structure is not None) and (len(structure) > 0):
-        dirname = tempfile.mkdtemp()
-        filename = structure.title
-        if not filename:
-            filename = "structure"
-        else:
-            filename = re.sub('\W', '_', filename)
+    if (structure is None) or (len(structure) == 0):    return
+    dirname = tempfile.mkdtemp()
+    filename = structure.title
+    if not filename:
+        filename = "structure"
+    else:
+        filename = re.sub('\W', '_', filename)
 
-        fullpath = os.path.join(dirname, filename)
+    fullpath = os.path.join(dirname, filename)
 
-        # Remove the files after atomeye has a chance to read them. Since we
-        # can't tell when this actually happens, we start at threaded timer
-        # delete them later.
-        def __removeFiles(dir, file):
-            if os.path.exists(file): os.remove(file)
-            if os.path.exists(dir): os.rmdir(dir)
-            return
-        T = Timer(20, __removeFiles, args=[dirname, fullpath])
+    # Remove the files after atomeye has a chance to read them. Since we
+    # can't tell when this actually happens, we start at threaded timer
+    # delete them later.
+    def __removeFiles(dir, file):
+        if os.path.exists(file): os.remove(file)
+        if os.path.exists(dir): os.rmdir(dir)
+        return
+    T = Timer(20, __removeFiles, args=[dirname, fullpath])
 
-        # This should be done with try...except...finally, but this only works
-        # properly in python 2.5.
-        import platform
-        if platform.system() == 'Windows': 
-            # replace string
-            def toCygwin(winpath):
-                drive,path=os.path.splitdrive(winpath)
-                path = path.replace('\\', '/')
-                if drive.endswith(':'): drive = drive[:-1]
-                return "/cygdrive/%s/%s"%(drive,path)
-            command = 'bash.exe -l -c "DISPLAY=127.0.0.1:0.0 %s %s"'%(toCygwin(executable), toCygwin(fullpath))
-        else:
-            command = [executable, fullpath]  
+    # This should be done with try...except...finally, but this only works
+    # properly in python 2.5.
+    import platform
+    if platform.system() == 'Windows': 
+        # replace string
+        def toCygwin(winpath):
+            drive,path=os.path.splitdrive(winpath)
+            path = path.replace('\\', '/')
+            if drive.endswith(':'): drive = drive[:-1]
+            return "/cygdrive/%s/%s"%(drive,path)
+        command = 'bash.exe -l -c "DISPLAY=127.0.0.1:0.0 %s %s"'%(toCygwin(executable), toCygwin(fullpath))
+    else:
+        command = [executable, fullpath]  
 
-        try:
-            structure.write(fullpath,"xcfg")
-            proc = subprocess.Popen(command)
-            T.start()
-        except OSError:
-            # The executable does not exist
-            T.start()
-            from controlerrors import ControlConfigError
-            raise ControlConfigError("Either AtomEye is not present on your system or you have not specified the path to AtomEye under Edit->Preferences.")
-        except:
-            T.start()
-            raise
+    try:
+        structure.write(fullpath,"xcfg")
+        proc = subprocess.Popen(command)
+        T.start()
+    except OSError:
+        # The executable does not exist
+        T.start()
+        from controlerrors import ControlConfigError
+        raise ControlConfigError("Either AtomEye is not present on your system or you have not specified the path to AtomEye under Edit->Preferences.")
+    except:
+        T.start()
+        raise
+    return
 
 
 ##### testing code ############################################################
