@@ -350,13 +350,13 @@ class PDFGuiControl:
         """
         pyexe = sys.executable
         from diffpy.pdfgui.gui.pdfguiglobals import controlDir
-        # prepend controlDir to PYTHONPATH for execution of new python process
+        # Build python command to be executed in the child process.
         pycommand = '\n'.join([
             'from diffpy.pdfgui.control.dumppdffit2script import main',
             'main()',
             ])
-        # Build argument list.  Include the '-u' options so that
-        # child Python opens it streams in binary mode.
+        # Build argument list.  Include the '-u' option so that child
+        # Python opens it input and output streams in binary mode.
         cmdargs = [pyexe, '-u', '-c', pycommand, scriptfile] + args
         import platform
         from subprocess import Popen, PIPE
