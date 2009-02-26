@@ -41,11 +41,16 @@ class TestLoadProject(unittest.TestCase):
     prj_ni = None
 
     def setUp(self):
+        # load project files once
         if TestLoadProject.prj_lcmo is None:
             TestLoadProject.prj_lcmo = LoadProject(testdatafile('lcmo.ddp'))
             TestLoadProject.prj_lcmo_full = LoadProject(
                     testdatafile('lcmo_full.ddp'))
             TestLoadProject.prj_ni = LoadProject(testdatafile('ni.ddp'))
+        # assign them to this instance
+        self.prj_lcmo = TestLoadProject.prj_lcmo
+        self.prj_lcmo_full = TestLoadProject.prj_lcmo_full
+        self.prj_ni = TestLoadProject.prj_ni
         return
 
     def tearDown(self):
