@@ -24,7 +24,7 @@ name.
 __id__ = "$Id$"
 
 import wx
-import wx.lib.mixins.listctrl  as  listmix
+import wx.lib.mixins.listctrl as listmix
 
 class AutoWidthListCtrl(wx.ListCtrl, listmix.ListCtrlAutoWidthMixin):
     """wxListCtrl subclass that automatically adjusts its column width."""

@@ -21,7 +21,7 @@ import wx
 import wx.grid
 from diffpy.pdfgui.gui.pdfpanel import PDFPanel
 from diffpy.pdfgui.gui.tooltips import phasepanel as toolTips
-import diffpy.pdfgui.gui.phasepanelutils as phasepanelutils
+from diffpy.pdfgui.gui import phasepanelutils
 from diffpy.pdfgui.gui.wxExtensions.autowidthlabelsgrid import \
         AutoWidthLabelsGrid
 

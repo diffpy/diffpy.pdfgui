@@ -27,7 +27,7 @@ from diffpy.pdfgui.gui.tooltips import phasepanel as toolTips
 from diffpy.pdfgui.gui.wxExtensions.autowidthlabelsgrid import \
         AutoWidthLabelsGrid
 from diffpy.pdfgui.gui.sgconstraindialog import SGConstrainDialog
-import diffpy.pdfgui.gui.phasepanelutils as phasepanelutils
+from diffpy.pdfgui.gui import phasepanelutils
 
 class PhaseConstraintsPanel(wx.Panel, PDFPanel):
     def __init__(self, *args, **kwds):

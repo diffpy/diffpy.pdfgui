@@ -26,7 +26,7 @@ import os
 
 import wx
 
-import diffpy.pdfgui.gui.pdfguiglobals as pdfguiglobals
+from diffpy.pdfgui.gui import pdfguiglobals
 from diffpy.pdfgui.gui.errorreportdialog import ErrorReportDialog
 from diffpy.pdfgui.control.controlerrors import ControlError
 

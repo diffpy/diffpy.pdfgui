@@ -50,9 +50,9 @@ from diffpy.pdfgui.gui.blankpanel import BlankPanel
 from diffpy.pdfgui.gui.aboutdialog import DialogAbout
 from diffpy.pdfgui.gui.errorreportdialog import ErrorReportDialog
 
-import diffpy.pdfgui.control.atomeyecontrol as atomeyecontrol
+from diffpy.pdfgui.control import atomeyecontrol
 
-import diffpy.pdfgui.gui.pdfguiglobals as pdfguiglobals
+from diffpy.pdfgui.gui import pdfguiglobals
 from diffpy.pdfgui.gui.pdfguiglobals import iconpath, docMainFile
 from diffpy.pdfgui.gui.errorwrapper import catchObjectErrors
 
