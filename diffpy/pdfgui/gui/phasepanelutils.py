@@ -93,7 +93,6 @@ def refreshGrid(panel):
 
     else:
         # update the grid with atoms
-        i = 0
         panel.gridAtoms.BeginBatch()
 
         # set column labels
@@ -117,7 +116,7 @@ def refreshGrid(panel):
         elif natoms < nrows:
             panel.gridAtoms.DeleteRows(numRows = nrows - natoms)
         panel.gridAtoms.ClearGrid()
-        for atom in panel.structure:
+        for i, atom in enumerate(panel.structure):
             panel.gridAtoms.SetCellValue(i,0, str(atom.element)) # element
             panel.gridAtoms.SetCellValue(i,1, float2str(atom.xyz[0])) # x
             panel.gridAtoms.SetCellValue(i,2, float2str(atom.xyz[1])) # y
@@ -129,7 +128,6 @@ def refreshGrid(panel):
             panel.gridAtoms.SetCellValue(i,8, float2str(atom.U[0,2])) # U(1,3)
             panel.gridAtoms.SetCellValue(i,9, float2str(atom.U[1,2])) # U(2,3)
             panel.gridAtoms.SetCellValue(i,10,float2str(atom.occupancy)) # occupancy
-            i+=1
     
     panel.gridAtoms.AutosizeLabels()
     panel.gridAtoms.AutoSizeColumns()

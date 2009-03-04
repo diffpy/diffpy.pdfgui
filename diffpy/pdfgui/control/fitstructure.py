@@ -248,9 +248,11 @@ class FitStructure(PDFStructure):
 
         acd -- dictionary obtained from _popAtomConstraints()
         """
+        #print "\n".join(map(str, acd.keys()))
+        #print "\n".join(map(str, acd.values()))
         for i in range(len(self.initial)):
             a = self.initial[i]
-            if not a in acd:    continue
+            if not a in acd: continue
             # there are some constraints for atom a
             siteindex = i + 1
             cnts = acd[a]
@@ -267,7 +269,9 @@ class FitStructure(PDFStructure):
         atomlist -- list of atom instances.
         """
         acd = self._popAtomConstraints()
-        self.initial[index:] = atomlist + self.initial[index:]
+        index = min(index, len(self.initial))
+        for a in atomlist:
+            self.initial.insert(index, a)
         self._restoreAtomConstraints(acd)
         return
 
