@@ -45,6 +45,7 @@ def refreshTextCtrls(panel):
     textCtrlDelta2
     textCtrlSratio
     textCtrlRcut
+    textCtrlSpdiameter
     """
     if panel.structure is None:
         # clear textcontrols
@@ -59,6 +60,7 @@ def refreshTextCtrls(panel):
         panel.textCtrlDelta2.SetValue("")
         panel.textCtrlSratio.SetValue("")
         panel.textCtrlRcut.SetValue("")
+        panel.textCtrlSpdiameter.SetValue("")
 
     else:
         # update panel with values from panel.structure
@@ -74,6 +76,8 @@ def refreshTextCtrls(panel):
         panel.textCtrlDelta2.SetValue(float2str(panel.structure.pdffit['delta2']))
         panel.textCtrlSratio.SetValue(float2str(panel.structure.pdffit['sratio']))
         panel.textCtrlRcut.SetValue(float2str(panel.structure.pdffit['rcut']))
+        panel.textCtrlSpdiameter.SetValue(
+                float2str(panel.structure.pdffit['spdiameter']))
     return
 
 def refreshGrid(panel):

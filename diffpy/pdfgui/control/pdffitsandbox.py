@@ -45,7 +45,7 @@ class PdfFitSandbox:
     # scattering type identifiers
     _Sctp = { 'X' : 0, 'N' : 1 }
     # dataset variables
-    _dataset_vars = ( 'qdamp', 'qbroad', 'spdiameter', 'dscale' )
+    _dataset_vars = ('qdamp', 'qbroad', 'dscale')
 
     def __init__(self):
         self._fits = [ Fitting('0').stripped() ]
@@ -925,6 +925,16 @@ class PdfFitSandbox:
     pfrac = staticmethod(pfrac)
 
 
+    def spdiameter():
+        """spdiameter() --> Get reference to spdiameter.
+
+        Diameter value for the spherical particle PDF correction. 
+        Spherical envelope is not applied when spdiameter equals 0.
+        """
+        return "spdiameter"
+    spdiameter = staticmethod(spdiameter)
+
+
     def sratio():
         """sratio() --> Get reference to sigma ratio.
         
@@ -1020,16 +1030,6 @@ class PdfFitSandbox:
         """
         return "qbroad"
     qbroad = staticmethod(qbroad)
-
-
-    def spdiameter():
-        """spdiameter() --> Get reference to spdiameter.
-
-        Diameter value for the spherical particle PDF correction. 
-        Spherical envelope is not applied when spdiameter equals 0.
-        """
-        return "spdiameter"
-    spdiameter = staticmethod(spdiameter)
 
 
     def rcut():

@@ -47,19 +47,15 @@ class CalculationPanel(wx.Panel, PDFPanel):
         self.textCtrlQbroad = wx.TextCtrl(self, -1, "0.0")
         self.label_1_copy_2 = wx.StaticText(self, -1, "")
         self.label_1_copy_1 = wx.StaticText(self, -1, "")
-        self.labelSpdiameter = wx.StaticText(self, -1, "Spdiameter", style=wx.ALIGN_RIGHT)
-        self.textCtrlSpdiameter = wx.TextCtrl(self, -1, "0.0")
         self.label_1_copy_6 = wx.StaticText(self, -1, "")
         self.label_1_copy_5 = wx.StaticText(self, -1, "")
         self.label_1_copy_3 = wx.StaticText(self, -1, "")
         self.label_1_copy_4 = wx.StaticText(self, -1, "")
-        self.exportButton = wx.Button(self, -1, "Export")
 
         self.__set_properties()
         self.__do_layout()
 
         self.Bind(wx.EVT_RADIOBOX, self.onStype, self.radioBoxStype)
-        self.Bind(wx.EVT_BUTTON, self.onExport, self.exportButton)
         # end wxGlade
         self.__customProperties()
 
@@ -68,7 +64,6 @@ class CalculationPanel(wx.Panel, PDFPanel):
         self.panelNameLabel.SetFont(wx.Font(18, wx.DEFAULT, wx.NORMAL, wx.BOLD, 0, ""))
         self.radioBoxStype.SetMinSize((330, 43))
         self.radioBoxStype.SetSelection(0)
-        self.exportButton.Hide()
         # end wxGlade
 
     def __do_layout(self):
@@ -99,14 +94,11 @@ class CalculationPanel(wx.Panel, PDFPanel):
         grid_sizer_1.Add(self.textCtrlQbroad, 0, wx.ALIGN_CENTER_VERTICAL, 0)
         grid_sizer_1.Add(self.label_1_copy_2, 0, 0, 0)
         grid_sizer_1.Add(self.label_1_copy_1, 0, 0, 0)
-        grid_sizer_1.Add(self.labelSpdiameter, 0, wx.LEFT|wx.ALIGN_RIGHT|wx.ALIGN_CENTER_VERTICAL, 5)
-        grid_sizer_1.Add(self.textCtrlSpdiameter, 0, wx.ALIGN_CENTER_VERTICAL, 0)
         grid_sizer_1.Add(self.label_1_copy_6, 0, 0, 0)
         grid_sizer_1.Add(self.label_1_copy_5, 0, 0, 0)
         grid_sizer_1.Add(self.label_1_copy_3, 0, 0, 0)
         grid_sizer_1.Add(self.label_1_copy_4, 0, 0, 0)
         outerSizer.Add(grid_sizer_1, 0, wx.ALL|wx.EXPAND, 5)
-        outerSizer.Add(self.exportButton, 0, wx.ALL|wx.ALIGN_RIGHT, 5)
         sizer_1.Add(outerSizer, 1, wx.EXPAND, 0)
         self.SetSizer(sizer_1)
         sizer_1.Fit(self)
@@ -121,7 +113,6 @@ class CalculationPanel(wx.Panel, PDFPanel):
         self.textCtrlQmax.Bind(wx.EVT_KILL_FOCUS, self.onLoseFocus)
         self.textCtrlQdamp.Bind(wx.EVT_KILL_FOCUS, self.onLoseFocus)
         self.textCtrlQbroad.Bind(wx.EVT_KILL_FOCUS, self.onLoseFocus)
-        self.textCtrlSpdiameter.Bind(wx.EVT_KILL_FOCUS, self.onLoseFocus)
         self.textCtrlScaleFactor.Bind(wx.EVT_KILL_FOCUS, self.onLoseFocus)
         self.textCtrlRStep.Bind(wx.EVT_KILL_FOCUS, self.onCalcRange)
         self.calculation = None
@@ -134,7 +125,6 @@ class CalculationPanel(wx.Panel, PDFPanel):
                         'qbroad'     :   'textCtrlQbroad',
                         'rstep'      :   'textCtrlRStep',
                         'dscale'     :   'textCtrlScaleFactor',
-                        'spdiameter' :   'textCtrlSpdiameter',
                         }
 
         # Give each textCtrl a name that can be referenced and setup the

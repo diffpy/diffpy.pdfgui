@@ -625,43 +625,43 @@ class TestPdfFitSandbox(unittest.TestCase):
         """
         self.assertRaises(NotImplementedError, self.box.psel, 1)
         return
- 
+
     def test_pdesel(self):
         """check PdfFitSandbox.pdesel()
         """
         self.assertRaises(NotImplementedError, self.box.pdesel, 1)
         return
- 
+
     def test_isel(self):
         """check PdfFitSandbox.isel()
         """
         self.assertRaises(NotImplementedError, self.box.isel, 1, 1)
         return
- 
+
     def test_idesel(self):
         """check PdfFitSandbox.idesel()
         """
         self.assertRaises(NotImplementedError, self.box.idesel, 1, 1)
         return
- 
+
     def test_jsel(self):
         """check PdfFitSandbox.jsel()
         """
         self.assertRaises(NotImplementedError, self.box.jsel, 1, 1)
         return
- 
+
     def test_jdesel(self):
         """check PdfFitSandbox.jdesel()
         """
         self.assertRaises(NotImplementedError, self.box.jdesel, 1, 1)
         return
- 
+
     def test_bang(self):
         """check PdfFitSandbox.bang()
         """
         self.assertRaises(NotImplementedError, self.box.bang, 1, 2, 3)
         return
- 
+
     def test_blen(self):
         """check PdfFitSandbox.blen()
         """
@@ -670,7 +670,7 @@ class TestPdfFitSandbox(unittest.TestCase):
         exec 'blen(1, 1, 1.5, 5.0)' in sandbox
         exec 'blen(1, 2, 1.5, 5.0)' in sandbox
         return
- 
+
     def test_show_scat(self):
         """check PdfFitSandbox.show_scat()
         """
@@ -683,25 +683,25 @@ class TestPdfFitSandbox(unittest.TestCase):
         """
         self.assertRaises(NotImplementedError, self.box.show_scat_string, 'X')
         return
- 
+
     def test_get_scat(self):
         """check PdfFitSandbox.get_scat()
         """
         self.assertRaises(NotImplementedError, self.box.get_scat)
         return
- 
+
     def test_set_scat(self):
         """check PdfFitSandbox.set_scat()
         """
         self.assertRaises(NotImplementedError, self.box.set_scat)
         return
- 
+
     def test_reset_scat(self):
         """check PdfFitSandbox.reset_scat()
         """
         self.assertRaises(NotImplementedError, self.box.reset_scat)
         return
- 
+
     def test_num_atoms(self):
         """check PdfFitSandbox.num_atoms()
         """
@@ -711,7 +711,7 @@ class TestPdfFitSandbox(unittest.TestCase):
         self.box.read_struct(fNi_stru)
         self.assertEqual(4, eval('num_atoms()', sandbox))
         return
- 
+
     def test_lat(self):
         """check PdfFitSandbox.lat()
         """
@@ -731,84 +731,91 @@ class TestPdfFitSandbox(unittest.TestCase):
         sandbox = self.box.sandbox()
         self.assertEqual('x(1)', eval('x(1)', sandbox))
         return
- 
+
     def test_y(self):
         """check PdfFitSandbox.y()
         """
         sandbox = self.box.sandbox()
         self.assertEqual('y(1)', eval('y(1)', sandbox))
         return
- 
+
     def test_z(self):
         """check PdfFitSandbox.z()
         """
         sandbox = self.box.sandbox()
         self.assertEqual('z(1)', eval('z(1)', sandbox))
         return
- 
+
     def test_u11(self):
         """check PdfFitSandbox.u11()
         """
         sandbox = self.box.sandbox()
         self.assertEqual('u11(1)', eval('u11(1)', sandbox))
         return
- 
+
     def test_u22(self):
         """check PdfFitSandbox.u22()
         """
         sandbox = self.box.sandbox()
         self.assertEqual('u22(1)', eval('u22(1)', sandbox))
         return
- 
+
     def test_u33(self):
         """check PdfFitSandbox.u33()
         """
         sandbox = self.box.sandbox()
         self.assertEqual('u33(1)', eval('u33(1)', sandbox))
         return
- 
+
     def test_u12(self):
         """check PdfFitSandbox.u12()
         """
         sandbox = self.box.sandbox()
         self.assertEqual('u12(1)', eval('u12(1)', sandbox))
         return
- 
+
     def test_u13(self):
         """check PdfFitSandbox.u13()
         """
         sandbox = self.box.sandbox()
         self.assertEqual('u13(1)', eval('u13(1)', sandbox))
         return
- 
+
     def test_u23(self):
         """check PdfFitSandbox.u23()
         """
         sandbox = self.box.sandbox()
         self.assertEqual('u23(1)', eval('u23(1)', sandbox))
         return
- 
+
     def test_occ(self):
         """check PdfFitSandbox.occ()
         """
         sandbox = self.box.sandbox()
         self.assertEqual('occ(1)', eval('occ(1)', sandbox))
         return
- 
+
     def test_pscale(self):
         """check PdfFitSandbox.pscale()
         """
         sandbox = self.box.sandbox()
         self.assertEqual('pscale', eval('pscale()', sandbox))
         return
- 
+
     def test_pfrac(self):
         """check PdfFitSandbox.pfrac()
         """
         sandbox = self.box.sandbox()
         self.assertEqual('pscale', eval('pfrac()', sandbox))
         return
- 
+
+    def test_spdiameter(self):
+        """check PdfFitSandbox.spdiameter()
+        """
+        sandbox = self.box.sandbox()
+        self.assertEqual('spdiameter', eval('spdiameter()', sandbox))
+        return
+
     def test_sratio(self):
         """check PdfFitSandbox.sratio() and PdfFitSandbox.srat()
         """
@@ -824,7 +831,7 @@ class TestPdfFitSandbox(unittest.TestCase):
         self.assertEqual('delta1', eval('delta1()', sandbox))
         self.assertEqual('delta1', eval('gamma()', sandbox))
         return
- 
+
     def test_delta2(self):
         """check PdfFitSandbox.delta2() and PdfFitSandbox.delta()
         """
@@ -839,7 +846,7 @@ class TestPdfFitSandbox(unittest.TestCase):
         sandbox = self.box.sandbox()
         self.assertEqual('dscale', eval('dscale()', sandbox))
         return
- 
+
     def test_qdamp(self):
         """check PdfFitSandbox.qdamp() and PdfFitSandbox.qsig()
         """
@@ -847,7 +854,7 @@ class TestPdfFitSandbox(unittest.TestCase):
         self.assertEqual('qdamp', eval('qdamp()', sandbox))
         self.assertEqual('qdamp', eval('qsig()', sandbox))
         return
- 
+
     def test_qbroad(self):
         """check PdfFitSandbox.qbroad() and PdfFitSandbox.qalp()
         """
@@ -855,7 +862,7 @@ class TestPdfFitSandbox(unittest.TestCase):
         self.assertEqual('qbroad', eval('qbroad()', sandbox))
         self.assertEqual('qbroad', eval('qalp()', sandbox))
         return
- 
+
     def test_rcut(self):
         """check PdfFitSandbox.rcut()
         """

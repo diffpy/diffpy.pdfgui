@@ -51,7 +51,7 @@ class FitDataSet(PDFDataSet):
     and cached when r-sampling changes.  Any change to fitrmin,
     fitrmax and fitrstep sets the _rcalc_changed flag.
 
-    Refinable variables:  qdamp, qbroad, dscale, spdiameter
+    Refinable variables:  qdamp, qbroad, dscale
     Note: self.refvar is the same as self.initial[refvar].
 
     Class data:
@@ -90,7 +90,8 @@ class FitDataSet(PDFDataSet):
         if name in PDFDataSet.refinableVars:
             value = self.initial[name]
         else:
-            raise AttributeError, "A instance has no attribute '%s'" % name
+            emsg = "A instance has no attribute '%s'" % name
+            raise AttributeError(emsg)
         return value
 
     def _getStrId(self):
@@ -134,15 +135,15 @@ class FitDataSet(PDFDataSet):
             return self.metadata[name]
         elif name in ( 'Gobs', 'Gcalc', 'Gtrunc', 'Gdiff', 'crw', 'robs', 'rcalc'):
             d = getattr(self, name)
-            
-            # for Gtrunc and rcalc, we can use Gobs and robs instead when they 
+
+            # for Gtrunc and rcalc, we can use Gobs and robs instead when they
             # are not ready.
             if not d :
                 if name == 'Gtrunc':
                     return getattr(self, 'Gobs')
                 if name == 'rcalc':
                     return getattr(self, 'robs')
-                    
+
             return d
 
         # otherwise fitting's repository is preferred
@@ -272,7 +273,7 @@ class FitDataSet(PDFDataSet):
         Return data string.
         """
         if self.Gcalc == []:
-            raise ControlStatusError, "Gcalc not available"
+            raise ControlStatusError("Gcalc not available")
         import time
         from getpass import getuser
         lines = []
@@ -293,8 +294,6 @@ class FitDataSet(PDFDataSet):
         lines.append('qdamp=%g' % self.refined['qdamp'])
         # qbroad
         lines.append('qbroad=%g' % self.refined['qbroad'])
-        # spdiameter
-        lines.append('spdiameter=%g' % self.refined['spdiameter'])
         # dscale
         lines.append('dscale=%g' % self.refined['dscale'])
         # fitrmin, fitrmax
@@ -505,7 +504,7 @@ class FitDataSet(PDFDataSet):
         # make a picklable dictionary of constraints
         if self.constraints:
             bytes = safeCPickleDumps(self.constraints)
-            z.writestr(subpath+'constraints', bytes)
+            z.writestr(subpath + 'constraints', bytes)
         return
 
     # interface for data sampling
@@ -547,7 +546,7 @@ class FitDataSet(PDFDataSet):
             self.fitrstep = max(value, self.getObsSampling())
         else:
             emsg = "Invalid value for fit sampling type."
-            raise ValueError, emsg
+            raise ValueError(emsg)
         return
 
     def getObsSampling(self):
@@ -655,7 +654,7 @@ class FitDataSet(PDFDataSet):
         return
 
     rcalc = property(_get_rcalc, _set_rcalc, doc =
-        """R-grid for refined data, read-only. 
+        """R-grid for refined data, read-only.
         Use fitrmin, fitrmax, fitrstep to change it""")
 
     # Gcalc

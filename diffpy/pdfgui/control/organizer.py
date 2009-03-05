@@ -19,15 +19,15 @@ from diffpy.pdfgui.control.fitstructure import FitStructure
 from diffpy.pdfgui.control.calculation import Calculation
 
 class Organizer(PDFComponent):
-    """Base class for Fitting. It holds separate lists of datasets, 
+    """Base class for Fitting. It holds separate lists of datasets,
     strucs and calculations
-    
+
     datasets:     dataset list
     strucs:       structure list
     calcs:        calculation list
     """
 
-    def __init__ ( self, name):
+    def __init__(self, name):
         """initialize
 
         name -- component name
@@ -38,15 +38,15 @@ class Organizer(PDFComponent):
         self.datasets = PDFList()
         self.strucs = PDFList()
         self.calcs = PDFList()
-        
-        # self.metadata is created but not pickled only for the purpose 
+
+        # self.metadata is created but not pickled only for the purpose
         # of plotting. It holds common metadata from all its datasets
         self.metadata = {}
-        
+
         # controlCenter is the reference to global PDFGuiControl object
         from diffpy.pdfgui.control.pdfguicontrol import pdfguicontrol
         self.controlCenter = pdfguicontrol()
-    
+
     def __findList(self, id):
         if isinstance(id, FitDataSet):
             return self.datasets
@@ -55,7 +55,8 @@ class Organizer(PDFComponent):
         elif isinstance(id, Calculation):
             return self.calcs
         else:
-            raise ControlTypeError, "Unknown type object '%s'"%id.name
+            emsg = "Unknown type object '%s'" % id.name
+            raise ControlTypeError(emsg)
 
     def add(self, id, position=None):
         """add structure/dataset/calculation
@@ -67,7 +68,7 @@ class Organizer(PDFComponent):
         if position is None:
             position = len(objList)
         objList.insert(position, id)
-        
+
         # successfully added, set the object owner
         id.owner = self
 
@@ -88,23 +89,23 @@ class Organizer(PDFComponent):
         """
         objList = self.__findList(id)
         objList.rename(id.name, newname)
-            
-    def index(self, id ):
+
+    def index(self, id):
         """find the position of item in the list
-        
+
         id -- id of object
         return : object position
         """
-        objList = self.__findList(id)        
+        objList = self.__findList(id)
         return objList.index(id.name)
 
     def hasStructures(self):
         """Check to see if there are structures."""
         return len(self.strucs) > 0
-        
+
     def getStructure(self, pos):
         """get structure by position
-        
+
         pos -- the position of structure in the list
         """
         # The function can only be called by gui code. So don't catch IndexError
@@ -114,30 +115,30 @@ class Organizer(PDFComponent):
     def hasDataSets(self):
         """Check to see if there are datasets."""
         return len(self.datasets) > 0
-    
+
     def getDataSet(self, pos):
         """get dataset by position
-        
+
         pos -- the position of dataset in the list
         """
         # The function can only be called by gui code. So don't catch IndexError
         # Any IndexError is a program bug thus should be propagated as is.
         return self.datasets[pos]
-        
+
     def hasCalculations(self):
         """Check to see if there are calculations."""
         return len(self.calcs) > 0
 
     def getCalculation(self, pos):
         """get calculation by position
-        
+
         pos -- the position of calculation in the list
         """
         # The function can only be called by gui code. So don't catch IndexError
         # Any IndexError is a program bug thus should be propagated as is.
         return self.calcs[pos]
-            
-    def load ( self, z, subpath):
+
+    def load(self, z, subpath):
         """load data from a zipped project file
 
         z -- zipped project file
@@ -160,16 +161,18 @@ class Organizer(PDFComponent):
                 dataset = FitDataSet(unquote_plus(datasetName))
                 dataset.load(z, subpath + 'dataset/' + datasetName + '/')
                 self.add(dataset)
-        
+
         if rootDict.has_key('calculation'):
             for calcName in rootDict['calculation'].keys():
                 calc = Calculation(unquote_plus(calcName))
                 calc.load(z, subpath + 'calculation/' + calcName + '/')
                 self.add(calc)
-                
+
+        self.__forward_spdiameter()
+
         return self.organization()
 
-    def save ( self, z, subpath ):
+    def save(self, z, subpath):
         """save data from a zipped project file
 
         z -- zipped project file
@@ -183,9 +186,9 @@ class Organizer(PDFComponent):
             dataset.save(z, subpath + 'dataset/' + quote_plus(dataset.name.encode('ascii')) + '/')
         for calc in self.calcs:
             calc.save(z, subpath + 'calculation/' + quote_plus(calc.name.encode('ascii')) +'/')
-        return 
+        return
 
-    def copy (self, other = None):
+    def copy(self, other = None):
         """copy self to other. if other is None, create an instance
 
         other -- ref to other object
@@ -202,7 +205,7 @@ class Organizer(PDFComponent):
             other.add(calc.copy())
         return other
 
-    def organization ( self ):
+    def organization(self):
         """get internal organization
 
         returns a tree of internal hierachy
@@ -220,6 +223,47 @@ class Organizer(PDFComponent):
             org[3].append((calc.name, calc))
 
         return org
+
+
+    def __forward_spdiameter(self):
+        """Copy spdiameter value loaded from fit or calculation to phase.
+
+        This method takes care of loading old PDFgui projects where
+        spdiameter belonged to FitDataSet or Calculation classes.
+        It should be called only from the Organizer.load method.
+        """
+        # Jump out if any of structures has spdiameter set
+        for stru in self.strucs:
+            if stru.getvar('spdiameter'):   return
+        # Search datasets for spdiameter and its constraints
+        spd_assigned = lambda ds : bool(ds.spdiameter)
+        spd_constrained = lambda ds : ds.constraints.has_key('spdiameter')
+        # Figure out the value and constraint for spdiameter.
+        # The highest priority is for a dataset with constrained spdiameter,
+        # then for dataset with assigned spdiameter and finally from
+        # a calculation.
+        spd_val = spd_cns = None
+        constrained_datas = filter(spd_constrained, self.datasets)
+        assigned_datas = filter(spd_assigned, self.datasets)
+        assigned_calcs = filter(spd_assigned, self.calcs)
+        if constrained_datas:
+            spd_val = constrained_datas[0].spdiameter
+            spd_cns = constrained_datas[0].constraints['spdiameter']
+        elif assigned_datas:
+            spd_val = assigned_datas[0].spdiameter
+        elif assigned_calcs:
+            spd_val = assigned_calcs[0].spdiameter
+        # assign spd_val to all structures that don't have it set
+        for stru in self.strucs:
+            if spd_val and not stru.getvar('spdiameter'):
+                stru.setvar('spdiameter', spd_val)
+            if spd_cns:
+                stru.constraints.setdefault('spdiameter', spd_cns)
+        # finally remove any spdiameter constraints from all datasets
+        for ds in self.datasets:
+            ds.constraints.pop('spdiameter', None)
+        return
+
 
 # End of class Organizer
 

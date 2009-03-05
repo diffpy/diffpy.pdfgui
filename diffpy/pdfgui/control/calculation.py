@@ -44,7 +44,10 @@ class Calculation(PDFComponent):
     qdamp  -- specifies width of Gaussian damping factor in pdf_obs due
               to imperfect Q resolution
     qbroad -- quadratic peak broadening factor related to dataset
-    spdiameter -- particle diameter for shape damping function
+    spdiameter -- particle diameter for shape damping function.
+              Note: this attribute has been moved to FitStructure and is
+              maintained only for backward compatible reading of PDFgui
+              project files.
     dscale -- total scale factor
     """
 
@@ -64,13 +67,13 @@ class Calculation(PDFComponent):
         self.qmax = 0.0
         self.qdamp = 0.001
         self.qbroad = 0.0
-        self.spdiameter = 0.0
+        self.spdiameter = None
         self.dscale = 1.0
         return
-        
+
     def _getStrId(self):
         """make a string identifier
-        
+
         return value: string id
         """
         return "c_" + self.name
@@ -94,16 +97,16 @@ class Calculation(PDFComponent):
         # check if arguments are valid
         if not rmin > 0:
             emsg = "Low range boundary must be positive."
-            raise ControlValueError, emsg
+            raise ControlValueError(emsg)
         if not rmin < rmax:
             emsg = "Invalid range boundaries."
-            raise ControlValueError, emsg
+            raise ControlValueError(emsg)
         if rstep <= 0.0:
             emsg = "Invalid value of rstep, rstep must be positive."
-            raise ControlValueError, emsg
+            raise ControlValueError(emsg)
         # find number of r bins
         nbins = int( math.ceil( (rmax - rmin)/rstep ) )
-        # check for overshot due to round-off 
+        # check for overshot due to round-off
         epsilonr = 1.0e-8 * rstep
         deltarmax = abs(rmin + (nbins - 1)*rstep - rmax)
         if nbins > 1 and deltarmax < epsilonr:
@@ -123,7 +126,7 @@ class Calculation(PDFComponent):
         except getEngineExceptions(), error:
             gui = self.owner.controlCenter.gui
             handleEngineException(error, gui)
-            
+
         # inform gui of change ( when engine calculation fails, it will update gui as well )
         gui = self.owner.controlCenter.gui
         if gui:
@@ -133,7 +136,7 @@ class Calculation(PDFComponent):
                 for plot in self.owner.controlCenter.plots:
                     plot.notify(self)
             finally:
-                gui.unlock()        
+                gui.unlock()
         return
 
     def calculate(self):
@@ -142,36 +145,38 @@ class Calculation(PDFComponent):
         # clean up old results
         self.rcalc = []
         self.Gcalc = []
-        
+
         # do the job
         if len(self.owner.strucs) == 0:
-            raise ControlConfigError, "No structure is given for calculation"
-            
+            raise ControlConfigError("No structure is given for calculation")
+
         # make sure parameters are initialized
         self.owner.updateParameters()
         from diffpy.pdffit2.PdfFit import PdfFit
         server = PdfFit()
-        
+
         # structure needs to be read before dataset allocation
         for struc in self.owner.strucs:
             server.read_struct_string(struc.writeStr('pdffit'))
             for key,var in struc.constraints.items():
                 server.constrain(key.encode('ascii'), var.formula.encode('ascii'))
-                
-        # set up dataset 
+
+        # set up dataset
         server.alloc(self.stype, self.qmax, self.qdamp,
                 self.rmin, self.rmax, self.rlen)
         server.setvar('qbroad', self.qbroad)
-        server.setvar('spdiameter', self.spdiameter)
         server.setvar('dscale', self.dscale)
-        
+
         # phase related variables
-        # pair selection applies to current dataset, 
+        # pair selection applies to current dataset,
         # therefore it has to be done after alloc
         nstrucs = len(self.owner.strucs)
-        for phaseidx, struc in zip(range(1, nstrucs + 1), self.owner.strucs):
+        for phaseidx0, struc in enumerate(self.owner.strucs):
+            phaseidx1 = phaseidx0 + 1
+            server.setphase(phaseidx1)
             server.setvar('pscale', struc.getvar('pscale'))
-            struc.applyPairSelection(server, phaseidx)
+            server.setvar('spdiameter', struc.getvar('spdiameter'))
+            struc.applyPairSelection(server, phaseidx1)
 
         # set up parameters
         for index, par in self.owner.parameters.items():
@@ -182,14 +187,14 @@ class Calculation(PDFComponent):
 
         # all ready here
         server.calc()
-        
+
         # get results
         self.rcalc = server.getR()
         self.Gcalc = server.getpdf_fit()
-       
+
     def write(self, filename):
         """write this calculated PDF to a file
-        
+
         filename -- name of file to write to
 
         No return value.
@@ -199,10 +204,10 @@ class Calculation(PDFComponent):
         f.write(bytes)
         f.close()
         return
-        
+
     def writeStr(self):
         """String representation of calculated PDF.
-        
+
         Returns data string
         """
         import time
@@ -233,9 +238,6 @@ class Calculation(PDFComponent):
         # qbroad
         if self.qbroad:
             lines.append('qbroad=%g' % self.qbroad)
-        # spdiameter
-        if self.spdiameter:
-            lines.append('spdiameter=%g' % self.spdiameter)
         # write data:
         lines.append('##### start data')
         lines.append('#L r(A) G(r)')
@@ -250,11 +252,11 @@ class Calculation(PDFComponent):
 
         z       -- zipped project file
         subpath -- path to its own storage within project file
-        
+
         returns a tree of internal hierachy
         """
         import cPickle
-        config = cPickle.loads(z.read(subpath+'config'))
+        config = cPickle.loads(z.read(subpath + 'config'))
         self.rmin = config['rmin']
         self.rstep = config['rstep']
         self.rmax = config['rmax']
@@ -265,9 +267,9 @@ class Calculation(PDFComponent):
         self.qmax = config['qmax']
         self.qdamp = config.get('qdamp', config.get('qsig'))
         self.qbroad = config.get('qbroad', config.get('qalp', 0.0))
-        self.spdiameter = config.get('spdiameter', 0.0)
+        self.spdiameter = config.get('spdiameter')
         self.dscale = config['dscale']
-        return 
+        return
 
     def save(self, z, subpath):
         """save data from a zipped project file
@@ -277,20 +279,19 @@ class Calculation(PDFComponent):
         """
         from diffpy.pdfgui.utils import safeCPickleDumps
         config = {
-            'rmin'       : self.rmin,
-            'rstep'      : self.rstep,
-            'rmax'       : self.rmax,
-            'rlen'       : self.rlen,
-            'rcalc'      : self.rcalc,
-            'Gcalc'      : self.Gcalc,
-            'stype'      : self.stype,
-            'qmax'       : self.qmax,
-            'qdamp'      : self.qdamp,
-            'qbroad'     : self.qbroad,
-            'spdiameter' : self.spdiameter,
-            'dscale'     : self.dscale,
+            'rmin' : self.rmin,
+            'rstep' : self.rstep,
+            'rmax' : self.rmax,
+            'rlen' : self.rlen,
+            'rcalc' : self.rcalc,
+            'Gcalc' : self.Gcalc,
+            'stype' : self.stype,
+            'qmax' : self.qmax,
+            'qdamp' : self.qdamp,
+            'qbroad' : self.qbroad,
+            'dscale' : self.dscale,
         }
-        z.writestr(subpath+'config', safeCPickleDumps(config))
+        z.writestr(subpath + 'config', safeCPickleDumps(config))
         return
 
     def copy(self, other=None):
@@ -306,8 +307,8 @@ class Calculation(PDFComponent):
         # rcalc and Gcalc may be assigned, they get replaced by new lists
         # after every calculation
         assign_attributes = ( 'rmin', 'rstep', 'rmax', 'rlen',
-                'rcalc', 'Gcalc', 'stype', 'qmax', 'qdamp', 
-                'qbroad', 'spdiameter', 'dscale', )
+                'rcalc', 'Gcalc', 'stype', 'qmax', 'qdamp',
+                'qbroad', 'dscale', )
         copy_attributes = ( )
         for a in assign_attributes:
             setattr(other, a, getattr(self, a))
@@ -317,14 +318,14 @@ class Calculation(PDFComponent):
 
     def getYNames(self):
         """get names of data item which can be plotted as y
-        
+
         returns a name str list
         """
         return ['Gcalc',]
 
     def getXNames(self):
         """get names of data item which can be plotted as x
-        
+
         returns a name str list
         """
         return ['r', ]
@@ -338,18 +339,19 @@ class Calculation(PDFComponent):
         returns data object, be it a single number, a list, or a list of list
         """
         if dataname not in ['rcalc', 'Gcalc']:
-            raise ControlKeyError, "%s is not valid dataname" % dataname
+            emsg = "%s is not valid dataname" % dataname
+            raise ControlKeyError(emsg)
         return self.__dict__[dataname]
-        
+
     def getMetaDataNames(self):
         """return all applicable meta data names
         """
         # FIXME: Currently we haven't thought about this
         return []
-        
+
     def getMetaData(self, name):
         """get meta data value
-        
+
         name -- meta data name
         returns meta data value
         """

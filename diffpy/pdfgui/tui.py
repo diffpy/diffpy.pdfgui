@@ -31,7 +31,7 @@ class LoadProject:
 
     def __init__(self, filename):
         """Initialize LoadProject object, by reading existing project file.
-        
+
         filename -- path to PDFgui project file.
         """
         # data declaration
@@ -40,9 +40,10 @@ class LoadProject:
         self.load(filename)
         return
 
+
     def load(self, filename):
         """Load a project.
-        
+
         filename -- path to PDFgui project file.
 
         No return value.
@@ -52,15 +53,17 @@ class LoadProject:
         self._project.load(filename)
         return
 
+
     def save(self, filename):
         """Save the project.
-        
+
         filename -- path where to write the PDFgui project.
 
         No return value.
         """
         self._project.save(filename)
         return
+
 
     def getFits(self):
         """Get all fits defined in the project file.
@@ -72,7 +75,7 @@ class LoadProject:
 
 
     def getDataSets(self, fits=None):
-        """Collect all datasets contained in specified fits.
+        """Return a list of all datasets contained in specified fits.
 
         fits -- optional list of Fitting objects that own datasets.
                 When not specified, get datasets from all fits defined
@@ -85,6 +88,23 @@ class LoadProject:
         else:
             fitlist = fits
         rv = sum([fit.datasets for fit in fitlist], [])
+        return rv
+
+
+    def getCalculations(self, fits=None):
+        """Return list of all calculations contained in specified fits.
+
+        fits -- optional list of Fitting objects that own datasets.
+                When not specified, get datasets from all fits defined
+                in the project.
+
+        Return list of Calculation objects.
+        """
+        if fits is None:
+            fitlist = self.getFits()
+        else:
+            fitlist = fits
+        rv = sum([fit.calcs for fit in fitlist], [])
         return rv
 
 

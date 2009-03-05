@@ -39,8 +39,6 @@ datasetconfigurepanel = {
     'textCtrlQdamp'       : 'Resolution dampening factor', # TextCtrl
 #    'labelQbroad'         : '', # StaticText "Qbroad"
     'textCtrlQbroad'      : 'Resolution peak broadening factor', # TextCtrl
-#    'labelSpdiameter'     : '', # StaticText "Spdiameter"
-    'textCtrlSpdiameter'  : 'Spherical form factor diameter', # TextCtrl
 #    'labelTemperature'    : '', # StaticText "Temperature"
     'textCtrlTemperature' : 'Temperature at which the data were collected', # TextCtrl
 #    'labelDoping'         : '', # StaticText "Doping"
@@ -56,8 +54,6 @@ datasetconstraintpanel = {
     'textCtrlQdamp' : 'Resolution dampening factor', # TextCtrl
     'labelQbroad' : '', # StaticText "Qbroad"
     'textCtrlQbroad' : 'Resolution peak broadening factor', # TextCtrl
-    'labelSpdiameter' : '', # StaticText "Spdiameter"
-    'textCtrlSpdiameter' : 'Spherical form factor diameter', # TextCtrl
     }
 
 datasetresultspanel = {
@@ -69,9 +65,6 @@ datasetresultspanel = {
     'textCtrlQdamp' : 'Resolution dampening factor', # TextCtrl
     'labelQbroad' : '', # StaticText "Qbroad"
     'textCtrlQbroad' : 'Resolution peak broadening factor', # TextCtrl
-    'labelSpdiameter' : '', # StaticText "Spdiameter"
-    'textCtrlSpdiameter' : 'Spherical form factor diameter', # TextCtrl
-    'buttonExport' : '', # Button "Export PDF"
     }
 
 
@@ -121,8 +114,10 @@ phasepanel = {
     'textCtrlSratio' : 'Low r peak sharpening', # TextCtrl
 #    'labelRcut' : '', # StaticText "rcut"
     'textCtrlRcut' : 'Peak sharpening cutoff', # TextCtrl
+#    'labelSpdiameter'     : '', # StaticText "Spdiameter"
+    'textCtrlSpdiameter' : 'Spherical nanoparticle amplitude correction',
 #    'labelIncludedPairs' : '', # StaticText "Included Pairs"
-    'textCtrlIncludedPairs' : 
+    'textCtrlIncludedPairs' :
 """[!]{element|indexOrRange|all}-[!]{element|indexOrRange|all}
 Examples:
 all-all              all possible pairs

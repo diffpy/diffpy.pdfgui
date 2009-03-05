@@ -165,8 +165,8 @@ class MainFrame(wx.Frame):
                     accordingly.
     runningDict --  A dictionary of running fits and calculations indexed by
                     name. This dictionary is used to change the status colors of
-                    running fits and to keep the user from editing a running fit.
-
+                    running fits and to keep the user from editing a running
+                    fit.
     quitting    --  A boolean that is set when the program is quitting. This
                     flag tells the error handlers to ignore any errors that take
                     place during shutdown.
@@ -1367,10 +1367,8 @@ class MainFrame(wx.Frame):
 
         itemtype = None
         selections = self.treeCtrlMain.GetSelections()
-        types = []
         if selections:
-            types = map(self.treeCtrlMain.GetNodeType, selections)
-            itemtype = types[0]
+            itemtype = self.treeCtrlMain.GetNodeType(selections[0])
 
 
         # This is redundant, but easy to maintain
@@ -1386,8 +1384,8 @@ class MainFrame(wx.Frame):
             if not self.runningDict:
                 # No fit is running
                 self.toolBar.EnableTool(self.stopFitId, False)
-                # Check to see if a fit or calculation is in the selection
-                if 'fit' in types or 'calculation' in types:
+                # We can run a fit if there are any selections
+                if selections:
                     self.toolBar.EnableTool(self.runFitId, True)
                 else:
                     self.toolBar.EnableTool(self.runFitId, False)
@@ -1862,8 +1860,11 @@ class MainFrame(wx.Frame):
         self.treeCtrlMain.SetFocus()
 
         selections = self.treeCtrlMain.GetSelections()
-        nodes = [sel for sel in selections if self.treeCtrlMain.GetNodeType(sel) 
-                    in ('fit', 'calculation')]
+        # Get the calculation nodes and fit parent nodes from the selections.
+        nodes = [self.treeCtrlMain.GetFitRoot(sel) for sel in selections if
+                self.treeCtrlMain.GetNodeType(sel) != "calculation"]
+        nodes.extend( [sel for sel in selections if
+                self.treeCtrlMain.GetNodeType(sel) == "calculation"])
 
         # Add calculation nodes that are children of fit nodes, and order them
         # as if walking down the fit tree
@@ -1871,8 +1872,8 @@ class MainFrame(wx.Frame):
         for node in nodes:
             if node not in allnodes:
                 allnodes.append(node)
-            elif self.treeCtrlMain.GetNodeType(node) == 'fit':
-                allnodes.expand(self.treeCtrlMain.GetChildren(node))
+                if self.treeCtrlMain.GetNodeType(node) == 'fit':
+                    allnodes.extend(self.treeCtrlMain.GetChildren(node))
 
         # Disable the current panel
         if self.rightPanel.key != "calculation":

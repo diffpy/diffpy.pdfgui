@@ -328,6 +328,7 @@ class Fitting(Organizer):
                 
         self.__changeStatus(fitStatus=Fitting.CONNECTED)
                                     
+
     def configure(self):
         """configure fitting"""        
         if self.fitStatus != Fitting.CONNECTED:
@@ -339,10 +340,13 @@ class Fitting(Organizer):
         for struc in self.strucs:
             struc.clearRefined()
             self.server.read_struct_string(struc.initial.writeStr("pdffit") )
-            for key,var in struc.constraints.items():
-                self.server.constrain(key.encode('ascii'), var.formula.encode('ascii'))
+            for key, var in struc.constraints.items():
+                key_ascii = key.encode('ascii')
+                formula_ascii = var.formula.encode('ascii')
+                self.server.constrain(key_ascii, formula_ascii)
+
+        # phase paramters configured
         
-        seq = 1
         for dataset in self.datasets:
             dataset.clearRefined()
             self.server.read_data_string(dataset.writeResampledObsStr(), 
@@ -350,7 +354,6 @@ class Fitting(Organizer):
                                          dataset.qmax, 
                                          dataset.qdamp)
             self.server.setvar('qbroad', dataset.qbroad)
-            self.server.setvar('spdiameter', dataset.spdiameter)
             for key,var in dataset.constraints.items():
                 self.server.constrain(key.encode('ascii'), var.formula.encode('ascii'))
             # Removed call to pdfrange call, because data were already
@@ -361,7 +364,6 @@ class Fitting(Organizer):
             nstrucs = len(self.strucs)
             for phaseidx, struc in zip(range(1, nstrucs + 1), self.strucs):
                 struc.applyPairSelection(self.server, phaseidx)
-            seq += 1
 
         for index, par in self.parameters.items():
             # clean any refined value
@@ -375,6 +377,8 @@ class Fitting(Organizer):
         self.buildNameDict()
     
         self.__changeStatus(fitStatus=Fitting.CONFIGURED)
+        return
+
        
     def resetStatus ( self ):
         """reset status back to initialized"""

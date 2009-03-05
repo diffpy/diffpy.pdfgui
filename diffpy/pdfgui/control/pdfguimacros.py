@@ -208,7 +208,6 @@ def makeTemperatureSeries(control, fit, paths, temperatures):
 
         newdataset.qdamp = dataset.qdamp
         newdataset.qbroad = dataset.qbroad
-        newdataset.spdiameter = dataset.spdiameter
         newdataset.dscale = dataset.dscale
         newdataset.fitrmin = dataset.fitrmin
         newdataset.fitrmax = dataset.fitrmax
@@ -310,7 +309,6 @@ def makeDopingSeries(control, fit, base, dopant, paths, doping):
 
         newdataset.qdamp = dataset.qdamp
         newdataset.qbroad = dataset.qbroad
-        newdataset.spdiameter = dataset.spdiameter
         newdataset.dscale = dataset.dscale
         newdataset.fitrmin = dataset.fitrmin
         newdataset.fitrmax = dataset.fitrmax

@@ -48,9 +48,9 @@ class FitStructure(PDFStructure):
                        after reading from a CIF file.  When equivalent space
                        group exists, custom_spacegroup is None.
 
-    Refinable variables: pscale, delta1, delta2, sratio, lat(n), where n=1..6,
-                         x(i), y(i), z(i), occ(i), u11(i), u22(i), u33(i),
-                         u12(i), u13(i), u23(i), where i=1..Natoms
+    Refinable variables:  pscale, spdiameter, delta1, delta2, sratio, lat(n),
+        where n=1..6,  x(i), y(i), z(i), occ(i), u11(i), u22(i), u33(i),
+        u12(i), u13(i), u23(i), where i=1..Natoms
 
     Non-refinable variable:  rcut
     """
@@ -58,7 +58,7 @@ class FitStructure(PDFStructure):
     # class data members:
     symposeps = 0.001
     # evaluation of sorted_standard_space_groups deferred when necessary
-    sorted_standard_space_groups = []   
+    sorted_standard_space_groups = []
 
     def __init__(self, name, *args, **kwargs):
         """Initialize FitDataSet.
@@ -139,12 +139,13 @@ class FitStructure(PDFStructure):
         if name == "initial":
             value = self
         else:
-            raise AttributeError, "A instance has no attribute '%s'" % name
+            emsg = "A instance has no attribute '%s'" % name
+            raise AttributeError(emsg)
         return value
 
     def _getStrId(self):
         """make a string identifier
-        
+
         return value: string id
         """
         return "p_" + self.name
@@ -291,14 +292,14 @@ class FitStructure(PDFStructure):
         parameters are multiplied and fractional coordinates divided by
         corresponding multiplier.  New atoms are grouped with their source
         in the original cell.
-        
+
         mno -- tuple or list of three positive integer cell multipliers along
         the a, b, c axis
         """
         # check argument
         if tuple(mno) == (1, 1, 1):     return
         if min(mno) < 1:
-            raise ControlValueError, "mno must contain 3 positive integers"
+            raise ControlValueError("mno must contain 3 positive integers")
         # back to business
         acd = self._popAtomConstraints()
         mnofloats = numpy.array(mno[:3], dtype=float)
@@ -380,9 +381,9 @@ class FitStructure(PDFStructure):
         return sglist
 
     def getSpaceGroup(self, sgname):
-        """Find space group in getSpaceGroupList() by short_name or number. 
+        """Find space group in getSpaceGroupList() by short_name or number.
         Use P1 when nothing else matches.
-        
+
         Return instance of SpaceGroup.
         """
         sgfound = None
@@ -401,7 +402,7 @@ class FitStructure(PDFStructure):
 
     def expandAsymmetricUnit(self, spacegroup, indices, sgoffset=[0,0,0]):
         """Perform symmetry expansion for atoms at given indices.
-        Temperature factors may be corrected to reflect the symmetry. 
+        Temperature factors may be corrected to reflect the symmetry.
         All constraints for expanded atoms are erased with the exception
         of the occupancy("occ".  Constraints of unaffected atoms are adjusted
         for new positions self.initial.
@@ -572,7 +573,7 @@ class FitStructure(PDFStructure):
 
     def getPairSelectionFlags(self, s=None):
         """Translate string s to a list of allowed values for first and second
-        pair index.  Raise ControlValueError for invalid syntax of s.  See 
+        pair index.  Raise ControlValueError for invalid syntax of s.  See
         setSelectedPairs() docstring for a definition of pair selection syntax.
 
         s -- string describing selected pairs (default: self.selected_pairs)
@@ -633,13 +634,13 @@ class FitStructure(PDFStructure):
             wparts = w.split('-')
             if len(wparts) != 2:
                 emsg = "Selection word '%s' must contain one dash '-'." % w
-                raise ControlValueError, emsg
+                raise ControlValueError(emsg)
             wfirst, wsecond = [ wp.replace(" ", "") for wp in wparts ]
             mxfirst = rxsel.match(wfirst)
             mxsecond = rxsel.match(wsecond)
             if (wfirst and not mxfirst) or (wsecond and not mxsecond):
                 emsg = "Invalid selection syntax in '%s'" % w
-                raise ControlValueError, emsg
+                raise ControlValueError(emsg)
             wfixed = ''
             # wfirst can be either empty or matching
             if mxfirst: wfixed += applymxsel(mxfirst, firstflags)
@@ -678,8 +679,8 @@ class FitStructure(PDFStructure):
         if other is None:
             other = FitStructure(self.name)
         elif not isinstance(other, PDFStructure):
-            raise ControlTypeError, \
-                "other must be PDFStructure or FitStructure"
+            emsg = "other must be PDFStructure or FitStructure"
+            raise ControlTypeError(emsg)
         # copy initial structure (self) to other
         PDFStructure.copy(self, other)
         # copy refined structure to other when it is FitStructure
@@ -730,7 +731,7 @@ class FitStructure(PDFStructure):
             bytes = z.read(subpath+'custom_spacegroup')
             self.custom_spacegroup = CtrlUnpickler.loads(bytes)
         return
-        
+
     def save(self, z, subpath):
         """Save structure to a zipped project file.
 
@@ -753,22 +754,22 @@ class FitStructure(PDFStructure):
             bytes = safeCPickleDumps(self.custom_spacegroup)
             z.writestr(subpath+'custom_spacegroup', bytes)
         return
-        
+
     def getYNames(self):
-        """get names of data item which can be plotted as y 
+        """get names of data item which can be plotted as y
 
         returns a name str list
         """
         return self.constraints.keys()
-    
+
     def getXNames(self):
         """get names of data item which can be plotted as x
-        
+
         returns a name str list
         """
         # in fact nothing
         return []
-    
+
     def getData(self, name, step = -1 ):
         """get self's data member
 
@@ -780,14 +781,14 @@ class FitStructure(PDFStructure):
 
         returns data object, be it a single number, a list, or a list of list
         """
-        # FIXME: for next plot interface, we need find how many steps the 
-        # plotter is requiring for and make exact same number of copies of 
+        # FIXME: for next plot interface, we need find how many steps the
+        # plotter is requiring for and make exact same number of copies of
         # data by name
         data = self.owner.getMetaData(name)
         if data is not None:
             return data
-        return self.owner._getData(self, name, step)        
-        
+        return self.owner._getData(self, name, step)
+
 # End of class FitStructure
 
 # simple test code

@@ -55,12 +55,6 @@ class DataSetConfigurePanel(wx.Panel, PDFPanel):
         self.textCtrlQbroad = wx.TextCtrl(self, -1, "0.0")
         self.blank1_copy_1 = wx.StaticText(self, -1, "")
         self.blank1_copy_5 = wx.StaticText(self, -1, "")
-        self.labelSpdiameter = wx.StaticText(self, -1, "Spdiameter")
-        self.textCtrlSpdiameter = wx.TextCtrl(self, -1, "0.0")
-        self.blank1 = wx.StaticText(self, -1, "")
-        self.blank2 = wx.StaticText(self, -1, "")
-        self.blank1_copy_2 = wx.StaticText(self, -1, "")
-        self.blank1_copy_6 = wx.StaticText(self, -1, "")
         self.labelTemperature = wx.StaticText(self, -1, "Temperature", style=wx.ALIGN_RIGHT)
         self.textCtrlTemperature = wx.TextCtrl(self, -1, "300.0")
         self.labelDoping = wx.StaticText(self, -1, "Doping", style=wx.ALIGN_RIGHT)
@@ -123,12 +117,6 @@ class DataSetConfigurePanel(wx.Panel, PDFPanel):
         grid_sizer_1.Add(self.textCtrlQbroad, 0, wx.ALIGN_CENTER_VERTICAL, 0)
         grid_sizer_1.Add(self.blank1_copy_1, 0, 0, 0)
         grid_sizer_1.Add(self.blank1_copy_5, 0, 0, 0)
-        grid_sizer_1.Add(self.labelSpdiameter, 0, wx.ALIGN_CENTER_HORIZONTAL|wx.ALIGN_CENTER_VERTICAL, 0)
-        grid_sizer_1.Add(self.textCtrlSpdiameter, 0, wx.ALIGN_CENTER_VERTICAL, 0)
-        grid_sizer_1.Add(self.blank1, 0, 0, 0)
-        grid_sizer_1.Add(self.blank2, 0, 0, 0)
-        grid_sizer_1.Add(self.blank1_copy_2, 0, 0, 0)
-        grid_sizer_1.Add(self.blank1_copy_6, 0, 0, 0)
         grid_sizer_1.Add(self.labelTemperature, 0, wx.LEFT|wx.ALIGN_RIGHT|wx.ALIGN_CENTER_VERTICAL, 5)
         grid_sizer_1.Add(self.textCtrlTemperature, 0, wx.ALIGN_CENTER_VERTICAL, 0)
         grid_sizer_1.Add(self.labelDoping, 0, wx.LEFT|wx.ALIGN_RIGHT|wx.ALIGN_CENTER_VERTICAL, 20)
@@ -149,7 +137,7 @@ class DataSetConfigurePanel(wx.Panel, PDFPanel):
         self.constraints = {}
         self.stypeMap = {0: 'N', 1: 'X'}
         self.metaNames = ['doping', 'temperature']
-        self.constrainables = ['dscale', 'qdamp', 'qbroad', 'spdiameter']
+        self.constrainables = ['dscale', 'qdamp', 'qbroad']
         self.sampList = ["data", "Nyquist", "custom"]
 
         # Note that the rstep and fitrstep attributes are special cases, so they
@@ -161,7 +149,6 @@ class DataSetConfigurePanel(wx.Panel, PDFPanel):
                         'dscale'        :   'textCtrlScaleFactor',
                         'qdamp'         :   'textCtrlQdamp',
                         'qbroad'        :   'textCtrlQbroad',
-                        'spdiameter'    :   'textCtrlSpdiameter',
                         'temperature'   :   'textCtrlTemperature',
                         'doping'        :   'textCtrlDoping',
                         }
@@ -194,7 +181,6 @@ class DataSetConfigurePanel(wx.Panel, PDFPanel):
         dscale          --  float
         qmax            --  float
         qdamp           --  float
-        spdiameter      --  float
         rmin            --  float
         rmax            --  float
         fitrmin         --  float

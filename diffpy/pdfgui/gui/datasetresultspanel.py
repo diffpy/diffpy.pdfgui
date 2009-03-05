@@ -33,8 +33,6 @@ class DataSetResultsPanel(wx.Panel, PDFPanel):
         self.textCtrlQdamp = wx.TextCtrl(self, -1, "", style=wx.TE_READONLY)
         self.labelQbroad = wx.StaticText(self, -1, "Qbroad")
         self.textCtrlQbroad = wx.TextCtrl(self, -1, "", style=wx.TE_READONLY)
-        self.labelSpdiameter = wx.StaticText(self, -1, "Spdiameter")
-        self.textCtrlSpdiameter = wx.TextCtrl(self, -1, "", style=wx.TE_READONLY)
         self.buttonExport = wx.Button(self, wx.ID_OPEN, "Export PDF")
 
         self.__set_properties()
@@ -56,22 +54,18 @@ class DataSetResultsPanel(wx.Panel, PDFPanel):
         sizer_7 = wx.BoxSizer(wx.VERTICAL)
         grid_sizer_1 = wx.FlexGridSizer(4, 2, 5, 10)
         sizer_panelname = wx.StaticBoxSizer(self.sizer_panelname_staticbox, wx.HORIZONTAL)
-        sizer_panelname.Add(self.panelNameLabel, 0, wx.LEFT|wx.RIGHT|wx.ALIGN_CENTER_VERTICAL|wx.ADJUST_MINSIZE, 5)
+        sizer_panelname.Add(self.panelNameLabel, 0, wx.LEFT|wx.RIGHT|wx.ALIGN_CENTER_VERTICAL, 5)
         sizer_7.Add(sizer_panelname, 0, wx.LEFT|wx.RIGHT|wx.EXPAND, 5)
-        grid_sizer_1.Add(self.labelScaleFactor, 0, wx.LEFT|wx.ALIGN_RIGHT|wx.ALIGN_CENTER_VERTICAL|wx.ADJUST_MINSIZE, 5)
-        grid_sizer_1.Add(self.textCtrlScaleFactor, 0, wx.ALIGN_CENTER_VERTICAL|wx.ADJUST_MINSIZE, 20)
-        grid_sizer_1.Add(self.labelQdamp, 0, wx.LEFT|wx.ALIGN_RIGHT|wx.ALIGN_CENTER_VERTICAL|wx.ADJUST_MINSIZE, 5)
-        grid_sizer_1.Add(self.textCtrlQdamp, 0, wx.ALIGN_CENTER_VERTICAL|wx.ADJUST_MINSIZE, 20)
-        grid_sizer_1.Add(self.labelQbroad, 0, wx.LEFT|wx.ALIGN_RIGHT|wx.ALIGN_CENTER_VERTICAL|wx.ADJUST_MINSIZE, 5)
-        grid_sizer_1.Add(self.textCtrlQbroad, 0, wx.ALIGN_CENTER_VERTICAL|wx.ADJUST_MINSIZE, 20)
-        grid_sizer_1.Add(self.labelSpdiameter, 0, wx.LEFT|wx.ALIGN_RIGHT|wx.ALIGN_CENTER_VERTICAL|wx.ADJUST_MINSIZE, 5)
-        grid_sizer_1.Add(self.textCtrlSpdiameter, 0, wx.ALIGN_CENTER_VERTICAL|wx.ADJUST_MINSIZE, 20)
+        grid_sizer_1.Add(self.labelScaleFactor, 0, wx.LEFT|wx.ALIGN_RIGHT|wx.ALIGN_CENTER_VERTICAL, 5)
+        grid_sizer_1.Add(self.textCtrlScaleFactor, 0, wx.ALIGN_CENTER_VERTICAL, 20)
+        grid_sizer_1.Add(self.labelQdamp, 0, wx.LEFT|wx.ALIGN_RIGHT|wx.ALIGN_CENTER_VERTICAL, 5)
+        grid_sizer_1.Add(self.textCtrlQdamp, 0, wx.ALIGN_CENTER_VERTICAL, 20)
+        grid_sizer_1.Add(self.labelQbroad, 0, wx.LEFT|wx.ALIGN_RIGHT|wx.ALIGN_CENTER_VERTICAL, 5)
+        grid_sizer_1.Add(self.textCtrlQbroad, 0, wx.ALIGN_CENTER_VERTICAL, 20)
         sizer_7.Add(grid_sizer_1, 0, wx.ALL|wx.EXPAND, 5)
-        sizer_7.Add(self.buttonExport, 0, wx.ALL|wx.ALIGN_RIGHT|wx.ALIGN_CENTER_VERTICAL|wx.ADJUST_MINSIZE, 5)
-        self.SetAutoLayout(True)
+        sizer_7.Add(self.buttonExport, 0, wx.ALL|wx.ALIGN_RIGHT|wx.ALIGN_CENTER_VERTICAL, 5)
         self.SetSizer(sizer_7)
         sizer_7.Fit(self)
-        sizer_7.SetSizeHints(self)
         # end wxGlade
 
     # USER CONFIGURATION CODE #################################################
@@ -81,7 +75,6 @@ class DataSetResultsPanel(wx.Panel, PDFPanel):
         self.ctrlMap = {'dscale'        :   'textCtrlScaleFactor',
                         'qdamp'         :   'textCtrlQdamp',
                         'qbroad'        :   'textCtrlQbroad',
-                        'spdiameter'    :   'textCtrlSpdiameter',
                         }
 
         # Hide all of the pscale stuff until it is needed.
@@ -97,7 +90,6 @@ class DataSetResultsPanel(wx.Panel, PDFPanel):
         dscale      --  float
         qdamp       --  float
         qbroad      --  float
-        spdiameter  --  float
         """
         for name in self.ctrlMap:
             value = self.results.get(name, None)

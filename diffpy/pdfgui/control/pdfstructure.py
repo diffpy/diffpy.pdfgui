@@ -20,9 +20,11 @@ from diffpy.pdfgui.control.pdfcomponent import PDFComponent
 from diffpy.pdfgui.control.controlerrors import \
         ControlKeyError, ControlFileError
 
+
 class PDFStructure(PDFComponent, PDFFitStructure):
     """PDFStructure contains structure information, which can be used for 3D
     rendering as well as structure refinement."""
+
 
     def __init__(self, name, *args, **kwargs):
         """Initialize PDFStructure.
@@ -33,6 +35,7 @@ class PDFStructure(PDFComponent, PDFFitStructure):
         PDFComponent.__init__(self, name)
         PDFFitStructure.__init__(self, *args, **kwargs)
         return
+
 
     def read(self, filename, format='auto'):
         """Load structure from a file, raise ControlFileError for invalid
@@ -50,10 +53,11 @@ class PDFStructure(PDFComponent, PDFFitStructure):
             p = PDFFitStructure.read(self, filename, format)
         except StructureFormatError, err:
             import os.path
-            emsg = "Unable to read file '%s'." % os.path.basename(filename)
-            emsg += "\n" + str(err)
-            raise ControlFileError, emsg
+            emsg = "Unable to read file '%s'\n%s." % (
+                    os.path.basename(filename), err)
+            raise ControlFileError(emsg)
         return p
+
 
     def copy(self, other=None):
         """copy self to other. if other is None, create an instance
@@ -69,23 +73,26 @@ class PDFStructure(PDFComponent, PDFFitStructure):
         other[:] = copy.deepcopy(self[:])
         return other
 
+
     def setvar(self, var, value):
         """assign to data member using PdfFit-style variable
         This can be used when applying constraint equations with particular
         parameter values.
 
         var   -- string representation of PdfFit variable.  Possible values:
-                 pscale, delta1, delta2, sratio, rcut, lat(n), where n=1..6,
-                 x(i), y(i), z(i), occ(i), u11(i), u22(i), u33(i),
-                 u12(i), u13(i), u23(i), where i=1..Natoms
+                 pscale, spdiameter, delta1, delta2, sratio, rcut, lat(n),
+                 where n=1..6,  x(i), y(i), z(i), occ(i), u11(i), u22(i),
+                 u33(i), u12(i), u13(i), u23(i), where i=1..Natoms
         value -- new value of the variable
         """
         barevar = var.strip()
         fvalue = float(value)
         parenthesis = re.match(r'^(\w+)\((\d+)\)$', barevar)
+        # common error message
+        emsg = "Invalid PdfFit phase variable %r" % barevar
         if barevar in ('pscale'):
             self.pdffit['scale'] = fvalue
-        elif barevar in ('delta1', 'delta2', 'sratio', 'rcut'):
+        elif barevar in ('spdiameter', 'delta1', 'delta2', 'sratio', 'rcut'):
             self.pdffit[barevar] = fvalue
         elif barevar == 'lat(1)':
             self.lattice.setLatPar(a=fvalue)
@@ -115,12 +122,11 @@ class PDFStructure(PDFComponent, PDFFitStructure):
                 i, j = int(pvar[1]) - 1,  int(pvar[2]) - 1
                 atom.U[i,j], atom.U[j,i] = fvalue, fvalue
             else:
-                raise ControlKeyError, \
-                        "Invalid PdfFit phase variable %r" % barevar
+                raise ControlKeyError(emsg)
         else:
-            raise ControlKeyError, \
-                    "Invalid PdfFit phase variable %r" % barevar
+            raise ControlKeyError(emsg)
         return
+
 
     def getvar(self, var):
         """obtain value corresponding to PdfFit phase variable var
@@ -128,17 +134,19 @@ class PDFStructure(PDFComponent, PDFFitStructure):
         dictionary.
 
         var   -- string representation of PdfFit variable.  Possible values:
-                 pscale, delta1, delta2, sratio, rcut, lat(n), where n = 1..6,
-                 x(i), y(i), z(i), occ(i), u11(i), u22(i), u33(i),
-                 u12(i), u13(i), u23(i), where i=1..Natoms
+                 pscale, spdiameter, delta1, delta2, sratio, rcut,
+                 lat(n), where n = 1..6,  x(i), y(i), z(i), occ(i), u11(i),
+                 u22(i), u33(i), u12(i), u13(i), u23(i), where i=1..Natoms
 
         returns value of var
         """
         barevar = var.strip()
         parenthesis = re.match(r'^(\w+)\((\d+)\)$', barevar)
+        # common error message
+        emsg = "Invalid PdfFit phase variable %r" % barevar
         if barevar in ('pscale'):
             value = self.pdffit['scale']
-        elif barevar in ('delta1', 'delta2', 'sratio', 'rcut'):
+        elif barevar in ('spdiameter', 'delta1', 'delta2', 'sratio', 'rcut'):
             value = self.pdffit[barevar]
         elif barevar == 'lat(1)':
             value = self.lattice.a
@@ -167,8 +175,10 @@ class PDFStructure(PDFComponent, PDFFitStructure):
             elif pvar in ("u11", "u22", "u33", "u12", "u13", "u23"):
                 i, j = int(pvar[1]) - 1,  int(pvar[2]) - 1
                 value = atom.U[i,j]
+            else:
+                raise ControlKeyError(emsg)
         else:
-            raise ControlKeyError, "Invalid PdfFit phase variable %r" % barevar
+            raise ControlKeyError(emsg)
         # all should be fine here, but value may be NumPy.float64scalar type
         value = float(value)
         return value

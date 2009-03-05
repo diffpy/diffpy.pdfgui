@@ -39,6 +39,9 @@ class PDFDataSet(PDFComponent):
                       to imperfect Q resolution
         qbroad     -- quadratic peak broadening factor related to dataset
         spdiameter -- particle diameter for shape damping function
+                      Note: This attribute was moved to PDFStructure.
+                      It is kept for backward compatibility when reading
+                      PDFgui project files.
         dscale     -- scale factor of this dataset
         rmin       -- same as robs[0]
         rmax       -- same as robs[-1]
@@ -52,9 +55,8 @@ class PDFDataSet(PDFComponent):
     """
 
     persistentItems = [ 'robs', 'Gobs', 'drobs', 'dGobs', 'stype', 'qmax',
-                     'qdamp', 'qbroad', 'spdiameter', 'dscale', 'rmin', 'rmax',
-                     'metadata' ]
-    refinableVars = dict.fromkeys(('qdamp', 'qbroad', 'dscale', 'spdiameter'))
+                     'qdamp', 'qbroad', 'dscale', 'rmin', 'rmax', 'metadata' ]
+    refinableVars = dict.fromkeys(('qdamp', 'qbroad', 'dscale'))
 
     def __init__(self, name):
         """Initialize.
@@ -76,7 +78,7 @@ class PDFDataSet(PDFComponent):
         self.qmax = 0.0
         self.qdamp = 0.001
         self.qbroad = 0.0
-        self.spdiameter = 0.0
+        self.spdiameter = None
         self.dscale = 1.0
         self.rmin = None
         self.rmax = None
@@ -89,7 +91,7 @@ class PDFDataSet(PDFComponent):
         Used by applyParameters().
 
         var   -- string representation of dataset PdfFit variable.
-                 Possible values: qdamp, qbroad, dscale, spdiameter
+                 Possible values: qdamp, qbroad, dscale
         value -- new value of the variable
         """
         barevar = var.strip()
@@ -97,8 +99,8 @@ class PDFDataSet(PDFComponent):
         if barevar in PDFDataSet.refinableVars:
             setattr(self, barevar, fvalue)
         else:
-            raise ControlKeyError, \
-                    "Invalid PdfFit dataset variable %r" % barevar
+            emsg = "Invalid PdfFit dataset variable %r" % barevar
+            raise ControlKeyError(emsg)
         return
 
     def getvar(self, var):
@@ -106,7 +108,7 @@ class PDFDataSet(PDFComponent):
         Used by findParameters().
 
         var   -- string representation of dataset PdfFit variable.
-                 Possible values: qdamp, qbroad, dscale, spdiameter
+                 Possible values: qdamp, qbroad, dscale
 
         returns value of var
         """
@@ -114,8 +116,8 @@ class PDFDataSet(PDFComponent):
         if barevar in PDFDataSet.refinableVars:
             value = getattr(self, barevar)
         else:
-            raise ControlKeyError, \
-                    "Invalid PdfFit dataset variable %r" % barevar
+            emsg = "Invalid PdfFit dataset variable %r" % barevar
+            raise ControlKeyError(emsg)
         return value
 
     def read(self, filename):
@@ -130,7 +132,7 @@ class PDFDataSet(PDFComponent):
         except 'InvalidDataFormat':
             emsg = ("Could not open '%s' due to unsupported file format " +
                     "or corrupted data.") % os.path.basename(filename)
-            raise ControlFileError, emsg
+            raise ControlFileError(emsg)
         self.filename = os.path.abspath(filename)
         return self
 
@@ -294,8 +296,6 @@ class PDFDataSet(PDFComponent):
         lines.append('qdamp=%g' % self.qdamp)
         # qbroad
         lines.append('qbroad=%g' % self.qbroad)
-        # spdiameter
-        lines.append('spdiameter=%g' % self.spdiameter)
         # dscale
         lines.append('dscale=%g' % self.dscale)
         # metadata
@@ -326,7 +326,7 @@ class PDFDataSet(PDFComponent):
         # some attributes can be assigned, e.g., robs, Gobs, drobs, dGobs are
         # constant so they can be shared between copies.
         assign_attributes = ( 'robs', 'Gobs', 'drobs', 'dGobs', 'stype',
-                'qmax', 'qdamp', 'qbroad', 'spdiameter', 'dscale',
+                'qmax', 'qdamp', 'qbroad', 'dscale',
                 'rmin', 'rmax', 'filename' )
         # for others we will assign a copy
         copy_attributes = ( 'metadata', )

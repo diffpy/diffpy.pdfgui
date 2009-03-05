@@ -54,8 +54,6 @@ class PhaseConstraintsPanel(wx.Panel, PDFPanel):
         self.textCtrlGamma = wx.TextCtrl(self, -1, "", style=wx.TE_PROCESS_ENTER)
         self.labelScaleFactor = wx.StaticText(self, -1, "Scale Factor")
         self.textCtrlScaleFactor = wx.TextCtrl(self, -1, "", style=wx.TE_PROCESS_ENTER)
-        self.labelCorrelationLimit = wx.StaticText(self, -1, "Correlation limit")
-        self.textCtrlCorrelationLimit = wx.TextCtrl(self, -1, "", style=wx.TE_PROCESS_ENTER)
         self.labelDelta1 = wx.StaticText(self, -1, "delta1")
         self.textCtrlDelta1 = wx.TextCtrl(self, -1, "", style=wx.TE_PROCESS_ENTER)
         self.labelDelta2 = wx.StaticText(self, -1, "delta2")
@@ -64,6 +62,8 @@ class PhaseConstraintsPanel(wx.Panel, PDFPanel):
         self.textCtrlSratio = wx.TextCtrl(self, -1, "", style=wx.TE_PROCESS_ENTER)
         self.labelRcut = wx.StaticText(self, -1, "rcut")
         self.textCtrlRcut = wx.TextCtrl(self, -1, "", style=wx.TE_PROCESS_ENTER)
+        self.labelSpdiameter = wx.StaticText(self, -1, "spdiameter")
+        self.textCtrlSpdiameter = wx.TextCtrl(self, -1, "", style=wx.TE_PROCESS_ENTER)
         self.labelIncludedPairs = wx.StaticText(self, -1, "Included Pairs")
         self.textCtrlIncludedPairs = wx.TextCtrl(self, -1, "all-all", style=wx.TE_READONLY)
         self.gridAtoms = AutoWidthLabelsGrid(self, -1, size=(1, 1))
@@ -81,8 +81,30 @@ class PhaseConstraintsPanel(wx.Panel, PDFPanel):
     def __set_properties(self):
         # begin wxGlade: PhaseConstraintsPanel.__set_properties
         self.labelPanelName.SetFont(wx.Font(18, wx.DEFAULT, wx.NORMAL, wx.BOLD, 0, ""))
-        self.labelCorrelationLimit.Hide()
-        self.textCtrlCorrelationLimit.Hide()
+        self.labelA.SetToolTipString("lat(1)")
+        self.textCtrlA.SetToolTipString("lat(1)")
+        self.labelB.SetToolTipString("lat(2)")
+        self.textCtrlB.SetToolTipString("lat(2)")
+        self.labelC.SetToolTipString("lat(3)")
+        self.textCtrlC.SetToolTipString("lat(3)")
+        self.labelAlpha.SetToolTipString("lat(4)")
+        self.textCtrlAlpha.SetToolTipString("lat(4)")
+        self.labelBeta.SetToolTipString("lat(5)")
+        self.textCtrlBeta.SetToolTipString("lat(5)")
+        self.labelGamma.SetToolTipString("lat(6)")
+        self.textCtrlGamma.SetToolTipString("lat(6)")
+        self.labelScaleFactor.SetToolTipString("phase scale factor")
+        self.textCtrlScaleFactor.SetToolTipString("phase scale")
+        self.labelDelta1.SetToolTipString("linear atomic correlation factor")
+        self.textCtrlDelta1.SetToolTipString("linear atomic correlation factor")
+        self.labelDelta2.SetToolTipString("quadratic atomic correlation factor")
+        self.textCtrlDelta2.SetToolTipString("quadratic atomic correlation factor")
+        self.labelSratio.SetToolTipString("low r peak sharpening")
+        self.textCtrlSratio.SetToolTipString("low r peak sharpening")
+        self.labelRcut.SetToolTipString("peak sharpening cutoff")
+        self.textCtrlRcut.SetToolTipString("peak sharpening cutoff")
+        self.labelSpdiameter.SetToolTipString("spherical nanoparticle amplitude correction")
+        self.textCtrlSpdiameter.SetToolTipString("spherical nanoparticle amplitude correction")
         self.textCtrlIncludedPairs.SetMinSize((240, 25))
         self.gridAtoms.CreateGrid(0, 11)
         self.gridAtoms.EnableDragRowSize(0)
@@ -99,7 +121,7 @@ class PhaseConstraintsPanel(wx.Panel, PDFPanel):
         self.gridAtoms.SetColLabelValue(10, "occ")
         # end wxGlade
         self.setToolTips(toolTips)
-        
+
 
     def __do_layout(self):
         # begin wxGlade: PhaseConstraintsPanel.__do_layout
@@ -107,49 +129,53 @@ class PhaseConstraintsPanel(wx.Panel, PDFPanel):
         sizerAtoms = wx.StaticBoxSizer(self.sizerAtoms_staticbox, wx.VERTICAL)
         sizer_1 = wx.BoxSizer(wx.HORIZONTAL)
         sizerAdditionalParameters = wx.StaticBoxSizer(self.sizerAdditionalParameters_staticbox, wx.HORIZONTAL)
-        grid_sizer_4 = wx.FlexGridSizer(3, 4, 0, 0)
+        grid_sizer_4 = wx.FlexGridSizer(3, 6, 0, 0)
         sizerLatticeParameters = wx.StaticBoxSizer(self.sizerLatticeParameters_staticbox, wx.HORIZONTAL)
         grid_sizer_3 = wx.FlexGridSizer(2, 6, 0, 0)
         sizerPanelName = wx.StaticBoxSizer(self.sizerPanelName_staticbox, wx.HORIZONTAL)
-        sizerPanelName.Add(self.labelPanelName, 0, wx.LEFT|wx.RIGHT|wx.ALIGN_CENTER_VERTICAL|wx.ADJUST_MINSIZE, 5)
+        sizerPanelName.Add(self.labelPanelName, 0, wx.LEFT|wx.RIGHT|wx.ALIGN_CENTER_VERTICAL, 5)
         sizerMain.Add(sizerPanelName, 0, wx.LEFT|wx.RIGHT|wx.EXPAND, 5)
-        grid_sizer_3.Add(self.labelA, 0, wx.ALL|wx.ALIGN_RIGHT|wx.ALIGN_CENTER_VERTICAL|wx.ADJUST_MINSIZE, 5)
-        grid_sizer_3.Add(self.textCtrlA, 0, wx.ALL|wx.ALIGN_CENTER_VERTICAL|wx.ADJUST_MINSIZE, 0)
-        grid_sizer_3.Add(self.labelB, 0, wx.ALL|wx.ALIGN_RIGHT|wx.ALIGN_CENTER_VERTICAL|wx.ADJUST_MINSIZE, 5)
-        grid_sizer_3.Add(self.textCtrlB, 0, wx.ALL|wx.ALIGN_CENTER_VERTICAL|wx.ADJUST_MINSIZE, 0)
-        grid_sizer_3.Add(self.labelC, 0, wx.ALL|wx.ALIGN_RIGHT|wx.ALIGN_CENTER_VERTICAL|wx.ADJUST_MINSIZE, 5)
-        grid_sizer_3.Add(self.textCtrlC, 0, wx.ALL|wx.ALIGN_CENTER_VERTICAL|wx.ADJUST_MINSIZE, 0)
-        grid_sizer_3.Add(self.labelAlpha, 0, wx.ALL|wx.ALIGN_RIGHT|wx.ALIGN_CENTER_VERTICAL|wx.ADJUST_MINSIZE, 5)
-        grid_sizer_3.Add(self.textCtrlAlpha, 0, wx.ALL|wx.ALIGN_CENTER_VERTICAL|wx.ADJUST_MINSIZE, 0)
-        grid_sizer_3.Add(self.labelBeta, 0, wx.ALL|wx.ALIGN_RIGHT|wx.ALIGN_CENTER_VERTICAL|wx.ADJUST_MINSIZE, 5)
-        grid_sizer_3.Add(self.textCtrlBeta, 0, wx.ALL|wx.ALIGN_CENTER_VERTICAL|wx.ADJUST_MINSIZE, 0)
-        grid_sizer_3.Add(self.labelGamma, 0, wx.ALL|wx.ALIGN_RIGHT|wx.ALIGN_CENTER_VERTICAL|wx.ADJUST_MINSIZE, 5)
-        grid_sizer_3.Add(self.textCtrlGamma, 0, wx.ALL|wx.ALIGN_CENTER_VERTICAL|wx.ADJUST_MINSIZE, 0)
+        grid_sizer_3.Add(self.labelA, 0, wx.ALL|wx.ALIGN_RIGHT|wx.ALIGN_CENTER_VERTICAL, 5)
+        grid_sizer_3.Add(self.textCtrlA, 0, wx.ALL|wx.ALIGN_CENTER_VERTICAL, 0)
+        grid_sizer_3.Add(self.labelB, 0, wx.ALL|wx.ALIGN_RIGHT|wx.ALIGN_CENTER_VERTICAL, 5)
+        grid_sizer_3.Add(self.textCtrlB, 0, wx.ALL|wx.ALIGN_CENTER_VERTICAL, 0)
+        grid_sizer_3.Add(self.labelC, 0, wx.ALL|wx.ALIGN_RIGHT|wx.ALIGN_CENTER_VERTICAL, 5)
+        grid_sizer_3.Add(self.textCtrlC, 0, wx.ALL|wx.ALIGN_CENTER_VERTICAL, 0)
+        grid_sizer_3.Add(self.labelAlpha, 0, wx.ALL|wx.ALIGN_RIGHT|wx.ALIGN_CENTER_VERTICAL, 5)
+        grid_sizer_3.Add(self.textCtrlAlpha, 0, wx.ALL|wx.ALIGN_CENTER_VERTICAL, 0)
+        grid_sizer_3.Add(self.labelBeta, 0, wx.ALL|wx.ALIGN_RIGHT|wx.ALIGN_CENTER_VERTICAL, 5)
+        grid_sizer_3.Add(self.textCtrlBeta, 0, wx.ALL|wx.ALIGN_CENTER_VERTICAL, 0)
+        grid_sizer_3.Add(self.labelGamma, 0, wx.ALL|wx.ALIGN_RIGHT|wx.ALIGN_CENTER_VERTICAL, 5)
+        grid_sizer_3.Add(self.textCtrlGamma, 0, wx.ALL|wx.ALIGN_CENTER_VERTICAL, 0)
         sizerLatticeParameters.Add(grid_sizer_3, 1, wx.EXPAND, 0)
         sizerMain.Add(sizerLatticeParameters, 0, wx.LEFT|wx.RIGHT|wx.EXPAND, 5)
-        grid_sizer_4.Add(self.labelScaleFactor, 0, wx.ALL|wx.ALIGN_RIGHT|wx.ALIGN_CENTER_VERTICAL|wx.ADJUST_MINSIZE, 5)
-        grid_sizer_4.Add(self.textCtrlScaleFactor, 0, wx.ALL|wx.ALIGN_CENTER_VERTICAL|wx.ADJUST_MINSIZE, 0)
-        grid_sizer_4.Add(self.labelCorrelationLimit, 0, wx.ALL|wx.ALIGN_RIGHT|wx.ALIGN_CENTER_VERTICAL|wx.ADJUST_MINSIZE, 5)
-        grid_sizer_4.Add(self.textCtrlCorrelationLimit, 0, wx.ALL|wx.ALIGN_CENTER_VERTICAL|wx.ADJUST_MINSIZE, 0)
-        grid_sizer_4.Add(self.labelDelta1, 0, wx.ALL|wx.ALIGN_RIGHT|wx.ALIGN_CENTER_VERTICAL|wx.ADJUST_MINSIZE, 5)
-        grid_sizer_4.Add(self.textCtrlDelta1, 0, wx.ALL|wx.ALIGN_CENTER_VERTICAL|wx.ADJUST_MINSIZE, 0)
-        grid_sizer_4.Add(self.labelDelta2, 0, wx.ALL|wx.ALIGN_RIGHT|wx.ALIGN_CENTER_VERTICAL|wx.ADJUST_MINSIZE, 5)
-        grid_sizer_4.Add(self.textCtrlDelta2, 0, wx.ALL|wx.ALIGN_CENTER_VERTICAL|wx.ADJUST_MINSIZE, 0)
-        grid_sizer_4.Add(self.labelSratio, 0, wx.ALL|wx.ALIGN_RIGHT|wx.ALIGN_CENTER_VERTICAL|wx.ADJUST_MINSIZE, 5)
-        grid_sizer_4.Add(self.textCtrlSratio, 0, wx.ALL|wx.ALIGN_CENTER_VERTICAL|wx.ADJUST_MINSIZE, 0)
-        grid_sizer_4.Add(self.labelRcut, 0, wx.ALL|wx.ALIGN_RIGHT|wx.ALIGN_CENTER_VERTICAL|wx.ADJUST_MINSIZE, 5)
-        grid_sizer_4.Add(self.textCtrlRcut, 0, wx.ALL|wx.ALIGN_CENTER_VERTICAL|wx.ADJUST_MINSIZE, 0)
+        grid_sizer_4.Add(self.labelScaleFactor, 0, wx.ALL|wx.ALIGN_RIGHT|wx.ALIGN_CENTER_VERTICAL, 5)
+        grid_sizer_4.Add(self.textCtrlScaleFactor, 0, wx.ALL|wx.ALIGN_CENTER_VERTICAL, 0)
+        grid_sizer_4.Add((20, 10), 0, 0, 0)
+        grid_sizer_4.Add((20, 10), 0, 0, 0)
+        grid_sizer_4.Add((20, 10), 0, 0, 0)
+        grid_sizer_4.Add((20, 10), 0, 0, 0)
+        grid_sizer_4.Add(self.labelDelta1, 0, wx.ALL|wx.ALIGN_RIGHT|wx.ALIGN_CENTER_VERTICAL, 5)
+        grid_sizer_4.Add(self.textCtrlDelta1, 0, wx.ALL|wx.ALIGN_CENTER_VERTICAL, 0)
+        grid_sizer_4.Add(self.labelDelta2, 0, wx.ALL|wx.ALIGN_RIGHT|wx.ALIGN_CENTER_VERTICAL, 5)
+        grid_sizer_4.Add(self.textCtrlDelta2, 0, wx.ALL|wx.ALIGN_CENTER_VERTICAL, 0)
+        grid_sizer_4.Add((20, 10), 0, 0, 0)
+        grid_sizer_4.Add((20, 10), 0, 0, 0)
+        grid_sizer_4.Add(self.labelSratio, 0, wx.ALL|wx.ALIGN_RIGHT|wx.ALIGN_CENTER_VERTICAL, 5)
+        grid_sizer_4.Add(self.textCtrlSratio, 0, wx.ALL|wx.ALIGN_CENTER_VERTICAL, 0)
+        grid_sizer_4.Add(self.labelRcut, 0, wx.ALL|wx.ALIGN_RIGHT|wx.ALIGN_CENTER_VERTICAL, 5)
+        grid_sizer_4.Add(self.textCtrlRcut, 0, wx.ALL|wx.ALIGN_CENTER_VERTICAL, 0)
+        grid_sizer_4.Add(self.labelSpdiameter, 0, wx.ALL|wx.ALIGN_RIGHT|wx.ALIGN_CENTER_VERTICAL, 5)
+        grid_sizer_4.Add(self.textCtrlSpdiameter, 0, wx.ALL|wx.ALIGN_CENTER_VERTICAL, 0)
         sizerAdditionalParameters.Add(grid_sizer_4, 1, wx.EXPAND, 0)
         sizerMain.Add(sizerAdditionalParameters, 0, wx.LEFT|wx.RIGHT|wx.EXPAND, 5)
-        sizer_1.Add(self.labelIncludedPairs, 0, wx.ALL|wx.ALIGN_CENTER_HORIZONTAL|wx.ALIGN_CENTER_VERTICAL|wx.ADJUST_MINSIZE, 5)
-        sizer_1.Add(self.textCtrlIncludedPairs, 0, wx.ALL|wx.ADJUST_MINSIZE, 5)
+        sizer_1.Add(self.labelIncludedPairs, 0, wx.ALL|wx.ALIGN_CENTER_HORIZONTAL|wx.ALIGN_CENTER_VERTICAL, 5)
+        sizer_1.Add(self.textCtrlIncludedPairs, 0, wx.ALL, 5)
         sizerAtoms.Add(sizer_1, 0, wx.EXPAND, 0)
         sizerAtoms.Add(self.gridAtoms, 1, wx.EXPAND, 0)
         sizerMain.Add(sizerAtoms, 1, wx.LEFT|wx.RIGHT|wx.EXPAND, 5)
-        self.SetAutoLayout(True)
         self.SetSizer(sizerMain)
         sizerMain.Fit(self)
-        sizerMain.SetSizeHints(self)
         # end wxGlade
 
     ##########################################################################
@@ -163,7 +189,7 @@ class PhaseConstraintsPanel(wx.Panel, PDFPanel):
         self._textctrls = ['textCtrlA', 'textCtrlB', 'textCtrlC',
                 'textCtrlAlpha', 'textCtrlBeta', 'textCtrlGamma',
                 'textCtrlScaleFactor', 'textCtrlDelta1', 'textCtrlDelta2',
-                'textCtrlSratio', 'textCtrlRcut']
+                'textCtrlSratio', 'textCtrlRcut', 'textCtrlSpdiameter']
         self._row = 0
         self._col = 0
         self._focusedText = None
@@ -177,9 +203,9 @@ class PhaseConstraintsPanel(wx.Panel, PDFPanel):
         self.lAtomConstraints = ['x','y','z',
                                  'u11','u22','u33','u12','u13','u23','occ']
         # pdffit internal naming
-        self.lConstraints = \
-            ['lat(1)','lat(2)','lat(3)','lat(4)','lat(5)','lat(6)',
-            'pscale','delta1','delta2','sratio','rcut']
+        self.lConstraints = [
+            'lat(1)', 'lat(2)', 'lat(3)', 'lat(4)', 'lat(5)', 'lat(6)',
+            'pscale', 'delta1', 'delta2', 'sratio', 'rcut', 'spdiameter']
         textCtrlIds = [getattr(self, n).GetId() for n in self._textctrls]
         self._id2varname = dict(zip(textCtrlIds, self.lConstraints))
 
@@ -192,7 +218,7 @@ class PhaseConstraintsPanel(wx.Panel, PDFPanel):
         # catch key events and apply them to the grid
         self.Bind(wx.EVT_KEY_DOWN, self.onKey)
         return
-    
+
     def _cache(self):
         """Cache the current structure and constraints for future comparison."""
         pass
@@ -200,7 +226,7 @@ class PhaseConstraintsPanel(wx.Panel, PDFPanel):
     def refresh(self):
         """Refresh wigets on the panel."""
         if self.structure is None:
-            raise ValueError, "structure is not defined."
+            raise ValueError("structure is not defined.")
 
         self.refreshTextCtrls()
 
@@ -216,11 +242,11 @@ class PhaseConstraintsPanel(wx.Panel, PDFPanel):
 
         # start with clean grid
         self.gridAtoms.ClearGrid()
-        
+
         # fill the first 'elem' column with element symbols
         for row, atom in zip(range(natoms), self.structure):
             self.gridAtoms.SetCellValue(row, 0, atom.element)
-        
+
         # update constraints
         bareAtomVarColumn = dict( zip(self.lAtomConstraints,
             range(1, 1 + len(self.lAtomConstraints))) )
@@ -233,7 +259,8 @@ class PhaseConstraintsPanel(wx.Panel, PDFPanel):
             column = bareAtomVarColumn[barevar]
             row = int(m.group(2)) - 1
             if not 0 <= row < natoms:
-                raise ControlValueError, "Invalid variable index for %r" % var
+                emsg = "Invalid variable index for %r" % var
+                raise ControlValueError(emsg)
             self.gridAtoms.SetCellValue(row, column, con.formula)
             barevar = re.sub(r'\(\d+\)$', '', var)
             if not barevar in bareAtomVarColumn:    continue
@@ -241,7 +268,7 @@ class PhaseConstraintsPanel(wx.Panel, PDFPanel):
         self.gridAtoms.AutosizeLabels()
         self.gridAtoms.AutoSizeColumns()
         self.gridAtoms.EndBatch()
-        
+
         self.gridAtoms.AdjustScrollbars()
         self.gridAtoms.ForceRefresh()
         return
@@ -251,9 +278,9 @@ class PhaseConstraintsPanel(wx.Panel, PDFPanel):
 
         for widget, var in zip(self._textctrls, self.lConstraints):
             wobj = getattr(self, widget)
-            if var in self.constraints: 
-                s = self.constraints[var].formula 
-            else: 
+            if var in self.constraints:
+                s = self.constraints[var].formula
+            else:
                 s = ""
             wobj.SetValue(s)
 
@@ -264,9 +291,9 @@ class PhaseConstraintsPanel(wx.Panel, PDFPanel):
 
     def applyTextCtrlChange(self, id, value):
         """Update a structure according to a change in a TextCtrl.
-        
+
         id      --  textctrl id
-        value   --  new value  
+        value   --  new value
         """
         self.mainFrame.needsSave()
         var = self._id2varname[id]
@@ -280,15 +307,15 @@ class PhaseConstraintsPanel(wx.Panel, PDFPanel):
 
     def applyCellChange(self, i, j, value):
         """Update an atom according to a change in a cell.
-        
+
         i       --  cell position
         j       --  cell position
-        value   --  new value  
+        value   --  new value
 
         returns the new value stored in the data object, or None if value is
         somehow invalid.
         """
-        self.mainFrame.needsSave()        
+        self.mainFrame.needsSave()
         key = self.lAtomConstraints[j-1] + '('+`i+1`+')'
         formula = value.strip()
         if formula != "":
@@ -308,7 +335,7 @@ class PhaseConstraintsPanel(wx.Panel, PDFPanel):
         """Saves a TextCtrl value, to be compared in onKillFocuse later."""
         self._focusedText = event.GetEventObject().GetValue()
         return
-        
+
     def onKillFocus(self, event):
         """Check value of TextCtrl and update structure if necessary."""
         if not self.mainFrame: return
@@ -317,7 +344,7 @@ class PhaseConstraintsPanel(wx.Panel, PDFPanel):
 
         self.applyTextCtrlChange(textctrl.GetId(), value)
         self.refreshTextCtrls()
-        self.mainFrame.needsSave()        
+        self.mainFrame.needsSave()
         self._focusedText = None
         return
 
@@ -330,10 +357,10 @@ class PhaseConstraintsPanel(wx.Panel, PDFPanel):
                 dy = self.gridAtoms.GetGridCornerLabelWindow().GetSize().y
             if event.GetCol() == -1:
                 dx = self.gridAtoms.GetGridCornerLabelWindow().GetSize().x
-    
+
             # do not popup menu if the whole grid is set to read only
             if len(self.structure) == 0:
-                self.popupMenu(self.gridAtoms, event.GetPosition().x-dx, 
+                self.popupMenu(self.gridAtoms, event.GetPosition().x-dx,
                         event.GetPosition().y-dy)
         event.Skip()
         return
@@ -394,13 +421,13 @@ class PhaseConstraintsPanel(wx.Panel, PDFPanel):
                 # Get the last valid text from the cell. For the cell that triggered
                 # this method, that is the _focusedText, for other cells it is the
                 # value returned by GetCellValue
-                oldvalue = self._focusedText 
+                oldvalue = self._focusedText
                 if oldvalue is None:
                     oldvalue = self.gridAtoms.GetCellValue(i,j)
                 self._focusedText = None
                 newvalue = self.applyCellChange(i,j, value)
                 #print i, j, value, oldvalue, newvalue
-                if newvalue is None: 
+                if newvalue is None:
                     # Get out of here. If the value is invalid, it won't be valid
                     # for any cells.
                     newvalue = oldvalue
@@ -450,7 +477,7 @@ class PhaseConstraintsPanel(wx.Panel, PDFPanel):
 
     def popupMenu(self, window, x, y):
         """Creates the popup menu
-        
+
         window  --  window, where to popup a menu
         x       --  x coordinate
         y       --  y coordinate
@@ -488,7 +515,7 @@ class PhaseConstraintsPanel(wx.Panel, PDFPanel):
         # Popup the menu.  If an item is selected then its handler
         # will be called before PopupMenu returns.
         window.PopupMenu(menu, wx.Point(x,y))
-        menu.Destroy()        
+        menu.Destroy()
         return
 
     def onPopupSpaceGroup(self, event):
@@ -506,7 +533,7 @@ class PhaseConstraintsPanel(wx.Panel, PDFPanel):
                 offset = dlg.getOffset()
                 posflag = dlg.getPosFlag()
                 tempflag = dlg.getTempFlag()
-                self.structure.applySymmetryConstraints(spcgrp, 
+                self.structure.applySymmetryConstraints(spcgrp,
                         indices, posflag, tempflag, offset)
                 self.refresh()
             dlg.Destroy()
