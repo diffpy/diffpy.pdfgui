@@ -62,8 +62,10 @@ class JournalPanel(wx.Panel, PDFPanel):
 
     def onText(self, event): # wxGlade: JournalPanel.<event_handler>
         """Record anything that is written into the journal."""
+        orig = self.mainFrame.control.journal
         self.mainFrame.control.journal = event.GetString()
-        self.mainFrame.needsSave()
+        if( orig != self.mainFrame.control.journal):
+            self.mainFrame.needsSave()
         return
 
     def onExport(self, event): # wxGlade: JournalPanel.<event_handler>

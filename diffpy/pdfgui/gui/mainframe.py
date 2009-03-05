@@ -1410,9 +1410,6 @@ class MainFrame(wx.Frame):
         This changes the state of the save menu and tool bar items.
         
         altered     --  Whether or not the program needs saving (default True).
-        init        --  Set the state to the initial configuration (default
-                        False). This is used by the class constructor and
-                        shouldn't be used anywhere else.
         """
         if not self.quitting:
             pdfguiglobals.isAltered = altered

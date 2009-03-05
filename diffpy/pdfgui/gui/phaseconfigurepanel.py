@@ -401,10 +401,10 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
         if not self.mainFrame: return
         textctrl = event.GetEventObject()
         value = textctrl.GetValue()
-
-        self.applyTextCtrlChange(textctrl.GetId(), value)
-        phasepanelutils.refreshTextCtrls(self)
-        self.mainFrame.needsSave()
+        if value != self._focusedText:
+            self.applyTextCtrlChange(textctrl.GetId(), value)
+            phasepanelutils.refreshTextCtrls(self)
+            self.mainFrame.needsSave()
         self._focusedText = None
         return
 
