@@ -52,7 +52,7 @@ class FitStructure(PDFStructure):
         where n=1..6,  x(i), y(i), z(i), occ(i), u11(i), u22(i), u33(i),
         u12(i), u13(i), u23(i), where i=1..Natoms
 
-    Non-refinable variable:  rcut
+    Non-refinable variable:  rcut, stepcut
     """
 
     # class data members:
@@ -791,36 +791,5 @@ class FitStructure(PDFStructure):
 
 # End of class FitStructure
 
-# simple test code
-if __name__ == "__main__":
-    fitNi = FitStructure('name')
-    from diffpy.Structure import Atom
-    fitNi.initial.lattice.setLatPar(3.52, 3.52, 3.52)
-    fitNi.initial.append(Atom('Ni', [0.0, 0.0, 0.0]))
-    fitNi.initial.append(Atom('Ni', [0.0, 0.5, 0.5]))
-    fitNi.initial.append(Atom('Ni', [0.5, 0.0, 0.5]))
-    fitNi.initial.append(Atom('Ni', [0.5, 0.5, 0.0]))
-    for a in fitNi.initial:
-        a.setUiso(0.00126651)
-    fitNi.constraints['lat(1)'] = Constraint('@1')
-    fitNi.constraints['y(2)'] = Constraint('@3 + 0.4')
-    for i in range(2, 5):
-        fitNi.constraints['u11(%i)' % i] = Constraint('@7 * 3.0')
-    print fitNi.initial
-    fitNi.expandSuperCell([2,2,2])
-    print "expanded:"
-    print fitNi.initial
-    print "== constraint formulas =="
-    for var, con in fitNi.constraints.iteritems():
-        print "%s = %s" % (var, con.formula)
-    print "== findParameters() =="
-    for i, p in fitNi.findParameters().iteritems():
-        print "%i: initialValue() = %r" % (i, p.initialValue())
-    print "== initial after applyParameters({ 1 : 3.6, 7 : 0.008 }) =="
-    pd = fitNi.findParameters()
-    pd.update({1 : 3.6, 7 : 0.008})
-    fitNi.applyParameters(pd)
-    print "initial.lattice =", fitNi.initial.lattice
-    print "all U[0,0] =", [a.U[0,0] for a in fitNi.initial]
 
 # End of file

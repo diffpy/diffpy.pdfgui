@@ -816,6 +816,13 @@ class TestPdfFitSandbox(unittest.TestCase):
         self.assertEqual('spdiameter', eval('spdiameter()', sandbox))
         return
 
+    def test_stepcut(self):
+        """check PdfFitSandbox.stepcut()
+        """
+        sandbox = self.box.sandbox()
+        self.assertEqual('stepcut', eval('stepcut()', sandbox))
+        return
+
     def test_sratio(self):
         """check PdfFitSandbox.sratio() and PdfFitSandbox.srat()
         """

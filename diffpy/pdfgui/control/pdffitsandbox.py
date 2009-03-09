@@ -935,6 +935,17 @@ class PdfFitSandbox:
     spdiameter = staticmethod(spdiameter)
 
 
+    def stepcut():
+        """stepcut() --> Get reference to stepcut.
+
+        stepcut is cutoff radius for empirical step-function PDF envelope.
+        Step cutoff is not applied when stepcut equals 0.
+        Non-refineable variable.  
+        """
+        return "stepcut"
+    stepcut = staticmethod(stepcut)
+
+
     def sratio():
         """sratio() --> Get reference to sigma ratio.
         

@@ -25,7 +25,6 @@ class PDFStructure(PDFComponent, PDFFitStructure):
     """PDFStructure contains structure information, which can be used for 3D
     rendering as well as structure refinement."""
 
-
     def __init__(self, name, *args, **kwargs):
         """Initialize PDFStructure.
 
@@ -74,15 +73,21 @@ class PDFStructure(PDFComponent, PDFFitStructure):
         return other
 
 
+    # dictionary of allowed keys from self.pdffit dictionary,
+    # that can be used in setvar and getvar methods.
+    _allowed_pdffit_vars = dict.fromkeys(('spdiameter', 'stepcut',
+            'delta1', 'delta2', 'sratio', 'rcut'))
+
+
     def setvar(self, var, value):
         """assign to data member using PdfFit-style variable
         This can be used when applying constraint equations with particular
         parameter values.
 
         var   -- string representation of PdfFit variable.  Possible values:
-                 pscale, spdiameter, delta1, delta2, sratio, rcut, lat(n),
-                 where n=1..6,  x(i), y(i), z(i), occ(i), u11(i), u22(i),
-                 u33(i), u12(i), u13(i), u23(i), where i=1..Natoms
+                 pscale, spdiameter, stepcut, delta1, delta2, sratio, rcut,
+                 lat(n), where n=1..6,  x(i), y(i), z(i), occ(i), u11(i),
+                 u22(i), u33(i), u12(i), u13(i), u23(i), where i=1..Natoms
         value -- new value of the variable
         """
         barevar = var.strip()
@@ -92,7 +97,7 @@ class PDFStructure(PDFComponent, PDFFitStructure):
         emsg = "Invalid PdfFit phase variable %r" % barevar
         if barevar in ('pscale'):
             self.pdffit['scale'] = fvalue
-        elif barevar in ('spdiameter', 'delta1', 'delta2', 'sratio', 'rcut'):
+        elif barevar in PDFStructure._allowed_pdffit_vars:
             self.pdffit[barevar] = fvalue
         elif barevar == 'lat(1)':
             self.lattice.setLatPar(a=fvalue)
@@ -134,7 +139,7 @@ class PDFStructure(PDFComponent, PDFFitStructure):
         dictionary.
 
         var   -- string representation of PdfFit variable.  Possible values:
-                 pscale, spdiameter, delta1, delta2, sratio, rcut,
+                 pscale, spdiameter, stepcut, delta1, delta2, sratio, rcut,
                  lat(n), where n = 1..6,  x(i), y(i), z(i), occ(i), u11(i),
                  u22(i), u33(i), u12(i), u13(i), u23(i), where i=1..Natoms
 
@@ -146,7 +151,7 @@ class PDFStructure(PDFComponent, PDFFitStructure):
         emsg = "Invalid PdfFit phase variable %r" % barevar
         if barevar in ('pscale'):
             value = self.pdffit['scale']
-        elif barevar in ('spdiameter', 'delta1', 'delta2', 'sratio', 'rcut'):
+        elif barevar in PDFStructure._allowed_pdffit_vars:
             value = self.pdffit[barevar]
         elif barevar == 'lat(1)':
             value = self.lattice.a
@@ -185,18 +190,6 @@ class PDFStructure(PDFComponent, PDFFitStructure):
 
 # End of class PDFStructure
 
-if __name__ == "__main__":
-    stru = PDFStructure('name')
-    stru.lattice.setLatPar(3.0, 4.0, 5.0)
-    from diffpy.Structure import Atom
-    stru.append( Atom('Ni', [0, 0, 0.2]) )
-    for i in range(1,7):
-        print "lat(%i) =" % i, stru.getvar('lat(%i)' % i)
-    stru.setvar('z(1)', 0.1)
-    print "x(1) =", stru.getvar('x(1)')
-    print "y(1) =", stru.getvar('y(1)')
-    print "z(1) =", stru.getvar('z(1)')
-    print "u23(1) =", stru.getvar('u23(1)')
 
 # version
 __id__ = "$Id$"
