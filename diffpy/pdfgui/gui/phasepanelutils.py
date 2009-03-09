@@ -45,6 +45,7 @@ def refreshTextCtrls(panel):
     textCtrlDelta2
     textCtrlSratio
     textCtrlRcut
+    textCtrlStepcut
     textCtrlSpdiameter
     """
     if panel.structure is None:
@@ -60,6 +61,7 @@ def refreshTextCtrls(panel):
         panel.textCtrlDelta2.SetValue("")
         panel.textCtrlSratio.SetValue("")
         panel.textCtrlRcut.SetValue("")
+        panel.textCtrlStepcut.SetValue("")
         panel.textCtrlSpdiameter.SetValue("")
 
     else:
@@ -71,13 +73,20 @@ def refreshTextCtrls(panel):
         panel.textCtrlAlpha.SetValue(float2str(panel.structure.lattice.alpha))
         panel.textCtrlBeta.SetValue(float2str(panel.structure.lattice.beta))
         panel.textCtrlGamma.SetValue(float2str(panel.structure.lattice.gamma))
-        panel.textCtrlScaleFactor.SetValue(float2str(panel.structure.pdffit['scale']) )
-        panel.textCtrlDelta1.SetValue(float2str(panel.structure.pdffit['delta1']))
-        panel.textCtrlDelta2.SetValue(float2str(panel.structure.pdffit['delta2']))
-        panel.textCtrlSratio.SetValue(float2str(panel.structure.pdffit['sratio']))
-        panel.textCtrlRcut.SetValue(float2str(panel.structure.pdffit['rcut']))
+        panel.textCtrlScaleFactor.SetValue(
+            float2str(panel.structure.pdffit['scale']))
+        panel.textCtrlDelta1.SetValue(
+            float2str(panel.structure.pdffit['delta1']))
+        panel.textCtrlDelta2.SetValue(
+            float2str(panel.structure.pdffit['delta2']))
+        panel.textCtrlSratio.SetValue(
+            float2str(panel.structure.pdffit['sratio']))
+        panel.textCtrlRcut.SetValue(
+            float2str(panel.structure.pdffit['rcut']))
+        panel.textCtrlStepcut.SetValue(
+            float2str(panel.structure.pdffit['stepcut']))
         panel.textCtrlSpdiameter.SetValue(
-                float2str(panel.structure.pdffit['spdiameter']))
+            float2str(panel.structure.pdffit['spdiameter']))
     return
 
 def refreshGrid(panel):

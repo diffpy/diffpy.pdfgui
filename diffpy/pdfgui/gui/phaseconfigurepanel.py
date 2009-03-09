@@ -70,12 +70,14 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
         self.textCtrlDelta1 = wx.TextCtrl(self, -1, "", style=wx.TE_PROCESS_ENTER)
         self.labelDelta2 = wx.StaticText(self, -1, "delta2")
         self.textCtrlDelta2 = wx.TextCtrl(self, -1, "", style=wx.TE_PROCESS_ENTER)
+        self.labelSpdiameter = wx.StaticText(self, -1, "spdiameter")
+        self.textCtrlSpdiameter = wx.TextCtrl(self, -1, "", style=wx.TE_PROCESS_ENTER)
         self.labelSratio = wx.StaticText(self, -1, "sratio")
         self.textCtrlSratio = wx.TextCtrl(self, -1, "", style=wx.TE_PROCESS_ENTER)
         self.labelRcut = wx.StaticText(self, -1, "rcut")
         self.textCtrlRcut = wx.TextCtrl(self, -1, "", style=wx.TE_PROCESS_ENTER)
-        self.labelSpdiameter = wx.StaticText(self, -1, "spdiameter")
-        self.textCtrlSpdiameter = wx.TextCtrl(self, -1, "", style=wx.TE_PROCESS_ENTER)
+        self.labelStepcut = wx.StaticText(self, -1, "stepcut")
+        self.textCtrlStepcut = wx.TextCtrl(self, -1, "", style=wx.TE_PROCESS_ENTER)
         self.labelIncludedPairs = wx.StaticText(self, -1, "Included Pairs")
         self.textCtrlIncludedPairs = wx.TextCtrl(self, -1, "all-all")
         self.gridAtoms = AutoWidthLabelsGrid(self, -1, size=(1, 1))
@@ -112,12 +114,14 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
         self.textCtrlDelta1.SetToolTipString("linear atomic correlation factor")
         self.labelDelta2.SetToolTipString("quadratic atomic correlation factor")
         self.textCtrlDelta2.SetToolTipString("quadratic atomic correlation factor")
+        self.labelSpdiameter.SetToolTipString("spherical nanoparticle amplitude correction")
+        self.textCtrlSpdiameter.SetToolTipString("spherical nanoparticle amplitude correction")
         self.labelSratio.SetToolTipString("low r peak sharpening")
         self.textCtrlSratio.SetToolTipString("low r peak sharpening")
         self.labelRcut.SetToolTipString("peak sharpening cutoff")
         self.textCtrlRcut.SetToolTipString("peak sharpening cutoff")
-        self.labelSpdiameter.SetToolTipString("spherical nanoparticle amplitude correction")
-        self.textCtrlSpdiameter.SetToolTipString("spherical nanoparticle amplitude correction")
+        self.labelStepcut.SetToolTipString("cutoff for profile step-function")
+        self.textCtrlStepcut.SetToolTipString("cutoff for profile step-function")
         self.textCtrlIncludedPairs.SetMinSize((240, 25))
         self.gridAtoms.CreateGrid(0, 11)
         self.gridAtoms.EnableDragRowSize(0)
@@ -170,14 +174,14 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
         grid_sizer_4.Add(self.textCtrlDelta1, 0, wx.ALL|wx.ALIGN_CENTER_VERTICAL, 0)
         grid_sizer_4.Add(self.labelDelta2, 0, wx.ALL|wx.ALIGN_RIGHT|wx.ALIGN_CENTER_VERTICAL, 5)
         grid_sizer_4.Add(self.textCtrlDelta2, 0, wx.ALL|wx.ALIGN_CENTER_VERTICAL, 0)
-        grid_sizer_4.Add((20, 10), 0, 0, 0)
-        grid_sizer_4.Add((20, 10), 0, 0, 0)
+        grid_sizer_4.Add(self.labelSpdiameter, 0, wx.ALL|wx.ALIGN_RIGHT|wx.ALIGN_CENTER_VERTICAL, 5)
+        grid_sizer_4.Add(self.textCtrlSpdiameter, 0, wx.ALL|wx.ALIGN_CENTER_VERTICAL, 0)
         grid_sizer_4.Add(self.labelSratio, 0, wx.ALL|wx.ALIGN_RIGHT|wx.ALIGN_CENTER_VERTICAL, 5)
         grid_sizer_4.Add(self.textCtrlSratio, 0, wx.ALL|wx.ALIGN_CENTER_VERTICAL, 0)
         grid_sizer_4.Add(self.labelRcut, 0, wx.ALL|wx.ALIGN_RIGHT|wx.ALIGN_CENTER_VERTICAL, 5)
         grid_sizer_4.Add(self.textCtrlRcut, 0, wx.ALL|wx.ALIGN_CENTER_VERTICAL, 0)
-        grid_sizer_4.Add(self.labelSpdiameter, 0, wx.ALL|wx.ALIGN_RIGHT|wx.ALIGN_CENTER_VERTICAL, 5)
-        grid_sizer_4.Add(self.textCtrlSpdiameter, 0, wx.ALL|wx.ALIGN_CENTER_VERTICAL, 0)
+        grid_sizer_4.Add(self.labelStepcut, 0, wx.ALL|wx.ALIGN_RIGHT|wx.ALIGN_CENTER_VERTICAL, 5)
+        grid_sizer_4.Add(self.textCtrlStepcut, 0, wx.ALL|wx.ALIGN_CENTER_VERTICAL, 0)
         sizerAdditionalParameters.Add(grid_sizer_4, 1, wx.EXPAND, 0)
         sizerMain.Add(sizerAdditionalParameters, 0, wx.LEFT|wx.RIGHT|wx.EXPAND, 5)
         sizer_1.Add(self.labelIncludedPairs, 0, wx.ALL|wx.ALIGN_CENTER_HORIZONTAL|wx.ALIGN_CENTER_VERTICAL, 5)
@@ -217,6 +221,7 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
                 'textCtrlDelta2'        : 'delta2',
                 'textCtrlSratio'        : 'sratio',
                 'textCtrlRcut'          : 'rcut',
+                'textCtrlStepcut'       : 'stepcut',
                 'textCtrlSpdiameter'    : 'spdiameter',
                 }
 
@@ -233,6 +238,7 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
                 'textCtrlDelta2'        : "quadratic atomic correlation factor",
                 'textCtrlSratio'        : "low r peak sharpening",
                 'textCtrlRcut'          : "peak sharpening cutoff",
+                'textCtrlStepcut'       : "cutoff for profile step-function",
                 'textCtrlSpdiameter'    : 
                     "spherical nanoparticle amplitude correction",
                 }
@@ -331,6 +337,8 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
                 self.structure.pdffit['sratio'] = value
             elif id == self.textCtrlRcut.GetId():
                 self.structure.pdffit['rcut']  = value
+            elif id == self.textCtrlStepcut.GetId():
+                self.structure.pdffit['stepcut']  = value
             elif id == self.textCtrlSpdiameter.GetId():
                 self.structure.pdffit['spdiameter']  = value
 

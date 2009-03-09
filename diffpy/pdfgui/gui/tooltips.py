@@ -114,6 +114,8 @@ phasepanel = {
     'textCtrlSratio' : 'Low r peak sharpening', # TextCtrl
 #    'labelRcut' : '', # StaticText "rcut"
     'textCtrlRcut' : 'Peak sharpening cutoff', # TextCtrl
+#    'labelStepcut' : '', # StaticText "stepcut"
+    'textCtrlStepcut' : 'cutoff for profile step-function', #TextCtrl
 #    'labelSpdiameter'     : '', # StaticText "Spdiameter"
     'textCtrlSpdiameter' : 'Spherical nanoparticle amplitude correction',
 #    'labelIncludedPairs' : '', # StaticText "Included Pairs"
