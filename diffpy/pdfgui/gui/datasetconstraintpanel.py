@@ -106,13 +106,17 @@ class DataSetConstraintPanel(wx.Panel, PDFPanel):
 
     def processFormula(self, value, parname):
         """Process a formula that was entered into a textCtrl."""
-        self.mainFrame.needsSave()
-        value = value.strip()
-        if value != '':
-            # Let the PDFGui error handler take care of this
-            self.constraints[parname] = Constraint(value)
-        else:
+        formula = value.strip()
+        oldconst = self.constraints.get(parname)
+        oldformula = ""
+        if oldconst:
+            oldformula = oldconst.formula
+        if formula == "":
             self.constraints.pop(parname, None)
+        elif oldformula != formula:
+            # Let the PDFGui error handler take care of this
+            self.constraints[parname] = Constraint(formula)
+            self.mainFrame.needsSave()
 
         return
 

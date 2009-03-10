@@ -294,7 +294,9 @@ class DataSetConfigurePanel(wx.Panel, PDFPanel):
         programmatically.
         """
         si = self.radioBoxSampling.GetSelection()
+        oldsampling = self.configuration.getFitSamplingType()
         sampling = self.sampList[si]
+        oldstep = self.configuration.fitrstep
         # Get the value of the custom sampling and enable/disable status
         if sampling == "custom": # "custom"
             step = self.__coerseText(self.textCtrlFitStep.GetValue())
@@ -303,18 +305,24 @@ class DataSetConfigurePanel(wx.Panel, PDFPanel):
         else:
             step = None
             self.textCtrlFitStep.SetEditable(False)
-            self.textCtrlFitStep.SetBackgroundColour(wx.SystemSettings_GetColour(wx.SYS_COLOUR_GRAYTEXT))
+            self.textCtrlFitStep.SetBackgroundColour(
+                wx.SystemSettings_GetColour(wx.SYS_COLOUR_GRAYTEXT))
 
         # Set the value of qmax
         val = self.__coerseText(self.textCtrlQmax.GetValue())
-        self.configuration.qmax = val
+        oldqmax = self.configuration.qmax
+        if oldqmax != val:
+            self.configuration.qmax = val
+            self.mainFrame.needsSave()
 
         # Set the configured value
-        self.configuration.setFitSamplingType(sampling, step)
+        if oldsampling != sampling or (sampling == "custom" and oldstep !=
+                step):
+            self.configuration.setFitSamplingType(sampling, step)
+            self.mainFrame.needsSave()
+            # Update the text control
+            self.textCtrlFitStep.SetValue(str(self.configuration.fitrstep))
 
-        # Update the text control
-        self.textCtrlFitStep.SetValue(str(self.configuration.fitrstep))
-        self.mainFrame.needsSave()
         return
 
     def onLoseFocus(self, event):
@@ -327,10 +335,15 @@ class DataSetConfigurePanel(wx.Panel, PDFPanel):
         # Check the fit range
         value = self.__adjustFitRange(name, value)
         if name in self.metaNames:
-            self.configuration.metadata[name] = value
+            temp = self.configuration.metadata.get(name)
+            if temp != value:
+                self.configuration.metadata[name] = value
+                self.mainFrame.needsSave()
         else:
-            setattr(self.configuration, name, value)
-        self.mainFrame.needsSave()
+            temp = getattr(self.configuration, name)
+            if temp != value:
+                setattr(self.configuration, name, value)
+                self.mainFrame.needsSave()
         return
 
     # Methods overloaded from PDFPanel

@@ -172,6 +172,7 @@ class CalculationPanel(wx.Panel, PDFPanel):
         return
 
     def onCalcRange(self, event): # wxGlade: CalculationPanel.<event_handler>
+        if self.calculation is None: return
         from diffpy.pdfgui.control.controlerrors import ControlValueError
         # Since calculation.rmax gets adjusted by setRGrid,
         # always obtain all range parameters.
@@ -181,6 +182,12 @@ class CalculationPanel(wx.Panel, PDFPanel):
         rmin = self.__coerseText(rminvalue)
         rstep = self.__coerseText(rstepvalue)
         rmax = self.__coerseText(rmaxvalue)
+        oldrmin = self.calculation.rmin
+        oldrstep = self.calculation.rstep
+        oldrmax = self.calculation.rmax
+        if oldrmin == rmin and oldrstep == rstep and oldrmax == rmax:
+            return
+
         try:
             self.calculation.setRGrid(rmin, rstep, rmax)
         except ControlValueError:
@@ -197,8 +204,10 @@ class CalculationPanel(wx.Panel, PDFPanel):
         value = textCtrl.GetValue()
         value = self.__coerseText(value)
         name = textCtrl.GetName()
-        setattr(self.calculation, name, value)
-        self.mainFrame.needsSave()
+        oldval = getattr(self.calculation, name)
+        if oldval != value:
+            setattr(self.calculation, name, value)
+            self.mainFrame.needsSave()
         return
 
     def onExport(self, event): # wxGlade: CalculationPanel.<event_handler>

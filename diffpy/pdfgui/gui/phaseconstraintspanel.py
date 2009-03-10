@@ -193,7 +193,8 @@ class PhaseConstraintsPanel(wx.Panel, PDFPanel):
         self._textctrls = ['textCtrlA', 'textCtrlB', 'textCtrlC',
                 'textCtrlAlpha', 'textCtrlBeta', 'textCtrlGamma',
                 'textCtrlScaleFactor', 'textCtrlDelta1', 'textCtrlDelta2',
-                'textCtrlSratio', 'textCtrlRcut', 'textCtrlStepcut', 'textCtrlSpdiameter']
+                'textCtrlSratio', 'textCtrlRcut', 'textCtrlStepcut',
+                'textCtrlSpdiameter']
         self._row = 0
         self._col = 0
         self._focusedText = None
@@ -221,6 +222,12 @@ class PhaseConstraintsPanel(wx.Panel, PDFPanel):
 
         # catch key events and apply them to the grid
         self.Bind(wx.EVT_KEY_DOWN, self.onKey)
+
+        # Hide some stuff
+        self.labelRcut.Hide()
+        self.textCtrlRcut.Hide()
+        self.labelStepcut.Hide()
+        self.textCtrlStepcut.Hide()
         return
 
     def _cache(self):
