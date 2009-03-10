@@ -1413,7 +1413,6 @@ class MainFrame(wx.Frame):
         """
         import sys
         frame = sys._getframe(1)
-        print frame.f_code.co_name, frame.f_lineno
         if not self.quitting:
             pdfguiglobals.isAltered = altered
             self.updateToolbar()
