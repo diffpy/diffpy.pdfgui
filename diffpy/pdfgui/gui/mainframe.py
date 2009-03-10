@@ -1411,8 +1411,9 @@ class MainFrame(wx.Frame):
         
         altered     --  Whether or not the program needs saving (default True).
         """
-        import sys
-        frame = sys._getframe(1)
+#       import sys
+#       frame = sys._getframe(1)
+#       print frame.f_code.co_name, frame.f_lineno
         if not self.quitting:
             pdfguiglobals.isAltered = altered
             self.updateToolbar()
