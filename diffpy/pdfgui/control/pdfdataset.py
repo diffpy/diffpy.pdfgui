@@ -129,7 +129,7 @@ class PDFDataSet(PDFComponent):
         """
         try:
             self.readStr(open(filename,'rb').read())
-        except 'InvalidDataFormat':
+        except PDFDataFormatError:
             emsg = ("Could not open '%s' due to unsupported file format " +
                     "or corrupted data.") % os.path.basename(filename)
             raise ControlFileError(emsg)
@@ -223,7 +223,7 @@ class PDFDataSet(PDFComponent):
         # read actual data - robs, Gobs, drobs, dGobs
         has_drobs = True
         has_dGobs = True
-        # raise InvalidDataFormat if something goes wrong
+        # raise PDFDataFormatError if something goes wrong
         try:
             for line in databody.split("\n"):
                 v = line.split()
@@ -247,7 +247,7 @@ class PDFDataSet(PDFComponent):
             if not has_dGobs:
                 self.dGobs = len(self.robs) * [0.0]
         except (ValueError, IndexError):
-            raise 'InvalidDataFormat', 'Cannot read Gobs'
+            raise PDFDataFormatError('Cannot read Gobs')
         self.rmin = self.robs[0]
         self.rmax = self.robs[-1]
         if not has_drobs:   self.drobs = len(self.robs) * [0.0]
@@ -338,6 +338,13 @@ class PDFDataSet(PDFComponent):
         return other
 
 # End of class PDFDataSet
+
+
+class PDFDataFormatError(Exception):
+    """Exception class marking failure to proccess PDF data string.
+    """
+    pass
+
 
 # simple test code
 if __name__ == '__main__':

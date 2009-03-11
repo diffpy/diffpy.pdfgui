@@ -13,7 +13,7 @@
 #
 ########################################################################
 
-class ControlError ( Exception ):
+class ControlError(Exception):
     """Basic PDFGuiControl exception class"""
     def __init__(self, info):
         """initialize
@@ -26,7 +26,7 @@ class ControlError ( Exception ):
     def __str__(self):
         return self.info
     
-class ControlConfigError ( ControlError ):
+class ControlConfigError(ControlError):
     """PDFGuiControl exception class -- object config is invalid"""
     def __init__(self, info):
         """initialize
@@ -35,7 +35,7 @@ class ControlConfigError ( ControlError ):
         """
         ControlError.__init__(self, info)
 
-class ControlFileError ( ControlError ):
+class ControlFileError(ControlError):
     """PDFGuiControl exception class -- object config is invalid"""
     def __init__(self, info):
         """initialize
@@ -44,7 +44,7 @@ class ControlFileError ( ControlError ):
         """
         ControlError.__init__(self, info)
         
-class ControlKeyError ( ControlError ):
+class ControlKeyError(ControlError):
     """PDFGuiControl exception class -- requested object can't be found"""
     def __init__(self, info):
         """initialize
@@ -53,7 +53,7 @@ class ControlKeyError ( ControlError ):
         """
         ControlError.__init__(self, info)
         
-class ControlValueError ( ControlError ):
+class ControlValueError(ControlError):
     """PDFGuiControl exception class -- Invalid value"""
     def __init__(self, info):
         """initialize
@@ -62,7 +62,7 @@ class ControlValueError ( ControlError ):
         """
         ControlError.__init__(self, info)    
         
-class ControlTypeError ( ControlError ):
+class ControlTypeError(ControlError):
     """PDFGuiControl exception class -- Type mismatch"""
     def __init__(self, info):
         """initialize
