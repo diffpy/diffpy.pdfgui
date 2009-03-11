@@ -121,7 +121,15 @@ class AddDataPanel(wx.Panel, PDFPanel):
         dir, filename = os.path.split(self.fullpath)
         if not dir:
             dir = self.mainFrame.workpath
-        matchstring = "PDF data files (*.gr)|*.gr|PDF fit files (*.fgr)|*.fgr|PDF fit files (*.fit)|*.fit|PDF calculation files (*.cgr)|*.cgr|PDF calculation files (*.calc)|*.calc|All Files|*"
+        matchstring = "|".join((
+                "PDF files", "*.gr;*.fgr;*.fit;*.cgr;*.calc",
+                "PDF data files (*.gr)", "*.gr", 
+                "PDF fit files (*.fgr)", "*.fgr", 
+                "PDF fit files (*.fit)", "*.fit", 
+                "PDF calculation files (*.cgr)", "*.cgr", 
+                "PDF calculation files (*.calc)", "*.calc", 
+                "All Files", "*"
+                ))
         d = wx.FileDialog(None, "Choose a file", dir, "", matchstring, wx.OPEN)
         if d.ShowModal() == wx.ID_OK:
             self.fullpath = d.GetPath()
