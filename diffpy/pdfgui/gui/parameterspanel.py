@@ -223,7 +223,10 @@ class ParametersPanel(wx.Panel, PDFPanel):
                 except ValueError:
                     pass
                 key = int(self.grid_parameters.GetRowLabelValue(i))
-                self.parameters[key].setInitial(converted)
+                temp = self.parameters[key].initialValue()
+                if temp != converted:
+                    self.parameters[key].setInitial(converted)
+                    self.mainFrame.needsSave()
 
             # If we made it this far, then we can continue.
             self.fillCells(self._selectedCells, value)
@@ -242,11 +245,18 @@ class ParametersPanel(wx.Panel, PDFPanel):
         """
         key = int(self.grid_parameters.GetRowLabelValue(row))
         if col == 0:  # initial value
-            self.parameters[key].setInitial(value)
+            temp = self.parameters[key].initialValue()
+            if temp != value:
+                self.parameters[key].setInitial(value)
+                self.mainFrame.needsSave()
             
         elif col == 1:  # flag "fixed"
             try:
-                self.parameters[key].fixed = bool(int(value))
+                temp = self.parameters[key].fixed
+                value = bool(int(value))
+                if temp != value:
+                    self.parameters[key].fixed = value
+                    self.mainFrame.needsSave()
             except ValueError:
                 pass
             
@@ -360,7 +370,6 @@ class ParametersPanel(wx.Panel, PDFPanel):
             dlg = wx.TextEntryDialog(self, 'New index:',
                     'Rename Selected Parameters', '')
     
-            selpars = []
             value = None
             if dlg.ShowModal() == wx.ID_OK:
                 value = dlg.GetValue()
@@ -373,6 +382,7 @@ class ParametersPanel(wx.Panel, PDFPanel):
             rows = self.grid_parameters.GetNumberRows()
             cols = self.grid_parameters.GetNumberCols()
             
+            selpars = []
             # Get the selected parameters
             for i in xrange(rows):
                 key = int(self.grid_parameters.GetRowLabelValue(i))
@@ -383,11 +393,12 @@ class ParametersPanel(wx.Panel, PDFPanel):
 
             
             for key in selpars:
-                self.fit.changeParameterIndex(key, value)
+                if key != value:
+                    self.fit.changeParameterIndex(key, value)
+                    self.mainFrame.needsSave()
 
             self.fit.updateParameters()
             self.refresh()
-            self.mainFrame.needsSave()
     
         event.Skip()
         return
@@ -397,6 +408,7 @@ class ParametersPanel(wx.Panel, PDFPanel):
 
     def onApplyParameters(self, event): # wxGlade: ParametersPanel.<event_handler>
         self.fit.applyParameters()
+        self.mainFrame.needsSave()
         event.Skip()
 
     # Required by event handlers
