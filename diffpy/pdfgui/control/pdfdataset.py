@@ -129,9 +129,10 @@ class PDFDataSet(PDFComponent):
         """
         try:
             self.readStr(open(filename,'rb').read())
-        except PDFDataFormatError:
+        except PDFDataFormatError, err:
+            basename = os.path.basename(filename)
             emsg = ("Could not open '%s' due to unsupported file format " +
-                    "or corrupted data.") % os.path.basename(filename)
+                "or corrupted data. [%s]") % (basename, err)
             raise ControlFileError(emsg)
         self.filename = os.path.abspath(filename)
         return self
@@ -221,6 +222,7 @@ class PDFDataSet(PDFComponent):
                     break
 
         # read actual data - robs, Gobs, drobs, dGobs
+        inf_or_nan = re.compile('(?i)^[+-]?(NaN|Inf)\\b')
         has_drobs = True
         has_dGobs = True
         # raise PDFDataFormatError if something goes wrong
@@ -231,13 +233,15 @@ class PDFDataSet(PDFComponent):
                 self.robs.append(float(v[0]))
                 self.Gobs.append(float(v[1]))
                 # drobs is valid if all values are defined and positive
-                has_drobs = has_drobs and len(v) > 2
+                has_drobs = (has_drobs and
+                        len(v) > 2 and not inf_or_nan.match(v[2]))
                 if has_drobs:
                     v2 = float(v[2])
                     has_drobs = v2 > 0.0
                     self.drobs.append(v2)
                 # dGobs is valid if all values are defined and positive
-                has_dGobs = has_dGobs and len(v) > 3
+                has_dGobs = (has_dGobs and
+                        len(v) > 3 and not inf_or_nan.match(v[3]))
                 if has_dGobs:
                     v3 = float(v[3])
                     has_dGobs = v3 > 0.0
@@ -246,8 +250,8 @@ class PDFDataSet(PDFComponent):
                 self.drobs = len(self.robs) * [0.0]
             if not has_dGobs:
                 self.dGobs = len(self.robs) * [0.0]
-        except (ValueError, IndexError):
-            raise PDFDataFormatError('Cannot read Gobs')
+        except (ValueError, IndexError), err:
+            raise PDFDataFormatError(err)
         self.rmin = self.robs[0]
         self.rmax = self.robs[-1]
         if not has_drobs:   self.drobs = len(self.robs) * [0.0]
