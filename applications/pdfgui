@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-########################################################################
+##############################################################################
 #
 # PDFgui            by DANSE Diffraction group
 #                   Simon J. L. Billinge
@@ -11,7 +11,7 @@
 # See AUTHORS.txt for a list of people who contributed.
 # See LICENSE.txt for license information.
 #
-########################################################################
+##############################################################################
 
 
 """PDFGui   Graphical User Interface for Pair Distribution Function fitting
@@ -58,8 +58,8 @@ def main():
     try:
         opts, args = getopt.getopt(sys.argv[1:], "hV",
                                     ["help", "version"] + dboptions)
-    except getopt.GetoptError, errmsg:
-        print >> sys.stderr, errmsg
+    except getopt.GetoptError, err:
+        print >> sys.stderr, err
         sys.exit(2)
     # process options
     for o, a in opts:
@@ -85,7 +85,15 @@ def main():
     pdfguiglobals.cmdopts = opts
     pdfguiglobals.cmdargs = args
     import diffpy.pdfgui as pdfgui
-    pdfgui.main()
+    from diffpy.pdfgui.control.controlerrors import ControlError
+    # Catch control errors, that may happen during project
+    # loading, before the GUI gets running.
+    try:
+        pdfgui.main()
+    except ControlError, err:
+        print >> sys.stderr, err
+        sys.exit(1)
+    return
 
 if __name__ == "__main__":
     main()
