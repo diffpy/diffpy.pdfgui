@@ -74,7 +74,9 @@ class ResultsPanel(wx.Panel, PDFPanel):
             self.results = ''
         if not self.results:
             self.results = self.defres
-        self.resultsTextCtrl.SetValue(self.results)
+        displayed = self.resultsTextCtrl.GetValue()
+        if displayed != self.results:
+            self.resultsTextCtrl.SetValue(self.results)
         return
 
 # end of class ResultsPanel

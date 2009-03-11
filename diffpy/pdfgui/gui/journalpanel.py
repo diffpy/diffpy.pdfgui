@@ -64,7 +64,7 @@ class JournalPanel(wx.Panel, PDFPanel):
         """Record anything that is written into the journal."""
         orig = self.mainFrame.control.journal
         self.mainFrame.control.journal = event.GetString()
-        if( orig != self.mainFrame.control.journal):
+        if(orig != self.mainFrame.control.journal):
             self.mainFrame.needsSave()
         return
 
@@ -89,7 +89,10 @@ class JournalPanel(wx.Panel, PDFPanel):
     # Methods overloaded from PDFPanel
     def refresh(self):
         """Fill the jounalTextCtrl with the journal."""
-        self.journalTextCtrl.SetValue(self.mainFrame.control.journal)
+        # This will make sure that the scroll position does not change.
+        displayed = self.journalTextCtrl.GetValue()
+        if displayed != self.mainFrame.control.journal:
+            self.journalTextCtrl.SetValue(self.mainFrame.control.journal)
         return
 
 # end of class JournalPanel
