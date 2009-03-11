@@ -330,7 +330,8 @@ class MainFrame(wx.Frame):
                               CenterPane().
                               BestSize(wx.Size(400,380)).
                               MinSize(wx.Size(190,200)).
-                              Hide())
+                              Hide()
+                              )
             self.dynamicPanels[key].mainFrame = self
             self.dynamicPanels[key].treeCtrlMain = self.treeCtrlMain
             self.dynamicPanels[key].cP = self.cP
@@ -358,7 +359,8 @@ class MainFrame(wx.Frame):
                           RightDockable().
                           MinimizeButton().
                           BestSize(wx.Size(400,40)).
-                          MinSize(wx.Size(200,40)))
+                          MinSize(wx.Size(200,40))
+                          )
         self.auiManager.AddPane(self.treeCtrlMain, PyAUI.PaneInfo().
                           Name("treeCtrlMain").Caption("Fit Tree").
                           Left().
@@ -367,8 +369,9 @@ class MainFrame(wx.Frame):
                           LeftDockable().
                           RightDockable().
                           MinimizeButton().
-                          BestSize(wx.Size(190,100)).
-                          MinSize(wx.Size(190,40)))
+                          BestSize(wx.Size(200,100)).
+                          MinSize(wx.Size(200,40))
+                          )
         self.auiManager.AddPane(self.plotPanel, PyAUI.PaneInfo().
                           Name("plotPanel").Caption("Plot Control").
                           Left().
@@ -377,19 +380,22 @@ class MainFrame(wx.Frame):
                           LeftDockable().
                           RightDockable().
                           MinimizeButton().
-                          BestSize(wx.Size(190,250)).
-                          MinSize(wx.Size(190,150)))
+                          BestSize(wx.Size(200,250)).
+                          MinSize(wx.Size(200,150))
+                          )
         self.auiManager.AddPane(self.journalPanel, PyAUI.PaneInfo().
                           Name("journalPanel").Caption("Project Journal").
-                          Float().
                           TopDockable().
                           BottomDockable().
                           LeftDockable().
                           RightDockable().
                           MinimizeButton().
                           Hide().
-                          BestSize(wx.Size(500,600)).
-                          MinSize(wx.Size(200,100)))
+                          BestSize(wx.Size(450,450)).
+                          MinSize(wx.Size(200,200)).
+                          FloatingSize(wx.Size(450, 450)).
+                          Float()
+                          )
 
 
         # Continue with initialization
@@ -928,12 +934,13 @@ class MainFrame(wx.Frame):
 
         # Import perspective from last session
         if self.cP.has_section("PERSPECTIVE"):
-            perspective = self.cP.get("PERSPECTIVE", "last")
-            try:
-                self.auiManager.LoadPerspective(perspective)
-            except:
-                from diffpy.pdfgui.gui.windowperspective import default
-                self.auiManager.LoadPerspective(default)
+            if self.cP.has_option("PERSPECTIVE", "last"):
+                perspective = self.cP.get("PERSPECTIVE", "last")
+                try:
+                    self.auiManager.LoadPerspective(perspective)
+                except:
+                    from diffpy.pdfgui.gui.windowperspective import default
+                    self.auiManager.LoadPerspective(default)
         else:
             from diffpy.pdfgui.gui.windowperspective import default
             self.auiManager.LoadPerspective(default)
@@ -1963,7 +1970,7 @@ class MainFrame(wx.Frame):
             self.auiManager.GetPane("journalPanel").Hide()
         else:
             self.auiManager.GetPane("journalPanel").Show()
-        self.journalPanel.refresh()
+            self.journalPanel.refresh()
         self.auiManager.Update()
         return
 

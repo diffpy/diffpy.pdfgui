@@ -26,45 +26,50 @@ class JournalPanel(wx.Panel, PDFPanel):
         # begin wxGlade: JournalPanel.__init__
         kwds["style"] = wx.TAB_TRAVERSAL
         wx.Panel.__init__(self, *args, **kwds)
-        self.journalTextCtrl = wx.TextCtrl(self, -1, "", style=wx.TE_MULTILINE)
+        self.textCtrlJournal = wx.TextCtrl(self, -1, "", style=wx.TE_MULTILINE)
         self.exportButton = wx.Button(self, -1, "Export")
+        self.closeButton = wx.Button(self, wx.ID_CLOSE, "")
 
         self.__set_properties()
         self.__do_layout()
 
-        self.Bind(wx.EVT_TEXT, self.onText, self.journalTextCtrl)
+        self.Bind(wx.EVT_TEXT, self.onText, self.textCtrlJournal)
         self.Bind(wx.EVT_BUTTON, self.onExport, self.exportButton)
+        self.Bind(wx.EVT_BUTTON, self.onClose, id=wx.ID_CLOSE)
         # end wxGlade
         self.__customProperties()
 
     def __set_properties(self):
         # begin wxGlade: JournalPanel.__set_properties
-        self.journalTextCtrl.SetMinSize((450, 450))
+        pass
         # end wxGlade
 
     def __do_layout(self):
         # begin wxGlade: JournalPanel.__do_layout
         sizer_1 = wx.BoxSizer(wx.VERTICAL)
         sizer_2 = wx.BoxSizer(wx.HORIZONTAL)
-        sizer_1.Add(self.journalTextCtrl, 1, wx.EXPAND|wx.ADJUST_MINSIZE, 0)
-        sizer_2.Add((1, 1), 1, wx.ADJUST_MINSIZE, 0)
-        sizer_2.Add(self.exportButton, 0, wx.ALL|wx.ADJUST_MINSIZE, 5)
+        sizer_1.Add(self.textCtrlJournal, 1, wx.EXPAND, 0)
+        sizer_2.Add((1, 1), 1, 0, 0)
+        sizer_2.Add(self.exportButton, 0, wx.ALL, 5)
+        sizer_2.Add(self.closeButton, 0, wx.ALL, 5)
         sizer_1.Add(sizer_2, 0, wx.EXPAND, 0)
-        self.SetAutoLayout(True)
         self.SetSizer(sizer_1)
         sizer_1.Fit(self)
-        sizer_1.SetSizeHints(self)
         # end wxGlade
 
     def __customProperties(self):
         """Custom Properties go here."""
         self.fullpath = ""
 
+        # Bind the focus loss of the text control
+        self.textCtrlJournal.Bind(wx.EVT_KEY_DOWN, self.onKey)
+        return
+
     def onText(self, event): # wxGlade: JournalPanel.<event_handler>
         """Record anything that is written into the journal."""
-        orig = self.mainFrame.control.journal
-        self.mainFrame.control.journal = event.GetString()
-        if(orig != self.mainFrame.control.journal):
+        text = self.textCtrlJournal.GetValue()
+        if text != self.mainFrame.control.journal:
+            self.mainFrame.control.journal = text
             self.mainFrame.needsSave()
         return
 
@@ -86,14 +91,36 @@ class JournalPanel(wx.Panel, PDFPanel):
         d.Destroy()
         return
 
+    def onClose(self, event): # wxGlade: JournalPanel.<event_handler>
+        self._close()
+        return
+
+    def _close(self):
+        self.mainFrame.onShowJournal(None)
+        return
+
+    def onKey(self, event):
+        """Catch Ctrl+J to close the journal."""
+        # Ctrl J
+        key = event.GetKeyCode()
+        if event.ControlDown() and key == 74:
+            self._close()
+        event.Skip()
+        return
+
     # Methods overloaded from PDFPanel
     def refresh(self):
         """Fill the jounalTextCtrl with the journal."""
         # This will make sure that the scroll position does not change.
-        displayed = self.journalTextCtrl.GetValue()
-        if displayed != self.mainFrame.control.journal:
-            self.journalTextCtrl.SetValue(self.mainFrame.control.journal)
+        text = self.textCtrlJournal.GetValue()
+        if text != self.mainFrame.control.journal:
+            self.textCtrlJournal.ChangeValue(self.mainFrame.control.journal)
+            self.textCtrlJournal.SetInsertionPointEnd()
+        self.textCtrlJournal.SetFocus()
+        pos = self.textCtrlJournal.GetInsertionPoint()
+        self.textCtrlJournal.ShowPosition(pos)
         return
+
 
 # end of class JournalPanel
 
