@@ -735,11 +735,9 @@ class FitDataSet(PDFDataSet):
 
     def _set_crw(self, value):
         if len(value) != len(self.rcalc):
-            self._crw = [1.0] * len(self.rcalc)
+            self._crw = [0.0] * len(self.rcalc)
         else:
-            a = numpy.array(value)
-            a[a > 1.0] = 1.0
-            self._crw = a.tolist()
+            self._crw = value[:]
         return
 
     crw = property(_get_crw, _set_crw, doc =
