@@ -642,6 +642,12 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
                 self.refresh()
                 self.mainFrame.needsSave()
 
+                # Highlight the elements of the new rows so that they can be
+                # changed by the user.
+                self.gridAtoms.SetFocus()
+                self.gridAtoms.SelectBlock(self._row,0,self._row+len(atoms)-1,0)
+                self.gridAtoms.SetGridCursor(self._row, 0)
+
             dlg.Destroy()
         return
 
