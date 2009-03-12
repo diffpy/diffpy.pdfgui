@@ -31,21 +31,15 @@ import wx
 import os.path
 
 _legendBoxProperties = {
-    'loc' : 'upper right',
+    'loc':'upper right', 
     'shadow' : True,
-    # [4] the number of points in the legend line
-    'numpoints' : 3,
-    # 'prop' : FontProperties('smaller'),
-    # [0.2] the fractional whitespace inside the legend border
-    'borderpad' : 0.2,
-    # [0.005] the vertical space between the legend entries
-    'labelspacing' : 0.005,
-    # [0.05] the length of the legend lines
-    'handlelength' : 0.03,
-    # [0.02] the space between the legend line and legend text
-    'handletextpad' : 0.01,
-    # [0.02] the border between the axes and legend edge
-    'borderaxespad' : 0.01,
+    'numpoints' : 3,        #=4 the number of points in the legend line
+    #'prop' : FontProperties('smaller'),  # the font properties
+    'pad' : 0.2,            #=0.2 the fractional whitespace inside the legend border
+    'labelsep' : 0.005,     #=0.005 the vertical space between the legend entries
+    'handlelen' : 0.03,     #=0.05 the length of the legend lines
+    'handletextsep' : 0.01, #=0.02 the space between the legend line and legend text
+    'axespad' : 0.01        #=0.02 the border between the axes and legend edge
 }
 
 DATA_SAVE_ID  = wx.NewId()
