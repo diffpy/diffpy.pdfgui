@@ -26,18 +26,19 @@ from diffpy.pdfgui import __version__
 
 
 _acknowledgement =  \
-'''This software was developed by the Billinge-group as part of the
-Distributed Data Analysis of Neutron Scattering Experiments (DANSE)
-project funded by the US National Science Foundation under grant
-DMR-0520547.  Developments of PDFfit2 were funded by NSF grant
-DMR-0304391 in the Billinge-group, and with support from Michigan State
-University.  Any opinions, findings, and conclusions or recommendations
-expressed in this material are those of the author(s) and do not
-necessarily reflect the views of the respective funding bodies.
+'''\
+This software was developed by the Billinge-group as part of the Distributed
+Data Analysis of Neutron Scattering Experiments (DANSE) project funded by the US
+National Science Foundation under grant DMR-0520547.  Developments of PDFfit2
+were funded by NSF grant DMR-0304391 in the Billinge-group, and with support
+from Michigan State University and Columbia University.  Any opinions, findings,
+and conclusions or recommendations expressed in this material are those of the
+author(s) and do not necessarily reflect the views of the respective funding
+bodies.
 
-If you use this program to do productive scientific research that leads
-to publication, we ask that you acknowledge use of the program by citing
-the following paper in your publication:
+If you use this program to do productive scientific research that leads to
+publication, we ask that you acknowledge use of the program by citing the
+following paper in your publication:
 
     C. L. Farrow, P. Juhas, J. W. Liu, D. Bryndin, E. S. Bozin,
     J. Bloch, Th. Proffen and S. J. L. Billinge, PDFfit2 and PDFgui:
@@ -76,22 +77,27 @@ class DialogAbout(wx.Dialog):
         # begin wxGlade: DialogAbout.__init__
         kwds["style"] = wx.DEFAULT_DIALOG_STYLE
         wx.Dialog.__init__(self, *args, **kwds)
-        self.bitmap_logo = wx.StaticBitmap(self, -1, wx.Bitmap(iconpath("logo.png")))
+        self.bitmap_logo = wx.StaticBitmap(self, -1,
+        wx.Bitmap(iconpath("logo.png")))
         self.label_title = wx.StaticText(self, -1, "PDFgui")
         self.label_version = wx.StaticText(self, -1, "")
         self.label_build = wx.StaticText(self, -1, "Build:")
         self.label_svnrevision = wx.StaticText(self, -1, "")
         self.label_copyright = wx.StaticText(self, -1, "(c) 2005-2007,")
         self.label_author = wx.StaticText(self, -1, "author")
-        self.hyperlink = wx.lib.hyperlink.HyperLinkCtrl(self, -1, _homepage, URL=_homepage)
-        self.hyperlink_license = wx.lib.hyperlink.HyperLinkCtrl(self, -1, "PDFgui paper (in print)", URL=_paper)
-        self.hyperlink_paper = wx.lib.hyperlink.HyperLinkCtrl(self, -1, _license, URL=_license)
+        self.hyperlink = wx.lib.hyperlink.HyperLinkCtrl(self, -1,
+                _homepage, URL=_homepage)
+        self.hyperlink_license = wx.lib.hyperlink.HyperLinkCtrl(self, -1,
+                "PDFgui paper (in print)", URL=_paper)
+        self.hyperlink_paper = wx.lib.hyperlink.HyperLinkCtrl(self, -1,
+                _license, URL=_license)
         self.static_line_1 = wx.StaticLine(self, -1)
         self.label_acknowledgement = wx.StaticText(self, -1, _acknowledgement)
         self.static_line_2 = wx.StaticLine(self, -1)
         self.bitmap_button_nsf = wx.BitmapButton(self, -1, wx.NullBitmap)
         self.bitmap_button_danse = wx.BitmapButton(self, -1, wx.NullBitmap)
         self.bitmap_button_msu = wx.BitmapButton(self, -1, wx.NullBitmap)
+        self.bitmap_button_columbia = wx.BitmapButton(self, -1, wx.NullBitmap)
         self.static_line_3 = wx.StaticLine(self, -1)
         self.button_OK = wx.Button(self, wx.ID_OK, "OK")
 
@@ -101,6 +107,7 @@ class DialogAbout(wx.Dialog):
         self.Bind(wx.EVT_BUTTON, self.onNsfLogo, self.bitmap_button_nsf)
         self.Bind(wx.EVT_BUTTON, self.onDanseLogo, self.bitmap_button_danse)
         self.Bind(wx.EVT_BUTTON, self.onMsuLogo, self.bitmap_button_msu)
+        self.Bind(wx.EVT_BUTTON, self.onColumbiaLogo, self.bitmap_button_columbia)
         # end wxGlade
         
         # fill in acknowledgements
@@ -126,6 +133,8 @@ class DialogAbout(wx.Dialog):
         self.bitmap_button_danse.SetBitmapLabel(logo)
         logo = wx.Bitmap(iconpath("msu_logo.png"))
         self.bitmap_button_msu.SetBitmapLabel(logo)
+        logo = wx.Bitmap(iconpath("columbia_logo.png"))
+        self.bitmap_button_columbia.SetBitmapLabel(logo)
         
         # resize dialog window to fit version number nicely
         if wx.VERSION >= (2,7,2,0):
@@ -151,6 +160,7 @@ class DialogAbout(wx.Dialog):
         self.bitmap_button_nsf.SetSize(self.bitmap_button_nsf.GetBestSize())
         self.bitmap_button_danse.SetSize(self.bitmap_button_danse.GetBestSize())
         self.bitmap_button_msu.SetSize(self.bitmap_button_msu.GetBestSize())
+        self.bitmap_button_columbia.SetSize(self.bitmap_button_columbia.GetBestSize())
         # end wxGlade
 
     def __do_layout(self):
@@ -163,34 +173,34 @@ class DialogAbout(wx.Dialog):
         sizer_build = wx.BoxSizer(wx.HORIZONTAL)
         sizer_title = wx.BoxSizer(wx.HORIZONTAL)
         sizer_header.Add(self.bitmap_logo, 0, wx.EXPAND, 0)
-        sizer_title.Add(self.label_title, 0, wx.LEFT|wx.EXPAND|wx.ADJUST_MINSIZE, 10)
-        sizer_title.Add((20, 20), 0, wx.EXPAND|wx.ADJUST_MINSIZE, 0)
-        sizer_title.Add(self.label_version, 0, wx.RIGHT|wx.ALIGN_BOTTOM|wx.ADJUST_MINSIZE, 10)
+        sizer_title.Add(self.label_title, 0, wx.LEFT|wx.TOP|wx.EXPAND, 10)
+        sizer_title.Add((20, 20), 0, wx.EXPAND, 0)
+        sizer_title.Add(self.label_version, 0, wx.RIGHT|wx.ALIGN_BOTTOM, 10)
         sizer_titles.Add(sizer_title, 0, wx.EXPAND, 0)
-        sizer_build.Add(self.label_build, 0, wx.LEFT|wx.RIGHT|wx.ADJUST_MINSIZE, 10)
-        sizer_build.Add(self.label_svnrevision, 0, wx.ADJUST_MINSIZE, 0)
+        sizer_build.Add(self.label_build, 0, wx.LEFT|wx.RIGHT, 10)
+        sizer_build.Add(self.label_svnrevision, 0, 0, 0)
         sizer_titles.Add(sizer_build, 0, wx.TOP|wx.EXPAND, 5)
-        sizer_titles.Add(self.label_copyright, 0, wx.LEFT|wx.RIGHT|wx.TOP|wx.ADJUST_MINSIZE, 10)
-        sizer_titles.Add(self.label_author, 0, wx.LEFT|wx.RIGHT|wx.ADJUST_MINSIZE, 10)
+        sizer_titles.Add(self.label_copyright, 0, wx.LEFT|wx.RIGHT|wx.TOP, 10)
+        sizer_titles.Add(self.label_author, 0, wx.LEFT|wx.RIGHT, 10)
         sizer_titles.Add(self.hyperlink, 0, wx.LEFT|wx.RIGHT, 10)
-        sizer_titles.Add((20, 20), 0, wx.ADJUST_MINSIZE, 0)
+        sizer_titles.Add((20, 20), 0, 0, 0)
         sizer_titles.Add(self.hyperlink_license, 0, wx.LEFT|wx.RIGHT, 10)
         sizer_titles.Add(self.hyperlink_paper, 0, wx.LEFT|wx.RIGHT, 10)
         sizer_header.Add(sizer_titles, 0, wx.EXPAND, 0)
         sizer_main.Add(sizer_header, 0, wx.BOTTOM|wx.EXPAND, 3)
         sizer_main.Add(self.static_line_1, 0, wx.EXPAND, 0)
-        sizer_main.Add(self.label_acknowledgement, 0, wx.LEFT|wx.TOP|wx.BOTTOM|wx.ADJUST_MINSIZE, 7)
+        sizer_main.Add(self.label_acknowledgement, 0, wx.LEFT|wx.TOP|wx.BOTTOM, 7)
         sizer_main.Add(self.static_line_2, 0, wx.EXPAND, 0)
-        sizer_logos.Add(self.bitmap_button_nsf, 0, wx.LEFT|wx.ADJUST_MINSIZE, 2)
-        sizer_logos.Add(self.bitmap_button_danse, 0, wx.LEFT|wx.ADJUST_MINSIZE, 2)
-        sizer_logos.Add(self.bitmap_button_msu, 0, wx.LEFT|wx.ADJUST_MINSIZE, 2)
-        sizer_logos.Add((50, 50), 0, wx.ADJUST_MINSIZE, 0)
+        sizer_logos.Add(self.bitmap_button_nsf, 0, wx.LEFT, 2)
+        sizer_logos.Add(self.bitmap_button_danse, 0, wx.LEFT, 2)
+        sizer_logos.Add(self.bitmap_button_msu, 0, wx.LEFT, 2)
+        sizer_logos.Add(self.bitmap_button_columbia, 0, wx.LEFT, 2)
+        sizer_logos.Add((50, 50), 0, 0, 0)
         sizer_main.Add(sizer_logos, 0, wx.EXPAND, 0)
         sizer_main.Add(self.static_line_3, 0, wx.EXPAND, 0)
-        sizer_button.Add((20, 20), 1, wx.EXPAND|wx.ADJUST_MINSIZE, 0)
-        sizer_button.Add(self.button_OK, 0, wx.RIGHT|wx.ADJUST_MINSIZE, 10)
+        sizer_button.Add((20, 20), 1, wx.EXPAND, 0)
+        sizer_button.Add(self.button_OK, 0, wx.RIGHT, 10)
         sizer_main.Add(sizer_button, 0, wx.EXPAND, 0)
-        self.SetAutoLayout(True)
         self.SetSizer(sizer_main)
         self.Layout()
         self.Centre()
@@ -206,6 +216,10 @@ class DialogAbout(wx.Dialog):
 
     def onMsuLogo(self, event): # wxGlade: DialogAbout.<event_handler>
         launchBrowser("http://www.msu.edu")
+        event.Skip()
+
+    def onColumbiaLogo(self, event): # wxGlade: DialogAbout.<event_handler>
+        launchBrowser("http://www.columbia.edu")
         event.Skip()
 
 # end of class DialogAbout
