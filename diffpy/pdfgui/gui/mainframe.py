@@ -967,7 +967,7 @@ class MainFrame(wx.Frame):
         if not self.cP.has_section("MRU"):
             self.cP.add_section("MRU")
         
-        for i in range(5):
+        for i in range(self.fileHistory.GetCount()):
             item = self.fileHistory.GetHistoryFile(i)
             self.cP.set("MRU", str(i+1), item)
 
