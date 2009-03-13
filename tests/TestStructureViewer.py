@@ -87,9 +87,13 @@ class TestStructureViewer(unittest.TestCase):
         """
         from diffpy.pdfgui.control.fitstructure import FitStructure
         sv = StructureViewer()
-        sv.executable = 'does/not/exist'
+        # default executable is empty string
+        self.assertEqual('', sv.executable)
+        # and so plot raises ControlConfigError
         fs = FitStructure('s1')
         fs.read(datafile('LaMnO3.stru'))
+        self.assertRaises(ControlConfigError, sv.plot, fs)
+        sv.executable = 'does/not/exist'
         self.failUnless(None is sv._tmpdir)
         self.assertEqual(0, sv._plotcount)
         self.assertRaises(ControlConfigError, sv.plot, fs)

@@ -50,7 +50,7 @@ class StructureViewer(object):
     Data attributes:
 
     executable -- full path to the structure viewer program or a program
-                  that can be found in system PATH.
+                  that can be found in system PATH.  By default '' (not set).
     argstr     -- argument string for the viewer program, it can use shell
                   quoting.  Instances of '%s' in the string are replaced with
                   temporary structure file.  By default '%s'
@@ -72,7 +72,7 @@ class StructureViewer(object):
                    to integer.  When not supplied, assign 42.
         """
         # declare instance data
-        self.executable = 'atomeye'
+        self.executable = ''
         self.argstr = '%s'
         self.fileformat = 'pdb'
         self._tmpdir = None
@@ -132,20 +132,13 @@ class StructureViewer(object):
         Raise ControlConfigError if structure viewer could not be launched.
         """
         import subprocess
-        import shlex
-        import re
-        # make sure shlex.split is not called with None, because
-        # it would read standard input
-        s = self.argstr and self.argstr or ''
-        args = shlex.split(s)
+        # check if executable has been set
+        if not self.executable:
+            emsg = "StructureViewer program has not been set."
+            raise ControlConfigError(emsg)
+        # create temporary structure file
         strupath = self._writeTemporaryStructure(stru)
-        # substitute strupath in args using % operator
-        pat = re.compile(r'(?<!%)(%%)*%s')
-        for i, a in enumerate(args):
-            cnt = len(pat.findall(a))
-            tpl = cnt * (strupath,)
-            args[i] = a % tpl
-        args.insert(0, self.executable)
+        args = [self.executable] + self._getArgumentList(strupath)
         try:
             subprocess.Popen(args)
         except OSError, err:
@@ -175,6 +168,30 @@ class StructureViewer(object):
             onerror(None, self._tmpdir, err)
             pass
         return
+
+
+    def _getArgumentList(self, strupath):
+        """Convert self.argstr to a list of string arguments.
+
+        strupath -- path to temporary structure file.  Replaces every
+                    instance of '%s' in self.argstr.
+
+        Return list of arguments (not including the viewer executable).
+        """
+        import shlex
+        import re
+        # make sure shlex.split is not called with None, because
+        # it would read standard input
+        s = self.argstr and self.argstr or ''
+        args = shlex.split(s)
+        # substitute strupath in args using % operator
+        pat = re.compile(r'(?<!%)(%%)*%s')
+        for i, a in enumerate(args):
+            # count instances of '%s' in argument a
+            cnt = len(pat.findall(a))
+            tpl = cnt * (strupath,)
+            args[i] = a % tpl
+        return args
 
 
     def _writeTemporaryStructure(self, stru):
