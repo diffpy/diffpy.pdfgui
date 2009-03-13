@@ -520,6 +520,7 @@ class PDFGuiControl:
         # prepare to write
         fitnames = []
         calcnames = []
+        z = None
         tmpfilename = None
         try :
             tmpfd, tmpfilename = tempfile.mkstemp()
@@ -546,6 +547,8 @@ class PDFGuiControl:
             raise ControlFileError(emsg)
 
         finally:
+            if z is not None:
+                z.close()
             if tmpfilename is not None:
                 os.remove(tmpfilename)
 
