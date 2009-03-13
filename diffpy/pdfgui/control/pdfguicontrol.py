@@ -494,7 +494,14 @@ class PDFGuiControl:
 
 
     def save(self, projfile=None):
-        """save project to projfile, default projfile is self.projfile
+        """Save project to projfile, default projfile is self.projfile
+
+        This method first writes to a temporary file and only when
+        successful, it overwrites projfile with the temporary file content.
+        These steps prevent corruption of existing projects should
+        something go wrong in the middle of save.  As an added benefit,
+        all permissions and ownership flags in an existing projfile
+        are preserved.
         """
         if projfile is not None:
             self.projfile = projfile.encode('ascii')
@@ -514,11 +521,10 @@ class PDFGuiControl:
         fitnames = []
         calcnames = []
         tmpfilename = None
-        tmpfile = None
         try :
             tmpfd, tmpfilename = tempfile.mkstemp()
-            tmpfile = os.fdopen(tmpfd, 'wb')
-            z = zipfile.ZipFile(tmpfile, 'w', zipfile.ZIP_DEFLATED)
+            os.close(tmpfd)
+            z = zipfile.ZipFile(tmpfilename, 'w', zipfile.ZIP_DEFLATED)
             # fits also contain calculations
             for fit in self.fits:
                 name = fit.name.encode('ascii')
@@ -528,7 +534,6 @@ class PDFGuiControl:
                 z.writestr(projName +'/journal', self.journal)
             z.writestr(projName + '/fits', '\n'.join(fitnames))
             z.close()
-            tmpfile.close()
             shutil.copyfile(tmpfilename, self.projfile)
 
         except UnicodeError:
@@ -541,8 +546,6 @@ class PDFGuiControl:
             raise ControlFileError(emsg)
 
         finally:
-            if tmpfile is not None:
-                tmpfile.close()
             if tmpfilename is not None:
                 os.remove(tmpfilename)
 
