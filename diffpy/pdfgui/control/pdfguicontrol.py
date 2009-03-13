@@ -513,8 +513,11 @@ class PDFGuiControl:
         # prepare to write
         fitnames = []
         calcnames = []
+        tmpfilename = None
+        tmpfile = None
         try :
-            tmpfile = tempfile.NamedTemporaryFile()
+            tmpfd, tmpfilename = tempfile.mkstemp()
+            tmpfile = os.fdopen(tmpfd, 'wb')
             z = zipfile.ZipFile(tmpfile, 'w', zipfile.ZIP_DEFLATED)
             # fits also contain calculations
             for fit in self.fits:
@@ -525,8 +528,8 @@ class PDFGuiControl:
                 z.writestr(projName +'/journal', self.journal)
             z.writestr(projName + '/fits', '\n'.join(fitnames))
             z.close()
-            tmpfile.flush()
-            shutil.copyfile(tmpfile.name, self.projfile)
+            tmpfile.close()
+            shutil.copyfile(tmpfilename, self.projfile)
 
         except UnicodeError:
             emsg = ("Non-ASCII character is not allowed in fit, " +
@@ -538,7 +541,10 @@ class PDFGuiControl:
             raise ControlFileError(emsg)
 
         finally:
-            tmpfile.close()
+            if tmpfile is not None:
+                tmpfile.close()
+            if tmpfilename is not None:
+                os.remove(tmpfilename)
 
         return
 
