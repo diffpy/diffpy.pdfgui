@@ -20,6 +20,7 @@ class PreferencesPanel(wx.Panel, PDFPanel):
         self.labelPanelName = wx.StaticText(self, -1, "Preferences")
         self.labelViewer = wx.StaticText(self, -1, "Structure viewer executable")
         self.textCtrlViewer = wx.TextCtrl(self, -1, "")
+        self.buttonViewerBrowse = wx.Button(self, -1, "Browse")
         self.labelArgStr = wx.StaticText(self, -1, "Argument string")
         self.textCtrlArgument = wx.TextCtrl(self, -1, "")
         self.labelFormat = wx.StaticText(self, -1, "Structure format")
@@ -33,6 +34,7 @@ class PreferencesPanel(wx.Panel, PDFPanel):
         self.__set_properties()
         self.__do_layout()
 
+        self.Bind(wx.EVT_BUTTON, self.onBrowse, self.buttonViewerBrowse)
         self.Bind(wx.EVT_BUTTON, self.onOK, id=wx.ID_OK)
         self.Bind(wx.EVT_BUTTON, self.onCancel, id=wx.ID_CANCEL)
         # end wxGlade
@@ -49,16 +51,19 @@ class PreferencesPanel(wx.Panel, PDFPanel):
         # begin wxGlade: PreferencesPanel.__do_layout
         sizer_1 = wx.BoxSizer(wx.VERTICAL)
         sizer_3 = wx.BoxSizer(wx.HORIZONTAL)
-        grid_sizer_1 = wx.GridSizer(3, 2, 10, 10)
+        grid_sizer_1 = wx.GridSizer(3, 3, 10, 10)
         sizerPanelName = wx.StaticBoxSizer(self.sizerPanelName_staticbox, wx.HORIZONTAL)
         sizerPanelName.Add(self.labelPanelName, 1, wx.LEFT|wx.RIGHT|wx.EXPAND|wx.ALIGN_CENTER_HORIZONTAL|wx.ALIGN_CENTER_VERTICAL, 5)
         sizer_1.Add(sizerPanelName, 0, wx.LEFT|wx.RIGHT|wx.EXPAND, 5)
         grid_sizer_1.Add(self.labelViewer, 0, wx.ALIGN_RIGHT|wx.ALIGN_CENTER_VERTICAL, 0)
         grid_sizer_1.Add(self.textCtrlViewer, 0, wx.EXPAND, 0)
+        grid_sizer_1.Add(self.buttonViewerBrowse, 0, 0, 0)
         grid_sizer_1.Add(self.labelArgStr, 0, wx.ALIGN_RIGHT|wx.ALIGN_CENTER_VERTICAL, 0)
         grid_sizer_1.Add(self.textCtrlArgument, 0, wx.EXPAND, 0)
+        grid_sizer_1.Add((20, 20), 0, 0, 0)
         grid_sizer_1.Add(self.labelFormat, 0, wx.ALIGN_RIGHT|wx.ALIGN_CENTER_VERTICAL, 0)
         grid_sizer_1.Add(self.choiceFormat, 0, wx.EXPAND, 0)
+        grid_sizer_1.Add((20, 20), 0, 0, 0)
         sizer_1.Add(grid_sizer_1, 0, wx.ALL, 5)
         sizer_1.Add(self.structureDirCheckBox, 0, wx.ALL|wx.ALIGN_CENTER_VERTICAL, 5)
         sizer_1.Add(self.dataDirCheckBox, 0, wx.ALL|wx.ALIGN_CENTER_VERTICAL, 5)
@@ -149,6 +154,14 @@ class PreferencesPanel(wx.Panel, PDFPanel):
         if self.cP.has_option("PHASE", "remember"):
             remember = self.cP.getboolean("PHASE", "remember")
         self.structureDirCheckBox.SetValue(remember)
+        return
+
+    def onBrowse(self, event): # wxGlade: PreferencesPanel.<event_handler>
+        d = wx.FileDialog(None, "Choose structure viewer", ".", 
+                "", "All Files|*", wx.OPEN|wx.FD_FILE_MUST_EXIST)
+        if d.ShowModal() == wx.ID_OK:
+            fullpath = d.GetPath()
+            self.textCtrlViewer.SetValue(fullpath)
         return
 
 # end of class PreferencesPanel
