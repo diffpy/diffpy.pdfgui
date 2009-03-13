@@ -147,12 +147,30 @@ plotpanel = {
 
 
 preferencespanel = {
-#    'labelPanelName' : '', # StaticText "Preferences"
-#    'atomeyeFileBrowser' : '', # FileBrowseButton
-    'structureDirCheckBox' : 'Remember the structures directory across sessions. If unchecked, the initial structures directory will default to the current path.', # CheckBox "Remember path to structure files"
-    'dataDirCheckBox' : 'Remember the data set directory across sessions. If unchecked, the initial data set directory will default to the current path.', # CheckBox "Remember path to data sets"
-#    'okButton' : '', # Button "OK"
-#    'cancelButton' : '', # Button "Cancel"
+    'structureDirCheckBox' : \
+        """\
+Remember the structures directory across sessions. If unchecked, the initial structures directory will default to the current path.\
+        """,
+
+    'dataDirCheckBox' : 
+        """\
+Remember the data set directory across sessions. If unchecked, the initial data set directory will default to the current path.\
+        """, 
+
+    'textCtrlViewer' : \
+        """\
+The name of the structure viewer executable. E. g. 'atomeye' or 'pymol'.\
+        """,
+
+    'textCtrlArgument' : \
+        """\
+The command-line arguments to the structure viewer.  
+'%s' represents the file name that will be passed to the viewer. 
+Command-line switches placed here will be passed as well. 
+E. g. '%s' or '-c %s' (for pymol).\
+        """,
+
+    'choiceFormat' : 'Choose a file format the structure viewer accepts.'
     }
 
 

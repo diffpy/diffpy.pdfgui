@@ -26,9 +26,6 @@ configfilename = os.path.expanduser("~/.pdfgui.cfg")
 # Project modification flag
 isAltered = False
 
-# Atomeye path
-atomeyepath = ""
-
 # Useful paths
 guiDir = os.path.dirname(os.path.abspath(__file__))
 controlDir = os.path.join(os.path.dirname(guiDir), 'control')

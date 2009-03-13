@@ -50,7 +50,7 @@ from diffpy.pdfgui.gui.blankpanel import BlankPanel
 from diffpy.pdfgui.gui.aboutdialog import DialogAbout
 from diffpy.pdfgui.gui.errorreportdialog import ErrorReportDialog
 
-from diffpy.pdfgui.control import atomeyecontrol
+from diffpy.pdfgui.control import structureviewer
 
 from diffpy.pdfgui.gui import pdfguiglobals
 from diffpy.pdfgui.gui.pdfguiglobals import iconpath, docMainFile
@@ -298,7 +298,7 @@ class MainFrame(wx.Frame):
         # The configuration parser for getting configuration data.
         self.cP = SafeConfigParser()
 
-	# Set the program mode
+        # Set the program mode
         self.mode = "fitting"
 
         # This is the dictionary of right panels. For simplicity the five panels
@@ -914,6 +914,8 @@ class MainFrame(wx.Frame):
         The MRU list is handled by the local member fileHistory, which is a
         wxFileHistory object.
         """
+
+        # Get MRU information
         localpath = os.path.expanduser(pdfguiglobals.configfilename)
         if os.path.exists(localpath):
             self.cP.read(localpath)
@@ -922,15 +924,6 @@ class MainFrame(wx.Frame):
                     filename = self.cP.get("MRU", str(i))
                     if filename:
                         self.fileHistory.AddFileToHistory(filename)
-
-        # Give the host info to control
-        ptemp = self.dynamicPanels['serverconfig']
-        ptemp.readConfiguration()
-        ndefault = ptemp.default_server
-        if ndefault >= 0:
-            self.control.setHost(ptemp.servers[ndefault])
-        else:
-            self.control.setHost(None)
 
         # Import perspective from last session
         if self.cP.has_section("PERSPECTIVE"):
@@ -955,6 +948,13 @@ class MainFrame(wx.Frame):
             h = self.cP.get("SIZE", "height")
             h = int(h)
         self.SetSize((w,h))
+
+        # Load structure viewer information and put this in the configure panel
+        viewerconfig = {}
+        if self.cP.has_section("STRUCTUREVIEWER"):
+            viewerconfig = dict(self.cP.items("STRUCTUREVIEWER", raw=True))
+            viewer = structureviewer.getStructureViewer()
+            viewer.setConfig(viewerconfig)
 
         return
 
@@ -986,6 +986,14 @@ class MainFrame(wx.Frame):
         perspective = self.auiManager.SavePerspective()
         self.cP.set("PERSPECTIVE", "last", perspective)
 
+        # Set the structure viewer information
+        if not self.cP.has_section("STRUCTUREVIEWER"):
+            self.cP.add_section("STRUCTUREVIEWER")
+        viewer = structureviewer.getStructureViewer()
+        viewerconfig = viewer.getConfig()
+        for key, value in viewerconfig.items():
+            self.cP.set("STRUCTUREVIEWER", key, value)
+
         return
 
     def writeConfiguration(self):
@@ -998,17 +1006,6 @@ class MainFrame(wx.Frame):
         from stat import S_IRUSR, S_IWUSR
         os.chmod(filename, S_IRUSR|S_IWUSR)
         return
-
-    def getAtomEyePath(self):
-        """Get the full AtomEye path from configuration parser.
-        
-        If the full path is not available, then "atomeye" is returned.
-        """
-        atomeyepath = "atomeye"
-        if self.cP.has_option("ATOMEYEPATH", "path"):
-            atomeyepath = self.cP.get("ATOMEYEPATH", "path")
-            if not atomeyepath: atomeyepath = "atomeye"
-        return atomeyepath
 
     def checkForSave(self):
         """Pop up a dialog if the project needs to be saved.
@@ -1986,8 +1983,8 @@ class MainFrame(wx.Frame):
             if itemtype == "phase":
                 panel = self.dynamicPanels['phase']
                 cdata = self.treeCtrlMain.GetControlData(node)
-                atomeyepath = self.getAtomEyePath()
-                atomeyecontrol.plot(cdata.initial, atomeyepath)
+                viewer = structureviewer.getStructureViewer()
+                viewer.plot(cdata.initial)
         return
 
     
@@ -2003,8 +2000,8 @@ class MainFrame(wx.Frame):
             if itemtype == "phase":
                 panel = self.dynamicPanels['phase']
                 cdata = self.treeCtrlMain.GetControlData(node)
-                atomeyepath = self.getAtomEyePath()
-                atomeyecontrol.plot(cdata.refined, atomeyepath)
+                viewer = structureviewer.getStructureViewer()
+                viewer.plot(cdata.refined)
         return
 
     def onPrintBL(self, event):
