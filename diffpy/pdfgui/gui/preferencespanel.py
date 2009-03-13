@@ -115,13 +115,13 @@ class PreferencesPanel(wx.Panel, PDFPanel):
         viewer.setConfig(config)
 
         # Structures path
-        remember = int(self.structureDirCheckBox.GetValue())
+        remember = bool(self.structureDirCheckBox.GetValue())
         if not self.cP.has_section("PHASE"):
             self.cP.add_section("PHASE")
         self.cP.set("PHASE", "remember", str(remember))
 
         # Data set path
-        remember = int(self.dataDirCheckBox.GetValue())
+        remember = bool(self.dataDirCheckBox.GetValue())
         if not self.cP.has_section("DATASET"):
             self.cP.add_section("DATASET")
         self.cP.set("DATASET", "remember", str(remember))
@@ -140,15 +140,15 @@ class PreferencesPanel(wx.Panel, PDFPanel):
         self.textCtrlArgument.SetValue(config["argstr"])
         self.choiceFormat.SetStringSelection(config["fileformat"])
 
-        remember = 0
+        remember = False
         if self.cP.has_option("DATASET", "remember"):
-            remember = self.cP.get("DATASET", "remember")
-        self.dataDirCheckBox.SetValue(int(remember))
+            remember = self.cP.getboolean("DATASET", "remember")
+        self.dataDirCheckBox.SetValue(remember)
 
-        remember = 0
+        remember = False
         if self.cP.has_option("PHASE", "remember"):
-            remember = self.cP.get("PHASE", "remember")
-        self.dataDirCheckBox.SetValue(int(remember))
+            remember = self.cP.getboolean("PHASE", "remember")
+        self.structureDirCheckBox.SetValue(remember)
         return
 
 # end of class PreferencesPanel

@@ -91,11 +91,11 @@ class AddDataPanel(wx.Panel, PDFPanel):
         'last'      --  The last dataset file added to the project. This is
                         stored in the class variable fullpath.
         """
-        remember = "False"
+        remember = False
         if self.cP.has_option("DATASET", "remember"):
-            remember = self.cP.get("DATASET", "remember")
+            remember = self.cP.getboolean("DATASET", "remember")
 
-        if remember == "True":
+        if remember:
             if self.cP.has_option("DATASET", "last"):
                 self.fullpath = self.cP.get("DATASET", "last")
                 import os.path

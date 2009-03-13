@@ -100,11 +100,11 @@ class AddPhasePanel(wx.Panel, PDFPanel):
         'last'      --  The last structure file added to the project. This is
                         stored in the class variable fullpath.
         """
-        remember = "False"
+        remember = False
         if self.cP.has_option("PHASE", "remember"):
-            remember = self.cP.get("PHASE", "remember")
+            remember = self.cP.getboolean("PHASE", "remember")
 
-        if remember == "True":
+        if remember:
             if self.cP.has_option("PHASE", "last"):
                 self.fullpath = self.cP.get("PHASE", "last")
                 import os.path
