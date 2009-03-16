@@ -107,8 +107,8 @@ class PreferencesPanel(wx.Panel, PDFPanel):
         """Record all of the preferences and return to fitting mode."""
 
         # Record structure viewer stuff
-        executable = str(self.textCtrlViewer.GetValue()).strip("'\" ")
-        argstr = str(self.textCtrlArgument.GetValue()).strip("'\" ")
+        executable = str(self.textCtrlViewer.GetValue()).strip()
+        argstr = str(self.textCtrlArgument.GetValue()).strip()
         fileformat = str(self.choiceFormat.GetStringSelection())
         config = {
                 "executable" : executable,
