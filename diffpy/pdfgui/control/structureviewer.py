@@ -49,7 +49,7 @@ class StructureViewer(object):
 
     Data attributes:
 
-    executable -- full path to the structure viewer program or a program
+    executable -- full path to the structure viewer executable or an executable
                   that can be found in system PATH.  By default '' (not set).
     argstr     -- argument string for the viewer program, it can use shell
                   quoting.  Instances of '%s' in the string are replaced with
@@ -66,10 +66,16 @@ class StructureViewer(object):
 
 
     def __init__(self, executable=None, argstr=None, fileformat=None):
-        """Create Foo instance.
+        """Create StructureViewer instance.  All arguments are optional,
+        they override defaults described in class docstring.  The
+        configuration can be changed later using setConfig method.
 
-        value   -- initial value, must be a string or number convertible
-                   to integer.  When not supplied, assign 42.
+
+        executable -- path to the structure viewer executable
+        argstr     -- argument string for the viewer program, it can use
+                      shell quoting.  Instances of '%s' are replaced with
+                      temporary structure file.
+        fileformat -- structure format supported by diffpy.Structure package.
         """
         # declare instance data
         self.executable = ''
@@ -91,7 +97,7 @@ class StructureViewer(object):
     def getConfig(self):
         """Return current configuration of StructureViewer instance.
 
-        Returns dictionary with the following keys:
+        Returns new dictionary with the following keys:
         ('executable', 'argstr', 'fileformat')
         """
         cfgkeys = ('executable', 'argstr', 'fileformat')
@@ -101,11 +107,10 @@ class StructureViewer(object):
 
 
     def setConfig(self, cfg):
-        """Configure StructureViewer instance, by passing configuration
-        dictionary or named arguments.
+        """Configure StructureViewer instance using values in a dictionary.
 
-        cfg     -- New configuration dictionary, with the same keys as
-                   returned by getConfig().  Any other keys are ignored.
+        cfg     -- configuration dictionary, with the same keys as returned
+                   by getConfig().  Any other keys are ignored.
 
         No return value.
         """
@@ -149,7 +154,7 @@ class StructureViewer(object):
 
 
     def __del__(self):
-        """Remove temporary files created by this instance StructureViewer.
+        """Remove temporary files created by this instance of StructureViewer.
         """
         # short circuit if nothing has been created
         if self._tmpdir is None:    return
