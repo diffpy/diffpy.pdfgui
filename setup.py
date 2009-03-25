@@ -25,7 +25,11 @@ setup(
         version = '1.0c1',
         namespace_packages = ['diffpy'],
         packages = find_packages(),
-        scripts = ['applications/pdfgui'],
+        entry_points = {
+            'gui_scripts': [
+                'pdfgui=diffpy.pdfgui.applications.pdfgui:main',
+            ],
+        },
         data_files = [
             ('icons', dirglob('icons', '*.png', '*.ico')),
             ('doc', dirglob('doc', '*.pdf')),

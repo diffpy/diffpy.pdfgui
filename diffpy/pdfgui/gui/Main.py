@@ -18,10 +18,10 @@
 
 import sys
 import wx
-from diffpy.pdfgui.gui.mainframe import MainFrame
 
 class PDFGuiApp(wx.App):
     def OnInit(self):
+        from diffpy.pdfgui.gui.mainframe import MainFrame
         wx.InitAllImageHandlers()
         self.frame = MainFrame(None, -1, "")
         self.SetTopWindow(self.frame)
@@ -31,12 +31,12 @@ class PDFGuiApp(wx.App):
 # end of class PDFGuiApp
 
 def main():
-    """PDFgui main kick starter.
+    """Kick starter for the PDFgui graphical user interface.
+    This function is normally called from a light-weight console 
+    starter diffpy.pdfgui.applications.pdfgui.
     Command line options and arguments can be passed via
-    cmdopts and cmdargs variables in pdfguiglobals module.
+    cmdopts and cmdargs variables of the pdfguiglobals module.
     """
-    # Command line options and arguments can be passed via
-    # cmdopts and cmdargs variables in pdfguiglobals
     app = PDFGuiApp(0)
     app.MainLoop()
     return
