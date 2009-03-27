@@ -10,6 +10,7 @@ from diffpy.pdfgui.control.pdfguimacros import makeTemperatureSeries
 from diffpy.pdfgui.gui.pdfpanel import PDFPanel
 from diffpy.pdfgui.gui.tooltips import temperatureseriespanel as toolTips
 from diffpy.pdfgui.gui.wxExtensions.listctrls import AutoWidthListCtrl
+from diffpy.pdfgui.utils import numericStringSort
 
 class TemperatureSeriesPanel(wx.Panel, PDFPanel):
     def __init__(self, *args, **kwds):
@@ -236,9 +237,20 @@ class TemperatureSeriesPanel(wx.Panel, PDFPanel):
 
     def onColClick(self, event): # wxGlade: TemperatureSeriesPanel.<event_handler>
         """Sort by temperature."""
-        self.datasets.sort()
-        if self.reverse:
-            self.datasets.reverse()
+        column = event.GetColumn()
+        # sort by temperature
+        if column == 0:
+            sortkey = lambda tf : float(tf[0])
+        # sort by filename with numerical comparison of digits
+        elif column == 1:
+            filenames = [f for t, f in self.datasets]
+            numericStringSort(filenames)
+            order = dict(zip(filenames, range(len(filenames))))
+            sortkey = lambda tf : order[tf[1]]
+        # ignore unhandled columns
+        else:
+            return
+        self.datasets.sort(key=sortkey, reverse=self.reverse)
         self.reverse = not self.reverse
         self.fillList()
         return
