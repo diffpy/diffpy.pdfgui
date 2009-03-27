@@ -232,7 +232,7 @@ def makeTemperatureSeries(control, fit, paths, temperatures):
                 par.setInitial(parval)
 
         # Now paste the copy into the control.
-        fitnewname = "%s-%i" % (fitbasename, temperatures[i])
+        fitnewname = "%s-T%i=%g" % (fitbasename, i + 1, temperatures[i])
         o = control.paste(fitcopy, new_name = fitnewname)
         fits.append(o)
 
