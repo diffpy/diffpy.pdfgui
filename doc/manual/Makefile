@@ -7,6 +7,8 @@
 #   cleanALL -- delete all generated files
 #
 
+# Must make the PDF first, since its smaller images get embedded. This is far
+# from ideal, but the PDF does not look right otherwise.
 all: pdfgui.pdf pdfgui.html
 
 pdfgui.html: pdfgui.texinfo
