@@ -7,18 +7,16 @@
 #   cleanALL -- delete all generated files
 #
 
-all: images pdfgui.html pdfgui.pdf
-
-.PHONY: images
-images:
-	$(MAKE) -C images
+all: pdfgui.pdf pdfgui.html
 
 pdfgui.html: pdfgui.texinfo
+	$(MAKE) -B -C images
 	texi2html $<
 	python extractEquations.py $<
 	python fixHTMLCode.py $@
 
 pdfgui.pdf: pdfgui.texinfo
+	$(MAKE) -B -C images small
 	texi2pdf $<
 
 clean:
