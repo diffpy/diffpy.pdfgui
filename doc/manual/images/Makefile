@@ -14,7 +14,7 @@ images: $(IMAGECOPIES)
 
 # make smaller images in 
 small :
-	CONVERTARGS='-geometry 600' $(MAKE) -B images
+	CONVERTARGS='-geometry 425' $(MAKE) -B images
 
 clean:
 	/bin/rm -f -- *.png
