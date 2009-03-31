@@ -14,6 +14,6 @@ other materials provided with the distribution.
 
 @bigskip
 
-Neither the names of COLUMBIA UNIVERSITY nor MICHIGAN STATE UNIVERSITY nor the
+Neither the names of COLUMBIA UNIVERSITY, MICHIGAN STATE UNIVERSITY nor the
 names of their contributors may be used to endorse or promote products derived
 from this software without specific prior written permission.
