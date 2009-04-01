@@ -401,7 +401,7 @@ def legendBoxProperties():
     if parse_version(mplver) >= parse_version('0.98.5'):
         _lbp = {
             'loc' : 'upper right',
-            'numpoints' : 3,        # number of points in legend line
+            'numpoints' : 3,        # number of points in the legend line
             'borderpad' : 0.25,     # whitespace in the legend border
             'labelspacing' : 0,     # space between legend entries
             'handlelength' : 1.5,   # the length of the legend lines
@@ -410,15 +410,13 @@ def legendBoxProperties():
         }
     else:
         _lbp = {
-            'loc':'upper right',
-            'shadow' : True,
-            'numpoints' : 3,        # [4] the number of points in the legend line
-            #'prop' : FontProperties('smaller'),
-            'pad' : 0.2,            # [0.2] whitespace in the legend border
-            'labelsep' : 0.005,     # [0.005] space between legend entries
-            'handlelen' : 0.03,     # [0.05] the length of the legend lines
-            'handletextsep' : 0.01, # [0.02] legend line and text separation
-            'axespad' : 0.01        # [0.02] space between axes and legend edge
+            'loc' : 'upper right',
+            'numpoints' : 3,        # number of points in the legend line
+            'pad' : 0.20,           # whitespace in the legend border
+            'labelsep' : 0.005,     # space between legend entries
+            'handlelen' : 0.03,     # the length of the legend lines
+            'handletextsep' : 0.02, # separation between line and text
+            'prop' : FontProperties(size='medium'),
         }
     return _lbp
 
