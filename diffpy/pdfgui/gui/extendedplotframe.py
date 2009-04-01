@@ -29,6 +29,7 @@ from matplotlib.figure import Figure
 
 from matplotlib.backends.backend_wx import _load_bitmap
 from matplotlib.artist import setp
+from matplotlib.font_manager import FontProperties
 import wx
 
 
@@ -400,14 +401,12 @@ def legendBoxProperties():
     if parse_version(mplver) >= parse_version('0.98.5'):
         _lbp = {
             'loc' : 'upper right',
-            'shadow' : True,
-            'numpoints' : 3,        # [4] number of points in the legend line
-            # 'prop' : FontProperties('smaller'),
-            'borderpad' : 0.2,      # [0.2] whitespace in the legend border
-            'labelspacing' : 0.005, # [0.005] space between legend entries
-            'handlelength' : 0.03,  # [0.05] the length of the legend lines
-            'handletextpad' : 0.01, # [0.02] legend line and text separation
-            'borderaxespad' : 0.01, # [0.02] space between axes and legend edge
+            'numpoints' : 3,        # number of points in legend line
+            'borderpad' : 0.25,     # whitespace in the legend border
+            'labelspacing' : 0,     # space between legend entries
+            'handlelength' : 1.5,   # the length of the legend lines
+            'handletextpad' : 0.5,  # separation between line and text
+            'prop' : FontProperties(size='medium'),
         }
     else:
         _lbp = {
