@@ -193,8 +193,7 @@ class PhaseConstraintsPanel(wx.Panel, PDFPanel):
         self._textctrls = ['textCtrlA', 'textCtrlB', 'textCtrlC',
                 'textCtrlAlpha', 'textCtrlBeta', 'textCtrlGamma',
                 'textCtrlScaleFactor', 'textCtrlDelta1', 'textCtrlDelta2',
-                'textCtrlSratio', 'textCtrlRcut', 'textCtrlStepcut',
-                'textCtrlSpdiameter']
+                'textCtrlSratio', 'textCtrlSpdiameter']
         self._row = 0
         self._col = 0
         self._focusedText = None
@@ -213,6 +212,7 @@ class PhaseConstraintsPanel(wx.Panel, PDFPanel):
             'pscale', 'delta1', 'delta2', 'sratio', 'spdiameter']
         textCtrlIds = [getattr(self, n).GetId() for n in self._textctrls]
         self._id2varname = dict(zip(textCtrlIds, self.lConstraints))
+        print self._id2varname
 
         # set 'elem' abd 'name' columns to read-only
         attr = wx.grid.GridCellAttr()

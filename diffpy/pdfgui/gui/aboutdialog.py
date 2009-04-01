@@ -24,6 +24,8 @@ import wx.lib.hyperlink
 from diffpy.pdfgui.gui.pdfguiglobals import iconpath
 from diffpy.pdfgui import __version__
 
+# FIXME - this is not in sync with the wxglade file
+
 
 _acknowledgement =  \
 '''\
@@ -83,13 +85,13 @@ class DialogAbout(wx.Dialog):
         self.label_version = wx.StaticText(self, -1, "")
         self.label_build = wx.StaticText(self, -1, "Build:")
         self.label_svnrevision = wx.StaticText(self, -1, "")
-        self.label_copyright = wx.StaticText(self, -1, "(c) 2005-2007,")
+        self.label_copyright = wx.StaticText(self, -1, "(c) 2005-2009,")
         self.label_author = wx.StaticText(self, -1, "author")
         self.hyperlink = wx.lib.hyperlink.HyperLinkCtrl(self, -1,
                 _homepage, URL=_homepage)
-        self.hyperlink_license = wx.lib.hyperlink.HyperLinkCtrl(self, -1,
-                "PDFgui paper (in print)", URL=_paper)
         self.hyperlink_paper = wx.lib.hyperlink.HyperLinkCtrl(self, -1,
+                _paper, URL=_paper)
+        self.hyperlink_license = wx.lib.hyperlink.HyperLinkCtrl(self, -1,
                 _license, URL=_license)
         self.static_line_1 = wx.StaticLine(self, -1)
         self.label_acknowledgement = wx.StaticText(self, -1, _acknowledgement)
@@ -110,9 +112,6 @@ class DialogAbout(wx.Dialog):
         self.Bind(wx.EVT_BUTTON, self.onColumbiaLogo, self.bitmap_button_columbia)
         # end wxGlade
         
-        # fill in acknowledgements
-#       self.text_ctrl_acknowledgement.SetValue(__acknowledgement__)
-
         # randomly shuffle authors' names
         random.shuffle(_authors)
         strLabel = ", ".join(_authors)
@@ -155,8 +154,6 @@ class DialogAbout(wx.Dialog):
         self.label_version.SetFont(wx.Font(26, wx.DEFAULT, wx.NORMAL, wx.NORMAL, 0, ""))
         self.hyperlink_license.Enable(False)
         self.hyperlink_license.Hide()
-        self.hyperlink_paper.Enable(False)
-        self.hyperlink_paper.Hide()
         self.bitmap_button_nsf.SetSize(self.bitmap_button_nsf.GetBestSize())
         self.bitmap_button_danse.SetSize(self.bitmap_button_danse.GetBestSize())
         self.bitmap_button_msu.SetSize(self.bitmap_button_msu.GetBestSize())
@@ -185,11 +182,11 @@ class DialogAbout(wx.Dialog):
         sizer_titles.Add(self.hyperlink, 0, wx.LEFT|wx.RIGHT, 10)
         sizer_titles.Add((20, 20), 0, 0, 0)
         sizer_titles.Add(self.hyperlink_license, 0, wx.LEFT|wx.RIGHT, 10)
-        sizer_titles.Add(self.hyperlink_paper, 0, wx.LEFT|wx.RIGHT, 10)
         sizer_header.Add(sizer_titles, 0, wx.EXPAND, 0)
         sizer_main.Add(sizer_header, 0, wx.BOTTOM|wx.EXPAND, 3)
         sizer_main.Add(self.static_line_1, 0, wx.EXPAND, 0)
         sizer_main.Add(self.label_acknowledgement, 0, wx.LEFT|wx.TOP|wx.BOTTOM, 7)
+        sizer_main.Add(self.hyperlink_paper, 0, wx.LEFT|wx.TOP|wx.BOTTOM, 7)
         sizer_main.Add(self.static_line_2, 0, wx.EXPAND, 0)
         sizer_logos.Add(self.bitmap_button_nsf, 0, wx.LEFT, 2)
         sizer_logos.Add(self.bitmap_button_danse, 0, wx.LEFT, 2)
