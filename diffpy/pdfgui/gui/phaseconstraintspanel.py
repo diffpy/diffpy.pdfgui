@@ -212,7 +212,6 @@ class PhaseConstraintsPanel(wx.Panel, PDFPanel):
             'pscale', 'delta1', 'delta2', 'sratio', 'spdiameter']
         textCtrlIds = [getattr(self, n).GetId() for n in self._textctrls]
         self._id2varname = dict(zip(textCtrlIds, self.lConstraints))
-        print self._id2varname
 
         # set 'elem' abd 'name' columns to read-only
         attr = wx.grid.GridCellAttr()
