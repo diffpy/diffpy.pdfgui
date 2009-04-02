@@ -1,14 +1,20 @@
 This code was developed as part of the DiffPy project to create python
 modules for structure investigations from diffraction data.
 
-The DiffPy team is located in the Billinge-group at the Department of
-Physics and Astronomy at Michigan State University and consists of:
+The DiffPy team is located in the Billinge-group at the Applied Physics
+and Applied Mathematics Department of the Columbia University in New York
+and it consists of:
 
     Simon Billinge
     Pavol Juhas
+    Chris Farrow
     Emil Bozin
     Wenduo Zhou
-    Chris Farrow
+    Peng Tian
+    Timur Dykhne
+
+The former members of the project are:
+
     Jiwu Liu
     Dmitriy Bryndin
 
@@ -17,7 +23,7 @@ contributors.  This is an open-source project and we hope and expect
 that the list of contributors will expand with time.  Many thanks to
 all current and future contributors!
 
-For more information on the DiffPy project email billinge@pa.msu.edu
+For more information on the DiffPy project email sb2896@columbia.edu
 
 DiffPy was initiated as part of the Distributed Data Analysis of Neutron
 Scattering Experiments (DANSE) project, funded by the National Science
@@ -36,8 +42,8 @@ the group; The hard working DANSE group at Caltech, University of
 Maryland, Iowa State and University of Tennessee, especially Brent Fultz
 for doggedly putting DANSE all together and Michael Aivazis, and the
 indomitable Mike McKerns for their design input and MM's gargantuan
-excel spreadsheets; The current Billinge-group members, especially
-HyunJeong Kim and Ahmad Masadeh for enthusiastic testing and feature
-requests;  Last but not least, our long suffering family members, and
-the coffee machine in Bar Fisica, without whom none of this would have
-been possible. 
+excel spreadsheets; The former members of the Billinge-group members,
+especially HyunJeong Kim and Ahmad Masadeh for enthusiastic testing and
+feature requests;  Last but not least, our long suffering family members,
+and the whole coffee and tea industries at large, without whom none of
+this would have been possible. 
