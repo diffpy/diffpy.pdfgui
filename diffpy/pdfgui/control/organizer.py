@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-########################################################################
+##############################################################################
 #
 # PDFgui            by DANSE Diffraction group
 #                   Simon J. L. Billinge
@@ -11,7 +11,7 @@
 # See AUTHORS.txt for a list of people who contributed.
 # See LICENSE.txt for license information.
 #
-########################################################################
+##############################################################################
 
 from diffpy.pdfgui.control.pdfcomponent import PDFComponent
 from diffpy.pdfgui.control.fitdataset import FitDataSet

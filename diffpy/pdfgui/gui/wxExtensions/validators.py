@@ -1,4 +1,4 @@
-########################################################################
+##############################################################################
 #
 # wxExtensions      by DANSE Diffraction group
 #                   Simon J. L. Billinge
@@ -10,7 +10,7 @@
 # See AUTHORS.txt for a list of people who contributed.
 # See LICENSE.txt for license information.
 #
-########################################################################
+##############################################################################
 
 """This module contains TextValidator, which is an input validator for the
 wxTextCtrl. See the wxPython documentation for wxTextCtrl for more about text

@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-########################################################################
+##############################################################################
 #
 # PDFgui            by DANSE Diffraction group
 #                   Simon J. L. Billinge
@@ -11,7 +11,7 @@
 # See AUTHORS.txt for a list of people who contributed.
 # See LICENSE.txt for license information.
 #
-########################################################################
+##############################################################################
 
 import threading
 
@@ -49,7 +49,7 @@ def handleEngineException(error, gui=None):
         print "<Engine exception> %s" % errorInfo
     return
 
-########################################################################
+##############################################################################
 class Fitting(Organizer):
     """Fitting is the class to control a PdfFit process, which can be either 
     running on a remote machine or locally. Fitting will start a thread to 

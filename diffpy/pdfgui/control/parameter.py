@@ -1,4 +1,4 @@
-########################################################################
+##############################################################################
 #
 # PDFgui            by DANSE Diffraction group
 #                   Simon J. L. Billinge
@@ -10,7 +10,7 @@
 # See AUTHORS.txt for a list of people who contributed.
 # See LICENSE.txt for license information.
 #
-########################################################################
+##############################################################################
 
 """class Parameter for handling one refined parameter
 To be stored in Fitting.parameters { idx : parameter } dictionary

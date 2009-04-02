@@ -1,5 +1,6 @@
 #!/usr/bin/env python
-########################################################################
+# -*- coding: UTF-8 -*-
+##############################################################################
 #
 # PDFgui            by DANSE Diffraction group
 #                   Simon J. L. Billinge
@@ -11,9 +12,8 @@
 # See AUTHORS.txt for a list of people who contributed.
 # See LICENSE.txt for license information.
 #
-########################################################################
+##############################################################################
 
-# -*- coding: UTF-8 -*-
 """This module defines the cipher and decipher methods that encode and decode a
 string. This module and these methods are not secure. Ciphered passwords should
 be stored with the tightest (paranoid) permissions.

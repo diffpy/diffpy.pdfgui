@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-########################################################################
+##############################################################################
 #
 # PDFgui            by DANSE Diffraction group
 #                   Simon J. L. Billinge
@@ -11,7 +11,7 @@
 # See AUTHORS.txt for a list of people who contributed.
 # See LICENSE.txt for license information.
 #
-########################################################################
+##############################################################################
 
 """class FitDataSet for experimental PDF data and related fitting parameters
 """
@@ -749,9 +749,9 @@ class FitDataSet(PDFDataSet):
 # End of class FitDataSet
 
 
-########################################################################
+##############################################################################
 # helper functions
-########################################################################
+##############################################################################
 
 def grid_interpolation(x0, y0, x1, youtside=0.0):
     """Linear interpolation of x0, y0 values to a new grid x1.
