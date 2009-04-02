@@ -504,9 +504,6 @@ class MainFrame(wx.Frame):
         self.impFitItem = wx.MenuItem(self.fitsMenu, wx.NewId(), 
                 "&Import pdffit2 Script", "", wx.ITEM_NORMAL)
         self.fitsMenu.AppendItem(self.impFitItem)
-        self.expFitItem = wx.MenuItem(self.fitsMenu, wx.NewId(), 
-                "&Export pdffit2 Script", "", wx.ITEM_NORMAL)
-        self.fitsMenu.AppendItem(self.expFitItem)
         self.fitsMenu.AppendSeparator()
         self.expResItem = wx.MenuItem(self.fitsMenu, self.exportResId,
                 "Export Resu&lts File", "", wx.ITEM_NORMAL) 
@@ -1564,12 +1561,6 @@ class MainFrame(wx.Frame):
         menu.Enable(self.saveAsId, True)
         menu.Enable(self.openId, True)
         menu.Enable(self.recentId, True)
-
-        # FIXME
-        # Disable things that are not yet implemented.
-        menu.Enable(self.expFitItem.GetId(), False)
-        #from diffpy.pdfgui.control.connection import RemoteExecution
-        #menu.Enable(self.servItem.GetId(), RemoteExecution)
 
         # Now disable the non-shared menu items
         selections = self.treeCtrlMain.GetSelections()
