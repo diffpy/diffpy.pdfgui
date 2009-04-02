@@ -20,6 +20,7 @@ import wx
 from diffpy.pdfgui.gui.wxExtensions.validators import TextValidator, FLOAT_ONLY
 from diffpy.pdfgui.gui.pdfpanel import PDFPanel
 from diffpy.pdfgui.gui.tooltips import datasetconfigurepanel as toolTips
+from diffpy.pdfgui.gui.wxExtensions.textctrlutils import textCtrlAsGridCell
 
 class DataSetConfigurePanel(wx.Panel, PDFPanel):
     def __init__(self, *args, **kwds):
@@ -140,6 +141,7 @@ class DataSetConfigurePanel(wx.Panel, PDFPanel):
         self.metaNames = ['doping', 'temperature']
         self.constrainables = ['dscale', 'qdamp', 'qbroad']
         self.sampList = ["data", "Nyquist", "custom"]
+        self._focusedText = None
 
         # Note that the rstep and fitrstep attributes are special cases, so they
         # are handled separately. Qmax is also handled with these.
@@ -165,14 +167,22 @@ class DataSetConfigurePanel(wx.Panel, PDFPanel):
         # Setup the event code.
         for ctrlName in self.ctrlMap.values():
             textCtrl = getattr(self, ctrlName)
+            textCtrl.Bind(wx.EVT_SET_FOCUS, self.onSetFocus)
             textCtrl.Bind(wx.EVT_KILL_FOCUS, self.onLoseFocus)
+            textCtrl.Bind(wx.EVT_KEY_DOWN, self.onTextCtrlKey)
 
         self.textCtrlFitStep.Bind(wx.EVT_KILL_FOCUS, self.onSampling)
         self.textCtrlQmax.Bind(wx.EVT_KILL_FOCUS, self.onSampling)
+        self.textCtrlFitStep.Bind(wx.EVT_KEY_DOWN, self.onTextCtrlKey)
+        self.textCtrlQmax.Bind(wx.EVT_KEY_DOWN, self.onTextCtrlKey)
 
         # For blocked text controls.
         self.message = "This variable is constrained. Edit the associated parameter."
         return
+
+    # Create the onTextCtrlKey event handler from textCtrlAsGridCell from
+    # wxExtensions.textctrlutils
+    onTextCtrlKey = textCtrlAsGridCell
 
     def setConfigurationData(self):
         """Set the values in the configuration panel.
@@ -324,6 +334,11 @@ class DataSetConfigurePanel(wx.Panel, PDFPanel):
             # Update the text control
             self.textCtrlFitStep.SetValue(str(self.configuration.fitrstep))
 
+        return
+
+    def onSetFocus(self, event):
+        """Saves a TextCtrl value, to be used later."""
+        self._focusedText = event.GetEventObject().GetValue()
         return
 
     def onLoseFocus(self, event):

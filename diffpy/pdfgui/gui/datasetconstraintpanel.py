@@ -21,6 +21,7 @@ from diffpy.pdfgui.gui.pdfpanel import PDFPanel
 from diffpy.pdfgui.gui.tooltips import datasetconstraintpanel as toolTips
 from diffpy.pdfgui.control.constraint import Constraint
 from diffpy.pdfgui.control.controlerrors import ControlSyntaxError
+from diffpy.pdfgui.gui.wxExtensions.textctrlutils import textCtrlAsGridCell
 
 class DataSetConstraintPanel(wx.Panel, PDFPanel):
     def __init__(self, *args, **kwds):
@@ -69,6 +70,7 @@ class DataSetConstraintPanel(wx.Panel, PDFPanel):
     # USER CONFIGURATION CODE #################################################
 
     def __customProperties(self):
+        self._focusedText = None
         self.constraints = {}
         self.ctrlMap = {
                         'dscale'        :   'textCtrlScaleFactor',
@@ -84,8 +86,14 @@ class DataSetConstraintPanel(wx.Panel, PDFPanel):
         # Setup the event code.
         for ctrlName in self.ctrlMap.values():
             textCtrl = getattr(self, ctrlName)
+            textCtrl.Bind(wx.EVT_SET_FOCUS, self.onSetFocus)
             textCtrl.Bind(wx.EVT_KILL_FOCUS, self.onLoseFocus)
+            textCtrl.Bind(wx.EVT_KEY_DOWN, self.onTextCtrlKey)
         return
+
+    # Create the onTextCtrlKey event handler from textCtrlAsGridCell from
+    # wxExtensions.textctrlutils
+    onTextCtrlKey = textCtrlAsGridCell
 
     def setConstraintsData(self):
         """Set the values in the constraints panel.
@@ -121,6 +129,10 @@ class DataSetConstraintPanel(wx.Panel, PDFPanel):
         return
 
     # EVENT CODE #############################################################
+    def onSetFocus(self, event):
+        """Saves a TextCtrl value, to be compared in onKillFocus later."""
+        self._focusedText = event.GetEventObject().GetValue()
+        return
 
     def onLoseFocus(self, event):
         """Record the user's selection for the text ctrl data."""

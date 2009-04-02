@@ -27,6 +27,7 @@ from diffpy.pdfgui.gui.pdfpanel import PDFPanel
 from diffpy.pdfgui.gui.tooltips import phasepanel as toolTips
 from diffpy.pdfgui.gui.wxExtensions.autowidthlabelsgrid import \
         AutoWidthLabelsGrid
+from diffpy.pdfgui.gui.wxExtensions.textctrlutils import textCtrlAsGridCell
 from diffpy.pdfgui.gui.sgconstraindialog import SGConstrainDialog
 from diffpy.pdfgui.gui import phasepanelutils
 
@@ -203,6 +204,7 @@ class PhaseConstraintsPanel(wx.Panel, PDFPanel):
         for widget in self._textctrls:
             self.__dict__[widget].Bind(wx.EVT_SET_FOCUS, self.onSetFocus)
             self.__dict__[widget].Bind(wx.EVT_KILL_FOCUS, self.onKillFocus)
+            self.__dict__[widget].Bind(wx.EVT_KEY_DOWN, self.onTextCtrlKey)
 
         # set up grid
         self.lAtomConstraints = ['x','y','z',
@@ -229,6 +231,10 @@ class PhaseConstraintsPanel(wx.Panel, PDFPanel):
         self.labelStepcut.Hide()
         self.textCtrlStepcut.Hide()
         return
+
+    # Create the onTextCtrlKey event handler from textCtrlAsGridCell from
+    # wxExtensions.textctrlutils
+    onTextCtrlKey = textCtrlAsGridCell
 
     def _cache(self):
         """Cache the current structure and constraints for future comparison."""

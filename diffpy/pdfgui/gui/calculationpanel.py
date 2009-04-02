@@ -18,6 +18,7 @@
 
 import wx
 from diffpy.pdfgui.gui.wxExtensions.validators import TextValidator, FLOAT_ONLY
+from diffpy.pdfgui.gui.wxExtensions.textctrlutils import textCtrlAsGridCell
 from diffpy.pdfgui.gui.pdfpanel import PDFPanel
 
 class CalculationPanel(wx.Panel, PDFPanel):
@@ -108,13 +109,7 @@ class CalculationPanel(wx.Panel, PDFPanel):
 
     def __customProperties(self):
         """Set up the custom properites."""
-        self.textCtrlCalcFrom.Bind(wx.EVT_KILL_FOCUS, self.onCalcRange)
-        self.textCtrlCalcTo.Bind(wx.EVT_KILL_FOCUS, self.onCalcRange)
-        self.textCtrlQmax.Bind(wx.EVT_KILL_FOCUS, self.onLoseFocus)
-        self.textCtrlQdamp.Bind(wx.EVT_KILL_FOCUS, self.onLoseFocus)
-        self.textCtrlQbroad.Bind(wx.EVT_KILL_FOCUS, self.onLoseFocus)
-        self.textCtrlScaleFactor.Bind(wx.EVT_KILL_FOCUS, self.onLoseFocus)
-        self.textCtrlRStep.Bind(wx.EVT_KILL_FOCUS, self.onCalcRange)
+        self._focusedText = None
         self.calculation = None
         self.stypeMap = {0: 'N', 1: 'X'}
 
@@ -134,7 +129,26 @@ class CalculationPanel(wx.Panel, PDFPanel):
             textCtrl.SetName(key)
             textCtrl.SetValidator(TextValidator(FLOAT_ONLY))
 
+        # Create specific bindings for the textCtrls
+        self.textCtrlCalcFrom.Bind(wx.EVT_KILL_FOCUS, self.onCalcRange)
+        self.textCtrlCalcTo.Bind(wx.EVT_KILL_FOCUS, self.onCalcRange)
+        self.textCtrlQmax.Bind(wx.EVT_KILL_FOCUS, self.onKillFocus)
+        self.textCtrlQdamp.Bind(wx.EVT_KILL_FOCUS, self.onKillFocus)
+        self.textCtrlQbroad.Bind(wx.EVT_KILL_FOCUS, self.onKillFocus)
+        self.textCtrlScaleFactor.Bind(wx.EVT_KILL_FOCUS, self.onKillFocus)
+        self.textCtrlRStep.Bind(wx.EVT_KILL_FOCUS, self.onCalcRange)
+
+        # Bind the focus and key events
+        for (key, value) in self.ctrlMap.items():
+            textCtrl = getattr(self, value)
+            textCtrl.Bind(wx.EVT_SET_FOCUS, self.onSetFocus)
+            textCtrl.Bind(wx.EVT_KEY_DOWN, self.onTextCtrlKey)
+
         return
+
+    # Create the onTextCtrlKey event handler from textCtrlAsGridCell from
+    # wxExtensions.textctrlutils
+    onTextCtrlKey = textCtrlAsGridCell
 
     def setConfigurationData(self):
         """Set the data in the panel."""
@@ -199,7 +213,12 @@ class CalculationPanel(wx.Panel, PDFPanel):
         self.mainFrame.needsSave()
         return
 
-    def onLoseFocus(self, event):
+    def onSetFocus(self, event):
+        """Saves a TextCtrl value, to be used later."""
+        self._focusedText = event.GetEventObject().GetValue()
+        return
+
+    def onKillFocus(self, event):
         textCtrl = event.GetEventObject()
         value = textCtrl.GetValue()
         value = self.__coerseText(value)
