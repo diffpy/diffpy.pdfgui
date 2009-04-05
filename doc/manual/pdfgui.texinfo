@@ -20,6 +20,10 @@
 @end html
 @end macro
 
+@macro ScreenShot{f}
+@center @image{\f\, 5.25in}
+@end macro
+
 @c start of header
 @setfilename pdfgui
 @settitle 1.0 release March 2009
@@ -498,7 +502,7 @@ offered to load a structure from a file or to generate it from scratch. In this
 exercise a preexisting structure file @i{Ni.stru} is to be loaded.
 
 @float Figure,fig2-01
-@image{images/fig2-01}
+@ScreenShot{images/fig2-01}
 @caption{PDFgui window with fit tree and Plot Control panels to the left and
 current action panel to the right. The fit tree panel features the current fit
 and the loaded Ni structure which is selected. The current action panel displays
@@ -531,7 +535,7 @@ facility at the Argonne National Laboratory. Both x-ray and neutron datasets
 were collected at 300 K.
 
 @float Figure,fig2-02
-@image{images/fig2-02}
+@ScreenShot{images/fig2-02}
 @caption{Appearance of a PDFgui window after a PDF dataset is loaded.  The Fit
 Tree panel features the current fit, loaded Ni structure, and loaded Ni PDF
 dataset, G(r), which is selected. The current action panel displays data set
@@ -571,7 +575,7 @@ toggling between the corresponding ``Configure'' and ``Constraints'' tabs. In
 the present example the data related setup will be done first.
 
 @float Figure,fig2-03
-@image{images/fig2-03}
+@ScreenShot{images/fig2-03}
 @caption{Adjusting data set related configuration.}
 @end float
 
@@ -594,7 +598,7 @@ inserting @i{@@2} into the appropriate edit box. This is illustrated in Figure
 @ref{fig2-04}.
 
 @float Figure,fig2-04
-@image{images/fig2-04}
+@ScreenShot{images/fig2-04}
 @caption{Setting up the refinement parameters and constraints.}
 @end float
 
@@ -612,7 +616,7 @@ then pressing ``Enter'' on your keyboard. The outcome is shown in Figure
 
 
 @float Figure,fig2-05
-@image{images/fig2-05}
+@ScreenShot{images/fig2-05}
 @caption{Setting up the refinement parameters and constraints.}
 @end float
 
@@ -634,7 +638,7 @@ part manually, in particular for complex setups, it is recommended to verify
 that the parameter assignment is done correctly.
 
 @float Figure,fig2-06
-@image{images/fig2-06}
+@ScreenShot{images/fig2-06}
 @caption{Reviewing the fit parameters and conditions.}
 @end float
 
@@ -656,7 +660,7 @@ progress will be directly reported in the PDFfit2 Output panel. This is
 illustrated in @ref{fig2-07}.
 
 @float Figure,fig2-07
-@image{images/fig2-07}
+@ScreenShot{images/fig2-07}
 @caption{While the refinement is running, the refinement progress is
 displayed in the PDFfit2 Output panel.}
 @end float
@@ -676,7 +680,7 @@ you loose the original starting values when copying values in this way, which
 may make it difficult to reproduce the fit.
 
 @float Figure,fig2-08
-@image{images/fig2-08}
+@ScreenShot{images/fig2-08}
 @caption{Updating the set of initial values of refined parameters.}
 @end float
 
@@ -690,12 +694,12 @@ iteration step in @ref{fig2-10}. If the plotting window remains open while the
 fitting is in progress, the content will be updated after each fit iteration.
 
 @float Figure,fig2-09
-@image{images/fig2-09}
+@ScreenShot{images/fig2-09}
 @caption{An example of PDFgui plotting capabilities: displaying a fit.}
 @end float
 
 @float Figure,fig2-10
-@image{images/fig2-10}
+@ScreenShot{images/fig2-10}
 @caption{An example of PDFgui plotting capabilities: displaying a parameter.}
 @end float
 
@@ -705,7 +709,7 @@ notes, as illustrated in @ref{fig2-11}. These notes can be exported as a text
 file, or saved along with the entire project for future reference.
 
 @float Figure,fig2-11
-@image{images/fig2-11}
+@ScreenShot{images/fig2-11}
 @caption{Using ``Journal'' feature can be a convenient way for taking notes.}
 @end float
 
@@ -801,7 +805,7 @@ have isotope symbols ``D'' and ``T''.}.  Further, highlight cells in the
 
 
 @float Figure,fig3-01
-@image{images/fig3-01}
+@ScreenShot{images/fig3-01}
 @caption{Expanding the unit cell using space group information.}
 @end float
 
@@ -813,7 +817,7 @@ or ``225'', the space group number.  This will expand the unit cell to four Ni
 sites with the proper symmetry.
 
 @float Figure,fig3-02
-@image{images/fig3-02}
+@ScreenShot{images/fig3-02}
 @caption{Setting up symmetry constraints to be used in a refinement.}
 @end float
 
@@ -857,7 +861,7 @@ current action panel will display information very similar to that when a data
 set is loaded, as shown in @ref{fig3-03}.
 
 @float Figure,fig3-03
-@image{images/fig3-03}
+@ScreenShot{images/fig3-03}
 @caption{An example of the calculation configuration panel.}
 @end float
 
@@ -928,7 +932,7 @@ of the link as its @i{initial} value, or the initial value if the linked
 parameter is not yet refined.  An example of this is shown in @ref{fig3-04}.
 
 @float Figure,fig3-04
-@image{images/fig3-04}
+@ScreenShot{images/fig3-04}
 @caption{An example of linked fits. The output of a converged fit will
 be fed into the succeeding fit in the sequence as an input.}
 @end float
@@ -989,7 +993,7 @@ boxes each, that need to be filled with values to be specified by the user. An
 example of this is shown in Figure @ref{fig3-05}.
 
 @float Figure,fig3-05
-@image{images/fig3-05}
+@ScreenShot{images/fig3-05}
 @caption{Appearance of the setup panel for specifying an incremental r-series
 fit conditions.}
 @end float
@@ -1053,7 +1057,7 @@ information from the files. User should verify that the information is correct.
 The data can be ordered by temperature by clicking the ``Temperature'' header.
 
 @float Figure,fig3-06
-@image{images/fig3-06}
+@ScreenShot{images/fig3-06}
 @caption{Setting up a T-series sequential refinement for LaMnO3. Ordering
 by temperature will ensure that the fits are linked correctly.}
 @end float
@@ -1079,7 +1083,7 @@ of O2 (for example atom 20) for the @i{y} axis.  Clicking ``Plot'' will display
 the plot of Uiso(20) vs T.
 
 @float Figure,fig3-07
-@image{images/fig3-07}
+@ScreenShot{images/fig3-07}
 @caption{Displaying the refinement results as a function of external
 parameter: T-series refinement of LaMnO3, example of isotropic ADP of
 oxygen atom on general position in @i{Pbnm} setting. Notable are the offsets
@@ -1122,7 +1126,7 @@ different instrument was used, the value of @i{Qdamp} is different than in
 previous example.
 
 @float Figure,fig3-08
-@image{images/fig3-08}
+@ScreenShot{images/fig3-08}
 @caption{After loading of the Ca-doping data series of LaMnO3 system, proper
 doping assignment needs to be carried out, as the doping levels introspected
 from the file names in this example incorrectly reflect the scientific
@@ -1165,7 +1169,7 @@ content increase. Highlight all the fits in the fit tree to start the
 sequential refinement of the doping series.
 
 @float Figure,fig3-09
-@image{images/fig3-09}
+@ScreenShot{images/fig3-09}
 @caption{Sequence of refined parameters, such as lattice constants, can be
 plotted vs doping using PDFgui plotting facilities. Figure features lattice
 parameter @i{b} in @i{Pbnm} space group setting for series of Ca-doped LaMnO3
@@ -1203,7 +1207,7 @@ therefore rather delicate and the solutions are not as robust as we are used to
 in cases of crystalline materials.
 
 @float Figure,fig3-10
-@image{images/fig3-10}
+@ScreenShot{images/fig3-10}
 @caption{Fitting the structure of a nanoparticle: 3nm CdSe
 nanoparticle example.}
 @end float
@@ -1300,7 +1304,7 @@ with ease. An example plot of Rw vs refinement step is shown in @ref{fig4-01}
 for Ni example.
 
 @float Figure,fig4-01
-@image{images/fig4-01}
+@ScreenShot{images/fig4-01}
 @caption{Plotting window featuring Rw vs refinement step for Ni example.
 The basic functionality for manipulating the plot is provided through icons
 on the tool bar of the plotting window.}
@@ -1323,7 +1327,7 @@ viewer can set under the Edit->Preferences menu.  An example Ni structure
 visualization with AtomEye is shown in @ref{fig4-02}.
 
 @float Figure,fig4-02
-@image{images/fig4-02}
+@ScreenShot{images/fig4-02}
 @caption{Using AtomEye functionality (if installed on your system) for 3D
 visualization of the initial and refined PDF structures: example of Ni
 structure.}

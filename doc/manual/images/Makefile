@@ -1,24 +1,21 @@
-# create links to the originals in good png or jpg format
-# and convert them to pdf
-
-CONVERT=cp
-ifdef CONVERTARGS
-	CONVERT = convert $(CONVERTARGS)
-endif
+# create links to the originals in png format
+# When originals change, copy them in subversion as well.
 
 # list of all generated images
 IMAGECOPIES = \
-    $(patsubst originals/%.png,%.png,$(wildcard originals/*.png)) \
+    $(patsubst originals/%.png,%.png,$(wildcard originals/*.png))
 
 images: $(IMAGECOPIES)
-
-# make smaller images in 
-small :
-	CONVERTARGS='-geometry 425' $(MAKE) -B images
 
 clean:
 	/bin/rm -f -- *.png
 
-# png to png
+# png files are the same as originals.  Since png files are
+# also stored in subversion, perform svn copy when originals
+# change.
 %.png: originals/%.png
-	$(CONVERT) $< $@
+	ln -f -- $< $@
+	if svn status $@ | grep -q '^[M?]'; then \
+	    svn delete --force $@; \
+	    svn copy $< $@; \
+	fi

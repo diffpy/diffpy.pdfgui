@@ -12,7 +12,7 @@
 all: pdfgui.pdf pdfgui.html
 
 pdfgui.html: pdfgui.texinfo
-	$(MAKE) -B -C images
+	$(MAKE) -C images
 	texi2html $<
 	python extractEquations.py $<
 	python fixHTMLCode.py $@
