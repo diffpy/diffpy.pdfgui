@@ -18,7 +18,7 @@ pdfgui.html: pdfgui.texinfo
 	python fixHTMLCode.py $@
 
 pdfgui.pdf: pdfgui.texinfo
-	$(MAKE) -B -C images small
+	$(MAKE) -C images
 	texi2pdf $<
 
 clean:
@@ -32,7 +32,7 @@ cleanALL: clean
 	/bin/rm -f pdfgui.html pdfgui.pdf
 	$(MAKE) -C images clean
 
-WEBDOCDIR = www.diffpy.org:/var/www/html/www.diffpy.org/doc/pdfgui
+WEBDOCDIR = diffpy@diffpy.org:web/www.diffpy.org/doc/pdfgui/
 
 publish: all
 	rsync -e /usr/bin/ssh -pRt --chmod=a+rwx,o-w,Dg+s,Fa-x \
