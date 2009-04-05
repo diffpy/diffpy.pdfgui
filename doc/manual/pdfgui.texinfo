@@ -26,7 +26,7 @@
 
 @c start of header
 @setfilename pdfgui
-@settitle 1.0 release March 2009
+@settitle PDFgui user guide, release 1.0, April 2009
 @c @setcontentsaftertitlepage
 @c end of header
 
@@ -315,6 +315,7 @@ using your system's package manager such as @samp{apt-get} or @samp{yum}.  In
 case a binary package is not available, refer to the corresponding project page
 for other installation options.
 
+@noindent
 @b{Required packages:}
 
 @multitable @columnfractions .2 .8
@@ -350,6 +351,7 @@ sudo aptitude install \
     python-numpy python-matplotlib libgsl0-dev g++
 @end example
 
+@noindent
 @b{Optional programs:}
 @itemize @bullet
 @item AtomEye - AtomEye structure viewer,
@@ -424,6 +426,7 @@ Once PDFgui is up an running, you must tell it where to find your preferrred
 structure visualization program before it can display 3D structures. This
 information can be entered under the Edit->Preferences menu.
 
+@noindent
 @b{A note for AtomEye users:}
 
 AtomEye requires its standard output is connected to a terminal.
