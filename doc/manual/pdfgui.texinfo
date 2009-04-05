@@ -282,8 +282,30 @@ instructions.
 DiffPy is provided as self-installing archive for Windows systems.  Download
 the latest @samp{diffpy-VERSION.exe} file, launch the executable and follow
 the prompts.  That's all - PDFgui and PDFfit2 should be now ready for use. 
+The system ``Start Menu'' includes an "Update PDFgui" item, which can be
+used later to upgrade to the latest version of the software.  This menu
+item upgrades only the changed components of PDFgui, which will be released
+more frequently than a full installer.
 
-@unnumberedsubsec Unix/Linux/MAC
+The self-installing archive includes a complete installation of Python
+that is used to run PDFgui and PDFfit2.  Nevertheless, PDFgui and other
+components of the DiffPy library can be also installed under an
+existing Python tree.  This requires Python 2.5 and several external
+Python packages, namely setuptools, numpy, wxPython and matplotlib.
+@footnote{
+Some Python distributions already have these packages installed,
+for example Enthought Python @url{http://www.enthought.com/} or PythonXY
+@url{http://www.pythonxy.com/}.
+}
+To add PDFgui to an existing Python tree, start a command prompt
+and run the easy_install script from the Python25/Scripts directory:
+@example
+easy_install diffpy.pdfgui
+@end example
+This installs library files under Python25/Lib/site-packages and executable
+scripts for pdfgui and pdffit2 under Python25/Scripts.
+
+@unnumberedsubsec Unix, Linux, MAC
 
 For unix-like operating systems DiffPy can be installed using easy-install,
 provided that some libraries and applications already exist on your computer.
@@ -295,49 +317,51 @@ for other installation options.
 
 @b{Required packages:}
 
-@table @t
-@item python 
-@url{http://www.python.org} Python interpreter, minimum version 2.3
+@multitable @columnfractions .2 .8
+@item Python
+    @tab Python interpreter, version 2.5, 
+    @* @url{http://www.python.org} 
+@item Python-dev 
+    @tab C development files for Python
+@item setuptools 
+    @tab software distribution tools for Python,
+    @* @url{http://peak.telecommunity.com/DevCenter/setuptools} 
+@item NumPy 
+    @tab Numerical Python, minimum version 0.9.8,
+    @* @url{http://numpy.scipy.org}
+@item wxPython 
+    @tab GUI toolkit for Python, minimum version 2.6, recommended 2.8
+    @* @url{http://wxpython.org}
+@item matplotlib 
+    @tab plotting library for Python, minimum version 0.90,
+    @* @url{http://matplotlib.sourceforge.net}
+@item g++ 
+    @tab GNU C++ compiler
+@item GSL 
+    @tab the GNU Scientific Library for C,
+    @* @url{http://www.gnu.org/software/gsl}
+@end multitable
 
-@item python-dev
-@url{http://www.python.org} development files for Python
-
-@item python-setuptools
-@url{http://peak.telecommunity.com/DevCenter/setuptools} setuptools for Python
-
-@item gsl-devel
-@url{http://www.gnu.org/software/gsl} GNU Scientific Library
-@end table
-
-@b{Auto-installed packages:}
-@table @t
-@item numpy
-@url{http://numpy.scipy.org} Numerical Python, minimum version 0.9.8
-
-@item wxPython
-@url{http://wxpython.org} GUI toolkit for Python, minimum version 2.6,
-recommended 2.8
-
-@item python-matplotlib
-@url{http://matplotlib.sourceforge.net} plotting library for Python,
-minimum version 0.90
-@end table
+On Ubuntu Linux the required packages can be installed all at once
+with a single command
+@example
+sudo aptitude install \
+    python-dev python-setuptools python-wxtools \
+    python-numpy python-matplotlib libgsl0-dev g++
+@end example
 
 @b{Optional programs:}
-@table @t
-@item AtomEye
-@url{http://mt.seas.upenn.edu/Archive/Graphics/A/} AtomEye structure viewer
-
-@item PyMOL
-@url{http://pymol.sourceforge.net/} PyMOL structure viewer
-@end table
-
-FIXME
+@itemize @bullet
+@item AtomEye - AtomEye structure viewer,
+    @* @url{http://mt.seas.upenn.edu/Archive/Graphics/A/} 
+@item PyMOL - PyMOL structure viewer,
+    @* @url{http://pymol.sourceforge.net/} 
+@end itemize
 
 With setuptools installed, you can install pdfgui and all of its dependencies
 with one command:
 @example
-easy_install -f http://www.diffpy.org/packages diffpy.pdfgui
+easy_install diffpy.pdfgui
 @end example
 This installs DiffPy to a default location in python @samp{site-packages}
 directory and executable scripts @command{pdfgui} and @command{pdffit2} to
@@ -347,32 +371,52 @@ locations by adding suitable options to the easy_install invocation.  For a
 list available easy_install options, execute @samp{easy_install --help} from
 your system's command prompt.
 
+If you need to install on a computer that does not have network access,
+you can do so from a complete package bundle @samp{diffpy-VERSION.tgz}.
+This archive contains necessary packages and the easy_install script
+configured to use packages from local directory rather than to download them
+from the internet.  To install from the tgz bundle, unpack the archive and
+execute easy_install script included with the distribution:
+@example
+tar xzf diffpy-VERSION.tgz
+cd diffpy-VERSION
+./easy_install diffpy.pdfgui
+@end example
+
 @unnumberedsubsec Building from Subversion repository
 
-The latest development sources of DiffPy are available in a public Subversion
-code repository.  To obtain the latest code, run
+The latest development sources for PDFgui and other DiffPy packages
+are available in a public Subversion code repository.  To install the
+latest code, run
 @example
-FIXME
-svn checkout svn://svn@@danse.us/diffraction/diffraction/diffpy
+easy_install svn://svn@@danse.us/diffraction/diffraction/diffpy.pdfgui/trunk
 @end example
-You need to have @command{svn}, a subversion client, installed on your computer.
-In addition a GNU documentation system Texinfo
-(@url{http://www.gnu.org/software/texinfo/}) is required to compile users
-manual.
+This should work on both Unix and Windows installation provided you
+have @command{svn}, a subversion client, installed on your computer.
+You will of course need the required packages listed above as well.
 
-You will need the required packages listed above to install from source.
-
-To install diffpy from source, change to the @samp{diffpy} directory and
-execute
+Subversion can be also used to install PDFgui in a development
+mode and to produce patches for bugs.  To do so, obtain the
+latest code from the Subversion repository
 @example
-python setup.py install
+svn checkout \
+    svn://svn@@danse.us/diffraction/diffraction/diffpy.pdfgui/trunk \
+    diffpy.pdfgui
 @end example
-The checked-out diffpy directory can be kept around for future updates.  To
-bring it up to date with the latest sources, one just needs to execute
+After that change to the @samp{diffpy.pdfgui} directory and execute
 @example
-svn update
+python setup.py develop
 @end example
-inside this directory.
+The develop command instructs python to load the diffpy.pdfgui package
+from the current source tree.  Therefore any changes in those sources
+would be reflected in program execution.  If you change the code,
+for example to fix a bug, please post your modifications as a patch
+to the diffpy-dev Google group at 
+@url{http://groups.google.com/group/diffpy-dev}. 
+To produce a code patch, change to the source tree base and run
+@example
+svn diff > patchfile
+@end example
 
 @unnumberedsubsec Structure Visualization
 
@@ -382,22 +426,29 @@ information can be entered under the Edit->Preferences menu.
 
 @b{A note for AtomEye users:}
 
-FIXME
-
-AtomEye requires a running xterm to operate. Xterm is included with the Cygwin
-program on windows. With xterm installed, put the following information in the
-Edit->Preferences menu of PDFgui.
-
+AtomEye requires its standard output is connected to a terminal.
+On Unix this happens when pdfgui is started from a terminal. However
+if you prefer to start pdfgui using a desktop shortcut or via
+"Run Application" dialog of the window manager, you need to put the
+following information to the Edit->Preferences menu of PDFgui.
 @example
-Structure viewer executable: XTERM
+Structure viewer executable: xterm
 Argument string: -iconic -e ATOMEYE
-Structure format: pdb or xcfg
+Structure format: xcfg
 @end example
-
-In the above, XTERM is the path to the xterm executable and ATOMEYE is the path
-to the ATOMEYE executable. For cygwin users, xterm can be found at ... in the
-standard installation and it requires that the cygwin X server is running in
-order to operate.
+In the above, ATOMEYE is the path to the ATOMEYE executable. For Cygwin users,
+the workaround is to start atomeye using an @samp{atomeye.bat} wrapper script,
+which ensures that atomeye gets started from a command window, and which can be
+also used to adjust environment variables:
+@example
+------------------------------------------------------------------------
+set DISPLAY=localhost:0 
+set PATH=C:\cygwin\bin;C:\cygwin\usr\X11R6\bin;C:\ATOMEYE_DIRECTORY;%PATH% 
+start A.exe %*
+------------------------------------------------------------------------
+@end example
+Here ATOMEYE_DIRECTORY needs to be replaced with a proper path.  Make sure
+that the X-server application included with Cygwin is started.
 
 @c chapter 1 section 5
 @c @node NODE-NAME, NEXT, PREVIOUS, UP
