@@ -12,8 +12,7 @@
 #
 ##############################################################################
 
-"""Template module file.  Defines example class Foo and routine func.
-These have unit tests in Testfoo file in the trunk/tests directory.
+"""Structure plotting in an external viewer process.
 """
 
 # module version
