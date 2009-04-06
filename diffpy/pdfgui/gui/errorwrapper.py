@@ -64,17 +64,23 @@ def catchFunctionErrors(obj, funcName):
                 obj.mainFrame.showMessage(message, 'Oops!')
             else:
                 raise
-        except: # Everything else
-            msglines = traceback.format_exception(*sys.exc_info())
-            message = "".join(msglines)
-            if hasmf and not obj.mainFrame.quitting:
+        # Everything else
+        except:
+            if pdfguiglobals.dbopts.pythondebugger:
+                import pdb
+                tb = sys.exc_info()[2]
+                pdb.post_mortem(tb)
+            elif hasmf and not obj.mainFrame.quitting:
+                msglines = traceback.format_exception(*sys.exc_info())
+                message = "".join(msglines)
                 dlg = ErrorReportDialog(obj.mainFrame)
                 dlg.text_ctrl_log.SetValue(message)
                 dlg.ShowModal()
                 dlg.Destroy()        
             else:
                 raise
-        return wx.ID_CANCEL  # Not sure this is needed
+        # Not sure this is needed
+        return wx.ID_CANCEL 
 
     return _f
 

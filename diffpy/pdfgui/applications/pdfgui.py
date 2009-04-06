@@ -29,6 +29,7 @@ Options:
 Debugging options:
   --db-noed       disable exceptions catching to ErrorReportDialog
   --db-nocf       exit without asking to save modified project
+  --db-pdb        use Python debugger to handle error exceptions
 """
 
 # version

@@ -27,11 +27,14 @@ class DebugOptions:
                                 display in ErrorReportDialog
         nocf, noconfirm      -- boolean (default False), exit without asking to
                                 save modified project file
+        pdb, pythondebugger  -- use python debugger to handle error exceptions
+                                instead of ErrorReportDialog
     """
     # global list of all options
     alldebugoptions = (
             ('noed', 'noerrordialog'),
             ('nocf', 'noconfirm'),
+            ('pdb', 'pythondebugger'),
     )
     # global dictionary for converting long options to short
     short2long = dict(alldebugoptions)
@@ -41,6 +44,7 @@ class DebugOptions:
         """
         self.noerrordialog = False
         self.noconfirm = False
+        self.pythondebugger = False
         return
 
     def __setattr__(self, name, value):
