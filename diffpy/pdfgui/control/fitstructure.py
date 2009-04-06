@@ -385,19 +385,18 @@ class FitStructure(PDFStructure):
         Use P1 when nothing else matches.
 
         Return instance of SpaceGroup.
+        Raise ValueError if sgname cannot be found or when it is not present
+        in getSpaceGroupList().
         """
+        import diffpy.Structure.SpaceGroups as SG
         sgfound = None
         sglist = self.getSpaceGroupList()
-        try:
-            sgno = int(sgname)
-            sgmatch = [sg for sg in sglist if sg.number == sgno]
-            if sgmatch: sgfound = sgmatch[0]
-        except ValueError:
-            sgmatch = [sg for sg in sglist if sg.short_name == sgname]
-            if sgmatch: sgfound = sgmatch[0]
-        # use P1 when nothing found
-        if sgfound is None:
-            sgfound = FitStructure.sorted_standard_space_groups[0]
+        sg0 = SG.GetSpaceGroup(sgname)
+        sgmatch = [sg for sg in sglist if sg.number == sg0.number]
+        if not sgmatch:
+            emsg = "Unknown space group %r" % sgname
+            raise ValueError(emsg)
+        sgfound = sgmatch[0]
         return sgfound
 
     def expandAsymmetricUnit(self, spacegroup, indices, sgoffset=[0,0,0]):

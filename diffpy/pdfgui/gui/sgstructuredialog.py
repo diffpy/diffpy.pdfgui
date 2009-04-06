@@ -145,10 +145,12 @@ class SGStructureDialog(wx.Dialog, PDFPanel):
         # Update space group
         sgname = self.sgComboBox.GetValue()
         try:
-            sgname = int(sgname)
+            self.spacegroup = self.structure.getSpaceGroup(sgname)
+            error = None
         except ValueError:
-            pass
-        self.spacegroup = self.structure.getSpaceGroup(sgname)
+            error = "Space group %s does not exist." % sgname
+        # This changes list box value to the short_name of the new spacegroup
+        # or to the name of previous spacegroup when getSpaceGroup failed.
         self.sgComboBox.SetValue(self.spacegroup.short_name)
 
         # Update offset
@@ -162,12 +164,6 @@ class SGStructureDialog(wx.Dialog, PDFPanel):
                 val = 0.0
             textctrl.SetValue("%s"%val)
             self.offset[i] = val
-
-        # Check the space group
-        error = ""
-        if sgname != self.spacegroup.short_name and \
-            sgname != self.spacegroup.number:
-            error = "Space group %s does not exist." % sgname
 
         # find how many new atoms would be generated
         from diffpy.Structure.SymmetryUtilities import ExpandAsymmetricUnit
