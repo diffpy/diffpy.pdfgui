@@ -26,7 +26,6 @@ matplotlib.use('WXAgg')
 from matplotlib.backends.backend_wxagg import FigureCanvasWxAgg as FigureCanvas
 from matplotlib.backends.backend_wxagg import NavigationToolbar2WxAgg as NavToolbar
 from matplotlib.figure import Figure
-
 from matplotlib.backends.backend_wx import _load_bitmap
 from matplotlib.artist import setp
 from matplotlib.font_manager import FontProperties
@@ -90,10 +89,13 @@ class ExtendedToolbar(NavToolbar):
             dirname  = dlg.GetDirectory()
             filename = dlg.GetFilename()
             i = dlg.GetFilterIndex()
-            ext = exts[i]
-            if not '.' in filename:
-                filename = filename + "." + ext
-            self.canvas.print_figure(os.path.join(dirname, filename))
+            dotext = '.' + exts[i]
+            if os.path.splitext(filename)[-1] != dotext:
+                filename = filename + dotext
+            # matplotlib does not like UTF strings
+            fullpath = str(os.path.join(dirname, filename))
+            self.canvas.print_figure(fullpath)
+        return
 
 # End class ExtendedToolbar
 
