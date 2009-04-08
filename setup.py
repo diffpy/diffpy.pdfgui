@@ -22,7 +22,7 @@ def dirglob(d, *patterns):
 # define distribution
 setup(
         name = 'diffpy.pdfgui',
-        version = '1.0c1',
+        version = '1.0',
         namespace_packages = ['diffpy'],
         packages = find_packages(),
         entry_points = {
