@@ -1,9 +1,15 @@
 This code was developed as part of the DiffPy project to create python
-modules for structure investigations from diffraction data.
+modules for structure investigations from diffraction data.  The main
+contributors to this package were
+
+    Chris Farrow
+    Jiwu Liu
+    Pavol Juhas
+    Dmitriy Bryndin
 
 The DiffPy team is located in the Billinge-group at the Applied Physics
-and Applied Mathematics Department of the Columbia University in New York
-and it consists of:
+and Applied Mathematics Department of the Columbia University in New York. 
+Currently the team consists of
 
     Simon Billinge
     Pavol Juhas
@@ -12,11 +18,6 @@ and it consists of:
     Wenduo Zhou
     Peng Tian
     Timur Dykhne
-
-The former members of the project are:
-
-    Jiwu Liu
-    Dmitriy Bryndin
 
 Please see the header of each source file for a detailed list of
 contributors.  This is an open-source project and we hope and expect
@@ -47,3 +48,5 @@ especially HyunJeong Kim and Ahmad Masadeh for enthusiastic testing and
 feature requests;  Last but not least, our long suffering family members,
 and the whole coffee and tea industries at large, without whom none of
 this would have been possible. 
+
+Last modified $Date$

@@ -6,72 +6,76 @@ help menu and follow the tutorial instructions.  A detailed description
 is available in the doc/Farrow-jpcm-2007.pdf paper.
 
 
-Installation -----------------------------------------------------------------
+REQUIREMENTS
 
 PDFgui requires Python 2.5 and several third-party libraries that are
 used by PDFgui or other necessary components from the DiffPy library.
 
-    setuptools	-- tools for distribution of python libraries
-    wxPython	-- graphical user interface toolkit for Python
-    numpy	-- numerical mathematics and fast array operations for Python
-    matplotlib	-- plotting library and interactive interface
-    python-dev	-- header files for interfacing Python interpreter with C codes
-    GSL		-- GNU Scientific Library of C routines for numerical analysis
-    g++		-- GNU C++ compiler
+    setuptools  -- software distribution tools for Python
+    wxPython    -- graphical user interface toolkit for Python
+    numpy       -- numerical mathematics and fast array operations for Python
+    matplotlib  -- plotting library and interactive interface
+    python-dev  -- header files for interfacing Python with C
+    GSL         -- GNU Scientific Library for C
+    g++         -- GNU C++ compiler
 
-On a recent versions of Ubuntu Linux these packages can be all installed
-in one go using a single shell command:
+On Ubuntu Linux the required software can be easily installed using
+the system package manager:
 
     sudo aptitude install \
-	python-setuptools python-wxtools python-numpy \
-	python-matplotlib python-dev libgsl0-dev g++
+        python-setuptools python-wxtools python-numpy \
+        python-matplotlib python-dev libgsl0-dev g++
 
 For other Linux distributions use the respective package manager to install
-these packages, note they may have somewhat different names.  PDFgui should
+these packages.  Note there may be somewhat different names.  PDFgui should
 work on other Unix-like operating systems and on MAC as well.  Please, search
-the web for instructions how to install the external dependencies on your
+the web for instructions how to install external dependencies on your
 particular platform.
+
+
+INSTALLATION
 
 Once all the requirements are in place, the installation of PDFgui
 should be a breeze:
 
-    ./setup.py install
+    python setup.py install
 
-This command installs PDFgui and any other DiffPy components that are
-needed for its operation.  By default the files are installed in standard
-system directories, which may be only writeable by the root user.
+This command installs the "pdfgui" program and all other DiffPy components
+that are needed for its operation.  By default the files are installed in
+standard system directories, which are usually writeable only by the root.
 See the usage info "./setup.py install --help" for options to install
 as a normal user under different location.  Note that installation to
 non-standard directories you may require adjustments to the PATH and
 PYTHONPATH environment variables.
 
-The setuptools Python library provides an easy_install script, which can
-be used to update an existing installation of pdfgui or even to do a
+The Python setuptools library provides an easy_install script, which can
+be used to update an existing installation of PDFgui or even to do a
 new install without an explicit need to download and unzip the code:
 
     easy_install -U diffpy.pdfgui
 
 This checks the package repository at http://www.diffpy.org/packages/
 for any newer releases of PDFgui and if they are present, it updates the
- installation.  The easy_install can be also used to get in sync with the
+installation.  The easy_install can be also used to get in sync with the
 latest development sources in the subversion repository:
 
-    easy_install svn://svn@danse.us/diffraction/diffraction/diffpy.pdfgui
+    easy_install -U \
+	svn://svn@danse.us/diffraction/diffraction/diffpy.pdfgui/trunk
 
 
-Other Software ---------------------------------------------------------------
+OTHER SOFTWARE
 
-PDFgui can use an external structure viewer to display analyzed structures.
-We have tested with several structure viewers such as
+PDFgui can use an external structure viewer for displaying analyzed
+structures.  We have tested with several structure viewers such as
 
     AtomEye   http://mt.seas.upenn.edu/Archive/Graphics/A/
     PyMol     http://pymol.sourceforge.net/
 
 Other viewers should work as well, as long as they understand one of
-output structure formats supported by PDFgui.
+the output structure formats supported by PDFgui.
 
 
-Contacts ---------------------------------------------------------------------
+CONTACTS
 
 For more information on PDFgui please visit the project web-page:
 
