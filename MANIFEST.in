@@ -3,4 +3,5 @@ exclude doc/manual/*.texinfo
 exclude doc/manual/*.py
 exclude doc/manual/images/*.pdf
 recursive-exclude doc/manual Makefile
+prune doc/epydoc
 prune doc/manual/images/originals
