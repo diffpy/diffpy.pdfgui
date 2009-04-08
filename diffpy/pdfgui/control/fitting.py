@@ -320,7 +320,7 @@ class Fitting(Organizer):
         self.host = self.controlCenter.getHost()
         if self.host is None:
             # import directly from local host
-            from diffpy.pdffit2.PdfFit import PdfFit
+            from diffpy.pdffit2 import PdfFit
             self.server = PdfFit()
         else:
             # get server without waiting.

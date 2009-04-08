@@ -152,7 +152,7 @@ class Calculation(PDFComponent):
 
         # make sure parameters are initialized
         self.owner.updateParameters()
-        from diffpy.pdffit2.PdfFit import PdfFit
+        from diffpy.pdffit2 import PdfFit
         server = PdfFit()
 
         # structure needs to be read before dataset allocation
