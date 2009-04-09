@@ -1406,13 +1406,14 @@ The PDFgui installation includes a @samp{tui} (Text User Interface)
 module that allows simple access to the data in a PDFgui project.
 
 As a first example, let us assume that a converged sequential refinement
-from @ref{Temperature series} has been saved to a ``lmo-series.ddp''
-file.  The following Python script extracts temperatures and refined
+from @ref{Temperature series} has been saved under the same name as
+@i{lmo-template.ddp}.
+The following Python script extracts temperatures and refined
 values of the lattice parameter @i{c}
 @example
 # python script
 from diffpy.pdfgui import tui             # import the tui library
-prj = tui.LoadProject('lmo-series.ddp')   # read PDFgui project file
+prj = tui.LoadProject('lmo-template.ddp') # read PDFgui project file
 temperatures = prj.getTemperatures()      # list of temperature values
 phases = prj.getPhases()                  # list of phase objects
 tcount = len(temperatures)                # number of temperature points
@@ -1429,6 +1430,9 @@ it as
 @example
 python lmo_refined_c.py
 @end example
+Note the script would fail on the original @i{lmo-template.ddp} file,
+because it does not yet contain any refined results.
+
 
 The tutorial directory contains an advanced script
 ``tui_mno_bond_lengths.py'', which extracts the shortest

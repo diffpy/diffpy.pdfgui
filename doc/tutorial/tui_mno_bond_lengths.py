@@ -8,7 +8,7 @@ are plotted versus temperature and saved to "mno-bond-lengths.dat" file.
 '''
 
 # PDFgui project file
-project_file = 'lmo-series.ddp'
+project_file = 'lmo-template.ddp'
 output_file = 'mno-bond-lengths.dat'
 
 # Import tui (Text User Interface) functions from diffpy.pdfgui
@@ -43,6 +43,11 @@ temperatures = prj.getTemperatures()
 # Build a list of shortest Mn-O bonds from all refined phases.
 MnO_bond_lengths = []
 for phase in prj.getPhases():
+    if phase.refined is None:
+        print "Cannot find phase refinement results in", project_file
+        print "Open the file in PDFgui, run refinement, save and try again."
+        # terminate the script by raising error condition
+        raise RuntimeError('Missing refinement results.')
     MnO_bond_lengths.append(shortestBond_MnO(phase.refined))
 
 # Save bond lengths to a file
