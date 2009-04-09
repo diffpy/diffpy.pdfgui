@@ -159,7 +159,7 @@ class StructureViewer(object):
         if self._tmpdir is None:    return
         # Function for showing unremovable files
         def onerror(fnc, path, error):
-            print >>sys.stderr, ('Cannot remove %s - %s' % (path, error))
+            print >> sys.stderr, ('Cannot remove %s - %s' % (path, error))
             return
         # For safety remove _tmpdir subdirectories by their names
         for i in range(self._plotcount):
