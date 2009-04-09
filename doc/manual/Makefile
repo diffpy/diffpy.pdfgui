@@ -6,20 +6,28 @@
 #   clean    -- remove intermediate texinfo files
 #   cleanALL -- delete all generated files
 #
+# Variables:
+#
+#   EQSKIP   -- skip building equations in HTML format
+#
 
-# Must make the PDF first, since its smaller images get embedded. This is far
-# from ideal, but the PDF does not look right otherwise.
+
 all: pdfgui.pdf pdfgui.html
+
 
 pdfgui.html: pdfgui.texinfo
 	$(MAKE) -C images
 	texi2html $<
+ifndef EQSKIP 
 	python extractEquations.py $<
 	python fixHTMLCode.py $@
+endif
+
 
 pdfgui.pdf: pdfgui.texinfo
 	$(MAKE) -C images
 	texi2pdf $<
+
 
 clean:
 	/bin/rm -f -- \
@@ -28,9 +36,11 @@ clean:
 	    pdfgui.vrs pdfgui.html
 	/bin/rm -f -- images/eq-*.png
 
+
 cleanALL: clean
 	/bin/rm -f pdfgui.html pdfgui.pdf
 	$(MAKE) -C images clean
+
 
 WEBDOCDIR = diffpy@diffpy.org:web/www.diffpy.org/doc/pdfgui/
 
