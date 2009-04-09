@@ -6,7 +6,7 @@ the city of New York, all rights reserved.
 Copyright C 2006, 2007, Board of Trustees of Michigan State
 University, all rights reserved.
  -->
-<!-- Created on March, 31 2009 by texi2html 1.78 -->
+<!-- Created on April, 9 2009 by texi2html 1.78 -->
 <!--
 Written by: Lionel Cons <Lionel.Cons@cern.ch> (original author)
             Karl Berry  <karl@freefriends.org>
@@ -17,10 +17,10 @@ Send bugs and suggestions to <texi2html-bug@nongnu.org>
 
 -->
 <head>
-<title>1.0 release March 2009</title>
+<title>PDFgui user guide, release 1.0, April 2009</title>
 
-<meta name="description" content="1.0 release March 2009">
-<meta name="keywords" content="1.0 release March 2009">
+<meta name="description" content="PDFgui user guide, release 1.0, April 2009">
+<meta name="keywords" content="PDFgui user guide, release 1.0, April 2009">
 <meta name="resource-type" content="document">
 <meta name="distribution" content="global">
 <meta name="Generator" content="texi2html 1.78">
@@ -47,15 +47,17 @@ ul.toc {list-style: none}
 
 <body lang="en" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#800080" alink="#FF0000">
 
-<a name="SEC1"></a>
+<a name="acknowledgments"></a>
 <table cellpadding="1" cellspacing="1" border="0">
 <tr><td valign="middle" align="left">[<a href="#SEC_Top" title="Cover (top) of document">Top</a>]</td>
 <td valign="middle" align="left">[<a href="#SEC_Contents" title="Table of contents">Contents</a>]</td>
-<td valign="middle" align="left">[<a href="#SEC40" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC43" title="Index">Index</a>]</td>
 <td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
 </tr></table>
-<h1 class="settitle">1.0 release March 2009
+<h1 class="settitle">PDFgui user guide, release 1.0, April 2009
 </h1>
+<a name="SEC1"></a>
+<h2 class="heading"> Acknowledgments </h2>
 <p>PDFgui was developed as part of the Distributed Analysis of Neutron Scattering
 Data (DANSE) project which is funded by NSF under DMR-0520547.  The PDFfit2
 development was funded by NSF under contract DMR-0304391.  The program is part
@@ -131,15 +133,15 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 <table class="menu" border="0" cellspacing="0">
 <tr><td align="left" valign="top"><a href="#SEC5">1. Introduction</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
 </td></tr>
-<tr><td align="left" valign="top"><a href="#SEC17">2. Quick start</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+<tr><td align="left" valign="top"><a href="#SEC19">2. Quick start</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
 </td></tr>
-<tr><td align="left" valign="top"><a href="#SEC20">3. Examples and tutorials</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+<tr><td align="left" valign="top"><a href="#SEC22">3. Examples and tutorials</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
 </td></tr>
-<tr><td align="left" valign="top"><a href="#SEC29">4. Extras</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+<tr><td align="left" valign="top"><a href="#SEC32">4. Extras</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
 </td></tr>
-<tr><td align="left" valign="top"><a href="#SEC33">5. PDFgui reference sheets</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+<tr><td align="left" valign="top"><a href="#SEC36">5. PDFgui reference sheets</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
 </td></tr>
-<tr><td align="left" valign="top"><a href="#SEC40">Index</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+<tr><td align="left" valign="top"><a href="#SEC43">Index</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
 </td></tr>
 </table>
 
@@ -154,14 +156,14 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 <td valign="middle" align="left"> &nbsp; </td>
 <td valign="middle" align="left">[ &lt;&lt; ]</td>
 <td valign="middle" align="left">[<a href="#SEC_Top" title="Up section"> Up </a>]</td>
-<td valign="middle" align="left">[<a href="#SEC17" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC19" title="Next chapter"> &gt;&gt; </a>]</td>
 <td valign="middle" align="left"> &nbsp; </td>
 <td valign="middle" align="left"> &nbsp; </td>
 <td valign="middle" align="left"> &nbsp; </td>
 <td valign="middle" align="left"> &nbsp; </td>
 <td valign="middle" align="left">[<a href="#SEC_Top" title="Cover (top) of document">Top</a>]</td>
 <td valign="middle" align="left">[<a href="#SEC_Contents" title="Table of contents">Contents</a>]</td>
-<td valign="middle" align="left">[<a href="#SEC40" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC43" title="Index">Index</a>]</td>
 <td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
 </tr></table>
 <h1 class="chapter"> 1. Introduction </h1>
@@ -189,7 +191,9 @@ allowing it to inter-operate with other Python programs.
 </td></tr>
 <tr><td align="left" valign="top"><a href="#SEC11">1.4 Installation</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
 </td></tr>
-<tr><td align="left" valign="top"><a href="#SEC16">1.5 Community</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+<tr><td align="left" valign="top"><a href="#SEC16">1.5 What is new</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top"><a href="#SEC18">1.6 Community</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
 </td></tr>
 </table>
 
@@ -202,14 +206,14 @@ allowing it to inter-operate with other Python programs.
 <td valign="middle" align="left"> &nbsp; </td>
 <td valign="middle" align="left">[<a href="#SEC5" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
 <td valign="middle" align="left">[<a href="#SEC5" title="Up section"> Up </a>]</td>
-<td valign="middle" align="left">[<a href="#SEC17" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC19" title="Next chapter"> &gt;&gt; </a>]</td>
 <td valign="middle" align="left"> &nbsp; </td>
 <td valign="middle" align="left"> &nbsp; </td>
 <td valign="middle" align="left"> &nbsp; </td>
 <td valign="middle" align="left"> &nbsp; </td>
 <td valign="middle" align="left">[<a href="#SEC_Top" title="Cover (top) of document">Top</a>]</td>
 <td valign="middle" align="left">[<a href="#SEC_Contents" title="Table of contents">Contents</a>]</td>
-<td valign="middle" align="left">[<a href="#SEC40" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC43" title="Index">Index</a>]</td>
 <td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
 </tr></table>
 <h2 class="section"> 1.1 PDFfit2 </h2>
@@ -271,14 +275,14 @@ of this capability with PDFgui as described below.
 <td valign="middle" align="left"> &nbsp; </td>
 <td valign="middle" align="left">[<a href="#SEC5" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
 <td valign="middle" align="left">[<a href="#SEC5" title="Up section"> Up </a>]</td>
-<td valign="middle" align="left">[<a href="#SEC17" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC19" title="Next chapter"> &gt;&gt; </a>]</td>
 <td valign="middle" align="left"> &nbsp; </td>
 <td valign="middle" align="left"> &nbsp; </td>
 <td valign="middle" align="left"> &nbsp; </td>
 <td valign="middle" align="left"> &nbsp; </td>
 <td valign="middle" align="left">[<a href="#SEC_Top" title="Cover (top) of document">Top</a>]</td>
 <td valign="middle" align="left">[<a href="#SEC_Contents" title="Table of contents">Contents</a>]</td>
-<td valign="middle" align="left">[<a href="#SEC40" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC43" title="Index">Index</a>]</td>
 <td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
 </tr></table>
 <h2 class="section"> 1.2 PDFgui </h2>
@@ -295,14 +299,14 @@ built on PDFfit2 is PDFgui, a graphical environment for PDF fitting.
 <td valign="middle" align="left"> &nbsp; </td>
 <td valign="middle" align="left">[<a href="#SEC5" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
 <td valign="middle" align="left">[<a href="#SEC7" title="Up section"> Up </a>]</td>
-<td valign="middle" align="left">[<a href="#SEC17" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC19" title="Next chapter"> &gt;&gt; </a>]</td>
 <td valign="middle" align="left"> &nbsp; </td>
 <td valign="middle" align="left"> &nbsp; </td>
 <td valign="middle" align="left"> &nbsp; </td>
 <td valign="middle" align="left"> &nbsp; </td>
 <td valign="middle" align="left">[<a href="#SEC_Top" title="Cover (top) of document">Top</a>]</td>
 <td valign="middle" align="left">[<a href="#SEC_Contents" title="Table of contents">Contents</a>]</td>
-<td valign="middle" align="left">[<a href="#SEC40" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC43" title="Index">Index</a>]</td>
 <td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
 </tr></table>
 <h3 class="subsection"> 1.2.1 Design principles </h3>
@@ -336,14 +340,14 @@ and all major Unix systems.
 <td valign="middle" align="left"> &nbsp; </td>
 <td valign="middle" align="left">[<a href="#SEC5" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
 <td valign="middle" align="left">[<a href="#SEC7" title="Up section"> Up </a>]</td>
-<td valign="middle" align="left">[<a href="#SEC17" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC19" title="Next chapter"> &gt;&gt; </a>]</td>
 <td valign="middle" align="left"> &nbsp; </td>
 <td valign="middle" align="left"> &nbsp; </td>
 <td valign="middle" align="left"> &nbsp; </td>
 <td valign="middle" align="left"> &nbsp; </td>
 <td valign="middle" align="left">[<a href="#SEC_Top" title="Cover (top) of document">Top</a>]</td>
 <td valign="middle" align="left">[<a href="#SEC_Contents" title="Table of contents">Contents</a>]</td>
-<td valign="middle" align="left">[<a href="#SEC40" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC43" title="Index">Index</a>]</td>
 <td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
 </tr></table>
 <h3 class="subsection"> 1.2.2 Capabilities </h3>
@@ -398,14 +402,14 @@ r-ranges of the PDF data.
 <td valign="middle" align="left"> &nbsp; </td>
 <td valign="middle" align="left">[<a href="#SEC5" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
 <td valign="middle" align="left">[<a href="#SEC5" title="Up section"> Up </a>]</td>
-<td valign="middle" align="left">[<a href="#SEC17" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC19" title="Next chapter"> &gt;&gt; </a>]</td>
 <td valign="middle" align="left"> &nbsp; </td>
 <td valign="middle" align="left"> &nbsp; </td>
 <td valign="middle" align="left"> &nbsp; </td>
 <td valign="middle" align="left"> &nbsp; </td>
 <td valign="middle" align="left">[<a href="#SEC_Top" title="Cover (top) of document">Top</a>]</td>
 <td valign="middle" align="left">[<a href="#SEC_Contents" title="Table of contents">Contents</a>]</td>
-<td valign="middle" align="left">[<a href="#SEC40" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC43" title="Index">Index</a>]</td>
 <td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
 </tr></table>
 <h2 class="section"> 1.3 Availability </h2>
@@ -427,14 +431,14 @@ this website and on the diffpy-users group at
 <td valign="middle" align="left"> &nbsp; </td>
 <td valign="middle" align="left">[<a href="#SEC5" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
 <td valign="middle" align="left">[<a href="#SEC5" title="Up section"> Up </a>]</td>
-<td valign="middle" align="left">[<a href="#SEC17" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC19" title="Next chapter"> &gt;&gt; </a>]</td>
 <td valign="middle" align="left"> &nbsp; </td>
 <td valign="middle" align="left"> &nbsp; </td>
 <td valign="middle" align="left"> &nbsp; </td>
 <td valign="middle" align="left"> &nbsp; </td>
 <td valign="middle" align="left">[<a href="#SEC_Top" title="Cover (top) of document">Top</a>]</td>
 <td valign="middle" align="left">[<a href="#SEC_Contents" title="Table of contents">Contents</a>]</td>
-<td valign="middle" align="left">[<a href="#SEC40" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC43" title="Index">Index</a>]</td>
 <td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
 </tr></table>
 <h2 class="section"> 1.4 Installation </h2>
@@ -445,7 +449,18 @@ obtained from <a href="http://www.diffpy.org">http://www.diffpy.org</a>.  Refer 
 corresponding to your operating system for specific installation
 instructions.
 </p>
+<table class="menu" border="0" cellspacing="0">
+<tr><td align="left" valign="top"><a href="#SEC12">Windows</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top"><a href="#SEC13">Linux, Mac, Unix</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top"></td></tr>
+<tr><td align="left" valign="top"><a href="#SEC14">Subversion repository</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top"><a href="#SEC15">Configure Structure Visualization</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+</table>
+
 <hr size="6">
+<a name="Windows"></a>
 <a name="SEC12"></a>
 <table cellpadding="1" cellspacing="1" border="0">
 <tr><td valign="middle" align="left">[<a href="#SEC11" title="Previous section in reading order"> &lt; </a>]</td>
@@ -453,14 +468,14 @@ instructions.
 <td valign="middle" align="left"> &nbsp; </td>
 <td valign="middle" align="left">[<a href="#SEC5" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
 <td valign="middle" align="left">[<a href="#SEC11" title="Up section"> Up </a>]</td>
-<td valign="middle" align="left">[<a href="#SEC17" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC19" title="Next chapter"> &gt;&gt; </a>]</td>
 <td valign="middle" align="left"> &nbsp; </td>
 <td valign="middle" align="left"> &nbsp; </td>
 <td valign="middle" align="left"> &nbsp; </td>
 <td valign="middle" align="left"> &nbsp; </td>
 <td valign="middle" align="left">[<a href="#SEC_Top" title="Cover (top) of document">Top</a>]</td>
 <td valign="middle" align="left">[<a href="#SEC_Contents" title="Table of contents">Contents</a>]</td>
-<td valign="middle" align="left">[<a href="#SEC40" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC43" title="Index">Index</a>]</td>
 <td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
 </tr></table>
 <h3 class="unnumberedsubsec"> Windows </h3>
@@ -468,8 +483,26 @@ instructions.
 <p>DiffPy is provided as self-installing archive for Windows systems.  Download
 the latest &lsquo;<samp>diffpy-VERSION.exe</samp>&rsquo; file, launch the executable and follow
 the prompts.  That's all - PDFgui and PDFfit2 should be now ready for use. 
+The system &ldquo;Start Menu&rdquo; includes an &ldquo;Update PDFgui&rdquo; item, which can be
+used later to upgrade to the latest version of the software.  This menu
+item upgrades only the changed components of PDFgui, which will be released
+more frequently than a full installer.
+</p>
+<p>The self-installing archive includes a complete installation of Python
+that is used to run PDFgui and PDFfit2.  Nevertheless, PDFgui and other
+components of the DiffPy library can be also installed under an
+existing Python tree.  This requires Python 2.5 and several external
+Python packages, namely setuptools, numpy, wxPython and matplotlib.
+<a name="DOCF1" href="#FOOT1">(1)</a>
+To add PDFgui to an existing Python tree, start a command prompt
+and run the <code>easy_install</code> script from the Python25/Scripts directory:
+</p><table><tr><td>&nbsp;</td><td><pre class="example">easy_install diffpy.pdfgui
+</pre></td></tr></table>
+<p>This installs library files under Python25/Lib/site-packages and executable
+scripts for <code>pdfgui</code> and <code>pdffit2</code> under Python25/Scripts.
 </p>
 <hr size="6">
+<a name="LinuxMacUnix"></a>
 <a name="SEC13"></a>
 <table cellpadding="1" cellspacing="1" border="0">
 <tr><td valign="middle" align="left">[<a href="#SEC12" title="Previous section in reading order"> &lt; </a>]</td>
@@ -477,89 +510,122 @@ the prompts.  That's all - PDFgui and PDFfit2 should be now ready for use.
 <td valign="middle" align="left"> &nbsp; </td>
 <td valign="middle" align="left">[<a href="#SEC5" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
 <td valign="middle" align="left">[<a href="#SEC11" title="Up section"> Up </a>]</td>
-<td valign="middle" align="left">[<a href="#SEC17" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC19" title="Next chapter"> &gt;&gt; </a>]</td>
 <td valign="middle" align="left"> &nbsp; </td>
 <td valign="middle" align="left"> &nbsp; </td>
 <td valign="middle" align="left"> &nbsp; </td>
 <td valign="middle" align="left"> &nbsp; </td>
 <td valign="middle" align="left">[<a href="#SEC_Top" title="Cover (top) of document">Top</a>]</td>
 <td valign="middle" align="left">[<a href="#SEC_Contents" title="Table of contents">Contents</a>]</td>
-<td valign="middle" align="left">[<a href="#SEC40" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC43" title="Index">Index</a>]</td>
 <td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
 </tr></table>
-<h3 class="unnumberedsubsec"> Unix/Linux/MAC </h3>
+<h3 class="unnumberedsubsec"> Linux, Mac, Unix </h3>
 
 <p>For unix-like operating systems DiffPy can be installed using easy-install,
 provided that some libraries and applications already exist on your computer.
 All required packages are listed below.  These packages should be available as
 binary files for recent Linux systems, in which case it is best to install them
-using your system's package manager such as &lsquo;<samp>apt-get</samp>&rsquo; or &lsquo;<samp>yum</samp>&rsquo;.  In
-case a binary package is not available, refer to the corresponding project page
-for other installation options.
+using your system's package manager such as <code>apt-get</code> or <code>yum</code>.
+In case a binary package is not available, refer to the corresponding
+project page for other installation options.
 </p>
-<p><b>Required packages:</b>
+<p><b>Requirements</b>
 </p>
 <dl compact="compact">
-<dt> <tt>python</tt> </dt>
-<dd><p><a href="http://www.python.org">http://www.python.org</a> Python interpreter, minimum version 2.3
+<dt> <tt>python</tt></dt>
+<dd><p>Python interpreter version 2.5, <a href="http://www.python.org">http://www.python.org</a>
 </p>
 </dd>
 <dt> <tt>python-dev</tt></dt>
-<dd><p><a href="http://www.python.org">http://www.python.org</a> development files for Python
+<dd><p>C development files for Python
 </p>
 </dd>
-<dt> <tt>python-setuptools</tt></dt>
-<dd><p><a href="http://peak.telecommunity.com/DevCenter/setuptools">http://peak.telecommunity.com/DevCenter/setuptools</a> setuptools for Python
+<dt> <tt>setuptools</tt></dt>
+<dd><p>software distribution tools for Python,
+<a href="http://peak.telecommunity.com/DevCenter/setuptools">http://peak.telecommunity.com/DevCenter/setuptools</a>
 </p>
 </dd>
-<dt> <tt>gsl-devel</tt></dt>
-<dd><p><a href="http://www.gnu.org/software/gsl">http://www.gnu.org/software/gsl</a> GNU Scientific Library
-</p></dd>
-</dl>
-
-<p><b>Auto-installed packages:</b>
-</p><dl compact="compact">
 <dt> <tt>numpy</tt></dt>
-<dd><p><a href="http://numpy.scipy.org">http://numpy.scipy.org</a> Numerical Python, minimum version 0.9.8
+<dd><p>numerical Python, minimum version 0.9.8,
+<a href="http://numpy.scipy.org">http://numpy.scipy.org</a>
 </p>
 </dd>
 <dt> <tt>wxPython</tt></dt>
-<dd><p><a href="http://wxpython.org">http://wxpython.org</a> GUI toolkit for Python, minimum version 2.6,
-recommended 2.8
+<dd><p>tab GUI toolkit for Python, minimum version 2.6, recommended 2.8
+<a href="http://wxpython.org">http://wxpython.org</a>
 </p>
 </dd>
-<dt> <tt>python-matplotlib</tt></dt>
-<dd><p><a href="http://matplotlib.sourceforge.net">http://matplotlib.sourceforge.net</a> plotting library for Python,
-minimum version 0.90
+<dt> <tt>matplotlib</tt></dt>
+<dd><p>tab plotting library for Python, minimum version 0.90,
+<a href="http://matplotlib.sourceforge.net">http://matplotlib.sourceforge.net</a>
+</p>
+</dd>
+<dt> <tt>g++</tt></dt>
+<dd><p>tab GNU C++ compiler
+</p>
+</dd>
+<dt> <tt>GSL</tt></dt>
+<dd><p>tab the GNU Scientific Library for C,
+<a href="http://www.gnu.org/software/gsl">http://www.gnu.org/software/gsl</a>
 </p></dd>
 </dl>
 
-<p><b>Optional programs:</b>
-</p><dl compact="compact">
+<p>On Ubuntu Linux the required packages can be installed all at once
+with a single command
+</p><table><tr><td>&nbsp;</td><td><pre class="example">sudo aptitude install \
+    python-dev python-setuptools python-wxtools \
+    python-numpy python-matplotlib libgsl0-dev g++
+</pre></td></tr></table>
+
+<p><b>Optional programs</b>
+</p>
+<dl compact="compact">
 <dt> <tt>AtomEye</tt></dt>
-<dd><p><a href="http://mt.seas.upenn.edu/Archive/Graphics/A/">http://mt.seas.upenn.edu/Archive/Graphics/A/</a> AtomEye structure viewer
+<dd><p>AtomEye structure viewer,
+<a href="http://mt.seas.upenn.edu/Archive/Graphics/A/">http://mt.seas.upenn.edu/Archive/Graphics/A/</a> 
 </p>
 </dd>
 <dt> <tt>PyMOL</tt></dt>
-<dd><p><a href="http://pymol.sourceforge.net/">http://pymol.sourceforge.net/</a> PyMOL structure viewer
+<dd><p>PyMOL structure viewer,
+<a href="http://pymol.sourceforge.net">http://pymol.sourceforge.net</a> 
 </p></dd>
 </dl>
 
-<p>FIXME
+<p><b>Installation using easy_install</b>
 </p>
-<p>With setuptools installed, you can install pdfgui and all of its dependencies
-with one command:
-</p><table><tr><td>&nbsp;</td><td><pre class="example">easy_install -f http://www.diffpy.org/packages diffpy.pdfgui
+<p>With all the requirements in place, PDFgui can be installed with a
+single command
+</p><table><tr><td>&nbsp;</td><td><pre class="example">easy_install diffpy.pdfgui
 </pre></td></tr></table>
 <p>This installs DiffPy to a default location in python &lsquo;<samp>site-packages</samp>&rsquo;
 directory and executable scripts <code>pdfgui</code> and <code>pdffit2</code> to
 &lsquo;<samp>python-prefix/bin/</samp>&rsquo;. Missing dependencies will be automatically
 installed.  If you don't have root access, you can install DiffPy to other
-locations by adding suitable options to the easy_install invocation.  For a
-list available easy_install options, execute &lsquo;<samp>easy_install --help</samp>&rsquo; from
-your system's command prompt.
+locations by adding suitable options to the <code>easy_install</code> invocation.
+For a list available easy_install options, execute
+<code>easy_install --help</code> from your system's command prompt.
 </p>
+<p>The <code>easy_install</code> program can be used to update the
+installation to later releases in the code repository
+</p><table><tr><td>&nbsp;</td><td><pre class="example">easy_install -U diffpy.pdffit2
+</pre></td></tr></table>
+
+<p><b>Installation from tar bundle</b>
+</p>
+<p>If you need to install on a computer that does not have network access,
+you can do so from a complete package bundle &lsquo;<samp>diffpy-VERSION.tgz</samp>&rsquo;.
+This archive contains necessary packages and the <code>easy_install</code> script
+configured to use packages from local directory rather than to download them
+from the internet.  To install from the tgz bundle, unpack the archive and
+execute <code>easy_install</code> script included with the distribution:
+</p><table><tr><td>&nbsp;</td><td><pre class="example">tar xzf diffpy-VERSION.tgz
+cd diffpy-VERSION
+./easy_install diffpy.pdfgui
+</pre></td></tr></table>
+
 <hr size="6">
+<a name="Subversion-repository"></a>
 <a name="SEC14"></a>
 <table cellpadding="1" cellspacing="1" border="0">
 <tr><td valign="middle" align="left">[<a href="#SEC13" title="Previous section in reading order"> &lt; </a>]</td>
@@ -567,41 +633,63 @@ your system's command prompt.
 <td valign="middle" align="left"> &nbsp; </td>
 <td valign="middle" align="left">[<a href="#SEC5" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
 <td valign="middle" align="left">[<a href="#SEC11" title="Up section"> Up </a>]</td>
-<td valign="middle" align="left">[<a href="#SEC17" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC19" title="Next chapter"> &gt;&gt; </a>]</td>
 <td valign="middle" align="left"> &nbsp; </td>
 <td valign="middle" align="left"> &nbsp; </td>
 <td valign="middle" align="left"> &nbsp; </td>
 <td valign="middle" align="left"> &nbsp; </td>
 <td valign="middle" align="left">[<a href="#SEC_Top" title="Cover (top) of document">Top</a>]</td>
 <td valign="middle" align="left">[<a href="#SEC_Contents" title="Table of contents">Contents</a>]</td>
-<td valign="middle" align="left">[<a href="#SEC40" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC43" title="Index">Index</a>]</td>
 <td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
 </tr></table>
-<h3 class="unnumberedsubsec"> Building from Subversion repository </h3>
+<h3 class="unnumberedsubsec"> Subversion repository </h3>
 
-<p>The latest development sources of DiffPy are available in a public Subversion
-code repository.  To obtain the latest code, run
-</p><table><tr><td>&nbsp;</td><td><pre class="example">FIXME
-svn checkout svn://svn@danse.us/diffraction/diffraction/diffpy
+<p>The latest development sources for PDFgui and other DiffPy packages
+are available in a public Subversion code repository.  To install the
+latest code, run
+</p><table><tr><td>&nbsp;</td><td><pre class="example">easy_install -U \
+    svn://svn@danse.us/diffraction/diffraction/diffpy.pdfgui/trunk
 </pre></td></tr></table>
-<p>You need to have <code>svn</code>, a subversion client, installed on your computer.
-In addition a GNU documentation system Texinfo
-(<a href="http://www.gnu.org/software/texinfo/">http://www.gnu.org/software/texinfo/</a>) is required to compile users
-manual.
+<p>This should work on both Unix and Windows installation provided you
+have <code>svn</code>, a subversion client, installed on your computer.
+You will of course need the required packages listed above as well.
 </p>
-<p>You will need the required packages listed above to install from source.
+<p><b>Installation for program debugging</b>
+<a name="IDX2"></a>
 </p>
-<p>To install diffpy from source, change to the &lsquo;<samp>diffpy</samp>&rsquo; directory and
-execute
-</p><table><tr><td>&nbsp;</td><td><pre class="example">python setup.py install
+<p>A recommended way to debug PDFgui or any other DiffPy package is to
+download its source tree from Subversion and install in development
+mode.  As an added benefit, it is easy to use subversion to produce
+patches or revert accidental changes.  The development installation can
+be performed by following steps
+</p><table><tr><td>&nbsp;</td><td><pre class="example">svn checkout \
+    svn://svn@danse.us/diffraction/diffraction/diffpy.pdfgui/trunk \
+    diffpy.pdfgui
+
+cd diffpy.pdfgui
+python setup.py develop
 </pre></td></tr></table>
-<p>The checked-out diffpy directory can be kept around for future updates.  To
-bring it up to date with the latest sources, one just needs to execute
-</p><table><tr><td>&nbsp;</td><td><pre class="example">svn update
+<p>The develop command instructs python to load the diffpy.pdfgui package
+from the current source tree.  Therefore any changes in those sources
+would be reflected in program execution.  If you change the code,
+for example to fix a bug, please post your modifications as a patch
+to the diffpy-dev Google group at 
+<a href="http://groups.google.com/group/diffpy-dev">http://groups.google.com/group/diffpy-dev</a>. 
+To produce a code patch, change to the source tree base and run
+</p><table><tr><td>&nbsp;</td><td><pre class="example">svn diff &gt; patchfile
 </pre></td></tr></table>
-<p>inside this directory.
-</p>
+
+<p>To revert the installation back to the latest release, go to the
+&lsquo;<samp>lib/site-packages</samp>&rsquo; directory in the Python installation
+and delete the &lsquo;<samp>diffpy.pdfgui.egg-link</samp>&rsquo; file and use 
+<code>easy_install</code> to update to the latest public package:
+</p><table><tr><td>&nbsp;</td><td><pre class="example">easy_install -U diffpy.pdfgui
+</pre></td></tr></table>
+
+
 <hr size="6">
+<a name="Configure-Structure-Visualization"></a>
 <a name="SEC15"></a>
 <table cellpadding="1" cellspacing="1" border="0">
 <tr><td valign="middle" align="left">[<a href="#SEC14" title="Previous section in reading order"> &lt; </a>]</td>
@@ -609,42 +697,50 @@ bring it up to date with the latest sources, one just needs to execute
 <td valign="middle" align="left"> &nbsp; </td>
 <td valign="middle" align="left">[<a href="#SEC5" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
 <td valign="middle" align="left">[<a href="#SEC11" title="Up section"> Up </a>]</td>
-<td valign="middle" align="left">[<a href="#SEC17" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC19" title="Next chapter"> &gt;&gt; </a>]</td>
 <td valign="middle" align="left"> &nbsp; </td>
 <td valign="middle" align="left"> &nbsp; </td>
 <td valign="middle" align="left"> &nbsp; </td>
 <td valign="middle" align="left"> &nbsp; </td>
 <td valign="middle" align="left">[<a href="#SEC_Top" title="Cover (top) of document">Top</a>]</td>
 <td valign="middle" align="left">[<a href="#SEC_Contents" title="Table of contents">Contents</a>]</td>
-<td valign="middle" align="left">[<a href="#SEC40" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC43" title="Index">Index</a>]</td>
 <td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
 </tr></table>
-<h3 class="unnumberedsubsec"> Structure Visualization </h3>
+<h3 class="unnumberedsubsec"> Configure Structure Visualization </h3>
 
-<p>Once PDFgui is up an running, you must tell it where to find your preferrred
-structure visualization program before it can display 3D structures. This
-information can be entered under the Edit-&gt;Preferences menu.
+<p>Once PDFgui is up an running, you need to tell it where to find your preferred
+structure visualization program so it can display 3D structures. This
+information can be entered under the &ldquo;Edit-&gt;Preferences&rdquo; menu.
 </p>
 <p><b>A note for AtomEye users:</b>
 </p>
-<p>FIXME
-</p>
-<p>AtomEye requires a running xterm to operate. Xterm is included with the Cygwin
-program on windows. With xterm installed, put the following information in the
-Edit-&gt;Preferences menu of PDFgui.
-</p>
-<table><tr><td>&nbsp;</td><td><pre class="example">Structure viewer executable: XTERM
+<p>AtomEye requires its standard output is connected to a terminal.
+On Unix this happens when <code>pdfgui</code> is started from a terminal.
+However if you prefer to start PDFgui using a desktop shortcut or via
+&ldquo;Run Application&rdquo; dialog of the window manager, you need to put the
+following information to the &ldquo;Edit-&gt;Preferences&rdquo; menu of PDFgui.
+</p><table><tr><td>&nbsp;</td><td><pre class="example">Structure viewer executable: xterm
 Argument string: -iconic -e ATOMEYE
-Structure format: pdb or xcfg
+Structure format: xcfg
 </pre></td></tr></table>
-
-<p>In the above, XTERM is the path to the xterm executable and ATOMEYE is the path
-to the ATOMEYE executable. For cygwin users, xterm can be found at ... in the
-standard installation and it requires that the cygwin X server is running in
-order to operate.
+<p>In the above, ATOMEYE is the path to the ATOMEYE executable. For Cygwin users,
+the workaround is to start atomeye from a batch file.
+This ensures atomeye gets started from a command window,
+and in addition the batch file can be used to adjust environment
+variables:
+</p><table><tr><td>&nbsp;</td><td><pre class="example">atomeye.bat
+------------------------------------------------------------------------
+set DISPLAY=localhost:0 
+set PATH=C:\cygwin\bin;C:\cygwin\usr\X11R6\bin;C:\ATOMEYE_DIRECTORY;%PATH% 
+start A.exe %*
+------------------------------------------------------------------------
+</pre></td></tr></table>
+<p>Here ATOMEYE_DIRECTORY needs to be replaced with a proper path.  Make sure
+that the X-server application included with Cygwin is started.
 </p>
 <hr size="6">
-<a name="Community"></a>
+<a name="What-is-new"></a>
 <a name="SEC16"></a>
 <table cellpadding="1" cellspacing="1" border="0">
 <tr><td valign="middle" align="left">[<a href="#SEC15" title="Previous section in reading order"> &lt; </a>]</td>
@@ -652,17 +748,160 @@ order to operate.
 <td valign="middle" align="left"> &nbsp; </td>
 <td valign="middle" align="left">[<a href="#SEC5" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
 <td valign="middle" align="left">[<a href="#SEC5" title="Up section"> Up </a>]</td>
-<td valign="middle" align="left">[<a href="#SEC17" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC19" title="Next chapter"> &gt;&gt; </a>]</td>
 <td valign="middle" align="left"> &nbsp; </td>
 <td valign="middle" align="left"> &nbsp; </td>
 <td valign="middle" align="left"> &nbsp; </td>
 <td valign="middle" align="left"> &nbsp; </td>
 <td valign="middle" align="left">[<a href="#SEC_Top" title="Cover (top) of document">Top</a>]</td>
 <td valign="middle" align="left">[<a href="#SEC_Contents" title="Table of contents">Contents</a>]</td>
-<td valign="middle" align="left">[<a href="#SEC40" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC43" title="Index">Index</a>]</td>
 <td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
 </tr></table>
-<h2 class="section"> 1.5 Community </h2>
+<h2 class="section"> 1.5 What is new </h2>
+
+<hr size="6">
+<a name="SEC17"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#SEC16" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC18" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#SEC5" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC16" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC19" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#SEC_Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC43" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<h3 class="unnumberedsubsec"> Version 1.0, released April 2009 </h3>
+
+<p>This section describes improvements and modifications since the
+last beta-release 1.0b.1792 from December 2007.
+</p>
+<dl compact="compact">
+<dt> <tt>updates and installation</tt></dt>
+<dd><p>PDFgui can be installed or updated 
+with a simple run of the easy_install script.  easy_install
+checks our online code repository for any newer versions and takes
+care of their download and installation.  It can be also used to
+add future DiffPy components as they become available.  This should
+work for Linux, Mac and Windows.
+</p>
+</dd>
+<dt> <tt>Windows installer</tt></dt>
+<dd><p>The updated Windows package includes full installation of
+Python 2.5 and script for code updates.  PDFgui
+can be installed under normal Python2.5 tree if it has the
+easy_install script.
+</p>
+</dd>
+<dt> <tt>particle shape correction stored with phase</tt></dt>
+<dd><p>The previous release of PDFgui had
+spherical shape correction factors stored with PDF dataset.  The
+new layout is more logical and allows multi-phase refinements with
+separate shape corrections.
+</p>
+</dd>
+<dt> <tt>step shape factor</tt></dt>
+<dd><p>Defined new shape factor that cuts off the
+simulated PDF at user defined r-limit.
+</p>
+</dd>
+<dt> <tt>cumulative Rw</tt></dt>
+<dd><p>Implemented calculation of cumulative Rw
+and option to show it in PDFgui plot window.
+</p>
+</dd>
+<dt> <tt>project post-processing</tt></dt>
+<dd><p>Implemented new module
+&lsquo;<samp>tui</samp>&rsquo; (text user interface) for simple access to the data
+in PDFgui project files.  The &lsquo;<samp>tui</samp>&rsquo; module can be used
+in easy-to-understand Python scripts for arbitrary data extraction
+or conversion.  It should be useful for project files with large
+temperature or compositional series of PDF refinements.
+</p>
+</dd>
+<dt> <tt>structure visualization</tt></dt>
+<dd><p>PDFgui can now show structures with any external structure viewer,
+that accepts structure file as a command-line argument.
+</p>
+</dd>
+<dt> <tt>space group representations</tt></dt>
+<dd><p>Added 249 space group
+representations in non-standard settings.  The new representations
+were generated using the
+<a href="http://cctbx.sourceforge.net/">cctbx library</a> and helpful
+hints from Ralf W. Grosse-Kunstleve.
+</p>
+</dd>
+<dt> <tt>symmetry constraints</tt></dt>
+<dd><p>Fixed issues with generation of
+symmetry requirements for the ADP tensors.
+</p>
+</dd>
+<dt> <tt>default ADP tensors</tt></dt>
+<dd><p>PDF contributions are not counted for atoms that have
+ADP tensors <i>Uij</i> equal zero.  Atoms are now inserted with
+a non-zero <i>Uij</i> matrix.  Added warning when a phase
+loaded from file has atoms with zero ADPs.
+</p>
+</dd>
+<dt> <tt>temperature series macro</tt></dt>
+<dd><p>The temperature series macro was broken for datasets at equal temperature
+or when temperature contained decimal point.  Improved file
+and temperature sorting in the temperature series dialog.
+</p>
+</dd>
+<dt> <tt>journal panel</tt></dt>
+<dd><p>Fixed shortcut key handling and font size issues.
+</p>
+</dd>
+<dt> <tt>startup option &lsquo;<samp>--db-pdb</samp>&rsquo;</tt></dt>
+<dd><p>The new command-line option starts Python debugger on
+PDFgui crash instead of displaying error report dialog.
+</p>
+</dd>
+<dt> <tt>grid interpolation</tt></dt>
+<dd><p>Fixed problems with r-grid interpolation appearing due to round-off errors.
+</p>
+</dd>
+<dt> <tt>data load on Windows</tt></dt>
+<dd><p>Windows version could not read PDF datasets with NaN (not-a-number)
+values in the dGr column, because NaN is not supported by the Windows
+C-library.  Added check for NaN-s before converting to float.
+</p>
+</dd>
+<dt> <tt>bug fixes</tt></dt>
+<dd><p>Other small issues too numerous to list here.
+</p>
+</dd>
+</dl>
+
+<hr size="6">
+<a name="Community"></a>
+<a name="SEC18"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#SEC17" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC19" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#SEC5" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC5" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC19" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#SEC_Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC43" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<h2 class="section"> 1.6 Community </h2>
 
 <p>There are several Google groups for support and development of PDFgui and other
 DiffPy software.  Visit the links below for message archives or instructions on
@@ -682,58 +921,59 @@ library in general.
 </dl>
 
 
+
 <hr size="6">
 <a name="Quick-start"></a>
-<a name="SEC17"></a>
+<a name="SEC19"></a>
 <table cellpadding="1" cellspacing="1" border="0">
-<tr><td valign="middle" align="left">[<a href="#SEC16" title="Previous section in reading order"> &lt; </a>]</td>
-<td valign="middle" align="left">[<a href="#SEC18" title="Next section in reading order"> &gt; </a>]</td>
+<tr><td valign="middle" align="left">[<a href="#SEC18" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC20" title="Next section in reading order"> &gt; </a>]</td>
 <td valign="middle" align="left"> &nbsp; </td>
 <td valign="middle" align="left">[<a href="#SEC5" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
 <td valign="middle" align="left">[<a href="#SEC_Top" title="Up section"> Up </a>]</td>
-<td valign="middle" align="left">[<a href="#SEC20" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC22" title="Next chapter"> &gt;&gt; </a>]</td>
 <td valign="middle" align="left"> &nbsp; </td>
 <td valign="middle" align="left"> &nbsp; </td>
 <td valign="middle" align="left"> &nbsp; </td>
 <td valign="middle" align="left"> &nbsp; </td>
 <td valign="middle" align="left">[<a href="#SEC_Top" title="Cover (top) of document">Top</a>]</td>
 <td valign="middle" align="left">[<a href="#SEC_Contents" title="Table of contents">Contents</a>]</td>
-<td valign="middle" align="left">[<a href="#SEC40" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC43" title="Index">Index</a>]</td>
 <td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
 </tr></table>
 <h1 class="chapter"> 2. Quick start </h1>
 
 <p>In this chapter the PDFgui layout is briefly described, followed by a simple
 tutorial example, spanning the gui functionality and aimed at novice users.
-Users familiar with the basics can proceed to <a href="#SEC20">Examples and tutorials</a>, or
-use <a href="#SEC33">PDFgui reference sheets</a>.  All the files used in examples are
+Users familiar with the basics can proceed to <a href="#SEC22">Examples and tutorials</a>, or
+use <a href="#SEC36">PDFgui reference sheets</a>.  All the files used in examples are
 available in the source distribution or can be downloaded from the DiffPy
 website.
 </p>
 <table class="menu" border="0" cellspacing="0">
-<tr><td align="left" valign="top"><a href="#SEC18">2.1 PDFgui layout</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+<tr><td align="left" valign="top"><a href="#SEC20">2.1 PDFgui layout</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
 </td></tr>
-<tr><td align="left" valign="top"><a href="#SEC19">2.2 Creating a simple fit using a preexisting structure file</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+<tr><td align="left" valign="top"><a href="#SEC21">2.2 Creating a simple fit using a preexisting structure file</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
 </td></tr>
 </table>
 
 <hr size="6">
 <a name="PDFgui-layout"></a>
-<a name="SEC18"></a>
+<a name="SEC20"></a>
 <table cellpadding="1" cellspacing="1" border="0">
-<tr><td valign="middle" align="left">[<a href="#SEC17" title="Previous section in reading order"> &lt; </a>]</td>
-<td valign="middle" align="left">[<a href="#SEC19" title="Next section in reading order"> &gt; </a>]</td>
+<tr><td valign="middle" align="left">[<a href="#SEC19" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC21" title="Next section in reading order"> &gt; </a>]</td>
 <td valign="middle" align="left"> &nbsp; </td>
-<td valign="middle" align="left">[<a href="#SEC17" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
-<td valign="middle" align="left">[<a href="#SEC17" title="Up section"> Up </a>]</td>
-<td valign="middle" align="left">[<a href="#SEC20" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC19" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC19" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC22" title="Next chapter"> &gt;&gt; </a>]</td>
 <td valign="middle" align="left"> &nbsp; </td>
 <td valign="middle" align="left"> &nbsp; </td>
 <td valign="middle" align="left"> &nbsp; </td>
 <td valign="middle" align="left"> &nbsp; </td>
 <td valign="middle" align="left">[<a href="#SEC_Top" title="Cover (top) of document">Top</a>]</td>
 <td valign="middle" align="left">[<a href="#SEC_Contents" title="Table of contents">Contents</a>]</td>
-<td valign="middle" align="left">[<a href="#SEC40" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC43" title="Index">Index</a>]</td>
 <td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
 </tr></table>
 <h2 class="section"> 2.1 PDFgui layout </h2>
@@ -763,21 +1003,21 @@ select and right-click.
 </p>
 <hr size="6">
 <a name="Simple-fit"></a>
-<a name="SEC19"></a>
+<a name="SEC21"></a>
 <table cellpadding="1" cellspacing="1" border="0">
-<tr><td valign="middle" align="left">[<a href="#SEC18" title="Previous section in reading order"> &lt; </a>]</td>
-<td valign="middle" align="left">[<a href="#SEC20" title="Next section in reading order"> &gt; </a>]</td>
+<tr><td valign="middle" align="left">[<a href="#SEC20" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC22" title="Next section in reading order"> &gt; </a>]</td>
 <td valign="middle" align="left"> &nbsp; </td>
-<td valign="middle" align="left">[<a href="#SEC17" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
-<td valign="middle" align="left">[<a href="#SEC17" title="Up section"> Up </a>]</td>
-<td valign="middle" align="left">[<a href="#SEC20" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC19" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC19" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC22" title="Next chapter"> &gt;&gt; </a>]</td>
 <td valign="middle" align="left"> &nbsp; </td>
 <td valign="middle" align="left"> &nbsp; </td>
 <td valign="middle" align="left"> &nbsp; </td>
 <td valign="middle" align="left"> &nbsp; </td>
 <td valign="middle" align="left">[<a href="#SEC_Top" title="Cover (top) of document">Top</a>]</td>
 <td valign="middle" align="left">[<a href="#SEC_Contents" title="Table of contents">Contents</a>]</td>
-<td valign="middle" align="left">[<a href="#SEC40" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC43" title="Index">Index</a>]</td>
 <td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
 </tr></table>
 <h2 class="section"> 2.2 Creating a simple fit using a preexisting structure file </h2>
@@ -788,7 +1028,7 @@ structure file, associate a dataset with the refinement, configure and execute
 a refinement, and display the result. Files to be used in this exercise are
 <i>Ni.stru</i> and <i>Ni-xray.gr</i> (found in the tutorial directory). To start,
 invoke PDFgui by clicking on the icon on your desktop, selecting the program
-from your system's program menu, or by typing `pdfgui' in a terminal window.
+from your system's program menu, or by typing <code>pdfgui</code> in a terminal window.
 </p>
 <p>First a new fit needs to be established. In the fit tree right-click the mouse
 button, and select <b>New Fit</b>. This will generate a new fit called &ldquo;Fit 1&rdquo;
@@ -807,9 +1047,9 @@ offered to load a structure from a file or to generate it from scratch. In this
 exercise a preexisting structure file <i>Ni.stru</i> is to be loaded.
 </p>
 <div class="float"><a name="fig2_002d01"></a>
-<p><img src="./images/fig2-01.png" alt="images/fig2-01">
-
-</p></div><p><strong>Figure 2.1: PDFgui window with fit tree and Plot Control panels to the left and
+<p align="center"> <img src="./images/fig2-01.png" alt="images/fig2-01">
+</p>
+</div><p><strong>Figure 2.1: PDFgui window with fit tree and Plot Control panels to the left and
 current action panel to the right. The fit tree panel features the current fit
 and the loaded Ni structure which is selected. The current action panel displays
 phase configuration within the &ldquo;Configure&rdquo; tab.
@@ -824,7 +1064,7 @@ and a set of parameters intended to be used to account for correlated atomic
 motion effects that typically sharpen the nearest neighbor PDF peak. These are
 <i>delta1</i>, <i>delta2</i>, <i>sratio</i>, and <i>rcut</i>. The <i>spdiameter</i> and
 <i>stepcut</i> parameters include scatterer size effects in the PDF. These
-paramters will be described later.  The bottom part of the panel contains
+parameters will be described later.  The bottom part of the panel contains
 standard unit cell content related information such as atomic species, their
 fractional coordinates, anisotropic ADPs, and site occupancies.
 </p>
@@ -841,9 +1081,9 @@ facility at the Argonne National Laboratory. Both x-ray and neutron datasets
 were collected at 300 K.
 </p>
 <div class="float"><a name="fig2_002d02"></a>
-<p><img src="./images/fig2-02.png" alt="images/fig2-02">
-
-</p></div><p><strong>Figure 2.2: Appearance of a PDFgui window after a PDF dataset is loaded.  The Fit
+<p align="center"> <img src="./images/fig2-02.png" alt="images/fig2-02">
+</p>
+</div><p><strong>Figure 2.2: Appearance of a PDFgui window after a PDF dataset is loaded.  The Fit
 Tree panel features the current fit, loaded Ni structure, and loaded Ni PDF
 dataset, G(r), which is selected. The current action panel displays data set
 configuration within the &ldquo;Configure&rdquo; tab.
@@ -882,9 +1122,9 @@ toggling between the corresponding &ldquo;Configure&rdquo; and &ldquo;Constraint
 the present example the data related setup will be done first.
 </p>
 <div class="float"><a name="fig2_002d03"></a>
-<p><img src="./images/fig2-03.png" alt="images/fig2-03">
-
-</p></div><p><strong>Figure 2.3: Adjusting data set related configuration.
+<p align="center"> <img src="./images/fig2-03.png" alt="images/fig2-03">
+</p>
+</div><p><strong>Figure 2.3: Adjusting data set related configuration.
 </strong>
 </p>
 <p>Click on the data set node (<i>Ni-xray.gr</i>) in the fit tree. In <a href="#fig2_002d03">fig2-03</a>
@@ -906,9 +1146,9 @@ inserting <i>@2</i> into the appropriate edit box. This is illustrated in Figure
 <a href="#fig2_002d04">fig2-04</a>.
 </p>
 <div class="float"><a name="fig2_002d04"></a>
-<p><img src="./images/fig2-04.png" alt="images/fig2-04">
-
-</p></div><p><strong>Figure 2.4: Setting up the refinement parameters and constraints.
+<p align="center"> <img src="./images/fig2-04.png" alt="images/fig2-04">
+</p>
+</div><p><strong>Figure 2.4: Setting up the refinement parameters and constraints.
 </strong>
 </p>
 <p>Further, we set constraints related to the structural model, by selecting the
@@ -925,9 +1165,9 @@ then pressing &ldquo;Enter&rdquo; on your keyboard. The outcome is shown in Figu
 </p>
 
 <div class="float"><a name="fig2_002d05"></a>
-<p><img src="./images/fig2-05.png" alt="images/fig2-05">
-
-</p></div><p><strong>Figure 2.5: Setting up the refinement parameters and constraints.
+<p align="center"> <img src="./images/fig2-05.png" alt="images/fig2-05">
+</p>
+</div><p><strong>Figure 2.5: Setting up the refinement parameters and constraints.
 </strong>
 </p>
 <p>Note that constrained parameters cannot be adjusted on the &ldquo;Configuration&rdquo;
@@ -948,13 +1188,11 @@ part manually, in particular for complex setups, it is recommended to verify
 that the parameter assignment is done correctly.
 </p>
 <div class="float"><a name="fig2_002d06"></a>
-<p><img src="./images/fig2-06.png" alt="images/fig2-06">
-
-</p></div><p><strong>Figure 2.6: Reviewing the fit parameters and conditions.
+<p align="center"> <img src="./images/fig2-06.png" alt="images/fig2-06">
+</p>
+</div><p><strong>Figure 2.6: Reviewing the fit parameters and conditions.
 </strong>
 </p>
-<a name="IDX2"></a>
-<a name="IDX3"></a>
 <p>The setup for the present example is now completed. By selecting the fit node
 on the fit tree the current action window shows &ldquo;Parameters&rdquo; tab, which
 displays the used refinement parameters for review, <a href="#fig2_002d06">fig2-06</a>.  It shows
@@ -971,9 +1209,9 @@ progress will be directly reported in the PDFfit2 Output panel. This is
 illustrated in <a href="#fig2_002d07">fig2-07</a>.
 </p>
 <div class="float"><a name="fig2_002d07"></a>
-<p><img src="./images/fig2-07.png" alt="images/fig2-07">
-
-</p></div><p><strong>Figure 2.7: While the refinement is running, the refinement progress is
+<p align="center"> <img src="./images/fig2-07.png" alt="images/fig2-07">
+</p>
+</div><p><strong>Figure 2.7: While the refinement is running, the refinement progress is
 displayed in the PDFfit2 Output panel.
 </strong>
 </p>
@@ -992,9 +1230,9 @@ you loose the original starting values when copying values in this way, which
 may make it difficult to reproduce the fit.
 </p>
 <div class="float"><a name="fig2_002d08"></a>
-<p><img src="./images/fig2-08.png" alt="images/fig2-08">
-
-</p></div><p><strong>Figure 2.8: Updating the set of initial values of refined parameters.
+<p align="center"> <img src="./images/fig2-08.png" alt="images/fig2-08">
+</p>
+</div><p><strong>Figure 2.8: Updating the set of initial values of refined parameters.
 </strong>
 </p>
 <p>The fit can be displayed graphically by clicking at the &ldquo;quick plot&rdquo; icon on
@@ -1007,15 +1245,15 @@ iteration step in <a href="#fig2_002d10">fig2-10</a>. If the plotting window rem
 fitting is in progress, the content will be updated after each fit iteration.
 </p>
 <div class="float"><a name="fig2_002d09"></a>
-<p><img src="./images/fig2-09.png" alt="images/fig2-09">
-
-</p></div><p><strong>Figure 2.9: An example of PDFgui plotting capabilities: displaying a fit.
+<p align="center"> <img src="./images/fig2-09.png" alt="images/fig2-09">
+</p>
+</div><p><strong>Figure 2.9: An example of PDFgui plotting capabilities: displaying a fit.
 </strong>
 </p>
 <div class="float"><a name="fig2_002d10"></a>
-<p><img src="./images/fig2-10.png" alt="images/fig2-10">
-
-</p></div><p><strong>Figure 2.10: An example of PDFgui plotting capabilities: displaying a parameter.
+<p align="center"> <img src="./images/fig2-10.png" alt="images/fig2-10">
+</p>
+</div><p><strong>Figure 2.10: An example of PDFgui plotting capabilities: displaying a parameter.
 </strong>
 </p>
 <p>PDFgui is furnished with &ldquo;Journal&rdquo; capability, which can be found under the
@@ -1024,9 +1262,9 @@ notes, as illustrated in <a href="#fig2_002d11">fig2-11</a>. These notes can be 
 file, or saved along with the entire project for future reference.
 </p>
 <div class="float"><a name="fig2_002d11"></a>
-<p><img src="./images/fig2-11.png" alt="images/fig2-11">
-
-</p></div><p><strong>Figure 2.11: Using &ldquo;Journal&rdquo; feature can be a convenient way for taking notes.
+<p align="center"> <img src="./images/fig2-11.png" alt="images/fig2-11">
+</p>
+</div><p><strong>Figure 2.11: Using &ldquo;Journal&rdquo; feature can be a convenient way for taking notes.
 </strong>
 </p>
 <p>The project can be saved at any stage in its present configuration through
@@ -1045,21 +1283,21 @@ within the user-specified fitting range.
 
 <hr size="6">
 <a name="Examples-and-tutorials"></a>
-<a name="SEC20"></a>
+<a name="SEC22"></a>
 <table cellpadding="1" cellspacing="1" border="0">
-<tr><td valign="middle" align="left">[<a href="#SEC19" title="Previous section in reading order"> &lt; </a>]</td>
-<td valign="middle" align="left">[<a href="#SEC21" title="Next section in reading order"> &gt; </a>]</td>
+<tr><td valign="middle" align="left">[<a href="#SEC21" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC23" title="Next section in reading order"> &gt; </a>]</td>
 <td valign="middle" align="left"> &nbsp; </td>
-<td valign="middle" align="left">[<a href="#SEC17" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC19" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
 <td valign="middle" align="left">[<a href="#SEC_Top" title="Up section"> Up </a>]</td>
-<td valign="middle" align="left">[<a href="#SEC29" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC32" title="Next chapter"> &gt;&gt; </a>]</td>
 <td valign="middle" align="left"> &nbsp; </td>
 <td valign="middle" align="left"> &nbsp; </td>
 <td valign="middle" align="left"> &nbsp; </td>
 <td valign="middle" align="left"> &nbsp; </td>
 <td valign="middle" align="left">[<a href="#SEC_Top" title="Cover (top) of document">Top</a>]</td>
 <td valign="middle" align="left">[<a href="#SEC_Contents" title="Table of contents">Contents</a>]</td>
-<td valign="middle" align="left">[<a href="#SEC40" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC43" title="Index">Index</a>]</td>
 <td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
 </tr></table>
 <h1 class="chapter"> 3. Examples and tutorials </h1>
@@ -1071,33 +1309,33 @@ from scratch, calculating the PDF based on a given structure, linking fits, and
 creating and executing a series of fits on a sequence of data sets.
 </p>
 <table class="menu" border="0" cellspacing="0">
-<tr><td align="left" valign="top"><a href="#SEC21">3.1 Building structure model using crystal symmetry</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+<tr><td align="left" valign="top"><a href="#SEC23">3.1 Building structure model using crystal symmetry</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
 </td></tr>
-<tr><td align="left" valign="top"><a href="#SEC22">3.2 Calculating PDF from a structure</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+<tr><td align="left" valign="top"><a href="#SEC24">3.2 Calculating PDF from a structure</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
 </td></tr>
-<tr><td align="left" valign="top"><a href="#SEC23">3.3 Sequential fitting</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+<tr><td align="left" valign="top"><a href="#SEC25">3.3 Sequential fitting</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
 </td></tr>
-<tr><td align="left" valign="top"><a href="#SEC28">3.4 Nanoparticle structure</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+<tr><td align="left" valign="top"><a href="#SEC31">3.4 Nanoparticle structure</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
 </td></tr>
 </table>
 
 <hr size="6">
 <a name="Symmetry-expansion"></a>
-<a name="SEC21"></a>
+<a name="SEC23"></a>
 <table cellpadding="1" cellspacing="1" border="0">
-<tr><td valign="middle" align="left">[<a href="#SEC20" title="Previous section in reading order"> &lt; </a>]</td>
-<td valign="middle" align="left">[<a href="#SEC22" title="Next section in reading order"> &gt; </a>]</td>
+<tr><td valign="middle" align="left">[<a href="#SEC22" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC24" title="Next section in reading order"> &gt; </a>]</td>
 <td valign="middle" align="left"> &nbsp; </td>
-<td valign="middle" align="left">[<a href="#SEC20" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
-<td valign="middle" align="left">[<a href="#SEC20" title="Up section"> Up </a>]</td>
-<td valign="middle" align="left">[<a href="#SEC29" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC22" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC22" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC32" title="Next chapter"> &gt;&gt; </a>]</td>
 <td valign="middle" align="left"> &nbsp; </td>
 <td valign="middle" align="left"> &nbsp; </td>
 <td valign="middle" align="left"> &nbsp; </td>
 <td valign="middle" align="left"> &nbsp; </td>
 <td valign="middle" align="left">[<a href="#SEC_Top" title="Cover (top) of document">Top</a>]</td>
 <td valign="middle" align="left">[<a href="#SEC_Contents" title="Table of contents">Contents</a>]</td>
-<td valign="middle" align="left">[<a href="#SEC40" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC43" title="Index">Index</a>]</td>
 <td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
 </tr></table>
 <h2 class="section"> 3.1 Building structure model using crystal symmetry </h2>
@@ -1107,7 +1345,7 @@ creating and executing a series of fits on a sequence of data sets.
 expansion capabilities of PDFgui. The goal is again to create a simple fit of
 Ni PDF, but this time from scratch rather than from a preexisting structure
 file. The focus will be on the symmetry expansion of the structure, and the
-steps that are described earlier in <a href="#SEC19">Creating a simple fit using a preexisting structure file</a> are left for the user to
+steps that are described earlier in <a href="#SEC21">Creating a simple fit using a preexisting structure file</a> are left for the user to
 recreate. File to be used in this exercise is <i>Ni-xray.gr</i>. To start, invoke
 PDFgui.
 </p>
@@ -1131,14 +1369,14 @@ unit via the dialog box that pops up. For the Ni case, select one row only.  A
 new row will then show up in the table and the name of the element will be
 highligted. Type in <i>Ni</i> for the element name.  It is important that the
 element name is typed in correctly, as this is further used to search a
-database for the scattering characteristics of that site<a name="DOCF1" href="#FOOT1">(1)</a>.  Further, highlight cells in the
+database for the scattering characteristics of that site<a name="DOCF2" href="#FOOT2">(2)</a>.  Further, highlight cells in the
 <i>u11</i>, <i>u22</i>, and <i>u33</i> columns and type in the initial value 0.0025.
 </p>
 
 <div class="float"><a name="fig3_002d01"></a>
-<p><img src="./images/fig3-01.png" alt="images/fig3-01">
-
-</p></div><p><strong>Figure 3.1: Expanding the unit cell using space group information.
+<p align="center"> <img src="./images/fig3-01.png" alt="images/fig3-01">
+</p>
+</div><p><strong>Figure 3.1: Expanding the unit cell using space group information.
 </strong>
 </p>
 <p>Now right-click with the mouse on the element name, and select &ldquo;Expand space
@@ -1149,9 +1387,9 @@ or &ldquo;225&rdquo;, the space group number.  This will expand the unit cell to
 sites with the proper symmetry.
 </p>
 <div class="float"><a name="fig3_002d02"></a>
-<p><img src="./images/fig3-02.png" alt="images/fig3-02">
-
-</p></div><p><strong>Figure 3.2: Setting up symmetry constraints to be used in a refinement.
+<p align="center"> <img src="./images/fig3-02.png" alt="images/fig3-02">
+</p>
+</div><p><strong>Figure 3.2: Setting up symmetry constraints to be used in a refinement.
 </strong>
 </p>
 <p>In order to set the symmetry constraints for the refinement, select
@@ -1175,25 +1413,25 @@ symmetry.  What is written there will be used, and if the table is tampered
 with, then the original symmetry obtained using symmetry expansion feature will
 <i>not</i> be preserved. Therefore, the expansion tool represents a convenience
 tool and nothing more than that. The remaining steps of this example are
-identical to these described in <a href="#SEC19">Creating a simple fit using a preexisting structure file</a>.
+identical to these described in <a href="#SEC21">Creating a simple fit using a preexisting structure file</a>.
 </p>
 <hr size="6">
 <a name="Calculating-PDF"></a>
-<a name="SEC22"></a>
+<a name="SEC24"></a>
 <table cellpadding="1" cellspacing="1" border="0">
-<tr><td valign="middle" align="left">[<a href="#SEC21" title="Previous section in reading order"> &lt; </a>]</td>
-<td valign="middle" align="left">[<a href="#SEC23" title="Next section in reading order"> &gt; </a>]</td>
+<tr><td valign="middle" align="left">[<a href="#SEC23" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC25" title="Next section in reading order"> &gt; </a>]</td>
 <td valign="middle" align="left"> &nbsp; </td>
-<td valign="middle" align="left">[<a href="#SEC20" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
-<td valign="middle" align="left">[<a href="#SEC20" title="Up section"> Up </a>]</td>
-<td valign="middle" align="left">[<a href="#SEC29" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC22" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC22" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC32" title="Next chapter"> &gt;&gt; </a>]</td>
 <td valign="middle" align="left"> &nbsp; </td>
 <td valign="middle" align="left"> &nbsp; </td>
 <td valign="middle" align="left"> &nbsp; </td>
 <td valign="middle" align="left"> &nbsp; </td>
 <td valign="middle" align="left">[<a href="#SEC_Top" title="Cover (top) of document">Top</a>]</td>
 <td valign="middle" align="left">[<a href="#SEC_Contents" title="Table of contents">Contents</a>]</td>
-<td valign="middle" align="left">[<a href="#SEC40" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC43" title="Index">Index</a>]</td>
 <td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
 </tr></table>
 <h2 class="section"> 3.2 Calculating PDF from a structure </h2>
@@ -1202,16 +1440,16 @@ identical to these described in <a href="#SEC19">Creating a simple fit using a p
 structure instead of performing a fit. In order to carry out a calculation, an
 underlying structure needs to be specified. This can either be loaded from a
 file or generated from scratch. Suppose that we have a Ni structure populating
-a fit tree using steps described in either <a href="#SEC19">Creating a simple fit using a preexisting structure file</a> or in <a href="#SEC21">Building structure model using crystal symmetry</a>, and that we would like to calculate Ni PDF using neutron radiation.
+a fit tree using steps described in either <a href="#SEC21">Creating a simple fit using a preexisting structure file</a> or in <a href="#SEC23">Building structure model using crystal symmetry</a>, and that we would like to calculate Ni PDF using neutron radiation.
 Highlight the Ni structure on fit tree. Either right-click and select <b>Insert
 Calcualtion</b> or select <b>New Calculation</b> from &ldquo;Calculation&rdquo; menu.  The
 current action panel will display information very similar to that when a data
 set is loaded, as shown in <a href="#fig3_002d03">fig3-03</a>.
 </p>
 <div class="float"><a name="fig3_002d03"></a>
-<p><img src="./images/fig3-03.png" alt="images/fig3-03">
-
-</p></div><p><strong>Figure 3.3: An example of the calculation configuration panel.
+<p align="center"> <img src="./images/fig3-03.png" alt="images/fig3-03">
+</p>
+</div><p><strong>Figure 3.3: An example of the calculation configuration panel.
 </strong>
 </p>
 <p>Now specify conditions to be used for the calculation, such as radiation type,
@@ -1231,21 +1469,21 @@ Calculation</b> choice on the &ldquo;Calculations&rdquo; menu.
 </p>
 <hr size="6">
 <a name="Sequential-fitting"></a>
-<a name="SEC23"></a>
+<a name="SEC25"></a>
 <table cellpadding="1" cellspacing="1" border="0">
-<tr><td valign="middle" align="left">[<a href="#SEC22" title="Previous section in reading order"> &lt; </a>]</td>
-<td valign="middle" align="left">[<a href="#SEC24" title="Next section in reading order"> &gt; </a>]</td>
+<tr><td valign="middle" align="left">[<a href="#SEC24" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC26" title="Next section in reading order"> &gt; </a>]</td>
 <td valign="middle" align="left"> &nbsp; </td>
-<td valign="middle" align="left">[<a href="#SEC20" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
-<td valign="middle" align="left">[<a href="#SEC20" title="Up section"> Up </a>]</td>
-<td valign="middle" align="left">[<a href="#SEC29" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC22" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC22" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC32" title="Next chapter"> &gt;&gt; </a>]</td>
 <td valign="middle" align="left"> &nbsp; </td>
 <td valign="middle" align="left"> &nbsp; </td>
 <td valign="middle" align="left"> &nbsp; </td>
 <td valign="middle" align="left"> &nbsp; </td>
 <td valign="middle" align="left">[<a href="#SEC_Top" title="Cover (top) of document">Top</a>]</td>
 <td valign="middle" align="left">[<a href="#SEC_Contents" title="Table of contents">Contents</a>]</td>
-<td valign="middle" align="left">[<a href="#SEC40" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC43" title="Index">Index</a>]</td>
 <td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
 </tr></table>
 <h2 class="section"> 3.3 Sequential fitting </h2>
@@ -1262,33 +1500,35 @@ drop-down menu.
 </p>
 
 <table class="menu" border="0" cellspacing="0">
-<tr><td align="left" valign="top"><a href="#SEC24">3.3.1 Multistage fitting</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+<tr><td align="left" valign="top"><a href="#SEC26">3.3.1 Multistage fitting</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
 </td></tr>
-<tr><td align="left" valign="top"><a href="#SEC25">3.3.2 Sequential fitting of incremental r-series</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+<tr><td align="left" valign="top"><a href="#SEC27">3.3.2 Sequential fitting of incremental r-series</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
 </td></tr>
-<tr><td align="left" valign="top"><a href="#SEC26">3.3.3 Sequential fitting of temperature series</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+<tr><td align="left" valign="top"><a href="#SEC28">3.3.3 Sequential fitting of temperature series</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
 </td></tr>
-<tr><td align="left" valign="top"><a href="#SEC27">3.3.4 Sequential fitting of doping series</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+<tr><td align="left" valign="top"><a href="#SEC29">3.3.4 Sequential fitting of doping series</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top"><a href="#SEC30">3.3.5 Advanced post-processing of sequential refinement</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
 </td></tr>
 </table>
 
 <hr size="6">
 <a name="Multistage-fitting"></a>
-<a name="SEC24"></a>
+<a name="SEC26"></a>
 <table cellpadding="1" cellspacing="1" border="0">
-<tr><td valign="middle" align="left">[<a href="#SEC23" title="Previous section in reading order"> &lt; </a>]</td>
-<td valign="middle" align="left">[<a href="#SEC25" title="Next section in reading order"> &gt; </a>]</td>
+<tr><td valign="middle" align="left">[<a href="#SEC25" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC27" title="Next section in reading order"> &gt; </a>]</td>
 <td valign="middle" align="left"> &nbsp; </td>
-<td valign="middle" align="left">[<a href="#SEC20" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
-<td valign="middle" align="left">[<a href="#SEC23" title="Up section"> Up </a>]</td>
-<td valign="middle" align="left">[<a href="#SEC29" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC22" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC25" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC32" title="Next chapter"> &gt;&gt; </a>]</td>
 <td valign="middle" align="left"> &nbsp; </td>
 <td valign="middle" align="left"> &nbsp; </td>
 <td valign="middle" align="left"> &nbsp; </td>
 <td valign="middle" align="left"> &nbsp; </td>
 <td valign="middle" align="left">[<a href="#SEC_Top" title="Cover (top) of document">Top</a>]</td>
 <td valign="middle" align="left">[<a href="#SEC_Contents" title="Table of contents">Contents</a>]</td>
-<td valign="middle" align="left">[<a href="#SEC40" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC43" title="Index">Index</a>]</td>
 <td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
 </tr></table>
 <h3 class="subsection"> 3.3.1 Multistage fitting </h3>
@@ -1317,9 +1557,9 @@ of the link as its <i>initial</i> value, or the initial value if the linked
 parameter is not yet refined.  An example of this is shown in <a href="#fig3_002d04">fig3-04</a>.
 </p>
 <div class="float"><a name="fig3_002d04"></a>
-<p><img src="./images/fig3-04.png" alt="images/fig3-04">
-
-</p></div><p><strong>Figure 3.4: An example of linked fits. The output of a converged fit will
+<p align="center"> <img src="./images/fig3-04.png" alt="images/fig3-04">
+</p>
+</div><p><strong>Figure 3.4: An example of linked fits. The output of a converged fit will
 be fed into the succeeding fit in the sequence as an input.
 </strong>
 </p>
@@ -1357,21 +1597,21 @@ of these parameters.
 </p>
 <hr size="6">
 <a name="r_002dseries"></a>
-<a name="SEC25"></a>
+<a name="SEC27"></a>
 <table cellpadding="1" cellspacing="1" border="0">
-<tr><td valign="middle" align="left">[<a href="#SEC24" title="Previous section in reading order"> &lt; </a>]</td>
-<td valign="middle" align="left">[<a href="#SEC26" title="Next section in reading order"> &gt; </a>]</td>
+<tr><td valign="middle" align="left">[<a href="#SEC26" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC28" title="Next section in reading order"> &gt; </a>]</td>
 <td valign="middle" align="left"> &nbsp; </td>
-<td valign="middle" align="left">[<a href="#SEC20" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
-<td valign="middle" align="left">[<a href="#SEC23" title="Up section"> Up </a>]</td>
-<td valign="middle" align="left">[<a href="#SEC29" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC22" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC25" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC32" title="Next chapter"> &gt;&gt; </a>]</td>
 <td valign="middle" align="left"> &nbsp; </td>
 <td valign="middle" align="left"> &nbsp; </td>
 <td valign="middle" align="left"> &nbsp; </td>
 <td valign="middle" align="left"> &nbsp; </td>
 <td valign="middle" align="left">[<a href="#SEC_Top" title="Cover (top) of document">Top</a>]</td>
 <td valign="middle" align="left">[<a href="#SEC_Contents" title="Table of contents">Contents</a>]</td>
-<td valign="middle" align="left">[<a href="#SEC40" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC43" title="Index">Index</a>]</td>
 <td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
 </tr></table>
 <h3 class="subsection"> 3.3.2 Sequential fitting of incremental r-series </h3>
@@ -1387,16 +1627,16 @@ this type of refinement.  We will illustrate these capabilities through a
 simple Ni example.  
 </p>
 <p>Generate a complete fit, including a phase and a dataset, as explained in
-<a href="#SEC19">Creating a simple fit using a preexisting structure file</a>. Select the fit from the fit tree. From the &ldquo;Fits&rdquo; menu,
+<a href="#SEC21">Creating a simple fit using a preexisting structure file</a>. Select the fit from the fit tree. From the &ldquo;Fits&rdquo; menu,
 select <b>Macros</b>, and choose &ldquo;r-Series&rdquo; option. The Current Action panel
 will display simple setting requirements, arranged in two rows of three dialog
 boxes each, that need to be filled with values to be specified by the user. An
 example of this is shown in Figure <a href="#fig3_002d05">fig3-05</a>.
 </p>
 <div class="float"><a name="fig3_002d05"></a>
-<p><img src="./images/fig3-05.png" alt="images/fig3-05">
-
-</p></div><p><strong>Figure 3.5: Appearance of the setup panel for specifying an incremental r-series
+<p align="center"> <img src="./images/fig3-05.png" alt="images/fig3-05">
+</p>
+</div><p><strong>Figure 3.5: Appearance of the setup panel for specifying an incremental r-series
 fit conditions.
 </strong>
 </p>
@@ -1420,21 +1660,21 @@ is done, you can review the results using the plot control.
 </p>
 <hr size="6">
 <a name="Temperature-series"></a>
-<a name="SEC26"></a>
+<a name="SEC28"></a>
 <table cellpadding="1" cellspacing="1" border="0">
-<tr><td valign="middle" align="left">[<a href="#SEC25" title="Previous section in reading order"> &lt; </a>]</td>
-<td valign="middle" align="left">[<a href="#SEC27" title="Next section in reading order"> &gt; </a>]</td>
+<tr><td valign="middle" align="left">[<a href="#SEC27" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC29" title="Next section in reading order"> &gt; </a>]</td>
 <td valign="middle" align="left"> &nbsp; </td>
-<td valign="middle" align="left">[<a href="#SEC20" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
-<td valign="middle" align="left">[<a href="#SEC23" title="Up section"> Up </a>]</td>
-<td valign="middle" align="left">[<a href="#SEC29" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC22" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC25" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC32" title="Next chapter"> &gt;&gt; </a>]</td>
 <td valign="middle" align="left"> &nbsp; </td>
 <td valign="middle" align="left"> &nbsp; </td>
 <td valign="middle" align="left"> &nbsp; </td>
 <td valign="middle" align="left"> &nbsp; </td>
 <td valign="middle" align="left">[<a href="#SEC_Top" title="Cover (top) of document">Top</a>]</td>
 <td valign="middle" align="left">[<a href="#SEC_Contents" title="Table of contents">Contents</a>]</td>
-<td valign="middle" align="left">[<a href="#SEC40" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC43" title="Index">Index</a>]</td>
 <td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
 </tr></table>
 <h3 class="subsection"> 3.3.3 Sequential fitting of temperature series </h3>
@@ -1474,9 +1714,9 @@ information from the files. User should verify that the information is correct.
 The data can be ordered by temperature by clicking the &ldquo;Temperature&rdquo; header.
 </p>
 <div class="float"><a name="fig3_002d06"></a>
-<p><img src="./images/fig3-06.png" alt="images/fig3-06">
-
-</p></div><p><strong>Figure 3.6: Setting up a T-series sequential refinement for LaMnO3. Ordering
+<p align="center"> <img src="./images/fig3-06.png" alt="images/fig3-06">
+</p>
+</div><p><strong>Figure 3.6: Setting up a T-series sequential refinement for LaMnO3. Ordering
 by temperature will ensure that the fits are linked correctly.
 </strong>
 </p>
@@ -1501,9 +1741,9 @@ of O2 (for example atom 20) for the <i>y</i> axis.  Clicking &ldquo;Plot&rdquo; 
 the plot of Uiso(20) vs T.
 </p>
 <div class="float"><a name="fig3_002d07"></a>
-<p><img src="./images/fig3-07.png" alt="images/fig3-07">
-
-</p></div><p><strong>Figure 3.7: Displaying the refinement results as a function of external
+<p align="center"> <img src="./images/fig3-07.png" alt="images/fig3-07">
+</p>
+</div><p><strong>Figure 3.7: Displaying the refinement results as a function of external
 parameter: T-series refinement of LaMnO3, example of isotropic ADP of
 oxygen atom on general position in <i>Pbnm</i> setting. Notable are the offsets
 just above 700 K (Jahn-Teller transition), and at around 1000 K when sample
@@ -1519,21 +1759,21 @@ case.
 </p>
 <hr size="6">
 <a name="Doping-series"></a>
-<a name="SEC27"></a>
+<a name="SEC29"></a>
 <table cellpadding="1" cellspacing="1" border="0">
-<tr><td valign="middle" align="left">[<a href="#SEC26" title="Previous section in reading order"> &lt; </a>]</td>
-<td valign="middle" align="left">[<a href="#SEC28" title="Next section in reading order"> &gt; </a>]</td>
+<tr><td valign="middle" align="left">[<a href="#SEC28" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC30" title="Next section in reading order"> &gt; </a>]</td>
 <td valign="middle" align="left"> &nbsp; </td>
-<td valign="middle" align="left">[<a href="#SEC20" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
-<td valign="middle" align="left">[<a href="#SEC23" title="Up section"> Up </a>]</td>
-<td valign="middle" align="left">[<a href="#SEC29" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC22" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC25" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC32" title="Next chapter"> &gt;&gt; </a>]</td>
 <td valign="middle" align="left"> &nbsp; </td>
 <td valign="middle" align="left"> &nbsp; </td>
 <td valign="middle" align="left"> &nbsp; </td>
 <td valign="middle" align="left"> &nbsp; </td>
 <td valign="middle" align="left">[<a href="#SEC_Top" title="Cover (top) of document">Top</a>]</td>
 <td valign="middle" align="left">[<a href="#SEC_Contents" title="Table of contents">Contents</a>]</td>
-<td valign="middle" align="left">[<a href="#SEC40" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC43" title="Index">Index</a>]</td>
 <td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
 </tr></table>
 <h3 class="subsection"> 3.3.4 Sequential fitting of doping series </h3>
@@ -1560,9 +1800,9 @@ different instrument was used, the value of <i>Qdamp</i> is different than in
 previous example.
 </p>
 <div class="float"><a name="fig3_002d08"></a>
-<p><img src="./images/fig3-08.png" alt="images/fig3-08">
-
-</p></div><p><strong>Figure 3.8: After loading of the Ca-doping data series of LaMnO3 system, proper
+<p align="center"> <img src="./images/fig3-08.png" alt="images/fig3-08">
+</p>
+</div><p><strong>Figure 3.8: After loading of the Ca-doping data series of LaMnO3 system, proper
 doping assignment needs to be carried out, as the doping levels introspected
 from the file names in this example incorrectly reflect the scientific
 situation. Note that dopant atom has to be present in the template seed used
@@ -1604,9 +1844,9 @@ content increase. Highlight all the fits in the fit tree to start the
 sequential refinement of the doping series.
 </p>
 <div class="float"><a name="fig3_002d09"></a>
-<p><img src="./images/fig3-09.png" alt="images/fig3-09">
-
-</p></div><p><strong>Figure 3.9: Sequence of refined parameters, such as lattice constants, can be
+<p align="center"> <img src="./images/fig3-09.png" alt="images/fig3-09">
+</p>
+</div><p><strong>Figure 3.9: Sequence of refined parameters, such as lattice constants, can be
 plotted vs doping using PDFgui plotting facilities. Figure features lattice
 parameter <i>b</i> in <i>Pbnm</i> space group setting for series of Ca-doped LaMnO3
 samples for doping concentrations between 0 and 0.28 at 10 K temperature.
@@ -1618,22 +1858,97 @@ plotted versus Ca content. An example is provided in Figure  <a href="#fig3_002d
 featuring one of the lattice parameters.
 </p>
 <hr size="6">
-<a name="Nanoparticle-structure"></a>
-<a name="SEC28"></a>
+<a name="Advanced-post_002dprocessing-of-sequential-refinement"></a>
+<a name="SEC30"></a>
 <table cellpadding="1" cellspacing="1" border="0">
-<tr><td valign="middle" align="left">[<a href="#SEC27" title="Previous section in reading order"> &lt; </a>]</td>
-<td valign="middle" align="left">[<a href="#SEC29" title="Next section in reading order"> &gt; </a>]</td>
+<tr><td valign="middle" align="left">[<a href="#SEC29" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC31" title="Next section in reading order"> &gt; </a>]</td>
 <td valign="middle" align="left"> &nbsp; </td>
-<td valign="middle" align="left">[<a href="#SEC20" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
-<td valign="middle" align="left">[<a href="#SEC20" title="Up section"> Up </a>]</td>
-<td valign="middle" align="left">[<a href="#SEC29" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC22" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC25" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC32" title="Next chapter"> &gt;&gt; </a>]</td>
 <td valign="middle" align="left"> &nbsp; </td>
 <td valign="middle" align="left"> &nbsp; </td>
 <td valign="middle" align="left"> &nbsp; </td>
 <td valign="middle" align="left"> &nbsp; </td>
 <td valign="middle" align="left">[<a href="#SEC_Top" title="Cover (top) of document">Top</a>]</td>
 <td valign="middle" align="left">[<a href="#SEC_Contents" title="Table of contents">Contents</a>]</td>
-<td valign="middle" align="left">[<a href="#SEC40" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC43" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<h3 class="subsection"> 3.3.5 Advanced post-processing of sequential refinement </h3>
+
+<p>While PDFgui allows to collate data from a series of sequential
+refinements, there are many data query options that are not
+possible or very tedious with GUI.  As an example, there is
+no easy way of exporting all refined structures to a directory,
+one has to point, click and export every single phase defined in
+sequential refinement.  Another, even more tedious task would
+be to extract bond lengths for every temperature refined in
+a large series.  We could menus for these tasks to GUI,
+but there are just too many options to serve them all.  In fact,
+GUI just does not seem to be suitable interface and things
+are much easier and more flexible to accomplish with Python scripts.
+</p>
+<p>The idea is to setup and run sequential refinement with PDFgui, but to
+do complicated data extractions with a few-line Python scripts.
+The PDFgui installation includes a &lsquo;<samp>tui</samp>&rsquo; (Text User Interface)
+module that allows simple access to the data in a PDFgui project.
+</p>
+<p>As a first example, let us assume that a converged sequential refinement
+from <a href="#SEC28">Sequential fitting of temperature series</a> has been saved to a &ldquo;lmo-series.ddp&rdquo;
+file.  The following Python script extracts temperatures and refined
+values of the lattice parameter <i>c</i>
+</p><table><tr><td>&nbsp;</td><td><pre class="example"># python script
+from diffpy.pdfgui import tui             # import the tui library
+prj = tui.LoadProject('lmo-series.ddp')   # read PDFgui project file
+temperatures = prj.getTemperatures()      # list of temperature values
+phases = prj.getPhases()                  # list of phase objects
+tcount = len(temperatures)                # number of temperature points
+
+for i in range(tcount):
+    Ti = temperatures[i]
+    # get the refined lattice parameter c
+    ci = phases[i].refined.lattice.c
+    print Ti, ci
+</pre></td></tr></table>
+
+<p>Save the example above to a file, say &ldquo;lmo_refined_c.py&rdquo; and run
+it as
+</p><table><tr><td>&nbsp;</td><td><pre class="example">python lmo_refined_c.py
+</pre></td></tr></table>
+
+<p>The tutorial directory contains an advanced script
+&ldquo;tui_mno_bond_lengths.py&rdquo;, which extracts the shortest
+Mn-O bond lengths from the same PDFgui project.  Please, see
+the comments in the script for detailed explanation.
+</p>
+<p>To learn more about the tui module and about the objects
+and functions that it returns, please see the API
+documentation for diffpy.pdfgui at 
+<a href="http://docs.danse.us/diffraction/diffpy.pdfgui/">http://docs.danse.us/diffraction/diffpy.pdfgui/</a>.
+</p>
+<p>Feel free to ask at the 
+<a href="http://groups.google.com/group/diffpy-users">diffpy-users</a>
+group if you need help with data extracting scripts.
+</p>
+<hr size="6">
+<a name="Nanoparticle-structure"></a>
+<a name="SEC31"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#SEC30" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC32" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#SEC22" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC22" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC32" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#SEC_Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC43" title="Index">Index</a>]</td>
 <td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
 </tr></table>
 <h2 class="section"> 3.4 Nanoparticle structure </h2>
@@ -1658,9 +1973,9 @@ therefore rather delicate and the solutions are not as robust as we are used to
 in cases of crystalline materials.
 </p>
 <div class="float"><a name="fig3_002d10"></a>
-<p><img src="./images/fig3-10.png" alt="images/fig3-10">
-
-</p></div><p><strong>Figure 3.10: Fitting the structure of a nanoparticle: 3nm CdSe
+<p align="center"> <img src="./images/fig3-10.png" alt="images/fig3-10">
+</p>
+</div><p><strong>Figure 3.10: Fitting the structure of a nanoparticle: 3nm CdSe
 nanoparticle example.
 </strong>
 </p>
@@ -1715,51 +2030,51 @@ candidates, yielding success in some instances.
 </p>
 <hr size="6">
 <a name="Extras"></a>
-<a name="SEC29"></a>
+<a name="SEC32"></a>
 <table cellpadding="1" cellspacing="1" border="0">
-<tr><td valign="middle" align="left">[<a href="#SEC28" title="Previous section in reading order"> &lt; </a>]</td>
-<td valign="middle" align="left">[<a href="#SEC30" title="Next section in reading order"> &gt; </a>]</td>
+<tr><td valign="middle" align="left">[<a href="#SEC31" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC33" title="Next section in reading order"> &gt; </a>]</td>
 <td valign="middle" align="left"> &nbsp; </td>
-<td valign="middle" align="left">[<a href="#SEC20" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC22" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
 <td valign="middle" align="left">[<a href="#SEC_Top" title="Up section"> Up </a>]</td>
-<td valign="middle" align="left">[<a href="#SEC33" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC36" title="Next chapter"> &gt;&gt; </a>]</td>
 <td valign="middle" align="left"> &nbsp; </td>
 <td valign="middle" align="left"> &nbsp; </td>
 <td valign="middle" align="left"> &nbsp; </td>
 <td valign="middle" align="left"> &nbsp; </td>
 <td valign="middle" align="left">[<a href="#SEC_Top" title="Cover (top) of document">Top</a>]</td>
 <td valign="middle" align="left">[<a href="#SEC_Contents" title="Table of contents">Contents</a>]</td>
-<td valign="middle" align="left">[<a href="#SEC40" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC43" title="Index">Index</a>]</td>
 <td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
 </tr></table>
 <h1 class="chapter"> 4. Extras </h1>
 
 <table class="menu" border="0" cellspacing="0">
-<tr><td align="left" valign="top"><a href="#SEC30">4.1 PDF plotting</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+<tr><td align="left" valign="top"><a href="#SEC33">4.1 PDF plotting</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
 </td></tr>
-<tr><td align="left" valign="top"><a href="#SEC31">4.2 Displaying the structure</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+<tr><td align="left" valign="top"><a href="#SEC34">4.2 Displaying the structure</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
 </td></tr>
-<tr><td align="left" valign="top"><a href="#SEC32">4.3 Advanced usage and special needs</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+<tr><td align="left" valign="top"><a href="#SEC35">4.3 Advanced usage and special needs</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
 </td></tr>
 </table>
 
 <hr size="6">
 <a name="PDF-plotting"></a>
-<a name="SEC30"></a>
+<a name="SEC33"></a>
 <table cellpadding="1" cellspacing="1" border="0">
-<tr><td valign="middle" align="left">[<a href="#SEC29" title="Previous section in reading order"> &lt; </a>]</td>
-<td valign="middle" align="left">[<a href="#SEC31" title="Next section in reading order"> &gt; </a>]</td>
+<tr><td valign="middle" align="left">[<a href="#SEC32" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC34" title="Next section in reading order"> &gt; </a>]</td>
 <td valign="middle" align="left"> &nbsp; </td>
-<td valign="middle" align="left">[<a href="#SEC29" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
-<td valign="middle" align="left">[<a href="#SEC29" title="Up section"> Up </a>]</td>
-<td valign="middle" align="left">[<a href="#SEC33" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC32" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC32" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC36" title="Next chapter"> &gt;&gt; </a>]</td>
 <td valign="middle" align="left"> &nbsp; </td>
 <td valign="middle" align="left"> &nbsp; </td>
 <td valign="middle" align="left"> &nbsp; </td>
 <td valign="middle" align="left"> &nbsp; </td>
 <td valign="middle" align="left">[<a href="#SEC_Top" title="Cover (top) of document">Top</a>]</td>
 <td valign="middle" align="left">[<a href="#SEC_Contents" title="Table of contents">Contents</a>]</td>
-<td valign="middle" align="left">[<a href="#SEC40" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC43" title="Index">Index</a>]</td>
 <td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
 </tr></table>
 <h2 class="section"> 4.1 PDF plotting </h2>
@@ -1787,30 +2102,30 @@ with ease. An example plot of Rw vs refinement step is shown in <a href="#fig4_0
 for Ni example.
 </p>
 <div class="float"><a name="fig4_002d01"></a>
-<p><img src="./images/fig4-01.png" alt="images/fig4-01">
-
-</p></div><p><strong>Figure 4.1: Plotting window featuring Rw vs refinement step for Ni example.
+<p align="center"> <img src="./images/fig4-01.png" alt="images/fig4-01">
+</p>
+</div><p><strong>Figure 4.1: Plotting window featuring Rw vs refinement step for Ni example.
 The basic functionality for manipulating the plot is provided through icons
 on the tool bar of the plotting window.
 </strong>
 </p>
 <hr size="6">
 <a name="Displaying-the-structure"></a>
-<a name="SEC31"></a>
+<a name="SEC34"></a>
 <table cellpadding="1" cellspacing="1" border="0">
-<tr><td valign="middle" align="left">[<a href="#SEC30" title="Previous section in reading order"> &lt; </a>]</td>
-<td valign="middle" align="left">[<a href="#SEC32" title="Next section in reading order"> &gt; </a>]</td>
+<tr><td valign="middle" align="left">[<a href="#SEC33" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC35" title="Next section in reading order"> &gt; </a>]</td>
 <td valign="middle" align="left"> &nbsp; </td>
-<td valign="middle" align="left">[<a href="#SEC29" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
-<td valign="middle" align="left">[<a href="#SEC29" title="Up section"> Up </a>]</td>
-<td valign="middle" align="left">[<a href="#SEC33" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC32" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC32" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC36" title="Next chapter"> &gt;&gt; </a>]</td>
 <td valign="middle" align="left"> &nbsp; </td>
 <td valign="middle" align="left"> &nbsp; </td>
 <td valign="middle" align="left"> &nbsp; </td>
 <td valign="middle" align="left"> &nbsp; </td>
 <td valign="middle" align="left">[<a href="#SEC_Top" title="Cover (top) of document">Top</a>]</td>
 <td valign="middle" align="left">[<a href="#SEC_Contents" title="Table of contents">Contents</a>]</td>
-<td valign="middle" align="left">[<a href="#SEC40" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC43" title="Index">Index</a>]</td>
 <td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
 </tr></table>
 <h2 class="section"> 4.2 Displaying the structure </h2>
@@ -1823,34 +2138,37 @@ Initial Structure</b> or <b>Plot Refined Structure</b> from the &ldquo;Phases&rd
 menu. The quickplot button will also invoke the structure viewer with the
 refined struture, or initial structure if the refined structure does not yet
 exist. The control of the visualization is dependent on the viewer used. The
-viewer can set under the Edit-&gt;Preferences menu.  An example Ni structure
-visualization with AtomEye is shown in <a href="#fig4_002d02">fig4-02</a>.
+viewer can set under the &ldquo;Edit-&gt;Preferences&rdquo; menu, see full details in
+<a href="#SEC15">Configure Structure Visualization</a>.
+</p>
+
+<p>An example Ni structure visualization with AtomEye is shown in <a href="#fig4_002d02">fig4-02</a>.
 </p>
 <div class="float"><a name="fig4_002d02"></a>
-<p><img src="./images/fig4-02.png" alt="images/fig4-02">
-
-</p></div><p><strong>Figure 4.2: Using AtomEye functionality (if installed on your system) for 3D
+<p align="center"> <img src="./images/fig4-02.png" alt="images/fig4-02">
+</p>
+</div><p><strong>Figure 4.2: Using AtomEye functionality (if installed on your system) for 3D
 visualization of the initial and refined PDF structures: example of Ni
 structure.
 </strong>
 </p>
 <hr size="6">
 <a name="Advanced-usage-and-special-needs"></a>
-<a name="SEC32"></a>
+<a name="SEC35"></a>
 <table cellpadding="1" cellspacing="1" border="0">
-<tr><td valign="middle" align="left">[<a href="#SEC31" title="Previous section in reading order"> &lt; </a>]</td>
-<td valign="middle" align="left">[<a href="#SEC33" title="Next section in reading order"> &gt; </a>]</td>
+<tr><td valign="middle" align="left">[<a href="#SEC34" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC36" title="Next section in reading order"> &gt; </a>]</td>
 <td valign="middle" align="left"> &nbsp; </td>
-<td valign="middle" align="left">[<a href="#SEC29" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
-<td valign="middle" align="left">[<a href="#SEC29" title="Up section"> Up </a>]</td>
-<td valign="middle" align="left">[<a href="#SEC33" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC32" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC32" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC36" title="Next chapter"> &gt;&gt; </a>]</td>
 <td valign="middle" align="left"> &nbsp; </td>
 <td valign="middle" align="left"> &nbsp; </td>
 <td valign="middle" align="left"> &nbsp; </td>
 <td valign="middle" align="left"> &nbsp; </td>
 <td valign="middle" align="left">[<a href="#SEC_Top" title="Cover (top) of document">Top</a>]</td>
 <td valign="middle" align="left">[<a href="#SEC_Contents" title="Table of contents">Contents</a>]</td>
-<td valign="middle" align="left">[<a href="#SEC40" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC43" title="Index">Index</a>]</td>
 <td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
 </tr></table>
 <h2 class="section"> 4.3 Advanced usage and special needs </h2>
@@ -1865,56 +2183,56 @@ PDFFIT program, where various special situations could be accounted for.
 Handling these situations requires detailed knowledge of the PDFfit2 syntax
 based on Python, which is beyond the scope of this user guide and will be
 described elsewhere. Refer to the diffpy-users group
-( <a href="http://groups.google.com/group/diffpy-users">http://groups.google.com/group/diffpy-users</a> ) for help with PDFfit2
+(<a href="http://groups.google.com/group/diffpy-users">http://groups.google.com/group/diffpy-users</a>) for help with PDFfit2
 scripting.
 </p>
 <hr size="6">
 <a name="PDFgui-reference-sheets"></a>
-<a name="SEC33"></a>
+<a name="SEC36"></a>
 <table cellpadding="1" cellspacing="1" border="0">
-<tr><td valign="middle" align="left">[<a href="#SEC32" title="Previous section in reading order"> &lt; </a>]</td>
-<td valign="middle" align="left">[<a href="#SEC34" title="Next section in reading order"> &gt; </a>]</td>
+<tr><td valign="middle" align="left">[<a href="#SEC35" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC37" title="Next section in reading order"> &gt; </a>]</td>
 <td valign="middle" align="left"> &nbsp; </td>
-<td valign="middle" align="left">[<a href="#SEC29" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC32" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
 <td valign="middle" align="left">[<a href="#SEC_Top" title="Up section"> Up </a>]</td>
-<td valign="middle" align="left">[<a href="#SEC40" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC43" title="Next chapter"> &gt;&gt; </a>]</td>
 <td valign="middle" align="left"> &nbsp; </td>
 <td valign="middle" align="left"> &nbsp; </td>
 <td valign="middle" align="left"> &nbsp; </td>
 <td valign="middle" align="left"> &nbsp; </td>
 <td valign="middle" align="left">[<a href="#SEC_Top" title="Cover (top) of document">Top</a>]</td>
 <td valign="middle" align="left">[<a href="#SEC_Contents" title="Table of contents">Contents</a>]</td>
-<td valign="middle" align="left">[<a href="#SEC40" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC43" title="Index">Index</a>]</td>
 <td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
 </tr></table>
 <h1 class="chapter"> 5. PDFgui reference sheets </h1>
 
 <table class="menu" border="0" cellspacing="0">
-<tr><td align="left" valign="top"><a href="#SEC34">5.1 PDFgui shortcut keys</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+<tr><td align="left" valign="top"><a href="#SEC37">5.1 PDFgui shortcut keys</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
 </td></tr>
-<tr><td align="left" valign="top"><a href="#SEC35">5.2 List of PDFfit2 variables</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+<tr><td align="left" valign="top"><a href="#SEC38">5.2 List of PDFfit2 variables</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
 </td></tr>
-<tr><td align="left" valign="top"><a href="#SEC39">PDF Peak Width</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+<tr><td align="left" valign="top"><a href="#SEC42">5.3 PDF Peak Width</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
 </td></tr>
 </table>
 
 <hr size="6">
 <a name="PDFgui-shortcut-keys"></a>
-<a name="SEC34"></a>
+<a name="SEC37"></a>
 <table cellpadding="1" cellspacing="1" border="0">
-<tr><td valign="middle" align="left">[<a href="#SEC33" title="Previous section in reading order"> &lt; </a>]</td>
-<td valign="middle" align="left">[<a href="#SEC35" title="Next section in reading order"> &gt; </a>]</td>
+<tr><td valign="middle" align="left">[<a href="#SEC36" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC38" title="Next section in reading order"> &gt; </a>]</td>
 <td valign="middle" align="left"> &nbsp; </td>
-<td valign="middle" align="left">[<a href="#SEC33" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
-<td valign="middle" align="left">[<a href="#SEC33" title="Up section"> Up </a>]</td>
-<td valign="middle" align="left">[<a href="#SEC40" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC36" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC36" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC43" title="Next chapter"> &gt;&gt; </a>]</td>
 <td valign="middle" align="left"> &nbsp; </td>
 <td valign="middle" align="left"> &nbsp; </td>
 <td valign="middle" align="left"> &nbsp; </td>
 <td valign="middle" align="left"> &nbsp; </td>
 <td valign="middle" align="left">[<a href="#SEC_Top" title="Cover (top) of document">Top</a>]</td>
 <td valign="middle" align="left">[<a href="#SEC_Contents" title="Table of contents">Contents</a>]</td>
-<td valign="middle" align="left">[<a href="#SEC40" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC43" title="Index">Index</a>]</td>
 <td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
 </tr></table>
 <h2 class="section"> 5.1 PDFgui shortcut keys </h2>
@@ -1989,21 +2307,21 @@ empty tree.
 
 <hr size="6">
 <a name="List-of-PDFfit2-variables"></a>
-<a name="SEC35"></a>
+<a name="SEC38"></a>
 <table cellpadding="1" cellspacing="1" border="0">
-<tr><td valign="middle" align="left">[<a href="#SEC34" title="Previous section in reading order"> &lt; </a>]</td>
-<td valign="middle" align="left">[<a href="#SEC36" title="Next section in reading order"> &gt; </a>]</td>
+<tr><td valign="middle" align="left">[<a href="#SEC37" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC39" title="Next section in reading order"> &gt; </a>]</td>
 <td valign="middle" align="left"> &nbsp; </td>
-<td valign="middle" align="left">[<a href="#SEC33" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
-<td valign="middle" align="left">[<a href="#SEC33" title="Up section"> Up </a>]</td>
-<td valign="middle" align="left">[<a href="#SEC40" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC36" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC36" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC43" title="Next chapter"> &gt;&gt; </a>]</td>
 <td valign="middle" align="left"> &nbsp; </td>
 <td valign="middle" align="left"> &nbsp; </td>
 <td valign="middle" align="left"> &nbsp; </td>
 <td valign="middle" align="left"> &nbsp; </td>
 <td valign="middle" align="left">[<a href="#SEC_Top" title="Cover (top) of document">Top</a>]</td>
 <td valign="middle" align="left">[<a href="#SEC_Contents" title="Table of contents">Contents</a>]</td>
-<td valign="middle" align="left">[<a href="#SEC40" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC43" title="Index">Index</a>]</td>
 <td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
 </tr></table>
 <h2 class="section"> 5.2 List of PDFfit2 variables </h2>
@@ -2015,28 +2333,28 @@ of these changes is provided for the convenience and orientation of those users
 that are used to the old naming scheme.
 </p>
 <hr size="6">
-<a name="SEC36"></a>
+<a name="SEC39"></a>
 <table cellpadding="1" cellspacing="1" border="0">
-<tr><td valign="middle" align="left">[<a href="#SEC35" title="Previous section in reading order"> &lt; </a>]</td>
-<td valign="middle" align="left">[<a href="#SEC37" title="Next section in reading order"> &gt; </a>]</td>
+<tr><td valign="middle" align="left">[<a href="#SEC38" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC40" title="Next section in reading order"> &gt; </a>]</td>
 <td valign="middle" align="left"> &nbsp; </td>
-<td valign="middle" align="left">[<a href="#SEC33" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
-<td valign="middle" align="left">[<a href="#SEC35" title="Up section"> Up </a>]</td>
-<td valign="middle" align="left">[<a href="#SEC40" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC36" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC38" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC43" title="Next chapter"> &gt;&gt; </a>]</td>
 <td valign="middle" align="left"> &nbsp; </td>
 <td valign="middle" align="left"> &nbsp; </td>
 <td valign="middle" align="left"> &nbsp; </td>
 <td valign="middle" align="left"> &nbsp; </td>
 <td valign="middle" align="left">[<a href="#SEC_Top" title="Cover (top) of document">Top</a>]</td>
 <td valign="middle" align="left">[<a href="#SEC_Contents" title="Table of contents">Contents</a>]</td>
-<td valign="middle" align="left">[<a href="#SEC40" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC43" title="Index">Index</a>]</td>
 <td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
 </tr></table>
 <h3 class="unnumberedsubsec"> New Variables </h3>
 
 <dl>
 <dt><u>Phase:</u> <b>spdiameter</b>
-<a name="IDX5"></a>
+<a name="IDX4"></a>
 </dt>
 <dd><p>(float &Aring;, default 0 &Aring;) <br>
 <var>spdiameter</var> is a particle diameter for PDF shape damping function.
@@ -2045,7 +2363,7 @@ Shape damping is not applied when <var>spdiameter</var> equals zero.
 
 <dl>
 <dt><u>Phase:</u> <b>stepcut</b>
-<a name="IDX6"></a>
+<a name="IDX5"></a>
 </dt>
 <dd><p>(float &Aring;, default 0 &Aring;) <br>
 The PDF is truncated to zero at r-values greater than <var>stepcut</var>, when
@@ -2054,7 +2372,7 @@ positive.
 
 <dl>
 <dt><u>Phase:</u> <b>anisotropy(n)</b>
-<a name="IDX7"></a>
+<a name="IDX6"></a>
 </dt>
 <dd><p><b>anisotropy(n)</b>
 (bool, inferred from <var>uij(n)</var> values) <br>
@@ -2065,7 +2383,7 @@ or <var>uisoequiv(n)</var> values.
 
 <dl>
 <dt><u>Phase:</u> <b>uisoequiv(n)</b>
-<a name="IDX8"></a>
+<a name="IDX7"></a>
 </dt>
 <dd><p>(float &Aring;<em>^2</em>, calculated from <var>uij(n)</var> values) <br>
 Isotropic thermal displacement of atom n or equivalent displacement for
@@ -2075,28 +2393,28 @@ constrained only for isotropic atoms.
 </p></dd></dl>
 
 <hr size="6">
-<a name="SEC37"></a>
+<a name="SEC40"></a>
 <table cellpadding="1" cellspacing="1" border="0">
-<tr><td valign="middle" align="left">[<a href="#SEC36" title="Previous section in reading order"> &lt; </a>]</td>
-<td valign="middle" align="left">[<a href="#SEC38" title="Next section in reading order"> &gt; </a>]</td>
+<tr><td valign="middle" align="left">[<a href="#SEC39" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC41" title="Next section in reading order"> &gt; </a>]</td>
 <td valign="middle" align="left"> &nbsp; </td>
-<td valign="middle" align="left">[<a href="#SEC33" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
-<td valign="middle" align="left">[<a href="#SEC35" title="Up section"> Up </a>]</td>
-<td valign="middle" align="left">[<a href="#SEC40" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC36" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC38" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC43" title="Next chapter"> &gt;&gt; </a>]</td>
 <td valign="middle" align="left"> &nbsp; </td>
 <td valign="middle" align="left"> &nbsp; </td>
 <td valign="middle" align="left"> &nbsp; </td>
 <td valign="middle" align="left"> &nbsp; </td>
 <td valign="middle" align="left">[<a href="#SEC_Top" title="Cover (top) of document">Top</a>]</td>
 <td valign="middle" align="left">[<a href="#SEC_Contents" title="Table of contents">Contents</a>]</td>
-<td valign="middle" align="left">[<a href="#SEC40" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC43" title="Index">Index</a>]</td>
 <td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
 </tr></table>
 <h3 class="unnumberedsubsec"> Renamed Variables </h3>
 
 <dl>
 <dt><u>Dataset:</u> <b>dscale</b>
-<a name="IDX9"></a>
+<a name="IDX8"></a>
 </dt>
 <dd><p>(float unitless, <var>dsca[s]</var> in PDFFIT) <br>
 Scale factor for the selected dataset.
@@ -2104,7 +2422,7 @@ Scale factor for the selected dataset.
 
 <dl>
 <dt><u>Dataset:</u> <b>qdamp</b>
-<a name="IDX10"></a>
+<a name="IDX9"></a>
 </dt>
 <dd><p>(float &Aring;<em>^\bgroup-1\egroup</em>, default 0 &Aring;<em>^\bgroup-1\egroup</em>, <var>qsig</var> in PDFFIT) <br>
 PDF Gaussian dampening envelope due to limited Q-resolution.
@@ -2114,17 +2432,17 @@ Not applied when equal to zero. The Gaussian envelope is of the form
 
 <dl>
 <dt><u>Dataset:</u> <b>qbroad</b>
-<a name="IDX11"></a>
+<a name="IDX10"></a>
 </dt>
 <dd><p>(float &Aring;<em>^\bgroup-1\egroup</em>, default 0 &Aring;<em>^\bgroup-1\egroup</em>, <var>qalp</var> in PDFFIT) <br>
 PDF peak broadening from increased intensity noise at high Q.
 Not applied when equal zero.
-See the definition of the <a href="#SEC39">PDF Peak Width</a> for a detailed explanation.
+See the definition of the <a href="#SEC42">PDF Peak Width</a> for a detailed explanation.
 </p></dd></dl>
 
 <dl>
 <dt><u>Phase:</u> <b>uij(n)</b>
-<a name="IDX12"></a>
+<a name="IDX11"></a>
 </dt>
 <dd><p>(float &Aring;<em>^2</em>, ij=(11, 22, 33, 12, 13, 23), <var>u[i,n]</var> in PDFFIT) <br>
 Elements of anisotropic displacement tensor of atom n.
@@ -2132,7 +2450,7 @@ Elements of anisotropic displacement tensor of atom n.
 
 <dl>
 <dt><u>Phase:</u> <b>occ(n)</b>
-<a name="IDX13"></a>
+<a name="IDX12"></a>
 </dt>
 <dd><p>(float unitless, <var>o[n]</var> in PDFFIT) <br>
 Occupancy of site n.
@@ -2140,7 +2458,7 @@ Occupancy of site n.
 
 <dl>
 <dt><u>Phase:</u> <b>pscale</b>
-<a name="IDX14"></a>
+<a name="IDX13"></a>
 </dt>
 <dd><p>(float unitless, <var>csca[p]</var> in PDFFIT) <br>
 Scale factor of the current phase.
@@ -2148,25 +2466,25 @@ Scale factor of the current phase.
 
 <dl>
 <dt><u>Phase:</u> <b>delta1</b>
-<a name="IDX15"></a>
+<a name="IDX14"></a>
 </dt>
 <dd><p>(float &Aring;, default 0 &Aring;, <var>gamm</var> in PDFFIT) <br>
 Coefficient for (1/r) contribution to the peak sharpening.
-See the definition of the <a href="#SEC39">PDF Peak Width</a> for a detailed explanation.
+See the definition of the <a href="#SEC42">PDF Peak Width</a> for a detailed explanation.
 </p></dd></dl>
 
 <dl>
 <dt><u>Phase:</u> <b>delta2</b>
-<a name="IDX16"></a>
+<a name="IDX15"></a>
 </dt>
 <dd><p>(float &Aring;<em>^2</em>, default 0 &Aring;<em>^2</em>, <var>delt</var> in PDFFIT) <br>
 Coefficient for 1/r<em>^2</em> contribution to the peak sharpening.
-See the definition of the <a href="#SEC39">PDF Peak Width</a> for a detailed explanation.
+See the definition of the <a href="#SEC42">PDF Peak Width</a> for a detailed explanation.
 </p></dd></dl>
 
 <dl>
 <dt><u>Phase:</u> <b>sratio</b>
-<a name="IDX17"></a>
+<a name="IDX16"></a>
 </dt>
 <dd><p>(float unitless, default 1, <var>srat</var> in PDFFIT) <br>
 Sigma ratio for bonded atoms.  Reduction factor for PDF peak width accounting
@@ -2174,28 +2492,28 @@ for correlated motion of bonded atoms.
 </p></dd></dl>
 
 <hr size="6">
-<a name="SEC38"></a>
+<a name="SEC41"></a>
 <table cellpadding="1" cellspacing="1" border="0">
-<tr><td valign="middle" align="left">[<a href="#SEC37" title="Previous section in reading order"> &lt; </a>]</td>
-<td valign="middle" align="left">[<a href="#SEC39" title="Next section in reading order"> &gt; </a>]</td>
+<tr><td valign="middle" align="left">[<a href="#SEC40" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC42" title="Next section in reading order"> &gt; </a>]</td>
 <td valign="middle" align="left"> &nbsp; </td>
-<td valign="middle" align="left">[<a href="#SEC33" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
-<td valign="middle" align="left">[<a href="#SEC35" title="Up section"> Up </a>]</td>
-<td valign="middle" align="left">[<a href="#SEC40" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC36" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC38" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC43" title="Next chapter"> &gt;&gt; </a>]</td>
 <td valign="middle" align="left"> &nbsp; </td>
 <td valign="middle" align="left"> &nbsp; </td>
 <td valign="middle" align="left"> &nbsp; </td>
 <td valign="middle" align="left"> &nbsp; </td>
 <td valign="middle" align="left">[<a href="#SEC_Top" title="Cover (top) of document">Top</a>]</td>
 <td valign="middle" align="left">[<a href="#SEC_Contents" title="Table of contents">Contents</a>]</td>
-<td valign="middle" align="left">[<a href="#SEC40" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC43" title="Index">Index</a>]</td>
 <td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
 </tr></table>
 <h3 class="unnumberedsubsec"> Preserved Variables </h3>
 
 <dl>
 <dt><u>Dataset:</u> <b>qmax</b>
-<a name="IDX18"></a>
+<a name="IDX17"></a>
 </dt>
 <dd><p>(float &Aring;<em>^\bgroup-1\egroup</em>, default 0 &Aring;) <br>
 <var>qmax</var> cutoff is an experimental parameter having fixed
@@ -2215,7 +2533,7 @@ in <i>G'</i> are ignored as they are only due to roundoff errors.
 
 <dl>
 <dt><u>Phase:</u> <b>lat(i)</b>
-<a name="IDX19"></a>
+<a name="IDX18"></a>
 </dt>
 <dd><p>(float &Aring; or degrees, i=1,2,...,6) <br>
 Lattice parameters a, b, c, alpha, beta, gamma of the current phase.
@@ -2224,7 +2542,7 @@ Can be also used as lat('a') etc.
 
 <dl>
 <dt><u>Phase:</u> <b>x(n), y(n), z(n)</b>
-<a name="IDX20"></a>
+<a name="IDX19"></a>
 </dt>
 <dd><p>(float unitless) <br>
 Fractional coordinates for atom n.
@@ -2232,7 +2550,7 @@ Fractional coordinates for atom n.
 
 <dl>
 <dt><u>Phase:</u> <b>rcut</b>
-<a name="IDX21"></a>
+<a name="IDX20"></a>
 </dt>
 <dd><p>(float &Aring;, default 0 &Aring;) <br>
 Radius cutoff for applying <var>sratio</var> sharpening factor.
@@ -2240,24 +2558,24 @@ Radius cutoff for applying <var>sratio</var> sharpening factor.
 
 <hr size="6">
 <a name="PDF-Peak-Width"></a>
-<a name="SEC39"></a>
+<a name="SEC42"></a>
 <table cellpadding="1" cellspacing="1" border="0">
-<tr><td valign="middle" align="left">[<a href="#SEC38" title="Previous section in reading order"> &lt; </a>]</td>
-<td valign="middle" align="left">[<a href="#SEC40" title="Next section in reading order"> &gt; </a>]</td>
+<tr><td valign="middle" align="left">[<a href="#SEC41" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC43" title="Next section in reading order"> &gt; </a>]</td>
 <td valign="middle" align="left"> &nbsp; </td>
-<td valign="middle" align="left">[<a href="#SEC33" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
-<td valign="middle" align="left">[<a href="#SEC35" title="Up section"> Up </a>]</td>
-<td valign="middle" align="left">[<a href="#SEC40" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC36" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC36" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC43" title="Next chapter"> &gt;&gt; </a>]</td>
 <td valign="middle" align="left"> &nbsp; </td>
 <td valign="middle" align="left"> &nbsp; </td>
 <td valign="middle" align="left"> &nbsp; </td>
 <td valign="middle" align="left"> &nbsp; </td>
 <td valign="middle" align="left">[<a href="#SEC_Top" title="Cover (top) of document">Top</a>]</td>
 <td valign="middle" align="left">[<a href="#SEC_Contents" title="Table of contents">Contents</a>]</td>
-<td valign="middle" align="left">[<a href="#SEC40" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC43" title="Index">Index</a>]</td>
 <td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
 </tr></table>
-<h3 class="unnumberedsubsec"> PDF Peak Width </h3>
+<h2 class="section"> 5.3 PDF Peak Width </h2>
 
 <p>The PDF peak width contains contributions from thermal and zero point
 displacements as well as static disorder. For large distances <i>r</i> the motion
@@ -2281,12 +2599,12 @@ peaks which is modeled using the parameter <var>qdamp</var>.
 </p>
 <hr size="6">
 <a name="Index"></a>
-<a name="SEC40"></a>
+<a name="SEC43"></a>
 <table cellpadding="1" cellspacing="1" border="0">
-<tr><td valign="middle" align="left">[<a href="#SEC39" title="Previous section in reading order"> &lt; </a>]</td>
+<tr><td valign="middle" align="left">[<a href="#SEC42" title="Previous section in reading order"> &lt; </a>]</td>
 <td valign="middle" align="left">[ &gt; ]</td>
 <td valign="middle" align="left"> &nbsp; </td>
-<td valign="middle" align="left">[<a href="#SEC33" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC36" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
 <td valign="middle" align="left">[<a href="#SEC_Top" title="Up section"> Up </a>]</td>
 <td valign="middle" align="left">[ &gt;&gt; ]</td>
 <td valign="middle" align="left"> &nbsp; </td>
@@ -2295,169 +2613,174 @@ peaks which is modeled using the parameter <var>qdamp</var>.
 <td valign="middle" align="left"> &nbsp; </td>
 <td valign="middle" align="left">[<a href="#SEC_Top" title="Cover (top) of document">Top</a>]</td>
 <td valign="middle" align="left">[<a href="#SEC_Contents" title="Table of contents">Contents</a>]</td>
-<td valign="middle" align="left">[<a href="#SEC40" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC43" title="Index">Index</a>]</td>
 <td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
 </tr></table>
 <h1 class="unnumbered"> Index </h1>
 
-<table><tr><th valign="top">Jump to: &nbsp; </th><td><a href="#SEC40_0" class="summary-letter"><b>A</b></a>
+<table><tr><th valign="top">Jump to: &nbsp; </th><td><a href="#SEC43_0" class="summary-letter"><b>A</b></a>
  &nbsp; 
-<a href="#SEC40_1" class="summary-letter"><b>B</b></a>
+<a href="#SEC43_1" class="summary-letter"><b>B</b></a>
  &nbsp; 
-<a href="#SEC40_2" class="summary-letter"><b>C</b></a>
+<a href="#SEC43_2" class="summary-letter"><b>C</b></a>
  &nbsp; 
-<a href="#SEC40_3" class="summary-letter"><b>D</b></a>
+<a href="#SEC43_3" class="summary-letter"><b>D</b></a>
  &nbsp; 
-<a href="#SEC40_4" class="summary-letter"><b>E</b></a>
+<a href="#SEC43_4" class="summary-letter"><b>E</b></a>
  &nbsp; 
-<a href="#SEC40_5" class="summary-letter"><b>F</b></a>
+<a href="#SEC43_5" class="summary-letter"><b>F</b></a>
  &nbsp; 
-<a href="#SEC40_6" class="summary-letter"><b>H</b></a>
+<a href="#SEC43_6" class="summary-letter"><b>H</b></a>
  &nbsp; 
-<a href="#SEC40_7" class="summary-letter"><b>I</b></a>
+<a href="#SEC43_7" class="summary-letter"><b>I</b></a>
  &nbsp; 
-<a href="#SEC40_8" class="summary-letter"><b>L</b></a>
+<a href="#SEC43_8" class="summary-letter"><b>M</b></a>
  &nbsp; 
-<a href="#SEC40_9" class="summary-letter"><b>M</b></a>
+<a href="#SEC43_9" class="summary-letter"><b>N</b></a>
  &nbsp; 
-<a href="#SEC40_10" class="summary-letter"><b>N</b></a>
+<a href="#SEC43_10" class="summary-letter"><b>P</b></a>
  &nbsp; 
-<a href="#SEC40_11" class="summary-letter"><b>P</b></a>
+<a href="#SEC43_11" class="summary-letter"><b>Q</b></a>
  &nbsp; 
-<a href="#SEC40_12" class="summary-letter"><b>Q</b></a>
+<a href="#SEC43_12" class="summary-letter"><b>R</b></a>
  &nbsp; 
-<a href="#SEC40_13" class="summary-letter"><b>R</b></a>
+<a href="#SEC43_13" class="summary-letter"><b>S</b></a>
  &nbsp; 
-<a href="#SEC40_14" class="summary-letter"><b>S</b></a>
+<a href="#SEC43_14" class="summary-letter"><b>T</b></a>
  &nbsp; 
-<a href="#SEC40_15" class="summary-letter"><b>T</b></a>
+<a href="#SEC43_15" class="summary-letter"><b>U</b></a>
  &nbsp; 
-<a href="#SEC40_16" class="summary-letter"><b>U</b></a>
+<a href="#SEC43_16" class="summary-letter"><b>V</b></a>
  &nbsp; 
-<a href="#SEC40_17" class="summary-letter"><b>V</b></a>
+<a href="#SEC43_17" class="summary-letter"><b>W</b></a>
  &nbsp; 
 </td></tr></table>
 <table border="0" class="index-cp">
 <tr><td></td><th align="left">Index Entry</th><th align="left"> Section</th></tr>
 <tr><td colspan="3"> <hr></td></tr>
-<tr><th><a name="SEC40_0">A</a></th><td></td><td></td></tr>
-<tr><td></td><td valign="top"><a href="#Top">acknowledgments</a></td><td valign="top"><a href="#SEC_Top"></a></td></tr>
-<tr><td></td><td valign="top"><a href="#SEC32">advanced usage</a></td><td valign="top"><a href="#SEC32">4.3 Advanced usage and special needs</a></td></tr>
+<tr><th><a name="SEC43_0">A</a></th><td></td><td></td></tr>
+<tr><td></td><td valign="top"><a href="#SEC1">acknowledgments</a></td><td valign="top"><a href="#SEC1">Acknowledgments</a></td></tr>
+<tr><td></td><td valign="top"><a href="#SEC35">advanced usage</a></td><td valign="top"><a href="#SEC35">4.3 Advanced usage and special needs</a></td></tr>
 <tr><td></td><td valign="top"><a href="#SEC10">availability</a></td><td valign="top"><a href="#SEC10">1.3 Availability</a></td></tr>
 <tr><td colspan="3"> <hr></td></tr>
-<tr><th><a name="SEC40_1">B</a></th><td></td><td></td></tr>
-<tr><td></td><td valign="top"><a href="#SEC21">building structure from scratch</a></td><td valign="top"><a href="#SEC21">3.1 Building structure model using crystal symmetry</a></td></tr>
+<tr><th><a name="SEC43_1">B</a></th><td></td><td></td></tr>
+<tr><td></td><td valign="top"><a href="#SEC23">building structure from scratch</a></td><td valign="top"><a href="#SEC23">3.1 Building structure model using crystal symmetry</a></td></tr>
 <tr><td colspan="3"> <hr></td></tr>
-<tr><th><a name="SEC40_2">C</a></th><td></td><td></td></tr>
-<tr><td></td><td valign="top"><a href="#SEC22">calculating PDF</a></td><td valign="top"><a href="#SEC22">3.2 Calculating PDF from a structure</a></td></tr>
-<tr><td></td><td valign="top"><a href="#SEC16">Community</a></td><td valign="top"><a href="#SEC16">1.5 Community</a></td></tr>
-<tr><td></td><td valign="top"><a href="#IDX1">copyright</a></td><td valign="top"><a href="#SEC_Top"></a></td></tr>
+<tr><th><a name="SEC43_2">C</a></th><td></td><td></td></tr>
+<tr><td></td><td valign="top"><a href="#SEC24">calculating PDF</a></td><td valign="top"><a href="#SEC24">3.2 Calculating PDF from a structure</a></td></tr>
+<tr><td></td><td valign="top"><a href="#SEC18">Community</a></td><td valign="top"><a href="#SEC18">1.6 Community</a></td></tr>
+<tr><td></td><td valign="top"><a href="#IDX1">copyright</a></td><td valign="top"><a href="#SEC1">Acknowledgments</a></td></tr>
 <tr><td colspan="3"> <hr></td></tr>
-<tr><th><a name="SEC40_3">D</a></th><td></td><td></td></tr>
-<tr><td></td><td valign="top"><a href="#SEC31">displaying the structure</a></td><td valign="top"><a href="#SEC31">4.2 Displaying the structure</a></td></tr>
-<tr><td></td><td valign="top"><a href="#SEC27">doping series</a></td><td valign="top"><a href="#SEC27">3.3.4 Sequential fitting of doping series</a></td></tr>
+<tr><th><a name="SEC43_3">D</a></th><td></td><td></td></tr>
+<tr><td></td><td valign="top"><a href="#SEC30">data extraction</a></td><td valign="top"><a href="#SEC30">3.3.5 Advanced post-processing of sequential refinement</a></td></tr>
+<tr><td></td><td valign="top"><a href="#IDX2">debugging</a></td><td valign="top"><a href="#SEC14">Subversion repository</a></td></tr>
+<tr><td></td><td valign="top"><a href="#SEC34">displaying the structure</a></td><td valign="top"><a href="#SEC34">4.2 Displaying the structure</a></td></tr>
+<tr><td></td><td valign="top"><a href="#SEC29">doping series</a></td><td valign="top"><a href="#SEC29">3.3.4 Sequential fitting of doping series</a></td></tr>
 <tr><td colspan="3"> <hr></td></tr>
-<tr><th><a name="SEC40_4">E</a></th><td></td><td></td></tr>
-<tr><td></td><td valign="top"><a href="#SEC20">examples</a></td><td valign="top"><a href="#SEC20">3. Examples and tutorials</a></td></tr>
-<tr><td></td><td valign="top"><a href="#SEC29">extras</a></td><td valign="top"><a href="#SEC29">4. Extras</a></td></tr>
+<tr><th><a name="SEC43_4">E</a></th><td></td><td></td></tr>
+<tr><td></td><td valign="top"><a href="#SEC22">examples</a></td><td valign="top"><a href="#SEC22">3. Examples and tutorials</a></td></tr>
+<tr><td></td><td valign="top"><a href="#SEC32">extras</a></td><td valign="top"><a href="#SEC32">4. Extras</a></td></tr>
 <tr><td colspan="3"> <hr></td></tr>
-<tr><th><a name="SEC40_5">F</a></th><td></td><td></td></tr>
-<tr><td></td><td valign="top"><a href="#SEC19">fit</a></td><td valign="top"><a href="#SEC19">2.2 Creating a simple fit using a preexisting structure file</a></td></tr>
-<tr><td></td><td valign="top"><a href="#IDX2">fit</a></td><td valign="top"><a href="#SEC19">2.2 Creating a simple fit using a preexisting structure file</a></td></tr>
+<tr><th><a name="SEC43_5">F</a></th><td></td><td></td></tr>
+<tr><td></td><td valign="top"><a href="#SEC21">fit configuration</a></td><td valign="top"><a href="#SEC21">2.2 Creating a simple fit using a preexisting structure file</a></td></tr>
 <tr><td colspan="3"> <hr></td></tr>
-<tr><th><a name="SEC40_6">H</a></th><td></td><td></td></tr>
-<tr><td></td><td valign="top"><a href="#SEC34">hot keys</a></td><td valign="top"><a href="#SEC34">5.1 PDFgui shortcut keys</a></td></tr>
+<tr><th><a name="SEC43_6">H</a></th><td></td><td></td></tr>
+<tr><td></td><td valign="top"><a href="#SEC37">hot keys</a></td><td valign="top"><a href="#SEC37">5.1 PDFgui shortcut keys</a></td></tr>
 <tr><td colspan="3"> <hr></td></tr>
-<tr><th><a name="SEC40_7">I</a></th><td></td><td></td></tr>
+<tr><th><a name="SEC43_7">I</a></th><td></td><td></td></tr>
 <tr><td></td><td valign="top"><a href="#SEC11">installation</a></td><td valign="top"><a href="#SEC11">1.4 Installation</a></td></tr>
 <tr><td></td><td valign="top"><a href="#SEC5">introduction</a></td><td valign="top"><a href="#SEC5">1. Introduction</a></td></tr>
-<tr><td></td><td valign="top"><a href="#IDX4">isotope</a></td><td valign="top"><a href="#SEC_Foot"></a></td></tr>
+<tr><td></td><td valign="top"><a href="#IDX3">isotope</a></td><td valign="top"><a href="#SEC_Foot"></a></td></tr>
 <tr><td colspan="3"> <hr></td></tr>
-<tr><th><a name="SEC40_8">L</a></th><td></td><td></td></tr>
-<tr><td></td><td valign="top"><a href="#SEC35">list of variables</a></td><td valign="top"><a href="#SEC35">5.2 List of PDFfit2 variables</a></td></tr>
+<tr><th><a name="SEC43_8">M</a></th><td></td><td></td></tr>
+<tr><td></td><td valign="top"><a href="#SEC18">mail-list</a></td><td valign="top"><a href="#SEC18">1.6 Community</a></td></tr>
+<tr><td></td><td valign="top"><a href="#SEC26">multistage fitting</a></td><td valign="top"><a href="#SEC26">3.3.1 Multistage fitting</a></td></tr>
 <tr><td colspan="3"> <hr></td></tr>
-<tr><th><a name="SEC40_9">M</a></th><td></td><td></td></tr>
-<tr><td></td><td valign="top"><a href="#SEC16">mail-list</a></td><td valign="top"><a href="#SEC16">1.5 Community</a></td></tr>
-<tr><td></td><td valign="top"><a href="#SEC24">multistage fitting</a></td><td valign="top"><a href="#SEC24">3.3.1 Multistage fitting</a></td></tr>
+<tr><th><a name="SEC43_9">N</a></th><td></td><td></td></tr>
+<tr><td></td><td valign="top"><a href="#SEC31">nanoparticle diameter</a></td><td valign="top"><a href="#SEC31">3.4 Nanoparticle structure</a></td></tr>
+<tr><td></td><td valign="top"><a href="#SEC31">nanoparticle structure</a></td><td valign="top"><a href="#SEC31">3.4 Nanoparticle structure</a></td></tr>
 <tr><td colspan="3"> <hr></td></tr>
-<tr><th><a name="SEC40_10">N</a></th><td></td><td></td></tr>
-<tr><td></td><td valign="top"><a href="#SEC28">nanoparticle diameter</a></td><td valign="top"><a href="#SEC28">3.4 Nanoparticle structure</a></td></tr>
-<tr><td></td><td valign="top"><a href="#SEC28">nanoparticle structure</a></td><td valign="top"><a href="#SEC28">3.4 Nanoparticle structure</a></td></tr>
-<tr><td colspan="3"> <hr></td></tr>
-<tr><th><a name="SEC40_11">P</a></th><td></td><td></td></tr>
-<tr><td></td><td valign="top"><a href="#SEC30">PDF plotting</a></td><td valign="top"><a href="#SEC30">4.1 PDF plotting</a></td></tr>
+<tr><th><a name="SEC43_10">P</a></th><td></td><td></td></tr>
+<tr><td></td><td valign="top"><a href="#SEC33">PDF plotting</a></td><td valign="top"><a href="#SEC33">4.1 PDF plotting</a></td></tr>
 <tr><td></td><td valign="top"><a href="#SEC6">PDFfit2</a></td><td valign="top"><a href="#SEC6">1.1 PDFfit2</a></td></tr>
-<tr><td></td><td valign="top"><a href="#SEC35">PDFfit2 variables</a></td><td valign="top"><a href="#SEC35">5.2 List of PDFfit2 variables</a></td></tr>
+<tr><td></td><td valign="top"><a href="#SEC38">PDFfit2 variables</a></td><td valign="top"><a href="#SEC38">5.2 List of PDFfit2 variables</a></td></tr>
 <tr><td></td><td valign="top"><a href="#SEC7">PDFgui</a></td><td valign="top"><a href="#SEC7">1.2 PDFgui</a></td></tr>
-<tr><td></td><td valign="top"><a href="#SEC18">PDFgui layout</a></td><td valign="top"><a href="#SEC18">2.1 PDFgui layout</a></td></tr>
-<tr><td></td><td valign="top"><a href="#SEC33">PDFgui reference sheets</a></td><td valign="top"><a href="#SEC33">5. PDFgui reference sheets</a></td></tr>
-<tr><td></td><td valign="top"><a href="#SEC34">PDFgui shortcut keys</a></td><td valign="top"><a href="#SEC34">5.1 PDFgui shortcut keys</a></td></tr>
+<tr><td></td><td valign="top"><a href="#SEC20">PDFgui layout</a></td><td valign="top"><a href="#SEC20">2.1 PDFgui layout</a></td></tr>
+<tr><td></td><td valign="top"><a href="#SEC36">PDFgui reference sheets</a></td><td valign="top"><a href="#SEC36">5. PDFgui reference sheets</a></td></tr>
+<tr><td></td><td valign="top"><a href="#SEC37">PDFgui shortcut keys</a></td><td valign="top"><a href="#SEC37">5.1 PDFgui shortcut keys</a></td></tr>
+<tr><td></td><td valign="top"><a href="#SEC30">project post-processing</a></td><td valign="top"><a href="#SEC30">3.3.5 Advanced post-processing of sequential refinement</a></td></tr>
 <tr><td colspan="3"> <hr></td></tr>
-<tr><th><a name="SEC40_12">Q</a></th><td></td><td></td></tr>
-<tr><td></td><td valign="top"><a href="#SEC17">quick start</a></td><td valign="top"><a href="#SEC17">2. Quick start</a></td></tr>
+<tr><th><a name="SEC43_11">Q</a></th><td></td><td></td></tr>
+<tr><td></td><td valign="top"><a href="#SEC19">quick start</a></td><td valign="top"><a href="#SEC19">2. Quick start</a></td></tr>
 <tr><td colspan="3"> <hr></td></tr>
-<tr><th><a name="SEC40_13">R</a></th><td></td><td></td></tr>
-<tr><td></td><td valign="top"><a href="#SEC25">r-series</a></td><td valign="top"><a href="#SEC25">3.3.2 Sequential fitting of incremental r-series</a></td></tr>
-<tr><td></td><td valign="top"><a href="#SEC33">reference sheets</a></td><td valign="top"><a href="#SEC33">5. PDFgui reference sheets</a></td></tr>
-<tr><td></td><td valign="top"><a href="#SEC19">refinement</a></td><td valign="top"><a href="#SEC19">2.2 Creating a simple fit using a preexisting structure file</a></td></tr>
-<tr><td></td><td valign="top"><a href="#IDX3">refinement</a></td><td valign="top"><a href="#SEC19">2.2 Creating a simple fit using a preexisting structure file</a></td></tr>
+<tr><th><a name="SEC43_12">R</a></th><td></td><td></td></tr>
+<tr><td></td><td valign="top"><a href="#SEC27">r-series</a></td><td valign="top"><a href="#SEC27">3.3.2 Sequential fitting of incremental r-series</a></td></tr>
+<tr><td></td><td valign="top"><a href="#SEC36">reference sheets</a></td><td valign="top"><a href="#SEC36">5. PDFgui reference sheets</a></td></tr>
+<tr><td></td><td valign="top"><a href="#SEC21">refinement configuration</a></td><td valign="top"><a href="#SEC21">2.2 Creating a simple fit using a preexisting structure file</a></td></tr>
 <tr><td colspan="3"> <hr></td></tr>
-<tr><th><a name="SEC40_14">S</a></th><td></td><td></td></tr>
-<tr><td></td><td valign="top"><a href="#SEC23">sequential fitting</a></td><td valign="top"><a href="#SEC23">3.3 Sequential fitting</a></td></tr>
-<tr><td></td><td valign="top"><a href="#SEC25">sequential fitting</a></td><td valign="top"><a href="#SEC25">3.3.2 Sequential fitting of incremental r-series</a></td></tr>
-<tr><td></td><td valign="top"><a href="#SEC26">sequential fitting</a></td><td valign="top"><a href="#SEC26">3.3.3 Sequential fitting of temperature series</a></td></tr>
-<tr><td></td><td valign="top"><a href="#SEC27">sequential fitting</a></td><td valign="top"><a href="#SEC27">3.3.4 Sequential fitting of doping series</a></td></tr>
-<tr><td></td><td valign="top"><a href="#SEC34">shortcuts</a></td><td valign="top"><a href="#SEC34">5.1 PDFgui shortcut keys</a></td></tr>
-<tr><td></td><td valign="top"><a href="#SEC19">simple fit</a></td><td valign="top"><a href="#SEC19">2.2 Creating a simple fit using a preexisting structure file</a></td></tr>
-<tr><td></td><td valign="top"><a href="#SEC32">special needs</a></td><td valign="top"><a href="#SEC32">4.3 Advanced usage and special needs</a></td></tr>
-<tr><td></td><td valign="top"><a href="#SEC21">symmetry expansion</a></td><td valign="top"><a href="#SEC21">3.1 Building structure model using crystal symmetry</a></td></tr>
+<tr><th><a name="SEC43_13">S</a></th><td></td><td></td></tr>
+<tr><td></td><td valign="top"><a href="#SEC25">sequential fitting</a></td><td valign="top"><a href="#SEC25">3.3 Sequential fitting</a></td></tr>
+<tr><td></td><td valign="top"><a href="#SEC27">sequential fitting</a></td><td valign="top"><a href="#SEC27">3.3.2 Sequential fitting of incremental r-series</a></td></tr>
+<tr><td></td><td valign="top"><a href="#SEC28">sequential fitting</a></td><td valign="top"><a href="#SEC28">3.3.3 Sequential fitting of temperature series</a></td></tr>
+<tr><td></td><td valign="top"><a href="#SEC29">sequential fitting</a></td><td valign="top"><a href="#SEC29">3.3.4 Sequential fitting of doping series</a></td></tr>
+<tr><td></td><td valign="top"><a href="#SEC37">shortcuts</a></td><td valign="top"><a href="#SEC37">5.1 PDFgui shortcut keys</a></td></tr>
+<tr><td></td><td valign="top"><a href="#SEC35">special needs</a></td><td valign="top"><a href="#SEC35">4.3 Advanced usage and special needs</a></td></tr>
+<tr><td></td><td valign="top"><a href="#SEC34">structure visualization</a></td><td valign="top"><a href="#SEC34">4.2 Displaying the structure</a></td></tr>
+<tr><td></td><td valign="top"><a href="#SEC14">subversion</a></td><td valign="top"><a href="#SEC14">Subversion repository</a></td></tr>
+<tr><td></td><td valign="top"><a href="#SEC23">symmetry expansion</a></td><td valign="top"><a href="#SEC23">3.1 Building structure model using crystal symmetry</a></td></tr>
 <tr><td colspan="3"> <hr></td></tr>
-<tr><th><a name="SEC40_15">T</a></th><td></td><td></td></tr>
-<tr><td></td><td valign="top"><a href="#SEC26">temperature series</a></td><td valign="top"><a href="#SEC26">3.3.3 Sequential fitting of temperature series</a></td></tr>
-<tr><td></td><td valign="top"><a href="#SEC20">tutorials</a></td><td valign="top"><a href="#SEC20">3. Examples and tutorials</a></td></tr>
+<tr><th><a name="SEC43_14">T</a></th><td></td><td></td></tr>
+<tr><td></td><td valign="top"><a href="#SEC28">temperature series</a></td><td valign="top"><a href="#SEC28">3.3.3 Sequential fitting of temperature series</a></td></tr>
+<tr><td></td><td valign="top"><a href="#SEC30">tui scripts</a></td><td valign="top"><a href="#SEC30">3.3.5 Advanced post-processing of sequential refinement</a></td></tr>
+<tr><td></td><td valign="top"><a href="#SEC22">tutorials</a></td><td valign="top"><a href="#SEC22">3. Examples and tutorials</a></td></tr>
 <tr><td colspan="3"> <hr></td></tr>
-<tr><th><a name="SEC40_16">U</a></th><td></td><td></td></tr>
-<tr><td></td><td valign="top"><a href="#SEC16">user groups</a></td><td valign="top"><a href="#SEC16">1.5 Community</a></td></tr>
+<tr><th><a name="SEC43_15">U</a></th><td></td><td></td></tr>
+<tr><td></td><td valign="top"><a href="#SEC18">user groups</a></td><td valign="top"><a href="#SEC18">1.6 Community</a></td></tr>
 <tr><td colspan="3"> <hr></td></tr>
-<tr><th><a name="SEC40_17">V</a></th><td></td><td></td></tr>
-<tr><td></td><td valign="top"><a href="#SEC35">variables</a></td><td valign="top"><a href="#SEC35">5.2 List of PDFfit2 variables</a></td></tr>
+<tr><th><a name="SEC43_16">V</a></th><td></td><td></td></tr>
+<tr><td></td><td valign="top"><a href="#SEC38">variables</a></td><td valign="top"><a href="#SEC38">5.2 List of PDFfit2 variables</a></td></tr>
+<tr><td></td><td valign="top"><a href="#SEC16">versions</a></td><td valign="top"><a href="#SEC16">1.5 What is new</a></td></tr>
+<tr><td></td><td valign="top"><a href="#SEC15">visualization setup</a></td><td valign="top"><a href="#SEC15">Configure Structure Visualization</a></td></tr>
+<tr><td colspan="3"> <hr></td></tr>
+<tr><th><a name="SEC43_17">W</a></th><td></td><td></td></tr>
+<tr><td></td><td valign="top"><a href="#SEC16">whatisnew</a></td><td valign="top"><a href="#SEC16">1.5 What is new</a></td></tr>
 <tr><td colspan="3"> <hr></td></tr>
 </table>
-<table><tr><th valign="top">Jump to: &nbsp; </th><td><a href="#SEC40_0" class="summary-letter"><b>A</b></a>
+<table><tr><th valign="top">Jump to: &nbsp; </th><td><a href="#SEC43_0" class="summary-letter"><b>A</b></a>
  &nbsp; 
-<a href="#SEC40_1" class="summary-letter"><b>B</b></a>
+<a href="#SEC43_1" class="summary-letter"><b>B</b></a>
  &nbsp; 
-<a href="#SEC40_2" class="summary-letter"><b>C</b></a>
+<a href="#SEC43_2" class="summary-letter"><b>C</b></a>
  &nbsp; 
-<a href="#SEC40_3" class="summary-letter"><b>D</b></a>
+<a href="#SEC43_3" class="summary-letter"><b>D</b></a>
  &nbsp; 
-<a href="#SEC40_4" class="summary-letter"><b>E</b></a>
+<a href="#SEC43_4" class="summary-letter"><b>E</b></a>
  &nbsp; 
-<a href="#SEC40_5" class="summary-letter"><b>F</b></a>
+<a href="#SEC43_5" class="summary-letter"><b>F</b></a>
  &nbsp; 
-<a href="#SEC40_6" class="summary-letter"><b>H</b></a>
+<a href="#SEC43_6" class="summary-letter"><b>H</b></a>
  &nbsp; 
-<a href="#SEC40_7" class="summary-letter"><b>I</b></a>
+<a href="#SEC43_7" class="summary-letter"><b>I</b></a>
  &nbsp; 
-<a href="#SEC40_8" class="summary-letter"><b>L</b></a>
+<a href="#SEC43_8" class="summary-letter"><b>M</b></a>
  &nbsp; 
-<a href="#SEC40_9" class="summary-letter"><b>M</b></a>
+<a href="#SEC43_9" class="summary-letter"><b>N</b></a>
  &nbsp; 
-<a href="#SEC40_10" class="summary-letter"><b>N</b></a>
+<a href="#SEC43_10" class="summary-letter"><b>P</b></a>
  &nbsp; 
-<a href="#SEC40_11" class="summary-letter"><b>P</b></a>
+<a href="#SEC43_11" class="summary-letter"><b>Q</b></a>
  &nbsp; 
-<a href="#SEC40_12" class="summary-letter"><b>Q</b></a>
+<a href="#SEC43_12" class="summary-letter"><b>R</b></a>
  &nbsp; 
-<a href="#SEC40_13" class="summary-letter"><b>R</b></a>
+<a href="#SEC43_13" class="summary-letter"><b>S</b></a>
  &nbsp; 
-<a href="#SEC40_14" class="summary-letter"><b>S</b></a>
+<a href="#SEC43_14" class="summary-letter"><b>T</b></a>
  &nbsp; 
-<a href="#SEC40_15" class="summary-letter"><b>T</b></a>
+<a href="#SEC43_15" class="summary-letter"><b>U</b></a>
  &nbsp; 
-<a href="#SEC40_16" class="summary-letter"><b>U</b></a>
+<a href="#SEC43_16" class="summary-letter"><b>V</b></a>
  &nbsp; 
-<a href="#SEC40_17" class="summary-letter"><b>V</b></a>
+<a href="#SEC43_17" class="summary-letter"><b>W</b></a>
  &nbsp; 
 </td></tr></table>
 
@@ -2466,13 +2789,18 @@ peaks which is modeled using the parameter <var>qdamp</var>.
 <table cellpadding="1" cellspacing="1" border="0">
 <tr><td valign="middle" align="left">[<a href="#SEC_Top" title="Cover (top) of document">Top</a>]</td>
 <td valign="middle" align="left">[<a href="#SEC_Contents" title="Table of contents">Contents</a>]</td>
-<td valign="middle" align="left">[<a href="#SEC40" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC43" title="Index">Index</a>]</td>
 <td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
 </tr></table>
 <h1>Footnotes</h1>
 <h3><a name="FOOT1" href="#DOCF1">(1)</a></h3>
 
-<a name="IDX4"></a>
+<p>Some Python distributions already have these packages installed,
+for example Enthought Python <a href="http://www.enthought.com/">http://www.enthought.com/</a> or PythonXY
+<a href="http://www.pythonxy.com/">http://www.pythonxy.com/</a>.
+</p><h3><a name="FOOT2" href="#DOCF2">(2)</a></h3>
+
+<a name="IDX3"></a>
 <p>To enter a specific isotope, use the &ldquo;NucleonNumber-Symbol&rdquo; syntax,
 for example &ldquo;12-C&rdquo;.  This does not apply for deuterium and tricium, which
 have isotope symbols &ldquo;D&rdquo; and &ldquo;T&rdquo;.
@@ -2481,7 +2809,7 @@ have isotope symbols &ldquo;D&rdquo; and &ldquo;T&rdquo;.
 <table cellpadding="1" cellspacing="1" border="0">
 <tr><td valign="middle" align="left">[<a href="#SEC_Top" title="Cover (top) of document">Top</a>]</td>
 <td valign="middle" align="left">[<a href="#SEC_Contents" title="Table of contents">Contents</a>]</td>
-<td valign="middle" align="left">[<a href="#SEC40" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC43" title="Index">Index</a>]</td>
 <td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
 </tr></table>
 <h1>Table of Contents</h1>
@@ -2500,49 +2828,53 @@ have isotope symbols &ldquo;D&rdquo; and &ldquo;T&rdquo;.
     <li><a name="TOC7" href="#SEC11">1.4 Installation</a>
     <ul class="toc">
       <li><a name="TOC8" href="#SEC12">Windows</a></li>
-      <li><a name="TOC9" href="#SEC13">Unix/Linux/MAC</a></li>
-      <li><a name="TOC10" href="#SEC14">Building from Subversion repository</a></li>
-      <li><a name="TOC11" href="#SEC15">Structure Visualization</a></li>
+      <li><a name="TOC9" href="#SEC13">Linux, Mac, Unix</a></li>
+      <li><a name="TOC10" href="#SEC14">Subversion repository</a></li>
+      <li><a name="TOC11" href="#SEC15">Configure Structure Visualization</a></li>
     </ul></li>
-    <li><a name="TOC12" href="#SEC16">1.5 Community</a></li>
-  </ul></li>
-  <li><a name="TOC13" href="#SEC17">2. Quick start</a>
-  <ul class="toc">
-    <li><a name="TOC14" href="#SEC18">2.1 PDFgui layout</a></li>
-    <li><a name="TOC15" href="#SEC19">2.2 Creating a simple fit using a preexisting structure file</a></li>
-  </ul></li>
-  <li><a name="TOC16" href="#SEC20">3. Examples and tutorials</a>
-  <ul class="toc">
-    <li><a name="TOC17" href="#SEC21">3.1 Building structure model using crystal symmetry</a></li>
-    <li><a name="TOC18" href="#SEC22">3.2 Calculating PDF from a structure</a></li>
-    <li><a name="TOC19" href="#SEC23">3.3 Sequential fitting</a>
+    <li><a name="TOC12" href="#SEC16">1.5 What is new</a>
     <ul class="toc">
-      <li><a name="TOC20" href="#SEC24">3.3.1 Multistage fitting</a></li>
-      <li><a name="TOC21" href="#SEC25">3.3.2 Sequential fitting of incremental r-series</a></li>
-      <li><a name="TOC22" href="#SEC26">3.3.3 Sequential fitting of temperature series</a></li>
-      <li><a name="TOC23" href="#SEC27">3.3.4 Sequential fitting of doping series</a></li>
+      <li><a name="TOC13" href="#SEC17">Version 1.0, released April 2009</a></li>
     </ul></li>
-    <li><a name="TOC24" href="#SEC28">3.4 Nanoparticle structure</a></li>
+    <li><a name="TOC14" href="#SEC18">1.6 Community</a></li>
   </ul></li>
-  <li><a name="TOC25" href="#SEC29">4. Extras</a>
+  <li><a name="TOC15" href="#SEC19">2. Quick start</a>
   <ul class="toc">
-    <li><a name="TOC26" href="#SEC30">4.1 PDF plotting</a></li>
-    <li><a name="TOC27" href="#SEC31">4.2 Displaying the structure</a></li>
-    <li><a name="TOC28" href="#SEC32">4.3 Advanced usage and special needs</a></li>
+    <li><a name="TOC16" href="#SEC20">2.1 PDFgui layout</a></li>
+    <li><a name="TOC17" href="#SEC21">2.2 Creating a simple fit using a preexisting structure file</a></li>
   </ul></li>
-  <li><a name="TOC29" href="#SEC33">5. PDFgui reference sheets</a>
+  <li><a name="TOC18" href="#SEC22">3. Examples and tutorials</a>
   <ul class="toc">
-    <li><a name="TOC30" href="#SEC34">5.1 PDFgui shortcut keys</a></li>
-    <li><a name="TOC31" href="#SEC35">5.2 List of PDFfit2 variables</a>
+    <li><a name="TOC19" href="#SEC23">3.1 Building structure model using crystal symmetry</a></li>
+    <li><a name="TOC20" href="#SEC24">3.2 Calculating PDF from a structure</a></li>
+    <li><a name="TOC21" href="#SEC25">3.3 Sequential fitting</a>
     <ul class="toc">
-      <li><a name="TOC32" href="#SEC36">New Variables</a></li>
-      <li><a name="TOC33" href="#SEC37">Renamed Variables</a></li>
-      <li><a name="TOC34" href="#SEC38">Preserved Variables</a></li>
-      <li><a name="TOC35" href="#SEC39">PDF Peak Width</a></li>
-    </ul>
-</li>
+      <li><a name="TOC22" href="#SEC26">3.3.1 Multistage fitting</a></li>
+      <li><a name="TOC23" href="#SEC27">3.3.2 Sequential fitting of incremental r-series</a></li>
+      <li><a name="TOC24" href="#SEC28">3.3.3 Sequential fitting of temperature series</a></li>
+      <li><a name="TOC25" href="#SEC29">3.3.4 Sequential fitting of doping series</a></li>
+      <li><a name="TOC26" href="#SEC30">3.3.5 Advanced post-processing of sequential refinement</a></li>
+    </ul></li>
+    <li><a name="TOC27" href="#SEC31">3.4 Nanoparticle structure</a></li>
   </ul></li>
-  <li><a name="TOC36" href="#SEC40">Index</a></li>
+  <li><a name="TOC28" href="#SEC32">4. Extras</a>
+  <ul class="toc">
+    <li><a name="TOC29" href="#SEC33">4.1 PDF plotting</a></li>
+    <li><a name="TOC30" href="#SEC34">4.2 Displaying the structure</a></li>
+    <li><a name="TOC31" href="#SEC35">4.3 Advanced usage and special needs</a></li>
+  </ul></li>
+  <li><a name="TOC32" href="#SEC36">5. PDFgui reference sheets</a>
+  <ul class="toc">
+    <li><a name="TOC33" href="#SEC37">5.1 PDFgui shortcut keys</a></li>
+    <li><a name="TOC34" href="#SEC38">5.2 List of PDFfit2 variables</a>
+    <ul class="toc">
+      <li><a name="TOC35" href="#SEC39">New Variables</a></li>
+      <li><a name="TOC36" href="#SEC40">Renamed Variables</a></li>
+      <li><a name="TOC37" href="#SEC41">Preserved Variables</a></li>
+    </ul></li>
+    <li><a name="TOC38" href="#SEC42">5.3 PDF Peak Width</a></li>
+  </ul></li>
+  <li><a name="TOC39" href="#SEC43">Index</a></li>
 </ul>
 </div>
 <hr size="1">
@@ -2550,12 +2882,12 @@ have isotope symbols &ldquo;D&rdquo; and &ldquo;T&rdquo;.
 <table cellpadding="1" cellspacing="1" border="0">
 <tr><td valign="middle" align="left">[<a href="#SEC_Top" title="Cover (top) of document">Top</a>]</td>
 <td valign="middle" align="left">[<a href="#SEC_Contents" title="Table of contents">Contents</a>]</td>
-<td valign="middle" align="left">[<a href="#SEC40" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC43" title="Index">Index</a>]</td>
 <td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
 </tr></table>
 <h1>About This Document</h1>
 <p>
-  This document was generated by <em>Chris Farrow</em> on <em>March, 31 2009</em> using <a href="http://www.nongnu.org/texi2html/"><em>texi2html 1.78</em></a>.
+  This document was generated by <em>Pavol Juhas</em> on <em>April, 9 2009</em> using <a href="http://www.nongnu.org/texi2html/"><em>texi2html 1.78</em></a>.
 </p>
 <p>
   The buttons in the navigation panels have the following meaning:
@@ -2657,7 +2989,7 @@ have isotope symbols &ldquo;D&rdquo; and &ldquo;T&rdquo;.
 <hr size="1">
 <p>
  <font size="-1">
-  This document was generated by <em>Chris Farrow</em> on <em>March, 31 2009</em> using <a href="http://www.nongnu.org/texi2html/"><em>texi2html 1.78</em></a>.
+  This document was generated by <em>Pavol Juhas</em> on <em>April, 9 2009</em> using <a href="http://www.nongnu.org/texi2html/"><em>texi2html 1.78</em></a>.
  </font>
  <br>
 

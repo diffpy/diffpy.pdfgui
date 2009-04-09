@@ -24,9 +24,13 @@
 @center @image{\f\, 5.25in}
 @end macro
 
+@macro ReleaseDate{}
+April 2009
+@end macro
+
 @c start of header
 @setfilename pdfgui
-@settitle PDFgui user guide, release 1.0, April 2009
+@settitle PDFgui user guide, release 1.0, @ReleaseDate
 @c @setcontentsaftertitlepage
 @c end of header
 
@@ -44,7 +48,7 @@ University, all rights reserved.
 
 @title PDFgui user guide
 @subtitle 1.0 release
-@subtitle March 2009
+@subtitle @ReleaseDate
 @author C. L. Farrow, P. Juh@'as, J. W. Liu, D. Bryndin, E. S. Bo@v{z}in,
 @author J. Bloch, Th. Proffen, and S. J. L. Billinge
 
@@ -52,6 +56,10 @@ University, all rights reserved.
 @vskip 0pt plus 1filll
 @c @insertcopying
 
+@c HTML needs node to make index link, but PDF format does not like it.
+@ifhtml
+@node acknowledgments
+@end ifhtml
 @heading Acknowledgments
 @cindex  acknowledgments
 @include acknowledgements.texinfo
@@ -277,7 +285,7 @@ instructions.
 * Windows::
 * Linux, Mac, Unix: LinuxMacUnix. Linux, Mac, Unix
 * Subversion repository::
-* Structure Visualization::
+* Configure Structure Visualization::
 @end menu
 
 @node Windows
@@ -286,7 +294,7 @@ instructions.
 DiffPy is provided as self-installing archive for Windows systems.  Download
 the latest @samp{diffpy-VERSION.exe} file, launch the executable and follow
 the prompts.  That's all - PDFgui and PDFfit2 should be now ready for use. 
-The system ``Start Menu'' includes an "Update PDFgui" item, which can be
+The system ``Start Menu'' includes an ``Update PDFgui'' item, which can be
 used later to upgrade to the latest version of the software.  This menu
 item upgrades only the changed components of PDFgui, which will be released
 more frequently than a full installer.
@@ -428,7 +436,7 @@ have @command{svn}, a subversion client, installed on your computer.
 You will of course need the required packages listed above as well.
 
 @noindent
-@b{Installation for code debugging}
+@b{Installation for program debugging}
 @cindex debugging
 
 A recommended way to debug PDFgui or any other DiffPy package is to
@@ -440,6 +448,7 @@ be performed by following steps
 svn checkout \
     svn://svn@@danse.us/diffraction/diffraction/diffpy.pdfgui/trunk \
     diffpy.pdfgui
+
 cd diffpy.pdfgui
 python setup.py develop
 @end example
@@ -463,12 +472,13 @@ easy_install -U diffpy.pdfgui
 @end example
 
 
-@node Structure Visualization
-@unnumberedsubsec Structure Visualization
+@node Configure Structure Visualization
+@unnumberedsubsec Configure Structure Visualization
+@cindex visualization setup
 
 Once PDFgui is up an running, you need to tell it where to find your preferred
 structure visualization program so it can display 3D structures. This
-information can be entered under the Edit->Preferences menu.
+information can be entered under the ``Edit->Preferences'' menu.
 
 @noindent
 @b{A note for AtomEye users:}
@@ -476,18 +486,20 @@ information can be entered under the Edit->Preferences menu.
 AtomEye requires its standard output is connected to a terminal.
 On Unix this happens when @command{pdfgui} is started from a terminal.
 However if you prefer to start PDFgui using a desktop shortcut or via
-"Run Application" dialog of the window manager, you need to put the
-following information to the Edit->Preferences menu of PDFgui.
+``Run Application'' dialog of the window manager, you need to put the
+following information to the ``Edit->Preferences'' menu of PDFgui.
 @example
 Structure viewer executable: xterm
 Argument string: -iconic -e ATOMEYE
 Structure format: xcfg
 @end example
 In the above, ATOMEYE is the path to the ATOMEYE executable. For Cygwin users,
-the workaround is to start atomeye using an @samp{atomeye.bat} wrapper script,
-which ensures that atomeye gets started from a command window, and which can be
-also used to adjust environment variables:
+the workaround is to start atomeye from a batch file.
+This ensures atomeye gets started from a command window,
+and in addition the batch file can be used to adjust environment
+variables:
 @example
+atomeye.bat
 ------------------------------------------------------------------------
 set DISPLAY=localhost:0 
 set PATH=C:\cygwin\bin;C:\cygwin\usr\X11R6\bin;C:\ATOMEYE_DIRECTORY;%PATH% 
@@ -664,9 +676,8 @@ select and right-click.
 @c @node NODE-NAME, NEXT, PREVIOUS, UP
 @node Simple fit, Symmetry expansion, PDFgui layout, Quick start
 @section Creating a simple fit using a preexisting structure file
-@cindex simple fit
-@cindex fit
-@cindex refinement
+@cindex fit configuration
+@cindex refinement configuration
 
 The purpose of this example is to familiarize the novice user with the PDFgui
 basics. The goal is to create a simple fit of Ni PDF from a preexisting
@@ -709,7 +720,7 @@ and a set of parameters intended to be used to account for correlated atomic
 motion effects that typically sharpen the nearest neighbor PDF peak. These are
 @i{delta1}, @i{delta2}, @i{sratio}, and @i{rcut}. The @i{spdiameter} and
 @i{stepcut} parameters include scatterer size effects in the PDF. These
-paramters will be described later.  The bottom part of the panel contains
+parameters will be described later.  The bottom part of the panel contains
 standard unit cell content related information such as atomic species, their
 fractional coordinates, anisotropic ADPs, and site occupancies.
 
@@ -833,8 +844,6 @@ that the parameter assignment is done correctly.
 @caption{Reviewing the fit parameters and conditions.}
 @end float
 
-@cindex fit
-@cindex refinement
 The setup for the present example is now completed. By selecting the fit node
 on the fit tree the current action window shows ``Parameters'' tab, which
 displays the used refinement parameters for review, @ref{fig2-06}.  It shows
@@ -1092,6 +1101,7 @@ drop-down menu.
 * r-series::
 * Temperature series::
 * Doping series::
+* Advanced post-processing of sequential refinement::
 @end menu
 
 @node Multistage fitting, r-series, Sequential fitting, Sequential fitting
@@ -1289,7 +1299,7 @@ the outcome. The refinement sequence execution should be very quick in this
 case.
 
 @c @node NODE-NAME, NEXT, PREVIOUS, UP
-@node Doping series, Nanoparticle structure, Temperature series, Sequential fitting
+@node Doping series
 @subsection Sequential fitting of doping series
 @cindex sequential fitting
 @cindex doping series
@@ -1372,7 +1382,70 @@ plotted versus Ca content. An example is provided in Figure  @ref{fig3-09}
 featuring one of the lattice parameters.
 
 @c @node NODE-NAME, NEXT, PREVIOUS, UP
-@node Nanoparticle structure, PDF plotting, Doping series, Examples and tutorials
+@node Advanced post-processing of sequential refinement
+@subsection Advanced post-processing of sequential refinement
+@cindex project post-processing
+@cindex data extraction
+@cindex tui scripts
+
+While PDFgui allows to collate data from a series of sequential
+refinements, there are many data query options that are not
+possible or very tedious with GUI.  As an example, there is
+no easy way of exporting all refined structures to a directory,
+one has to point, click and export every single phase defined in
+sequential refinement.  Another, even more tedious task would
+be to extract bond lengths for every temperature refined in
+a large series.  We could menus for these tasks to GUI,
+but there are just too many options to serve them all.  In fact,
+GUI just does not seem to be suitable interface and things
+are much easier and more flexible to accomplish with Python scripts.
+
+The idea is to setup and run sequential refinement with PDFgui, but to
+do complicated data extractions with a few-line Python scripts.
+The PDFgui installation includes a @samp{tui} (Text User Interface)
+module that allows simple access to the data in a PDFgui project.
+
+As a first example, let us assume that a converged sequential refinement
+from @ref{Temperature series} has been saved to a ``lmo-series.ddp''
+file.  The following Python script extracts temperatures and refined
+values of the lattice parameter @i{c}
+@example
+# python script
+from diffpy.pdfgui import tui             # import the tui library
+prj = tui.LoadProject('lmo-series.ddp')   # read PDFgui project file
+temperatures = prj.getTemperatures()      # list of temperature values
+phases = prj.getPhases()                  # list of phase objects
+tcount = len(temperatures)                # number of temperature points
+
+for i in range(tcount):
+    Ti = temperatures[i]
+    # get the refined lattice parameter c
+    ci = phases[i].refined.lattice.c
+    print Ti, ci
+@end example
+
+Save the example above to a file, say ``lmo_refined_c.py'' and run
+it as
+@example
+python lmo_refined_c.py
+@end example
+
+The tutorial directory contains an advanced script
+``tui_mno_bond_lengths.py'', which extracts the shortest
+Mn-O bond lengths from the same PDFgui project.  Please, see
+the comments in the script for detailed explanation.
+
+To learn more about the tui module and about the objects
+and functions that it returns, please see the API
+documentation for diffpy.pdfgui at 
+@url{http://docs.danse.us/diffraction/diffpy.pdfgui/}.
+
+Feel free to ask at the 
+@url{http://groups.google.com/group/diffpy-users, diffpy-users}
+group if you need help with data extracting scripts.
+
+@c @node NODE-NAME, NEXT, PREVIOUS, UP
+@node Nanoparticle structure
 @section Nanoparticle structure
 @cindex nanoparticle structure
 @cindex nanoparticle diameter
@@ -1504,6 +1577,7 @@ on the tool bar of the plotting window.}
 @node Displaying the structure, Advanced usage and special needs, PDF plotting, Extras
 @section Displaying the structure
 @cindex displaying the structure
+@cindex structure visualization
 
 For those users with a structural visualizer available in their system
 configuration, PDFgui allows for initial or refined structures to be visualized
@@ -1513,8 +1587,11 @@ Initial Structure} or @b{Plot Refined Structure} from the ``Phases'' drop-down
 menu. The quickplot button will also invoke the structure viewer with the
 refined struture, or initial structure if the refined structure does not yet
 exist. The control of the visualization is dependent on the viewer used. The
-viewer can set under the Edit->Preferences menu.  An example Ni structure
-visualization with AtomEye is shown in @ref{fig4-02}.
+viewer can set under the ``Edit->Preferences'' menu, see full details in
+@ref{Configure Structure Visualization}.
+
+
+An example Ni structure visualization with AtomEye is shown in @ref{fig4-02}.
 
 @float Figure,fig4-02
 @ScreenShot{images/fig4-02}
@@ -1627,7 +1704,6 @@ Delete contents of selected cells.
 @node List of PDFfit2 variables
 @section List of PDFfit2 variables
 @cindex PDFfit2 variables
-@cindex list of variables
 @cindex variables
 
 The following is the list of PDFfit2 variables, including their default values
