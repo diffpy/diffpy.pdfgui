@@ -113,13 +113,12 @@ space group. The PDFfit2 engine is written in C++ and accessible via Python,
 allowing it to inter-operate with other Python programs.
 
 
-@c chapter 1 section 1
-@c @node NODE-NAME, NEXT, PREVIOUS, UP
 @menu
 * PDFfit2::
 * PDFgui::
 * Availability::
 * Installation::
+* What is new::
 * Community::
 @end menu
 
@@ -175,7 +174,6 @@ combined with and enhanced by other Python libraries.  We make use
 of this capability with PDFgui as described below.
 
 
-@c chapter 1 section 2
 @c @node NODE-NAME, NEXT, PREVIOUS, UP
 @node    PDFgui, Availability, PDFfit2, Introduction
 @section PDFgui
@@ -251,7 +249,6 @@ expand a template fit to a series of related fits.  Another PDFgui macro makes
 it easy to set up boxcar fits, where the same model is fit over different
 r-ranges of the PDF data.
 
-@c chapter 1 section 3
 @c @node NODE-NAME, NEXT, PREVIOUS, UP
 @node    Availability, Installation, PDFgui, Introduction
 @section Availability
@@ -265,9 +262,8 @@ freely available. For more information please contact Professor Simon Billinge
 this website and on the diffpy-users group at
 @url{http://groups.google.com/group/diffpy-users}.
 
-@c chapter 1 section 4
 @c @node NODE-NAME, NEXT, PREVIOUS, UP
-@node    Installation, Community, Availability, Introduction
+@node    Installation, What is new, Availability, Introduction
 @section Installation
 @cindex  installation
 
@@ -277,6 +273,14 @@ obtained from @url{http://www.diffpy.org}.  Refer to the section
 corresponding to your operating system for specific installation
 instructions.
 
+@menu
+* Windows::
+* Linux, Mac, Unix: LinuxMacUnix. Linux, Mac, Unix
+* Subversion repository::
+* Structure Visualization::
+@end menu
+
+@node Windows
 @unnumberedsubsec Windows
 
 DiffPy is provided as self-installing archive for Windows systems.  Download
@@ -298,50 +302,57 @@ for example Enthought Python @url{http://www.enthought.com/} or PythonXY
 @url{http://www.pythonxy.com/}.
 }
 To add PDFgui to an existing Python tree, start a command prompt
-and run the easy_install script from the Python25/Scripts directory:
+and run the @command{easy_install} script from the Python25/Scripts directory:
 @example
 easy_install diffpy.pdfgui
 @end example
 This installs library files under Python25/Lib/site-packages and executable
-scripts for pdfgui and pdffit2 under Python25/Scripts.
+scripts for @command{pdfgui} and @command{pdffit2} under Python25/Scripts.
 
-@unnumberedsubsec Unix, Linux, MAC
+@node LinuxMacUnix
+@unnumberedsubsec Linux, Mac, Unix
 
 For unix-like operating systems DiffPy can be installed using easy-install,
 provided that some libraries and applications already exist on your computer.
 All required packages are listed below.  These packages should be available as
 binary files for recent Linux systems, in which case it is best to install them
-using your system's package manager such as @samp{apt-get} or @samp{yum}.  In
-case a binary package is not available, refer to the corresponding project page
-for other installation options.
+using your system's package manager such as @command{apt-get} or @command{yum}.
+In case a binary package is not available, refer to the corresponding
+project page for other installation options.
 
 @noindent
-@b{Required packages:}
+@b{Requirements}
 
-@multitable @columnfractions .2 .8
-@item Python
-    @tab Python interpreter, version 2.5, 
-    @* @url{http://www.python.org} 
-@item Python-dev 
-    @tab C development files for Python
-@item setuptools 
-    @tab software distribution tools for Python,
-    @* @url{http://peak.telecommunity.com/DevCenter/setuptools} 
-@item NumPy 
-    @tab Numerical Python, minimum version 0.9.8,
-    @* @url{http://numpy.scipy.org}
-@item wxPython 
-    @tab GUI toolkit for Python, minimum version 2.6, recommended 2.8
-    @* @url{http://wxpython.org}
-@item matplotlib 
-    @tab plotting library for Python, minimum version 0.90,
-    @* @url{http://matplotlib.sourceforge.net}
-@item g++ 
-    @tab GNU C++ compiler
-@item GSL 
-    @tab the GNU Scientific Library for C,
-    @* @url{http://www.gnu.org/software/gsl}
-@end multitable
+@table @t
+@item python
+Python interpreter version 2.5, @url{http://www.python.org}
+
+@item python-dev
+C development files for Python
+
+@item setuptools
+software distribution tools for Python,
+@url{http://peak.telecommunity.com/DevCenter/setuptools}
+
+@item numpy
+numerical Python, minimum version 0.9.8,
+@url{http://numpy.scipy.org}
+
+@item wxPython
+tab GUI toolkit for Python, minimum version 2.6, recommended 2.8
+@url{http://wxpython.org}
+
+@item matplotlib
+tab plotting library for Python, minimum version 0.90,
+@url{http://matplotlib.sourceforge.net}
+
+@item g++
+tab GNU C++ compiler
+
+@item GSL
+tab the GNU Scientific Library for C,
+@url{http://www.gnu.org/software/gsl}
+@end table
 
 On Ubuntu Linux the required packages can be installed all at once
 with a single command
@@ -352,16 +363,23 @@ sudo aptitude install \
 @end example
 
 @noindent
-@b{Optional programs:}
-@itemize @bullet
-@item AtomEye - AtomEye structure viewer,
-    @* @url{http://mt.seas.upenn.edu/Archive/Graphics/A/} 
-@item PyMOL - PyMOL structure viewer,
-    @* @url{http://pymol.sourceforge.net/} 
-@end itemize
+@b{Optional programs}
 
-With setuptools installed, you can install pdfgui and all of its dependencies
-with one command:
+@table @t
+@item AtomEye
+AtomEye structure viewer,
+@url{http://mt.seas.upenn.edu/Archive/Graphics/A/} 
+
+@item PyMOL
+PyMOL structure viewer,
+@url{http://pymol.sourceforge.net} 
+@end table
+
+@noindent
+@b{Installation using easy_install}
+
+With all the requirements in place, PDFgui can be installed with a
+single command
 @example
 easy_install diffpy.pdfgui
 @end example
@@ -369,44 +387,60 @@ This installs DiffPy to a default location in python @samp{site-packages}
 directory and executable scripts @command{pdfgui} and @command{pdffit2} to
 @samp{python-prefix/bin/}. Missing dependencies will be automatically
 installed.  If you don't have root access, you can install DiffPy to other
-locations by adding suitable options to the easy_install invocation.  For a
-list available easy_install options, execute @samp{easy_install --help} from
-your system's command prompt.
+locations by adding suitable options to the @command{easy_install} invocation.
+For a list available easy_install options, execute
+@command{easy_install --help} from your system's command prompt.
+
+The @command{easy_install} program can be used to update the
+installation to later releases in the code repository
+@example
+easy_install -U diffpy.pdffit2
+@end example
+
+@noindent
+@b{Installation from tar bundle}
 
 If you need to install on a computer that does not have network access,
 you can do so from a complete package bundle @samp{diffpy-VERSION.tgz}.
-This archive contains necessary packages and the easy_install script
+This archive contains necessary packages and the @command{easy_install} script
 configured to use packages from local directory rather than to download them
 from the internet.  To install from the tgz bundle, unpack the archive and
-execute easy_install script included with the distribution:
+execute @command{easy_install} script included with the distribution:
 @example
 tar xzf diffpy-VERSION.tgz
 cd diffpy-VERSION
 ./easy_install diffpy.pdfgui
 @end example
 
-@unnumberedsubsec Building from Subversion repository
+@node Subversion repository
+@unnumberedsubsec Subversion repository
+@cindex subversion
 
 The latest development sources for PDFgui and other DiffPy packages
 are available in a public Subversion code repository.  To install the
 latest code, run
 @example
-easy_install svn://svn@@danse.us/diffraction/diffraction/diffpy.pdfgui/trunk
+easy_install -U \
+    svn://svn@@danse.us/diffraction/diffraction/diffpy.pdfgui/trunk
 @end example
 This should work on both Unix and Windows installation provided you
 have @command{svn}, a subversion client, installed on your computer.
 You will of course need the required packages listed above as well.
 
-Subversion can be also used to install PDFgui in a development
-mode and to produce patches for bugs.  To do so, obtain the
-latest code from the Subversion repository
+@noindent
+@b{Installation for code debugging}
+@cindex debugging
+
+A recommended way to debug PDFgui or any other DiffPy package is to
+download its source tree from Subversion and install in development
+mode.  As an added benefit, it is easy to use subversion to produce
+patches or revert accidental changes.  The development installation can
+be performed by following steps
 @example
 svn checkout \
     svn://svn@@danse.us/diffraction/diffraction/diffpy.pdfgui/trunk \
     diffpy.pdfgui
-@end example
-After that change to the @samp{diffpy.pdfgui} directory and execute
-@example
+cd diffpy.pdfgui
 python setup.py develop
 @end example
 The develop command instructs python to load the diffpy.pdfgui package
@@ -420,18 +454,28 @@ To produce a code patch, change to the source tree base and run
 svn diff > patchfile
 @end example
 
+To revert the installation back to the latest release, go to the
+@samp{lib/site-packages} directory in the Python installation
+and delete the @samp{diffpy.pdfgui.egg-link} file and use 
+@command{easy_install} to update to the latest public package:
+@example
+easy_install -U diffpy.pdfgui
+@end example
+
+
+@node Structure Visualization
 @unnumberedsubsec Structure Visualization
 
-Once PDFgui is up an running, you must tell it where to find your preferrred
-structure visualization program before it can display 3D structures. This
+Once PDFgui is up an running, you need to tell it where to find your preferred
+structure visualization program so it can display 3D structures. This
 information can be entered under the Edit->Preferences menu.
 
 @noindent
 @b{A note for AtomEye users:}
 
 AtomEye requires its standard output is connected to a terminal.
-On Unix this happens when pdfgui is started from a terminal. However
-if you prefer to start pdfgui using a desktop shortcut or via
+On Unix this happens when @command{pdfgui} is started from a terminal.
+However if you prefer to start PDFgui using a desktop shortcut or via
 "Run Application" dialog of the window manager, you need to put the
 following information to the Edit->Preferences menu of PDFgui.
 @example
@@ -453,7 +497,101 @@ start A.exe %*
 Here ATOMEYE_DIRECTORY needs to be replaced with a proper path.  Make sure
 that the X-server application included with Cygwin is started.
 
-@c chapter 1 section 5
+@c @node NODE-NAME, NEXT, PREVIOUS, UP
+@node    What is new, Community, Installation, Introduction
+@section What is new
+@cindex  versions
+@cindex  whatisnew
+
+@unnumberedsubsec Version 1.0, released April 2009
+
+This section describes improvements and modifications since the
+last beta-release 1.0b.1792 from December 2007.
+
+@table @t
+
+@item updates and installation
+PDFgui can be installed or updated 
+with a simple run of the easy_install script.  easy_install
+checks our online code repository for any newer versions and takes
+care of their download and installation.  It can be also used to
+add future DiffPy components as they become available.  This should
+work for Linux, Mac and Windows.
+
+@item Windows installer
+The updated Windows package includes full installation of
+Python 2.5 and script for code updates.  PDFgui
+can be installed under normal Python2.5 tree if it has the
+easy_install script.
+
+@item particle shape correction stored with phase
+The previous release of PDFgui had
+spherical shape correction factors stored with PDF dataset.  The
+new layout is more logical and allows multi-phase refinements with
+separate shape corrections.
+
+@item step shape factor
+Defined new shape factor that cuts off the
+simulated PDF at user defined r-limit.
+
+@item cumulative Rw
+Implemented calculation of cumulative Rw
+and option to show it in PDFgui plot window.
+
+@item project post-processing
+Implemented new module
+@samp{tui} (text user interface) for simple access to the data
+in PDFgui project files.  The @samp{tui} module can be used
+in easy-to-understand Python scripts for arbitrary data extraction
+or conversion.  It should be useful for project files with large
+temperature or compositional series of PDF refinements.
+
+@item structure visualization
+PDFgui can now show structures with any external structure viewer,
+that accepts structure file as a command-line argument.
+
+@item space group representations
+Added 249 space group
+representations in non-standard settings.  The new representations
+were generated using the
+@uref{http://cctbx.sourceforge.net/,cctbx library} and helpful
+hints from Ralf W. Grosse-Kunstleve.
+
+@item symmetry constraints
+Fixed issues with generation of
+symmetry requirements for the ADP tensors.
+
+@item default ADP tensors
+PDF contributions are not counted for atoms that have
+ADP tensors @i{Uij} equal zero.  Atoms are now inserted with
+a non-zero @i{Uij} matrix.  Added warning when a phase
+loaded from file has atoms with zero ADPs.
+
+@item temperature series macro
+The temperature series macro was broken for datasets at equal temperature
+or when temperature contained decimal point.  Improved file
+and temperature sorting in the temperature series dialog.
+
+@item journal panel
+Fixed shortcut key handling and font size issues.
+
+@item startup option @option{--db-pdb}
+The new command-line option starts Python debugger on
+PDFgui crash instead of displaying error report dialog.
+
+@item grid interpolation
+Fixed problems with r-grid interpolation appearing due to round-off errors.
+
+@item data load on Windows
+Windows version could not read PDF datasets with NaN (not-a-number)
+values in the dGr column, because NaN is not supported by the Windows
+C-library.  Added check for NaN-s before converting to float.
+
+@item bug fixes
+Other small issues too numerous to list here.
+
+@end table
+
 @c @node NODE-NAME, NEXT, PREVIOUS, UP
 @node    Community, Quick start, Installation, Introduction
 @section Community
@@ -478,7 +616,7 @@ library in general.
 
 @page
 @vskip 0pt plus 1filll
-@c Start of Chapter 2
+
 @c @node NODE-NAME, NEXT, PREVIOUS, UP
 @node Quick start, PDFgui layout, Installation, Top
 @chapter Quick start
@@ -491,7 +629,6 @@ use @ref{PDFgui reference sheets}.  All the files used in examples are
 available in the source distribution or can be downloaded from the DiffPy
 website.
 
-@c @node NODE-NAME, NEXT, PREVIOUS, UP
 @menu
 * PDFgui layout::
 * Simple fit::
@@ -537,7 +674,7 @@ structure file, associate a dataset with the refinement, configure and execute
 a refinement, and display the result. Files to be used in this exercise are
 @i{Ni.stru} and @i{Ni-xray.gr} (found in the tutorial directory). To start,
 invoke PDFgui by clicking on the icon on your desktop, selecting the program
-from your system's program menu, or by typing `pdfgui' in a terminal window.
+from your system's program menu, or by typing @command{pdfgui} in a terminal window.
 
 First a new fit needs to be established. In the fit tree right-click the mouse
 button, and select @b{New Fit}. This will generate a new fit called ``Fit 1''
@@ -782,7 +919,6 @@ within the user-specified fitting range.
 
 @page
 @vskip 0pt plus 1filll
-@c Start of Chapter 3
 @c @node NODE-NAME, NEXT, PREVIOUS, UP
 @node Examples and tutorials, Symmetry expansion, Simple fit, Top
 @chapter Examples and tutorials
@@ -1403,7 +1539,7 @@ PDFFIT program, where various special situations could be accounted for.
 Handling these situations requires detailed knowledge of the PDFfit2 syntax
 based on Python, which is beyond the scope of this user guide and will be
 described elsewhere. Refer to the diffpy-users group
-( @url{http://groups.google.com/group/diffpy-users} ) for help with PDFfit2
+(@url{http://groups.google.com/group/diffpy-users}) for help with PDFfit2
 scripting.
 
 @c Start of Chapter 5
@@ -1420,7 +1556,7 @@ scripting.
 * PDF Peak Width::
 @end menu
 
-@node PDFgui shortcut keys, List of PDFfit2 variables, PDFgui reference sheets, PDFgui reference sheets
+@node PDFgui shortcut keys
 @section PDFgui shortcut keys
 @cindex PDFgui shortcut keys
 @cindex shortcuts
@@ -1488,7 +1624,7 @@ Delete contents of selected cells.
 @end table
 
 @c Start of Chapter 6
-@node List of PDFfit2 variables, Index, PDFgui shortcut keys, PDFgui reference sheets
+@node List of PDFfit2 variables
 @section List of PDFfit2 variables
 @cindex PDFfit2 variables
 @cindex list of variables
@@ -1627,7 +1763,7 @@ Radius cutoff for applying @var{sratio} sharpening factor.
 
 @c ---------------------------------------------------------------------
 @node PDF Peak Width
-@unnumberedsubsec PDF Peak Width
+@section PDF Peak Width
 
 The PDF peak width contains contributions from thermal and zero point
 displacements as well as static disorder. For large distances @i{r} the motion
