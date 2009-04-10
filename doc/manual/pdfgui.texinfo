@@ -229,17 +229,20 @@ loaded on any computer. All management tasks, such as fit creation,
 configuration, modification, and visualization, can be done through the
 graphical interface.
 
-PDFgui supports space group operations.  Users can define an asymmetric unit and
-let PDFgui expand it to a full cell with all symmetry related positions. PDFgui
-can also generate symmetry constraints for atom positions and atomic ADPs. Users
-just need to specify the space group, and the program will identify equivalent
-sites and generate constraint equations for their coordinates and temperature
-factors to keep the structure consistent with the symmetry requirements. This
-can be done either for all atoms in the structure or for an arbitrary subset -
-for example when it is known that only a certain species show a local
-distortion. The code for space group definitions was provided by the Python
-Macromolecular Library (mmLib, @url{http://pymmlib.sourceforge.net}).  PDFgui
-also supports supercell expansion of a normal unit cell.
+PDFgui supports space group operations.  Users can define an asymmetric unit
+and let PDFgui expand it to a full cell with all symmetry related positions.
+PDFgui can also generate symmetry constraints for atom positions and atomic
+ADPs. Users just need to specify the space group, and the program will identify
+equivalent sites and generate constraint equations for their coordinates and
+temperature factors to keep the structure consistent with the symmetry
+requirements. This can be done either for all atoms in the structure or for an
+arbitrary subset - for example when it is known that only a certain species
+show a local distortion. The code for space group definitions was provided by
+the Python Macromolecular Library (mmLib,
+@url{http://pymmlib.sourceforge.net}).  This was extened to include
+non-standard space groups using the Computational Crystallography Toolbox
+(cctbx, @uref{http://cctbx.sourceforge.net/}).  PDFgui also supports supercell
+expansion of a normal unit cell.
 
 PDFgui uses the matplotlib (@url{http://matplotlib.sourceforge.net}) Python
 package for 2D plotting of data and results. Matplotlib has a friendly
@@ -492,7 +495,7 @@ However if you prefer to start PDFgui using a desktop shortcut or via
 following information to the ``Edit->Preferences'' menu of PDFgui.
 @example
 Structure viewer executable: xterm
-Argument string: -iconic -e ATOMEYE
+Argument string: -iconic -e ATOMEYE %s
 Structure format: xcfg
 @end example
 @noindent
@@ -619,7 +622,7 @@ too many to list here.
 @cindex  mail-list
 @cindex  user groups
 
-There are several Google groups for support and development of PDFgui and other
+There are two Google groups for support and development of PDFgui and other
 DiffPy software.  Visit the links below for message archives or instructions on
 subscription and posting.
 
@@ -1398,18 +1401,15 @@ featuring one of the lattice parameters.
 
 While PDFgui allows to collate data from a series of sequential
 refinements, there are many data query options that are not
-possible or very tedious with GUI.  As an example, there is
-no easy way of exporting all refined structures to a directory,
-one has to point, click and export every single phase defined in
-sequential refinement.  Another, even more tedious task would
+possible or very tedious with a GUI.  A particularly tedious task would
 be to extract bond lengths for every temperature refined in
-a large series.  We could menus for these tasks to GUI,
+a large series.  The GUI could supply menus for these tasks,
 but there are just too many options to serve them all.  In fact,
-GUI just does not seem to be suitable interface and things
+the GUI just does not seem to be suitable interface and things
 are much easier and more flexible to accomplish with Python scripts.
 
 The idea is to setup and run sequential refinement with PDFgui, but to
-do complicated data extractions with a few-line Python scripts.
+do complicated data extractions with simple Python scripts.
 The PDFgui installation includes a @samp{tui} (Text User Interface)
 module that allows simple access to the data in a PDFgui project.
 
@@ -1440,7 +1440,7 @@ it as
 python lmo_refined_c.py
 @end example
 @noindent
-Note that the script cannot load unmodified @i{lmo-template.ddp} file,
+Note that the script cannot load the unmodified @i{lmo-template.ddp} file,
 because it does not have any refinement results.
 
 
@@ -1535,8 +1535,8 @@ nanoparticle example.}
 
 In general, a successful fitting scenario depends on particular details of a
 structural problem one is determined to solve. The problem of determining the
-structure of a nanoparticle remains difficult. The PDFgui suite is not intended
-to necessarily provide @i{the} solution, it is rather a helpful tool in the
+structure of a nanoparticle remains difficult. PDFgui is not intended to
+necessarily provide @i{the} solution, it is rather a helpful tool in the
 process of determining new details and exploring the space of possible solution
 candidates, yielding success in some instances.
 
@@ -1556,26 +1556,29 @@ candidates, yielding success in some instances.
 @cindex PDF plotting
 
 Plotting capabilities of PDFgui are provided through the plot control panel and
-the quick-plot icon on the tool bar. The plot control allows for selection of
-@i{x} and @i{y} coordinates for plotting. The actual quantities that could be
-assigned to the coordinates is determined by selection of either Fit, or Phase,
-or Data on the fit tree. The choices for @i{x} and @i{y} coordinates varies
-depending on what is selected on the fit tree. Special options like index,
-temperature and doping are available as choices for @i{x} in cases of plotting
-multiple fit results from sequential fitting protocols. The plot window
-provides essential functionality such as zoom, pan, cursor coordinate tracking,
-and shifts.  Features such as saving, exporting and printing are also
-available. The principal intent of the plotting functionality is to allow quick
-access to the fitting results to enhance the scientific process. If data is
-selected on the fit tree, the user can plot various aspects of the PDF
-function, such as data, model and difference PDF profiles as a function of
-inter-atomic distance @i{r}.  If the fit or the phase are selected, then
-various parameters, both structural and internal can be plotted instead. Since
-several formal plotting examples were given through the tutorial exercise, and
-having simplicity of usage in mind, no other plotting examples are provided,
-hoping that the usage is sufficiently simple for users to master individually
-with ease. An example plot of Rw vs refinement step is shown in @ref{fig4-01}
-for Ni example.
+the quick-plot icon on the tool bar. A quick-plot is created by selecting a
+node in the fit tree and then clicking the quick-plot icon in the tool bar. The
+same quick-plot can be created by middle-clicking on a node in the fit tree.
+
+The plot control allows for selection of @i{x} and @i{y} coordinates for
+plotting. The actual quantities that could be assigned to the coordinates is
+determined by selection of either Fit, or Phase, or Data on the fit tree. The
+choices for @i{x} and @i{y} coordinates varies depending on what is selected on
+the fit tree. Special options like index, temperature and doping are available
+as choices for @i{x} in cases of plotting multiple fit results from sequential
+fitting protocols. The plot window provides essential functionality such as
+zoom, pan, cursor coordinate tracking, and shifts.  Features such as saving,
+exporting and printing are also available. The principal intent of the plotting
+functionality is to allow quick access to the fitting results to enhance the
+scientific process. If data is selected on the fit tree, the user can plot
+various aspects of the PDF function, such as data, model and difference PDF
+profiles as a function of inter-atomic distance @i{r}.  If the fit or the phase
+are selected, then various parameters, both structural and internal can be
+plotted instead. Since several formal plotting examples were given through the
+tutorial exercise, and having simplicity of usage in mind, no other plotting
+examples are provided, hoping that the usage is sufficiently simple for users
+to master individually with ease. An example plot of Rw vs refinement step is
+shown in @ref{fig4-01} for Ni example.
 
 @page
 
@@ -1597,11 +1600,11 @@ configuration, PDFgui allows for initial or refined structures to be visualized
 by passing required structural information that program.  This is achieved by
 highlighting a desired phase on the fit tree, and then selecting @b{Plot
 Initial Structure} or @b{Plot Refined Structure} from the ``Phases'' drop-down
-menu. The quick-plot button will also invoke the structure viewer with the
-refined structure, or initial structure if the refined structure does not yet
-exist. The control of the visualization is dependent on the viewer used. The
-viewer can set under the ``Edit->Preferences'' menu, see full details in
-@ref{Configuration of structure viewer}.
+menu. The quick-plot button (or middle-click) will also invoke the structure
+viewer with the refined structure, or initial structure if the refined
+structure does not yet exist. The control of the visualization is dependent on
+the viewer used. The viewer can set under the ``Edit->Preferences'' menu, see
+full details in @ref{Configuration of structure viewer}.
 
 
 An example Ni structure visualization with AtomEye is shown in @ref{fig4-02}.
@@ -1625,11 +1628,11 @@ engine, such as calculation of differential PDFs, handling atoms with special
 scattering properties, etc. Advanced usage of PDFfit2 engine to resolve any
 such special modeling need that user may have is available through usage of
 Python scripts in the expert command line mode, similar to that featured in the
-PDFFIT program, where various special situations could be accounted for.
-Handling these situations requires detailed knowledge of the PDFfit2 syntax
-based on Python, which is beyond the scope of this user guide and will be
-described elsewhere. Refer to the diffpy-users group
-(@url{http://groups.google.com/group/diffpy-users}) for help with PDFfit2
+PDFFIT program.  Handling these situations requires detailed knowledge of the
+PDFfit2 syntax based on Python, which is beyond the scope of this user guide
+and will be described elsewhere. Refer to the PDFfit2 API
+(@url{http://docs.danse.us/diffraction/diffpy.pdffit2/} and the diffpy-users
+group (@url{http://groups.google.com/group/diffpy-users}) for help with PDFfit2
 scripting.
 
 @c @node NODE-NAME, NEXT, PREVIOUS, UP
@@ -1822,7 +1825,7 @@ Scale factor for the selected dataset.
 @end defvr
 
 @defvr {Dataset} qdamp
-(float @AA{}@math{^\bgroup-1\egroup}, default 0 @AA{}@math{^\bgroup-1\egroup}, @var{qsig} in PDFFIT) @*
+(float @AA{}@math{^-1}, default 0 @AA{}@math{^-1}, @var{qsig} in PDFFIT) @*
 PDF Gaussian dampening envelope due to limited Q-resolution.
 Not applied when equal to zero. The Gaussian envelope is of the form
 @EquationMark
@@ -1832,7 +1835,7 @@ $$ B(r) = e^{-{(r Q_{damp})^{2} \over 2} } $$
 @end defvr
 
 @defvr {Dataset} qbroad
-(float @AA{}@math{^\bgroup-1\egroup}, default 0 @AA{}@math{^\bgroup-1\egroup}, @var{qalp} in PDFFIT) @*
+(float @AA{}@math{^-1}, default 0 @AA{}@math{^-1}, @var{qalp} in PDFFIT) @*
 PDF peak broadening from increased intensity noise at high Q.
 Not applied when equal zero.
 See the definition of the @ref{PDF peak width} for a detailed explanation.
@@ -1876,7 +1879,7 @@ for correlated motion of bonded atoms.
 @subheading Preserved variables
 
 @defvr {Dataset} qmax
-(float @AA{}@math{^\bgroup-1\egroup}, default 0 @AA{}) @*
+(float @AA{}@math{^-1}, default 0 @AA{}) @*
 @var{qmax} cutoff is an experimental parameter having fixed
 value determined during the PDF data processing in the Fourier
 transform step. Finite data range used in the Fourier transform
