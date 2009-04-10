@@ -24,7 +24,7 @@ refinements, and saving of entire project in a single file.
 
 Options:
   -h, --help      display this message
-  -V, --version   show script version
+  -V, --version   show program version
 
 Debugging options:
   --db-noed       disable exceptions catching to ErrorReportDialog

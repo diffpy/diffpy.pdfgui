@@ -28,7 +28,7 @@ the system package manager:
 
 For other Linux distributions use the respective package manager to install
 these packages.  Note there may be somewhat different names.  PDFgui should
-work on other Unix-like operating systems and on MAC as well.  Please, search
+work on other Unix-like operating systems and on Mac as well.  Please, search
 the web for instructions how to install external dependencies on your
 particular platform.
 
