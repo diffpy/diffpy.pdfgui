@@ -38,8 +38,8 @@ setup(
             ('doc/tutorial', dirglob('doc/tutorial', '*')),
         ],
         install_requires = [
-            'diffpy.Structure>=1.0c1.dev-r2824',
-            'diffpy.pdffit2>=1.0c1.dev-r2830',
+            'diffpy.Structure>=1.0-r3050',
+            'diffpy.pdffit2>=1.0-r3050',
         ],
         dependency_links = [
             'http://www.diffpy.org/packages/',
