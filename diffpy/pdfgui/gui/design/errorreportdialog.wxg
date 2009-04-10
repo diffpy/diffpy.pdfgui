@@ -4,7 +4,7 @@
 <application path="../errorreportdialog.py" name="" class="" option="0" language="python" top_window="dialog_errorreport" encoding="UTF-8" use_gettext="0" overwrite="0" use_new_namespace="1" for_version="2.6" is_template="0">
     <object class="ErrorReportDialog" name="dialog_errorreport" base="EditDialog">
         <style>wxDEFAULT_DIALOG_STYLE|wxRESIZE_BORDER|wxMAXIMIZE_BOX|wxMINIMIZE_BOX|wxTHICK_FRAME</style>
-        <title>Problem Report for PDFGui</title>
+        <title>Problem Report for PDFgui</title>
         <size>540, 600</size>
         <object class="wxBoxSizer" name="sizer_main" base="EditBoxSizer">
             <orient>wxVERTICAL</orient>
@@ -14,7 +14,7 @@
                 <option>0</option>
                 <object class="wxStaticText" name="label_header" base="EditStaticText">
                     <attribute>1</attribute>
-                    <label>PDFGui has encountered a problem. We are sorry for the inconvenience.</label>
+                    <label>PDFgui has encountered a problem. We are sorry for the inconvenience.</label>
                 </object>
             </object>
             <object class="sizeritem">

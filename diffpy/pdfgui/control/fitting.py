@@ -312,7 +312,7 @@ class Fitting(Organizer):
                 self.__changeStatus(jobStatus=Fitting.VOID)
         
     def getServer(self):
-        """get a PDFFit2 instance either locally or remotely
+        """get a PDFfit2 instance either locally or remotely
         """
         if self.fitStatus != Fitting.INITIALIZED:
             return 

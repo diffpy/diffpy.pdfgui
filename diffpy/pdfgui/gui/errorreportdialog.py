@@ -24,6 +24,7 @@ __id__ = "$Id$"
 __revision__ = "$Revision$"
 
 import wx
+import wx.lib.hyperlink
 
 from diffpy.pdfgui.control.controlerrors import ControlError
 from diffpy.pdfgui import __version__
@@ -40,7 +41,7 @@ class ErrorReportDialog(wx.Dialog):
         # begin wxGlade: ErrorReportDialog.__init__
         kwds["style"] = wx.DEFAULT_DIALOG_STYLE|wx.RESIZE_BORDER|wx.MAXIMIZE_BOX|wx.MINIMIZE_BOX|wx.THICK_FRAME
         wx.Dialog.__init__(self, *args, **kwds)
-        self.label_header = wx.StaticText(self, -1, "PDFGui has encountered a problem. We are sorry for the inconvenience.")
+        self.label_header = wx.StaticText(self, -1, "PDFgui has encountered a problem. We are sorry for the inconvenience.")
         self.label_text = wx.StaticText(self, -1, "To help us improve this software, please provide at least a short summary of the problem. When you click the Send Error Report button, the short summary, full description, error log and the version of the software will be sent to developers.")
         self.label_view_ticket = wx.StaticText(self, -1, "You can view current bug reports and feature requests ")
         self.ticketlink = wx.lib.hyperlink.HyperLinkCtrl(self, -1, "here.")
@@ -69,7 +70,7 @@ class ErrorReportDialog(wx.Dialog):
 
     def __set_properties(self):
         # begin wxGlade: ErrorReportDialog.__set_properties
-        self.SetTitle("Problem Report for PDFGui")
+        self.SetTitle("Problem Report for PDFgui")
         self.SetSize((540, 600))
         self.button_send.Enable(False)
         # end wxGlade

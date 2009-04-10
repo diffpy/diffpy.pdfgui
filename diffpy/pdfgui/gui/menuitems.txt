@@ -1,4 +1,4 @@
-Menus for PDFGui
+Menus for PDFgui
 
 File
     _____________________________

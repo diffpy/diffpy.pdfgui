@@ -29,7 +29,7 @@ class PDFPanel(object):
     
     This method is meant to be a secondary parent class for classed derived from
     wx.Panel. It defines methods and member variables necessary to all panels in
-    the PDFGui.
+    the PDFgui.
     """
     def __init__(self, *args, **kwds):
         self.mainFrame = None

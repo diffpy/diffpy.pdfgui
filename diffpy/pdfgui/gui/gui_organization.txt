@@ -1,4 +1,4 @@
-This document explains the basic organization and control of the PDFGui gui.
+This document explains the basic organization and control of the PDFgui gui.
 
 The control panel of the gui is MainPanel in mainwindow.py. Among other things,
 MainPanel contains a FitTree object (from fittree.py) and a dynamic panel.  The
