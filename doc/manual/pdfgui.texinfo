@@ -21,12 +21,14 @@
 @end macro
 
 @macro ScreenShot{f}
-@center @image{\f\, 5.25in}
+@center @image{\f\, 5in}
 @end macro
 
 @macro ReleaseDate{}
 April 2009
 @end macro
+
+@exampleindent 2
 
 @c start of header
 @setfilename pdfgui
@@ -285,15 +287,15 @@ instructions.
 * Windows::
 * Linux, Mac, Unix: LinuxMacUnix. Linux, Mac, Unix
 * Subversion repository::
-* Configure Structure Visualization::
+* Configuration of structure viewer::
 @end menu
 
 @node Windows
-@unnumberedsubsec Windows
+@subsection Windows
 
 DiffPy is provided as self-installing archive for Windows systems.  Download
 the latest @samp{diffpy-VERSION.exe} file, launch the executable and follow
-the prompts.  That's all - PDFgui and PDFfit2 should be now ready for use. 
+the prompts.  That's all - PDFgui and PDFfit2 should be now ready for use.
 The system ``Start Menu'' includes an ``Update PDFgui'' item, which can be
 used later to upgrade to the latest version of the software.  This menu
 item upgrades only the changed components of PDFgui, which will be released
@@ -310,15 +312,17 @@ for example Enthought Python @url{http://www.enthought.com/} or PythonXY
 @url{http://www.pythonxy.com/}.
 }
 To add PDFgui to an existing Python tree, start a command prompt
-and run the @command{easy_install} script from the Python25/Scripts directory:
+and run the @command{easy_install} script from the @i{Python25/Scripts}
+directory
 @example
 easy_install diffpy.pdfgui
 @end example
-This installs library files under Python25/Lib/site-packages and executable
-scripts for @command{pdfgui} and @command{pdffit2} under Python25/Scripts.
+@noindent
+This installs library files under @i{Python25/Lib/site-packages} and executable
+scripts for @command{pdfgui} and @command{pdffit2} under @i{Python25/Scripts}.
 
 @node LinuxMacUnix
-@unnumberedsubsec Linux, Mac, Unix
+@subsection Linux, Mac, Unix
 
 For unix-like operating systems DiffPy can be installed using easy-install,
 provided that some libraries and applications already exist on your computer.
@@ -328,63 +332,56 @@ using your system's package manager such as @command{apt-get} or @command{yum}.
 In case a binary package is not available, refer to the corresponding
 project page for other installation options.
 
-@noindent
-@b{Requirements}
+@subsubheading Requirements
 
-@table @t
+@table @emph
 @item python
 Python interpreter version 2.5, @url{http://www.python.org}
-
 @item python-dev
 C development files for Python
-
 @item setuptools
-software distribution tools for Python,
+software distribution tools for Python, @*
 @url{http://peak.telecommunity.com/DevCenter/setuptools}
-
 @item numpy
 numerical Python, minimum version 0.9.8,
 @url{http://numpy.scipy.org}
-
 @item wxPython
-tab GUI toolkit for Python, minimum version 2.6, recommended 2.8
+GUI toolkit for Python, recommended version 2.8 (minimum 2.6) @*
 @url{http://wxpython.org}
-
 @item matplotlib
-tab plotting library for Python, minimum version 0.90,
+plotting library for Python, minimum version 0.90, @*
 @url{http://matplotlib.sourceforge.net}
-
 @item g++
-tab GNU C++ compiler
-
+GNU C++ compiler
 @item GSL
-tab the GNU Scientific Library for C,
+the GNU Scientific Library for C,
 @url{http://www.gnu.org/software/gsl}
 @end table
 
-On Ubuntu Linux the required packages can be installed all at once
-with a single command
+@smallskip
+@noindent
+On Ubuntu Linux the required packages can be all installed
+with one command
 @example
 sudo aptitude install \
     python-dev python-setuptools python-wxtools \
     python-numpy python-matplotlib libgsl0-dev g++
 @end example
+@smallskip
 
-@noindent
-@b{Optional programs}
+@subsubheading Optional programs
 
-@table @t
+@table @emph
 @item AtomEye
-AtomEye structure viewer,
-@url{http://mt.seas.upenn.edu/Archive/Graphics/A/} 
+AtomEye structure viewer, @*
+@url{http://mt.seas.upenn.edu/Archive/Graphics/A/}
 
 @item PyMOL
 PyMOL structure viewer,
-@url{http://pymol.sourceforge.net} 
+@url{http://pymol.sourceforge.net}
 @end table
 
-@noindent
-@b{Installation using easy_install}
+@subsubheading Installation using easy_install
 
 With all the requirements in place, PDFgui can be installed with a
 single command
@@ -405,14 +402,13 @@ installation to later releases in the code repository
 easy_install -U diffpy.pdffit2
 @end example
 
-@noindent
-@b{Installation from tar bundle}
+@subsubheading Installation from tar bundle
 
 If you need to install on a computer that does not have network access,
 you can do so from a complete package bundle @samp{diffpy-VERSION.tgz}.
 This archive contains necessary packages and the @command{easy_install} script
 configured to use packages from local directory rather than to download them
-from the internet.  To install from the tgz bundle, unpack the archive and
+from the Internet.  To install from the tgz bundle, unpack the archive and
 execute @command{easy_install} script included with the distribution:
 @example
 tar xzf diffpy-VERSION.tgz
@@ -421,7 +417,7 @@ cd diffpy-VERSION
 @end example
 
 @node Subversion repository
-@unnumberedsubsec Subversion repository
+@subsection Subversion repository
 @cindex subversion
 
 The latest development sources for PDFgui and other DiffPy packages
@@ -431,6 +427,7 @@ latest code, run
 easy_install -U \
     svn://svn@@danse.us/diffraction/diffraction/diffpy.pdfgui/trunk
 @end example
+@noindent
 This should work on both Unix and Windows installation provided you
 have @command{svn}, a subversion client, installed on your computer.
 You will of course need the required packages listed above as well.
@@ -444,36 +441,40 @@ download its source tree from Subversion and install in development
 mode.  As an added benefit, it is easy to use subversion to produce
 patches or revert accidental changes.  The development installation can
 be performed by following steps
+
 @example
 svn checkout \
     svn://svn@@danse.us/diffraction/diffraction/diffpy.pdfgui/trunk \
     diffpy.pdfgui
-
 cd diffpy.pdfgui
 python setup.py develop
 @end example
+
+@noindent
 The develop command instructs python to load the diffpy.pdfgui package
 from the current source tree.  Therefore any changes in those sources
 would be reflected in program execution.  If you change the code,
 for example to fix a bug, please post your modifications as a patch
-to the diffpy-dev Google group at 
-@url{http://groups.google.com/group/diffpy-dev}. 
+to the diffpy-dev Google group at
+@url{http://groups.google.com/group/diffpy-dev}.
 To produce a code patch, change to the source tree base and run
+
 @example
 svn diff > patchfile
 @end example
 
+@noindent
 To revert the installation back to the latest release, go to the
 @samp{lib/site-packages} directory in the Python installation
-and delete the @samp{diffpy.pdfgui.egg-link} file and use 
+and delete the @samp{diffpy.pdfgui.egg-link} file and use
 @command{easy_install} to update to the latest public package:
 @example
 easy_install -U diffpy.pdfgui
 @end example
 
 
-@node Configure Structure Visualization
-@unnumberedsubsec Configure Structure Visualization
+@node Configuration of structure viewer
+@subsection Configuration of structure viewer
 @cindex visualization setup
 
 Once PDFgui is up an running, you need to tell it where to find your preferred
@@ -482,6 +483,7 @@ information can be entered under the ``Edit->Preferences'' menu.
 
 @noindent
 @b{A note for AtomEye users:}
+@cindex AtomEye viewer
 
 AtomEye requires its standard output is connected to a terminal.
 On Unix this happens when @command{pdfgui} is started from a terminal.
@@ -493,37 +495,43 @@ Structure viewer executable: xterm
 Argument string: -iconic -e ATOMEYE
 Structure format: xcfg
 @end example
-In the above, ATOMEYE is the path to the ATOMEYE executable. For Cygwin users,
-the workaround is to start atomeye from a batch file.
-This ensures atomeye gets started from a command window,
-and in addition the batch file can be used to adjust environment
+@noindent
+In the above, ATOMEYE is the path to the ATOMEYE executable. 
+
+For Cygwin users,
+the workaround is to launch the executable from a batch file.
+Batch files can only run in a command window on Windows and so
+AtomEye's requirements would be for sure satisfied.
+In addition the batch file can be used to adjust environment
 variables:
 @example
 atomeye.bat
 ------------------------------------------------------------------------
-set DISPLAY=localhost:0 
-set PATH=C:\cygwin\bin;C:\cygwin\usr\X11R6\bin;C:\ATOMEYE_DIRECTORY;%PATH% 
+set DISPLAY=localhost:0
+set PATH=C:\cygwin\bin;C:\cygwin\usr\X11R6\bin;C:\ATOMEYE_DIR;%PATH%
 start A.exe %*
 ------------------------------------------------------------------------
 @end example
-Here ATOMEYE_DIRECTORY needs to be replaced with a proper path.  Make sure
+
+@noindent
+Here @t{ATOMEYE_DIR} needs to be replaced with a proper path.  Make sure
 that the X-server application included with Cygwin is started.
 
 @c @node NODE-NAME, NEXT, PREVIOUS, UP
-@node    What is new, Community, Installation, Introduction
+@node    What is new
 @section What is new
 @cindex  versions
 @cindex  whatisnew
 
-@unnumberedsubsec Version 1.0, released April 2009
+@subheading Version 1.0, released April 2009
 
 This section describes improvements and modifications since the
 last beta-release 1.0b.1792 from December 2007.
 
-@table @t
+@table @emph
 
 @item updates and installation
-PDFgui can be installed or updated 
+PDFgui can be installed or updated
 with a simple run of the easy_install script.  easy_install
 checks our online code repository for any newer versions and takes
 care of their download and installation.  It can be also used to
@@ -600,7 +608,7 @@ values in the dGr column, because NaN is not supported by the Windows
 C-library.  Added check for NaN-s before converting to float.
 
 @item bug fixes
-Other small issues too numerous to list here.
+too many to list here.
 
 @end table
 
@@ -615,7 +623,7 @@ There are several Google groups for support and development of PDFgui and other
 DiffPy software.  Visit the links below for message archives or instructions on
 subscription and posting.
 
-@table @t
+@table @emph
 @item @b{diffpy-users} @url{http://groups.google.com/group/diffpy-users}
 Help on usage of PDFgui, PDFfit2 and other DiffPy packages.  This group should
 become a knowledge base of PDFgui user tips, tricks and troubleshooting.  Feel
@@ -635,7 +643,7 @@ library in general.
 @cindex quick start
 
 In this chapter the PDFgui layout is briefly described, followed by a simple
-tutorial example, spanning the gui functionality and aimed at novice users.
+tutorial example, spanning the GUI functionality and aimed at novice users.
 Users familiar with the basics can proceed to @ref{Examples and tutorials}, or
 use @ref{PDFgui reference sheets}.  All the files used in examples are
 available in the source distribution or can be downloaded from the DiffPy
@@ -657,7 +665,7 @@ bar features icons for commonly used operations: creating a new project,
 opening an existing project, saving a project, executing a refinement or
 calculation, stopping a refinement or calculation, and making a quick plot. The
 four panes consist of the ``Fit Tree'', ``Plot Control'', the``Current Action''
-pane, and the ``PDFfit2 Output'' panel.  These are all shown in @ref{fig2-01}.  
+pane, and the ``PDFfit2 Output'' panel.  These are all shown in @ref{fig2-01}.
 
 The fit tree is used in setting up a fit protocol.  The plot control serves the
 user's needs for graphically displaying the fits, as well as various
@@ -769,17 +777,17 @@ fitting has occurred so far, an attempt to plot calculated PDF profile or a
 difference yields a blank plot. The data can also be displayed by clicking the
 rightmost ``quick-plot'' button in the tool bar.
 
+@float Figure,fig2-03
+@ScreenShot{images/fig2-03}
+@caption{Adjusting data set related configuration.}
+@end float
+
 Having specified the initial structure to be refined, and the data set to be
 fit, we proceed to the refinement setup. First we adjust the initial parameters
 and variables, and set up the constraints. The adjustments and constraint setup
 are done on both the experimental data and the refined structure levels,
 toggling between the corresponding ``Configure'' and ``Constraints'' tabs. In
 the present example the data related setup will be done first.
-
-@float Figure,fig2-03
-@ScreenShot{images/fig2-03}
-@caption{Adjusting data set related configuration.}
-@end float
 
 Click on the data set node (@i{Ni-xray.gr}) in the fit tree. In @ref{fig2-03}
 the ``Data Set Configuration'' panel is shown. We will adjust the fitting
@@ -831,7 +839,7 @@ the parameters. This allows simple linking of related variables. For example,
 since cell lengths a, b, and c are all expressed as @i{@@3}, the refined
 structure will remain cubic. Also note that the enumeration of the parameters
 can be arbitrary, enumeration does not have to follow any particular order. The
-quantities within a fit that are enumeratued with the same number will be
+quantities within a fit that are enumerated with the same number will be
 assigned the same parameter, hence caution should be exercised to avoid
 unintentional assignment of the same parameter to physically different
 quantities. Automatic parameter assignment (see further below) is done in such
@@ -935,7 +943,7 @@ within the user-specified fitting range.
 @cindex tutorials
 
 In this chapter we present series of examples and tutorials aimed at users
-already comfortable with the gui, to provide training in advanced gui features
+already comfortable with the GUI, to provide training in advanced GUI features
 designed for most common modeling situations, such as building the structure
 from scratch, calculating the PDF based on a given structure, linking fits, and
 creating and executing a series of fits on a sequence of data sets.
@@ -950,7 +958,7 @@ creating and executing a series of fits on a sequence of data sets.
 
 @node Symmetry expansion, Calculating PDF, Examples and tutorials, Examples and tutorials
 @section Building structure model using crystal symmetry
-@cindex building structure from scratch
+@cindex create new structure
 @cindex symmetry expansion
 
 @c @b{NB: this part either can be kept or replaced, I felt it's kind of useful
@@ -993,20 +1001,15 @@ To introduce new atoms right-click with your mouse onto @i{elem} tab in the
 Phase Constraints grid, and select desired number of atoms in the asymmetric
 unit via the dialog box that pops up. For the Ni case, select one row only.  A
 new row will then show up in the table and the name of the element will be
-highligted. Type in @i{Ni} for the element name.  It is important that the
+highlighted. Type in @i{Ni} for the element name.  It is important that the
 element name is typed in correctly, as this is further used to search a
 database for the scattering characteristics of that site@footnote{
 @cindex isotope
 To enter a specific isotope, use the ``NucleonNumber-Symbol'' syntax,
-for example ``12-C''.  This does not apply for deuterium and tricium, which
+for example ``12-C''.  This does not apply for deuterium and tritium, which
 have isotope symbols ``D'' and ``T''.}.  Further, highlight cells in the
 @i{u11}, @i{u22}, and @i{u33} columns and type in the initial value 0.0025.
 
-
-@float Figure,fig3-01
-@ScreenShot{images/fig3-01}
-@caption{Expanding the unit cell using space group information.}
-@end float
 
 Now right-click with the mouse on the element name, and select ``Expand space
 group...'' option. A dialog box will appear, as shown in @ref{fig3-01},
@@ -1015,14 +1018,14 @@ in the choice box and hit enter. You can also type in the choice box ``Fm-3m''
 or ``225'', the space group number.  This will expand the unit cell to four Ni
 sites with the proper symmetry.
 
-@float Figure,fig3-02
-@ScreenShot{images/fig3-02}
-@caption{Setting up symmetry constraints to be used in a refinement.}
+@float Figure,fig3-01
+@ScreenShot{images/fig3-01}
+@caption{Expanding the unit cell using space group information.}
 @end float
 
 In order to set the symmetry constraints for the refinement, select
 ``Constraints'' tab, highlight all the atoms, and right-click to invoke a menu.
-Note that hitting ``Control'' and ``A'' simlutaneously will select all the
+Note that hitting ``Control'' and ``A'' simultaneously will select all the
 atoms if the grid is active. (If the fit tree is active, it will select all
 tree items). Click on ``Symmetry constraints...'', and a dialog box will appear
 asking for the space group to be used and whether you want the positions and/or
@@ -1043,6 +1046,11 @@ with, then the original symmetry obtained using symmetry expansion feature will
 tool and nothing more than that. The remaining steps of this example are
 identical to these described in @ref{Simple fit}.
 
+@float Figure,fig3-02
+@ScreenShot{images/fig3-02}
+@caption{Setting up symmetry constraints to be used in a refinement.}
+@end float
+
 @c @node NODE-NAME, NEXT, PREVIOUS, UP
 @node Calculating PDF, Sequential fitting, Symmetry expansion, Examples and tutorials
 @section Calculating PDF from a structure
@@ -1055,7 +1063,7 @@ file or generated from scratch. Suppose that we have a Ni structure populating
 a fit tree using steps described in either @ref{Simple fit} or in @ref{Symmetry
 expansion}, and that we would like to calculate Ni PDF using neutron radiation.
 Highlight the Ni structure on fit tree. Either right-click and select @b{Insert
-Calcualtion} or select @b{New Calculation} from ``Calculation'' menu.  The
+Calculation} or select @b{New Calculation} from ``Calculation'' menu.  The
 current action panel will display information very similar to that when a data
 set is loaded, as shown in @ref{fig3-03}.
 
@@ -1183,7 +1191,7 @@ is to be defined for a box-car fitting approach. An example of this when one
 wants to study the details of the local- to average-structure crossover in a
 complex material. PDFgui has a pre-written macro that automates the setup of
 this type of refinement.  We will illustrate these capabilities through a
-simple Ni example.  
+simple Ni example.
 
 Generate a complete fit, including a phase and a dataset, as explained in
 @ref{Simple fit}. Select the fit from the fit tree. From the ``Fits'' menu,
@@ -1191,12 +1199,6 @@ select @b{Macros}, and choose ``r-Series'' option. The Current Action panel
 will display simple setting requirements, arranged in two rows of three dialog
 boxes each, that need to be filled with values to be specified by the user. An
 example of this is shown in Figure @ref{fig3-05}.
-
-@float Figure,fig3-05
-@ScreenShot{images/fig3-05}
-@caption{Appearance of the setup panel for specifying an incremental r-series
-fit conditions.}
-@end float
 
 The first row deals with the increment setup of the upper @i{r} of the
 refinements. User should specify the first and the last fit maximum
@@ -1215,6 +1217,12 @@ current action panel.  This will generate 4 new fits below the original fit,
 and these four fits will constitute your series, with desired incremental
 limits. Select all four of them and execute the refinement.  Once the sequence
 is done, you can review the results using the plot control.
+
+@float Figure,fig3-05
+@ScreenShot{images/fig3-05}
+@caption{Appearance of the setup panel for specifying an incremental r-series
+fit conditions.}
+@end float
 
 @c @node NODE-NAME, NEXT, PREVIOUS, UP
 @node Temperature series, Doping series, r-series, Sequential fitting
@@ -1252,7 +1260,7 @@ allows for data sets to be added. Click on ``Add'' button. Using ``Shift'' and
 mouse-select operation you should select all the data sets mentioned in the
 above list, except the 300 K one, as this is already in the template fit, and
 then press ``Open''.  All the data sets will be loaded. Since the files contain
-meta-data, as mentioned earlier, the gui is going to pick up temperature
+meta-data, as mentioned earlier, the GUI is going to pick up temperature
 information from the files. User should verify that the information is correct.
 The data can be ordered by temperature by clicking the ``Temperature'' header.
 
@@ -1272,7 +1280,7 @@ fits in the fit tree in the order of the temperature increase. Each fit is
 linked to the previous, except for the template fit for the 300 K data.
 Highlight all the fits in the fit tree to start the sequential refinement of
 the T-series. The results can then be displayed in Fit Control such that
-various converged fit parameters are plotted versus temperature. 
+various converged fit parameters are plotted versus temperature.
 
 In terms of the science behind the LaMnO3 example, it is interesting to plot
 isotropic ADP of the oxygen at general position. Select all the phases on the
@@ -1346,13 +1354,13 @@ selection. The base element and dopant need to be specified. A tool is provided
 that allows for data sets to be added. Click on ``Add'' button.  Using
 ``Shift'' and mouse-select operation you should select all the data sets
 mentioned in the above list, and then press ``Open'' button.  All the data sets
-will be loaded. The gui will introspect both the file names and files
+will be loaded. The GUI will introspect both the file names and files
 themselves in attempt to obtain the doping (or in previous example temperature)
 information. Since the files do not contain meta-data, as mentioned earlier,
-the gui is going to pick up doping information from the file names. The user
+the GUI is going to pick up doping information from the file names. The user
 should verify that the information is correct. In this particular case the
 doping information will not be correctly picked up, as for example 004 from the
-name is meant to be 0.04 doping, and the gui would try to interpret it as 4.0
+name is meant to be 0.04 doping, and the GUI would try to interpret it as 4.0
 doping. Similarly 028 would be interpreted as 28.0, while it was intended to
 mean 0.28 doping. These values should be edited and fixed manually by clicking
 on the corresponding values and simply typing in the correct values (Figure
@@ -1425,13 +1433,15 @@ for i in range(tcount):
     print Ti, ci
 @end example
 
+@noindent
 Save the example above to a file, say ``lmo_refined_c.py'' and run
 it as
 @example
 python lmo_refined_c.py
 @end example
-Note the script would fail on the original @i{lmo-template.ddp} file,
-because it does not yet contain any refined results.
+@noindent
+Note that the script cannot load unmodified @i{lmo-template.ddp} file,
+because it does not have any refinement results.
 
 
 The tutorial directory contains an advanced script
@@ -1441,10 +1451,10 @@ the comments in the script for detailed explanation.
 
 To learn more about the tui module and about the objects
 and functions that it returns, please see the API
-documentation for diffpy.pdfgui at 
+documentation for diffpy.pdfgui at
 @url{http://docs.danse.us/diffraction/diffpy.pdfgui/}.
 
-Feel free to ask at the 
+Feel free to ask at the
 @url{http://groups.google.com/group/diffpy-users, diffpy-users}
 group if you need help with data extracting scripts.
 
@@ -1473,12 +1483,6 @@ factors, correlated motion parameters and so on. The refinement procedure is
 therefore rather delicate and the solutions are not as robust as we are used to
 in cases of crystalline materials.
 
-@float Figure,fig3-10
-@ScreenShot{images/fig3-10}
-@caption{Fitting the structure of a nanoparticle: 3nm CdSe
-nanoparticle example.}
-@end float
-
 To illustrate the program capabilities we present a case of CdSe nanoparticle
 approximately 3nm in size. It useful to have PDF data for a crystalline
 reference, where available/applicable. In this exercise we start from a
@@ -1491,7 +1495,7 @@ was used to obtain the data at 300 K, based on an experiment carried out at
 6-ID-D at the Advanced Photon Source at Argonne National Laboratory.  The
 structure used for both data sets is wurtzite, space group P63mc. From
 calibrations on Ni standard @i{Qdamp} value of 0.0486 was obtained and is used
-here. 
+here.
 
 We first carry out a refinement on the bulk reference. This is carried
 out over a range from 1.7 to 19.8 Angstroms, using 7 parameters: lattice
@@ -1502,7 +1506,7 @@ correlated motion related quadratic term coefficient @i{delta2} (@i{@@200}).
 The converged fit results in parameter values that can be further used for
 reference when modeling the nanoparticle data. We note that while the fit is
 reasonable, the values of the isotropic ADPs are enlarged. The fit can be
-further improved if anisotropic ADPs are introduced, although the z-direciton
+further improved if anisotropic ADPs are introduced, although the z-direction
 related components will remain enlarged due to the stacking disorder present in
 the structure. The referent value of 5.69 for @i{delta2} will be used as a
 starting value for the nanoparticle fit.
@@ -1521,23 +1525,26 @@ related disorder.  A detailed description of this system and successful
 PDF modeling can be found in this publication:
 @url{http://link.aps.org/doi/10.1103/PhysRevB.76.115413,Quantitative
 size-dependent structure and strain determination of CdSe nanoparticles using
-atomic pair distribution function analysis}.  
+atomic pair distribution function analysis}.
+
+@float Figure,fig3-10
+@ScreenShot{images/fig3-10}
+@caption{Fitting the structure of a nanoparticle: 3nm CdSe
+nanoparticle example.}
+@end float
 
 In general, a successful fitting scenario depends on particular details of a
 structural problem one is determined to solve. The problem of determining the
-structure of a nanopartcle remains difficult. The PDFgui suite is not intended
+structure of a nanoparticle remains difficult. The PDFgui suite is not intended
 to necessarily provide @i{the} solution, it is rather a helpful tool in the
 process of determining new details and exploring the space of possible solution
 candidates, yielding success in some instances.
 
-@c Start of Chapter 4
 @c @node NODE-NAME, NEXT, PREVIOUS, UP
 @node Extras, PDF plotting, Nanoparticle structure, Top
 @chapter Extras
 @cindex extras
 
-@c Start of Chapter 4
-@c @node NODE-NAME, NEXT, PREVIOUS, UP
 @menu
 * PDF plotting::
 * Displaying the structure::
@@ -1570,6 +1577,8 @@ hoping that the usage is sufficiently simple for users to master individually
 with ease. An example plot of Rw vs refinement step is shown in @ref{fig4-01}
 for Ni example.
 
+@page
+
 @float Figure,fig4-01
 @ScreenShot{images/fig4-01}
 @caption{Plotting window featuring Rw vs refinement step for Ni example.
@@ -1588,11 +1597,11 @@ configuration, PDFgui allows for initial or refined structures to be visualized
 by passing required structural information that program.  This is achieved by
 highlighting a desired phase on the fit tree, and then selecting @b{Plot
 Initial Structure} or @b{Plot Refined Structure} from the ``Phases'' drop-down
-menu. The quickplot button will also invoke the structure viewer with the
-refined struture, or initial structure if the refined structure does not yet
+menu. The quick-plot button will also invoke the structure viewer with the
+refined structure, or initial structure if the refined structure does not yet
 exist. The control of the visualization is dependent on the viewer used. The
 viewer can set under the ``Edit->Preferences'' menu, see full details in
-@ref{Configure Structure Visualization}.
+@ref{Configuration of structure viewer}.
 
 
 An example Ni structure visualization with AtomEye is shown in @ref{fig4-02}.
@@ -1623,18 +1632,17 @@ described elsewhere. Refer to the diffpy-users group
 (@url{http://groups.google.com/group/diffpy-users}) for help with PDFfit2
 scripting.
 
-@c Start of Chapter 5
 @c @node NODE-NAME, NEXT, PREVIOUS, UP
 @node PDFgui reference sheets, PDFgui shortcut keys, Advanced usage and special needs, Top
 @chapter PDFgui reference sheets
 @cindex PDFgui reference sheets
 @cindex reference sheets
 
-@c Start of Chapter 6
 @menu
 * PDFgui shortcut keys::
+* Command line arguments::
 * List of PDFfit2 variables::
-* PDF Peak Width::
+* PDF peak width::
 @end menu
 
 @node PDFgui shortcut keys
@@ -1643,72 +1651,122 @@ scripting.
 @cindex shortcuts
 @cindex hot keys
 
-@b{fit tree}
-@table @t
 
-@item @kbd{Ctrl+A} 
+@noindent
+@b{Fit tree}
+
+@table @kbd
+
+@item Ctrl+A
 Select all items in the fit tree.
 
-@item @kbd{Ctrl+Shift+A} 
+@item Ctrl+Shift+A
 Once an object is selected on the fit tree, using this shortcut key will
-sellect all the objects on the tree that are of the same type. For example, if
+select all the objects on the tree that are of the same type. For example, if
 a single data set is selected on the tree, hitting this hot key will make all
 the data sets belonging to all the fits in the tree to become selected. This is
 particularly useful for simultaneously plotting various fit results across the
 fit tree.
 
-@item @kbd{Ctrl+C} 
+@item Ctrl+C
 Copy selected item.
 
-@item @kbd{Ctrl+X} 
+@item Ctrl+X
 Delete selected item. Note that this does not place a copy of the item in the
 clipboard.
 
-@item @kbd{Delete} 
-Same as @kbd{Ctrl+X}
+@item Delete
+Same as Ctrl+X
 
-@item @kbd{Ctrl+V} 
+@item Ctrl+V
 Paste previously copied item. Note that this will only paste the item to a
 legal position in the tree. For example, a phase node cannot be pasted into an
 empty tree.
 
 @end table
 
+
 @noindent
 @b{Phase configuration grid}
-@table @t
 
-@item @kbd{Ctrl+A} 
+@table @kbd
+
+@item Ctrl+A
 Select all items.
 
-@item @kbd{Delete} 
+@item Delete
 Delete row. This will delete any wholly selected row.
 
-@item @kbd{Ctrl++} 
+@item Ctrl++
 Add an atom to the grid.
 
-@item @kbd{Ctrl+-} 
-Same as @kbd{Delete}.
+@item Ctrl+-
+Same as Delete.
 
 @end table
 
+
 @noindent
 @b{Phase constraints grid}
-@table @t
 
-@item @kbd{Ctrl+A} 
+@table @kbd
+
+@item Ctrl+A
 Select all items.
 
-@item @kbd{Delete} 
+@item Delete
 Delete contents of selected cells.
 
 @end table
 
-@c Start of Chapter 6
+
+@node Command line arguments
+@section Command line arguments
+@cindex command line options
+@cindex startup options
+@cindex pdfgui arguments
+
+PDFgui can be started with an existing project file if it is given
+as a command line argument.  If the project file cannot be loaded,
+the program terminates without starting the GUI an returns nonzero
+exit code.  In addition the @command{pdfgui} executable accepts the
+following command line options:
+
+@table @option
+
+@item -h, --help
+Show a brief usage information.
+
+@item -V, --version
+Show program version.
+
+@end table
+
+@page
+@noindent
+@b{Debugging}
+
+@table @option
+
+@item --db-noed
+Disable exception catching to error report dialog.  Unhandled
+exceptions should then result in program crash.
+
+@item --db-nocf
+No confirmation - exit without asking to save modified project.
+
+@item --db-pdb
+Start Python debugger for unhandled error exceptions instead
+of showing the error report dialog.
+
+@end table
+
+
 @node List of PDFfit2 variables
 @section List of PDFfit2 variables
 @cindex PDFfit2 variables
 @cindex variables
+
 
 The following is the list of PDFfit2 variables, including their default values
 in parentheses, and a brief description and a note, where appropriate.  Note
@@ -1716,8 +1774,15 @@ that some of the variables used in PDFFIT are renamed in PDFfit2. The reference
 of these changes is provided for the convenience and orientation of those users
 that are used to the old naming scheme.
 
+@menu
+* New variables::
+* Renamed variables::
+* Preserved variables::
+@end menu
+
 @c ---------------------------------------------------------------------
-@unnumberedsubsec New Variables
+@node New variables, Renamed variables, List of PDFfit2 variables, List of PDFfit2 variables
+@subheading New variables
 
 @defvr {Phase} spdiameter
 (float @AA{}, default 0 @AA{}) @*
@@ -1748,7 +1813,8 @@ constrained only for isotropic atoms.
 @end defvr
 
 @c ---------------------------------------------------------------------
-@unnumberedsubsec Renamed Variables
+@node Renamed variables, New variables, Preserved variables, List of PDFfit2 variables
+@subheading Renamed variables
 
 @defvr {Dataset} dscale
 (float unitless, @var{dsca[s]} in PDFFIT) @*
@@ -1769,7 +1835,7 @@ $$ B(r) = e^{-{(r Q_{damp})^{2} \over 2} } $$
 (float @AA{}@math{^\bgroup-1\egroup}, default 0 @AA{}@math{^\bgroup-1\egroup}, @var{qalp} in PDFFIT) @*
 PDF peak broadening from increased intensity noise at high Q.
 Not applied when equal zero.
-See the definition of the @ref{PDF Peak Width} for a detailed explanation.
+See the definition of the @ref{PDF peak width} for a detailed explanation.
 @end defvr
 
 @defvr {Phase} uij(n)
@@ -1790,13 +1856,13 @@ Scale factor of the current phase.
 @defvr {Phase} delta1
 (float @AA{}, default 0 @AA{}, @var{gamm} in PDFFIT) @*
 Coefficient for (1/r) contribution to the peak sharpening.
-See the definition of the @ref{PDF Peak Width} for a detailed explanation.
+See the definition of the @ref{PDF peak width} for a detailed explanation.
 @end defvr
 
 @defvr {Phase} delta2
 (float @AA{}@math{^2}, default 0 @AA{}@math{^2}, @var{delt} in PDFFIT) @*
 Coefficient for 1/r@math{^2} contribution to the peak sharpening.
-See the definition of the @ref{PDF Peak Width} for a detailed explanation.
+See the definition of the @ref{PDF peak width} for a detailed explanation.
 @end defvr
 
 @defvr {Phase} sratio
@@ -1806,7 +1872,8 @@ for correlated motion of bonded atoms.
 @end defvr
 
 @c ---------------------------------------------------------------------
-@unnumberedsubsec Preserved Variables
+@node Preserved variables, PDF peak width, Renamed variables, List of PDFfit2 variables
+@subheading Preserved variables
 
 @defvr {Dataset} qmax
 (float @AA{}@math{^\bgroup-1\egroup}, default 0 @AA{}) @*
@@ -1815,14 +1882,14 @@ value determined during the PDF data processing in the Fourier
 transform step. Finite data range used in the Fourier transform
 is a source of termination ripples. Termination ripples are
 @i{not} applied in PDF calculation when @var{qmax} is set to zero. The
-effect is simulated using fast Fourier transformation (FFT). 
+effect is simulated using fast Fourier transformation (FFT).
 The original array of @i{G} values is first padded by the same number of zeros
 and then by more zeros to reach the next power of 2.  The padded
 @i{G} array is transformed by FFT and any coefficients @i{F} that correspond
 to @i{Q} values greater than @var{qmax} are reset to zero.  The adjusted
 coefficient array @i{F} is then transformed by inverse FFT back to @i{G'}
 and cut out at the original length of @i{G}.  The imaginary components
-in @i{G'} are ignored as they are only due to roundoff errors.
+in @i{G'} are ignored as they are only due to round-off errors.
 @end defvr
 
 @defvr {Phase} lat(i)
@@ -1842,8 +1909,8 @@ Radius cutoff for applying @var{sratio} sharpening factor.
 @end defvr
 
 @c ---------------------------------------------------------------------
-@node PDF Peak Width
-@section PDF Peak Width
+@node PDF peak width
+@section PDF peak width
 
 The PDF peak width contains contributions from thermal and zero point
 displacements as well as static disorder. For large distances @i{r} the motion
