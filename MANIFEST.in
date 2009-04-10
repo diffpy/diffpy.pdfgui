@@ -1,10 +1,11 @@
 prune tests
 prune doc/epydoc
 prune doc/manual/images/originals
-recursive-exclude doc/manual Makefile
 exclude doc/manual/*.texinfo
 exclude doc/manual/*.py
 exclude doc/manual/images/*.pdf
+exclude doc/manual/Makefile
+exclude doc/manual/images/Makefile
 exclude icons/*.xcf
 exclude icons/*.m
 exclude MANIFEST.in
