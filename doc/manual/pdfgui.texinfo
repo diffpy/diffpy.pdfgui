@@ -1009,8 +1009,10 @@ element name is typed in correctly, as this is further used to search a
 database for the scattering characteristics of that site@footnote{
 @cindex isotope
 To enter a specific isotope, use the ``NucleonNumber-Symbol'' syntax,
-for example ``12-C''.  This does not apply for deuterium and tritium, which
-have isotope symbols ``D'' and ``T''.}.  Further, highlight cells in the
+for example ``12-C''.  Deuterium and tritium can be entered also as
+``D'' and ``T'' in addition to the normal syntax ``2-H'' and ``3-H''.
+}. 
+Further, highlight cells in the
 @i{u11}, @i{u22}, and @i{u33} columns and type in the initial value 0.0025.
 
 
