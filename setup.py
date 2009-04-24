@@ -52,7 +52,7 @@ setup(
         url = 'http://www.diffpy.org/',
         download_url = 'http://www.diffpy.org/packages/',
         description = "GUI for PDF simulation and structure refinement.",
-        license = open('LICENSE.txt').read(),
+        license = 'BSD',
         keywords = 'PDF structure refinement GUI',
         classifiers = [
             # List of possible values at
