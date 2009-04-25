@@ -146,13 +146,17 @@ class PDFDataSet(PDFComponent):
         returns self
         """
         self.clear()
+        # useful regex patterns:
+        rx = { 'f' : r'[-+]?(\d+(\.\d*)?|\d*\.\d+)([eE][-+]?\d+)?' }
         # find where does the data start
         res = re.search(r'^#+ start data\s*(?:#.*\s+)*', datastring, re.M)
         # start_data is position where the first data line starts
         if res:
             start_data = res.end()
         else:
-            res = re.search(r'^[^#]', datastring, re.M)
+            # find line that starts with a floating point number
+            regexp = r'^\s*%(f)s' % rx
+            res = re.search(regexp, datastring, re.M)
             if res:
                 start_data = res.start()
             else:
@@ -168,7 +172,6 @@ class PDFDataSet(PDFComponent):
             header = header[:res.start()]   
             
         # parse header
-        rx = { 'f' : r'[-+]?(\d+(\.\d*)?|\d*\.\d+)([eE][-+]?\d+)?' }
         # stype
         if re.search('(x-?ray|PDFgetX)', header, re.I):
             self.stype = 'X'
