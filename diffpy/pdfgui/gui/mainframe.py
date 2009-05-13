@@ -20,7 +20,7 @@
 import sys
 import os.path
 import re
-from ConfigParser import SafeConfigParser
+from ConfigParser import RawConfigParser
 
 import wx
 import wx.lib.newevent
@@ -296,7 +296,7 @@ class MainFrame(wx.Frame):
         self.runningDict = {}
 
         # The configuration parser for getting configuration data.
-        self.cP = SafeConfigParser()
+        self.cP = RawConfigParser()
 
         # Set the program mode
         self.mode = "fitting"
@@ -949,7 +949,7 @@ class MainFrame(wx.Frame):
         # Load structure viewer information and put this in the configure panel
         viewerconfig = {}
         if self.cP.has_section("STRUCTUREVIEWER"):
-            viewerconfig = dict(self.cP.items("STRUCTUREVIEWER", raw=True))
+            viewerconfig = dict(self.cP.items("STRUCTUREVIEWER"))
             viewer = structureviewer.getStructureViewer()
             viewer.setConfig(viewerconfig)
 
