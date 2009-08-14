@@ -24,7 +24,8 @@ setup(
         name = 'diffpy.pdfgui',
         version = '1.0',
         namespace_packages = ['diffpy'],
-        packages = find_packages(),
+        packages = find_packages(exclude=['tests']),
+        test_suite = 'tests',
         entry_points = {
             'gui_scripts': [
                 'pdfgui=diffpy.pdfgui.applications.pdfgui:main',
