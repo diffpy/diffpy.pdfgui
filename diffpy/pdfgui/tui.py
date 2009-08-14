@@ -29,15 +29,16 @@ class LoadProject:
 
     # public methods
 
-    def __init__(self, filename):
+    def __init__(self, filename=None):
         """Initialize LoadProject object, by reading existing project file.
 
         filename -- path to PDFgui project file.
         """
-        # data declaration
-        self._project = None
+        from diffpy.pdfgui.control.pdfguicontrol import PDFGuiControl
+        self._project = PDFGuiControl()
         # business
-        self.load(filename)
+        if filename is not None:
+            self.load(filename)
         return
 
 
@@ -48,8 +49,6 @@ class LoadProject:
 
         No return value.
         """
-        from diffpy.pdfgui.control.pdfguicontrol import PDFGuiControl
-        self._project = PDFGuiControl()
         self._project.load(filename)
         return
 
