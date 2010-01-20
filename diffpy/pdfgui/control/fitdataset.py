@@ -577,15 +577,18 @@ class FitDataSet(PDFDataSet):
         No return value.
         """
         if not self._rcalc_changed:     return
-        frmin, frmax, frstep = self.fitrmin, self.fitrmax, self.fitrstep
+        frmin, frmax = self.fitrmin, self.fitrmax
+        frstep = float(self.fitrstep)
         # new rcalc must cover the whole [fitrmin, fitrmax] interval
         # otherwise pdffit2 would complain
         robs_below = [ri for ri in self.robs if ri < frmin]
         if robs_below:
             rcalcfirst = robs_below[-1]
         else:
-            rcalcfirst = frstep * max(1, numpy.floor(1.0*frmin/frstep))
-        nrcalc = int( numpy.ceil(1.0*(frmax - rcalcfirst)/frstep) )
+            rcalcfirst = frstep * max(1, numpy.floor(frmin/frstep))
+        nrcalc = numpy.round(1.0*(frmax - rcalcfirst)/frstep)
+        if frmax - (rcalcfirst + nrcalc * frstep) > frstep * 1e-8:
+            nrcalc += 1
         newrcalc = rcalcfirst + frstep * numpy.arange(nrcalc + 1)
         # Gcalc:
         if len(self._Gcalc) > 0:
@@ -777,16 +780,16 @@ def grid_interpolation(x0, y0, x1, youtside=0.0):
         return y1
     # here n0 > 1 so we can safely calculate dx0
     dx0 = (x0[-1] - x0[0]) / (n0 - 1.0)
+    epsx = dx0 * 1e-8
     # find covered values in x1
-    m1 = numpy.where( numpy.alltrue((x0[0] <= x1, x1 < x0[-1]), axis=0) )[0]
-    # take care of x0[-1]
-    y1[x1 == x0[-1]] = y0[-1]
-    # all fine here
+    m1, = numpy.where(numpy.logical_and(x0[0] - epsx < x1, x1 < x0[-1] + epsx))
     ilo0 = numpy.floor((x1[m1] - x0[0])/dx0)
     ilo0 = numpy.array(ilo0, dtype=int)
-    # because of round-off error, ilo0 can equal n0 - 1
+    # ilo0 may be out of bounds for x1 close to the edge
+    ilo0[ilo0 < 0] = 0
+    ilo0[ilo0 > n0 - 2] = n0 - 2
+    ihi0 = ilo0 + 1
     # make sure hi indices remain valid
-    ihi0 = numpy.where(ilo0 < n0 - 1, ilo0 + 1, n0 - 1)
     w0hi = (x1[m1] - x0[ilo0]) / dx0
     w0lo = 1.0 - w0hi
     y1[m1] = w0lo*y0[ilo0] + w0hi*y0[ihi0]
