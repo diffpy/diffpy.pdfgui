@@ -585,7 +585,7 @@ class FitDataSet(PDFDataSet):
         if robs_below:
             rcalcfirst = robs_below[-1]
         else:
-            rcalcfirst = frstep * max(1, numpy.floor(frmin/frstep))
+            rcalcfirst = self.robs[0]
         nrcalc = numpy.round(1.0*(frmax - rcalcfirst)/frstep)
         if frmax - (rcalcfirst + nrcalc * frstep) > frstep * 1e-8:
             nrcalc += 1
