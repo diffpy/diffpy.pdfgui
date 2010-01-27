@@ -29,7 +29,8 @@ def textCtrlAsGridCell(panel, event):
     an example.
 
     ESC     --  Cancel the edit and highlight the text. This requires that
-                panel has a _focusedText attribute that stores the previous value.
+                panel has a _focusedText attribute that stores the previous
+                value.
     ENTER   --  Confirm the edit and move to the next cell (the default TAB
                 behavior).
     """
