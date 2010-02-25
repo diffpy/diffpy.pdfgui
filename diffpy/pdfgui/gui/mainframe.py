@@ -356,17 +356,6 @@ class MainFrame(wx.Frame):
 
         # Position other panels. Note that currently MinimizeButton does not do
         # anything. It is to be implemented in future versions of wx.aui
-        self.auiManager.AddPane(self.outputPanel, wxaui.AuiPaneInfo().
-                          Name("outputPanel").Caption("PDFfit2 Output").
-                          Bottom().
-                          TopDockable().
-                          BottomDockable().
-                          LeftDockable().
-                          RightDockable().
-                          MinimizeButton().
-                          BestSize(wx.Size(400,40)).
-                          MinSize(wx.Size(200,40))
-                          )
         self.auiManager.AddPane(self.treeCtrlMain, wxaui.AuiPaneInfo().
                           Name("treeCtrlMain").Caption("Fit Tree").
                           Left().
@@ -378,6 +367,18 @@ class MainFrame(wx.Frame):
                           BestSize(wx.Size(200,100)).
                           MinSize(wx.Size(200,40))
                           )
+        self.auiManager.AddPane(self.outputPanel, wxaui.AuiPaneInfo().
+                          Name("outputPanel").Caption("PDFfit2 Output").
+                          Bottom().
+                          TopDockable().
+                          BottomDockable().
+                          LeftDockable().
+                          RightDockable().
+                          MinimizeButton().
+                          BestSize(wx.Size(400,40)).
+                          MinSize(wx.Size(200,40))
+                          )
+        
         self.auiManager.AddPane(self.plotPanel, wxaui.AuiPaneInfo().
                           Name("plotPanel").Caption("Plot Control").
                           Left().
@@ -928,13 +929,13 @@ class MainFrame(wx.Frame):
                         self.fileHistory.AddFileToHistory(filename)
 
         # Import perspective from last session
-        if self.cP.has_section("PERSPECTIVE"):
-            if self.cP.has_option("PERSPECTIVE", "last"):
-                perspective = self.cP.get("PERSPECTIVE", "last")
-                self.auiManager.LoadPerspective(perspective)
-        else:
-            from diffpy.pdfgui.gui.windowperspective import default
-            self.auiManager.LoadPerspective(default)
+        #if self.cP.has_section("PERSPECTIVE"):
+        #    if self.cP.has_option("PERSPECTIVE", "last"):
+        #        perspective = self.cP.get("PERSPECTIVE", "last")
+        #        self.auiManager.LoadPerspective(perspective)
+        #else:
+        #    from diffpy.pdfgui.gui.windowperspective import default
+        #    self.auiManager.LoadPerspective(default)
 
         # Load the window dimensions
         w = 800
@@ -978,11 +979,11 @@ class MainFrame(wx.Frame):
         self.cP.set("SIZE", "height", str(h))
 
         # Frame layout
-        if not self.cP.has_section("PERSPECTIVE"):
-            self.cP.add_section("PERSPECTIVE")
+        #if not self.cP.has_section("PERSPECTIVE"):
+        #    self.cP.add_section("PERSPECTIVE")
 
-        perspective = self.auiManager.SavePerspective()
-        self.cP.set("PERSPECTIVE", "last", perspective)
+        #perspective = self.auiManager.SavePerspective()
+        #self.cP.set("PERSPECTIVE", "last", perspective)
 
         # Set the structure viewer information
         if not self.cP.has_section("STRUCTUREVIEWER"):
