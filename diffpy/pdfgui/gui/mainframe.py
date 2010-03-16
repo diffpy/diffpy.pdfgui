@@ -356,7 +356,6 @@ class MainFrame(wx.Frame):
 
         # Position other panels. Note that currently MinimizeButton does not do
         # anything. It is to be implemented in future versions of wx.aui
-        
         self.auiManager.AddPane(self.outputPanel, wxaui.AuiPaneInfo().
                           Name("outputPanel").Caption("PDFfit2 Output").
                           Bottom().
@@ -368,7 +367,6 @@ class MainFrame(wx.Frame):
                           BestSize(wx.Size(400,40)).
                           MinSize(wx.Size(200,40))
                           )
-       
         self.auiManager.AddPane(self.treeCtrlMain, wxaui.AuiPaneInfo().
                           Name("treeCtrlMain").Caption("Fit Tree").
                           Left().
@@ -380,7 +378,6 @@ class MainFrame(wx.Frame):
                           BestSize(wx.Size(200,100)).
                           MinSize(wx.Size(200,40))
                           )
-         
         self.auiManager.AddPane(self.plotPanel, wxaui.AuiPaneInfo().
                           Name("plotPanel").Caption("Plot Control").
                           Left().
