@@ -21,6 +21,7 @@ __id__ = "$Id$"
 import sys
 import os
 import threading
+import time
 
 from diffpy.pdfgui.control.pdflist import PDFList
 from diffpy.pdfgui.control.fitting import Fitting
@@ -72,7 +73,6 @@ class PDFGuiControl:
             self.running = True
 
         def run(self):
-            import time
             while self.running:
                 try:
                     self.control.checkQueue()

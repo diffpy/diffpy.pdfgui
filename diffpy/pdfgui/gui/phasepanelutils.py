@@ -311,8 +311,6 @@ def copySelectedCells(panel):
                 copytext += '\t'
             copytext += '\n'
 
-        #import sys; sys.stderr.write(copytext)
-
     # Place the copytext into the clipboard
     if not wx.TheClipboard.IsOpened():
         opened = wx.TheClipboard.Open()

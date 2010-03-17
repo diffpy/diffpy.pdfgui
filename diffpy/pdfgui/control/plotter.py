@@ -583,7 +583,7 @@ class Plotter(PDFComponent):
         # Check if any curve
         if len(self.curves) == 0:
             return
-        import time,getpass
+        import time, getpass
         outfile = open(filename, 'w')
         header = "# Generated on %s by %s.\n" % (time.ctime(), getpass.getuser())
         header += "# This file was created by PDFgui.\n"

@@ -19,6 +19,8 @@
 import os.path
 import re
 import copy
+import time
+from getpass import getuser
 
 from diffpy.pdfgui.control.pdfcomponent import PDFComponent
 from diffpy.pdfgui.control.controlerrors import \
@@ -280,8 +282,6 @@ class PDFDataSet(PDFComponent):
 
         Return data string.
         """
-        import time
-        from getpass import getuser
         lines = []
         # write metadata
         lines.extend([

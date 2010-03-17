@@ -781,7 +781,7 @@ class MainFrame(wx.Frame):
                         panel is displayed.
 
         """
-        self.rightPanel.Enable(False)
+        #self.rightPanel.Enable(False)
         self.plotPanel.Enable(False)
         for key in self.dynamicPanels:
             self.auiManager.GetPane(key).Hide()
@@ -797,12 +797,14 @@ class MainFrame(wx.Frame):
         self.rightPanel.Enable(True)
         self.setPanelSpecificData(paneltype)
         self.rightPanel.refresh()
-        self.auiManager.GetPane(paneltype).Show()
+        paneinfo = self.auiManager.GetPane(paneltype)
+        paneinfo.Show()
         self.auiManager.Update()
 
         selections = self.treeCtrlMain.GetSelections()
         if len(selections) == 1:
             self.plotPanel.Enable(True)
+
         return
 
     def setPanelSpecificData(self, paneltype):
@@ -2072,7 +2074,10 @@ class MainFrame(wx.Frame):
             xval = 'r'
             # For quick plotting, keep this order. Gdiff must be the last. 
             yvals = ['Gtrunc', 'Gcalc', 'Gdiff']
-            offset = float(self.plotPanel.offsetTextCtrl.GetValue())
+            soffset = self.plotPanel.offsetTextCtrl.GetValue()
+            offset = 0
+            if soffset:
+                offset = float(self.plotPanel.offsetTextCtrl.GetValue())
             self.control.plot(xval, yvals, refs, shift=offset)
         elif nodetype == "calculation":
             xval = 'r'

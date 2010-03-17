@@ -14,6 +14,7 @@
 ##############################################################################
 
 import threading
+import time
 
 from diffpy.pdfgui.control.organizer import Organizer
 from diffpy.pdfgui.control.controlerrors import *
@@ -121,7 +122,7 @@ class Fitting(Organizer):
         self.step = 0
         self.parameters = {}
         self.rw = 1.0
-        self.tolerancy = 0.001
+        self.tolerancy = 0.000001
         self.res = ''
         self.snapshots = []
         self.res = ''
@@ -729,7 +730,6 @@ class Fitting(Organizer):
                 gui.unlock()
         
         if finished:
-            import time
             self.res = "* %s\n\n"%time.ctime()+ self.server.save_res_string()
             self.__changeStatus(fitStatus = Fitting.DONE)
             

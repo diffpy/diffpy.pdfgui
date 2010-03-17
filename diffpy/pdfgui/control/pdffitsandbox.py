@@ -17,6 +17,7 @@
 import sys
 import os
 import copy
+import types
 
 from diffpy.pdfgui.control.calculation import Calculation
 from diffpy.pdfgui.control.fitting import Fitting
@@ -213,7 +214,6 @@ class PdfFitSandbox:
         rmin    -- minimum r-value of fit
         rmax    -- maximum r-value of fit
         """
-        import types
         if not rmin < rmax:
             raise ControlRuntimeError, 'Invalid pdfrange limits.'
         if type(iset) is types.StringType and iset.upper() == 'ALL':
@@ -411,7 +411,6 @@ class PdfFitSandbox:
                        'FCOMP'  1.0-@par
                        'FSQR'   @par*@par
         """
-        import types
         curfit = self._fits[-1]
         if isinstance(curfit, Calculation):
             raise ControlRuntimeError, \
@@ -450,7 +449,6 @@ class PdfFitSandbox:
         """
         # people do not use parenthesis, e.g., "setpar(3, qdamp)"
         # in such case val is a reference to PdfFit method
-        import types
         curfit = self._fits[-1]
         if callable(val):
             val = val()
@@ -492,7 +490,6 @@ class PdfFitSandbox:
             ControlKeyError if parameter does not exists
         """
         curfit = self._fits[-1]
-        import types
         if type(idx) is types.StringType and idx.upper() == 'ALL':
             for p in curfit.parameters.values():
                 p.fixed = True
@@ -516,7 +513,6 @@ class PdfFitSandbox:
             ControlKeyError if parameter does not exists
         """
         curfit = self._fits[-1]
-        import types
         if type(idx) is types.StringType and idx.upper() == 'ALL':
             for p in curfit.parameters.values():
                 p.fixed = False
@@ -534,7 +530,6 @@ class PdfFitSandbox:
         Raises:
             ControlKeyError if variable does not yet exist
         """
-        import types
         curfit = self._fits[-1]
         if callable(var):
             var = var()
@@ -556,7 +551,6 @@ class PdfFitSandbox:
 
         returns value of variable var.
         """
-        import types
         curfit = self._fits[-1]
         if callable(var):
             var = var()
@@ -820,7 +814,6 @@ class PdfFitSandbox:
         6 <==> 'gamma'
         """
         LatParams = { 'a':1, 'b':2, 'c':3, 'alpha':4, 'beta':5, 'gamma':6 }
-        import types
         if type(n) is types.StringType:
             n = LatParams[n]
         return "lat(%i)" % n
