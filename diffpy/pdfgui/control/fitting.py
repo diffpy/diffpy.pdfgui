@@ -122,7 +122,7 @@ class Fitting(Organizer):
         self.step = 0
         self.parameters = {}
         self.rw = 1.0
-        self.tolerancy = 0.000001
+        self.tolerancy = 0.001
         self.res = ''
         self.snapshots = []
         self.res = ''

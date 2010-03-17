@@ -781,7 +781,7 @@ class MainFrame(wx.Frame):
                         panel is displayed.
 
         """
-        #self.rightPanel.Enable(False)
+        self.rightPanel.Enable(False)
         self.plotPanel.Enable(False)
         for key in self.dynamicPanels:
             self.auiManager.GetPane(key).Hide()
