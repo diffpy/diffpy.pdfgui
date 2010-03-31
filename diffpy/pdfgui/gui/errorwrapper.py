@@ -30,9 +30,8 @@ from diffpy.pdfgui.gui import pdfguiglobals
 from diffpy.pdfgui.gui.errorreportdialog import ErrorReportDialog
 from diffpy.pdfgui.control.controlerrors import ControlError
 
-excluded = list(dir(wx.Panel))
-excluded.extend(list(dir(wx.Dialog)))
-excluded = dict.fromkeys(excluded).keys()
+# these methods will not be wrapped in catchFunctionErrors
+_EXCLUDED_METHODS = dict.fromkeys(dir(wx.Panel) + dir(wx.Dialog))
 
 def catchFunctionErrors(obj, funcName):
     """Wrap a function so its errors get transferred to a dialog.
@@ -85,26 +84,28 @@ def catchFunctionErrors(obj, funcName):
     return _f
 
 
-def catchObjectErrors(obj, ex = []):
+def catchObjectErrors(obj, exclude=None):
     """Wrap all functions of an object so that the exceptions are caught.
 
     obj --  Object containing the function. It is assumed that the object has an
             attribute named 'mainFrame', which is a reference to the MainFrame
             instance, which contains information about how and when to display
             errors.
-    ex  --  A list of function names to exclude. These are excluded in addition
-            to the 'excluded' list defined in the method.
-    
+    exclude  -- An iterable of additional function names to exclude.  These are
+            excluded in addtion to names in _EXCLUDED_METHODS defined above.
+
     All functions starting with '_' are excluded.
     """
-    ex.extend(excluded)
+    if exclude:
+        extra_excludes = dict.fromkeys(exclude)
+    else:
+        extra_excludes = {}
 
     funcNames = [item for item in dir(obj) if not item.startswith('_') 
-            and item not in ex]
+            and item not in _EXCLUDED_METHODS and item not in extra_excludes]
 
     for name in funcNames:
         if hasattr( getattr(obj, name), '__call__'):
             setattr(obj, name, catchFunctionErrors(obj, name))
 
     return
-
