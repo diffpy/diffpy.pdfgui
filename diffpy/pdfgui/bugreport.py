@@ -21,8 +21,6 @@ __id__ = "$Id$"
 
 import urlparse
 import HTMLParser
-from diffpy.pdfgui.control.controlerrors import ControlError
-from diffpy.pdfgui import __version__
 
 
 # constants:

@@ -33,7 +33,7 @@ from diffpy.pdfgui import __version__
 queryPDFguiTickets = ''.join(["http://danse.us/trac/diffraction/query",
     '?status=new&status=assigned&status=reopened',
     '&component=pdfgui&component=pdffit2&order=priority'])
-diffpyUsers = "http://groups.google.com/group/diffpy-users"
+USERSMAILINGLIST = "http://groups.google.com/group/diffpy-users"
 _authdata = '99.77.79.61.111.82.67.112'
 
 class ErrorReportDialog(wx.Dialog):
@@ -115,8 +115,8 @@ class ErrorReportDialog(wx.Dialog):
 
         self.ticketlink.SetURL(queryPDFguiTickets)
         self.ticketlink.SetToolTip(wx.ToolTip(queryPDFguiTickets))
-        self.communitylink.SetURL(diffpyUsers)
-        self.communitylink.SetToolTip(wx.ToolTip(diffpyUsers))
+        self.communitylink.SetURL(USERSMAILINGLIST)
+        self.communitylink.SetToolTip(wx.ToolTip(USERSMAILINGLIST))
         return
 
     def ShowModal(self):
@@ -203,8 +203,8 @@ class MyApp(wx.App):
         return 1
 
     def test(self):
-         '''Testing code goes here.'''
-         errortext = """\
+        '''Testing code goes here.'''
+        errortext = """\
 Exception in thread Thread-3:\n\
 Traceback (most recent call last):\n\
   File "/usr/lib/python2.4/threading.py", line 442, in __bootstrap\n\
@@ -224,9 +224,7 @@ Traceback (most recent call last):\n\
   File "/u23b/farrowch/Programming/Pyre/diffraction/Structure/Structure/Parsers/P_pdffit.py", line 85, in parseLines\n\
     xyz = [ float(w) for w in wl1[1:4] ]\n\
 StructureFormatError: 10: file is not in PDFFit format"""
-
-#         self.dialog.text_ctrl_log.SetValue(errortext)
-         self.dialog.text_ctrl_log.SetValue(" ")
+        self.dialog.text_ctrl_log.SetValue(errortext)
 # end of class MyApp
 
 if __name__ == "__main__":
