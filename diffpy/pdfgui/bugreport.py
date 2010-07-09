@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 ##############################################################################
 #
 # PDFgui            by DANSE Diffraction group
@@ -60,7 +59,7 @@ def submitBugReport(formfields):
     import cookielib
     from diffpy.pdfgui import __version__
     # build dictionary with default values:
-    formdata = {
+    formdata_user = {
         "reporter" : formfields.get("reporter", "").strip() or "anonymous",
         "summary" : formfields["summary"],
         "description" : formfields["description"],
@@ -68,13 +67,13 @@ def submitBugReport(formfields):
         "version" : formfields.get("version", __version__),
         "traceback" : formfields.get("traceback", ""),
     }
-    # format formdata items:
-    for k in formdata:
-        formdata[k] = formdata[k].strip()
-    if formdata["description"]:
-        formdata["description"] += "\n"
-    if formdata["traceback"]:
-        formdata["traceback"] = "\n" + formdata["traceback"] + "\n"
+    # format formdata_user items:
+    for k in formdata_user:
+        formdata_user[k] = formdata_user[k].strip()
+    if formdata_user["description"]:
+        formdata_user["description"] += "\n"
+    if formdata_user["traceback"]:
+        formdata_user["traceback"] = "\n" + formdata_user["traceback"] + "\n"
     # open FORM_URL
     handler = urllib2.HTTPBasicAuthHandler()
     handler.add_password(FORM_REALM, ROOT_URL,
@@ -84,13 +83,15 @@ def submitBugReport(formfields):
     formcontent = opener.open(FORM_URL).read()
     # find where does the form post its data
     try:
-        action = getFormAction(formcontent)
+        formattr, formdata = getFormData(formcontent)
     # invalid web form would throw ValueError, raise this as
     # IOError so we get a meaningful error message from the gui.
     except ValueError, err:
         emsg = "Invalid webform - %s" % err
-        raise IOError, emsg
-    post_url = urlparse.urljoin(FORM_URL, getFormAction(formcontent))
+        raise IOError(emsg)
+    # build the formadata dictionary
+    formdata.update(formdata_user)
+    post_url = urlparse.urljoin(FORM_URL, formattr['action'])
     post_headers = {'User-agent' : 'PDFgui (compatible; MSIE 5.5; WindowsNT)'}
     post_content = urllib.urlencode(formdata)
     post_request = urllib2.Request(post_url, post_content, post_headers)
@@ -99,70 +100,77 @@ def submitBugReport(formfields):
     return
 
 
-def getFormAction(content):
+def getFormData(content, index=0):
     """Extract action attribute from the first form in HTML document.
 
-    content -- HTML code
+    content  -- HTML code
+    index    -- zero-based index of the form in the HTML document
 
-    Return string.
-    Raise ValueError if form action attribute cannot be extracted.
+    Return a tuple of (formattr, formdata) dictionaries, where
+    formattr -- has all the attributes of the <form> element
+    formdata -- has all the contain input field names and their values
     """
-    extract_action = _HTMLFormActionGetter()
-    action = extract_action(content)
-    return action
+    datagetter = _HTMLFormDataGetter()
+    fmattr, fmdata = datagetter(content)
+    rv = (fmattr[index], fmdata[index])
+    return rv
 
 
 # Helper classes
 
 
-class _HTMLFormActionGetter(HTMLParser.HTMLParser):
-    """Helper HTMLParser for extracting action attriubte from the
-    first form.
-    
-    Instance data:
-    
-    _form_actions   -- list of action values from all <form> tags found.
+class _HTMLFormDataGetter(HTMLParser.HTMLParser):
+    """Helper HTMLParser for extracting form data attributes from
+    the first form.
 
-    See also getFormAction().
+    Instance data:
+
+    _formattrs   -- list of attribute dictionaries for all <form> tags
+    _formdata    -- list of input data dictionaries from all <form> tags
+
+    See also getFormData().
     """
 
 
     # declaration of instance data attributes
-    _form_actions = None
+    _formattrs = None
+    _formdata = None
 
 
     def handle_starttag(self, tag, attrs):
-        """Store "action" attributes from all HTML forms in _form_actions.
+        """Store data dictionary for all HTML forms in the document.
         """
+        dattr = dict(attrs)
         if tag == "form":
-            dattr = dict(attrs)
-            self._form_actions.append(dattr.get("action"))
+            self._formattrs.append(dattr)
+            self._formdata.append({})
+        if tag == "input" and 'name' in dattr:
+            name = dattr['name']
+            value = dattr.get('value', '')
+            self._formdata[-1][name] = value
         return
 
 
     def __call__(self, content):
-        """Obtain action from the first form in the document.
+        """Return a list of data dictionaries for all HTML forms in the document.
 
         content -- HTML code
 
-        Return action string.
-        Raise ValueError for invalid HTML code or when action cannot be
-        extracted.
+        Return two lists of dictionaries for form attributes and form data.
+        Raise ValueError for invalid HTML code or when no form is present.
         """
         self.reset()
-        self._form_actions = []
+        self._formattrs = []
+        self._formdata = []
         try:
             self.feed(content)
             self.close()
         except HTMLParser.HTMLParseError, err:
             raise ValueError, str(err)
-        if len(self._form_actions) == 0 or self._form_actions[0] is None:
-            emsg = "Cannot find <form> with action attribute."
-            raise ValueError, emsg
-        return self._form_actions[0]
+        return (self._formattrs, self._formdata)
 
 
-# End of class _HTMLFormActionGetter
+# End of class _HTMLFormDataGetter
 
 
 # test code
