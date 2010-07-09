@@ -1086,7 +1086,7 @@ class MainFrame(wx.Frame):
 
         # "fitting" mode 
         if self.mode == "fitting":
-	    # This doesn't work on Windows.
+            # This doesn't work on Windows.
             self.plotPanel.Enable(True)
             if len(selections) == 0: 
                 self.switchRightPanel("blank")

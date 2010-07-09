@@ -141,7 +141,7 @@ class DialogAbout(wx.Dialog):
         else:
             size = [self.GetBestFittingSize()[0], self.GetSize()[1]]
 
-	self.Fit()
+        self.Fit()
 #        self.SetSize(size)
 #       self.FitInside()
         
