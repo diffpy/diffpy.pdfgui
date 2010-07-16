@@ -101,7 +101,7 @@ def submitBugReport(formfields):
 
 
 def getFormData(content, index=0):
-    """Extract action attribute from the first form in HTML document.
+    """Extract the attributes and input data from the specified <form> block.
 
     content  -- HTML code
     index    -- zero-based index of the form in the HTML document
@@ -109,9 +109,13 @@ def getFormData(content, index=0):
     Return a tuple of (formattr, formdata) dictionaries, where
     formattr -- has all the attributes of the <form> element
     formdata -- has all the contain input field names and their values
+    Raise ValueError when index-th <form> block does not exist.
     """
     datagetter = _HTMLFormDataGetter()
     fmattr, fmdata = datagetter(content)
+    if index >= len(fmdata):
+        emsg = "<form> block number %i does not exist" % index
+        raise ValueError(emsg)
     rv = (fmattr[index], fmdata[index])
     return rv
 

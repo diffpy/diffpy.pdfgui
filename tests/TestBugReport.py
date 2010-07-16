@@ -11,7 +11,7 @@ import unittest
 
 import diffpy.pdfgui.bugreport
 from diffpy.pdfgui.bugreport import submitBugReport
-from diffpy.pdfgui.bugreport import getFormAction
+from diffpy.pdfgui.bugreport import getFormData
 
 
 ##############################################################################
@@ -68,6 +68,8 @@ HTMLFORM = """\
 
 <body>
 <form action="/check/action0" method="POST">
+  <input type="hidden" name="bugsender" value="bugsender-value">
+  <input type="hidden" name="bugemail" value="bugemail-value">
   Reporter:
   <input type="text" name="reporter" size=64 maxlength=256><br>
 
@@ -87,12 +89,15 @@ HTMLFORM = """\
 </html>
 """
 
-class Test_getFormAction(unittest.TestCase):
+class Test_getFormData(unittest.TestCase):
 
-    def test_getFormAction(self):
-        """check getFormAction return value.
+    def test_getFormData(self):
+        """check getFormData return value.
         """
-        self.assertEqual('/check/action0', getFormAction(HTMLFORM))
+        fmattr, fmdata = getFormData(HTMLFORM)
+        self.assertEqual('/check/action0', fmattr['action'])
+        self.assertEqual('bugsender-value', fmdata['bugsender'])
+        self.assertEqual('bugemail-value', fmdata['bugemail'])
         return
 
     def test_missing_action(self):
@@ -100,17 +105,17 @@ class Test_getFormAction(unittest.TestCase):
         """
         noaction = re.sub(r'(?s)<body>.*</body>', '<body>\n</body>',
                 HTMLFORM)
-        self.assertRaises(ValueError, getFormAction, noaction)
+        self.assertRaises(ValueError, getFormData, noaction)
         return
 
     def test_invalid_html(self):
         """check if invalid HTML raises ValueError.
         """
         badhtml = re.sub(r'(?s)<body>.*', '<bo', HTMLFORM)
-        self.assertRaises(ValueError, getFormAction, badhtml)
+        self.assertRaises(ValueError, getFormData, badhtml)
         return
 
-# End of class Test_getFormAction
+# End of class Test_getFormData
 
 if __name__ == '__main__':
     unittest.main()
