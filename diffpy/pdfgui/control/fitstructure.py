@@ -382,17 +382,19 @@ class FitStructure(PDFStructure):
 
     def getSpaceGroup(self, sgname):
         """Find space group in getSpaceGroupList() by short_name or number.
-        Use P1 when nothing else matches.
+        sgname can be non-standard in case of CIF file defined space group.
 
         Return instance of SpaceGroup.
         Raise ValueError if sgname cannot be found or when it is not present
         in getSpaceGroupList().
         """
         import diffpy.Structure.SpaceGroups as SG
-        sgfound = None
-        sglist = self.getSpaceGroupList()
-        sg0 = SG.GetSpaceGroup(sgname)
-        sgmatch = [sg for sg in sglist if sg.number == sg0.number]
+        # this should match the "CIF data" sgname
+        sgmatch = [sg for sg in self.getSpaceGroupList()
+                if sg.short_name == sgname]
+        # use standard lookup function when not matched by short_name
+        if not sgmatch:
+            sgmatch.append(SG.GetSpaceGroup(sgname))
         if not sgmatch:
             emsg = "Unknown space group %r" % sgname
             raise ValueError(emsg)
