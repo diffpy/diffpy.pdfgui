@@ -1641,6 +1641,7 @@ class MainFrame(wx.Frame):
 
         ## Check the run/stop status.
         if self.runningDict:
+            menu.Enable(self.newId, False)
             menu.Enable(self.runCalcId, False)
             menu.Enable(self.runFitId, False)
             menu.Enable(self.saveAsId, False)
