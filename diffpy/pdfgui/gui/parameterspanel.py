@@ -144,16 +144,16 @@ class ParametersPanel(wx.Panel, PDFPanel):
         self.grid_parameters.AutoSizeColumns()
         self.grid_parameters.EndBatch()
 
-    # FIXME - When selecting a block, this should be bypassed.
+    # FIXME 
+    # When selecting a block, this should be bypassed.
     #
-    #         I've tried really hard. I can't get it to work right. 
+    # I've tried really hard. I can't get it to work right. 
     #
-    #         The problem:
-    #         A left-click also generates a range-select event. When an actual
-    #         range is selected, it generates two selection events, one at the
-    #         start and one at the end of the selection. However, the one at the
-    #         start of the selection does not highlight a cell, and therefore
-    #         gives no coordinates.
+    # The problem: A left-click also generates a range-select event.  When an
+    # actual range is selected, it generates two selection events, one at the
+    # start and one at the end of the selection.  However, the one at the start
+    # of the selection does not highlight a cell, and therefore gives no
+    # coordinates.
     def onCellLeftClick(self, event): # wxGlade: ParametersPanel.<event_handler>
         """Toggle a fix/free cell when it is selected."""
         # Toggle the check box if it is selected
@@ -168,7 +168,7 @@ class ParametersPanel(wx.Panel, PDFPanel):
         return
 
     def onGridRangeSelect(self, event): # wxGlade: ParametersPanel.<event_handler>
-        """Hangle range selections. 
+        """Handle range selections. 
         
         This is needed to properly handle simple left-clicking of fix/free
         cells. It serves no other purpose.
@@ -187,7 +187,8 @@ class ParametersPanel(wx.Panel, PDFPanel):
         if self.grid_parameters.IsInSelection(r,c):
             append = True
         self.grid_parameters.SelectBlock(r,c,r,c,append)
-        self.popupMenu(self.grid_parameters, event.GetPosition().x, event.GetPosition().y)
+        self.popupMenu(self.grid_parameters, event.GetPosition().x,
+                event.GetPosition().y)
         event.Skip()
         return
 
@@ -230,24 +231,31 @@ class ParametersPanel(wx.Panel, PDFPanel):
 
             # If we made it this far, then we can continue.
             self.fillCells(self._selectedCells, value)
+            self.grid_parameters.AutoSizeColumns(0)
         finally:
-            self.refresh()
+            #self.refresh()
             event.Skip()
         
         return
 
     def applyCellChange(self, row, col, value):
         """Update parameters dictionary according to a change in a cell.
+
+        This also updates the cell, if possible, but not the grid. Changes to
+        the cell that may affect the grid, such as inserting text that is wider
+        than the column width, must be handled elsewhere.
         
         row     --  row
         col     --  column
         value   --  new value
+
         """
         key = int(self.grid_parameters.GetRowLabelValue(row))
         if col == 0:  # initial value
             temp = self.parameters[key].initialValue()
             if temp != value:
                 self.parameters[key].setInitial(value)
+                self.grid_parameters.SetCellValue(row,0,str(float(value)))
                 self.mainFrame.needsSave()
             
         elif col == 1:  # flag "fixed"
@@ -256,6 +264,7 @@ class ParametersPanel(wx.Panel, PDFPanel):
                 value = bool(int(value))
                 if temp != value:
                     self.parameters[key].fixed = value
+                    self.grid_parameters.SetCellValue(row,1,str(int(value)))
                     self.mainFrame.needsSave()
             except ValueError:
                 pass
@@ -316,7 +325,7 @@ class ParametersPanel(wx.Panel, PDFPanel):
                         if inSelection and valueChanged:
                             self.applyCellChange(i, j, value)
                 
-                self.refresh()
+                #self.refresh()
     
             dlg.Destroy()
         event.Skip()
@@ -344,8 +353,6 @@ class ParametersPanel(wx.Panel, PDFPanel):
                
             for row in seldict:
                 self.applyCellChange(row, 1, newstate)
-            
-            self.refresh()
         event.Skip()
         return
 
@@ -359,7 +366,8 @@ class ParametersPanel(wx.Panel, PDFPanel):
             refined = self.grid_parameters.GetCellValue(row, 2)
             if refined == "": continue
             self.applyCellChange(row, 0, refined)
-        self.refresh()
+        # Resize the first column
+        self.grid_parameters.AutoSizeColumn(0)
         event.Skip()
         return
 
@@ -446,8 +454,8 @@ class ParametersPanel(wx.Panel, PDFPanel):
         indices    --  list of (i,j) tuples representing cell coordinates
         value       --  string value to place into cells
         """
-        for (i,j) in indices:
-            if not self.grid_parameters.IsReadOnly(i,j) and j!=1:
+        for i, j in indices:
+            if j != 1 and not self.grid_parameters.IsReadOnly(i, j):
                 self.applyCellChange(i, j, value)
         return
 
