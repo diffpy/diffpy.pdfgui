@@ -119,6 +119,7 @@ class BondLengthDialog(wx.Dialog):
         self.comboBoxes = [self.aComboBox, self.bComboBox]
         for cbox in self.comboBoxes:
             cbox.Bind(wx.EVT_KILL_FOCUS, self.onComboKillFocus) 
+            cbox.Bind(wx.EVT_COMBOBOX, self.onComboKillFocus)
         return
 
     def setStructure(self, structure):
@@ -145,8 +146,7 @@ class BondLengthDialog(wx.Dialog):
         self.eList = eDict.keys()
         self.eList.sort()
         self.eList.insert(0, "All")
-        import string
-        map(string.capitalize, self.eList)
+        map(str.title, self.eList)
 
         self.aComboBox.Clear()
         self.bComboBox.Clear()
