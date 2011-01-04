@@ -1968,23 +1968,17 @@ class MainFrame(wx.Frame):
         
         Opens Atomeye and plots the structure.
         """
-        selections = self.treeCtrlMain.GetSelections()
-        if selections:
-            node = selections[0]
-            itemtype = self.treeCtrlMain.GetNodeType(node)
-            if itemtype == "phase":
-                panel = self.dynamicPanels['phase']
-                cdata = self.treeCtrlMain.GetControlData(node)
-                viewer = structureviewer.getStructureViewer()
-                viewer.plot(cdata.initial)
-        return
-
+        return self._plotStruct("initial")
     
     def onPlotFStruct(self, event):
         """Plots the phase structure.
         
         Opens Atomeye and plots the structure.
         """
+        return self._plotStruct("refined")
+
+    def _plotStruct(self, stype):
+        """Helper for onPlotFStruct and onPlotIStruct."""
         selections = self.treeCtrlMain.GetSelections()
         if selections:
             node = selections[0]
@@ -1992,8 +1986,9 @@ class MainFrame(wx.Frame):
             if itemtype == "phase":
                 panel = self.dynamicPanels['phase']
                 cdata = self.treeCtrlMain.GetControlData(node)
+                stru = getattr(cdata, stype)
                 viewer = structureviewer.getStructureViewer()
-                viewer.plot(cdata.refined)
+                viewer.plot(stru)
         return
 
     def onPrintBL(self, event):

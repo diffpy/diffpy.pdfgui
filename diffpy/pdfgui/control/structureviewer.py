@@ -209,8 +209,10 @@ class StructureViewer(object):
         from diffpy.Structure.Parsers import parser_index
         ffext = parser_index[self.fileformat]['file_extension']
         d = self._createTemporaryDirectory()
-        strutail = (getattr(stru, 'name', '') or getattr(stru, 'title', '') or
-                ('structure' + os.path.basename(d)))
+        # Use a simple file name to avoid naming errors. It is common to put
+        # the space group name, such as "C2\m" in the structure title. This
+        # may lead to invalid posix file names.
+        strutail = 'structure' + os.path.basename(d)
         struext = os.path.splitext(strutail)[-1]
         if struext.lower() != ffext.lower():
             strutail += ffext
