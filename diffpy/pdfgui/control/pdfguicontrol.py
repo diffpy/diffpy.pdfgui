@@ -358,10 +358,11 @@ class PDFGuiControl:
         # Build argument list.  Include the '-u' option so that child
         # Python opens it input and output streams in binary mode.
         cmdargs = [pyexe, '-u', '-c', pycommand, scriptfile] + args
+        scriptdir = os.path.dirname(scriptfile)
         import platform
         from subprocess import Popen, PIPE
         cfds = (platform.system() != 'Windows')
-        pcmd = Popen(cmdargs,
+        pcmd = Popen(cmdargs, cwd=scriptdir,
                 stdin=PIPE, stdout=PIPE, stderr=PIPE, close_fds=cfds)
         # close child standard input
         out, err = pcmd.communicate()
