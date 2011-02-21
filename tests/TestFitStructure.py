@@ -241,14 +241,41 @@ class TestFitStructure(unittest.TestCase):
 #       """check FitStructure.getSelectedPairs()
 #       """
 #       return
-#
-#
-#   def test_getPairSelectionFlags(self):
-#       """check FitStructure.getPairSelectionFlags()
-#       """
-#       return
-#
-#
+
+
+    def test_getPairSelectionFlags(self):
+        """check FitStructure.getPairSelectionFlags()
+        """
+        cdse = self.stru
+        cdse.read(datafile('CdSe_bulk_wur.stru'), format='pdffit')
+        self.assertEqual('all-all', cdse.getSelectedPairs())
+        psf = cdse.getPairSelectionFlags()
+        self.assertEqual(4 * [True], psf['firstflags'])
+        self.assertEqual(4 * [True], psf['secondflags'])
+        psf = cdse.getPairSelectionFlags('Cd-Cd')
+        self.assertEqual(2 * [True] + 2 * [False], psf['firstflags'])
+        self.assertEqual(psf['firstflags'], psf['secondflags'])
+        psf = cdse.getPairSelectionFlags('all-all, !Cd-')
+        self.assertEqual(2 * [False] + 2 * [True], psf['firstflags'])
+        self.assertEqual(4 * [True], psf['secondflags'])
+        psf = cdse.getPairSelectionFlags('all-all, -!Cd')
+        self.assertEqual(4 * [True], psf['firstflags'])
+        self.assertEqual(2 * [False] + 2 * [True], psf['secondflags'])
+        psf = cdse.getPairSelectionFlags('Cd-3:4')
+        self.assertEqual(2 * [True] + 2 * [False], psf['firstflags'])
+        self.assertEqual(2 * [False] + 2 * [True], psf['secondflags'])
+        psf = cdse.getPairSelectionFlags('all-all, !Se-!Se')
+        self.assertEqual(2 * [True] + 2 * [False], psf['firstflags'])
+        self.assertEqual(2 * [True] + 2 * [False], psf['secondflags'])
+        psf = cdse.getPairSelectionFlags('all-all, !Se-, -!Se')
+        self.assertEqual(2 * [True] + 2 * [False], psf['firstflags'])
+        self.assertEqual(2 * [True] + 2 * [False], psf['secondflags'])
+        psf = cdse.getPairSelectionFlags('1-all')
+        self.assertEqual([True] + 3 * [False], psf['firstflags'])
+        self.assertEqual(4 * [True], psf['secondflags'])
+        return
+
+
 #   def test_applyPairSelection(self):
 #       """check FitStructure.applyPairSelection()
 #       """
