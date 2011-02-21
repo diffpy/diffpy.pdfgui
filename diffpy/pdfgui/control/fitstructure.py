@@ -587,46 +587,9 @@ class FitStructure(PDFStructure):
         """
         if s is None:   s = self.selected_pairs
         Natoms = len(self.initial)
-        rxsel = re.compile(r'''
-            (?P<negate>!?)                      # exclamation point
-            (?:(?P<element>[a-zA-Z]+)$|         # element|all   or
-               (?P<start>\d+)(?P<stop>:\d+)?$   # number range
-            )''', re.VERBOSE)
-
-        def applymxsel(mx, flags):
-            """Set selection flags from rxsel matching object.
-            flags -- list of selection flags, first or second pair
-            Return fixed selection string.
-            """
-            sfixed = mx.group('negate') and '!' or ''
-            selflag = not mx.group('negate')
-            # process atom type
-            if mx.group('element'):
-                elfixed = mx.group('element')
-                elfixed = elfixed[0:1].upper() + elfixed[1:].lower()
-                if elfixed == 'All':
-                    flags[:] = Natoms*[selflag]
-                    sfixed += elfixed.lower()
-                else:
-                    for idx in range(Natoms):
-                        if self.initial[idx].element == elfixed:
-                            flags[idx] = selflag
-                    sfixed += elfixed
-            # process range
-            else:
-                lo = max(int(mx.group('start')) - 1, 0)
-                sfixed += mx.group('start')
-                hi = lo + 1
-                if mx.group('stop'):
-                    hi = int(mx.group('stop')[1:])
-                    sfixed += mx.group('stop')
-                hi = min(hi, Natoms)
-                flags[lo:hi] = (hi-lo)*[selflag]
-            return sfixed
-        # end of applymxsel
-
         # sets of first and second indices
-        firstflags, secondflags = Natoms*[False], Natoms*[False]
+        firstflags = Natoms * [False]
+        secondflags = Natoms * [False]
         # words of fixed_pair_string
         words_fixed = []
         s1 = s.strip(' \t,')
@@ -636,18 +599,14 @@ class FitStructure(PDFStructure):
             if len(wparts) != 2:
                 emsg = "Selection word '%s' must contain one dash '-'." % w
                 raise ControlValueError(emsg)
-            wfirst, wsecond = [ wp.replace(" ", "") for wp in wparts ]
-            mxfirst = rxsel.match(wfirst)
-            mxsecond = rxsel.match(wsecond)
-            if (wfirst and not mxfirst) or (wsecond and not mxsecond):
-                emsg = "Invalid selection syntax in '%s'" % w
-                raise ControlValueError(emsg)
-            wfixed = ''
-            # wfirst can be either empty or matching
-            if mxfirst: wfixed += applymxsel(mxfirst, firstflags)
-            wfixed += '-'
-            if mxsecond: wfixed += applymxsel(mxsecond, secondflags)
+            sel0 = self._parseAtomSelectionString(wparts[0])
+            sel1 = self._parseAtomSelectionString(wparts[1])
+            wfixed = sel0['fixedstring'] + '-' + sel1['fixedstring']
             words_fixed.append(wfixed)
+            for idx, flg in sel0['flags'].items():
+                firstflags[idx] = flg
+            for idx, flg in sel1['flags'].items():
+                secondflags[idx] = flg
         # build returned dictionary
         rv = { 'firstflags' : firstflags,
                'secondflags' : secondflags,
@@ -668,6 +627,70 @@ class FitStructure(PDFStructure):
             server.selectAtomIndex(phaseidx, 'i', idx, iflag)
             server.selectAtomIndex(phaseidx, 'j', idx, jflag)
         return
+
+
+    # Regular expression object for matching atom selection strings.
+    # Will be assign with the first call to _parseAtomSelectionString.
+    _rxatomselection = None
+
+    def _parseAtomSelectionString(self, s):
+        '''Process string that describes a set of atoms in the structure.
+
+        s    -- selection string formatted as [!]{element|indexOrRange|all}
+                "!" negates the selection, indexOrRange can be 1, 1:4,
+                where atom indices starts from 1, and "all" matches all atoms.
+
+        Return a dictionary with following keys:
+        'fixedstring'    -- selection string adjusted to standard formatting
+        'flags'          -- dictionary of atom indices and boolean flags for
+                            normal or negated selection.
+        Raise ControlValueError for invalid string format.
+        '''
+        # delayed initialization of the class variable
+        if self._rxatomselection is None:
+            FitStructure._rxatomselection = re.compile(r'''
+            (?P<negate>!?)                      # exclamation point
+            (?:(?P<element>[a-zA-Z]+)$|         # element|all   or
+               (?P<start>\d+)(?P<stop>:\d+)?$   # number range
+            )''', re.VERBOSE)
+        assert self._rxatomselection
+        Natoms = len(self.initial)
+        flags  = {}
+        rv = {'fixedstring' : '',  'flags' : flags}
+        # allow empty string and return an empty flags dictionary
+        s1 = s.replace(' ', '')
+        if not s1:  return rv
+        mx = self._rxatomselection.match(s1)
+        if not mx:
+            emsg = "Invalid selection syntax in '%s'" % s
+            raise ControlValueError(emsg)
+        if mx.group('negate'):
+            rv['fixedstring'] = '!'
+        flg = not mx.group('negate')
+        # process atom type
+        if mx.group('element'):
+            elfixed = mx.group('element')
+            elfixed = elfixed[0:1].upper() + elfixed[1:].lower()
+            if elfixed == 'All':
+                flags.update(dict.fromkeys(range(Natoms), flg))
+                rv['fixedstring'] += elfixed.lower()
+            else:
+                for idx in range(Natoms):
+                    if self.initial[idx].element == elfixed:
+                        flags[idx] = flg
+                rv['fixedstring'] += elfixed
+        # process range
+        else:
+            lo = max(int(mx.group('start')) - 1, 0)
+            rv['fixedstring'] += mx.group('start')
+            hi = lo + 1
+            if mx.group('stop'):
+                hi = int(mx.group('stop')[1:])
+                rv['fixedstring'] += mx.group('stop')
+            hi = min(hi, Natoms)
+            flags.update(dict.fromkeys(range(lo, hi), flg))
+        return rv
+
 
     def copy(self, other=None):
         """copy self to other. if other is None, create new instance
