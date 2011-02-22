@@ -1699,6 +1699,9 @@ empty tree.
 @item Ctrl+A
 Select all items.
 
+@item /
+Extend existing selection by atom types or indices.
+
 @item Delete
 Delete row. This will delete any wholly selected row.
 
@@ -1718,6 +1721,9 @@ Same as Delete.
 
 @item Ctrl+A
 Select all items.
+
+@item /
+Extend existing selection by atom types or indices.
 
 @item Delete
 Delete contents of selected cells.
