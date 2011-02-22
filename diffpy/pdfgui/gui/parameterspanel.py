@@ -339,8 +339,11 @@ class ParametersPanel(wx.Panel, PDFPanel):
                 
             indices = self.getSelectedParameters()
             for row in indices:
-                    state = bool(int(
-                            self.grid_parameters.GetCellValue(row,1)))
+                state = self.grid_parameters.GetCellValue(row,1)
+                # This might be triggered when we enter into edit mode, but the
+                # grid cell will have a '' value. Check for that and ignore it.
+                if state:
+                    state = bool(int(state))
                     seldict[row] = state
                     
             # Find the majority state
