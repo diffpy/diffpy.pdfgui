@@ -212,6 +212,7 @@ def getSelectedCells(panel):
 
 def limitSelectionToRows(panel, indices):
     '''Limit selection to the specified row indices.
+    No action for empty indices.
 
     panel    -- instance of PhaseConfigurePanel or PhaseConstraintsPanel
     indices  -- list of row indices to be selected, must be sorted and unique.
@@ -219,6 +220,7 @@ def limitSelectionToRows(panel, indices):
     No return value.
     '''
     import bisect
+    if not indices:  return
     grid = panel.gridAtoms
     cols = grid.GetNumberCols()
     rowblocks = _indicesToBlocks(indices)
@@ -229,12 +231,11 @@ def limitSelectionToRows(panel, indices):
         for clo, chi in colblocks:
             grid.SelectBlock(rlo, clo, rhi, chi, True)
     # move cursor to the selected area
-    if indices:
-        krow = bisect.bisect_left(indices, grid.GetGridCursorRow())
-        krow = min(krow, len(indices) - 1)
-        kcol = bisect.bisect_left(cindices, grid.GetGridCursorCol())
-        kcol = min(kcol, len(cindices) - 1)
-        grid.SetGridCursor(indices[krow], cindices[kcol])
+    krow = bisect.bisect_left(indices, grid.GetGridCursorRow())
+    krow = min(krow, len(indices) - 1)
+    kcol = bisect.bisect_left(cindices, grid.GetGridCursorCol())
+    kcol = min(kcol, len(cindices) - 1)
+    grid.SetGridCursor(indices[krow], cindices[kcol])
     return
 
 def showSelectAtomsDialog(panel):

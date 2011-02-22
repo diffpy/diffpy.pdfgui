@@ -472,6 +472,10 @@ class PhaseConstraintsPanel(wx.Panel, PDFPanel):
             self.popupMenu(self.gridAtoms,
                     event.GetPosition().x, event.GetPosition().y)
 
+        # Vim-like search for atom selection
+        elif key == 47:
+            self.onPopupSelect(event)
+ 
         # Delete
         elif key == 127:
             self._selectedCells = phasepanelutils.getSelectedCells(self)
