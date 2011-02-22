@@ -17,13 +17,6 @@ __id__ = "$Id$"
 
 from diffpy.pdfgui.gui.errorwrapper import catchObjectErrors
 
-def _abstract():
-    """Raise a specific exception that referrs to the failing method."""
-    import inspect
-    caller = inspect.getouterframes(inspect.currentframe())[1][3]
-    raise NotImplementedError(caller + ' must be implemented in subclass')
-
-
 class PDFPanel(object):
     """Mix-in class for all PDF gui panels.
     
@@ -49,7 +42,7 @@ class PDFPanel(object):
         This method must be overloaded in the derived class or else a
         NotImplementedError will be raised when this method is called.
         """ 
-        _abstract()
+        raise NotImplementedError('refresh() must be implemented in subclass')
         
     def setToolTips(self, toolTips):
         '''Sets tooltips for controls
@@ -59,4 +52,4 @@ class PDFPanel(object):
         for (controlName, tooltip) in toolTips.items():
             control = getattr(self, controlName)
             control.SetToolTipString(tooltip)
-                
+        return

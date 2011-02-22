@@ -349,7 +349,6 @@ class PDFGuiControl:
         returns list of imported fits
         """
         pyexe = sys.executable
-        from diffpy.pdfgui.gui.pdfguiglobals import controlDir
         # Build python command to be executed in the child process.
         pycommand = '\n'.join([
             'from diffpy.pdfgui.control.dumppdffit2script import main',

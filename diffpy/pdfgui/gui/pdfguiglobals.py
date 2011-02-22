@@ -26,10 +26,6 @@ configfilename = os.path.expanduser("~/.pdfgui.cfg")
 # Project modification flag
 isAltered = False
 
-# Useful paths
-guiDir = os.path.dirname(os.path.abspath(__file__))
-controlDir = os.path.join(os.path.dirname(guiDir), 'control')
-
 docMainFile = resource_filename(Requirement.parse("diffpy.pdfgui"),
         'doc/manual/pdfgui.html')
 
