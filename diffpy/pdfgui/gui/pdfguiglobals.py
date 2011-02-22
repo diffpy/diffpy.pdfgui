@@ -42,7 +42,6 @@ def iconpath(iconfilename):
 
     Return string.
     """
-    from pkg_resources import Requirement, resource_filename
     if iconfilename not in _cached_iconpaths:
         f = resource_filename(Requirement.parse("diffpy.pdfgui"),
                 "icons/" + iconfilename)

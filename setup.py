@@ -38,6 +38,8 @@ setup(
             ('doc/manual/images', dirglob('doc/manual/images', '*.png')),
             ('doc/tutorial', dirglob('doc/tutorial', '*')),
         ],
+        # manual and tutorial files should not be zipped
+        zip_safe = False,
         install_requires = [
             'diffpy.Structure>=1.0-r3050',
             'diffpy.pdffit2>=1.0-r3050',
