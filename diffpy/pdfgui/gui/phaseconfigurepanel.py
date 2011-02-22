@@ -529,6 +529,11 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
             cols = self.gridAtoms.GetNumberCols()
             self.gridAtoms.SelectBlock(0,0,rows,cols)
 
+        # context menu key
+        elif key == wx.WXK_MENU:
+            self.popupMenu(self.gridAtoms,
+                    event.GetPosition().x, event.GetPosition().y)
+
         # Delete an atom
         # Delete
         elif key == 127:
@@ -581,6 +586,7 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
         if not hasattr(self, "insertID"):
             self.insertID = wx.NewId()
             self.deleteID = wx.NewId()
+            self.selectID = wx.NewId()
             self.copyID = wx.NewId()
             self.pasteID = wx.NewId()
             self.supercellID = wx.NewId()
@@ -588,6 +594,7 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
 
             self.Bind(wx.EVT_MENU, self.onPopupInsert, id=self.insertID)
             self.Bind(wx.EVT_MENU, self.onPopupDelete, id=self.deleteID)
+            self.Bind(wx.EVT_MENU, self.onPopupSelect, id=self.selectID)
             self.Bind(wx.EVT_MENU, self.onPopupCopy, id=self.copyID)
             self.Bind(wx.EVT_MENU, self.onPopupPaste, id=self.pasteID)
             self.Bind(wx.EVT_MENU, self.onPopupSupercell, id=self.supercellID)
@@ -597,11 +604,12 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
         menu = wx.Menu()
 
         # add some other items
-        menu.Append(self.insertID, "Insert atoms...")
-        menu.Append(self.deleteID, "Delete atoms")
+        menu.Append(self.insertID, "&Insert atoms...")
+        menu.Append(self.deleteID, "&Delete atoms")
         menu.AppendSeparator()
-        menu.Append(self.copyID, "Copy")
-        menu.Append(self.pasteID, "Paste")
+        menu.Append(self.selectID, "Select &atoms...")
+        menu.Append(self.copyID, "&Copy")
+        menu.Append(self.pasteID, "&Paste")
         menu.AppendSeparator()
         menu.Append(self.supercellID, "Create supercell...")
         menu.Append(self.spaceGroupID, "Expand space group...")
@@ -667,6 +675,12 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
             self.structure.deleteAtoms(indices)
             self.refresh()
             self.mainFrame.needsSave()
+        return
+
+    def onPopupSelect(self, event):
+        """Limit cell selection to specified atom selection string.
+        """
+        phasepanelutils.showSelectAtomsDialog(self)
         return
 
     def onPopupCopy(self, event):

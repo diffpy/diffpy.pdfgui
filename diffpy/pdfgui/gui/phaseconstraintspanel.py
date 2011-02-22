@@ -467,6 +467,11 @@ class PhaseConstraintsPanel(wx.Panel, PDFPanel):
             cols = self.gridAtoms.GetNumberCols()
             self.gridAtoms.SelectBlock(0,0,rows,cols)
 
+        # context menu key
+        elif key == wx.WXK_MENU:
+            self.popupMenu(self.gridAtoms,
+                    event.GetPosition().x, event.GetPosition().y)
+
         # Delete
         elif key == 127:
             self._selectedCells = phasepanelutils.getSelectedCells(self)
@@ -502,10 +507,12 @@ class PhaseConstraintsPanel(wx.Panel, PDFPanel):
         # only do this part the first time so the events are only bound once
         if not hasattr(self, "spaceGroupID"):
             self.spaceGroupID = wx.NewId()
+            self.selectID = wx.NewId()
             self.copyID = wx.NewId()
             self.pasteID = wx.NewId()
 
             self.Bind(wx.EVT_MENU, self.onPopupSpaceGroup, id=self.spaceGroupID)
+            self.Bind(wx.EVT_MENU, self.onPopupSelect, id=self.selectID)
             self.Bind(wx.EVT_MENU, self.onPopupCopy, id=self.copyID)
             self.Bind(wx.EVT_MENU, self.onPopupPaste, id=self.pasteID)
 
@@ -513,10 +520,11 @@ class PhaseConstraintsPanel(wx.Panel, PDFPanel):
         menu = wx.Menu()
 
         # add some other items
-        menu.Append(self.spaceGroupID, "Symmetry constraints...")
+        menu.Append(self.spaceGroupID, "&Symmetry constraints...")
         menu.AppendSeparator()
-        menu.Append(self.copyID, "Copy")
-        menu.Append(self.pasteID, "Paste")
+        menu.Append(self.selectID, "Select &atoms...")
+        menu.Append(self.copyID, "&Copy")
+        menu.Append(self.pasteID, "&Paste")
 
         # Disable some items if there are no atoms selected
         indices = phasepanelutils.getSelectedAtoms(self)
@@ -555,6 +563,12 @@ class PhaseConstraintsPanel(wx.Panel, PDFPanel):
                 self.refresh()
             dlg.Destroy()
             self.mainFrame.needsSave()
+        return
+
+    def onPopupSelect(self, event):
+        """Limit cell selection to specified atom selection string.
+        """
+        phasepanelutils.showSelectAtomsDialog(self)
         return
 
     def onPopupCopy(self, event):

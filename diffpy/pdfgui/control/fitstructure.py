@@ -629,6 +629,30 @@ class FitStructure(PDFStructure):
         return
 
 
+    def getSelectedIndices(self, s):
+        '''Indices of the atoms that match the specified selection string.
+
+        s    -- selection string consisting of one or more atom selection
+                words formatted as [!]{element|indexOrRange|all}
+                Example: "1:4, 7, Cl".
+
+        Return a list of integers.
+        Raise ControlValueError for invalid selection string format.
+        '''
+        s1 = filter(lambda c: not c.isspace(), s)
+        words = s1.split(',')
+        indices = set()
+        for w in words:
+            asd = self._parseAtomSelectionString(w)
+            for idx, flg in asd['flags'].items():
+                if flg:
+                    indices.add(idx)
+                else:
+                    indices.discard(idx)
+        rv = sorted(indices)
+        return rv
+
+
     # Regular expression object for matching atom selection strings.
     # Will be assign with the first call to _parseAtomSelectionString.
     _rxatomselection = None
