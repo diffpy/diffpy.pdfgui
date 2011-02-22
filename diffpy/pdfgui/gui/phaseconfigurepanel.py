@@ -534,6 +534,10 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
             self.popupMenu(self.gridAtoms,
                     event.GetPosition().x, event.GetPosition().y)
 
+        # Vim-like search for atom selection
+        elif key == 47:
+            self.onPopupSelect(event)
+
         # Delete an atom
         # Delete
         elif key == 127:
