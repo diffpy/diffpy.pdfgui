@@ -1677,11 +1677,7 @@ fit tree.
 Copy selected item.
 
 @item Ctrl+X
-Delete selected item. Note that this does not place a copy of the item in the
-clipboard.
-
-@item Delete
-Same as Ctrl+X
+Copy and delete selected item. 
 
 @item Ctrl+V
 Paste previously copied item. Note that this will only paste the item to a

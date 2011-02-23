@@ -1346,11 +1346,12 @@ class MainFrame(wx.Frame):
                 self.treeCtrlMain.SelectAll()
                 self.treeSelectionUpdate(node)
 
+        # XXX - removed - Without undo functionality, this is too dangerous.
         # Delete
         # "fitting" mode    --  Delete selected noded
-        elif key == 127:
-            if self.mode == "fitting":
-                self.onDelete(None)
+        #elif key == 127:
+        #    if self.mode == "fitting":
+        #        self.onDelete(None)
 
         # Tab
         # Move to the right panel
