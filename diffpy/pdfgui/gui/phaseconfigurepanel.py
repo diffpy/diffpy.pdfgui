@@ -32,6 +32,7 @@ from diffpy.pdfgui.gui.wxExtensions.autowidthlabelsgrid import \
 from diffpy.pdfgui.gui.wxExtensions.validators import TextValidator, FLOAT_ONLY
 from diffpy.pdfgui.gui.wxExtensions.textctrlutils import textCtrlAsGridCell
 from diffpy.pdfgui.gui import phasepanelutils
+from diffpy.pdfgui.gui import gridutils
 
 
 class PhaseConfigurePanel(wx.Panel, PDFPanel):
@@ -475,7 +476,7 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
         i = event.GetRow()
         j = event.GetCol()
         self._focusedText = self.gridAtoms.GetCellValue(i,j)
-        self._selectedCells = phasepanelutils.getSelectedCells(self.gridAtoms)
+        self._selectedCells = gridutils.getSelectedCells(self.gridAtoms)
         return
 
     def onCellChange(self, event): # wxGlade: PhaseConfigurePanel.<event_handler>
@@ -515,7 +516,7 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
                 if newvalue is None: newvalue = oldvalue
                 self.gridAtoms.SetCellValue(i,j,str(newvalue))
 
-        phasepanelutils.quickResizeColumns(self.gridAtoms, self._selectedCells)
+        gridutils.quickResizeColumns(self.gridAtoms, self._selectedCells)
         return
 
     def onKey(self, event):
@@ -549,7 +550,7 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
 
         # Ctrl -
         elif event.ControlDown() and key == 45:
-            indices = phasepanelutils.getSelectionRows(self.gridAtoms)
+            indices = gridutils.getSelectionRows(self.gridAtoms)
             self.structure.deleteAtoms(indices)
             self.refresh()
             self.mainFrame.needsSave()
@@ -557,7 +558,7 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
         # Append an atom
         # Ctrl + or Ctrl =
         elif event.ControlDown() and (key == 61 or key == 43):
-            indices = phasepanelutils.getSelectionRows(self.gridAtoms)
+            indices = gridutils.getSelectionRows(self.gridAtoms)
             pos = 0
             if indices:
                 pos = 1+indices[-1]
@@ -618,7 +619,7 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
         menu.Append(self.spaceGroupID, "Expand space group...")
 
         # Disable some items if there are no atoms selected
-        indices = phasepanelutils.getSelectionRows(self.gridAtoms)
+        indices = gridutils.getSelectionRows(self.gridAtoms)
         if not indices:
             menu.Enable(self.deleteID, False);
             menu.Enable(self.spaceGroupID, False);
@@ -674,7 +675,7 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
     def onPopupDelete(self, event):
         """Deletes the row under mouse pointer from the grid."""
         if self.structure is not None:
-            indices = phasepanelutils.getSelectionRows(self.gridAtoms)
+            indices = gridutils.getSelectionRows(self.gridAtoms)
             self.structure.deleteAtoms(indices)
             self.refresh()
             self.mainFrame.needsSave()
@@ -714,7 +715,7 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
         from diffpy.pdfgui.gui.sgstructuredialog import SGStructureDialog
         if self.structure is not None:
 
-            indices = phasepanelutils.getSelectionRows(self.gridAtoms)
+            indices = gridutils.getSelectionRows(self.gridAtoms)
             dlg = SGStructureDialog(self)
             dlg.mainFrame = self.mainFrame
             dlg.indices = indices
