@@ -159,19 +159,23 @@ def refreshGrid(panel):
 
 # Utility functions
 
-def getSelectedAtoms(panel):
-    """Get list of indices of selected atoms."""
-    rows = panel.gridAtoms.GetNumberRows()
-    cols = panel.gridAtoms.GetNumberCols()
-    selection = []
-    
-    for i in xrange(rows):
-        for j in xrange(cols):
-            if panel.gridAtoms.IsInSelection(i,j):
-                selection.append(i)
-                break
-
-    return selection
+def getSelectedRows(panel):
+    """Indices of the rows that have any cell selected.
+    """
+    grid = panel.gridAtoms
+    rows = grid.GetNumberRows()
+    rset = set()
+    if grid.GetSelectedCols():
+        rset.update(range(rows))
+    rset.update(grid.GetSelectedRows())
+    for r, c in grid.GetSelectedCells():
+        rset.add(r)
+    blocks = zip(grid.GetSelectionBlockTopLeft(),
+            grid.GetSelectionBlockBottomRight())
+    for tl, br in blocks:
+        rset.update(range(tl[0], br[0] + 1))
+    rv = sorted(rset)
+    return rv
 
 def getSelectedColumns(panel):
     """Indices of columns that have any cell selected.
@@ -290,8 +294,10 @@ def quickResizeColumns(panel, indices):
 
 def isWholeRowSelected(panel, row):
     """Check whether a whole row is selected."""
-    for j in range(10):
-        if not panel.gridAtoms.IsInSelection(row, j):
+    grid = panel.gridAtoms()
+    cols = grid.GetNumberCols()
+    for j in range(cols):
+        if not grid.IsInSelection(row, j):
             return False
     return True
 

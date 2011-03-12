@@ -541,7 +541,7 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
         # Delete an atom
         # Delete
         elif key == 127:
-            indices = phasepanelutils.getSelectedAtoms(self)
+            indices = phasepanelutils.getSelectedRows(self)
             selected = [i for i in indices if phasepanelutils.isWholeRowSelected(self, i)]
             if selected:
                 self.structure.deleteAtoms(indices)
@@ -550,7 +550,7 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
 
         # Ctrl -
         elif event.ControlDown() and key == 45:
-            indices = phasepanelutils.getSelectedAtoms(self)
+            indices = phasepanelutils.getSelectedRows(self)
             self.structure.deleteAtoms(indices)
             self.refresh()
             self.mainFrame.needsSave()
@@ -558,7 +558,7 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
         # Append an atom
         # Ctrl + or Ctrl =
         elif event.ControlDown() and (key == 61 or key == 43):
-            indices = phasepanelutils.getSelectedAtoms(self)
+            indices = phasepanelutils.getSelectedRows(self)
             pos = 0
             if indices:
                 pos = 1+indices[-1]
@@ -619,7 +619,7 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
         menu.Append(self.spaceGroupID, "Expand space group...")
 
         # Disable some items if there are no atoms selected
-        indices = phasepanelutils.getSelectedAtoms(self)
+        indices = phasepanelutils.getSelectedRows(self)
         if not indices:
             menu.Enable(self.deleteID, False);
             menu.Enable(self.spaceGroupID, False);
@@ -675,7 +675,7 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
     def onPopupDelete(self, event):
         """Deletes the row under mouse pointer from the grid."""
         if self.structure is not None:
-            indices = phasepanelutils.getSelectedAtoms(self)
+            indices = phasepanelutils.getSelectedRows(self)
             self.structure.deleteAtoms(indices)
             self.refresh()
             self.mainFrame.needsSave()
@@ -715,7 +715,7 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
         from diffpy.pdfgui.gui.sgstructuredialog import SGStructureDialog
         if self.structure is not None:
 
-            indices = phasepanelutils.getSelectedAtoms(self)
+            indices = phasepanelutils.getSelectedRows(self)
             dlg = SGStructureDialog(self)
             dlg.mainFrame = self.mainFrame
             dlg.indices = indices

@@ -531,7 +531,7 @@ class PhaseConstraintsPanel(wx.Panel, PDFPanel):
         menu.Append(self.pasteID, "&Paste")
 
         # Disable some items if there are no atoms selected
-        indices = phasepanelutils.getSelectedAtoms(self)
+        indices = phasepanelutils.getSelectedRows(self)
         if not indices:
             menu.Enable(self.spaceGroupID, False);
 
@@ -551,7 +551,7 @@ class PhaseConstraintsPanel(wx.Panel, PDFPanel):
         """Create a supercell with the supercell dialog."""
         if self.structure is not None:
 
-            indices = phasepanelutils.getSelectedAtoms(self)
+            indices = phasepanelutils.getSelectedRows(self)
             dlg = SGConstrainDialog(self)
             dlg.mainFrame = self.mainFrame
             dlg.indices = indices
