@@ -159,10 +159,9 @@ def refreshGrid(panel):
 
 # Utility functions
 
-def getSelectedRows(panel):
+def getSelectionRows(grid):
     """Indices of the rows that have any cell selected.
     """
-    grid = panel.gridAtoms
     rows = grid.GetNumberRows()
     rset = set()
     if grid.GetSelectedCols():
@@ -177,10 +176,9 @@ def getSelectedRows(panel):
     rv = sorted(rset)
     return rv
 
-def getSelectedColumns(panel):
+def getSelectionColumns(grid):
     """Indices of columns that have any cell selected.
     """
-    grid = panel.gridAtoms
     cols = grid.GetNumberCols()
     cset = set()
     if grid.GetSelectedRows():
@@ -195,7 +193,7 @@ def getSelectedColumns(panel):
     rv = sorted(cset)
     return rv
 
-def getSelectedCells(panel):
+def getSelectedCells(grid):
     """Get list of (row,col) pairs of selected cells.
     
     This returns selected cells whether they are in blocks or are
@@ -203,32 +201,31 @@ def getSelectedCells(panel):
     
     This could be sped up if necessary.
     """
-    rows = panel.gridAtoms.GetNumberRows()
-    cols = panel.gridAtoms.GetNumberCols()
+    rows = grid.GetNumberRows()
+    cols = grid.GetNumberCols()
     selection = []
     
     for i in xrange(rows):
         for j in xrange(cols):
-            if panel.gridAtoms.IsInSelection(i,j):
+            if grid.IsInSelection(i,j):
                 selection.append((i,j))
 
     return selection
 
-def limitSelectionToRows(panel, indices):
+def limitSelectionToRows(grid, indices):
     '''Limit selection to the specified row indices.
     No action for empty indices.
 
-    panel    -- instance of PhaseConfigurePanel or PhaseConstraintsPanel
+    grid     -- instance of wx.grid.Grid
     indices  -- list of row indices to be selected, must be sorted and unique.
 
     No return value.
     '''
     import bisect
     if not indices:  return
-    grid = panel.gridAtoms
     cols = grid.GetNumberCols()
     rowblocks = _indicesToBlocks(indices)
-    cindices = getSelectedColumns(panel) or [grid.GetGridCursorCol()]
+    cindices = getSelectionColumns(grid) or [grid.GetGridCursorCol()]
     colblocks = _indicesToBlocks(cindices)
     grid.ClearSelection()
     for rlo, rhi in rowblocks:
@@ -262,11 +259,11 @@ def showSelectAtomsDialog(panel):
         rows = panel.structure.getSelectedIndices(s1)
         selected_atoms = s1
         if s1:
-            limitSelectionToRows(panel, rows)
+            limitSelectionToRows(panel.gridAtoms, rows)
     dlg.Destroy()
     return
 
-def quickResizeColumns(panel, indices):
+def quickResizeColumns(grid, indices):
     """Resize the columns that were recently affected by cell changes.
     
     This is faster than the normal grid AutoSizeColumns, since the latter loops
@@ -279,27 +276,18 @@ def quickResizeColumns(panel, indices):
     maxSize = {}
     for (i, j) in indices:
         if j not in maxSize:
-            renderer = panel.gridAtoms.GetCellRenderer(i,j)
-            attr = panel.gridAtoms.GetOrCreateCellAttr(i,j)
-            size = renderer.GetBestSize(panel.gridAtoms, attr, dc, i, j).width
+            renderer = grid.GetCellRenderer(i,j)
+            attr = grid.GetOrCreateCellAttr(i,j)
+            size = renderer.GetBestSize(grid, attr, dc, i, j).width
             size += 10 # Need a small buffer
             maxSize[j] = size
 
-    panel.gridAtoms.BeginBatch()
+    grid.BeginBatch()
     for (j,size) in maxSize.items():
-        if size > panel.gridAtoms.GetColSize(j):
-            panel.gridAtoms.SetColSize(j, size)
-    panel.gridAtoms.EndBatch()
+        if size > grid.GetColSize(j):
+            grid.SetColSize(j, size)
+    grid.EndBatch()
     return
-
-def isWholeRowSelected(panel, row):
-    """Check whether a whole row is selected."""
-    grid = panel.gridAtoms()
-    cols = grid.GetNumberCols()
-    for j in range(cols):
-        if not grid.IsInSelection(row, j):
-            return False
-    return True
 
 def canCopySelectedCells(panel):
     """Check to see if we can copy selected cells.
@@ -442,7 +430,7 @@ def pasteIntoCells(panel):
                 panel.gridAtoms.SetCellValue(row,col,str(newvalue))
                 selections.append((row,col))
 
-    quickResizeColumns(panel, selections)
+    quickResizeColumns(panel.gridAtoms, selections)
 
     # Clear the grid and select the inserted entries
     grid.ClearSelection()

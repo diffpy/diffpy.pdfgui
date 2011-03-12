@@ -405,7 +405,7 @@ class PhaseConstraintsPanel(wx.Panel, PDFPanel):
         i = event.GetRow()
         j = event.GetCol()
         self._focusedText = self.gridAtoms.GetCellValue(i,j)
-        self._selectedCells = phasepanelutils.getSelectedCells(self)
+        self._selectedCells = phasepanelutils.getSelectedCells(self.gridAtoms)
         return
 
     def onCellChange(self, event): # wxGlade: PhaseConstraintsPanel.<event_handler>
@@ -453,7 +453,7 @@ class PhaseConstraintsPanel(wx.Panel, PDFPanel):
                 else:
                     self.gridAtoms.SetCellValue(i,j,str(newvalue))
 
-        phasepanelutils.quickResizeColumns(self, self._selectedCells)
+        phasepanelutils.quickResizeColumns(self.gridAtoms, self._selectedCells)
         return
 
 
@@ -478,7 +478,7 @@ class PhaseConstraintsPanel(wx.Panel, PDFPanel):
  
         # Delete
         elif key == 127:
-            self._selectedCells = phasepanelutils.getSelectedCells(self)
+            self._selectedCells = phasepanelutils.getSelectedCells(self.gridAtoms)
             self.fillCells("")
             self.mainFrame.needsSave()
 
@@ -531,7 +531,7 @@ class PhaseConstraintsPanel(wx.Panel, PDFPanel):
         menu.Append(self.pasteID, "&Paste")
 
         # Disable some items if there are no atoms selected
-        indices = phasepanelutils.getSelectedRows(self)
+        indices = phasepanelutils.getSelectionRows(self.gridAtoms)
         if not indices:
             menu.Enable(self.spaceGroupID, False);
 
@@ -551,7 +551,7 @@ class PhaseConstraintsPanel(wx.Panel, PDFPanel):
         """Create a supercell with the supercell dialog."""
         if self.structure is not None:
 
-            indices = phasepanelutils.getSelectedRows(self)
+            indices = phasepanelutils.getSelectionRows(self.gridAtoms)
             dlg = SGConstrainDialog(self)
             dlg.mainFrame = self.mainFrame
             dlg.indices = indices
