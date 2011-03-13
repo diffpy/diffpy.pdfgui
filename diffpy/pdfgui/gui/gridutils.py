@@ -19,6 +19,8 @@
 # module version
 __id__ = "$Id$"
 
+import wx
+
 
 def getSelectionRows(grid):
     """Indices of the rows that have any cell selected.
@@ -57,23 +59,28 @@ def getSelectionColumns(grid):
 
 
 def getSelectedCells(grid):
-    """Get list of (row,col) pairs of selected cells.
-    
-    This returns selected cells whether they are in blocks or are
-    independent.
-    
-    This could be sped up if necessary.
+    """Get list of (row, col) pairs of all selected cells.
+    Unlike grid.GetSelectedCells this returns them all no matter
+    how they were selected.
     """
     rows = grid.GetNumberRows()
     cols = grid.GetNumberCols()
-    selection = []
-    
-    for i in xrange(rows):
-        for j in xrange(cols):
-            if grid.IsInSelection(i,j):
-                selection.append((i,j))
-
-    return selection
+    allrows = range(rows)
+    allcols = range(cols)
+    rcset = set()
+    for r in grid.GetSelectedRows():
+        rcset.update(zip(cols * [r], allcols))
+    for c in grid.GetSelectedCols():
+        rcset.update(zip(allrows, rows * [c]))
+    blocks = zip(grid.GetSelectionBlockTopLeft(),
+            grid.GetSelectionBlockBottomRight())
+    for tl, br in blocks:
+        brows = range(tl[0], br[0] + 1)
+        bcols = range(tl[1], br[1] + 1)
+        rcset.update((r, c) for r in brows for c in bcols)
+    rcset.update(grid.GetSelectedCells())
+    rv = sorted(rcset)
+    return rv
 
 
 def limitSelectionToRows(grid, indices):
