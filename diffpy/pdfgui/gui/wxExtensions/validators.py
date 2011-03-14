@@ -24,6 +24,7 @@ __id__ = "$Id$"
 ALPHA_ONLY = 1
 DIGIT_ONLY = 2
 FLOAT_ONLY = 3
+
 import wx
 import string
 
@@ -57,26 +58,14 @@ class TextValidator(wx.PyValidator):
         val = tc.GetValue()
         
         if self.flag == ALPHA_ONLY:
-            # Check for letters
-            for x in val:
-                if x not in string.letters:
-                    return False
+            return str.isalpha(val)
 
         elif self.flag == DIGIT_ONLY:
-
-            # Check for an initial negative
             if self.allowNeg:
-                if val[0] == '-':
-                    # Clip the negative for the next check
-                    if len(val) > 1:
-                        val = val[1:]
-                    else:
-                        val = ""
-
-            # Check the digits
-            for x in val:
-                if x not in string.digits:
-                    return False
+                val1 = val[:1].lstrip('-') + val[1:]
+            else:
+                val1 = val
+            return str.isdigit(val1)
 
         elif self.flag == FLOAT_ONLY:
             try:
