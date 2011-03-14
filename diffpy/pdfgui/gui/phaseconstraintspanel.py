@@ -30,7 +30,7 @@ from diffpy.pdfgui.gui.wxExtensions.autowidthlabelsgrid import \
 from diffpy.pdfgui.gui.wxExtensions.textctrlutils import textCtrlAsGridCell
 from diffpy.pdfgui.gui.sgconstraindialog import SGConstrainDialog
 from diffpy.pdfgui.gui import phasepanelutils
-from diffpy.pdfgui.gui import gridutils
+from diffpy.utils.wx import gridutils
 
 class PhaseConstraintsPanel(wx.Panel, PDFPanel):
     def __init__(self, *args, **kwds):

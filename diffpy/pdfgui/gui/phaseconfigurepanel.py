@@ -32,7 +32,7 @@ from diffpy.pdfgui.gui.wxExtensions.autowidthlabelsgrid import \
 from diffpy.pdfgui.gui.wxExtensions.validators import TextValidator, FLOAT_ONLY
 from diffpy.pdfgui.gui.wxExtensions.textctrlutils import textCtrlAsGridCell
 from diffpy.pdfgui.gui import phasepanelutils
-from diffpy.pdfgui.gui import gridutils
+from diffpy.utils.wx import gridutils
 
 
 class PhaseConfigurePanel(wx.Panel, PDFPanel):

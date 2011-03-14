@@ -20,7 +20,7 @@ __id__ = "$Id$"
 
 
 import wx
-from diffpy.pdfgui.gui import gridutils
+from diffpy.utils.wx import gridutils
 
 # List of row entries taken from the clipboard
 clipcells = []

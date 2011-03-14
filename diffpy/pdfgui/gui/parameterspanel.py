@@ -27,7 +27,7 @@ import wx.grid
 from diffpy.pdfgui.gui.pdfpanel import PDFPanel
 from diffpy.pdfgui.gui.wxExtensions.autowidthlabelsgrid import \
         AutoWidthLabelsGrid
-from diffpy.pdfgui.gui import gridutils
+from diffpy.utils.wx import gridutils
 
 class ParametersPanel(wx.Panel, PDFPanel):
     '''GUI Panel, parameters viewer/editor
