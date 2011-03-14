@@ -43,6 +43,7 @@ setup(
         install_requires = [
             'diffpy.Structure>=1.0-r3050',
             'diffpy.pdffit2>=1.0-r3050',
+            'diffpy.utils>=1.0-r6330',
         ],
         dependency_links = [
             'http://www.diffpy.org/packages/',
