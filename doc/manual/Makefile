@@ -42,8 +42,9 @@ cleanALL: clean
 	$(MAKE) -C images clean
 
 
-WEBDOCDIR = diffpy@diffpy.org:web/www.diffpy.org/doc/pdfgui/
+WEBDOCDIR = diffpy-rsync@diffpy.org::www.diffpy.org/doc/pdfgui/
 
 publish: all
-	rsync -e /usr/bin/ssh -pRt --chmod=a+rwx,o-w,Dg+s,Fa-x \
+	rsync -e /usr/bin/ssh -pRt \
+	    --chmod=a+rwx,o-w,Dg+s,Fa-x --exclude=.svn \
 	    pdfgui.html pdfgui.pdf images/*.png $(WEBDOCDIR)
