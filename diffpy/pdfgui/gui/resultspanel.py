@@ -76,7 +76,8 @@ class ResultsPanel(wx.Panel, PDFPanel):
             self.results = self.defres
         displayed = self.resultsTextCtrl.GetValue()
         if displayed != self.results:
-            self.resultsTextCtrl.SetValue(self.results)
+            lastpos = self.resultsTextCtrl.GetLastPosition()
+            self.resultsTextCtrl.Replace(0, lastpos, self.results)
         return
 
 # end of class ResultsPanel
