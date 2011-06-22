@@ -31,7 +31,7 @@ except ImportError:
 
 from diffpy.pdfgui.gui.fittree import FitTree, FitTreeError
 from diffpy.pdfgui.control.pdfguicontrol import pdfguicontrol
-from diffpy.pdfgui.control.controlerrors import ControlError
+from diffpy.pdfgui.control.controlerrors import ControlError, ControlFileError
 
 from diffpy.pdfgui.gui.adddatapanel import AddDataPanel
 from diffpy.pdfgui.gui.addphasepanel import AddPhasePanel
@@ -999,7 +999,11 @@ class MainFrame(wx.Frame):
     def writeConfiguration(self):
         """Write the program configuration to file."""
         filename = os.path.expanduser(pdfguiglobals.configfilename)
-        outfile = file(filename, 'w')
+        try:
+            outfile = file(filename, 'w')
+        except IOError:
+            emsg = "Cannot write configuration file %r" % filename
+            raise ControlFileError(emsg)
         self.cP.write(outfile)
         outfile.close()
         # Change the mode of the file.

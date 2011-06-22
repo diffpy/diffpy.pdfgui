@@ -59,7 +59,7 @@ def catchFunctionErrors(obj, funcName):
             return func(*args, **kwargs)
         except ControlError, e:
             message = str(e)
-            if hasmf and not obj.mainFrame.quitting:
+            if hasmf:
                 obj.mainFrame.showMessage(message, 'Oops!')
             else:
                 raise
