@@ -484,7 +484,7 @@ class FitStructure(PDFStructure):
         # find the largest used parameter index; pidxused must have an element
         pidxused = [i for i in self.owner.updateParameters()] + [0]
         # new parameters will start at the next decade
-        firstpospar = firstUijpar = 10*(max(pidxused)/10) + 11
+        parzeroidx = 10*(max(pidxused)/10) + 10
         # dictionary of parameter indices and their values
         newparvalues = {}
         selatoms = [self.initial[i] for i in uindices]
@@ -496,37 +496,23 @@ class FitStructure(PDFStructure):
         if posflag:
             # fix positions:
             for a, xyz in zip(selatoms, symcon.positions):  a.xyz = xyz
-            numpospars = len(symcon.pospars)
-            posparindices = [i + firstpospar for i in range(numpospars)]
-            posparvalues = symcon.posparValues()
-            newparvalues.update( dict(zip(posparindices, posparvalues)) )
-            possymbols = [ "@%i" % i for i in posparindices ]
+            possymbols, parvalues = _makeParNames(symcon.pospars, parzeroidx)
+            newparvalues.update(parvalues)
             eqns = symcon.positionFormulasPruned(possymbols)
             for aidx, eq in zip(uindices, eqns):
                 siteidx = aidx + 1
-                sortedsmbls = eq.keys()
-                sortedsmbls.sort()
                 for barevar, formula in eq.items():
                     var = barevar + "(%i)" % siteidx
                     self.constraints[var] = Constraint(formula)
-            # adjust firstUijpar
-            if numpospars:
-                firstUijpar += numpospars
-                firstUijpar = 10*(firstUijpar/10) + 11
         # deal with temperature factors
         if Uijflag:
             # fix thermals
             for a, Uij in zip(selatoms, symcon.Uijs):  a.U = Uij
-            numUpars = len(symcon.Upars)
-            Uparindices = [i + firstUijpar for i in range(numUpars)]
-            Uparvalues = symcon.UparValues()
-            newparvalues.update( dict(zip(Uparindices, Uparvalues)) )
-            Usymbols = [ "@%i" % i for i in Uparindices ]
+            Usymbols, parvalues = _makeParNames(symcon.Upars, parzeroidx)
+            newparvalues.update(parvalues)
             eqns = symcon.UFormulasPruned(Usymbols)
             for aidx, eq in zip(uindices, eqns):
                 siteidx = aidx + 1
-                sortedsmbls = eq.keys()
-                sortedsmbls.sort()
                 for barevar, formula in eq.items():
                     # keys in formula dictionary are uppercase
                     var = barevar.lower() + "(%i)" % siteidx
@@ -838,6 +824,44 @@ class FitStructure(PDFStructure):
         return self.owner._getData(self, name, step)
 
 # End of class FitStructure
+
+# Local helper functions -----------------------------------------------------
+
+def _makeParNames(sympars, parzeroindex):
+    '''Return a tuple of (symbols, parvalues), where symbols is a list of
+    unique PDFFit parameter strings in "@%i" format and parvalues is a
+    dictionary of parameter indices and their values.
+    The symbols have indices 10n + (1, 2, 3) when referring to x, y, z, or
+    10n + (4, 5, 6, 7, 8, 9) when referring to Uij.
+
+    sympars      -- pospars or Upars attribute of a SymmetryConstraints object
+                    Must be a sequence of symbols and values.
+    parzeroindex -- the offset of all parameter indices.
+                    Must be a multiple of 10.
+
+    Return a tuple of (possymbols, Usymbols, parvalues).
+    This function is only used in FitStructure.applySymmetryConstraints method.
+    '''
+    if parzeroindex % 10:
+        raise ValueError('parzeroindex must be a multiple of 10.')
+    smbindex = {'x' : 1,  'y' : 2,  'z' : 3,
+                'U11' : 4,  'U22' : 5,  'U33' : 6,
+                'U12' : 7,  'U13' : 8,  'U23' : 9}
+    symbols = []
+    parvalues = {}
+    for smb, value in sympars:
+        if smb[:1] == 'U':
+            nsite = 10 * int(smb[3:])
+            nvar = smbindex[smb[:3]]
+        else:
+            nsite = 10 * int(smb[1:])
+            nvar = smbindex[smb[:1]]
+        pidx = parzeroindex + nsite + nvar
+        symbols.append('@%i' % pidx)
+        parvalues[pidx] = value
+    assert len(symbols) == len(parvalues)
+    rv = (symbols, parvalues)
+    return rv
 
 
 # End of file
