@@ -330,6 +330,9 @@ class FitStructure(PDFStructure):
                     acd[adup][barevar] = Constraint(formula)
         # replace original atoms with newatoms
         self.initial[:] = newatoms
+        for ai, an in zip(self.initial, newatoms):
+            if an in acd:
+                acd[ai] = acd[an]
         # and rebuild their constraints
         self._restoreAtomConstraints(acd)
         # take care of lattice parameters
