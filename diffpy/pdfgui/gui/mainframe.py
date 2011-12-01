@@ -1454,20 +1454,13 @@ class MainFrame(wx.Frame):
         if selections:
             node = selections[0]
 
-        phasesAtMax = False
         noPhases = False
         if node:
             phases = self.treeCtrlMain.GetPhases(node)
-            ## No additional phases if there are already 5 in the fit
-            if len(phases) >= 5:
-                phasesAtMax = True
             ## No insert calculation if there are no phases
             if len(phases) == 0:
                 noPhases = True
 
-        ## No insert of a phase if there are already 5.
-        if phasesAtMax:
-            menu.Enable(self.newPhaseId, False)
         ## No insert calculation if there are no phases
         if noPhases:
             menu.Enable(self.newCalcId, False)
