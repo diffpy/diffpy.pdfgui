@@ -707,7 +707,10 @@ class FitDataSet(PDFDataSet):
     def _get_dGtrunc(self):
         self._updateRcalcSampling()
         if not self._dGtrunc:
-            newdGtrunc = grid_interpolation(self.robs, self.dGobs, self.rcalc)
+            # use sum to avoid index error for empty arrays
+            newdGtrunc = grid_interpolation(self.robs, self.dGobs, self.rcalc,
+                    youtleft=sum(self.dGobs[:1]),
+                    youtright=sum(self.dGobs[-1:]))
             self._dGtrunc = list(newdGtrunc)
         return self._dGtrunc
 
@@ -756,13 +759,14 @@ class FitDataSet(PDFDataSet):
 # helper functions
 ##############################################################################
 
-def grid_interpolation(x0, y0, x1, youtside=0.0):
+def grid_interpolation(x0, y0, x1, youtleft=0.0, youtright=0.0):
     """Linear interpolation of x0, y0 values to a new grid x1.
 
     x0       -- original x-grid, must be equally spaced
     y0       -- original y values
     x1       -- new x-grid, it can have any spacing
-    youtside -- value for interpolated y1 outside of x0 range
+    youtleft -- value for interpolated y1 for x1 below the x0 range
+    youtright -- value for interpolated y1 for x1 above the x0 range
 
     Return numpy.array of interpolated y1 values.
     """
@@ -771,7 +775,9 @@ def grid_interpolation(x0, y0, x1, youtside=0.0):
     n0 = len(x0)
     x1 = numpy.array(x1, copy=False, dtype=float)
     n1 = len(x1)
-    y1 = youtside * numpy.ones(n1, dtype=float)
+    y1 = youtright * numpy.ones(n1, dtype=float)
+    if n0:
+        y1[x1 < x0.min()] = youtleft
     # take care of special n0 lengths
     if n0 == 0:
         return y1

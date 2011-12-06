@@ -47,12 +47,12 @@ class TestRoutines(unittest.TestCase):
         y0 = numpy.sin(x0)
         x1 = [-6, x0[0], -0.2, x0[-1], 37]
         y1a = fds.grid_interpolation(x0, y0, x1)
-        y1b = fds.grid_interpolation(x0, y0, x1, youtside=637)
+        y1b = fds.grid_interpolation(x0, y0, x1, youtleft=637, youtright=638)
         # outside values
         self.assertEqual(0.0, y1a[0])
         self.assertEqual(637, y1b[0])
         self.assertEqual(0.0, y1a[-1])
-        self.assertEqual(637, y1b[-1])
+        self.assertEqual(638, y1b[-1])
         # boundary values
         self.assertEqual(y0[0], y1a[1])
         self.assertEqual(y0[0], y1b[1])
