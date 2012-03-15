@@ -56,7 +56,7 @@ class TextValidator(wx.PyValidator):
     def Validate(self, win):
         tc = self.GetWindow()
         val = tc.GetValue()
-        
+
         if self.flag == ALPHA_ONLY:
             return str.isalpha(val)
 
@@ -88,30 +88,28 @@ class TextValidator(wx.PyValidator):
             event.Skip()
             return
 
-        if self.flag == DIGIT_ONLY: 
-            if chr(key) in string.digits:
+        # resolve the new value here
+        win = self.GetWindow()
+        val = win.GetValue()
+        insertion = win.GetInsertionPoint()
+        first, last = win.GetSelection()
+        if first != last:
+            val = val[:first] + val[last:]
+            insertion = first
+        newval = val[:insertion] + chr(key) + val[insertion:]
+
+        if self.flag == DIGIT_ONLY:
+            newval1 = newval
+            if self.allowNeg:
+                newval1 = newval[:1].lstrip('-') + newval[1:]
+            if str.isdigit(newval1):
                 event.Skip()
                 return
 
-            if self.allowNeg and chr(key) == '-':
-                # Don't allow a '-' sign any place but at the beginning
-                win = self.GetWindow()
-                if win.GetInsertionPoint() == 0 and win.GetValue().count('-') == 0:
-                    event.Skip()
-                    return
-
-        if self.flag == FLOAT_ONLY: 
-            win = self.GetWindow()
-            val = win.GetValue()
-            i = win.GetInsertionPoint()
-            newval = val[:i]+chr(key)+val[i:]
+        if self.flag == FLOAT_ONLY:
             try:
                 x = float(newval+"1") # Catches "1e", a float to be
-                if x < 0:
-                    if self.allowNeg:
-                        event.Skip()
-                        return
-                else:
+                if x >= 0 or self.allowNeg:
                     event.Skip()
                     return
 
