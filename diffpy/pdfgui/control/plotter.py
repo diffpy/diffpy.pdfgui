@@ -588,24 +588,66 @@ class Plotter(PDFComponent):
         header = "# Generated on %s by %s.\n" % (time.ctime(), getpass.getuser())
         header += "# This file was created by PDFgui.\n"
         outfile.write(header)
-
-        # write curve data one by one
-        for curve in self.curves:
-            if curve.x and curve.y:
-                xname = _transName(curve.xStr)
-                yname = _transName(curve.yStr)
-                description = "#L %s %s\n" % (xname, yname)
-                outfile.write(description)
-                for a,b in zip(curve.x,curve.y):
-                    line =  "%10.8f %10.8f\n" % (a, b)
-                    outfile.write(line)
-                # additional newline to separate different curve data
-                outfile.write('\n')
-
+        deblank = lambda s: ''.join(s.split())
+        xylist = [(c.x, c.y) for c in self.curves]
+        xynames = [(_transName(c.xStr), deblank(c.name))
+                for c in self.curves]
+        _exportCompactData(outfile, xylist, xynames)
         outfile.close()
         return
 
 # End of class Plotter
+
+
+def _exportCompactData(fp, xylist, xynames=None):
+    '''Write the xylist data in a text format to the file object fp.
+    The curves with the same x are groupped in the same datasets.
+    The datasets are marked with "#S 1", "#S 2", etc. labels according
+    to the spec format http://www.certif.com/cplot_manual/ch0c_C_11_3.html
+
+    fp       -- file type object that is writable
+    xylist   -- list of (x, y) tuples of x and y arrays.  Items with
+                empty x or empty y are ignored.
+    xynames  -- list of tuples of (xname, yname) strings.  These are
+                used as a header in the dataset blocks.
+
+    No return value.
+    '''
+    dataformat = '%g'
+    # build the default xynames:
+    if xynames is None:
+        xynames = [('x%i' % i, 'y%i' % i) for i in range(len(xylist))]
+    datasets = []
+    datanames = []
+    xt2idx = {}
+    for ((x, y), (xn, yn)) in zip(xylist, xynames):
+        if x is None or not len(x):  continue
+        if y is None or not len(y):  continue
+        xt = tuple(x)
+        i = xt2idx.setdefault(xt, len(xt2idx))
+        if not i < len(datasets):
+            datasets.append([])
+            datanames.append([])
+        ds = datasets[i]
+        dn = datanames[i]
+        if not ds:
+            ds.append(x)
+            dn.append(xn)
+        ds.append(y)
+        dn.append(yn)
+    for i, (ds, dn) in enumerate(zip(datasets, datanames)):
+        # separate datasets with a blank line:
+        if i > 0:
+            fp.write('\n')
+        fp.write('#S %i\n' % (i + 1))
+        fp.write('#L %s\n' % ('  '.join(dn)))
+        ncols = len(ds)
+        fmt = ' '.join(ncols * [dataformat]) + '\n'
+        for cols in zip(*ds):
+            line = fmt % cols
+            fp.write(line)
+    return
+
 
 # version
 __id__ = "$Id$"
