@@ -223,6 +223,8 @@ class BondLengthDialog(wx.Dialog):
         event.Skip()
 
     def onOk(self, event): # wxGlade: BondLengthDialog.<event_handler>
+        self.onTextKillFocus(event)
+        self.onComboKillFocus(event)
         event.Skip()
 
 
