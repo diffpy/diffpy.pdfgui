@@ -1,9 +1,10 @@
+#!/usr/bin/env python
 ##############################################################################
 #
 # diffpy.pdfgui     by DANSE Diffraction group
 #                   Simon J. L. Billinge
-#                   (c) 2006 trustees of the Michigan State University.
-#                   All rights reserved.
+#                   (c) 2012 Trustees of the Columbia University
+#                   in the City of New York.  All rights reserved.
 #
 # File coded by:    Pavol Juhas
 #
@@ -12,24 +13,19 @@
 #
 ##############################################################################
 
-'''Constants:
-    __version__ -- full version of this PDFgui release
-'''
+"""Convenience module for executing all unit tests with
 
-from diffpy.pdfgui.version import __version__
+python -m diffpy.pdfgui.tests.run
+"""
 
 # version
-__id__ = "$Id$"
+__id__ = '$Id$'
 
 
-# unit tests
-
-def test():
-    '''Execute all unit tests for the diffpy.pdfgui package.
-    Return a unittest TestResult object.
-    '''
+if __name__ == '__main__':
+    import sys
     from diffpy.pdfgui.tests import test
-    return test()
+    # produce zero exit code for a successful test
+    sys.exit(not test().wasSuccessful())
 
-
-# End of file 
+# End of file
