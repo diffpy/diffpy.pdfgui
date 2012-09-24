@@ -19,12 +19,12 @@
 # version
 __id__ = '$Id$'
 
-def test():
-    '''Execute all unit tests for the diffpy.pdfgui package.
-    Return a unittest TestResult object.
+
+def testsuite():
+    '''Build a unit tests suite for the diffpy.pdfgui package.
+
+    Return a unittest.TestSuite object.
     '''
-
-
     import unittest
     modulenames = '''
         diffpy.pdfgui.tests.TestBugReport
@@ -44,8 +44,39 @@ def test():
     for mname in modulenames:
         exec ('import %s as mobj' % mname)
         suite.addTests(loader.loadTestsFromModule(mobj))
+    return suite
+
+
+def test():
+    '''Execute all unit tests for the diffpy.pdfgui package.
+    Return a unittest TestResult object.
+    '''
+    import unittest
+    suite = testsuite()
     runner = unittest.TextTestRunner()
     result = runner.run(suite)
     return result
+
+
+def testdeps():
+    '''Execute all unit tests for the diffpy.pdfgui package and
+    for all of its dependencies.
+    Return a unittest TestResult object.
+    '''
+    import unittest
+    modulenames = '''
+        diffpy.pdfgui.tests
+        diffpy.Structure.tests
+        diffpy.pdffit2.tests
+        diffpy.utils.tests
+    '''.split()
+    suite = unittest.TestSuite()
+    for mname in modulenames:
+        exec ('from %s import testsuite as t' % mname)
+        suite.addTests(t())
+    runner = unittest.TextTestRunner()
+    result = runner.run(suite)
+    return result
+
 
 # End of file
