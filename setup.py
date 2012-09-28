@@ -25,6 +25,7 @@ setup(
         version = '1.0',
         namespace_packages = ['diffpy'],
         packages = find_packages(),
+        include_package_data = True,
         test_suite = 'diffpy.pdfgui.tests',
         entry_points = {
             'gui_scripts': [
