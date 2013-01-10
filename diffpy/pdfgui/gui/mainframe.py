@@ -320,7 +320,7 @@ class MainFrame(wx.Frame):
              "calculation"  :       CalculationPanel(self, -1),
              "adddata"      :       AddDataPanel(self, -1),
              "addphase"     :       AddPhasePanel(self, -1),
-             "serverconfig" :       ServerPanel(self, -1),
+             # "serverconfig" :       ServerPanel(self, -1),
              "preferences"  :       PreferencesPanel(self, -1),
              "rseries"      :       RSeriesPanel(self, -1),
              "tseries"      :       TemperatureSeriesPanel(self, -1),
