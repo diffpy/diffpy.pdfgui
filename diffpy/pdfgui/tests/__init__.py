@@ -59,8 +59,8 @@ def test():
 
 
 def testdeps():
-    '''Execute all unit tests for the diffpy.pdfgui package and
-    for all of its dependencies.
+    '''Execute all unit tests for diffpy.pdfgui and its dependencies.
+
     Return a unittest TestResult object.
     '''
     import unittest
