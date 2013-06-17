@@ -105,6 +105,7 @@ class TestStructureViewer(unittest.TestCase):
     def test___del__(self):
         """check StructureViewer.__del__()
         """
+        import gc
         from diffpy.pdfgui.control.fitstructure import FitStructure
         sv = StructureViewer()
         sv.executable = 'does/not/exist'
@@ -114,6 +115,7 @@ class TestStructureViewer(unittest.TestCase):
         tmpd = sv._tmpdir
         self.failUnless(os.path.isdir(tmpd))
         del sv
+        gc.collect()
         self.failIf(os.path.isdir(tmpd))
         return
 
