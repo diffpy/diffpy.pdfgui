@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 ##############################################################################
 #
 # wxExtensions      by DANSE Diffraction group

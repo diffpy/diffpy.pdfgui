@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 ##############################################################################
 #
 # PDFgui            by DANSE Diffraction group

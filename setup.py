@@ -10,7 +10,6 @@ Scripts:    pdfgui
 
 import os
 from setuptools import setup, find_packages
-import fix_setuptools_chmod
 
 def dirglob(d, *patterns):
     from glob import glob

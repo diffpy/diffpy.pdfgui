@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 ##############################################################################
 #
 # diffpy            by DANSE Diffraction group

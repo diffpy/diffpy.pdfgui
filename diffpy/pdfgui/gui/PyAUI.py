@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 # --------------------------------------------------------------------------- #
 # PYAUI Library wxPython IMPLEMENTATION
 #
