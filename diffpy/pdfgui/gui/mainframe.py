@@ -620,40 +620,45 @@ class MainFrame(wx.Frame):
     def __setupToolBar(self):
         """This sets up the tool bar in the parent window."""
         self.toolBar = self.CreateToolBar()
-        self.toolBar.AddLabelTool(self.newId, "New Project",
-                wx.ArtProvider.GetBitmap(wx.ART_NEW, wx.ART_TOOLBAR),
-                wx.NullBitmap, wx.ITEM_NORMAL,
-                "Start a new project")
-        self.toolBar.AddLabelTool(self.openId, "Open Project",
-                wx.ArtProvider.GetBitmap(wx.ART_FILE_OPEN, wx.ART_TOOLBAR),
-                wx.NullBitmap, wx.ITEM_NORMAL,
-                "Open an existing project")
-        self.toolBar.AddLabelTool(self.saveId, "Save Project",
-                wx.ArtProvider.GetBitmap(wx.ART_FILE_SAVE, wx.ART_TOOLBAR),
-                wx.NullBitmap, wx.ITEM_NORMAL,
-                "Save this project")
+        size = (16, 16)
+        bitmap = wx.ArtProvider.GetBitmap(wx.ART_NEW, wx.ART_TOOLBAR, size)
+        self.toolBar.AddLabelTool(
+            self.newId, "New Project", bitmap, wx.NullBitmap, wx.ITEM_NORMAL,
+            "Start a new project")
+        bitmap = wx.ArtProvider.GetBitmap(
+            wx.ART_FILE_OPEN, wx.ART_TOOLBAR, size)
+        self.toolBar.AddLabelTool(
+            self.openId, "Open Project", bitmap, wx.NullBitmap, wx.ITEM_NORMAL,
+            "Open an existing project")
+        bitmap = wx.ArtProvider.GetBitmap(
+            wx.ART_FILE_SAVE, wx.ART_TOOLBAR, size)
+        self.toolBar.AddLabelTool(
+            self.saveId, "Save Project", bitmap, wx.NullBitmap, wx.ITEM_NORMAL,
+            "Save this project")
         self.toolBar.AddSeparator()
         # This fixes the shadowing problem on Windows.
         # The bitmap has a white transparency color (mask)
+        maskcolor = wx.Colour(red=255, green=255, blue=255)
         bitmap = wx.Bitmap(iconpath("run.png"))
-        mask = wx.Mask(bitmap, wx.Colour(red=255,green=255,blue=255))
+        bitmap.SetSize(size)
+        mask = wx.Mask(bitmap, maskcolor)
         bitmap.SetMask(mask)
-        self.toolBar.AddLabelTool(self.runFitId, "Start",
-                bitmap,
-                wx.NullBitmap, wx.ITEM_NORMAL,
-                "Start a fit or calculation")
+        self.toolBar.AddLabelTool(
+            self.runFitId, "Start", bitmap, wx.NullBitmap, wx.ITEM_NORMAL,
+            "Start a fit or calculation")
         bitmap = wx.Bitmap(iconpath("stop.png"))
-        mask = wx.Mask(bitmap, wx.Colour(red=255,green=255,blue=255))
+        bitmap.SetSize(size)
+        mask = wx.Mask(bitmap, maskcolor)
         bitmap.SetMask(mask)
-        self.toolBar.AddLabelTool(self.stopFitId, "Stop",
-                bitmap,
-                wx.NullBitmap, wx.ITEM_NORMAL,
-                "Stop running fits or calculations")
+        self.toolBar.AddLabelTool(
+            self.stopFitId, "Stop", bitmap, wx.NullBitmap, wx.ITEM_NORMAL,
+            "Stop running fits or calculations")
         self.toolBar.AddSeparator()
-        self.toolBar.AddLabelTool(self.quickPlotId, "Quick plot",
-                wx.Bitmap(iconpath("datasetitem.png")),
-                wx.NullBitmap, wx.ITEM_NORMAL,
-                "Plot PDF or structure")
+        bitmap = wx.Bitmap(iconpath("datasetitem.png"))
+        bitmap.SetSize(size)
+        self.toolBar.AddLabelTool(
+            self.quickPlotId, "Quick plot", bitmap, wx.NullBitmap,
+            wx.ITEM_NORMAL, "Plot PDF or structure")
         self.toolBar.Realize()
         return
 
