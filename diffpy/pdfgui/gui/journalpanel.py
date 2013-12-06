@@ -79,7 +79,7 @@ class JournalPanel(wx.Panel, PDFPanel):
         dir, filename = os.path.split(self.fullpath)
         if not dir: dir = self.mainFrame.workpath
         d = wx.FileDialog(None, "Export to...",
-                dir, filename, matchstring, 
+                dir, filename, matchstring,
                 wx.SAVE|wx.OVERWRITE_PROMPT)
 
         if d.ShowModal() == wx.ID_OK:
@@ -116,7 +116,6 @@ class JournalPanel(wx.Panel, PDFPanel):
         if text != self.mainFrame.control.journal:
             self.textCtrlJournal.ChangeValue(self.mainFrame.control.journal)
             self.textCtrlJournal.SetInsertionPointEnd()
-        self.textCtrlJournal.SetFocus()
         pos = self.textCtrlJournal.GetInsertionPoint()
         self.textCtrlJournal.ShowPosition(pos)
         return
