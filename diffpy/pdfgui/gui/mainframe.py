@@ -105,10 +105,10 @@ class MainFrame(wx.Frame):
                         type of item is selected in the FitTree. When the
                         fitting button is pressed, the program is in "fitting"
                         mode.
-    "addingdata"    --  This mode is for adding data. 
+    "addingdata"    --  This mode is for adding data.
     "addingphase"   --  This mode is for adding the phase
     "config"        --  This mode is used for preferences and server
-                        configuration. 
+                        configuration.
     "rseries"       --  The mode used when configuring an r-series macro.
     "tseries"       --  The mode used when configuring a temperature series
                         macro.
@@ -136,7 +136,7 @@ class MainFrame(wx.Frame):
                     "fit"           --  The panel for 'fit' nodes
                     "phase"         --  The panel for 'phase' nodes
                     "dataset"       --  The panel for 'dataset' nodes
-                    "calculation"   --  The panel for 'calculation' nodes 
+                    "calculation"   --  The panel for 'calculation' nodes
 
                     * Panels specific to other program modes
                     "adddata"       --  The panel used in 'addingdata' mode
@@ -211,7 +211,7 @@ class MainFrame(wx.Frame):
 
     def __cmdLineLoad(self):
         """Open file loaded from the command line.
-        
+
         This opens a file without any checking for existing projects. This
         should only be called after all initializations. It will open a file
         whose name is specified in pdfguiglobals.cmdargs.
@@ -232,13 +232,13 @@ class MainFrame(wx.Frame):
         """Several user functions are duplicated many times throughout the gui.
         This occurrs mostly between the main menu, the right-click menu, and the
         many buttons in the gui. This method defines local Ids that can be used
-        for all of these.  
+        for all of these.
         """
         # Functions that modify the tree.
         # These are used in the fitting right-click menu and the main menu.
         self.newFitId = wx.NewId()      # New Fit
         self.newCalcId = wx.NewId()     # New Calculation
-        self.newPhaseId = wx.NewId()    # New Phase 
+        self.newPhaseId = wx.NewId()    # New Phase
         self.newDataId = wx.NewId()     # New Data Set
         self.deleteId = wx.ID_DELETE    # Delete tree item
         self.copyId = wx.ID_COPY        # Copy a tree item
@@ -330,7 +330,7 @@ class MainFrame(wx.Frame):
         # Prepare the right pane. Display the welcome screen.
         self.rightPanel = self.panelDynamic
         for key in self.dynamicPanels:
-            self.auiManager.AddPane(self.dynamicPanels[key], 
+            self.auiManager.AddPane(self.dynamicPanels[key],
                               wxaui.AuiPaneInfo().
                               Name(key).
                               CenterPane().
@@ -464,10 +464,10 @@ class MainFrame(wx.Frame):
                 "Paste &Linked Fit", "", wx.ITEM_NORMAL)
         self.editMenu.AppendItem(self.pasteLinkItem)
         self.editMenu.AppendSeparator()
-        #self.servItem = wx.MenuItem(self.editMenu, wx.NewId(), 
+        #self.servItem = wx.MenuItem(self.editMenu, wx.NewId(),
         #        "&Server Configuration", "", wx.ITEM_NORMAL)
         #self.editMenu.AppendItem(self.servItem)
-        self.prefItem = wx.MenuItem(self.editMenu, wx.NewId(), 
+        self.prefItem = wx.MenuItem(self.editMenu, wx.NewId(),
                 "&Preferences", "", wx.ITEM_NORMAL)
         self.editMenu.AppendItem(self.prefItem)
         self.menuBar.Append(self.editMenu, "&Edit")
@@ -475,21 +475,21 @@ class MainFrame(wx.Frame):
 
         # View Menu
         self.viewMenu = wx.Menu()
-        self.defaultLayoutItem = wx.MenuItem(self.editMenu, wx.NewId(), 
+        self.defaultLayoutItem = wx.MenuItem(self.editMenu, wx.NewId(),
                 "Default Window Layout", "", wx.ITEM_NORMAL)
         self.viewMenu.AppendItem(self.defaultLayoutItem)
         self.viewMenu.AppendSeparator()
         # These items are context sensitive.
-        self.showFitItem = wx.MenuItem(self.viewMenu, wx.NewId(), 
+        self.showFitItem = wx.MenuItem(self.viewMenu, wx.NewId(),
                 "Show Fit Tree", "", wx.ITEM_NORMAL)
         self.viewMenu.AppendItem(self.showFitItem)
-        self.showPlotItem = wx.MenuItem(self.viewMenu, wx.NewId(), 
+        self.showPlotItem = wx.MenuItem(self.viewMenu, wx.NewId(),
                 "Show Plot Control", "", wx.ITEM_NORMAL)
         self.viewMenu.AppendItem(self.showPlotItem)
-        self.showOutputItem = wx.MenuItem(self.viewMenu, wx.NewId(), 
+        self.showOutputItem = wx.MenuItem(self.viewMenu, wx.NewId(),
                 "Show Output", "", wx.ITEM_NORMAL)
         self.viewMenu.AppendItem(self.showOutputItem)
-        self.showJournalItem = wx.MenuItem(self.viewMenu, wx.NewId(), 
+        self.showJournalItem = wx.MenuItem(self.viewMenu, wx.NewId(),
                 "Show Journal\tCtrl+j", "", wx.ITEM_NORMAL)
         self.viewMenu.AppendItem(self.showJournalItem)
         self.menuBar.Append(self.viewMenu, "&View")
@@ -507,24 +507,24 @@ class MainFrame(wx.Frame):
                 "&Stop Fitting", "", wx.ITEM_NORMAL)
         self.fitsMenu.AppendItem(self.stopFitItem)
         self.fitsMenu.AppendSeparator()
-        self.impFitItem = wx.MenuItem(self.fitsMenu, wx.NewId(), 
+        self.impFitItem = wx.MenuItem(self.fitsMenu, wx.NewId(),
                 "&Import pdffit2 Script", "", wx.ITEM_NORMAL)
         self.fitsMenu.AppendItem(self.impFitItem)
         self.fitsMenu.AppendSeparator()
         self.expResItem = wx.MenuItem(self.fitsMenu, self.exportResId,
-                "Export Resu&lts File", "", wx.ITEM_NORMAL) 
+                "Export Resu&lts File", "", wx.ITEM_NORMAL)
         self.fitsMenu.AppendItem(self.expResItem)
         self.fitsMenu.AppendSeparator()
         # Macros sub-menu
         self.macrosMenu = wx.Menu()
         self.rseriesItem = wx.MenuItem(self.macrosMenu, wx.NewId(),
-                "r-Series", "", wx.ITEM_NORMAL) 
+                "r-Series", "", wx.ITEM_NORMAL)
         self.macrosMenu.AppendItem(self.rseriesItem)
         self.tseriesItem = wx.MenuItem(self.macrosMenu, wx.NewId(),
-                "Temperature Series", "", wx.ITEM_NORMAL) 
+                "Temperature Series", "", wx.ITEM_NORMAL)
         self.macrosMenu.AppendItem(self.tseriesItem)
         self.dseriesItem = wx.MenuItem(self.macrosMenu, wx.NewId(),
-                "Doping Series", "", wx.ITEM_NORMAL) 
+                "Doping Series", "", wx.ITEM_NORMAL)
         self.macrosMenu.AppendItem(self.dseriesItem)
         self.fitsMenu.AppendMenu(wx.NewId(), "Macros", self.macrosMenu)
         self.menuBar.Append(self.fitsMenu, "Fi&ts")
@@ -548,7 +548,7 @@ class MainFrame(wx.Frame):
                 wx.ITEM_NORMAL)
         self.phasesMenu.AppendItem(self.expNewPhaseItem)
         self.expStruItem = wx.MenuItem(self.fitsMenu, self.exportFitStruId,
-                "&Export Fit Structure", "", wx.ITEM_NORMAL) 
+                "&Export Fit Structure", "", wx.ITEM_NORMAL)
         self.phasesMenu.AppendItem(self.expStruItem)
         self.phasesMenu.AppendSeparator()
         self.plotIStructItem = wx.MenuItem(self.phasesMenu,
@@ -567,7 +567,7 @@ class MainFrame(wx.Frame):
 
         # Data Menu
         self.dataMenu = wx.Menu()
-        self.newDataItem = wx.MenuItem(self.dataMenu, self.newDataId, 
+        self.newDataItem = wx.MenuItem(self.dataMenu, self.newDataId,
                 "&New Data Set\tCtrl+d", "", wx.ITEM_NORMAL)
         self.dataMenu.AppendItem(self.newDataItem)
         self.dataMenu.AppendSeparator()
@@ -596,16 +596,16 @@ class MainFrame(wx.Frame):
 
         # Help Menu
         self.helpMenu = wx.Menu()
-        self.docItem = wx.MenuItem(self.helpMenu, wx.NewId(), 
+        self.docItem = wx.MenuItem(self.helpMenu, wx.NewId(),
                 "&Documentation\tF1", "", wx.ITEM_NORMAL)
         self.helpMenu.AppendItem(self.docItem)
-        self.requestItem = wx.MenuItem(self.helpMenu, wx.NewId(), 
+        self.requestItem = wx.MenuItem(self.helpMenu, wx.NewId(),
                 "Request a Feature / Report a Bug", "", wx.ITEM_NORMAL)
         self.helpMenu.AppendItem(self.requestItem)
-        self.communityItem = wx.MenuItem(self.helpMenu, wx.NewId(), 
+        self.communityItem = wx.MenuItem(self.helpMenu, wx.NewId(),
                 "PDFgui Community", "", wx.ITEM_NORMAL)
         self.helpMenu.AppendItem(self.communityItem)
-        self.aboutItem = wx.MenuItem(self.helpMenu, wx.NewId(), 
+        self.aboutItem = wx.MenuItem(self.helpMenu, wx.NewId(),
                 "&About", "", wx.ITEM_NORMAL)
         self.helpMenu.AppendItem(self.aboutItem)
         self.menuBar.Append(self.helpMenu, "&Help")
@@ -621,20 +621,20 @@ class MainFrame(wx.Frame):
         """This sets up the tool bar in the parent window."""
         self.toolBar = self.CreateToolBar()
         self.toolBar.AddLabelTool(self.newId, "New Project",
-                wx.ArtProvider.GetBitmap(wx.ART_NEW, wx.ART_TOOLBAR), 
+                wx.ArtProvider.GetBitmap(wx.ART_NEW, wx.ART_TOOLBAR),
                 wx.NullBitmap, wx.ITEM_NORMAL,
                 "Start a new project")
         self.toolBar.AddLabelTool(self.openId, "Open Project",
-                wx.ArtProvider.GetBitmap(wx.ART_FILE_OPEN, wx.ART_TOOLBAR), 
+                wx.ArtProvider.GetBitmap(wx.ART_FILE_OPEN, wx.ART_TOOLBAR),
                 wx.NullBitmap, wx.ITEM_NORMAL,
                 "Open an existing project")
         self.toolBar.AddLabelTool(self.saveId, "Save Project",
-                wx.ArtProvider.GetBitmap(wx.ART_FILE_SAVE, wx.ART_TOOLBAR), 
+                wx.ArtProvider.GetBitmap(wx.ART_FILE_SAVE, wx.ART_TOOLBAR),
                 wx.NullBitmap, wx.ITEM_NORMAL,
                 "Save this project")
         self.toolBar.AddSeparator()
         # This fixes the shadowing problem on Windows.
-        # The bitmap has a white transparency color (mask) 
+        # The bitmap has a white transparency color (mask)
         bitmap = wx.Bitmap(iconpath("run.png"))
         mask = wx.Mask(bitmap, wx.Colour(red=255,green=255,blue=255))
         bitmap.SetMask(mask)
@@ -658,9 +658,9 @@ class MainFrame(wx.Frame):
         return
 
     def __customBindings(self):
-        """Custom user bindings go here. 
-        
-        These bindings are not present in wxglade. 
+        """Custom user bindings go here.
+
+        These bindings are not present in wxglade.
         """
         # Allow a general right-click to work on the tree
         self.treeCtrlMain.Bind(wx.EVT_RIGHT_DOWN, self.onRightClick)
@@ -684,7 +684,7 @@ class MainFrame(wx.Frame):
 
     def __menuBindings(self):
         """Setup bindings for the main menu and toolbar.
-        
+
         Since all toolbar functions use the same Ids as main menu items, the
         toolbar events do not need their own bindings.
         """
@@ -812,7 +812,7 @@ class MainFrame(wx.Frame):
 
         This method gets panel-specific data and sends it to the rightPanel. The
         different types of data assignment are listed below.
-        
+
         "fit" type:
         * Give the fit object to the panel
 
@@ -864,25 +864,25 @@ class MainFrame(wx.Frame):
 
     def setMode(self, mode):
         """Set the mode of the program.
-        
+
         This method takes care of any widget properties that must change when
         the mode is changed. If the mode is changing due to the change in the
         right panel, always call setMode before switchRightPanel.
-            
+
         "fitting" mode:
             * treeCtrlMain is enabled
             * plotPanel panel is enabled
             * toolBar is enabled
             * menuBar is enabled
-        
-        "addingdata" mode: 
+
+        "addingdata" mode:
         "addingphase" mode:
         "config" mode:
             * treeCtrlMain is disabled
             * plotPanel panel is disabled
             * toolBar is disabled
             * menuBar is disabled
-        
+
         "rseries" mode:
         "tseries" mode:
         "dseries" mode:
@@ -914,7 +914,7 @@ class MainFrame(wx.Frame):
 
     def loadConfiguration(self):
         """Load the configuration from file.
-        
+
         The MRU list is handled by the local member fileHistory, which is a
         wxFileHistory object.
         """
@@ -960,13 +960,13 @@ class MainFrame(wx.Frame):
 
     def updateConfiguration(self):
         """Update the configuration information.
-        
+
         This updates the 'MRU' section of the configuration.
         """
         # Most recently used list
         if not self.cP.has_section("MRU"):
             self.cP.add_section("MRU")
-        
+
         for i in range(self.fileHistory.GetCount()):
             item = self.fileHistory.GetHistoryFile(i)
             self.cP.set("MRU", str(i+1), item)
@@ -1013,7 +1013,7 @@ class MainFrame(wx.Frame):
 
     def checkForSave(self):
         """Pop up a dialog if the project needs to be saved.
-        
+
         returns:
         wx.ID_YES if the user chose to save the project.
         wx.ID_NO if the user chose not to save the project.
@@ -1029,7 +1029,7 @@ class MainFrame(wx.Frame):
             code = d.ShowModal()
             if code == wx.ID_YES:
                 code = self.onSave(None)
-            d.Destroy() 
+            d.Destroy()
         return code
 
     def updateTitle(self):
@@ -1058,7 +1058,7 @@ class MainFrame(wx.Frame):
         """Manually select a node of the tree and update according to selection.
 
         This makes sure that the node is visible after selection.
-        
+
         If node is None, this does nothing.
         """
         if node is None: return
@@ -1078,21 +1078,21 @@ class MainFrame(wx.Frame):
 
     def treeSelectionUpdate(self, node):
         """Update the widgets based on a tree selection.
-        
+
         "fitting" mode:
         * Right panel changes depending upon the type of item selected from the
         tree.
-        
+
         "rseries", "tseries", "dseries" mode:
         * The behavior is defined in the associated panel
         """
         selections = self.treeCtrlMain.GetSelections()
 
-        # "fitting" mode 
+        # "fitting" mode
         if self.mode == "fitting":
             # This doesn't work on Windows.
             self.plotPanel.Enable(True)
-            if len(selections) == 0: 
+            if len(selections) == 0:
                 self.switchRightPanel("blank")
                 self.plotPanel.Enable(False)
                 #return
@@ -1131,7 +1131,7 @@ class MainFrame(wx.Frame):
 
     def onTreeSelChanging(self, event): # wxGlade: MainPanel.<event_handler>
         """Set the click behavior for each mode.
-        
+
         Note that this doesn't work on Windows. Be sure to build in redundancy
         so that the program behaves as if this does not even get called. If the
         Windows bug does not get fixed, this method will probably be
@@ -1164,12 +1164,12 @@ class MainFrame(wx.Frame):
             nodetype = self.treeCtrlMain.GetNodeType(node)
             if nodetype != "fit":
                 event.Veto()
-        
+
         return
 
     def onBeginLabelEdit(self, event): # wxGlade: MainPanel.<event_handler>
         """Veto editing of some items and in some modes.
-        
+
         The following editing attempts are Veto()'d
         * Editing any item in "addingdata", "addingphase", or "config" mode.
         """
@@ -1180,7 +1180,7 @@ class MainFrame(wx.Frame):
 
     def onEndLabelEdit(self, event): # wxGlade: MainPanel.<event_handler>
         """Allow only certain types of renaming.
-        
+
         The following rename attempts are Veto()'d
         * Giving a node the same name as a sibling. Cousins can share names.
         * Giving a node the name ''. Everything needs a name.
@@ -1194,7 +1194,7 @@ class MainFrame(wx.Frame):
 
         # No sibling's sharing the same name. (Sorry, George Foreman.)
         node = event.GetItem()
-        siblings = [self.treeCtrlMain.GetItemText(id) for 
+        siblings = [self.treeCtrlMain.GetItemText(id) for
             id in self.treeCtrlMain.GetSiblings(node)]
         if label in siblings:
             event.Veto()
@@ -1211,8 +1211,8 @@ class MainFrame(wx.Frame):
 
         This menu can give a different menu depending upon which mode the
         program is in. It can even give a different menu depending upon what
-        part of the tree is selected. 
-        
+        part of the tree is selected.
+
         "fitting" mode
         The menu appears for right-clicks both on and off of tree items.
         The menu has the following items:
@@ -1333,7 +1333,7 @@ class MainFrame(wx.Frame):
 
         selections = self.treeCtrlMain.GetSelections()
         node = None
-        if selections: 
+        if selections:
             node = selections[0]
 
         # Shift+Ctrl+A
@@ -1417,7 +1417,7 @@ class MainFrame(wx.Frame):
         """Tell the gui that the program needs to be saved.
 
         This changes the state of the save menu and tool bar items.
-        
+
         altered     --  Whether or not the program needs saving (default True).
         """
         if not self.quitting:
@@ -1427,9 +1427,9 @@ class MainFrame(wx.Frame):
 
     def disableSharedMenuItems(self, menu):
         """Disable some menu items based upon what is selected in the tree.
-        
-        menu        --  The menu which to apply the changes. 
-        
+
+        menu        --  The menu which to apply the changes.
+
         Note that this method is meant to disable only the shared menu items,
         that is, those that use the same menu item Ids. These are defined in the
         top part of __defineLocalIds().  Putting this logic into a single method
@@ -1684,13 +1684,13 @@ class MainFrame(wx.Frame):
             self.showJournalItem.SetText("Show Journal\tCtrl+j")
 
         return
-        
+
 
     # Shared menu items
     ## The bulk of the code for these methods is in the FitTree class.
     def onNewFit(self, event):
         """Start a new fit tree.
-        
+
         A fit is given the name "Fit n", where n is the smallest
         positive integer such that the name is not already taken.
         """
@@ -1729,7 +1729,7 @@ class MainFrame(wx.Frame):
 
     def onPasteLink(self, event):
         """Paste a copied fit and link it to the original.
-        
+
         This should only be called on a 'fit' node, and only if the original
         'fit' node, or at least one with the same name as the original still
         exists in the tree.
@@ -1764,7 +1764,7 @@ class MainFrame(wx.Frame):
 
     def onInsData(self, event):
         """Insert a new dataset item.
-        
+
         This opens up the new data set panel from adddatapanel.py. That panel
         is in charge of inserting a new phase. See the module for details.
         """
@@ -1777,7 +1777,7 @@ class MainFrame(wx.Frame):
 
     def onInsPhase(self, event):
         """Insert a new phase item.
-        
+
         This opens up the new phase panel from addphasepanel.py. That panel is
         in charge of inserting a new phase. See the module for details.
         """
@@ -1790,7 +1790,7 @@ class MainFrame(wx.Frame):
 
     def onInsCalc(self, event):
         """Insert a new calculation item.
-        
+
         A calculation is given the name "Calculation n", where n is the smallest
         positive integer such that the name is not already taken.
         """
@@ -1846,7 +1846,7 @@ class MainFrame(wx.Frame):
 
     def onRun(self, event):
         """Run the selected fits/calculations and disable their tree entries.
-        
+
         This also runs calculations that are children of a running fit.
         """
         # Make sure that the tree is focued. This will trigger the KILL_FOCUS
@@ -1886,11 +1886,11 @@ class MainFrame(wx.Frame):
 
         IDlist = map(self.treeCtrlMain.GetControlData, allnodes)
         self.control.start(IDlist)
-        return 
+        return
 
     def onStop(self, event):
         """Stop all fits.
-        
+
         This removes all items from the runningDict and changes the status
         colors back to wxWHITE.
         """
@@ -1900,7 +1900,7 @@ class MainFrame(wx.Frame):
 
     def onPreferences(self, event):
         """Switch the right panel to the 'preferences' panel.
-        
+
         The 'preferences' panel uses the 'config' mode.
         """
         self.setMode("config")
@@ -1910,7 +1910,7 @@ class MainFrame(wx.Frame):
 
     def onServerConfig(self, event):
         """Switch the right panel to the 'serverconfig' panel.
-        
+
         The 'serverconfig' panel uses the 'config' mode.
         """
         self.setMode("config")
@@ -1963,14 +1963,14 @@ class MainFrame(wx.Frame):
 
     def onPlotIStruct(self, event):
         """Plots the phase structure.
-        
+
         Opens Atomeye and plots the structure.
         """
         return self._plotStruct("initial")
-    
+
     def onPlotFStruct(self, event):
         """Plots the phase structure.
-        
+
         Opens Atomeye and plots the structure.
         """
         return self._plotStruct("refined")
@@ -2021,14 +2021,14 @@ class MainFrame(wx.Frame):
                     eb = dlg.eb
                     lb = min(dlg.lb, dlg.ub)
                     ub = max(dlg.lb, dlg.ub)
-                    
+
                     if lb == ub == 0:
                         fitting.outputBondLengthAtoms(S, a, b)
                     else:
                         fitting.outputBondLengthTypes(S, ea, eb, lb, ub)
 
                     self.updateOutput()
-                    dlg.Destroy()        
+                    dlg.Destroy()
         return
 
 
@@ -2055,7 +2055,7 @@ class MainFrame(wx.Frame):
                     self.control.redirectStdout()
                     fitting.outputBondAngle(S, dlg.a, dlg.b, dlg.c)
                     self.updateOutput()
-                    dlg.Destroy()        
+                    dlg.Destroy()
 
     def onQuickPlot(self, event):
         """Quickly plot information for the selected node."""
@@ -2066,7 +2066,7 @@ class MainFrame(wx.Frame):
         nodetype = self.treeCtrlMain.GetNodeType(selections[0])
         if nodetype == "dataset":
             xval = 'r'
-            # For quick plotting, keep this order. Gdiff must be the last. 
+            # For quick plotting, keep this order. Gdiff must be the last.
             yvals = ['Gtrunc', 'Gcalc', 'Gdiff']
             soffset = self.plotPanel.offsetTextCtrl.GetValue()
             offset = 0
@@ -2084,12 +2084,12 @@ class MainFrame(wx.Frame):
             else:
                 self.onPlotIStruct(event)
         return
-                        
+
     def onAbout(self, event):
         dlg = DialogAbout(self)
 #        dlg.CenterOnScreen()
         dlg.ShowModal()
-        dlg.Destroy()        
+        dlg.Destroy()
         return
 
     def onRequest(self, event):
@@ -2125,7 +2125,7 @@ class MainFrame(wx.Frame):
             self.switchRightPanel('welcome')
             self.plotPanel.refresh()
             self.needsSave(False)
-            self.fullpath = "" 
+            self.fullpath = ""
             self.outputPanel.clearText()
             self.journalPanel.refresh()
         self.updateTitle()
@@ -2269,7 +2269,7 @@ class MainFrame(wx.Frame):
             outfile.write(cdata.res)
             outfile.close()
         d.Destroy()
-        return 
+        return
 
     def onImportScript(self, event):
         matchstring = "pdffit2 script files (*.py)|*.py|All Files|*"
@@ -2334,8 +2334,8 @@ class MainFrame(wx.Frame):
             outfile.write(text)
             outfile.close()
         d.Destroy()
-        return 
-        
+        return
+
     def onExportStruct(self, event):
         """Export a fit structure."""
         extlist = ['stru', 'cif', 'pdb', 'xyz', 'xyz', '']
@@ -2366,7 +2366,7 @@ class MainFrame(wx.Frame):
             outfile.write(text)
             outfile.close()
         d.Destroy()
-        return 
+        return
 
     def onExportPDF(self, event):
         """Export a fit PDF."""
@@ -2391,7 +2391,7 @@ class MainFrame(wx.Frame):
             path = os.path.join(self.workpath, savename)
             cdata.writeCalc(path)
         d.Destroy()
-        return 
+        return
 
     def onSaveCalc(self, event):
         """Export a calculated PDF."""
@@ -2415,7 +2415,7 @@ class MainFrame(wx.Frame):
             path = os.path.join(self.workpath, savename)
             cdata.write(path)
         d.Destroy()
-        return 
+        return
 
     def onDocumentation(self, event):
         """Show information about the documentation."""
@@ -2426,11 +2426,11 @@ class MainFrame(wx.Frame):
     # MISC INTERACTION ITEMS
     def showMessage(self, info, title = "PDF Control Error"):
         """showMessage(self, info) --> tell user about an exception and so on
-        
+
         title -- window title
         info -- message
         """
-        dlg = wx.MessageDialog(self, info, title, wx.CANCEL|wx.ICON_ERROR)
+        dlg = wx.MessageDialog(self, info, title, wx.OK|wx.ICON_ERROR)
         dlg.ShowModal()
         dlg.Destroy()
         return
@@ -2439,14 +2439,14 @@ class MainFrame(wx.Frame):
     def lock(self):
         if not wx.Thread_IsMain():
             wx.MutexGuiEnter()
-    
+
     def unlock(self):
         if not wx.Thread_IsMain():
             wx.MutexGuiLeave()
 
     def postEvent(self, type, info):
-        """This method is called by the control. 
-        
+        """This method is called by the control.
+
         Whenever the control needs to communicate directly with the gui it can
         call this method. The event is processed by onCustom and then handled by
         the gui on its own terms.
@@ -2482,12 +2482,12 @@ class MainFrame(wx.Frame):
         CONNECTED       --  'GREEN'
         CONFIGURED      --  'GREEN'
         DONE            --  'WHITE'
-        
+
         JOB Status
-        VOID       
-        QUEUED     
-        RUNNING    
-        PAUSED     
+        VOID
+        QUEUED
+        RUNNING
+        PAUSED
         """
         from diffpy.pdfgui.control.fitting import Fitting
         from diffpy.pdfgui.control.calculation import Calculation
@@ -2510,7 +2510,7 @@ class MainFrame(wx.Frame):
                 self.treeCtrlMain.SetItemBackgroundColour(node,
                         wx.NamedColour('WHITE'))
                 selections = self.treeCtrlMain.GetSelections()
-                if len(selections) == 1: 
+                if len(selections) == 1:
                     # Enable whatever panel is currently being viewed.
                     self.rightPanel.Enable()
                     if node == selections[0]:
@@ -2522,7 +2522,7 @@ class MainFrame(wx.Frame):
         self.disableMainMenuItems()
         self.updateToolbar()
         return
-        
+
     def updateOutput(self):
         """Update text in outputPanel with text in stdout."""
         self.outputPanel.updateText(self.control.getEngineOutput())
