@@ -1962,6 +1962,7 @@ class MainFrame(wx.Frame):
         else:
             self.auiManager.GetPane("journalPanel").Show()
             self.journalPanel.refresh()
+            self.journalPanel.SetFocus()
         self.auiManager.Update()
         return
 
