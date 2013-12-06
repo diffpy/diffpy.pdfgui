@@ -225,7 +225,6 @@ class MainFrame(wx.Frame):
             self.workpath = os.path.dirname(fullpath)
             self.fileHistory.AddFileToHistory(fullpath)
             self.plotPanel.refresh()
-            self.journalPanel.refresh()
         return
 
     def __defineLocalIds(self):
