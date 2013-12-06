@@ -2435,7 +2435,7 @@ class MainFrame(wx.Frame):
         title -- window title
         info -- message
         """
-        dlg = wx.MessageDialog(self, info, title, wx.CANCEL|wx.ICON_ERROR)
+        dlg = wx.MessageDialog(self, info, title, wx.OK|wx.ICON_ERROR)
         dlg.ShowModal()
         dlg.Destroy()
         return
