@@ -80,9 +80,9 @@ setup(
         # manual and tutorial files should not be zipped
         zip_safe = False,
         install_requires = [
-            'diffpy.Structure>=1.1-r6772',
+            'diffpy.Structure>=1.2',
             'diffpy.pdffit2>=1.0-r6766',
-            'diffpy.utils>=1.0-r6769',
+            'diffpy.utils>=1.1',
         ],
         dependency_links = [
             'http://www.diffpy.org/packages/',
@@ -91,9 +91,8 @@ setup(
         author = 'Simon J.L. Billinge',
         author_email = 'sb2896@columbia.edu',
         maintainer = 'Pavol Juhas',
-        maintainer_email = 'pj2192@columbia.edu',
-        url = 'http://www.diffpy.org/',
-        download_url = 'http://www.diffpy.org/packages/',
+        maintainer_email = 'pavol.juhas@gmail.com',
+        url = 'https://github.com/diffpy/diffpy.pdfgui',
         description = "GUI for PDF simulation and structure refinement.",
         license = 'BSD',
         keywords = 'PDF structure refinement GUI',
@@ -105,10 +104,13 @@ setup(
             'Environment :: Win32 (MS Windows)',
             'Environment :: X11 Applications',
             'Intended Audience :: Science/Research',
+            'License :: OSI Approved :: BSD License',
             'Operating System :: MacOS',
             'Operating System :: Microsoft :: Windows',
             'Operating System :: POSIX',
-            'Programming Language :: Python :: 2.5',
+            'Programming Language :: Python :: 2.6',
+            'Programming Language :: Python :: 2.7',
+            'Topic :: Scientific/Engineering :: Chemistry',
             'Topic :: Scientific/Engineering :: Physics',
         ],
 )
