@@ -44,7 +44,7 @@ class Parameter:
         """Initialize new parameter
 
         idx     -- idx of this parameter in PdfFit
-        initial -- optional initial value of the parameter. 
+        initial -- optional initial value of the parameter.
                    It can be float, Fitting, "=fitname" or "=fitname:idx" string.
         """
         self.idx = idx
@@ -81,7 +81,7 @@ class Parameter:
         return
 
     def initialStr(self):
-        """Convert initial value to string. 
+        """Convert initial value to string.
 
         returns string in "=fitname:idx" or "%f" format
         """
@@ -196,8 +196,5 @@ if __name__ == "__main__":
     p.setInitial(0.55)
     print "p.initialStr() =", p.initialStr()
     print "p.initialValue() =", p.initialValue()
-
-# version
-__id__ = "$Id$"
 
 # End of file

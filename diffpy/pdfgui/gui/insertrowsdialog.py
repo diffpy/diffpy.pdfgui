@@ -61,5 +61,3 @@ class InsertRowsDialog(wx.Dialog):
         # end wxGlade
 
 # end of class InsertRowsDialog
-
-__id__ = "$Id$"

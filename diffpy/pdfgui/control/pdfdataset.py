@@ -165,14 +165,14 @@ class PDFDataSet(PDFComponent):
                 start_data = 0
         header = datastring[:start_data]
         databody = datastring[start_data:].strip()
-        
+
         # find where the metadata starts
         metadata = ''
         res = re.search(r'^#+\ +metadata\b\n', header, re.M)
         if res:
             metadata = header[res.end():]
-            header = header[:res.start()]   
-            
+            header = header[:res.start()]
+
         # parse header
         # stype
         if re.search('(x-?ray|PDFgetX)', header, re.I):
@@ -214,7 +214,7 @@ class PDFDataSet(PDFComponent):
         res = re.search(regexp, header)
         if res:
             self.metadata['doping'] = float(res.groups()[0])
-            
+
         # parsing gerneral metadata
         if metadata:
             regexp = r"\b(\w+)\ *=\ *(%(f)s)\b" % rx
@@ -375,8 +375,5 @@ if __name__ == '__main__':
     print "== datasetcopy.writeStr() =="
     datasetcopy = dataset.copy()
     print datasetcopy.writeStr()
-
-# version
-__id__ = "$Id$"
 
 # End of file

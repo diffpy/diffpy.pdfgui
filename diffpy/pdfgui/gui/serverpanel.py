@@ -160,12 +160,12 @@ class ServerPanel(wx.Panel, PDFPanel):
     # Utility functions
     def addServer(self, name):
         """Add a new server to the servers dictionary.
-        
+
         Returns the index of the added server.
         """
         import getpass
         username = getpass.getuser()
-        self.servers.append(  { 'name'              : name, 
+        self.servers.append(  { 'name'              : name,
                                 'host'              : 'localhost',
                                 'port'              : '22',
                                 'use_default_port'  : True,
@@ -236,8 +236,8 @@ class ServerPanel(wx.Panel, PDFPanel):
         return
 
     def readConfiguration(self):
-        """Read the 'SERVERn' configuration information. 
-        
+        """Read the 'SERVERn' configuration information.
+
         The configuration information is placed in the servers list.  Each
         server has its own section with the name 'SERVERn' where 'n' is a
         non-negative integer. Each section have the same options; the options
@@ -249,7 +249,7 @@ class ServerPanel(wx.Panel, PDFPanel):
         for server in configservers:
             if server == 'DEFAULT_SERVER':
                 self.default_server = self.cP.getint('DEFAULT_SERVER', 'server')
-            
+
             else:
                 index = self.addServer('tempname')
                 for option in self.cP.options(server):
@@ -483,7 +483,7 @@ class ServerPanel(wx.Panel, PDFPanel):
             entrytype = None
         self.mainFrame.setMode("fitting")
         self.mainFrame.switchRightPanel(entrytype)
-        return 
+        return
 
     def onOK(self, event): # wxGlade: ServerPanel.<event_handler>
         """Verify the selection."""
@@ -504,5 +504,3 @@ class ServerPanel(wx.Panel, PDFPanel):
         return
 
 # end of class ServerPanel
-
-__id__="$Id$"

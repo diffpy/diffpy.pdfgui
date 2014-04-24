@@ -15,10 +15,6 @@
 
 """Common methods used in the phase panels."""
 
-# module version
-__id__ = "$Id$"
-
-
 import wx
 from diffpy.utils.wx import gridutils
 
@@ -101,7 +97,7 @@ def refreshGrid(panel):
     """Refreshes grid on the panel.
 
     This is used by phaseconfigurepanel and phaseresultspanel.
-    
+
     This method fills the grid with the contents of the structure member
     variable of the panel. It is expected that the grid is named 'gridAtoms'.
     """
@@ -149,7 +145,7 @@ def refreshGrid(panel):
             panel.gridAtoms.SetCellValue(i,8, float2str(atom.U[0,2])) # U(1,3)
             panel.gridAtoms.SetCellValue(i,9, float2str(atom.U[1,2])) # U(2,3)
             panel.gridAtoms.SetCellValue(i,10,float2str(atom.occupancy)) # occupancy
-    
+
     panel.gridAtoms.AutosizeLabels()
     panel.gridAtoms.AutoSizeColumns()
     panel.gridAtoms.EndBatch()
@@ -200,7 +196,7 @@ def canCopySelectedCells(panel):
 
 def canPasteIntoCells(panel):
     """Check if clipboard contents are formatted for grid insertion.
-    
+
     This also checks to see if the cell selection is appropriate for pasting.
     """
     grid = panel.gridAtoms
@@ -288,7 +284,7 @@ def copySelectedCells(panel):
 
 def pasteIntoCells(panel):
     """Paste clipboard contents into cells.
-    
+
     canPasteIntoCells must be called before this method in order to format
     clipboard text for pasting.
     """

@@ -122,5 +122,3 @@ class JournalPanel(wx.Panel, PDFPanel):
 
 
 # end of class JournalPanel
-
-__id__ = "$Id$"

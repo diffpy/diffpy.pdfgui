@@ -19,9 +19,6 @@
 #
 # "Bug report" Dialog
 #
-# version
-__id__ = "$Id$"
-
 import wx
 import wx.lib.hyperlink
 

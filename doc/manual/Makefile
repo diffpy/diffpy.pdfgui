@@ -18,7 +18,7 @@ all: pdfgui.pdf pdfgui.html
 pdfgui.html: pdfgui.texinfo
 	$(MAKE) -C images
 	texi2html $<
-ifndef EQSKIP 
+ifndef EQSKIP
 	python extractEquations.py $<
 	python fixHTMLCode.py $@
 endif

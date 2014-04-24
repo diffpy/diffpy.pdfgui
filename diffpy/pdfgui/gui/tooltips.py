@@ -16,8 +16,6 @@
 """Tooltips for pdfgui panels.
 """
 
-__id__ = "$Id$"
-
 datasetconfigurepanel = {
 #    'panelNameLabel'      : '', # StaticText "Data Set Configuration"
     'radioBoxStype'       : 'Radiation type', # RadioBox "Scatterer Type", choices=["Neutron", "X-ray"]
@@ -33,7 +31,7 @@ datasetconfigurepanel = {
     'textCtrlFitTo'       : 'Fit r_max', # TextCtrl
     'textCtrlFitStep'      : 'Step size in the fit', # TextCtrl
 #    'labelScaleFactor'    : '', # StaticText "Scale Factor"
-    'textCtrlScaleFactor' : 'Data scale factor', # TextCtrl 
+    'textCtrlScaleFactor' : 'Data scale factor', # TextCtrl
 #    'labelQmax'           : '', # StaticText "Qmax"
     'textCtrlQmax'        : 'Upper limit used for Fourier transform to obtain data PDF', # TextCtrl
 #    'labelQdamp'          : '', # StaticText "Qdamp"
@@ -69,7 +67,7 @@ datasetresultspanel = {
     }
 
 
-                         
+
 dopingseriespanel = {
 #    'instructionsLabel' : '', # StaticText "Select a fit from the tree on the left then add datasets and assign\ndoping elements and values below. If you have not set up a fit to be\nthe template for the series, hit cancel and rerun this macro once a\nfit has been created."
 #    'labelBaseElement' : '', # StaticText "Base element"
@@ -153,10 +151,10 @@ preferencespanel = {
 Remember the structures directory across sessions. If unchecked, the initial structures directory will default to the current path.\
         """,
 
-    'dataDirCheckBox' : 
+    'dataDirCheckBox' :
         """\
 Remember the data set directory across sessions. If unchecked, the initial data set directory will default to the current path.\
-        """, 
+        """,
 
     'textCtrlViewer' : \
         """\
@@ -165,9 +163,9 @@ The name of the structure viewer executable. E. g. 'atomeye' or 'pymol'.\
 
     'textCtrlArgument' : \
         """\
-The command-line arguments to the structure viewer.  
-'%s' represents the file name that will be passed to the viewer. 
-Command-line switches placed here will be passed as well. 
+The command-line arguments to the structure viewer.
+'%s' represents the file name that will be passed to the viewer.
+Command-line switches placed here will be passed as well.
 E. g. '%s' or '-c %s' (for pymol).\
         """,
 
@@ -200,8 +198,8 @@ serverpanel = {
 #    'okButton' : '', # Button "OK"
 #    'cancelButton' : '', # Button "Cancel"
     }
-               
-               
+
+
 temperatureseriespanel = {
 #    'instructionsLabel' : '', # StaticText "Select a fit from the tree on the left then add datasets and assign\ntemperatues below. If you have not set up a fit to be the template\nfor the series, hit cancel and rerun this macro once a fit has been\ncreated."
     'listCtrlFiles' : 'Click header to sort by temperature', # AutoWidthListCtrl

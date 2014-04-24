@@ -239,6 +239,3 @@ class CalculationPanel(wx.Panel, PDFPanel):
         return
 
 # end of class CalculationPanel
-
-
-__id__ = "$Id$"

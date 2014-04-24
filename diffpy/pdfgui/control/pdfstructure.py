@@ -191,8 +191,4 @@ class PDFStructure(PDFComponent, PDFFitStructure):
 
 # End of class PDFStructure
 
-
-# version
-__id__ = "$Id$"
-
 # End of file

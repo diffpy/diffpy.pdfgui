@@ -16,8 +16,6 @@
 """Unit tests for pdfgui.control.pdffitsandbox.py
 """
 
-# version
-__id__ = '$Id$'
 
 import sys
 import os

@@ -1,4 +1,4 @@
-2/22/06 
+2/22/06
 
 Copying and Pasting:
 The project is going to allow copying and pasting on all levels of the fit
@@ -29,7 +29,3 @@ Future Options:
 * Hava a "Link to results" copy option in the right click menu.
 * Be able to describe a parameter. Hovering over the parameter in the windows
   where it appears will show user's description as a tool tip
-
-
-
-#  $Id$

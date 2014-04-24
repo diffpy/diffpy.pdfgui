@@ -805,7 +805,4 @@ def grid_interpolation(x0, y0, x1, youtleft=0.0, youtright=0.0):
 if __name__ == "__main__":
     FitDataSet('name')
 
-# version
-__id__ = "$Id$"
-
 # End of file

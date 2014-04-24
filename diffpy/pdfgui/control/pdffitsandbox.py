@@ -38,7 +38,7 @@ class PdfFitSandbox:
         _curdataset -- 0 based index of selected datased
     """
 
-    
+
     # constants and enumerators from pdffit.h:
     # selection of all atoms
     _atomselect = { 'ALL' : -1 }
@@ -82,7 +82,7 @@ class PdfFitSandbox:
     def loadscript(self, scriptfile):
         """Execute scriptfile in this sandbox.  Before it is executed, change
         to script directory and shadow pdffit and pdffit2 modules
-        
+
         scriptfile  --  path to the script to be loaded
         """
         # go to script directory
@@ -113,9 +113,9 @@ class PdfFitSandbox:
 
     def read_struct(self, filename):
         """Read structure from file into memory.
-        
+
         filename  -- name of file from which to read structure
-        
+
         Raises:
             pdffit2.calculationError when a lattice cannot be created from the
             given structure
@@ -132,10 +132,10 @@ class PdfFitSandbox:
 
     def read_struct_string(self, s, name=""):
         """Read structure from a string into memory.
-        
+
         s    -- string containing the contents of the structure file
         name -- tag with which to label structure
-        
+
         Raises:
             pdffit2.calculationError when a lattice cannot be created from the
             given structure
@@ -150,12 +150,12 @@ class PdfFitSandbox:
 
     def read_data(self, filename, stype, qmax, qdamp):
         """Read pdf data from file into memory.
- 
+
         filename -- name of file from which to read data
         stype    -- 'X' (xray) or 'N' (neutron)
         qmax     -- maximum q value
         qdamp    -- instrumental q-resolution factor
-        
+
         Raises:
             IOError when the file cannot be read from disk
         """
@@ -192,7 +192,7 @@ class PdfFitSandbox:
     def read_data_lists(self, stype, qmax, qdamp, r_data, Gr_data,
             dGr_data = None, name = "list"):
         """Read pdf data into memory from lists.
-        
+
         All lists must be of the same length.
         stype       -- 'X' (xray) or 'N' (neutron)
         qmax        -- maximum q value
@@ -201,7 +201,7 @@ class PdfFitSandbox:
         Gr_data     -- list of G(r) values
         dGr_data    -- list of G(r) uncertainty values
         name        -- tag with which to label data
-        
+
         Raises:
             NotImplementedError
         """
@@ -210,7 +210,7 @@ class PdfFitSandbox:
 
     def pdfrange(self, iset, rmin, rmax):
         """Set the range of the fit in specified dataset.
-        
+
         iset    -- data set to consider, indexed from 1 or 'ALL'
         rmin    -- minimum r-value of fit
         rmax    -- maximum r-value of fit
@@ -243,7 +243,7 @@ class PdfFitSandbox:
 
     def alloc(self, stype, qmax, qdamp, rmin, rmax, rlen):
         """Allocate space for a PDF calculation.
-        
+
         The structure from which to calculate the PDF must first be imported with
         the read_struct() or read_struct_string() method.
         stype   -- 'X' (xray) or 'N' (neutron)
@@ -271,10 +271,10 @@ class PdfFitSandbox:
 
     def calc(self):
         """Calculate the PDF of the imported structure.
-        
+
         Space for the calculation must first be allocated with the alloc()
         method.
-        
+
         Raises:
             ControlRuntimeError when space for calculation has not been
             allocated
@@ -310,7 +310,7 @@ class PdfFitSandbox:
 
     def refine_step(self, toler = 0.00000001):
         """Run a single step of the fit.
-        
+
         toler   --  tolerance of the fit
 
         Raises:
@@ -327,7 +327,7 @@ class PdfFitSandbox:
 
     def save_pdf_string(self, iset):
         """Save calculated or fitted PDF to string.
-        
+
         iset    -- data set to save, indexed from 1
 
         Raises:
@@ -338,7 +338,7 @@ class PdfFitSandbox:
 
     def save_dif(self, iset, fname):
         """Save data and fitted PDF difference to file.  Ignored.
-        
+
         iset    -- data set to save
         fname   -- file to write to
         """
@@ -346,9 +346,9 @@ class PdfFitSandbox:
 
     def save_dif_string(self, iset):
         """Save data and fitted PDF difference to string.
-        
+
         iset    -- data set to save
-        
+
         Raises:
             NotImplementedError - we cannot return anything without engine.
         """
@@ -362,7 +362,7 @@ class PdfFitSandbox:
 
     def save_res_string(self):
         """save_res_string() --> Save fit-specific data to a string.
-        
+
         Raises:
             NotImplementedError - we cannot return anything without engine.
         """
@@ -371,16 +371,16 @@ class PdfFitSandbox:
 
     def save_struct(self, ip, fname):
         """Save structure resulting from fit to file.  Ignored.
-        
+
         ip    -- phase to save
         """
         return
 
     def save_struct_string(self, ip):
         """Save structure resulting from fit to string.
-        
+
         ip    -- phase to save
-        
+
         Raises:
             NotImplementedError - we cannot return anything without engine.
         """
@@ -389,14 +389,14 @@ class PdfFitSandbox:
 
     def show_struct(self, ip):
         """Print structure resulting from fit.  Ignored.
-        
+
         ip    -- phase to display
         """
         return
 
     def constrain(self, var, par, fcon=None):
         """Constrain a variable to a parameter.
-        
+
         A variable can be constrained to a number or equation string.
         var     -- variable to constrain, such as x(1)
         par     -- parameter which to constrain the variable. This can be
@@ -441,10 +441,10 @@ class PdfFitSandbox:
 
     def setpar(self, idx, val):
         """Set value of constrained parameter.
-        
+
         idx     --  parameter index
         val     --  Either a numerical value or a reference to variable
-        
+
         Raises:
             KeyError when parameter is yet to be constrained
         """
@@ -472,7 +472,7 @@ class PdfFitSandbox:
         """Get value of parameter.
 
         idx     --  parameter index
-        
+
         Raises:
             KeyError if parameter does not exists
         """
@@ -483,7 +483,7 @@ class PdfFitSandbox:
         """Fix a parameter.
 
         idx     --  parameter index
-        
+
         Fixed parameters are not fitted in a refinement. Passed parameter can be
         'ALL', in which case all parameters are fixed.
 
@@ -504,7 +504,7 @@ class PdfFitSandbox:
 
     def freepar(self, idx):
         """Free a parameter.
-        
+
         idx     --  parameter index
 
         Freed parameters are fitted in a refinement. Passed parameter can be
@@ -527,7 +527,7 @@ class PdfFitSandbox:
 
     def setvar(self, var, val):
         """Set the value of a variable.
-        
+
         Raises:
             ControlKeyError if variable does not yet exist
         """
@@ -546,7 +546,7 @@ class PdfFitSandbox:
 
     def getvar(self, var):
         """Get stored value of a variable.
-        
+
         Raises:
             ControlKeyError if variable index does not exist
 
@@ -575,11 +575,11 @@ class PdfFitSandbox:
 
     def getR(self):
         """Get r-points used in the fit.
-        
+
         This function should only be called after data has been loaded or
         calculated. Before a refinement, the list of r-points will reflect the
         data. Afterwords, they will reflect the fit range.
-        
+
         Raises:
             NotImplementedError - we cannot return anything without engine.
         """
@@ -588,10 +588,10 @@ class PdfFitSandbox:
 
     def getpdf_fit(self):
         """Get fitted PDF.
-        
+
         This function should only be called after a refinement or refinement
         step has been done.
-        
+
         Raises:
             NotImplementedError - we cannot return anything without engine.
         """
@@ -600,11 +600,11 @@ class PdfFitSandbox:
 
     def getpdf_obs(self):
         """Get observed PDF.
-        
+
         This function should only be called after data has been loaded or
         calculated. Before a refinement, the list of r-points will reflect the
         data. Afterwords, they will reflect the fit range.
-        
+
         Raises:
             NotImplementedError - we cannot return anything without engine.
         """
@@ -613,9 +613,9 @@ class PdfFitSandbox:
 
     def get_atoms(self):
         """Get atoms in the structure.
-        
+
         This function should only be called after a structure has been loaded.
-        
+
         Raises:
             NotImplementedError - we cannot return anything without engine.
         """
@@ -626,10 +626,10 @@ class PdfFitSandbox:
         """Switch to phase ip.
 
         ip  --  phase index starting from 1
-        
+
         All parameters assigned after this method is called refer only to the
         current phase.
-        
+
         Raises:
             IndexError if phase ip does not exist
         """
@@ -641,7 +641,7 @@ class PdfFitSandbox:
 
     def setdata(self, iset):
         """Set specified dataset in focus.
-        
+
         iset  --  dataset index starting from 1
 
         Raises:
@@ -657,7 +657,7 @@ class PdfFitSandbox:
         """Associate the current data set with phase ip.
 
         ip -- phase index starting from 1
-        
+
         Raises:
             NotImplementedError
         """
@@ -666,7 +666,7 @@ class PdfFitSandbox:
 
     def pdesel(self, ip):
         """Unassociate the current data set with phase ip.
-        
+
         ip -- phase index starting from 1
 
         Raises:
@@ -677,12 +677,12 @@ class PdfFitSandbox:
 
     def isel(self, ip, i):
         """Select atoms for calculating partial PDF
-        
+
         ip  --  phase index starting from 1, if set to 'ALL' isel applies
                 to all phases
         i  --   atom index starting from 1, if set to 'ALL', select all atoms
-        
-        Raises: 
+
+        Raises:
             NotImplementedError
         """
         raise NotImplementedError, "isel() is not supported"
@@ -690,12 +690,12 @@ class PdfFitSandbox:
 
     def idesel(self, ip, i):
         """Deselect atoms for calculating partial PDF
-        
+
         ip  --  phase index starting from 1, if set to 'ALL' isel applies
                 to all phases
         i  --   atom index starting from 1, if set to 'ALL', select all atoms
-        
-        Raises: 
+
+        Raises:
             NotImplementedError
         """
         raise NotImplementedError, "idesel() is not supported"
@@ -703,12 +703,12 @@ class PdfFitSandbox:
 
     def jsel(self, ip, i):
         """Select atoms for calculating partial PDF
-        
+
         ip  --  phase index starting from 1, if set to 'ALL' jsel applies
                 to all phases
         i  --   atom index starting from 1, if set to 'ALL', select all atoms
-        
-        Raises: 
+
+        Raises:
             NotImplementedError
         """
         raise NotImplementedError, "jsel() is not supported"
@@ -716,12 +716,12 @@ class PdfFitSandbox:
 
     def jdesel(self, ip, i):
         """Deselect atoms for calculating partial PDF
-        
+
         ip  --  phase index starting from 1, if set to 'ALL' jsel applies
                 to all phases
         i  --   atom index starting from 1, if set to 'ALL', select all atoms
-        
-        Raises: 
+
+        Raises:
             NotImplementedError
         """
         raise NotImplementedError, "jdesel() is not supported"
@@ -729,7 +729,7 @@ class PdfFitSandbox:
 
     def bang(self, ia, ja, ka):
         """bang(ia, ja, ka) --> Get the bond angle defined by atoms ia, ja, ka.
-        
+
         Raises:
             NotImplementedError
         """
@@ -750,16 +750,16 @@ class PdfFitSandbox:
 
     def show_scat(self, stype):
         """Print scattering length for all atoms.  Ignored.
-        
+
         stype -- 'X' (xray) or 'N' (neutron).
         """
         return
 
     def show_scat_string(self, stype):
         """Get string with scattering length for all atoms.
-        
+
         stype -- 'X' (xray) or 'N' (neutron).
-        
+
         Raises:
             NotImplementedError
         """
@@ -769,7 +769,7 @@ class PdfFitSandbox:
         """Return scattering factor of given element.
         Not supported.
 
-        Raises: 
+        Raises:
             NotImplementedError
         """
         raise NotImplementedError, "get_scat() is not supported"
@@ -778,15 +778,15 @@ class PdfFitSandbox:
         """set_scat() --> Change neutron or x-ray scattering factor for given
         element.  Not supported.
 
-        Raises: 
+        Raises:
             NotImplementedError
         """
         raise NotImplementedError, "set_scat() is not supported"
 
     def reset_scat(self, *args):
         """reset_scat() --> reset scattering factor.  Not supported.
-        
-        Raises: 
+
+        Raises:
             NotImplementedError
         """
         raise NotImplementedError, "reset_scat() is not supported"
@@ -805,7 +805,7 @@ class PdfFitSandbox:
 
     def lat(n):
         """lat(n) --> Get reference to lattice variable n.
-        
+
         n can be an integer or a string representing the lattice variable.
         1 <==> 'a'
         2 <==> 'b'
@@ -841,7 +841,7 @@ class PdfFitSandbox:
 
     def u11(i):
         """u11(i) --> Get reference to U(1,1) for atom i.
-        
+
         U is the anisotropic thermal factor tensor.
         """
         return "u11(%i)" % i
@@ -850,7 +850,7 @@ class PdfFitSandbox:
 
     def u22(i):
         """u22(i) --> Get reference to U(2,2) for atom i.
-        
+
         U is the anisotropic thermal factor tensor.
         """
         return "u22(%i)" % i
@@ -859,7 +859,7 @@ class PdfFitSandbox:
 
     def u33(i):
         """u33(i) --> Get reference to U(3,3) for atom i.
-        
+
         U is the anisotropic thermal factor tensor.
         """
         return "u33(%i)" % i
@@ -868,7 +868,7 @@ class PdfFitSandbox:
 
     def u12(i):
         """u12(i) --> Get reference to U(1,2) for atom i.
-        
+
         U is the anisotropic thermal factor tensor.
         """
         return "u12(%i)" % i
@@ -877,7 +877,7 @@ class PdfFitSandbox:
 
     def u13(i):
         """u13(i) --> Get reference to U(1,3) for atom i.
-        
+
         U is the anisotropic thermal factor tensor.
         """
         return "u13(%i)" % i
@@ -886,7 +886,7 @@ class PdfFitSandbox:
 
     def u23(i):
         """u23(i) --> Get reference to U(2,3) for atom i.
-        
+
         U is the anisotropic thermal factor tensor.
         """
         return "u23(%i)" % i
@@ -901,7 +901,7 @@ class PdfFitSandbox:
 
     def pscale():
         """pscale() --> Get reference to pscale.
-       
+
         pscale is the fraction of the total structure that the current phase
         represents.
         """
@@ -911,7 +911,7 @@ class PdfFitSandbox:
 
     def pfrac():
         """pfrac() --> Deprecated reference to pscale.
-       
+
         pscale is the fraction of the total structure that the current phase
         represents.
         """
@@ -922,7 +922,7 @@ class PdfFitSandbox:
     def spdiameter():
         """spdiameter() --> Get reference to spdiameter.
 
-        Diameter value for the spherical particle PDF correction. 
+        Diameter value for the spherical particle PDF correction.
         Spherical envelope is not applied when spdiameter equals 0.
         """
         return "spdiameter"
@@ -934,7 +934,7 @@ class PdfFitSandbox:
 
         stepcut is cutoff radius for empirical step-function PDF envelope.
         Step cutoff is not applied when stepcut equals 0.
-        Non-refineable variable.  
+        Non-refineable variable.
         """
         return "stepcut"
     stepcut = staticmethod(stepcut)
@@ -942,7 +942,7 @@ class PdfFitSandbox:
 
     def sratio():
         """sratio() --> Get reference to sigma ratio.
-        
+
         The sigma ratio determines the reduction in the Debye-Waller factor for
         distances below rcut.
         """
@@ -952,7 +952,7 @@ class PdfFitSandbox:
 
     def srat():
         """srat() --> Deprecated reference to sigma ratio.
-        
+
         The sigma ratio determines the reduction in the Debye-Waller factor for
         distances below rcut.
         """
@@ -962,7 +962,7 @@ class PdfFitSandbox:
 
     def delta1():
         """delta1() --> Get reference to linear sharpening factor
-        
+
         1/R peak sharpening factor.
         """
         return "delta1"
@@ -971,7 +971,7 @@ class PdfFitSandbox:
 
     def delta2():
         """delta2() --> Get reference to delta2
-        
+
         The phenomenological correlation constant in the Debye-Waller factor.
         The (1/R^2) peak sharpening factor.
         """
@@ -995,7 +995,7 @@ class PdfFitSandbox:
 
     def dscale():
         """dscale() --> Get reference to dscale.
-        
+
         The data scale factor.
         """
         return "dscale"
@@ -1003,7 +1003,7 @@ class PdfFitSandbox:
 
     def qsig():
         """qsig() --> Deprecated reference to qdamp.
-       
+
         instrument q-resolution factor.
         """
         return PdfFitSandbox.qdamp()
@@ -1012,7 +1012,7 @@ class PdfFitSandbox:
 
     def qdamp():
         """qdamp() --> Get reference to qdamp.
-       
+
         instrument q-resolution factor.
         """
         return "qdamp"
@@ -1021,7 +1021,7 @@ class PdfFitSandbox:
 
     def qalp():
         """qalp() --> Deprecated reference to qbroad.
-       
+
         Quadratic peak sharpening factor.
         """
         return PdfFitSandbox.qbroad()
@@ -1030,7 +1030,7 @@ class PdfFitSandbox:
 
     def qbroad():
         """qbroad() --> Get reference to qbroad.
-       
+
         Quadratic peak sharpening factor.
         """
         return "qbroad"
@@ -1039,7 +1039,7 @@ class PdfFitSandbox:
 
     def rcut():
         """rcut() --> Get reference to rcut.
-        
+
         rcut is the value of r below which peak sharpening, defined by the sigma
         ratio (sratio), applies.
         """
@@ -1047,14 +1047,11 @@ class PdfFitSandbox:
     rcut = staticmethod(rcut)
 
     # End refineable variables.
-    
+
 # End of class PdfFitSandbox
 
 if __name__ == "__main__":
     p = PdfFitSandbox()
     print p.sandbox().keys()
-
-# version
-__id__ = "$Id$"
 
 # End of file

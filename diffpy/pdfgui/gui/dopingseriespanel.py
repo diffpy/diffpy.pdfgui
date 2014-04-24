@@ -269,7 +269,7 @@ class DopingSeriesPanel(wx.Panel,PDFPanel):
     ## Utility functions
     def checkConfiguration(self):
         """Verify that the dopant and base are elements.
-        
+
         More detailed checking is done in the control method.
         """
         from diffpy.pdfgui.control.controlerrors import ControlValueError
@@ -319,7 +319,7 @@ class DopingSeriesPanel(wx.Panel,PDFPanel):
         node = None
         nodetype = None
         selections = self.treeCtrlMain.GetSelections()
-        if selections: 
+        if selections:
             node = selections[0]
             nodetype = self.treeCtrlMain.GetNodeType(node)
 
@@ -332,5 +332,3 @@ class DopingSeriesPanel(wx.Panel,PDFPanel):
         return
 
 # end of class DopingSeriesPanel
-
-__id__ = "$Id$"

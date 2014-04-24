@@ -78,7 +78,7 @@ class DataSetConstraintPanel(wx.Panel, PDFPanel):
                         'qbroad'        :   'textCtrlQbroad',
                         }
 
-        # Give each textCtrl a name that can be referenced 
+        # Give each textCtrl a name that can be referenced
         for (key, value) in self.ctrlMap.items():
             textCtrl = getattr(self, value)
             textCtrl.SetName(key)
@@ -155,6 +155,3 @@ class DataSetConstraintPanel(wx.Panel, PDFPanel):
         return
 
 # end of class DataSetConstraintPanel
-
-
-__id__ = "$Id$"

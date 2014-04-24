@@ -363,7 +363,4 @@ class Calculation(PDFComponent):
 if __name__ == "__main__":
     Calculation('name')
 
-# version
-__id__ = "$Id$"
-
 # End of file

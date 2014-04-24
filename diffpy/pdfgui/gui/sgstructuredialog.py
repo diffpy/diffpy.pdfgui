@@ -101,8 +101,8 @@ class SGStructureDialog(wx.Dialog, PDFPanel):
 
         # Set the focus events.
         for textctrl in self.textCtrls:
-            textctrl.Bind(wx.EVT_KILL_FOCUS, self.onKillFocus) 
-        self.sgComboBox.Bind(wx.EVT_KILL_FOCUS, self.onKillFocus) 
+            textctrl.Bind(wx.EVT_KILL_FOCUS, self.onKillFocus)
+        self.sgComboBox.Bind(wx.EVT_KILL_FOCUS, self.onKillFocus)
         return
 
     def updateSpaceGroupList(self):
@@ -220,7 +220,7 @@ class SGStructureDialog(wx.Dialog, PDFPanel):
             message =  "The chosen space group is not consistent\n"
             message += "with the lattice parameters.\n"
             message += "Would you like to proceed anyways?"
-            d = wx.MessageDialog( self, message, 
+            d = wx.MessageDialog( self, message,
                     "Inconsistent space group", wx.YES_NO)
             code = d.ShowModal()
             if code == wx.ID_YES:
@@ -232,7 +232,5 @@ class SGStructureDialog(wx.Dialog, PDFPanel):
     def onCancel(self, event): # wxGlade: SGStructureDialog.<event_handler>
         event.Skip()
         return
-
-__id__ = "$Id$"
 
 # end of class SGStructureDialog

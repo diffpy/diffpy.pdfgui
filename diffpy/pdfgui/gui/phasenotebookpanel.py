@@ -15,13 +15,11 @@
 
 #
 # Phase notebook panel
-# 
+#
 # Just a notebook, holds three panels:  "Configure", "Constraints", "Results"
 #
 # Dmitriy Bryndin
-#
-# version
-__id__ = "$Id$"
+
 
 import wx
 
@@ -45,17 +43,17 @@ class PhaseNotebookPanel(wx.Panel, PDFPanel):
 
         self.__set_properties()
         self.__do_layout()
-        
+
         self.notebook_phase.Bind(wx.EVT_NOTEBOOK_PAGE_CHANGED,  self.onNotebookPageChanged )
         self.notebook_phase.Bind(wx.EVT_NOTEBOOK_PAGE_CHANGING, self.onNotebookPageChanging )
-        
+
         self.configuration = None
         self.constraints   = {}
         self.results       = None
         self.mainFrame     = None
         self.focusedId     = 0
 
-        
+
     def __set_properties(self):
         pass
 
@@ -71,7 +69,7 @@ class PhaseNotebookPanel(wx.Panel, PDFPanel):
         sizer_1.Fit(self)
         sizer_1.SetSizeHints(self)
 
-        
+
     def refresh(self):
         """Refreshes the currently shown panel."""
         if self.mainFrame.quitting: return
@@ -142,7 +140,7 @@ if __name__ == "__main__":
         def dummy_true(self, *args, **kwds):
             return True
 
-        
+
         def test(self):
             '''Testing code goes here'''
             from diffpy.Structure.PDFFitStructure import PDFFitStructure
@@ -152,7 +150,7 @@ if __name__ == "__main__":
             self.window.configuration.read('../../tests/testdata/LaMnO3.pdb')
             self.window.results       = PDFFitStructure()
             self.window.results.read('../../tests/testdata/LaMnO3.pdb')
-            
+
             formulas =['@1','@45','23+@3','@5 / 2',' @6 ', 'sin(@5)', '12+2*sqrt(@4)',' cos( @9 ) ','(@9*@9)','@10*2', '@6+@1']
             self.window.constraints = {}
             # fill textcontrols
@@ -165,8 +163,8 @@ if __name__ == "__main__":
 
             self.window.refresh()
 
-            
-    
+
+
     class MyApp(wx.App):
         def OnInit(self):
             wx.InitAllImageHandlers()

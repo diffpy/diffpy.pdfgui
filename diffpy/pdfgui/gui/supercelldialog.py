@@ -104,4 +104,3 @@ class SupercellDialog(wx.Dialog):
         return
 
 # end of class SupercellDialog
-__id__ = "$Id$"

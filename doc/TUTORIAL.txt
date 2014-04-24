@@ -144,22 +144,22 @@ Lesson 3:  Multi-stage fitting
 	    "Fit 1" in the fit tree.
 
     4. Link the fits.
-        (a) Click on "Fit 1_copy" in the fit tree. 
+        (a) Click on "Fit 1_copy" in the fit tree.
         (b) In the "Parameters" panel, select the entire "Initial" column.
         (c) Type "=Fit 1" and then press Enter. The "Initial" values of the
             parameters should now read "=Fit1:n", where "n" is the index of the
-            parameter. 
+            parameter.
 
-            This is the linking syntax: "=name:index".  
-            "name" is the name of another fit.  
-            "index" is the index of a parameter in that fit. 
+            This is the linking syntax: "=name:index".
+            "name" is the name of another fit.
+            "index" is the index of a parameter in that fit.
             If you omit "index", it will default to the index of the parameter
             you are linking from.  A linked parameter uses the refined value
 	    of the link as its initial value. This is useful when you are
 	    running several related fits.
-    
+
     5.  Add more fit parameters.
-        (a) Select the "Constraints" tab of the  "Ni.stru" phase below 
+        (a) Select the "Constraints" tab of the  "Ni.stru" phase below
             "Fit 1_copy".
         (b) Write "@9" in the "delta2" box.
 
@@ -183,5 +183,3 @@ References:
    C. L. Farrow, P. Juhas, J. W. Liu, D. Bryndin, J. Bloch, Th. Proffen
    and S. J. L. Billinge, PDFfit2 and PDFgui: Computer programs for studying
    nanostructure in crystals, J. Phys.: Condens. Matter 19, 335219 (2007)
-
-Last modified $Date$

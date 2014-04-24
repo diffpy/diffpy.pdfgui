@@ -120,8 +120,8 @@ class RSeriesPanel(wx.Panel, PDFPanel):
                 value = float(value)
             setattr(self, varname, value)
 
-        org = makeRSeries(self.mainFrame.control, self.fit, 
-                self.maxfirst, self.maxlast, self.maxstep, 
+        org = makeRSeries(self.mainFrame.control, self.fit,
+                self.maxfirst, self.maxlast, self.maxstep,
                 self.minfirst, self.minlast, self.minstep)
         self.treeCtrlMain.ExtendProjectTree(org, clear=False)
         self.mainFrame.needsSave()
@@ -133,7 +133,7 @@ class RSeriesPanel(wx.Panel, PDFPanel):
         self.mainFrame.setMode("fitting")
         self.treeCtrlMain.UnselectAll()
         self.mainFrame.switchRightPanel("blank")
-        return 
+        return
 
     def treeSelectionUpdate(self, node):
         """Set the current fit when the tree selection changes."""
@@ -153,7 +153,7 @@ class RSeriesPanel(wx.Panel, PDFPanel):
         node = None
         nodetype = None
         selections = self.treeCtrlMain.GetSelections()
-        if selections: 
+        if selections:
             node = selections[0]
             nodetype = self.treeCtrlMain.GetNodeType(node)
 
@@ -166,4 +166,3 @@ class RSeriesPanel(wx.Panel, PDFPanel):
         return
 
 # end of class RSeriesPanel
-__id__ = "$Id$"

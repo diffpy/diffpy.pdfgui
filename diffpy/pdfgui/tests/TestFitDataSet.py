@@ -16,8 +16,6 @@
 """Unit tests for fitdataset.py
 """
 
-# version
-__id__ = '$Id$'
 
 import os
 import unittest

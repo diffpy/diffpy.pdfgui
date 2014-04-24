@@ -6,7 +6,7 @@
 #                   (c) 2009 Trustees of the Columbia University
 #                   in the City of New York.  All rights reserved.
 #
-# File coded by:    Pavol Juhas  
+# File coded by:    Pavol Juhas
 #
 # See AUTHORS.txt for a list of people who contributed.
 # See LICENSE.txt for license information.
@@ -15,10 +15,6 @@
 
 """Structure plotting in an external viewer process.
 """
-
-# module version
-__id__ = "$Id$"
-
 
 import sys
 import os.path

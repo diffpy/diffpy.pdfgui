@@ -2534,6 +2534,3 @@ class MainFrame(wx.Frame):
         return
 
 # end of class MainPanel
-
-
-__id__ = "$Id$"

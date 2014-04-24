@@ -117,17 +117,17 @@ class PlotPanel(wx.Panel, PDFPanel):
         """
         # selections: selected nodes in treeCtrl
         # fits:  only different fittings
-        # refs:  data item ids ( can be calculation, fit, structure and dataset 
+        # refs:  data item ids ( can be calculation, fit, structure and dataset
         selections = self.treeCtrlMain.GetSelections()
         # Only proceed if we have compatible items selected from the tree.
-        if not selections: 
+        if not selections:
             self.enableWidgets(False)
             return
         self.enableWidgets(True)
-        fits = dict.fromkeys([self.treeCtrlMain.GetControlData(self.treeCtrlMain.GetFitRoot(sel)) 
-                              for sel in selections])          
+        fits = dict.fromkeys([self.treeCtrlMain.GetControlData(self.treeCtrlMain.GetFitRoot(sel))
+                              for sel in selections])
         refs = [self.treeCtrlMain.GetControlData(sel) for sel in selections]
-        
+
         xdata = []
         # step is added if selections include type other than calculation
         for type in [ self.treeCtrlMain.GetNodeType(sel) for sel in selections ]:
@@ -147,7 +147,7 @@ class PlotPanel(wx.Panel, PDFPanel):
             # also can plot y against y so add yNames as well
             xdata.extend(fit.getYNames())
 
-        # reduce 
+        # reduce
         xdata = dict.fromkeys(xdata).keys()
 
         # Make the parameter entries a bit more presentable.
@@ -157,14 +157,14 @@ class PlotPanel(wx.Panel, PDFPanel):
             vals.extend(others)
             numericStringSort(vals)
             return vals
-            
+
         xvals = _represent(xdata)
         try:
-            xvals.remove('rw')    
+            xvals.remove('rw')
         except:
             pass
         numericStringSort(xvals)
-        
+
         # Fill the xDataCombo
         if self.xDataCombo.GetCount():
             current = self.xDataCombo.GetValue()
@@ -173,7 +173,7 @@ class PlotPanel(wx.Panel, PDFPanel):
         self.xDataCombo.Clear()
         for item in xvals:
             self.xDataCombo.Append(item)
-            
+
         # Set default value for xDataCombo
         # Either keep the current plot value selected, select 'r', or the
         # first in the list.
@@ -203,7 +203,7 @@ class PlotPanel(wx.Panel, PDFPanel):
         self.yDataList.initializeSorter()
         if yvals:
             self.yDataList.Select(0)
-            
+
         #self.prevSelectionType = selectiontype
         self._check(None)
 
@@ -226,7 +226,7 @@ class PlotPanel(wx.Panel, PDFPanel):
         """Plot some stuff."""
         self._plot(event)
         return
-        
+
     def _plot (self,event):
         """This function is not wrapped"""
         selections = self.treeCtrlMain.GetSelections()
@@ -240,7 +240,7 @@ class PlotPanel(wx.Panel, PDFPanel):
         offset = self.offsetTextCtrl.GetValue()
         try:
             offset = float(offset)
-        except ValueError: # offset can be empty string 
+        except ValueError: # offset can be empty string
             offset = 0.0
 
         self.mainFrame.control.plot(xval, yvals, refs, shift=offset, dry=(event is None))
@@ -263,12 +263,10 @@ class PlotPanel(wx.Panel, PDFPanel):
         """Refresh this panel."""
         self.updateWidgets()
         return
-        
+
     def _check(self, event):
         try:
             self._plot(None)
             self.plotButton.Enable()
         except ControlConfigError:
             self.plotButton.Disable()
-
-__id__ = "$Id$"

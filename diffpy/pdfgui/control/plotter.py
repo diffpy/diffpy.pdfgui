@@ -648,8 +648,4 @@ def _exportCompactData(fp, xylist, xynames=None):
             fp.write(line)
     return
 
-
-# version
-__id__ = "$Id$"
-
 # End of file

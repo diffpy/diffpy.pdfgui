@@ -20,8 +20,6 @@ Returns exit code 0 if script was successfully read, 1 if an error occured
 and 2 if scriptfile.py does not exist
 """
 
-# version
-__id__ = "$Id$"
 
 import sys
 import os

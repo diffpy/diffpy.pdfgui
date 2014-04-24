@@ -81,5 +81,3 @@ class ResultsPanel(wx.Panel, PDFPanel):
         return
 
 # end of class ResultsPanel
-
-__id__ = "$Id$"

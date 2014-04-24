@@ -19,20 +19,20 @@ its children.
 
 All dynamic panels, with the exception of informational ones, need access to
 data and other information. A dynamic panel is provided with this information
-when it becomes the rightPanel. 
+when it becomes the rightPanel.
 
 All dynamic panels are assigned the member variables:
 mainPanel    -  A reference to the MainPanel object. This can be used to change
                 some property of the MainPanel, such as its mode or to assign a
                 different rightPanel. Read the documentation in mainpanel.py to
                 get a better understanding of how MainPanel works. See
-                adddatapanel.py for an example for how these references are 
+                adddatapanel.py for an example for how these references are
                 used.
 treeCtrlMain -  A reference to the TreeCtrl of the gui. Panels may call upon
                 treeCtrlMain in order to change some property of the tree. Most
                 panels will not need this reference. See the wx.TreeCtrl API and
                 the documentation in fittree.py for more on this. See
-                adddatapanel.py for an example for how these references are 
+                adddatapanel.py for an example for how these references are
                 used.
 
 It is important to note again, if the children of a dynamic panel needs to know
@@ -45,7 +45,7 @@ circumstances, a reference to this information will be provided by the
 MainPanel when the dynamic panel becomes the rightPanel. This allows, for
 example, the phase set-up panel to display the information for the currently
 selected phase in the FitTree. The information must be shared with the
-children by rightPanel (perhaps as part of the refresh() method.) 
+children by rightPanel (perhaps as part of the refresh() method.)
 
 Objects given to the rightPanel in these cases is as follows.
 _configuration  -   The configuation data for the panel. This is either a
@@ -59,4 +59,4 @@ may need to get bits of information from PDFGuiControl. Most cases will be
 handled in the same way; data will be provided by the MainPanel to the dynamic
 panel when it is needed. This allows these panels to be developed
 independently from the MainPanel and allow them to be converged later. This,
-hopefully, leads to easier and more rapid development. 
+hopefully, leads to easier and more rapid development.

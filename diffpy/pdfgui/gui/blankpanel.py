@@ -28,4 +28,3 @@ class BlankPanel(wx.Panel, PDFPanel):
         return
 
 # end of class BlankPanel
-__id__ = "$Id$"

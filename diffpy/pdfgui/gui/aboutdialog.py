@@ -13,10 +13,6 @@
 #
 ##############################################################################
 
-# version
-__id__ = "$Id$"
-__revision__ = "$Revision$"
-
 import random
 import os.path
 import wx
@@ -58,9 +54,9 @@ _license = ""
 
 def launchBrowser(url):
     '''Launches browser and opens specified url
-    
+
     In some cases may require BROWSER environment variable to be set up.
-    
+
     @param url: URL to open
     '''
     import webbrowser
@@ -69,11 +65,11 @@ def launchBrowser(url):
 
 class DialogAbout(wx.Dialog):
     '''"About" Dialog
-    
+
     Shows product name, current version, authors, and link to the product page.
     Current version is taken from version.py
     '''
-    
+
     def __init__(self, *args, **kwds):
 
         # begin wxGlade: DialogAbout.__init__
@@ -111,20 +107,20 @@ class DialogAbout(wx.Dialog):
         self.Bind(wx.EVT_BUTTON, self.onMsuLogo, self.bitmap_button_msu)
         self.Bind(wx.EVT_BUTTON, self.onColumbiaLogo, self.bitmap_button_columbia)
         # end wxGlade
-        
+
         # randomly shuffle authors' names
         random.shuffle(_authors)
         strLabel = ", ".join(_authors)
-        
+
         # display version and svn revison numbers
         verwords = __version__.split('-')
         version = verwords[0]
         revision = '-'.join(verwords[1:])
-        
+
         self.label_author.SetLabel(strLabel)
         self.label_version.SetLabel(version)
         self.label_svnrevision.SetLabel(revision)
-        
+
         # set bitmaps for logo buttons
         logo = wx.Bitmap(iconpath("nsf_logo.png"))
         self.bitmap_button_nsf.SetBitmapLabel(logo)
@@ -134,7 +130,7 @@ class DialogAbout(wx.Dialog):
         self.bitmap_button_msu.SetBitmapLabel(logo)
         logo = wx.Bitmap(iconpath("columbia_logo.png"))
         self.bitmap_button_columbia.SetBitmapLabel(logo)
-        
+
         # resize dialog window to fit version number nicely
         if wx.VERSION >= (2,7,2,0):
             size = [self.GetEffectiveMinSize()[0], self.GetSize()[1]]
@@ -144,7 +140,7 @@ class DialogAbout(wx.Dialog):
         self.Fit()
 #        self.SetSize(size)
 #       self.FitInside()
-        
+
 
     def __set_properties(self):
         # begin wxGlade: DialogAbout.__set_properties
@@ -236,5 +232,5 @@ class MyApp(wx.App):
 if __name__ == "__main__":
     app = MyApp(0)
     app.MainLoop()
-    
-##### end of testing code #####################################################    
+
+##### end of testing code #####################################################

@@ -19,9 +19,6 @@ validators. Three constants are defined for use in TextValidator: ALPHA_ONLY,
 DIGIT_ONLY, and FLOAT_ONLY. See the TextValidator class for how these are used.
 """
 
-# version
-__id__ = "$Id$"
-
 ALPHA_ONLY = 1
 DIGIT_ONLY = 2
 FLOAT_ONLY = 3

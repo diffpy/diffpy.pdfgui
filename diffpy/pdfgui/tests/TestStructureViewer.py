@@ -3,8 +3,6 @@
 """Unit tests for diffpy.pdfgui.control.structureviewer
 """
 
-# version
-__id__ = '$Id$'
 
 import os
 import unittest

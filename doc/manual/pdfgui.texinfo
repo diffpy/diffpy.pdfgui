@@ -499,7 +499,7 @@ Argument string: -iconic -e ATOMEYE %s
 Structure format: xcfg
 @end example
 @noindent
-In the above, ATOMEYE is the path to the ATOMEYE executable. 
+In the above, ATOMEYE is the path to the ATOMEYE executable.
 
 For Cygwin users,
 the workaround is to launch the executable from a batch file.
@@ -1011,7 +1011,7 @@ database for the scattering characteristics of that site@footnote{
 To enter a specific isotope, use the ``NucleonNumber-Symbol'' syntax,
 for example ``12-C''.  Deuterium and tritium can be entered also as
 ``D'' and ``T'' in addition to the normal syntax ``2-H'' and ``3-H''.
-}. 
+}.
 Further, highlight cells in the
 @i{u11}, @i{u22}, and @i{u33} columns and type in the initial value 0.0025.
 
@@ -1677,7 +1677,7 @@ fit tree.
 Copy selected item.
 
 @item Ctrl+X
-Copy and delete selected item. 
+Copy and delete selected item.
 
 @item Ctrl+V
 Paste previously copied item. Note that this will only paste the item to a

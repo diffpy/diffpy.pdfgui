@@ -16,8 +16,6 @@
 """Routines for submitting bugreport through www.diffpy.org.
 """
 
-# version
-__id__ = "$Id$"
 
 import urlparse
 import HTMLParser

@@ -17,8 +17,6 @@
 """Text user interface - utilities for extracting data from project files.
 """
 
-__id__ = "$Id$"
-
 
 class LoadProject:
     """Load and access data in pdfgui project file.

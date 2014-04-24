@@ -16,6 +16,4 @@
 """Extensions to wxPython used in PDFgui
 """
 
-__id__ = "$Id$"
-
-#  End of file 
+#  End of file

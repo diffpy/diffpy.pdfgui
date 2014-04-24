@@ -29,7 +29,7 @@ Fits
     Move Fit                        -- Only when fit is selected
     -----------------------------
     Run Selected Fits               -- Only when fit is selected
-    Stop Fitting 
+    Stop Fitting
     -----------------------------
     Import pdffit2 script
     Export pdffit2 script           -- Only when fit is selected
@@ -42,8 +42,8 @@ Fits
     -----------------------------
     Macros                     >    -- Temperature and doping series macros
     _____________________________
-    
-    
+
+
 Calculations
     _____________________________
     New Calculation
@@ -53,11 +53,11 @@ Calculations
     -----------------------------
     Run Selected Calculations       -- Only when fit is selected
     -----------------------------
-    Save Calculated PDF       
+    Save Calculated PDF
     -----------------------------
     Paste Copied Structure
     _____________________________
-    
+
 
 Data
     _____________________________
@@ -69,9 +69,9 @@ Data
     -----------------------------
     Select Duplicate Data           -- Only when data is selected
     -----------------------------
-    Paste Copied Phase 
+    Paste Copied Phase
     _____________________________
-    
+
 
 Structures
     _____________________________
@@ -90,4 +90,3 @@ Help
     Documentation
     About
     _____________________________
-#  $Id$

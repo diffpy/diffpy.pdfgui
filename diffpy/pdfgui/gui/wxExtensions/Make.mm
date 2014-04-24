@@ -32,12 +32,9 @@ EXPORT_PYTHON_MODULES =     \
     listctrls.py            \
     paneldialog.py          \
     validators.py           \
-    
+
 
 
 export:: export-python-modules
-
-# version
-# $Id$
 
 # End of file

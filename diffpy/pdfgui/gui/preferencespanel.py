@@ -115,7 +115,7 @@ class PreferencesPanel(wx.Panel, PDFPanel):
             entrytype = None
         self.mainFrame.setMode("fitting")
         self.mainFrame.switchRightPanel(entrytype)
-        return 
+        return
 
     def onOK(self, event): # wxGlade: PreferencesPanel.<event_handler>
         """Record all of the preferences and return to fitting mode."""
@@ -171,7 +171,7 @@ class PreferencesPanel(wx.Panel, PDFPanel):
         return
 
     def onBrowse(self, event): # wxGlade: PreferencesPanel.<event_handler>
-        d = wx.FileDialog(None, "Choose structure viewer", ".", 
+        d = wx.FileDialog(None, "Choose structure viewer", ".",
                 "", "All Files|*", wx.OPEN|wx.FD_FILE_MUST_EXIST)
         if d.ShowModal() == wx.ID_OK:
             fullpath = d.GetPath()
@@ -179,5 +179,3 @@ class PreferencesPanel(wx.Panel, PDFPanel):
         return
 
 # end of class PreferencesPanel
-
-

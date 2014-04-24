@@ -32,9 +32,6 @@ Debugging options:
   --db-pdb        use Python debugger to handle error exceptions
 """
 
-# version
-__id__ = "$Id$"
-
 
 import sys
 import os
@@ -89,7 +86,7 @@ def processArguments(argv1):
             dbo = o[5:]
             setattr(dbopts, dbo, True)
     pdfguiglobals.cmdopts = opts
-    # bail-out here if options contain --help or --version 
+    # bail-out here if options contain --help or --version
     if not proceed:     return False
     # otherwise continue checking arguments
     if len(args) == 1 and not os.path.isfile(args[0]):

@@ -102,7 +102,7 @@ class DataSetResultsPanel(wx.Panel, PDFPanel):
         return
 
     # EVENT CODE #############################################################
-    
+
     def onExport(self, event): # wxGlade: DataSetResultsPanel.<event_handler>
         print "Event handler `onExport' not implemented"
         event.Skip()
@@ -135,6 +135,3 @@ class DataSetResultsPanel(wx.Panel, PDFPanel):
 
 
 # end of class DataSetResultsPanel
-
-
-__id__ = "$Id$"

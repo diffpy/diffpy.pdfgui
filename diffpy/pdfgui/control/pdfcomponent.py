@@ -14,22 +14,19 @@
 ##############################################################################
 
 class PDFComponent(object):
-    """Common base class.""" 
+    """Common base class."""
     def __init__(self, name):
         """initialize
-        
+
         name -- object name
         """
         self.name = name
-        
+
     def close ( self, force = False ):
         """close myself
-        
+
         force -- if forcibly (no wait)
         """
         pass
-        
-# version
-__id__ = "$Id$"
 
-# End of file 
+# End of file

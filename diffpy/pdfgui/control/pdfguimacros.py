@@ -173,12 +173,12 @@ def makeRSeries(control, fit, maxfirst = None, maxlast = None, maxstep = None,
 # Temperature Series
 def makeTemperatureSeries(control, fit, paths, temperatures):
     """Make a temperature series.
-    
+
     control         --  pdguicontrol instance
     fit             --  The template fit
     paths           --  list of path names of new datasets
     temperatures    --  list of temperatures corresponding to the datasets
-    
+
     returns a list of the new fit organization objects
     """
 
@@ -242,14 +242,14 @@ def makeTemperatureSeries(control, fit, paths, temperatures):
 # Doping Series
 def makeDopingSeries(control, fit, base, dopant, paths, doping):
     """Make a temperature series.
-    
+
     control         --  pdguicontrol instance
     fit             --  The template fit
     base            --  Name of the base element
     dopant          --  Name of the dopant element
     paths           --  list of path names of new datasets
     doping          --  list of doping values corresponding to the datasets
-    
+
     returns a list of the new fit organization objects
     """
     from diffpy.pdffit2 import is_element
@@ -356,8 +356,5 @@ if __name__ == "__main__":
     fit = control.fits[0]
     olist = makeRSeries(control, fit, 5, 20, 5)
     print '\n'.join([fit[0].name for fit in olist])
-
-# version
-__id__ = "$Id$"
 
 # End of file

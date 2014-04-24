@@ -16,10 +16,9 @@
 ##############################################################################
 
 """This module contains the PanelDialog class, a simple class that turns any
-panel into a dialog. 
+panel into a dialog.
 """
 
-__id__ = "$Id$"
 
 import wx
 
@@ -35,7 +34,7 @@ class PanelDialog(wx.Dialog):
         documentation for more information.
 
         Unless specified, style is automatically set as
-        wx.DEFAULT_DIALOG_STYLE|wx.RESIZE_BORDER 
+        wx.DEFAULT_DIALOG_STYLE|wx.RESIZE_BORDER
 
         Creating a PanelDialog requires three steps.
         1) Create the PanelDialog.

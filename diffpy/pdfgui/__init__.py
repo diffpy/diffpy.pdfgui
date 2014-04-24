@@ -17,11 +17,8 @@
     __version__ -- full version of this PDFgui release
 '''
 
+
 from diffpy.pdfgui.version import __version__
-
-# version
-__id__ = "$Id$"
-
 
 # unit tests
 
@@ -33,4 +30,4 @@ def test():
     return test()
 
 
-# End of file 
+# End of file

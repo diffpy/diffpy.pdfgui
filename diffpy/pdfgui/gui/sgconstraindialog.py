@@ -110,8 +110,8 @@ class SGConstrainDialog(wx.Dialog, PDFPanel):
 
         # Set the focus events.
         for textctrl in self.textCtrls:
-            textctrl.Bind(wx.EVT_KILL_FOCUS, self.onKillFocus) 
-        self.sgComboBox.Bind(wx.EVT_KILL_FOCUS, self.onKillFocus) 
+            textctrl.Bind(wx.EVT_KILL_FOCUS, self.onKillFocus)
+        self.sgComboBox.Bind(wx.EVT_KILL_FOCUS, self.onKillFocus)
         return
 
     def updateSpaceGroupList(self):
@@ -227,7 +227,7 @@ class SGConstrainDialog(wx.Dialog, PDFPanel):
             message =  "The chosen space group is not consistent\n"
             message += "with the lattice parameters.\n"
             message += "Would you like to proceed anyways?"
-            d = wx.MessageDialog( self, message, 
+            d = wx.MessageDialog( self, message,
                     "Inconsistent space group", wx.YES_NO)
             code = d.ShowModal()
             if code == wx.ID_YES:
@@ -249,4 +249,3 @@ class SGConstrainDialog(wx.Dialog, PDFPanel):
         return
 
 # end of class SGConstrainDialog
-__id__ = "$Id$"

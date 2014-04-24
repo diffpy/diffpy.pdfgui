@@ -14,10 +14,6 @@
 ##############################################################################
 
 
-# module version
-__id__ = "$Id$"
-
-
 import sys
 import os
 import threading

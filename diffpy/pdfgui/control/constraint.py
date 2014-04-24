@@ -148,7 +148,4 @@ class Constraint:
 
 # End of class Constraint
 
-# version
-__id__ = "$Id$"
-
 # End of file

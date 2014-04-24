@@ -32,7 +32,7 @@ class PDFGuiApp(wx.App):
 
 def main():
     """Kick starter for the PDFgui graphical user interface.
-    This function is normally called from a light-weight console 
+    This function is normally called from a light-weight console
     starter diffpy.pdfgui.applications.pdfgui.
     Command line options and arguments can be passed via
     cmdopts and cmdargs variables of the pdfguiglobals module.
@@ -43,6 +43,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-# version
-__id__ = "$Id$"

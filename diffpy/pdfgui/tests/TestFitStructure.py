@@ -3,8 +3,6 @@
 """Unit tests for class FitStructure
 """
 
-# version
-__id__ = '$Id$'
 
 import os
 import unittest

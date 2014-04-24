@@ -16,7 +16,7 @@ the following paper in your publication:
 @item
 C. L. Farrow, P. Juh@'as, J. W. Liu, D. Bryndin, E. S. Bo@v{z}in,
 J. Bloch, Th. Proffen and S. J. L. Billinge,
-@url{http://stacks.iop.org/0953-8984/19/335219, 
+@url{http://stacks.iop.org/0953-8984/19/335219,
 PDFfit2 and PDFgui: computer programs for studying nanostructure in crystals},
 J. Phys.: Condens. Matter, @b{19}, 335219 (2007)
 @end enumerate

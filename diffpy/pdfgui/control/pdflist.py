@@ -109,7 +109,4 @@ class PDFList(list):
         """
         return [ (x.name, x) for x in self ]
 
-# version
-__id__ = "$Id$"
-
 # End of file

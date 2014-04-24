@@ -28,7 +28,7 @@ end
 xyzfcc = [ 0,0,0; 1,0,0; 1,1,0; 0,1,0;
            0,0,1; 1,0,1; 1,1,1; 0,1,1;
            .5,.5,.0; .5,.0,.5; .0,.5,.5;
-           1.,.5,.5; .5,1.,.5; .5,.5,1. ]; 
+           1.,.5,.5; .5,1.,.5; .5,.5,1. ];
 
 Nfcc = size(xyzfcc,1);
 
@@ -57,7 +57,7 @@ else
 end
 rall = [];
 for i = 1:Nsc
-    rall = [rall; 
+    rall = [rall;
 	xyzsc(i*ones(size(rC60,1),1),:)*p.a + rotateua(Rua(i,:), rC60)
     ];
 end

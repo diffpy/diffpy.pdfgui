@@ -18,9 +18,6 @@
 python -m diffpy.pdfgui.tests.rundeps
 """
 
-# version
-__id__ = '$Id$'
-
 
 if __name__ == '__main__':
     import sys

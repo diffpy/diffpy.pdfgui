@@ -17,7 +17,6 @@
 
 """This module contains utilities that can be used with wxTextCtrls."""
 
-__id__ = "$Id$"
 
 import wx
 

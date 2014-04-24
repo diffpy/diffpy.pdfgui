@@ -53,5 +53,3 @@ class WelcomePanel(wx.Panel, PDFPanel):
         return
 
 # end of class WelcomePanel
-
-__id__ = "$Id$"

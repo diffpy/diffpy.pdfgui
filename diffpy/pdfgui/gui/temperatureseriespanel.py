@@ -132,7 +132,7 @@ class TemperatureSeriesPanel(wx.Panel, PDFPanel):
         """Let's go!"""
         paths = [tp[1] for tp in self.datasets]
         temperatures = [tp[0] for tp in self.datasets]
-        org = makeTemperatureSeries(self.mainFrame.control, self.fit, 
+        org = makeTemperatureSeries(self.mainFrame.control, self.fit,
                 paths, temperatures)
         self.treeCtrlMain.ExtendProjectTree(org, clear=False)
         self.mainFrame.needsSave()
@@ -306,7 +306,7 @@ class TemperatureSeriesPanel(wx.Panel, PDFPanel):
         node = None
         nodetype = None
         selections = self.treeCtrlMain.GetSelections()
-        if selections: 
+        if selections:
             node = selections[0]
             nodetype = self.treeCtrlMain.GetNodeType(node)
 
@@ -319,6 +319,3 @@ class TemperatureSeriesPanel(wx.Panel, PDFPanel):
         return
 
 # end of class TemperatureSeriesPanel
-
-__id__ = "$Id$"
-

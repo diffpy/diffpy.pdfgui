@@ -58,7 +58,4 @@ cmdargs = []
 from diffpy.pdfgui.gui import debugoptions
 dbopts = debugoptions.DebugOptions()
 
-# version
-__id__ = "$Id$"
-
 # End of file

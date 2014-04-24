@@ -21,8 +21,8 @@ from diffpy.pdfgui.gui.fittree import incrementName, FitTreeError
 from diffpy.pdfgui.gui.pdfpanel import PDFPanel
 
 class AddDataPanel(wx.Panel, PDFPanel):
-    """Panel for adding or changing data. 
-    
+    """Panel for adding or changing data.
+
     Data members:
     Several items must be known to this panel so it knows where to try to insert
     the dataset.
@@ -84,10 +84,10 @@ class AddDataPanel(wx.Panel, PDFPanel):
 
     def readConfiguration(self):
         """Read the 'DATASET' configuration.
-        
+
         In the 'DATASET' section of the project ConfigurationParser the
         following is set by this panel.
-        
+
         'last'      --  The last dataset file added to the project. This is
                         stored in the class variable fullpath.
         """
@@ -123,11 +123,11 @@ class AddDataPanel(wx.Panel, PDFPanel):
             dir = self.mainFrame.workpath
         matchstring = "|".join((
                 "PDF files", "*.gr;*.fgr;*.fit;*.cgr;*.calc",
-                "PDF data files (*.gr)", "*.gr", 
-                "PDF fit files (*.fgr)", "*.fgr", 
-                "PDF fit files (*.fit)", "*.fit", 
-                "PDF calculation files (*.cgr)", "*.cgr", 
-                "PDF calculation files (*.calc)", "*.calc", 
+                "PDF data files (*.gr)", "*.gr",
+                "PDF fit files (*.fgr)", "*.fgr",
+                "PDF fit files (*.fit)", "*.fit",
+                "PDF calculation files (*.cgr)", "*.cgr",
+                "PDF calculation files (*.calc)", "*.calc",
                 "All Files", "*"
                 ))
         d = wx.FileDialog(None, "Choose a file", dir, "", matchstring, wx.OPEN)
@@ -163,12 +163,12 @@ class AddDataPanel(wx.Panel, PDFPanel):
         self.treeCtrlMain.SetItemBold(self.entrypoint, False)
         self.treeCtrlMain.UnselectAll()
         self.mainFrame.makeTreeSelection(self.entrypoint)
-        return 
+        return
 
     # Methods overloaded from PDFPanel
     def refresh(self):
         """Check the necessary tree nodes and bold text the entry point.
-        
+
         Update the configuration
         """
         self.readConfiguration()
@@ -198,6 +198,3 @@ class AddDataPanel(wx.Panel, PDFPanel):
         return
 
 # end of class AddDataPanel
-
-# version
-__id__ = "$Id$"

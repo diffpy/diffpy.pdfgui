@@ -13,9 +13,6 @@
 #
 ##############################################################################
 
-# version
-__id__ = "$Id$"
-
 """This module contains a function wrapper and an object wrapper that catch
 control errors and shows them in an error report dialog. This is used by
 PDFPanel and MainFrame.
@@ -48,7 +45,7 @@ def catchFunctionErrors(obj, funcName):
     func = getattr(obj, funcName)
 
     # do not catch anything when requested in pdfguigloabals.dbopts
-    if pdfguiglobals.dbopts.noerrordialog:  
+    if pdfguiglobals.dbopts.noerrordialog:
         return func
 
     # otherwise wrap func within exceptions handler
@@ -76,11 +73,11 @@ def catchFunctionErrors(obj, funcName):
                 dlg = ErrorReportDialog(obj.mainFrame)
                 dlg.text_ctrl_log.SetValue(message)
                 dlg.ShowModal()
-                dlg.Destroy()        
+                dlg.Destroy()
             else:
                 raise
         # Not sure this is needed
-        return wx.ID_CANCEL 
+        return wx.ID_CANCEL
 
     return _f
 
@@ -102,7 +99,7 @@ def catchObjectErrors(obj, exclude=None):
     else:
         extra_excludes = {}
 
-    funcNames = [item for item in dir(obj) if not item.startswith('_') 
+    funcNames = [item for item in dir(obj) if not item.startswith('_')
             and item not in _EXCLUDED_METHODS and item not in extra_excludes]
 
     for name in funcNames:

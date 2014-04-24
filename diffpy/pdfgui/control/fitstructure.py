@@ -16,9 +16,6 @@
 """class FitStructure for storage of one phase and related fitting parameters
 """
 
-# version
-__id__ = "$Id$"
-
 import copy
 import re
 import numpy

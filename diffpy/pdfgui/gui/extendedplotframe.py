@@ -17,8 +17,6 @@
 The module contains extensions for GUI plot frame.
 """
 
-__id__ = "$Id$"
-
 import os.path
 
 import matplotlib

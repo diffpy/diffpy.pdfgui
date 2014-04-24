@@ -15,14 +15,13 @@
 
 """This module contains custom wxListCtrl subclasses.
 AutoWidthListCtrl  - A wxListCtrl object that automatically adjusts the width of
-its columns.  
+its columns.
 ColumnSortListCtrl - An AutoWidthListCtrl that sorts its entries when the column
 header is clicked.
 KeyEventsListCtrl  - A ColumnSortListCtrl that selects and item as you type its
 name.
 """
 
-__id__ = "$Id$"
 
 import wx
 import wx.lib.mixins.listctrl as listmix
@@ -42,13 +41,13 @@ class AutoWidthListCtrl(wx.ListCtrl, listmix.ListCtrlAutoWidthMixin):
 
     def setSelection(self, itemtext = None):
         """Convenience function for simple selection of a list item by label.
-        
+
         itemtext    --  The label of the item to select. If itemtext is None
                         (default) then all items will be deselected.
         """
         # Clear all selections
         self.clearSelections()
-            
+
         # Set the selected item
         item = 0
         if itemtext:
@@ -72,7 +71,7 @@ class ColumnSortListCtrl(AutoWidthListCtrl, listmix.ColumnSorterMixin):
     """
     def __init__(self, parent, ID, pos=wx.DefaultPosition,
                  size=wx.DefaultSize, style=0, *args, **kwargs):
-        AutoWidthListCtrl.__init__(self, parent, ID, pos, size, style, 
+        AutoWidthListCtrl.__init__(self, parent, ID, pos, size, style,
                 *args, **kwargs)
         listmix.ListCtrlAutoWidthMixin.__init__(self)
 

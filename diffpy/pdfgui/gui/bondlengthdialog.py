@@ -114,11 +114,11 @@ class BondLengthDialog(wx.Dialog):
         textCtrls = [self.lbTextCtrl, self.ubTextCtrl]
         for ctrl in textCtrls:
             ctrl.SetValidator(TextValidator(FLOAT_ONLY))
-            ctrl.Bind(wx.EVT_KILL_FOCUS, self.onTextKillFocus) 
+            ctrl.Bind(wx.EVT_KILL_FOCUS, self.onTextKillFocus)
 
         self.comboBoxes = [self.aComboBox, self.bComboBox]
         for cbox in self.comboBoxes:
-            cbox.Bind(wx.EVT_KILL_FOCUS, self.onComboKillFocus) 
+            cbox.Bind(wx.EVT_KILL_FOCUS, self.onComboKillFocus)
             cbox.Bind(wx.EVT_COMBOBOX, self.onComboKillFocus)
         return
 

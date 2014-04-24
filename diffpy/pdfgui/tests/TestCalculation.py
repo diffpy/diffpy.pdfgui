@@ -16,8 +16,6 @@
 """Unit tests for calculation.py
 """
 
-# version
-__id__ = '$Id$'
 
 import os
 import unittest

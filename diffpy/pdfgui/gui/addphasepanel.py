@@ -22,7 +22,7 @@ from diffpy.pdfgui.gui.pdfpanel import PDFPanel
 
 class AddPhasePanel(wx.Panel, PDFPanel):
     """Panel for adding a phase
-    
+
     Several items must know to this panel so it knows where to try to insert the
     phase.
     entrypoint  --  The FitTree item id from which we entered this panel.
@@ -93,10 +93,10 @@ class AddPhasePanel(wx.Panel, PDFPanel):
 
     def readConfiguration(self):
         """Read the 'PHASE' configuration.
-        
+
         In the 'PHASE' section of the project ConfigurationParser the
         following is set by this panel.
-        
+
         'last'      --  The last structure file added to the project. This is
                         stored in the class variable fullpath.
         """
@@ -124,8 +124,8 @@ class AddPhasePanel(wx.Panel, PDFPanel):
     # EVENT CODE ####
 
     def onOpen(self, event): # wxGlade: AddPhasePanel.<event_handler>
-        """Add a the new phase to the tree. 
-        
+        """Add a the new phase to the tree.
+
         The phase is added as a child of entryfit, right after the
         entryphase, if it exists. If entryphase is None, the new phase is
         appended to the end of the children of entryfit.
@@ -197,7 +197,7 @@ class AddPhasePanel(wx.Panel, PDFPanel):
         self.treeCtrlMain.SetItemBold(self.entrypoint, False)
         self.treeCtrlMain.UnselectAll()
         self.mainFrame.makeTreeSelection(self.entrypoint)
-        return 
+        return
 
     def validateStructure(self, node):
         """Make sure that the structure is valid."""
@@ -215,7 +215,7 @@ class AddPhasePanel(wx.Panel, PDFPanel):
     # Methods overloaded from PDFPanel
     def refresh(self):
         """Bold text the entrypoint on the tree.
-        
+
         This also reads the configuration.
         """
         self.readConfiguration()
@@ -240,7 +240,3 @@ class AddPhasePanel(wx.Panel, PDFPanel):
         return
 
 # end of class AddPhasePanel
-
-
-# version
-__id__ = "$Id$"

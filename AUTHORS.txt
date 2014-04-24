@@ -8,7 +8,7 @@ contributors to this package were
     Dmitriy Bryndin
 
 The DiffPy team is located in the Billinge-group at the Applied Physics
-and Applied Mathematics Department of the Columbia University in New York. 
+and Applied Mathematics Department of the Columbia University in New York.
 Currently the team consists of
 
     Simon Billinge
@@ -47,6 +47,4 @@ excel spreadsheets; The former members of the Billinge-group members,
 especially HyunJeong Kim and Ahmad Masadeh for enthusiastic testing and
 feature requests;  Last but not least, our long suffering family members,
 and the whole coffee and tea industries at large, without whom none of
-this would have been possible. 
-
-Last modified $Date$
+this would have been possible.

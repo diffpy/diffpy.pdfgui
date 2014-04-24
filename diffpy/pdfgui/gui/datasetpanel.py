@@ -135,6 +135,3 @@ class DataSetPanel(wx.Panel, PDFPanel):
 
 
 # end of class DataSetPanel
-
-
-__id__ = "$Id$"

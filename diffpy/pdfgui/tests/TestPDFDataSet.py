@@ -16,8 +16,6 @@
 """Unit tests for pdfdataset.py
 """
 
-# version
-__id__ = '$Id$'
 
 import os
 import unittest
@@ -105,7 +103,7 @@ class TestPDFDataSet(unittest.TestCase):
         # dGobs should be all zero
         self.assertEqual(npts*[0.0], self.pdfds.dGobs)
         return
- 
+
 #   def test_write(self):
 #       """check PDFDataSet.write()
 #       """

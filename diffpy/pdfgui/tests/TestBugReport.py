@@ -3,8 +3,6 @@
 """Unit tests for bugreport.py
 """
 
-# version
-__id__ = '$Id$'
 
 import re
 import unittest

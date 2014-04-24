@@ -33,7 +33,7 @@ from diffpy.pdfgui.control.controlerrors import ControlError
 
 class FitTree(wx.TreeCtrl):
     """TreeCtrl designed to organize pdffit fits.
-    
+
     The root of the tree is hidden. Below that there are several levels
     which are diagrammed below.
 
@@ -45,7 +45,7 @@ class FitTree(wx.TreeCtrl):
 
     Fits are at the top level. Under fits there are phases, datasets, and
     calculations (in that order).
-    
+
     It is required that the data for each node is a dictionary. In the 'type'
     entry of this dictionary is the node type (fit, phase, dataset,
     calculation). Fit items also have a 'cdata' entry in their tree item
@@ -56,7 +56,7 @@ class FitTree(wx.TreeCtrl):
     control     --  The pdfguicontrol object that interfaces between the tree
                     and the pdffit2 engine. The tree is a mirror of the internal
                     structure of the control.
-    
+
     """
 
     def __init__(self, parent, id=-1, pos=wx.DefaultPosition,
@@ -112,7 +112,7 @@ class FitTree(wx.TreeCtrl):
             fitId = nextId
             nextId = self.GetItemParent(nextId)
         return fitId
-    
+
     def GetChildren(self, node):
         """Get the ids of the children of a given node."""
         cookie = 0
@@ -174,7 +174,7 @@ class FitTree(wx.TreeCtrl):
 
     def GetNodeType(self, node):
         """Get the node type.
-        
+
         This is the "type" entry in the data dictionary of the node.
         """
         if not node: return
@@ -233,7 +233,7 @@ class FitTree(wx.TreeCtrl):
         family = self.GetChildren(parent)
         phases = [item for item in family if self.GetNodeType(item) == 'phase']
         return len(phases)
-    
+
     def GetNumDataSets(self, node):
         """Get the number of datasets in a branch.
 
@@ -246,7 +246,7 @@ class FitTree(wx.TreeCtrl):
 
     def GetPositionInSubtree(self, node):
         """Get the index if the node in its subtree.
-        
+
         For fits the position is absolute within the tree. For phases, datasets,
         and calculations, the location is taken to be in reference to the other
         nodes of its type. This is designed to be compatible with the control
@@ -284,7 +284,7 @@ class FitTree(wx.TreeCtrl):
 
     def GetControlData(self, node):
         """Get the control center data associated with a node.
-        
+
         NOTE: The fit-root of a node holds this data. This method makes it
         convenient to retrieve it.
         """
@@ -342,12 +342,12 @@ class FitTree(wx.TreeCtrl):
             raise
         return
 
-    def AddPhase(self, node, label, insertafter=None, filename=None, 
+    def AddPhase(self, node, label, insertafter=None, filename=None,
             makedata = True, cdata=None):
         """Add a new blank Phase to the tree as a child of node.
 
         node        --  The parent 'fit' node.
-        label       --  The name of the new node. 
+        label       --  The name of the new node.
         insertafter --  The node after which to insert the new phase. If
                         insertafter is None (default) the new phase is
                         appended to the end of the phases in the subtree of
@@ -360,7 +360,7 @@ class FitTree(wx.TreeCtrl):
                         then it is assumed that the node already has data in the
                         control. See ExtendProjectTree and __InsertBranch for
                         examples of how this is used.
-        
+
         Phases are always placed before DataSets.
 
         Raises:
@@ -416,8 +416,8 @@ class FitTree(wx.TreeCtrl):
 
     def AddDataSet(self, node, label, insertafter=None, filename=None,
             makedata=True, cdata=None):
-        """Add a new DataSet to the tree as a child of fit. 
-        
+        """Add a new DataSet to the tree as a child of fit.
+
         node        --  The parent node of the dataset. Must be 'fit' type.
         label       --  The label of the new node.
         insertafter --  The node after which to insert the new dataset. If
@@ -431,7 +431,7 @@ class FitTree(wx.TreeCtrl):
                         (default), then it is assumed that the node already has
                         data in the control. See ExtendProjectTree and
                         __InsertBranch for examples of how this is used.
-        
+
         DataSets are always placed after Phases.
 
         Raises:
@@ -481,8 +481,8 @@ class FitTree(wx.TreeCtrl):
         return
 
     def AddCalc(self, node, label, insertafter=None, makedata=True, cdata=None):
-        """Add a new DataSet to the tree as a child of fit. 
-        
+        """Add a new DataSet to the tree as a child of fit.
+
         node        --  The parent node of the calculation. Must be 'fit' type.
         label       --  The label of the new node.
         insertafter --  The node after which to insert the new calculation. If
@@ -495,7 +495,7 @@ class FitTree(wx.TreeCtrl):
                         (default), then it is assumed that the node already has
                         data in the control. See ExtendProjectTree and
                         __InsertBranch for examples of how this is used.
-        
+
         Calculations are always placed after datasets.
 
         Raises:
@@ -597,10 +597,10 @@ class FitTree(wx.TreeCtrl):
 
     def PasteBranch(self, entrypoint = None):
         """Paste the branch from the clipboard into tree at the given node.
-        
+
         A certain type of branch can only be copied to specific places.
 
-        fit         -   A fit can be pasted to anywhere. This does not overwrite 
+        fit         -   A fit can be pasted to anywhere. This does not overwrite
                         an existing node, but simply inserts the fit into the
                         last available slot.
         phase       -   A phase can be pasted from anywhere. If pasted from a
@@ -623,7 +623,7 @@ class FitTree(wx.TreeCtrl):
             FitTreeError if the entrypoint and branch type are incompatible.
         """
         cdata = self.GetClipboard()
-        if cdata is None: 
+        if cdata is None:
             message = "There is no branch to paste!"
             raise FitTreeError, message
 
@@ -640,7 +640,7 @@ class FitTree(wx.TreeCtrl):
             # Paste after the selected fit containing the selection, or
             # after the last fit if a calculation is selected. If nothing is
             # selected, just paste it!
-            
+
             entrytype = None
             if entrypoint:
                 entrypoint = self.GetFitRoot(entrypoint)
@@ -742,7 +742,7 @@ class FitTree(wx.TreeCtrl):
 
     def __InsertBranch(self, cdata, entrypoint, label, insertafter = None,
             prepend = False):
-        """Instert control data into the tree. 
+        """Instert control data into the tree.
 
         cdata       --  The control data that goes with the branch
         entrypoint  --  The subbranch (fit root) to paste into
@@ -752,10 +752,10 @@ class FitTree(wx.TreeCtrl):
                         last node of the same type.
         prepend     --  Prepend to the beginning of the node group (default
                         False). insertafter takes prescedent over prepend.
-        
+
         Returns the newly inserted node.
         """
-        if cdata is None: 
+        if cdata is None:
             message = "There is no branch to paste!"
             raise FitTreeError, message
 
@@ -908,5 +908,3 @@ def incrementName(name, namelist, start = 1):
         counter += 1
         newname = "%s%i" % (newname, counter)
     return newname
-
-__id__ = "$Id$"

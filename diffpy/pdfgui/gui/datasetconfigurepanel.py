@@ -249,7 +249,7 @@ class DataSetConfigurePanel(wx.Panel, PDFPanel):
         if not self.configuration: return
 
         self.setToolTips(toolTips)
-        
+
         for key in self.constrainables:
             value = self.ctrlMap[key]
             textCtrl = getattr(self, value)
@@ -300,7 +300,7 @@ class DataSetConfigurePanel(wx.Panel, PDFPanel):
 
     def onSampling(self, event): # wxGlade: DataSetConfigurePanel.<event_handler>
         """Record how the data is to be sampled during the fit.
-        
+
         This does not use the event argument, so feel free to call this method
         programmatically.
         """
@@ -372,6 +372,3 @@ class DataSetConfigurePanel(wx.Panel, PDFPanel):
 
 
 # end of class DataSetConfigurePanel
-
-
-__id__ = "$Id$"

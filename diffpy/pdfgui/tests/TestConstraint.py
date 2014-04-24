@@ -16,8 +16,6 @@
 """Unit tests for constraint.py
 """
 
-# version
-__id__ = '$Id$'
 
 import sys
 import os

@@ -271,7 +271,4 @@ class Organizer(PDFComponent):
 if __name__ == "__main__":
     Organizer('name')
 
-# version
-__id__ = "$Id$"
-
 # End of file

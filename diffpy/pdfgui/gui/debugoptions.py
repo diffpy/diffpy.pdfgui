@@ -73,7 +73,4 @@ class DebugOptions:
 
 # End of class DebugOptions
 
-# version
-__id__ = '$Id$'
-
 # End of file

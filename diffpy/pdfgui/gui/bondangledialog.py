@@ -109,7 +109,7 @@ class BondAngleDialog(wx.Dialog, PDFPanel):
 
     def onSpin(self, event):
         """Handle atom selection events.
-        
+
         This makes sure that no two controls can have the same value.
         """
         letters = ["a", "b", "c"]
@@ -155,7 +155,5 @@ class BondAngleDialog(wx.Dialog, PDFPanel):
     def onCancel(self, event): # wxGlade: SGStructureDialog.<event_handler>
         event.Skip()
         return
-
-__id__ = "$Id: sgstructuredialog.py 1456 2007-10-02 15:24:29Z farrowch $"
 
 # end of class SGStructureDialog

@@ -26,9 +26,9 @@ pf = PdfFit()
 
 def shortestBond_MnO(stru):
     """extract the shortest MnO bond length in a structure.
-    
+
     stru -- initial or refined phase from a PDFgui project
-    
+
     Return the shortest bond length.
     """
     pf.reset()

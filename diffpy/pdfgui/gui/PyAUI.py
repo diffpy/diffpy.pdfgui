@@ -47,7 +47,7 @@
 #
 # Or, Obviously, To The wxPython Mailing List!!!
 #
-# with OS X support and refactoring implemented by Chris Mellon (arkanes@gmail.com) - 
+# with OS X support and refactoring implemented by Chris Mellon (arkanes@gmail.com) -
 #    contact me directly or on wxPython ML for more info
 #
 #
@@ -65,26 +65,26 @@ PyAUI attempts to encapsulate the following aspects of the user interface:
 
 * Frame Management: Frame management provides the means to open, move and hide common
 controls that are needed to interact with the document, and allow these configurations
-to be saved into different perspectives and loaded at a later time. 
+to be saved into different perspectives and loaded at a later time.
 
 * Toolbars: Toolbars are a specialized subset of the frame management system and should
 behave similarly to other docked components. However, they also require additional
 functionality, such as "spring-loaded" rebar support, "chevron" buttons and end-user
-customizability. 
+customizability.
 
 * Modeless Controls: Modeless controls expose a tool palette or set of options that
 float above the application content while allowing it to be accessed. Usually accessed
 by the toolbar, these controls disappear when an option is selected, but may also be
-"torn off" the toolbar into a floating frame of their own. 
+"torn off" the toolbar into a floating frame of their own.
 
 * Look and Feel: Look and feel encompasses the way controls are drawn, both when shown
 statically as well as when they are being moved. This aspect of user interface design
-incorporates "special effects" such as transparent window dragging as well as frame animation. 
+incorporates "special effects" such as transparent window dragging as well as frame animation.
 
 PyAUI adheres to the following principles:
 
 - Use native floating frames to obtain a native look and feel for all platforms;
-- Use existing wxPython code where possible, such as sizer implementation for frame management; 
+- Use existing wxPython code where possible, such as sizer implementation for frame management;
 - Use standard wxPython coding conventions.
 
 
@@ -101,7 +101,7 @@ class MyFrame(wx.Frame):
         wx.Frame.__init__(self, parent, id, title, pos, size, style)
 
         self._mgr = PyAUI.FrameManager()
-        
+
         # notify PyAUI which frame to use
         self._mgr.SetFrame(self)
 
@@ -109,20 +109,20 @@ class MyFrame(wx.Frame):
         text1 = wx.TextCtrl(self, -1, "Pane 1 - sample text",
                             wx.DefaultPosition, wx.Size(200,150),
                             wx.NO_BORDER | wx.TE_MULTILINE)
-                                           
+
         text2 = wx.TextCtrl(self, -1, "Pane 2 - sample text",
                             wx.DefaultPosition, wx.Size(200,150),
                             wx.NO_BORDER | wx.TE_MULTILINE)
-                                           
+
         text3 = wx.TextCtrl(self, -1, "Main content window",
                             wx.DefaultPosition, wx.Size(200,150),
                             wx.NO_BORDER | wx.TE_MULTILINE)
-        
+
         # add the panes to the manager
         self._mgr.AddPane(text1, wx.LEFT, "Pane Number One")
         self._mgr.AddPane(text2, wx.BOTTOM, "Pane Number Two")
         self._mgr.AddPane(text3, wx.CENTER)
-                              
+
         # tell the manager to "commit" all the changes just made
         self._mgr.Update()
 
@@ -134,8 +134,8 @@ class MyFrame(wx.Frame):
         # deinitialize the frame manager
         self._mgr.UnInit()
 
-        self.Destroy()        
-        event.Skip()        
+        self.Destroy()
+        event.Skip()
 
 
 # our normal wxApp-derived class, as usual
@@ -158,10 +158,10 @@ PyAUI version 0.9.2 Adds:
 
 License And Version:
 
-PyAUI Library Is Freeware And Distributed Under The wxPython License. 
+PyAUI Library Is Freeware And Distributed Under The wxPython License.
 
 Latest Revision: Andrea Gavana @ 30 Jun 2006, 21.00 GMT
-Version 0.9.2. 
+Version 0.9.2.
 
 """
 
@@ -235,7 +235,7 @@ AUI_MGR_ALLOW_ACTIVE_PANE     = 2
 AUI_MGR_TRANSPARENT_DRAG      = 4
 AUI_MGR_TRANSPARENT_HINT      = 8
 AUI_MGR_TRANSPARENT_HINT_FADE = 16
-    
+
 AUI_MGR_DEFAULT = AUI_MGR_ALLOW_FLOATING | \
                   AUI_MGR_TRANSPARENT_HINT | \
                   AUI_MGR_TRANSPARENT_HINT_FADE | \
@@ -265,7 +265,7 @@ AUI_GRADIENT_NONE = 0
 AUI_GRADIENT_VERTICAL = 1
 AUI_GRADIENT_HORIZONTAL = 2
 
-# Pane Button State    
+# Pane Button State
 AUI_BUTTON_STATE_NORMAL = 0
 AUI_BUTTON_STATE_HOVER = 1
 AUI_BUTTON_STATE_PRESSED = 2
@@ -328,7 +328,7 @@ def StepColour(c, percent):
     r = c.Red()
     g = c.Green()
     b = c.Blue()
-    
+
     return wx.Colour(min((r*percent)/100, 255),
                      min((g*percent)/100, 255),
                      min((b*percent)/100, 255))
@@ -351,16 +351,16 @@ def BitmapFromBits(color, type=0):
     BitmapFromBits() is a utility function that creates a
     masked bitmap from raw bits (XBM format).
     """
-    
+
     if type == 0:   # Close Bitmap
         img = GetCloseImage()
     else:
         # this should be GetClosePin()... but what the hell is a "pin"?
         img = GetCloseImage()
-        
+
     img.Replace(255, 255, 255, 123, 123, 123)
     img.Replace(0, 0, 0, color.Red(), color.Green(), color.Blue())
-    
+
     return img.ConvertToBitmap()
 
 
@@ -392,7 +392,7 @@ def DrawGradientRectangle(dc, rect, start_color, end_color, direction):
 class DockInfo:
 
     def __init__(self):
-        
+
         self.dock_direction = 0
         self.dock_layer = 0
         self.dock_row = 0
@@ -409,7 +409,7 @@ class DockInfo:
 
         return (self.dock_direction != 0 and [True] or [False])[0]
 
-    
+
     def IsHorizontal(self):
 
         return ((self.dock_direction == AUI_DOCK_TOP or \
@@ -422,10 +422,10 @@ class DockInfo:
         return ((self.dock_direction == AUI_DOCK_LEFT or \
                 self.dock_direction == AUI_DOCK_RIGHT or \
                 self.dock_direction == AUI_DOCK_CENTER) and [True] or [False])[0]
-    
+
 
 class DockUIPart:
-    
+
     typeCaption = 0
     typeGripper = 1
     typeDock = 2
@@ -445,7 +445,7 @@ class DockUIPart:
 
 class PaneButton:
 
-    def __init__(self, button_id):    
+    def __init__(self, button_id):
 
         self.button_id = button_id
 
@@ -457,23 +457,23 @@ class FrameManagerEvent(wx.PyCommandEvent):
     def __init__(self, eventType, id=1):
 
         wx.PyCommandEvent.__init__(self, eventType, id)
-        
+
         self.pane = None
         self.button = 0
 
 
     def SetPane(self, p):
-        
+
         self.pane = p
 
-        
+
     def SetButton(self, b):
-        
+
         self.button = b
 
-        
+
     def GetPane(self):
-        
+
         return self.pane
 
 
@@ -528,7 +528,7 @@ class DefaultDockArt:
         self._inactive_pin_bitmap = BitmapFromBits(self._inactive_caption_text_colour, 1)
         self._active_close_bitmap = BitmapFromBits(self._active_caption_text_colour, 0)
         self._active_pin_bitmap = BitmapFromBits(self._active_caption_text_colour, 1)
-        
+
         # default metric values
         self._sash_size = 4
         self._caption_size = 17
@@ -536,7 +536,7 @@ class DefaultDockArt:
         self._button_size = 14
         self._gripper_size = 9
         self._gradient_type = AUI_GRADIENT_VERTICAL
-        
+
 
     def GetMetric(self, id):
 
@@ -591,7 +591,7 @@ class DefaultDockArt:
         elif id == AUI_ART_ACTIVE_CAPTION_GRADIENT_COLOUR:
             return self._active_caption_gradient_colour
         elif id == AUI_ART_ACTIVE_CAPTION_TEXT_COLOUR:
-            return self._active_caption_text_colour        
+            return self._active_caption_text_colour
         elif id == AUI_ART_BORDER_COLOUR:
             return self._border_pen.GetColour()
         elif id == AUI_ART_GRIPPER_COLOUR:
@@ -626,7 +626,7 @@ class DefaultDockArt:
             self._gripper_pen2.SetColour(StepColour(colour, 60))
         else:
             raise "\nERROR: Invalid Metric Ordinal. "
-        
+
 
     GetColour = GetColor
     SetColour = SetColor
@@ -641,7 +641,7 @@ class DefaultDockArt:
 
         if id == AUI_ART_CAPTION_FONT:
             return self._caption_font
-        
+
         return wx.NoneFont
 
 
@@ -666,33 +666,33 @@ class DefaultDockArt:
         drect.y = rect.y
         drect.width = rect.width
         drect.height = rect.height
-        
+
         dc.SetPen(self._border_pen)
         dc.SetBrush(wx.TRANSPARENT_BRUSH)
 
         border_width = self.GetMetric(AUI_ART_PANE_BORDER_SIZE)
 
         if pane.IsToolbar():
-        
+
             for ii in xrange(0, border_width):
-            
+
                 dc.SetPen(wx.WHITE_PEN)
                 dc.DrawLine(drect.x, drect.y, drect.x+drect.width, drect.y)
                 dc.DrawLine(drect.x, drect.y, drect.x, drect.y+drect.height)
-                dc.SetPen(self._border_pen)       
+                dc.SetPen(self._border_pen)
                 dc.DrawLine(drect.x, drect.y+drect.height-1,
                             drect.x+drect.width, drect.y+drect.height-1)
                 dc.DrawLine(drect.x+drect.width-1, drect.y,
                             drect.x+drect.width-1, drect.y+drect.height)
                 drect.Deflate(1, 1)
-        
+
         else:
-        
+
             for ii in xrange(0, border_width):
-            
+
                 dc.DrawRectangle(drect.x, drect.y, drect.width, drect.height)
                 drect.Deflate(1, 1)
-            
+
 
     def DrawCaptionBackground(self, dc, rect, active):
 
@@ -702,7 +702,7 @@ class DefaultDockArt:
             else:
                 dc.SetBrush(wx.Brush(self._inactive_caption_colour))
 
-            dc.DrawRectangle(rect.x, rect.y, rect.width, rect.height)        
+            dc.DrawRectangle(rect.x, rect.y, rect.width, rect.height)
         else:
             if active:
                 DrawGradientRectangle(dc, rect, self._active_caption_colour,
@@ -745,33 +745,33 @@ class DefaultDockArt:
             y = 5
             while 1:
                 dc.SetPen(self._gripper_pen1)
-                dc.DrawPoint(rect.x+3, rect.y+y) 
-                dc.SetPen(self._gripper_pen2) 
-                dc.DrawPoint(rect.x+3, rect.y+y+1) 
-                dc.DrawPoint(rect.x+4, rect.y+y) 
-                dc.SetPen(self._gripper_pen3) 
-                dc.DrawPoint(rect.x+5, rect.y+y+1) 
-                dc.DrawPoint(rect.x+5, rect.y+y+2) 
-                dc.DrawPoint(rect.x+4, rect.y+y+2) 
-                y = y + 4 
+                dc.DrawPoint(rect.x+3, rect.y+y)
+                dc.SetPen(self._gripper_pen2)
+                dc.DrawPoint(rect.x+3, rect.y+y+1)
+                dc.DrawPoint(rect.x+4, rect.y+y)
+                dc.SetPen(self._gripper_pen3)
+                dc.DrawPoint(rect.x+5, rect.y+y+1)
+                dc.DrawPoint(rect.x+5, rect.y+y+2)
+                dc.DrawPoint(rect.x+4, rect.y+y+2)
+                y = y + 4
                 if y > rect.GetHeight() - 5:
                     break
         else:
             x = 5
             while 1:
-                dc.SetPen(self._gripper_pen1) 
-                dc.DrawPoint(rect.x+x, rect.y+3) 
-                dc.SetPen(self._gripper_pen2) 
-                dc.DrawPoint(rect.x+x+1, rect.y+3) 
-                dc.DrawPoint(rect.x+x, rect.y+4) 
-                dc.SetPen(self._gripper_pen3) 
-                dc.DrawPoint(rect.x+x+1, rect.y+5) 
-                dc.DrawPoint(rect.x+x+2, rect.y+5) 
-                dc.DrawPoint(rect.x+x+2, rect.y+4) 
-                x = x + 4 
+                dc.SetPen(self._gripper_pen1)
+                dc.DrawPoint(rect.x+x, rect.y+3)
+                dc.SetPen(self._gripper_pen2)
+                dc.DrawPoint(rect.x+x+1, rect.y+3)
+                dc.DrawPoint(rect.x+x, rect.y+4)
+                dc.SetPen(self._gripper_pen3)
+                dc.DrawPoint(rect.x+x+1, rect.y+5)
+                dc.DrawPoint(rect.x+x+2, rect.y+5)
+                dc.DrawPoint(rect.x+x+2, rect.y+4)
+                x = x + 4
                 if x > rect.GetWidth() - 5:
-                    break 
-        
+                    break
+
 
     def DrawPaneButton(self, dc, button, button_state, rect, pane):
 
@@ -780,14 +780,14 @@ class DefaultDockArt:
         drect.y = rect.y
         drect.width = rect.width
         drect.height = rect.height
-        
+
         if button_state == AUI_BUTTON_STATE_PRESSED:
-        
+
             drect.x = drect.x + 1
             drect.y = drect.y + 1
-        
+
         if button_state in [AUI_BUTTON_STATE_HOVER, AUI_BUTTON_STATE_PRESSED]:
-        
+
             if pane.state & PaneInfo.optionActive:
                 dc.SetBrush(wx.Brush(StepColour(self._active_caption_colour, 120)))
                 dc.SetPen(wx.Pen(StepColour(self._active_caption_colour, 70)))
@@ -800,16 +800,16 @@ class DefaultDockArt:
 
         if button == PaneInfo.buttonClose:
             if pane.state & PaneInfo.optionActive:
-                
+
                 bmp = self._active_close_bitmap
-            
+
             else:
                 bmp = self._inactive_close_bitmap
         elif button == PaneInfo.buttonPin:
             if pane.state & PaneInfo.optionActive:
-                
+
                 bmp = self._active_pin_bitmap
-            
+
             else:
                 bmp = self._inactive_pin_bitmap
 
@@ -822,10 +822,10 @@ class DefaultDockArt:
 # PaneInfo specifies all the parameters for a pane. These parameters specify where
 # the pane is on the screen, whether it is docked or floating, or hidden. In addition,
 # these parameters specify the pane's docked position, floating position, preferred
-# size, minimum size, caption text among many other parameters. 
+# size, minimum size, caption text among many other parameters.
 
 class PaneInfo:
-    
+
     optionFloating        = 2**0
     optionHidden          = 2**1
     optionLeftDockable    = 2**2
@@ -854,7 +854,7 @@ class PaneInfo:
 
     def __init__(self):
 
-        wx.DefaultSize = wx.Size(-1, -1)        
+        wx.DefaultSize = wx.Size(-1, -1)
         self.window = None
         self.frame = None
         self.state = 0
@@ -872,77 +872,77 @@ class PaneInfo:
         self.buttons = []
         self.name = ""
         self.rect = wx.Rect()
-        
+
         self.DefaultPane()
-    
+
 
     def IsOk(self):
         """ IsOk() returns True if the PaneInfo structure is valid. """
-        
+
         return (self.window != None and [True] or [False])[0]
 
 
     def IsFixed(self):
         """ IsFixed() returns True if the pane cannot be resized. """
-        
+
         return not self.HasFlag(self.optionResizable)
 
-    
+
     def IsResizable(self):
         """ IsResizeable() returns True if the pane can be resized. """
-        
+
         return self.HasFlag(self.optionResizable)
 
-    
+
     def IsShown(self):
         """ IsShown() returns True if the pane should be drawn on the screen. """
-        
+
         return not self.HasFlag(self.optionHidden)
 
-    
+
     def IsFloating(self):
         """ IsFloating() returns True if the pane is floating. """
 
         return self.HasFlag(self.optionFloating)
 
-    
+
     def IsDocked(self):
         """ IsDocked() returns True if the pane is docked. """
-        
+
         return not self.HasFlag(self.optionFloating)
 
-    
+
     def IsToolbar(self):
         """ IsToolbar() returns True if the pane contains a toolbar. """
 
         return self.HasFlag(self.optionToolbar)
 
-    
+
     def IsTopDockable(self):
         """
         IsTopDockable() returns True if the pane can be docked at the top
         of the managed frame.
         """
-        
+
         return self.HasFlag(self.optionTopDockable)
 
-    
+
     def IsBottomDockable(self):
         """
         IsBottomDockable() returns True if the pane can be docked at the bottom
         of the managed frame.
         """
-        
+
         return self.HasFlag(self.optionBottomDockable)
 
-    
+
     def IsLeftDockable(self):
         """
         IsLeftDockable() returns True if the pane can be docked at the left
         of the managed frame.
         """
-        
-        return self.HasFlag(self.optionLeftDockable) 
+
+        return self.HasFlag(self.optionLeftDockable)
 
 
     def IsRightDockable(self):
@@ -950,17 +950,17 @@ class PaneInfo:
         IsRightDockable() returns True if the pane can be docked at the right
         of the managed frame.
         """
-        
+
         return self.HasFlag(self.optionRightDockable)
 
 
     def IsDockable(self):
         """ IsDockable() returns True if the pane can be docked. """
-        
+
         return self.IsTopDockable() or self.IsBottomDockable() or self.IsLeftDockable() or \
                self.IsRightDockable()
-    
-    
+
+
     def IsFloatable(self):
         """
         IsFloatable() returns True if the pane can be undocked and displayed as a
@@ -969,41 +969,41 @@ class PaneInfo:
 
         return self.HasFlag(self.optionFloatable)
 
-    
+
     def IsMovable(self):
         """
         IsMoveable() returns True if the docked frame can be undocked or moved to
         another dock position.
         """
-        
+
         return self.HasFlag(self.optionMovable)
-    
+
 
     def HasCaption(self):
         """ HasCaption() returns True if the pane displays a caption. """
-        
+
         return self.HasFlag(self.optionCaption)
-    
+
 
     def HasGripper(self):
         """ HasGripper() returns True if the pane displays a gripper. """
-        
-        return self.HasFlag(self.optionGripper) 
+
+        return self.HasFlag(self.optionGripper)
 
 
     def HasBorder(self):
         """ HasBorder() returns True if the pane displays a border. """
-        
+
         return self.HasFlag(self.optionPaneBorder)
 
-    
+
     def HasCloseButton(self):
         """
         HasCloseButton() returns True if the pane displays a button to close
         the pane.
         """
 
-        return self.HasFlag(self.buttonClose) 
+        return self.HasFlag(self.buttonClose)
 
 
     def HasMaximizeButton(self):
@@ -1011,23 +1011,23 @@ class PaneInfo:
         HasMaximizeButton() returns True if the pane displays a button to
         maximize the pane.
         """
-        
+
         return self.HasFlag(self.buttonMaximize)
 
-    
+
     def HasMinimizeButton(self):
         """
         HasMinimizeButton() returns True if the pane displays a button to
         minimize the pane.
         """
-        
-        return self.HasFlag(self.buttonMinimize) 
+
+        return self.HasFlag(self.buttonMinimize)
 
 
     def HasPinButton(self):
         """ HasPinButton() returns True if the pane displays a button to float the pane. """
-        
-        return self.HasFlag(self.buttonPin) 
+
+        return self.HasFlag(self.buttonPin)
 
 
     def HasGripperTop(self):
@@ -1040,84 +1040,84 @@ class PaneInfo:
         self.window = w
         return self
 
-    
+
     def Name(self, n):
         """ Name() sets the name of the pane so it can be referenced in lookup functions. """
 
         self.name = n
         return self
 
-    
+
     def Caption(self, c):
         """ Caption() sets the caption of the pane. """
-        
+
         self.caption = c
         return self
 
-    
+
     def Left(self):
         """ Left() sets the pane dock position to the left side of the frame. """
-        
+
         self.dock_direction = AUI_DOCK_LEFT
         return self
 
-    
+
     def Right(self):
         """ Right() sets the pane dock position to the right side of the frame. """
-        
+
         self.dock_direction = AUI_DOCK_RIGHT
         return self
 
-    
+
     def Top(self):
         """ Top() sets the pane dock position to the top of the frame. """
 
         self.dock_direction = AUI_DOCK_TOP
         return self
 
-    
+
     def Bottom(self):
         """ Bottom() sets the pane dock position to the bottom of the frame. """
 
         self.dock_direction = AUI_DOCK_BOTTOM
         return self
 
-    
+
     def Center(self):
         """ Center() sets the pane to the center position of the frame. """
-        
+
         self.dock_direction = AUI_DOCK_CENTER
         return self
 
-        
+
     def Centre(self):
         """ Centre() sets the pane to the center position of the frame. """
-        
+
         self.dock_direction = AUI_DOCK_CENTRE
         return self
 
-    
+
     def Direction(self, direction):
         """ Direction() determines the direction of the docked pane. """
-        
+
         self.dock_direction = direction
         return self
 
-    
+
     def Layer(self, layer):
         """ Layer() determines the layer of the docked pane. """
-        
+
         self.dock_layer = layer
         return self
 
-    
+
     def Row(self, row):
         """ Row() determines the row of the docked pane. """
-        
+
         self.dock_row = row
         return self
 
-    
+
     def Position(self, pos):
         """ Position() determines the position of the docked pane. """
 
@@ -1127,7 +1127,7 @@ class PaneInfo:
 
     def MinSize(self, arg1=None, arg2=None):
         """ MinSize() sets the minimum size of the pane. """
-        
+
         if isinstance(arg1, wx.Size):
             ret = self.MinSize1(arg1)
         else:
@@ -1135,7 +1135,7 @@ class PaneInfo:
 
         return ret
 
-    
+
     def MinSize1(self, size):
 
         self.min_size = size
@@ -1150,15 +1150,15 @@ class PaneInfo:
 
     def MaxSize(self, arg1=None, arg2=None):
         """ MaxSize() sets the maximum size of the pane. """
-        
+
         if isinstance(arg1, wx.Size):
             ret = self.MaxSize1(arg1)
         else:
             ret = self.MaxSize2(arg1, arg2)
 
         return ret
-    
-    
+
+
     def MaxSize1(self, size):
 
         self.max_size = size
@@ -1180,232 +1180,232 @@ class PaneInfo:
             ret = self.BestSize2(arg1, arg2)
 
         return ret
-    
-            
+
+
     def BestSize1(self, size):
 
         self.best_size = size
         return self
 
-    
+
     def BestSize2(self, x, y):
 
         self.best_size.Set(x,y)
         return self
-    
-    
+
+
     def FloatingPosition(self, pos):
         """ FloatingPosition() sets the position of the floating pane. """
-        
+
         self.floating_pos = pos
         return self
 
-    
+
     def FloatingSize(self, size):
         """ FloatingSize() sets the size of the floating pane. """
-        
+
         self.floating_size = size
         return self
 
-    
+
     def Fixed(self):
         """ Fixed() forces a pane to be fixed size so that it cannot be resized. """
-        
+
         return self.SetFlag(self.optionResizable, False)
 
-    
+
     def Resizable(self, resizable=True):
         """
         Resizable() allows a pane to be resizable if resizable is True, and forces
         it to be a fixed size if resizeable is False.
         """
-        
+
         return self.SetFlag(self.optionResizable, resizable)
 
-    
+
     def Dock(self):
         """ Dock() indicates that a pane should be docked. """
-        
+
         return self.SetFlag(self.optionFloating, False)
 
-    
+
     def Float(self):
         """ Float() indicates that a pane should be floated. """
-        
+
         return self.SetFlag(self.optionFloating, True)
 
-    
+
     def Hide(self):
         """ Hide() indicates that a pane should be hidden. """
-        
+
         return self.SetFlag(self.optionHidden, True)
 
-    
+
     def Show(self, show=True):
         """ Show() indicates that a pane should be shown. """
-        
+
         return self.SetFlag(self.optionHidden, not show)
-    
-    
+
+
     def CaptionVisible(self, visible=True):
         """ CaptionVisible() indicates that a pane caption should be visible. """
-        
+
         return self.SetFlag(self.optionCaption, visible)
 
-    
+
     def PaneBorder(self, visible=True):
         """ PaneBorder() indicates that a border should be drawn for the pane. """
-        
+
         return self.SetFlag(self.optionPaneBorder, visible)
 
-    
+
     def Gripper(self, visible=True):
         """ Gripper() indicates that a gripper should be drawn for the pane. """
-        
+
         return self.SetFlag(self.optionGripper, visible)
 
 
     def GripperTop(self, attop=True):
         """ GripperTop() indicates that a gripper should be drawn for the pane. """
-        
+
         return self.SetFlag(self.optionGripperTop, attop)
 
-    
+
     def CloseButton(self, visible=True):
         """ CloseButton() indicates that a close button should be drawn for the pane. """
-        
+
         return self.SetFlag(self.buttonClose, visible)
 
-    
+
     def MaximizeButton(self, visible=True):
         """ MaximizeButton() indicates that a maximize button should be drawn for the pane. """
-        
+
         return self.SetFlag(self.buttonMaximize, visible)
 
-    
+
     def MinimizeButton(self, visible=True):
         """ MinimizeButton() indicates that a minimize button should be drawn for the pane. """
-        
+
         return self.SetFlag(self.buttonMinimize, visible)
 
-    
+
     def PinButton(self, visible=True):
         """ PinButton() indicates that a pin button should be drawn for the pane. """
-        
+
         return self.SetFlag(self.buttonPin, visible)
 
-    
+
     def DestroyOnClose(self, b=True):
         """ DestroyOnClose() indicates whether a pane should be destroyed when it is closed. """
-        
+
         return self.SetFlag(self.optionDestroyOnClose, b)
 
-    
+
     def TopDockable(self, b=True):
         """ TopDockable() indicates whether a pane can be docked at the top of the frame. """
-        
+
         return self.SetFlag(self.optionTopDockable, b)
 
-    
+
     def BottomDockable(self, b=True):
         """ BottomDockable() indicates whether a pane can be docked at the bottom of the frame. """
-        
+
         return self.SetFlag(self.optionBottomDockable, b)
 
-    
+
     def LeftDockable(self, b=True):
         """ LeftDockable() indicates whether a pane can be docked on the left of the frame. """
 
         return self.SetFlag(self.optionLeftDockable, b)
 
-    
+
     def RightDockable(self, b=True):
         """ RightDockable() indicates whether a pane can be docked on the right of the frame. """
-        
+
         return self.SetFlag(self.optionRightDockable, b)
 
-    
+
     def Floatable(self, b=True):
         """ Floatable() indicates whether a frame can be floated. """
-        
+
         return self.SetFlag(self.optionFloatable, b)
 
-    
+
     def Movable(self, b=True):
         """ Movable() indicates whether a frame can be moved. """
-        
+
         return self.SetFlag(self.optionMovable, b)
 
-    
+
     def Dockable(self, b=True):
-    
+
         return self.TopDockable(b).BottomDockable(b).LeftDockable(b).RightDockable(b)
-    
+
 
     def DefaultPane(self):
         """ DefaultPane() specifies that the pane should adopt the default pane settings. """
-        
-        state = self.state    
+
+        state = self.state
         state |= self.optionTopDockable | self.optionBottomDockable | \
                  self.optionLeftDockable | self.optionRightDockable | \
                  self.optionFloatable | self.optionMovable | self.optionResizable | \
                  self.optionCaption | self.optionPaneBorder | self.buttonClose
 
         self.state = state
-        
+
         return self
-    
-    
+
+
     def CentrePane(self):
         """ CentrePane() specifies that the pane should adopt the default center pane settings. """
-        
+
         return self.CenterPane()
 
-    
+
     def CenterPane(self):
         """ CenterPane() specifies that the pane should adopt the default center pane settings. """
-        
+
         self.state = 0
         return self.Center().PaneBorder().Resizable()
-    
-     
+
+
     def ToolbarPane(self):
         """ ToolbarPane() specifies that the pane should adopt the default toolbar pane settings. """
-        
+
         self.DefaultPane()
         state = self.state
-        
+
         state |= (self.optionToolbar | self.optionGripper)
         state &= ~(self.optionResizable | self.optionCaption)
-        
+
         if self.dock_layer == 0:
             self.dock_layer = 10
 
         self.state = state
-        
+
         return self
-    
+
 
     def SetFlag(self, flag, option_state):
         """ SetFlag() turns the property given by flag on or off with the option_state parameter. """
-        
+
         state = self.state
-        
+
         if option_state:
             state |= flag
         else:
             state &= ~flag
 
         self.state = state
-        
+
         return self
-    
-    
+
+
     def HasFlag(self, flag):
         """ HasFlag() returns True if the the property specified by flag is active for the pane. """
-        
+
         return (self.state & flag and [True] or [False])[0]
-    
+
 
 NonePaneInfo = PaneInfo()
 
@@ -1418,7 +1418,7 @@ NonePaneInfo = PaneInfo()
 # For now, with wxMSW, the wx.MiniFrame window is used, but on wxGTK, wx.Frame
 
 if wx.Platform == "__WXGTK__":
-    
+
     class FloatingPaneBaseClass(wx.Frame):
         def __init__(self, parent, id=wx.ID_ANY, title="", pos=wx.DefaultPosition,
                      size=wx.DefaultSize, style=0):
@@ -1432,7 +1432,7 @@ else:
             wx.MiniFrame.__init__(self, parent, id, title, pos, size, style)
             if wx.Platform == "__WXMAC__":
                 self.MacSetMetalAppearance(True)
-            
+
 
 class FloatingPane(FloatingPaneBaseClass):
 
@@ -1444,7 +1444,7 @@ class FloatingPane(FloatingPaneBaseClass):
 
         if not resizeborder:
             style = style & ~wx.RESIZE_BORDER
-            
+
         FloatingPaneBaseClass.__init__(self, parent, id, title, pos, size, style)
         self._owner_mgr = owner_mgr
         self._moving = False
@@ -1460,7 +1460,7 @@ class FloatingPane(FloatingPaneBaseClass):
         self.Bind(wx.EVT_MOVING, self.OnMoveEvent)
         self.Bind(wx.EVT_IDLE, self.OnIdle)
         self.Bind(wx.EVT_ACTIVATE, self.OnActivate)
-        
+
 
     def CopyAttributes(self, pane, contained_pane):
 
@@ -1483,17 +1483,17 @@ class FloatingPane(FloatingPaneBaseClass):
         contained_pane.rect = pane.rect
 
         return contained_pane
-    
+
 
     def SetPaneWindow(self, pane):
 
         self._pane_window = pane.window
         self._pane_window.Reparent(self)
-        
+
         contained_pane = PaneInfo()
 
-        contained_pane = self.CopyAttributes(pane, contained_pane)        
-        
+        contained_pane = self.CopyAttributes(pane, contained_pane)
+
         contained_pane.Dock().Center().Show(). \
                        CaptionVisible(False). \
                        PaneBorder(False). \
@@ -1501,15 +1501,15 @@ class FloatingPane(FloatingPaneBaseClass):
 
         indx = self._owner_mgr._panes.index(pane)
         self._owner_mgr._panes[indx] = pane
-                                              
+
         self._mgr.AddPane(self._pane_window, contained_pane)
-        self._mgr.Update()           
+        self._mgr.Update()
 
         if pane.min_size.IsFullySpecified():
             tmp = self.GetSize()
             self.GetSizer().SetSizeHints(self)
             self.SetSize(tmp)
-        
+
         self.SetTitle(pane.caption)
 
         if pane.floating_size != wx.DefaultSize:
@@ -1531,17 +1531,17 @@ class FloatingPane(FloatingPaneBaseClass):
             self._owner_mgr._panes[indx] = pane
             self.SetClientSize(size)
 
-    
+
     def OnSize(self, event):
 
         self._owner_mgr.OnFloatingPaneResized(self._pane_window, event.GetSize())
-        
-    
+
+
     def OnClose(self, event):
-    
+
         self._owner_mgr.OnFloatingPaneClosed(self._pane_window)
         self.Destroy()
-        
+
         self._mgr.UnInit()
 
         # Eventually to be added to handle wx.EVT_CLOSE events
@@ -1551,7 +1551,7 @@ class FloatingPane(FloatingPaneBaseClass):
         # e.SetPane(self._owner_mgr.GetPane(self._pane_window))
         # e.SetButton(PaneInfo.buttonClose)
         # self._owner_mgr.ProcessMgrEvent(e)
-    
+
 
     def OnMoveEvent(self, event):
 
@@ -1566,7 +1566,7 @@ class FloatingPane(FloatingPaneBaseClass):
         if self._last_rect.GetSize() != win_rect.GetSize():
             self._last_rect = win_rect
             return
-        
+
         self._last_rect = win_rect
 
         if not self.IsMouseDown():
@@ -1575,7 +1575,7 @@ class FloatingPane(FloatingPaneBaseClass):
         if not self._moving:
             self.OnMoveStart()
             self._moving = True
-        
+
         self.OnMoving(event.GetRect())
 
 
@@ -1592,10 +1592,10 @@ class FloatingPane(FloatingPaneBaseClass):
                 elif _libimported == "ctypes":
                     return ((ctypes.windll.user32.GetKeyState(1) & (1<<15)) and \
                             [True] or [False])[0]
-            
-    
+
+
     def OnIdle(self, event):
-    
+
         if self._moving:
             if not self.IsMouseDown():
                 self._moving = False
@@ -1605,31 +1605,31 @@ class FloatingPane(FloatingPaneBaseClass):
 
         event.Skip()
 
-        
+
     def OnMoveStart(self):
-    
+
         # notify the owner manager that the pane has started to move
         self._owner_mgr.OnFloatingPaneMoveStart(self._pane_window)
-    
+
 
     def OnMoving(self, window_rect):
-    
+
         # notify the owner manager that the pane is moving
         self._owner_mgr.OnFloatingPaneMoving(self._pane_window)
 
-    
+
     def OnMoveFinished(self):
-    
+
         # notify the owner manager that the pane has finished moving
         self._owner_mgr.OnFloatingPaneMoved(self._pane_window)
-    
+
 
     def OnActivate(self, event):
 
         if event.GetActive():
             self._owner_mgr.OnFloatingPaneActivated(self._pane_window)
 
-    
+
 # -- static utility functions --
 
 def PaneCreateStippleBitmap():
@@ -1637,24 +1637,24 @@ def PaneCreateStippleBitmap():
     data = [0, 0, 0, 192, 192, 192, 192, 192, 192, 0, 0, 0]
     img = wx.EmptyImage(2, 2)
     counter = 0
-    
+
     for ii in xrange(2):
         for jj in xrange(2):
             img.SetRGB(ii, jj, data[counter], data[counter+1], data[counter+2])
             counter = counter + 3
-    
+
     return img.ConvertToBitmap()
 
 
 def DrawResizeHint(dc, rect):
-        
+
     stipple = PaneCreateStippleBitmap()
     brush = wx.BrushFromBitmap(stipple)
     dc.SetBrush(brush)
     dc.SetPen(wx.TRANSPARENT_PEN)
 
     dc.SetLogicalFunction(wx.XOR)
-    dc.DrawRectangleRect(rect)    
+    dc.DrawRectangleRect(rect)
 
 
 def CopyDocksAndPanes(src_docks, src_panes):
@@ -1664,7 +1664,7 @@ def CopyDocksAndPanes(src_docks, src_panes):
     to PaneInfo classes, thus this function is necessary to reliably
     reconstruct that relationship in the new dock info and pane info arrays.
     """
-    
+
     dest_docks = src_docks
     dest_panes = src_panes
 
@@ -1685,7 +1685,7 @@ def CopyDocksAndPanes2(src_docks, src_panes):
     to PaneInfo classes, thus this function is necessary to reliably
     reconstruct that relationship in the new dock info and pane info arrays.
     """
-    
+
     dest_docks = []
 
     for ii in xrange(len(src_docks)):
@@ -1731,7 +1731,7 @@ def CopyDocksAndPanes2(src_docks, src_panes):
                     dock.panes[jj] = dest_panes[kk]
 
         dest_docks[ii] = dock
-        
+
     return dest_docks, dest_panes
 
 
@@ -1740,13 +1740,13 @@ def GetMaxLayer(docks, dock_direction):
     GetMaxLayer() is an internal function which returns
     the highest layer inside the specified dock.
     """
-    
+
     max_layer = 0
 
     for dock in docks:
         if dock.dock_direction == dock_direction and dock.dock_layer > max_layer and not dock.fixed:
             max_layer = dock.dock_layer
-    
+
     return max_layer
 
 
@@ -1755,14 +1755,14 @@ def GetMaxRow(panes, direction, layer):
     GetMaxRow() is an internal function which returns
     the highest layer inside the specified dock.
     """
-    
+
     max_row = 0
 
     for pane in panes:
         if pane.dock_direction == direction and pane.dock_layer == layer and \
            pane.dock_row > max_row:
             max_row = pane.dock_row
-    
+
     return max_row
 
 
@@ -1771,7 +1771,7 @@ def DoInsertDockLayer(panes, dock_direction, dock_layer):
     DoInsertDockLayer() is an internal function that inserts a new dock
     layer by incrementing all existing dock layer values by one.
     """
-    
+
     for ii in xrange(len(panes)):
         pane = panes[ii]
         if not pane.IsFloating() and pane.dock_direction == dock_direction and pane.dock_layer >= dock_layer:
@@ -1787,7 +1787,7 @@ def DoInsertDockRow(panes, dock_direction, dock_layer, dock_row):
     DoInsertDockRow() is an internal function that inserts a new dock
     row by incrementing all existing dock row values by one.
     """
-    
+
     for ii in xrange(len(panes)):
         pane = panes[ii]
         if not pane.IsFloating() and pane.dock_direction == dock_direction and \
@@ -1798,7 +1798,7 @@ def DoInsertDockRow(panes, dock_direction, dock_layer, dock_row):
 
     return panes
 
-    
+
 def DoInsertPane(panes, dock_direction, dock_layer, dock_row, dock_pos):
 
     for ii in xrange(len(panes)):
@@ -1819,7 +1819,7 @@ def FindDocks(docks, dock_direction, dock_layer=-1, dock_row=-1, arr=[]):
     the specified conditions in the parameters and returns a sorted array
     (sorted by layer and then row).
     """
-    
+
     begin_layer = dock_layer
     end_layer = dock_layer
     begin_row = dock_row
@@ -1827,17 +1827,17 @@ def FindDocks(docks, dock_direction, dock_layer=-1, dock_row=-1, arr=[]):
     dock_count = len(docks)
     max_row = 0
     max_layer = 0
-    
+
     # discover the maximum dock layer and the max row
     for ii in xrange(dock_count):
         max_row = max(max_row, docks[ii].dock_row)
         max_layer = max(max_layer, docks[ii].dock_layer)
-    
+
     # if no dock layer was specified, search all dock layers
     if dock_layer == -1:
         begin_layer = 0
         end_layer = max_layer
-    
+
     # if no dock row was specified, search all dock row
     if dock_row == -1:
         begin_row = 0
@@ -1865,7 +1865,7 @@ def FindPaneInDock(dock, window):
     for p in dock.panes:
         if p.window == window:
             return p
-    
+
     return None
 
 
@@ -1874,7 +1874,7 @@ def RemovePaneFromDocks(docks, pane, exc=None):
     RemovePaneFromDocks() removes a pane window from all docks
     with a possible exception specified by parameter "except".
     """
-    
+
     for ii in xrange(len(docks)):
         d = docks[ii]
         if d == exc:
@@ -1883,7 +1883,7 @@ def RemovePaneFromDocks(docks, pane, exc=None):
         if pi:
             d.panes.remove(pi)
 
-        docks[ii] = d            
+        docks[ii] = d
 
     return docks
 
@@ -1894,7 +1894,7 @@ def RenumberDockRows(docks):
     to existing rows.  Basically it takes out the gaps so if a
     dock has rows with numbers 0, 2, 5, they will become 0, 1, 2.
     """
-    
+
     for ii in xrange(len(docks)):
         dock = docks[ii]
         dock.dock_row = ii
@@ -1902,12 +1902,12 @@ def RenumberDockRows(docks):
             dock.panes[jj].dock_row = ii
 
         docks[ii] = dock
-        
+
     return docks
 
 
 def SetActivePane(panes, active_pane):
-    
+
     for ii in xrange(len(panes)):
         pane = panes[ii]
         pane.state &= ~PaneInfo.optionActive
@@ -1916,13 +1916,13 @@ def SetActivePane(panes, active_pane):
             pane.state |= PaneInfo.optionActive
 
         panes[ii] = pane
-        
+
     return panes
 
 
 def PaneSortFunc(p1, p2):
     """ This function is used to sort panes by dock position. """
-    
+
     return (p1.dock_pos < p2.dock_pos and [-1] or [1])[0]
 
 
@@ -1932,10 +1932,10 @@ def EscapeDelimiters(s):
     in the input string.  This is an internal functions which is
     used for saving perspectives.
     """
-    
+
     result = s.replace(";", "\\")
     result = result.replace("|", "|\\")
-    
+
     return result
 
 
@@ -1944,7 +1944,7 @@ actionResize = 1
 actionClickButton = 2
 actionClickCaption = 3
 actionDragToolbarPane = 4
-actionDragFloatingPane = 5    
+actionDragFloatingPane = 5
 
 auiInsertRowPixels = 10
 auiNewRowPixels = 40
@@ -1991,12 +1991,12 @@ auiLayerInsertOffset = 5
 # being docked on the left side of a window. One pane can be placed over another.
 # In proportionally managed docks, the pane position indicates it's sequential position,
 # starting with zero. So, in our scenario with two panes docked on the left side, the
-# top pane in the dock would have position 0, and the second one would occupy position 1. 
+# top pane in the dock would have position 0, and the second one would occupy position 1.
 #
 # Row - A row can allow for two docks to be placed next to each other. One of the most
 # common places for this to happen is in the toolbar. Multiple toolbar rows are allowed,
 # the first row being in row 0, and the second in row 1. Rows can also be used on
-# vertically docked panes. 
+# vertically docked panes.
 #
 # Layer - A layer is akin to an onion. Layer 0 is the very center of the managed pane.
 # Thus, if a pane is in layer 0, it will be closest to the center window (also sometimes
@@ -2023,10 +2023,10 @@ class FrameManager(wx.EvtHandler):
         self._last_hint = wx.Rect()
         self._hint_fadetimer = wx.Timer()
         self._hintshown = False
-        
+
         if flags is None:
             flags = AUI_MGR_DEFAULT
-            
+
         self._flags = flags
         self._active_pane = None
 
@@ -2068,11 +2068,11 @@ class FrameManager(wx.EvtHandler):
         This version of GetPane() looks up a pane based on a
         'pane name', see below comment for more info.
         """
-        
+
         for p in self._panes:
             if p.name == name:
                 return p
-        
+
         return NonePaneInfo
 
 
@@ -2088,7 +2088,7 @@ class FrameManager(wx.EvtHandler):
         realize the changes in the UI.
 
         AG: Added To Handle 2 Different Versions Of GetPane() For
-        wxPython/Python.         
+        wxPython/Python.
         """
 
         if isinstance(item, type("")):
@@ -2099,7 +2099,7 @@ class FrameManager(wx.EvtHandler):
 
     def GetAllPanes(self):
         """ GetAllPanes() returns a reference to all the pane info structures. """
-        
+
         return self._panes
 
 
@@ -2113,7 +2113,7 @@ class FrameManager(wx.EvtHandler):
         result = None
 
         for item in self._uiparts:
-            # we are not interested in typeDock, because this space 
+            # we are not interested in typeDock, because this space
             # isn't used to draw anything, just for measurements
             # besides, the entire dock area is covered with other
             # rectangles, which we are interested in.
@@ -2126,11 +2126,11 @@ class FrameManager(wx.EvtHandler):
             if (item.type == DockUIPart.typePane or \
                 item.type == DockUIPart.typePaneBorder) and result:
                 continue
-        
+
             # if the point is inside the rectangle, we have a hit
             if item.rect.Inside((x, y)):
                 result = item
-        
+
         return result
 
 
@@ -2142,13 +2142,13 @@ class FrameManager(wx.EvtHandler):
         SetFlags() is used to specify FrameManager's settings flags. flags specifies
         options which allow the frame management behavior to be modified.
         """
-        
+
         self._flags = flags
 
 
     def GetFlags(self):
         """ GetFlags() returns the current manager's flags. """
-        
+
         return self._flags
 
 
@@ -2161,7 +2161,7 @@ class FrameManager(wx.EvtHandler):
 
         if not frame:
             raise "\nERROR: Specified Frame Must Be Non-Null. "
-        
+
         self._frame = frame
         self._frame.PushEventHandler(self)
 
@@ -2171,17 +2171,17 @@ class FrameManager(wx.EvtHandler):
         if isinstance(frame, wx.MDIParentFrame):
             mdi_frame = frame
             client_window = mdi_frame.GetClientWindow()
-            
+
             if not client_window:
                 raise "\nERROR: MDI Client Window Is Null. "
 
             self.AddPane(client_window, PaneInfo().Name("mdiclient").
                          CenterPane().PaneBorder(False))
-        
+
 
     def GetFrame(self):
         """ GetFrame() returns the frame pointer being managed by FrameManager. """
-        
+
         return self._frame
 
 
@@ -2191,13 +2191,13 @@ class FrameManager(wx.EvtHandler):
         of the frame class.   If it is not called, usually this
         will result in a crash upon program exit.
         """
-        
+
         self._frame.RemoveEventHandler(self)
 
 
     def GetArtProvider(self):
         """ GetArtProvider() returns the current art provider being used. """
-        
+
         return self._art
 
 
@@ -2207,10 +2207,10 @@ class FrameManager(wx.EvtHandler):
         if self._frame:
             if self._frame.ProcessEvent(event):
                 return
-        
+
         self.ProcessEvent(event)
 
-    
+
     def CanMakeWindowsTransparent(self):
         if wx.Platform == "__WXMSW__":
             version = wx.GetOsDescription()
@@ -2232,32 +2232,32 @@ class FrameManager(wx.EvtHandler):
         # we will runtime bind this
         if wx.Platform == "__WXMSW__":
             hwnd = wnd.GetHandle()
-    
+
             if not hasattr(self, "_winlib"):
                 if _libimported == "MH":
                     self._winlib = win32api.LoadLibrary("user32")
                 elif _libimported == "ctypes":
                     self._winlib = ctypes.windll.user32
-                    
+
             if _libimported == "MH":
                 pSetLayeredWindowAttributes = win32api.GetProcAddress(self._winlib,
                                                                       "SetLayeredWindowAttributes")
-                
+
                 if pSetLayeredWindowAttributes == None:
                     return
-                    
+
                 exstyle = win32api.GetWindowLong(hwnd, win32con.GWL_EXSTYLE)
                 if 0 == (exstyle & 0x80000):
-                    win32api.SetWindowLong(hwnd, win32con.GWL_EXSTYLE, exstyle | 0x80000)  
-                         
+                    win32api.SetWindowLong(hwnd, win32con.GWL_EXSTYLE, exstyle | 0x80000)
+
                 winxpgui.SetLayeredWindowAttributes(hwnd, 0, amount, 2)
-    
+
             elif _libimported == "ctypes":
                 style = self._winlib.GetWindowLongA(hwnd, 0xffffffecL)
                 style |= 0x00080000
                 self._winlib.SetWindowLongA(hwnd, 0xffffffecL, style)
                 self._winlib.SetLayeredWindowAttributes(hwnd, 0, amount, 2)
-                
+
         elif wx.Platform == "__WXMAC__" and _carbon_dll:
             handle = _carbon_dll.GetControlOwner(wnd.GetHandle())
             if amount == 0:
@@ -2268,8 +2268,8 @@ class FrameManager(wx.EvtHandler):
         else:
             #shouldn't be called, but just in case...
             return
-    
-    
+
+
     def SetArtProvider(self, art_provider):
         """
         SetArtProvider() instructs FrameManager to use the
@@ -2279,7 +2279,7 @@ class FrameManager(wx.EvtHandler):
 
         # delete the last art provider, if any
         del self._art
-        
+
         # assign the new art provider
         self._art = art_provider
 
@@ -2302,7 +2302,7 @@ class FrameManager(wx.EvtHandler):
             return self.AddPane2(window, arg1, arg2)
         else:
             return self.AddPane1(window, arg1)
-        
+
 
     def AddPane1(self, window, pane_info):
 
@@ -2316,19 +2316,19 @@ class FrameManager(wx.EvtHandler):
 
         if isinstance(window, wx.ToolBar):
             window.SetBestFittingSize()
-            
+
         self._panes.append(pane_info)
 
         pinfo = self._panes[-1]
 
         # set the pane window
         pinfo.window = window
-        
+
         # if the pane's name identifier is blank, create a random string
         if len(pinfo.name) == 0 or pinfo.name == "":
             pinfo.name = ("%s%08x%08x%08x")%(pinfo.window.GetName(), time.time(),
                                              time.clock(), len(self._panes))
-        
+
         # set initial proportion (if not already set)
         if pinfo.dock_proportion == 0:
             pinfo.dock_proportion = 100000
@@ -2337,16 +2337,16 @@ class FrameManager(wx.EvtHandler):
             button = PaneButton(None)
             button.button_id = PaneInfo.buttonClose
             pinfo.buttons.append(button)
-        
+
         if pinfo.best_size == wx.DefaultSize and pinfo.window:
             pinfo.best_size = pinfo.window.GetClientSize()
-            
+
             if isinstance(pinfo.window, wx.ToolBar):
                 # GetClientSize() doesn't get the best size for
                 # a toolbar under some newer versions of wxWidgets,
                 # so use GetBestSize()
                 pinfo.best_size = pinfo.window.GetBestSize()
-                        
+
                 # for some reason, wxToolBar::GetBestSize() is returning
                 # a size that is a pixel shy of the correct amount.
                 # I believe this to be the correct action, until
@@ -2366,7 +2366,7 @@ class FrameManager(wx.EvtHandler):
                     pinfo.best_size.y = pinfo.min_size.y
 
         self._panes[-1] = pinfo
-        
+
         return True
 
 
@@ -2374,7 +2374,7 @@ class FrameManager(wx.EvtHandler):
 
         pinfo = PaneInfo()
         pinfo.Caption(caption)
-        
+
         if direction == wx.TOP:
             pinfo.Top()
         elif direction == wx.BOTTOM:
@@ -2385,7 +2385,7 @@ class FrameManager(wx.EvtHandler):
             pinfo.Right()
         elif direction == wx.CENTER:
             pinfo.CenterPane()
-        
+
         return self.AddPane(window, pinfo)
 
 
@@ -2413,18 +2413,18 @@ class FrameManager(wx.EvtHandler):
         elif insert_level == AUI_INSERT_DOCK:
             self._panes = DoInsertDockLayer(self._panes, pane_info.dock_direction,
                                             pane_info.dock_layer)
-        
+
         # if the window already exists, we are basically just moving/inserting the
         # existing window.  If it doesn't exist, we need to add it and insert it
         existing_pane = self.GetPane(window)
         indx = self._panes.index(existing_pane)
-        
+
         if not existing_pane.IsOk():
-        
+
             return self.AddPane(window, pane_info)
-        
+
         else:
-        
+
             if pane_info.IsFloating():
                 existing_pane.Float()
                 if pane_info.floating_pos != wx.DefaultPosition:
@@ -2437,18 +2437,18 @@ class FrameManager(wx.EvtHandler):
                 existing_pane.Row(pane_info.dock_row)
                 existing_pane.Position(pane_info.dock_pos)
 
-            self._panes[indx] = existing_pane                
-            
+            self._panes[indx] = existing_pane
+
         return True
 
-    
+
     def DetachPane(self, window):
         """
         DetachPane() tells the FrameManager to stop managing the pane specified
         by window. The window, if in a floated frame, is reparented to the frame
         managed by FrameManager.
         """
-        
+
         for p in self._panes:
             if p.window == window:
                 if p.frame:
@@ -2467,7 +2467,7 @@ class FrameManager(wx.EvtHandler):
 
                 self._panes.remove(p)
                 return True
-        
+
         return False
 
 
@@ -2503,7 +2503,7 @@ class FrameManager(wx.EvtHandler):
             result = result + "floatw=%d;"%pane.floating_size.x
             result = result + "floath=%d"%pane.floating_size.y
             result = result + "|"
-        
+
         dock_count = len(self._docks)
 
         for dock_i in xrange(dock_count):
@@ -2512,7 +2512,7 @@ class FrameManager(wx.EvtHandler):
                                                            dock.dock_layer,
                                                            dock.dock_row,
                                                            dock.size)
-            
+
         return result
 
 
@@ -2534,7 +2534,7 @@ class FrameManager(wx.EvtHandler):
 
         olddocks = self._docks[:]
         oldpanes = self._panes[:]
-        
+
         # mark all panes currently managed as docked and hidden
         pane_count = len(self._panes)
         for pane_i in xrange(pane_count):
@@ -2544,18 +2544,18 @@ class FrameManager(wx.EvtHandler):
 
         # clear out the dock array this will be reconstructed
         self._docks = []
-        
+
         # replace escaped characters so we can
         # split up the string easily
         input = input.replace("\\|", "\a")
         input = input.replace("\\", "\b")
 
-        input = input.split("|")    
+        input = input.split("|")
 
         for line in input:
-            
+
             if line.startswith("dock_size"):
-                
+
                 indx = line.index("=")
                 size = int(line[indx+1:])
                 indx1 = line.index("(")
@@ -2570,14 +2570,14 @@ class FrameManager(wx.EvtHandler):
                 dock.dock_layer = layer
                 dock.dock_row = row
                 dock.size = size
-                
+
                 self._docks.append(dock)
-                
+
             elif line.startswith("name"):
 
                 newline = line.split(";")
                 pane = PaneInfo()
-                
+
                 for newl in newline:
                     myline = newl.strip()
                     vals = myline.split("=")
@@ -2624,7 +2624,7 @@ class FrameManager(wx.EvtHandler):
                     elif val_name == "floath":
                         pane.floating_size.y = int(value)
                         pane.floating_size = wx.Size(pane.floating_size.x, pane.floating_size.y)
-                    else: 
+                    else:
                         raise "\nERROR: Bad Perspective String."
 
                 # replace escaped characters so we can
@@ -2633,14 +2633,14 @@ class FrameManager(wx.EvtHandler):
                 pane.name = pane.name.replace("\b", ";")
                 pane.caption = pane.caption.replace("\a", "|")
                 pane.caption = pane.caption.replace("\b", ";")
-                
+
                 p = self.GetPane(pane.name)
                 if not p.IsOk():
                     # the pane window couldn't be found
                     # in the existing layout
                     return False
 
-                indx = self._panes.index(p)            
+                indx = self._panes.index(p)
                 pane.window = p.window
                 pane.frame = p.frame
                 pane.buttons = p.buttons
@@ -2654,7 +2654,7 @@ class FrameManager(wx.EvtHandler):
 
     def GetPanePositionsAndSizes(self, dock):
         """ Returns all the panes positions and sizes. """
-        
+
         caption_size = self._art.GetMetric(AUI_ART_CAPTION_SIZE)
         pane_border_size = self._art.GetMetric(AUI_ART_PANE_BORDER_SIZE)
         gripper_size = self._art.GetMetric(AUI_ART_GRIPPER_SIZE)
@@ -2670,32 +2670,32 @@ class FrameManager(wx.EvtHandler):
             pane = dock.panes[pane_i]
             if pane.state & PaneInfo.actionPane:
                 action_pane = pane_i
-            
+
         # set up each panes default position, and
         # determine the size (width or height, depending
         # on the dock's orientation) of each pane
         for pane in dock.panes:
             positions.append(pane.dock_pos)
             size = 0
-            
+
             if pane.HasBorder():
                 size  = size + pane_border_size*2
-                    
+
             if dock.IsHorizontal():
                 if pane.HasGripper() and not pane.HasGripperTop():
                     size = size + gripper_size
-                    
+
                 size = size + pane.best_size.x
-                 
+
             else:
                 if pane.HasGripper() and pane.HasGripperTop():
                     size = size + gripper_size
 
                 if pane.HasCaption():
                     size = size + caption_size
-                    
+
                 size = size + pane.best_size.y
-       
+
             sizes.append(size)
 
         # if there is no action pane, just return the default
@@ -2712,7 +2712,7 @@ class FrameManager(wx.EvtHandler):
                 positions[pane_i] -= -amount
 
             offset = offset + sizes[pane_i]
-        
+
         # if the dock mode is fixed, make sure none of the panes
         # overlap we will bump panes that overlap
         offset = 0
@@ -2726,10 +2726,10 @@ class FrameManager(wx.EvtHandler):
             offset = offset + sizes[pane_i]
 
         return positions, sizes
-    
+
 
     def LayoutAddPane(self, cont, dock, pane, uiparts, spacer_only):
-        
+
         sizer_item = wx.SizerItem()
         caption_size = self._art.GetMetric(AUI_ART_CAPTION_SIZE)
         gripper_size = self._art.GetMetric(AUI_ART_GRIPPER_SIZE)
@@ -2752,7 +2752,7 @@ class FrameManager(wx.EvtHandler):
         vert_pane_sizer = wx.BoxSizer(wx.VERTICAL)
 
         if pane.HasGripper():
-            
+
             part = DockUIPart()
             if pane.HasGripperTop():
                 sizer_item = vert_pane_sizer.Add((1, gripper_size), 0, wx.EXPAND)
@@ -2767,9 +2767,9 @@ class FrameManager(wx.EvtHandler):
             part.cont_sizer = horz_pane_sizer
             part.sizer_item = sizer_item
             uiparts.append(part)
-        
+
         if pane.HasCaption():
-        
+
             # create the caption sizer
             part = DockUIPart()
             caption_sizer = wx.BoxSizer(wx.HORIZONTAL)
@@ -2798,11 +2798,11 @@ class FrameManager(wx.EvtHandler):
                 part.cont_sizer = caption_sizer
                 part.sizer_item = sizer_item
                 uiparts.append(part)
-            
+
             # add the caption sizer
             sizer_item = vert_pane_sizer.Add(caption_sizer, 0, wx.EXPAND)
             uiparts[caption_part_idx].sizer_item = sizer_item
-                
+
         # add the pane window itself
         if spacer_only:
             sizer_item = vert_pane_sizer.Add((1, 1), 1, wx.EXPAND)
@@ -2810,7 +2810,7 @@ class FrameManager(wx.EvtHandler):
             sizer_item = vert_pane_sizer.Add(pane.window, 1, wx.EXPAND)
             vert_pane_sizer.SetItemMinSize(pane.window, (1, 1))
 
-        part = DockUIPart()        
+        part = DockUIPart()
         part.type = DockUIPart.typePane
         part.dock = dock
         part.pane = pane
@@ -2823,17 +2823,17 @@ class FrameManager(wx.EvtHandler):
         # determine if the pane should have a minimum size if the pane is
         # non-resizable (fixed) then we must set a minimum size. Alternitavely,
         # if the pane.min_size is set, we must use that value as well
-        
+
         min_size = pane.min_size
         if pane.IsFixed():
             if min_size == wx.DefaultSize:
                 min_size = pane.best_size
                 pane_proportion = 0
-            
+
         if min_size != wx.DefaultSize:
             vert_pane_sizer.SetItemMinSize(
                 len(vert_pane_sizer.GetChildren())-1, (min_size.x, min_size.y))
-        
+
         # add the verticle sizer (caption, pane window) to the
         # horizontal sizer (gripper, verticle sizer)
         horz_pane_sizer.Add(vert_pane_sizer, 1, wx.EXPAND)
@@ -2854,10 +2854,10 @@ class FrameManager(wx.EvtHandler):
             uiparts.append(part)
         else:
             sizer_item = cont.Add(horz_pane_sizer, pane_proportion, wx.EXPAND)
-        
+
         return uiparts
-        
-        
+
+
     def LayoutAddDock(self, cont, dock, uiparts, spacer_only):
 
         sizer_item = wx.SizerItem()
@@ -2869,7 +2869,7 @@ class FrameManager(wx.EvtHandler):
         # resizable bottom and right docks have a sash before them
         if not dock.fixed and (dock.dock_direction == AUI_DOCK_BOTTOM or \
                                dock.dock_direction == AUI_DOCK_RIGHT):
-        
+
             sizer_item = cont.Add((sash_size, sash_size), 0, wx.EXPAND)
 
             part.type = DockUIPart.typeDockSizer
@@ -2880,7 +2880,7 @@ class FrameManager(wx.EvtHandler):
             part.cont_sizer = cont
             part.sizer_item = sizer_item
             uiparts.append(part)
-        
+
         # create the sizer for the dock
         dock_sizer = wx.BoxSizer(orientation)
 
@@ -2888,20 +2888,20 @@ class FrameManager(wx.EvtHandler):
         pane_count = len(dock.panes)
 
         if dock.fixed:
-        
+
             # figure out the real pane positions we will
             # use, without modifying the each pane's pane_pos member
             pane_positions, pane_sizes = self.GetPanePositionsAndSizes(dock)
 
             offset = 0
             for pane_i in xrange(pane_count):
-            
+
                 pane = dock.panes[pane_i]
                 pane_pos = pane_positions[pane_i]
 
                 amount = pane_pos - offset
                 if amount > 0:
-                
+
                     if dock.IsVertical():
                         sizer_item = dock_sizer.Add((1, amount), 0, wx.EXPAND)
                     else:
@@ -2919,11 +2919,11 @@ class FrameManager(wx.EvtHandler):
                     uiparts.append(part)
 
                     offset = offset + amount
-                
+
                 uiparts = self.LayoutAddPane(dock_sizer, dock, pane, uiparts, spacer_only)
 
                 offset = offset + pane_sizes[pane_i]
-            
+
             # at the end add a very small stretchable background area
             sizer_item = dock_sizer.Add((1, 1), 1, wx.EXPAND)
             part = DockUIPart()
@@ -2935,11 +2935,11 @@ class FrameManager(wx.EvtHandler):
             part.cont_sizer = dock_sizer
             part.sizer_item = sizer_item
             uiparts.append(part)
-        
+
         else:
-        
+
             for pane_i in xrange(pane_count):
-            
+
                 pane = dock.panes[pane_i]
 
                 # if this is not the first pane being added,
@@ -2956,9 +2956,9 @@ class FrameManager(wx.EvtHandler):
                     part.cont_sizer = dock_sizer
                     part.sizer_item = sizer_item
                     uiparts.append(part)
-                
+
                 uiparts = self.LayoutAddPane(dock_sizer, dock, pane, uiparts, spacer_only)
-            
+
         if dock.dock_direction == AUI_DOCK_CENTER:
             sizer_item = cont.Add(dock_sizer, 1, wx.EXPAND)
         else:
@@ -2982,7 +2982,7 @@ class FrameManager(wx.EvtHandler):
         #  top and left docks have a sash after them
         if not dock.fixed and (dock.dock_direction == AUI_DOCK_TOP or \
                                dock.dock_direction == AUI_DOCK_LEFT):
-        
+
             sizer_item = cont.Add((sash_size, sash_size), 0, wx.EXPAND)
 
             part = DockUIPart()
@@ -2994,9 +2994,9 @@ class FrameManager(wx.EvtHandler):
             part.cont_sizer = cont
             part.sizer_item = sizer_item
             uiparts.append(part)
-        
+
         return uiparts
-    
+
 
     def LayoutAll(self, panes, docks, uiparts, spacer_only=False, oncheck=True):
 
@@ -3005,13 +3005,13 @@ class FrameManager(wx.EvtHandler):
         pane_border_size = self._art.GetMetric(AUI_ART_PANE_BORDER_SIZE)
         caption_size = self._art.GetMetric(AUI_ART_CAPTION_SIZE)
         cli_size = self._frame.GetClientSize()
-        
+
         # empty all docks out
         for ii in xrange(len(docks)):
             docks[ii].panes = []
 
         dock_count = len(docks)
-        
+
         # iterate through all known panes, filing each
         # of them into the appropriate dock. If the
         # pane does not exist in the dock, add it
@@ -3036,24 +3036,24 @@ class FrameManager(wx.EvtHandler):
                 docks = RemovePaneFromDocks(docks, p, dock)
 
                 # pane needs to be added to the dock,
-                # if it doesn't already exist 
+                # if it doesn't already exist
                 if not FindPaneInDock(dock, p.window):
                     dock.panes.append(p)
             else:
                 # remove the pane from any existing docks
                 docks = RemovePaneFromDocks(docks, p)
-            
+
         # remove any empty docks
         for ii in xrange(len(docks)-1, -1, -1):
             if len(docks[ii].panes) == 0:
                 docks.pop(ii)
 
-        dock_count = len(docks)        
+        dock_count = len(docks)
         # configure the docks further
         for ii in xrange(len(docks)):
             dock = docks[ii]
             dock_pane_count = len(dock.panes)
-            
+
             # sort the dock pane array by the pane's
             # dock position (dock_pos), in ascending order
             dock.panes.sort(PaneSortFunc)
@@ -3068,19 +3068,19 @@ class FrameManager(wx.EvtHandler):
                         pane_size = pane.min_size
                     if pane_size == wx.DefaultSize:
                         pane_size = pane.window.GetSize()
-                    
+
                     if dock.IsHorizontal():
                         size = max(pane_size.y, size)
                     else:
                         size = max(pane_size.x, size)
-                
+
                 # add space for the border (two times), but only
                 # if at least one pane inside the dock has a pane border
                 for jj in xrange(dock_pane_count):
                     if dock.panes[jj].HasBorder():
                         size = size + pane_border_size*2
                         break
-                    
+
                 # if pane is on the top or bottom, add the caption height,
                 # but only if at least one pane inside the dock has a caption
                 if dock.IsHorizontal():
@@ -3088,7 +3088,7 @@ class FrameManager(wx.EvtHandler):
                         if dock.panes[jj].HasCaption():
                             size = size + caption_size
                             break
-                    
+
                 # new dock's size may not be more than 1/3 of the frame size
                 if dock.IsHorizontal():
                     size = min(size, cli_size.y/3)
@@ -3097,7 +3097,7 @@ class FrameManager(wx.EvtHandler):
 
                 if size < 10:
                     size = 10
-                    
+
                 dock.size = size
 
             # determine the dock's minimum size
@@ -3117,14 +3117,14 @@ class FrameManager(wx.EvtHandler):
                     else:
                         if pane.min_size.x > dock_min_size:
                             dock_min_size = pane.min_size.x
-                    
+
             if plus_border:
                 dock_min_size = dock_min_size + pane_border_size*2
             if plus_caption and dock.IsHorizontal():
                 dock_min_size = dock_min_size + caption_size
-               
+
             dock.min_size = dock_min_size
-            
+
             # if the pane's current size is less than it's
             # minimum, increase the dock's size to it's minimum
             if dock.size < dock.min_size:
@@ -3152,7 +3152,7 @@ class FrameManager(wx.EvtHandler):
                     pane = dock.panes[jj]
                     pane.dock_pos = jj
                     dock.panes[jj] = pane
-                
+
             # if the dock mode is fixed, and none of the panes
             # are being moved right now, make sure the panes
             # do not overlap each other.  If they do, we will
@@ -3173,11 +3173,11 @@ class FrameManager(wx.EvtHandler):
                     dock.panes[jj] = pane
 
             if oncheck:
-                self._docks[ii] = dock                    
-        
+                self._docks[ii] = dock
+
         # discover the maximum dock layer
         max_layer = 0
-        
+
         for ii in xrange(dock_count):
             max_layer = max(max_layer, docks[ii].dock_layer)
 
@@ -3191,7 +3191,7 @@ class FrameManager(wx.EvtHandler):
 
         if oncheck:
             docks = self._docks
-        
+
         for layer in xrange(max_layer+1):
             # find any docks in this layer
             arr = FindDocks(docks, -1, layer, -1)
@@ -3211,10 +3211,10 @@ class FrameManager(wx.EvtHandler):
             if len(arr) > 0:
                 for row in xrange(len(arr)):
                     uiparts = self.LayoutAddDock(cont, arr[row], uiparts, spacer_only)
-            
+
             # fill out the middle layer (which consists
             # of left docks, content area and right docks)
-            
+
             middle = wx.BoxSizer(wx.HORIZONTAL)
 
             # find any left docks in this layer
@@ -3223,7 +3223,7 @@ class FrameManager(wx.EvtHandler):
             if len(arr) > 0:
                 for row in xrange(len(arr)):
                     uiparts = self.LayoutAddDock(middle, arr[row], uiparts, spacer_only)
-            
+
             # add content dock (or previous layer's sizer
             # to the middle
             if not old_cont:
@@ -3232,7 +3232,7 @@ class FrameManager(wx.EvtHandler):
                 if len(arr) > 0:
                     for row in xrange(len(arr)):
                        uiparts = self.LayoutAddDock(middle, arr[row], uiparts, spacer_only)
-                else:                
+                else:
                     # there are no center docks, add a background area
                     sizer_item = middle.Add((1, 1), 1, wx.EXPAND)
                     part = DockUIPart()
@@ -3245,14 +3245,14 @@ class FrameManager(wx.EvtHandler):
                     uiparts.append(part)
             else:
                 middle.Add(old_cont, 1, wx.EXPAND)
-            
+
             # find any right docks in this layer
             arr = FindDocks(docks, AUI_DOCK_RIGHT, layer, -1, arr)
             arr = RenumberDockRows(arr)
             if len(arr) > 0:
                 for row in xrange(len(arr)-1, -1, -1):
                     uiparts = self.LayoutAddDock(middle, arr[row], uiparts, spacer_only)
-            
+
             cont.Add(middle, 1, wx.EXPAND)
 
             # find any bottom docks in this layer
@@ -3294,7 +3294,7 @@ class FrameManager(wx.EvtHandler):
         one or more panes, this function should be called.  It is the
         external entry point for running the layout engine.
         """
-    
+
         pane_count = len(self._panes)
         # delete old sizer first
         self._frame.SetSizer(None)
@@ -3309,7 +3309,7 @@ class FrameManager(wx.EvtHandler):
                 # reduce flicker
                 p.window.SetSize((1, 1))
                 p.frame.Show(False)
-                           
+
                 # reparent to self._frame and destroy the pane
                 p.window.Reparent(self._frame)
                 p.frame.SetSizer(None)
@@ -3317,15 +3317,15 @@ class FrameManager(wx.EvtHandler):
                 p.frame = None
 
             self._panes[ii] = p
-            
+
         # create a layout for all of the panes
         sizer = self.LayoutAll(self._panes, self._docks, self._uiparts, False)
 
         # hide or show panes as necessary,
         # and float panes as necessary
-        
+
         pane_count = len(self._panes)
-        
+
         for ii in xrange(pane_count):
             p = self._panes[ii]
             if p.IsFloating():
@@ -3335,23 +3335,23 @@ class FrameManager(wx.EvtHandler):
                     resizeborder = 1
                     if p.IsFixed():
                         resizeborder = 0
-                        
+
                     frame = FloatingPane(self._frame, self, -1, "", p.floating_pos,
                                          p.floating_size, resizeborder=resizeborder)
-                                    
+
                     # on MSW, if the owner desires transparent dragging, and
                     # the dragging is happening right now, then the floating
-                    # window should have this style by default                  
-                    
+                    # window should have this style by default
+
                     if self._action == actionDragFloatingPane and self.UseTransparentDrag():
                         self.MakeWindowTransparent(frame, 150)
-                    
+
                     frame.SetPaneWindow(p)
                     p.frame = frame
                     if p.IsShown():
                         frame.Show()
                 else:
-                
+
                     # frame already exists, make sure it's position
                     # and size reflect the information in PaneInfo
                     if p.frame.GetPosition() != p.floating_pos:
@@ -3359,7 +3359,7 @@ class FrameManager(wx.EvtHandler):
                                         -1, -1, wx.SIZE_USE_EXISTING)
                     p.frame.Show(p.IsShown())
             else:
-            
+
                 p.window.Show(p.IsShown())
 
             # if "active panes" are no longer allowed, clear
@@ -3371,7 +3371,7 @@ class FrameManager(wx.EvtHandler):
 
 
         old_pane_rects = []
-        
+
         for ii in xrange(pane_count):
             r = wx.Rect()
             p = self._panes[ii]
@@ -3379,13 +3379,13 @@ class FrameManager(wx.EvtHandler):
             if p.window and p.IsShown() and p.IsDocked():
                 r = p.rect
 
-            old_pane_rects.append(r)    
-            
+            old_pane_rects.append(r)
+
         # apply the new sizer
         self._frame.SetSizer(sizer)
         self._frame.SetAutoLayout(False)
         self.DoFrameLayout()
-        
+
         # now that the frame layout is done, we need to check
         # the new pane rectangles against the old rectangles that
         # we saved a few lines above here.  If the rectangles have
@@ -3396,10 +3396,10 @@ class FrameManager(wx.EvtHandler):
                 if p.rect != old_pane_rects[ii]:
                     p.window.Refresh()
                     p.window.Update()
-        
+
         self.Repaint()
 
-        
+
     def DoFrameLayout(self):
         """
         DoFrameLayout() is an internal function which invokes wxSizer.Layout
@@ -3409,16 +3409,16 @@ class FrameManager(wx.EvtHandler):
         """
 
         self._frame.Layout()
-        
+
         for ii in xrange(len(self._uiparts)):
             part = self._uiparts[ii]
-            
+
             # get the rectangle of the UI part
             # originally, this code looked like this:
             #    part.rect = wx.Rect(part.sizer_item.GetPosition(),
             #                       part.sizer_item.GetSize())
             # this worked quite well, with one exception: the mdi
-            # client window had a "deferred" size variable 
+            # client window had a "deferred" size variable
             # that returned the wrong size.  It looks like
             # a bug in wx, because the former size of the window
             # was being returned.  So, we will retrieve the part's
@@ -3427,7 +3427,7 @@ class FrameManager(wx.EvtHandler):
             part.rect = part.sizer_item.GetRect()
             flag = part.sizer_item.GetFlag()
             border = part.sizer_item.GetBorder()
-            
+
             if flag & wx.TOP:
                 part.rect.y -= border
                 part.rect.height += border
@@ -3465,7 +3465,7 @@ class FrameManager(wx.EvtHandler):
             if part.type == DockUIPart.typePane and \
                part.pane and part.pane.window == wnd:
                 return part
-    
+
         return None
 
 
@@ -3504,12 +3504,12 @@ class FrameManager(wx.EvtHandler):
             if test.dock_direction == dock.dock_direction and \
                test.dock_layer == dock.dock_layer and  \
                test.dock_row == dock.dock_row:
-            
+
                 if dock.IsVertical():
                     return dock.rect.y
                 else:
                     return dock.rect.x
-            
+
         return 0
 
 
@@ -3529,7 +3529,7 @@ class FrameManager(wx.EvtHandler):
             allowed = target.IsLeftDockable()
         elif new_pos.dock_direction == AUI_DOCK_RIGHT:
             allowed = target.IsRightDockable()
-        
+
         if allowed:
             target = new_pos
 
@@ -3573,62 +3573,62 @@ class FrameManager(wx.EvtHandler):
         # (or near to the outside of the window), if so, dock it along the edge
 
         layer_insert_offset = auiLayerInsertOffset
-        
+
         if target.IsToolbar():
             layer_insert_offset = 0
 
         if pt.x < layer_insert_offset and \
            pt.x > layer_insert_offset-auiLayerInsertPixels:
             new_layer = max(max(GetMaxLayer(docks, AUI_DOCK_LEFT),
-                                GetMaxLayer(docks, AUI_DOCK_BOTTOM)), 
+                                GetMaxLayer(docks, AUI_DOCK_BOTTOM)),
                             GetMaxLayer(docks, AUI_DOCK_TOP)) + 1
-            
+
             drop.Dock().Left().Layer(new_layer).Row(0). \
                  Position(pt.y - self.GetDockPixelOffset(drop) - offset.y)
 
             return self.ProcessDockResult(target, drop)
-        
+
         elif pt.y < layer_insert_offset and \
               pt.y > layer_insert_offset-auiLayerInsertPixels:
             new_layer = max(max(GetMaxLayer(docks, AUI_DOCK_TOP),
                                 GetMaxLayer(docks, AUI_DOCK_LEFT)),
                             GetMaxLayer(docks, AUI_DOCK_RIGHT)) + 1
-            
+
             drop.Dock().Top().Layer(new_layer).Row(0). \
                  Position(pt.x - self.GetDockPixelOffset(drop) - offset.x)
-            
+
             return self.ProcessDockResult(target, drop)
-        
+
         elif pt.x >= cli_size.x - layer_insert_offset and \
               pt.x < cli_size.x - layer_insert_offset + auiLayerInsertPixels:
-        
+
             new_layer = max(max(GetMaxLayer(docks, AUI_DOCK_RIGHT),
                                 GetMaxLayer(docks, AUI_DOCK_TOP)),
                             GetMaxLayer(docks, AUI_DOCK_BOTTOM)) + 1
-            
+
             drop.Dock().Right().Layer(new_layer).Row(0). \
                  Position(pt.y - self.GetDockPixelOffset(drop) - offset.y)
-            
+
             return self.ProcessDockResult(target, drop)
-        
+
         elif pt.y >= cli_size.y - layer_insert_offset and \
              pt.y < cli_size.y - layer_insert_offset + auiLayerInsertPixels:
-        
+
             new_layer = max(max(GetMaxLayer(docks, AUI_DOCK_BOTTOM),
                                 GetMaxLayer(docks, AUI_DOCK_LEFT)),
                             GetMaxLayer(docks, AUI_DOCK_RIGHT)) + 1
-            
+
             drop.Dock().Bottom().Layer(new_layer).Row(0). \
                  Position(pt.x - self.GetDockPixelOffset(drop) - offset.x)
-            
+
             return self.ProcessDockResult(target, drop)
-        
+
         part = self.HitTest(pt.x, pt.y)
 
         if drop.IsToolbar():
             if not part or not part.dock:
                 return False, target
-            
+
             # calculate the offset from where the dock begins
             # to the point where the user dropped the pane
             dock_drop_offset = 0
@@ -3646,9 +3646,9 @@ class FrameManager(wx.EvtHandler):
                     part.dock.dock_direction != AUI_DOCK_NONE)):
 
                     drop.Float()
-                    
+
                 return self.ProcessDockResult(target, drop)
-            
+
             drop.Dock(). \
                  Direction(part.dock.dock_direction). \
                  Layer(part.dock.dock_layer). \
@@ -3660,17 +3660,17 @@ class FrameManager(wx.EvtHandler):
                 panes = DoInsertDockRow(panes, part.dock.dock_direction,
                                         part.dock.dock_layer,
                                         part.dock.dock_row)
-                drop.dock_row = row            
-                
+                drop.dock_row = row
+
             if pt.y > part.dock.rect.y + part.dock.rect.height - 2 and \
                len(part.dock.panes) > 1:
                 panes = DoInsertDockRow(panes, part.dock.dock_direction,
                                         part.dock.dock_layer,
                                         part.dock.dock_row+1)
                 drop.dock_row = part.dock.dock_row + 1
-                
+
             return self.ProcessDockResult(target, drop)
-        
+
         if not part:
             return False, target
 
@@ -3682,13 +3682,13 @@ class FrameManager(wx.EvtHandler):
             part.type == DockUIPart.typePaneSizer or \
             part.type == DockUIPart.typeDockSizer or \
             part.type == DockUIPart.typeBackground:
-        
+
             if part.type == DockUIPart.typeDockSizer:
                 if len(part.dock.panes) != 1:
                     return False, target
-                
+
                 part = self.GetPanePart(part.dock.panes[0].window)
-                
+
                 if not part:
                     return False, target
 
@@ -3714,7 +3714,7 @@ class FrameManager(wx.EvtHandler):
                 elif part.dock.dock_direction == AUI_DOCK_BOTTOM:
                     layer = max(max(GetMaxLayer(docks, AUI_DOCK_BOTTOM),
                                     GetMaxLayer(docks, AUI_DOCK_LEFT)),
-                                GetMaxLayer(docks, AUI_DOCK_RIGHT))                
+                                GetMaxLayer(docks, AUI_DOCK_RIGHT))
 
                 panes = DoInsertDockRow(panes, part.dock.dock_direction,
                                         layer, 0)
@@ -3723,19 +3723,19 @@ class FrameManager(wx.EvtHandler):
                      Layer(layer).Row(0).Position(0)
 
                 return self.ProcessDockResult(target, drop)
-            
+
             if not part.pane:
                 return False, target
 
             part = self.GetPanePart(part.pane.window)
             if not part:
                 return False, target
-                
+
             insert_dock_row = False
             insert_row = part.pane.dock_row
             insert_dir = part.pane.dock_direction
             insert_layer = part.pane.dock_layer
-            
+
             if part.pane.dock_direction == AUI_DOCK_TOP:
                 if pt.y >= part.rect.y and \
                    pt.y < part.rect.y+auiInsertRowPixels:
@@ -3774,7 +3774,7 @@ class FrameManager(wx.EvtHandler):
 
                     insert_layer = 0
                     insert_dock_row = True
-                                        
+
                     if pt.x >= part.rect.x and \
                        pt.x < part.rect.x+new_row_pixels_x:
                         insert_dir = AUI_DOCK_LEFT
@@ -3789,11 +3789,11 @@ class FrameManager(wx.EvtHandler):
                         insert_dir = AUI_DOCK_BOTTOM
                     else:
                         return False, target
-                    
+
                     insert_row = GetMaxRow(panes, insert_dir, insert_layer) + 1
 
             if insert_dock_row:
-             
+
                 panes = DoInsertDockRow(panes, insert_dir, insert_layer,
                                         insert_row)
                 drop.Dock().Direction(insert_dir). \
@@ -3802,37 +3802,37 @@ class FrameManager(wx.EvtHandler):
                             Position(0)
 
                 return self.ProcessDockResult(target, drop)
-            
+
             # determine the mouse offset and the pane size, both in the
             # direction of the dock itself, and perpendicular to the dock
-            
+
             if part.orientation == wx.VERTICAL:
-            
+
                 offset = pt.y - part.rect.y
-                size = part.rect.GetHeight() 
-            
+                size = part.rect.GetHeight()
+
             else:
-            
+
                 offset = pt.x - part.rect.x
                 size = part.rect.GetWidth()
-            
+
             drop_position = part.pane.dock_pos
-            
+
             # if we are in the top/left part of the pane,
             # insert the pane before the pane being hovered over
             if offset <= size/2:
-            
+
                 drop_position = part.pane.dock_pos
                 panes = DoInsertPane(panes,
                                      part.pane.dock_direction,
                                      part.pane.dock_layer,
                                      part.pane.dock_row,
                                      part.pane.dock_pos)
-            
+
             # if we are in the bottom/right part of the pane,
             # insert the pane before the pane being hovered over
             if offset > size/2:
-            
+
                 drop_position = part.pane.dock_pos+1
                 panes = DoInsertPane(panes,
                                      part.pane.dock_direction,
@@ -3845,9 +3845,9 @@ class FrameManager(wx.EvtHandler):
                  Layer(part.dock.dock_layer). \
                  Row(part.dock.dock_row). \
                  Position(drop_position)
-                        
+
             return self.ProcessDockResult(target, drop)
-        
+
         return False, target
 
 
@@ -3858,11 +3858,11 @@ class FrameManager(wx.EvtHandler):
         #sanity check
         if not self.UseTransparentHint():
             return
-            
+
         if not self._hint_wnd or self._hint_fadeamt >= 50:
             self._hint_fadetimer.Stop()
             return
-        
+
         self._hint_fadeamt = self._hint_fadeamt + 5
         self.MakeWindowTransparent(self._hint_wnd, self._hint_fadeamt)
 
@@ -3870,18 +3870,18 @@ class FrameManager(wx.EvtHandler):
     def ShowHint(self, rect):
         self._hintshown = True
         if self.UseTransparentHint():
-            if wx.Platform == "__WXMSW__":                    
+            if wx.Platform == "__WXMSW__":
                 if self._last_hint == rect:
                     return
                 self._last_hint = rect
-                
+
                 initial_fade = 50
-                
+
                 if self._flags & AUI_MGR_TRANSPARENT_HINT_FADE:
                     initial_fade = 0
-                    
+
                 if self._hint_wnd == None:
-                
+
                     pt = rect.GetPosition()
                     size = rect.GetSize()
                     self._hint_wnd = wx.Frame(self._frame, -1, "", pt, size,
@@ -3895,19 +3895,19 @@ class FrameManager(wx.EvtHandler):
                     self._hint_wnd.Show()
 
                     # if we are dragging a floating pane, set the focus
-                    
+
                     # back to that floating pane (otherwise it becomes unfocused)
-                    
+
                     if self._action == actionDragFloatingPane and self._action_window:
                         self._action_window.SetFocus()
-                
+
                 else:
-                
+
                     pt = rect.GetPosition()
                     size = rect.GetSize()
                     self.MakeWindowTransparent(self._hint_wnd, initial_fade)
                     self._hint_wnd.SetDimensions(pt.x, pt.y, rect.width, rect.height)
-                
+
                 if self._flags & AUI_MGR_TRANSPARENT_HINT_FADE:
                     # start fade in timer
                     self._hint_fadeamt = 0
@@ -3921,7 +3921,7 @@ class FrameManager(wx.EvtHandler):
                     initial_fade = 0
                 else:
                     initial_fade = 80
-   
+
                 if not self._hint_wnd:
                     self._hint_wnd = wx.MiniFrame(self._frame,
                         style=wx.FRAME_FLOAT_ON_PARENT|wx.FRAME_TOOL_WINDOW
@@ -3931,23 +3931,23 @@ class FrameManager(wx.EvtHandler):
                         #and distracting.
                         #wx.CAPTION + wx.FRAME_TOOL_WINDOW cures the focus problem,
                         #but then it draws the caption. Adding wx.FRAME_SHAPED takes
-                        #care of that, but then SetRect doesn't work to size - need to 
+                        #care of that, but then SetRect doesn't work to size - need to
                         #create a bitmap or mask or something.
                         )
                     #can't set the background of a wx.Frame in OSX
                     p = wx.Panel(self._hint_wnd)
-                    
+
                     #the caption color is a light silver thats really hard to see
                     #especially transparent. See if theres some other system
                     #setting that is more appropriate, or just extend the art provider
                     #to cover this
                     #p.SetBackgroundColour(wx.SystemSettings_GetColour(wx.SYS_COLOUR_ACTIVECAPTION))
                     p.SetBackgroundColour(wx.BLUE)
-                    
+
                 self.MakeWindowTransparent(self._hint_wnd, initial_fade)
                 self._hint_wnd.SetRect(rect)
                 self._hint_wnd.Show()
-                
+
                 if self._action == actionDragFloatingPane and self._action_window:
                    self._action_window.SetFocus()
 
@@ -3958,7 +3958,7 @@ class FrameManager(wx.EvtHandler):
                     self._hint_fadetimer.Start(5)
                 return
 
-            
+
         if self._last_hint != rect:
             # remove the last hint rectangle
             self._last_hint = rect
@@ -3966,7 +3966,7 @@ class FrameManager(wx.EvtHandler):
             self._frame.Update()
 
 
-        
+
         screendc = wx.ScreenDC()
         clip = wx.Region(1, 1, 10000, 10000)
 
@@ -3992,13 +3992,13 @@ class FrameManager(wx.EvtHandler):
         screendc.DrawRectangle(rect.x, rect.y, 5, rect.height)
         screendc.DrawRectangle(rect.x+5, rect.y, rect.width-10, 5)
         screendc.DrawRectangle(rect.x+rect.width-5, rect.y, 5, rect.height)
-        screendc.DrawRectangle(rect.x+5, rect.y+rect.height-5, rect.width-10, 5)  
+        screendc.DrawRectangle(rect.x+5, rect.y+rect.height-5, rect.width-10, 5)
 
 
     def HideHint(self):
 
         self._hintshown = False
-        
+
         # hides a transparent window hint (currently wxMSW only)
         if self.UseTransparentHint():
             if self._hint_wnd:
@@ -4006,15 +4006,15 @@ class FrameManager(wx.EvtHandler):
                 #self._hint_wnd.Destroy()
                 self.MakeWindowTransparent(self._hint_wnd, 0)
                 self._last_hint = wx.Rect()
-                
+
             return
-        
+
         # hides a painted hint by redrawing the frame window
         if not self._last_hint.IsEmpty():
             self._frame.Refresh()
             self._frame.Update()
             self._last_hint = wx.Rect()
-        
+
 
     def DrawHintRect(self, pane_window, pt, offset):
         """
@@ -4025,7 +4025,7 @@ class FrameManager(wx.EvtHandler):
         "pane_window" is the window pointer of the pane being dragged, pt is
         the mouse position, in client coordinates.
         """
-        
+
         # we need to paint a hint rectangle to find out the exact hint rectangle,
         # we will create a new temporary layout and then measure the resulting
         # rectangle we will create a copy of the docking structures (self._docks)
@@ -4033,14 +4033,14 @@ class FrameManager(wx.EvtHandler):
 
         rect = wx.Rect()
         pane = self.GetPane(pane_window)
-        
+
         attrs = self.GetAttributes(pane)
         hint = PaneInfo()
         hint = self.SetAttributes(hint, attrs)
-        
+
         if hint.name != "__HINT__":
             self._oldname = hint.name
-            
+
         hint.name = "__HINT__"
 
         if not hint.IsOk():
@@ -4063,7 +4063,7 @@ class FrameManager(wx.EvtHandler):
         if not allow:
             self.HideHint()
             return
-        
+
         panes.append(hint)
 
         sizer, panes, docks, uiparts = self.LayoutAll(panes, docks, [], True, False)
@@ -4079,7 +4079,7 @@ class FrameManager(wx.EvtHandler):
                 size = part.sizer_item.GetSize()
                 rect = wx.Rect(pos[0], pos[1], size[0], size[1])
                 break
-            
+
         sizer.Destroy()
 
         if rect.IsEmpty():
@@ -4101,7 +4101,7 @@ class FrameManager(wx.EvtHandler):
                      pane.buttons, pane.rect])
 
         return attrs
-    
+
 
     def SetAttributes(self, pane, attrs):
 
@@ -4124,15 +4124,15 @@ class FrameManager(wx.EvtHandler):
         pane.rect = attrs[16]
 
         return pane
-    
+
     def UseTransparentDrag(self):
-        
+
         if self._flags & AUI_MGR_TRANSPARENT_DRAG:
             return self.CanMakeWindowsTransparent()
         else:
             return False
-        
- 
+
+
     def OnFloatingPaneMoveStart(self, wnd):
 
         # try to find the pane
@@ -4150,10 +4150,10 @@ class FrameManager(wx.EvtHandler):
 
         if not pane.IsOk():
             raise "\nERROR: Pane Window Not Found"
-        
+
         pt = wx.GetMousePosition()
         client_pt = self._frame.ScreenToClient(pt)
-        
+
         # calculate the offset from the upper left-hand corner
         # of the frame to the mouse pointer
         frame_pos = pane.frame.GetPosition()
@@ -4169,7 +4169,7 @@ class FrameManager(wx.EvtHandler):
 ##
 ##            # find out where the new pane would be
 ##            ret, hint = self.DoDrop(docks, panes, hint, client_pt)
-##            
+##
 ##            if not ret:
 ##                return
 ##
@@ -4178,13 +4178,13 @@ class FrameManager(wx.EvtHandler):
 ##
 ##            pane = hint
 ##            pane.name = oldname
-##            
+##
 ##            self._panes[indx] = pane
 ##            self._action = actionDragToolbarPane
 ##            self._action_window = pane.window
-##            
+##
 ##            self.Update()
-##            
+##
 ##            return
 
         # if a key modifier is pressed while dragging the frame,
@@ -4195,10 +4195,10 @@ class FrameManager(wx.EvtHandler):
 
         if pane.IsDockable():
             self.DrawHintRect(wnd, client_pt, action_offset)
-        
+
         # reduces flicker
         self._frame.Update()
-        
+
 
     def OnFloatingPaneMoved(self, wnd):
 
@@ -4207,12 +4207,12 @@ class FrameManager(wx.EvtHandler):
 
         if not pane.IsOk():
             raise "\nERROR: Pane Window Not Found"
-        
+
         pt = wx.GetMousePosition()
         client_pt = self._frame.ScreenToClient(pt)
 
         indx = self._panes.index(pane)
-        
+
         # calculate the offset from the upper left-hand corner
         # of the frame to the mouse pointer
         frame_pos = pane.frame.GetPosition()
@@ -4231,7 +4231,7 @@ class FrameManager(wx.EvtHandler):
                 self._panes[indx] = pane
                 if self.UseTransparentDrag():
                     self.MakeWindowTransparent(pane.frame, 255)
-            
+
         # do the drop calculation
         allow, pane = self.DoDrop(self._docks, self._panes, pane, client_pt, action_offset)
 
@@ -4244,9 +4244,9 @@ class FrameManager(wx.EvtHandler):
 
         if not pane.IsToolbar() and pane.IsDockable():
             pane.name = self._oldname
-            
+
         self._panes[indx] = pane
-            
+
         self.Update()
         self.HideHint()
 
@@ -4258,7 +4258,7 @@ class FrameManager(wx.EvtHandler):
         if not pane.IsOk():
             raise "\nERROR: Pane Window Not Found"
 
-        indx = self._panes.index(pane)    
+        indx = self._panes.index(pane)
         pane.floating_size = size
         self._panes[indx] = pane
 
@@ -4277,7 +4277,7 @@ class FrameManager(wx.EvtHandler):
         pane.window.Reparent(self._frame)
         pane.frame = None
         pane.Hide()
-        
+
         self._panes[indx] = pane
 
 
@@ -4291,7 +4291,7 @@ class FrameManager(wx.EvtHandler):
 
             self._panes = SetActivePane(self._panes, wnd)
             self.Repaint()
-            
+
 
     def Render(self, dc):
         """
@@ -4305,7 +4305,7 @@ class FrameManager(wx.EvtHandler):
             # don't draw hidden pane items
             if part.sizer_item and not part.sizer_item.IsShown():
                 continue
-            
+
             if part.type == DockUIPart.typeDockSizer or \
                part.type == DockUIPart.typePaneSizer:
                 self._art.DrawSash(dc, part.orientation, part.rect)
@@ -4320,7 +4320,7 @@ class FrameManager(wx.EvtHandler):
             elif part.type == DockUIPart.typePaneButton:
                 self._art.DrawPaneButton(dc, part.button.button_id,
                                          AUI_BUTTON_STATE_NORMAL, part.rect, part.pane)
-                
+
 
     def Repaint(self, dc=None):
 
@@ -4329,11 +4329,11 @@ class FrameManager(wx.EvtHandler):
         # has been specified, use it, otherwise
         # make a client dc
         client_dc = None
-        
+
         if not dc:
             client_dc = wx.ClientDC(self._frame)
             dc = client_dc
-        
+
         # if the frame has a toolbar, the client area
         # origin will not be (0,0).
         pt = self._frame.GetClientAreaOrigin()
@@ -4346,12 +4346,12 @@ class FrameManager(wx.EvtHandler):
         # if we created a client_dc, delete it
         if client_dc:
             del client_dc
-        
+
 
     def OnPaint(self, event):
-        
+
         dc = wx.PaintDC(self._frame)
-        
+
         if wx.Platform == "__WXMAC__":
             #Macs paint optimizations clip the area we need to paint a log
             #of the time, this is a dirty hack to always paint everything
@@ -4363,19 +4363,19 @@ class FrameManager(wx.EvtHandler):
     def OnEraseBackground(self, event):
 
         if wx.Platform == "__WXMAC__":
-            event.Skip()        
+            event.Skip()
 
 
     def OnSize(self, event):
 
         if self._frame:
-            
+
             self.DoFrameLayout()
             wx.CallAfter(self.Repaint)
-            
+
             if not isinstance(self._frame, wx.MDIParentFrame):
                 event.Skip()
-        
+
 
     def OnSetCursor(self, event):
 
@@ -4401,7 +4401,7 @@ class FrameManager(wx.EvtHandler):
                     cursor = wx.StockCursor(wx.CURSOR_SIZEWE)
                 else:
                     cursor = wx.StockCursor(wx.CURSOR_SIZENS)
-            
+
             elif part.type == DockUIPart.typeGripper:
                 cursor = wx.StockCursor(wx.CURSOR_SIZING)
 
@@ -4413,7 +4413,7 @@ class FrameManager(wx.EvtHandler):
 
         hit_test = self.HitTest(event.GetX(), event.GetY())
         state = AUI_BUTTON_STATE_NORMAL
-        
+
         if hit_test == button_ui_part:
             if event.LeftDown():
                 state = AUI_BUTTON_STATE_PRESSED
@@ -4422,7 +4422,7 @@ class FrameManager(wx.EvtHandler):
         else:
             if event.LeftDown():
                 state = AUI_BUTTON_STATE_HOVER
-        
+
         # now repaint the button with hover state
         cdc = wx.ClientDC(self._frame)
 
@@ -4448,7 +4448,7 @@ class FrameManager(wx.EvtHandler):
 
             if part.type == DockUIPart.typeDockSizer or \
                part.type == DockUIPart.typePaneSizer:
-            
+
                 # a dock may not be resized if it has a single
                 # pane which is not resizable
                 if part.type == DockUIPart.typeDockSizer and part.dock and \
@@ -4466,16 +4466,16 @@ class FrameManager(wx.EvtHandler):
                 self._action_offset = wx.Point(event.GetX() - part.rect.x,
                                                event.GetY() - part.rect.y)
                 self._frame.CaptureMouse()
-            
+
             elif part.type == DockUIPart.typePaneButton:
-            
+
                 self._action = actionClickButton
                 self._action_part = part
                 self._action_start = wx.Point(event.GetX(), event.GetY())
                 self._frame.CaptureMouse()
 
                 self.UpdateButtonOnScreen(part, event)
-            
+
             elif part.type == DockUIPart.typeCaption or \
                   part.type == DockUIPart.typeGripper:
 
@@ -4483,7 +4483,7 @@ class FrameManager(wx.EvtHandler):
                     # set the caption as active
                     self._panes = SetActivePane(self._panes, part.pane.window)
                     self.Repaint()
-            
+
                 self._action = actionClickCaption
                 self._action_part = part
                 self._action_start = wx.Point(event.GetX(), event.GetY())
@@ -4526,10 +4526,10 @@ class FrameManager(wx.EvtHandler):
 
                 self.Update()
                 self.Repaint(None)
-            
+
             elif self._action_part and \
                  self._action_part.type == DockUIPart.typePaneSizer:
-            
+
                 dock = self._action_part.dock
                 pane = self._action_part.pane
 
@@ -4567,18 +4567,18 @@ class FrameManager(wx.EvtHandler):
                 # the fixed panes
                 dock_pane_count = len(dock.panes)
                 pane_position = -1
-                
+
                 for ii in xrange(dock_pane_count):
                     p = dock.panes[ii]
                     if p.window == pane.window:
                         pane_position = ii
-                    
+
                     # while we're at it, subtract the pane sash
                     # width from the dock width, because this would
                     # skew our proportion calculations
                     if ii > 0:
                         dock_pixels = dock_pixels - sash_size
-                 
+
                     # also, the whole size (including decorations) of
                     # all fixed panes must also be subtracted, because they
                     # are not part of the proportion calculation
@@ -4589,35 +4589,35 @@ class FrameManager(wx.EvtHandler):
                             dock_pixels = dock_pixels - p.best_size.y
                     else:
                         total_proportion = total_proportion + p.dock_proportion
-                    
+
                 # find a pane in our dock to 'steal' space from or to 'give'
                 # space to -- this is essentially what is done when a pane is
                 # resized the pane should usually be the first non-fixed pane
                 # to the right of the action pane
                 borrow_pane = -1
-                
+
                 for ii in xrange(pane_position+1, dock_pane_count):
                     p = dock.panes[ii]
                     if not p.IsFixed():
                         borrow_pane = ii
                         break
-                
+
                 # demand that the pane being resized is found in this dock
                 # (this assert really never should be raised)
                 if pane_position == -1:
                     raise "\nERROR: Pane not found in dock"
-                
+
                 # prevent division by zero
                 if dock_pixels == 0 or total_proportion == 0 or borrow_pane == -1:
                     self._action = actionNone
                     return
-                
+
                 # calculate the new proportion of the pane
                 new_proportion = new_pixsize*total_proportion/dock_pixels
-                
+
                 # default minimum size
                 min_size = 0
-                
+
                 # check against the pane's minimum size, if specified. please note
                 # that this is not enough to ensure that the minimum size will
                 # not be violated, because the whole frame might later be shrunk,
@@ -4634,18 +4634,18 @@ class FrameManager(wx.EvtHandler):
                             min_size = min_size + caption_size
                     else:
                         min_size = min_size + pane.min_size.x
-                    
+
                 # for some reason, an arithmatic error somewhere is causing
                 # the proportion calculations to always be off by 1 pixel
                 # for now we will add the 1 pixel on, but we really should
                 # determine what's causing this.
                 min_size = min_size + 1
-                
+
                 min_proportion = min_size*total_proportion/dock_pixels
-                    
+
                 if new_proportion < min_proportion:
                     new_proportion = min_proportion
-                
+
                 prop_diff = new_proportion - pane.dock_proportion
 
                 # borrow the space from our neighbor pane to the
@@ -4658,33 +4658,33 @@ class FrameManager(wx.EvtHandler):
 
                 self._docks[indxd] = dock
                 self._panes[indxp] = pane
-                
+
                 # repaint
                 self.Update()
                 self.Repaint(None)
-        
+
         elif self._action == actionClickButton:
-        
+
             self._hover_button = None
-            self._frame.ReleaseMouse()     
+            self._frame.ReleaseMouse()
             self.UpdateButtonOnScreen(self._action_part, event)
 
             # make sure we're still over the item that was originally clicked
             if self._action_part == self.HitTest(event.GetX(), event.GetY()):
-                # fire button-click event  
+                # fire button-click event
                 e = FrameManagerEvent(wxEVT_AUI_PANEBUTTON)
                 e.SetPane(self._action_part.pane)
                 e.SetButton(self._action_part.button.button_id)
                 self.ProcessMgrEvent(e)
-        
+
         elif self._action == actionClickCaption:
-        
+
             self._frame.ReleaseMouse()
-        
+
         elif self._action == actionDragFloatingPane:
-            
+
             self._frame.ReleaseMouse()
-        
+
         elif self._action == actionDragToolbarPane:
 
             self._frame.ReleaseMouse()
@@ -4692,7 +4692,7 @@ class FrameManager(wx.EvtHandler):
             pane = self.GetPane(self._action_window)
             if not pane.IsOk():
                 raise "\nERROR: Pane Window Not Found"
-        
+
             # save the new positions
             docks = FindDocks(self._docks, pane.dock_direction,
                               pane.dock_layer, pane.dock_row)
@@ -4700,15 +4700,15 @@ class FrameManager(wx.EvtHandler):
             if len(docks) == 1:
                 dock = docks[0]
                 pane_positions, pane_sizes = self.GetPanePositionsAndSizes(dock)
-                
+
                 dock_pane_count = len(dock.panes)
                 for ii in xrange(dock_pane_count):
                     dock.panes[ii].dock_pos = pane_positions[ii]
-            
+
             pane.state &= ~PaneInfo.actionPane
             indx = self._panes.index(pane)
             self._panes[indx] = pane
-            
+
             self.Update()
 
         else:
@@ -4726,11 +4726,11 @@ class FrameManager(wx.EvtHandler):
         # sure that only real mouse moves will get anywhere in this method
         # this appears to be a bug somewhere, and I don't know where the
         # mouse move event is being generated.  only verified on MSW
-        
+
         mouse_pos = event.GetPosition()
         if self._last_mouse_move == mouse_pos:
             return
-        
+
         self._last_mouse_move = mouse_pos
 
         if self._action == actionResize:
@@ -4755,18 +4755,18 @@ class FrameManager(wx.EvtHandler):
             # otherwise draw the hint
 
             dc = wx.ScreenDC()
-            
+
             if not self._action_hintrect.IsEmpty() and self._action_hintrect != rect:
                 DrawResizeHint(dc, self._action_hintrect)
-                
+
             DrawResizeHint(dc, rect)
             self._action_hintrect = rect
-        
+
         elif self._action == actionClickCaption:
-        
+
             drag_x_threshold = wx.SystemSettings_GetMetric(wx.SYS_DRAG_X)
             drag_y_threshold = wx.SystemSettings_GetMetric(wx.SYS_DRAG_Y)
-            
+
             # caption has been clicked.  we need to check if the mouse
             # is now being dragged. if it is, we need to change the
             # mouse action to 'drag'
@@ -4777,10 +4777,10 @@ class FrameManager(wx.EvtHandler):
                 indx = self._panes.index(pane_info)
 
                 if not pane_info.IsToolbar():
-                
+
                     if self._flags & AUI_MGR_ALLOW_FLOATING and \
                        pane_info.IsFloatable():
-                    
+
                         self._action = actionDragFloatingPane
 
                         # set initial float position
@@ -4790,11 +4790,11 @@ class FrameManager(wx.EvtHandler):
                         # float the window
                         pane_info.Float()
                         self._panes[indx] = pane_info
-                        
+
                         self.Update()
 
                         self._action_window = pane_info.frame
-                        
+
                         # action offset is used here to make it feel "natural" to the user
                         # to drag a docked pane and suddenly have it become a floating frame.
                         # Sometimes, however, the offset where the user clicked on the docked
@@ -4803,63 +4803,63 @@ class FrameManager(wx.EvtHandler):
                         frame_size = self._action_window.GetSize()
                         if frame_size.x <= self._action_offset.x:
                             self._action_offset.x = 30
-                    
+
                 else:
-                
+
                     self._action = actionDragToolbarPane
                     self._action_window = pane_info.window
-                
+
         elif self._action == actionDragFloatingPane:
-        
+
             pt = self._frame.ClientToScreen(event.GetPosition())
             if self._action_window:
                 self._action_window.Move((pt.x - self._action_offset.x,
                                          pt.y - self._action_offset.y))
-        
+
         elif self._action == actionDragToolbarPane:
 
             pane = self.GetPane(self._action_window)
             if not pane.IsOk():
                 raise "\nERROR: Pane Window Not Found"
 
-            indx = self._panes.index(pane)            
+            indx = self._panes.index(pane)
             pane.state |= PaneInfo.actionPane
-        
+
             pt = event.GetPosition()
             ret, pane = self.DoDrop(self._docks, self._panes, pane, pt, self._action_offset)
 
             if not ret:
                 return
-            
+
             # if DoDrop() decided to float the pane, set up
             # the floating pane's initial position
             if pane.IsFloating():
-            
+
                 pt = self._frame.ClientToScreen(event.GetPosition())
                 pane.floating_pos = wx.Point(pt.x - self._action_offset.x,
                                              pt.y - self._action_offset.y)
 
             self._panes[indx] = pane
-            
+
             # this will do the actiual move operation
             # in the case that the pane has been floated,
             # this call will create the floating pane
             # and do the reparenting
             self.Update()
-            
+
             # if the pane has been floated, change the mouse
             # action actionDragFloatingPane so that subsequent
             # EVT_MOTION() events will move the floating pane
             if pane.IsFloating():
-            
+
                 pane.state &= ~PaneInfo.actionPane
                 self._action = actionDragFloatingPane
                 self._action_window = pane.frame
 
-            self._panes[indx] = pane                
-            
+            self._panes[indx] = pane
+
         else:
-        
+
             part = self.HitTest(event.GetX(), event.GetY())
             if part and part.type == DockUIPart.typePaneButton:
                 if part != self._hover_button:
@@ -4871,17 +4871,17 @@ class FrameManager(wx.EvtHandler):
                     # button in hover mode
                     self.UpdateButtonOnScreen(part, event)
                     self._hover_button = part
-            else:            
+            else:
                 if self._hover_button:
-                
+
                     self._hover_button = None
                     self.Repaint()
 
                 else:
 
                     event.Skip()
-                    
-                
+
+
     def OnLeaveWindow(self, event):
 
         if self._hover_button:
@@ -4891,16 +4891,16 @@ class FrameManager(wx.EvtHandler):
 
     def OnChildFocus(self, event):
 
-        # when a child pane has it's focus set, we should change the 
-        # pane's active state to reflect this. (this is only true if 
+        # when a child pane has it's focus set, we should change the
+        # pane's active state to reflect this. (this is only true if
         # active panes are allowed by the owner)
         if self.GetFlags() & AUI_MGR_ALLOW_ACTIVE_PANE:
             if self.GetPane(event.GetWindow()).IsOk():
                 self._panes = SetActivePane(self._panes, event.GetWindow())
                 self._frame.Refresh()
-    
+
         event.Skip()
-        
+
 
     def OnPaneButton(self, event):
         """
@@ -4910,16 +4910,16 @@ class FrameManager(wx.EvtHandler):
 
         pane = event.pane
         indx = self._panes.index(pane)
-        
+
         if event.button == PaneInfo.buttonClose:
             pane.Hide()
             self._panes[indx] = pane
             self.Update()
-        
+
         elif event.button == PaneInfo.buttonPin:
-        
+
             if self._flags & AUI_MGR_ALLOW_FLOATING and pane.IsFloatable():
                 pane.Float()
 
-            self._panes[indx] = pane                
+            self._panes[indx] = pane
             self.Update()
