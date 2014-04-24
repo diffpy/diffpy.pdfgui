@@ -80,7 +80,9 @@ setup(
         # manual and tutorial files should not be zipped
         zip_safe = False,
         install_requires = [
-            'diffpy.Structure>=1.2',
+            # Use the develop branch from
+            # https://github.com/diffpy/diffpy.Structure
+            'diffpy.Structure>=1.3a',
             'diffpy.pdffit2>=1.0-r6766',
             'diffpy.utils>=1.1',
         ],

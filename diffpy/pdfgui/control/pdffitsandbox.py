@@ -531,6 +531,7 @@ class PdfFitSandbox:
         Raises:
             ControlKeyError if variable does not yet exist
         """
+        import re
         curfit = self._fits[-1]
         if callable(var):
             var = var()
@@ -541,6 +542,11 @@ class PdfFitSandbox:
         else:
         # or phase variable otherwise
             curphase = curfit.strucs[self._curphase]
+            mx = re.match(r'^(?:u12|u13|u23)\((\d+)\)$', var.strip())
+            if mx:
+                idx = int(mx.group(1)) - 1
+                if 0 <= idx < len(curphase):
+                    curphase[idx].anisotropy = True
             curphase.setvar(var, val)
         return
 
