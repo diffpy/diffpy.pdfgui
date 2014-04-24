@@ -1,4 +1,8 @@
-prune tests
+recursive-include diffpy *
+recursive-exclude diffpy *.py[co]
+include AUTHORS.txt LICENSE*.txt README*
+exclude MANIFEST.in
+recursive-include doc *
 prune doc/epydoc
 prune doc/manual/images/originals
 exclude doc/manual/*.texinfo
@@ -6,6 +10,4 @@ exclude doc/manual/*.py
 exclude doc/manual/images/*.pdf
 exclude doc/manual/Makefile
 exclude doc/manual/images/Makefile
-exclude icons/*.xcf
-exclude icons/*.m
-exclude MANIFEST.in
+recursive-include icons *.png *.ico

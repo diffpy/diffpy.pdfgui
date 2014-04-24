@@ -13,17 +13,21 @@
 #
 ##############################################################################
 
-"""Definition of __version__ and __date__ for diffpy.pdfgui.
+
+"""Definition of __version__, __date__, __gitsha__.
 """
 
-__id__ = "$Id$"
+from pkg_resources import resource_stream
+from ConfigParser import SafeConfigParser
 
-# obtain version information
-from pkg_resources import get_distribution
-__version__ = get_distribution('diffpy.pdfgui').version
+# obtain version information from the version.cfg file
+cp = SafeConfigParser()
+cp.readfp(resource_stream(__name__, 'version.cfg'))
 
-# we assume that tag_date was used and __version__ ends in YYYYMMDD
-__date__ = __version__[-8:-4] + '-' + \
-           __version__[-4:-2] + '-' + __version__[-2:]
+__version__ = cp.get('DEFAULT', 'version')
+__date__ = cp.get('DEFAULT', 'date')
+__gitsha__ = cp.get('DEFAULT', 'commit')
+
+del cp
 
 # End of file
