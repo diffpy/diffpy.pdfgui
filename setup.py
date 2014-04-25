@@ -86,9 +86,6 @@ setup(
             'diffpy.pdffit2>=1.0-r6766',
             'diffpy.utils>=1.1',
         ],
-        dependency_links = [
-            'http://www.diffpy.org/packages/',
-        ],
 
         author = 'Simon J.L. Billinge',
         author_email = 'sb2896@columbia.edu',
