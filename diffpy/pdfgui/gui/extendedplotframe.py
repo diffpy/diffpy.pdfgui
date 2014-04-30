@@ -429,7 +429,7 @@ if __name__ == "__main__":
 
     class MyApp(wx.App):
         def OnInit(self):
-            from matplotlib.numerix import arange, sin, pi, cos
+            from numpy import arange, sin, pi, cos
             'Create the main window and insert the custom frame'
             x = arange(0.0,3.0,0.01)
             s = sin(2*pi*x)
