@@ -44,6 +44,11 @@ def handleEngineException(error, gui=None):
     gui   -- reference to GUI when active
     """
     errorInfo = "(%s)\n%s" % (error.__class__.__name__, str(error))
+    # be more verbose for Singular matrix exception
+    if "singular matrix" in errorInfo.lower():
+        errorInfo += ("\n\n"
+                "Common reasons are degeneracy in fit parameters,\n"
+                "zero thermal factors or fit range starting at zero.")
     if gui:
         gui.postEvent(gui.ERROR, "<Engine exception> %s" % errorInfo)
     else:

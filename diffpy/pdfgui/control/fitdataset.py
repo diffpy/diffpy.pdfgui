@@ -160,7 +160,7 @@ class FitDataSet(PDFDataSet):
         self._Gtrunc = []
         self._dGtrunc = []
         self._crw = []
-        self._fitrmin = None
+        self._fitrmin = 0.5
         self._fitrmax = None
         self._fitrstep = None
         self.constraints = {}
