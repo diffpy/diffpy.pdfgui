@@ -11,10 +11,15 @@ Scripts:    pdfgui
 import os
 from setuptools import setup, find_packages
 
+# Use this version when git data are not available, like in git zip archive.
+# Update when tagging a new release.
+FALLBACK_VERSION = '1.1a0.post0'
+
 # versioncfgfile holds version data for git commit hash and date.
 # It must reside in the same directory as version.py.
 MYDIR = os.path.dirname(os.path.abspath(__file__))
 versioncfgfile = os.path.join(MYDIR, 'diffpy/pdfgui/version.cfg')
+gitarchivecfgfile = versioncfgfile.replace('version.cfg', 'gitarchive.cfg')
 
 def gitinfo():
     from subprocess import Popen, PIPE
@@ -24,23 +29,34 @@ def gitinfo():
     proc = Popen(['git', 'log', '-1', '--format=%H %at %ai'], **kw)
     glog = proc.stdout.read()
     rv = {}
-    rv['version'] = '-'.join(desc.strip().split('-')[:2]).lstrip('v')
+    rv['version'] = '.post'.join(desc.strip().split('-')[:2]).lstrip('v')
     rv['commit'], rv['timestamp'], rv['date'] = glog.strip().split(None, 2)
     return rv
 
 
 def getversioncfg():
-    from ConfigParser import SafeConfigParser
-    cp = SafeConfigParser()
-    cp.read(versioncfgfile)
+    from ConfigParser import RawConfigParser
+    vd0 = dict(version=FALLBACK_VERSION, commit='', date='', timestamp=0)
+    # first fetch data from gitarchivecfgfile, ignore if it is unexpanded
+    g = vd0.copy()
+    cp0 = RawConfigParser(vd0)
+    cp0.read(gitarchivecfgfile)
+    if '$Format:' not in cp0.get('DEFAULT', 'commit'):
+        g = cp0.defaults()
+    # then try to obtain version data from git.
     gitdir = os.path.join(MYDIR, '.git')
-    if not os.path.isdir(gitdir):  return cp
-    try:
-        g = gitinfo()
-    except OSError:
-        return cp
+    if os.path.isdir(gitdir) or 'GIT_DIR' in os.environ:
+        try:
+            g = gitinfo()
+        except OSError:
+            pass
+    # finally, check and update the active version file
+    cp = RawConfigParser()
+    cp.read(versioncfgfile)
     d = cp.defaults()
-    if g['version'] != d.get('version') or g['commit'] != d.get('commit'):
+    rewrite = not d or (g['commit'] and (
+        g['version'] != d.get('version') or g['commit'] != d.get('commit')))
+    if rewrite:
         cp.set('DEFAULT', 'version', g['version'])
         cp.set('DEFAULT', 'commit', g['commit'])
         cp.set('DEFAULT', 'date', g['date'])
