@@ -1,0 +1,43 @@
+#!/usr/bin/env python
+
+'''Create source distribution tar.gz archive, where each file belongs
+to a root user and modification time is set to the git commit time.
+'''
+
+import sys
+import os
+import subprocess
+import time
+import glob
+import tarfile
+
+BASEDIR = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
+sys.path.insert(0, BASEDIR)
+
+from setup import versiondata
+timestamp = versiondata.getint('DEFAULT', 'timestamp')
+
+print 'Run "setup.py sdist --formats=tar"',
+cmd_sdist = [sys.executable] + 'setup.py sdist --formats=tar'.split()
+ec = subprocess.call(cmd_sdist, cwd=BASEDIR, stdout=open(os.devnull, 'w'))
+if ec:  sys.exit(ec)
+print "[done]"
+
+tarname = max(glob.glob(BASEDIR + '/dist/*.tar'), key=os.path.getmtime)
+
+tfin = tarfile.open(tarname)
+tfout = tarfile.open(tarname + '.gz', 'w:gz')
+
+def fixtarinfo(tinfo):
+    tinfo.uid = tinfo.gid = 0
+    tinfo.uname = tinfo.gname = 'root'
+    tinfo.mtime = timestamp
+    tinfo.mode &= ~0o022
+    return tinfo
+
+
+print 'Filter %s --> %s.gz' % (2 * (os.path.basename(tarname),)),
+for ti in tfin:
+    tfout.addfile(fixtarinfo(ti), tfin.extractfile(ti))
+os.remove(tarname)
+print "[done]"
