@@ -74,7 +74,7 @@ def dirglob(d, *patterns):
     return rv
 
 # define distribution
-setup(
+setup_args = dict(
         name = 'diffpy.pdfgui',
         version = versiondata.get('DEFAULT', 'version'),
         namespace_packages = ['diffpy'],
@@ -97,7 +97,7 @@ setup(
         zip_safe = False,
         install_requires = [
             'diffpy.Structure>=1.2',
-            'diffpy.pdffit2>=1.0-r6766',
+            'diffpy.pdffit2>=1.1a0',
             'diffpy.utils>=1.1',
         ],
 
@@ -127,5 +127,8 @@ setup(
             'Topic :: Scientific/Engineering :: Physics',
         ],
 )
+
+if __name__ == '__main__':
+    setup(**setup_args)
 
 # End of file
