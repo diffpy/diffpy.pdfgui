@@ -45,7 +45,7 @@ def getversioncfg():
         g = cp0.defaults()
     # then try to obtain version data from git.
     gitdir = os.path.join(MYDIR, '.git')
-    if os.path.isdir(gitdir) or 'GIT_DIR' in os.environ:
+    if os.path.exists(gitdir) or 'GIT_DIR' in os.environ:
         try:
             g = gitinfo()
         except OSError:
