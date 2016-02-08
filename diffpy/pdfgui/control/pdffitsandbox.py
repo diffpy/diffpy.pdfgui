@@ -254,7 +254,6 @@ class PdfFitSandbox:
         rlen    -- number of data points in calculation
         """
         # convert last fit to calculation
-        lastidx = len(self._fits) - 1
         last = self._fits[-1]
         newcalc = Calculation(last.name)
         newcalc.strucs = last.strucs

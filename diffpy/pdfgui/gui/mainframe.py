@@ -2113,7 +2113,7 @@ class MainFrame(wx.Frame):
         url = "http://groups.google.com/group/diffpy-users"
         try:
             webbrowser.open(url)
-        except Error, e:
+        except Exception, e:
             errorinfo = 'Failed to open "%s"'%str(e)
             raise ControlError(errorinfo)
         return
@@ -2497,7 +2497,6 @@ class MainFrame(wx.Frame):
         PAUSED
         """
         from diffpy.pdfgui.control.fitting import Fitting
-        from diffpy.pdfgui.control.calculation import Calculation
         if isinstance(job, Fitting):
             name = job.name
             fitStatus = job.fitStatus

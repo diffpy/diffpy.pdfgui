@@ -23,11 +23,10 @@ Exceptions:
 """
 
 import wx
-import sys, os, re, cPickle
+import re
+import cPickle
 
 from diffpy.pdfgui.gui.pdfguiglobals import iconpath
-from diffpy.pdfgui.control.pdfguicontrol import pdfguicontrol
-from diffpy.pdfgui.control.calculation import Calculation
 from diffpy.pdfgui.control.fitting import Fitting
 from diffpy.pdfgui.control.controlerrors import ControlError
 

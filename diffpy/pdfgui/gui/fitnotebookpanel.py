@@ -20,7 +20,6 @@ import wx
 from diffpy.pdfgui.gui.pdfpanel import PDFPanel
 from diffpy.pdfgui.gui.parameterspanel import ParametersPanel
 from diffpy.pdfgui.gui.resultspanel import ResultsPanel
-from diffpy.pdfgui.gui.outputpanel import OutputPanel
 
 class FitNotebookPanel(wx.Panel, PDFPanel):
     def __init__(self, *args, **kwds):

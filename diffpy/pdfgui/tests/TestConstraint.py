@@ -17,8 +17,6 @@
 """
 
 
-import sys
-import os
 import unittest
 
 from diffpy.pdfgui.control.controlerrors import ControlSyntaxError

@@ -18,8 +18,7 @@
 import os
 import copy
 
-from diffpy.pdfgui.control.controlerrors import \
-        ControlValueError, ControlTypeError
+from diffpy.pdfgui.control.controlerrors import ControlValueError
 from diffpy.pdfgui.control.fitdataset import FitDataSet
 
 def makeRSeries(control, fit, maxfirst = None, maxlast = None, maxstep = None,
@@ -109,7 +108,6 @@ def makeRSeries(control, fit, maxfirst = None, maxlast = None, maxstep = None,
 
     basename = fit.name
     fits = []
-    namelist = [item.name for item in control.fits]
 
     newname = ''
     lastname = ''
@@ -355,6 +353,6 @@ if __name__ == "__main__":
     control.load("../../tests/testdata/ni.ddp")
     fit = control.fits[0]
     olist = makeRSeries(control, fit, 5, 20, 5)
-    print '\n'.join([fit[0].name for fit in olist])
+    print '\n'.join([f[0].name for f in olist])
 
 # End of file

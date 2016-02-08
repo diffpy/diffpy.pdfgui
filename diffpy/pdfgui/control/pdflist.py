@@ -42,19 +42,19 @@ class PDFList(list):
             else:
                 raise ControlKeyError, "'%s' does not exist"%idnm
 
-    def __setitem__(self, idnm, object):
+    def __setitem__(self, idnm, obj):
         """Set the item by idnm
 
         idnm -- The index or name of the item
-        object -- The object to be inserted
+        obj  -- The object to be inserted
         """
-        if object.name in self.keys():
-            raise ControlKeyError, "'%s' already exists"%object.name
+        if obj.name in self.keys():
+            raise ControlKeyError, "'%s' already exists" % obj.name
         try:
-            list.__setitem__(self, idnm, value)
+            list.__setitem__(self, idnm, obj)
             return
         except TypeError:
-            self.append(object)
+            self.append(obj)
             return
 
     def __delitem__(self, idnm):

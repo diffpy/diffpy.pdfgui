@@ -21,7 +21,6 @@ from diffpy.pdfgui.gui.datasetconfigurepanel import DataSetConfigurePanel
 from diffpy.pdfgui.gui.datasetconstraintpanel import DataSetConstraintPanel
 from diffpy.pdfgui.gui.datasetresultspanel import DataSetResultsPanel
 from diffpy.pdfgui.gui.pdfpanel import PDFPanel
-from diffpy.pdfgui.gui.blankpanel import BlankPanel
 
 class DataSetPanel(wx.Panel, PDFPanel):
     def __init__(self, *args, **kwds):

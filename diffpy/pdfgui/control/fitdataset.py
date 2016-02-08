@@ -21,7 +21,6 @@ import numpy
 
 from diffpy.pdfgui.control.pdfdataset import PDFDataSet
 from diffpy.pdfgui.control.parameter import Parameter
-from diffpy.pdfgui.control.constraint import Constraint
 from diffpy.pdfgui.control.controlerrors import ControlStatusError
 
 class FitDataSet(PDFDataSet):

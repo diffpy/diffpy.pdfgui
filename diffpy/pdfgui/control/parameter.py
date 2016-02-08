@@ -17,7 +17,6 @@
 To be stored in Fitting.parameters { idx : parameter } dictionary
 """
 
-import sys
 import types
 
 from diffpy.pdfgui.control.controlerrors import \

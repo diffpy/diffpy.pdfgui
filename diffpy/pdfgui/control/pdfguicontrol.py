@@ -515,7 +515,6 @@ class PDFGuiControl:
         projName = os.path.splitext(projbase)[0]
         # prepare to write
         fitnames = []
-        calcnames = []
         z = None
         tmpfilename = None
         try :

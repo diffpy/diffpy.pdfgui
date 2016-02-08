@@ -14,7 +14,6 @@
 ##############################################################################
 
 import random
-import os.path
 import wx
 import wx.lib.hyperlink
 from diffpy.pdfgui.gui.pdfguiglobals import iconpath

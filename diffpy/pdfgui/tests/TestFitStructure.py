@@ -177,7 +177,6 @@ class TestFitStructure(unittest.TestCase):
     def test_deleteAtoms(self):
         """check FitStructure.deleteAtoms()
         """
-        from diffpy.Structure import Atom
         stru = self.stru
         stru.read(datafile('Ni.stru'), format='pdffit')
         cns = Constraint('@1')

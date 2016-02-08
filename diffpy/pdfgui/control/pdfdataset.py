@@ -339,7 +339,6 @@ class PDFDataSet(PDFComponent):
         copy_attributes = ( 'metadata', )
         for a in assign_attributes:
             setattr(other, a, getattr(self, a))
-        import copy
         for a in copy_attributes:
             setattr(other, a, copy.deepcopy(getattr(self, a)))
         return other

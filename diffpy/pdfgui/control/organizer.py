@@ -17,6 +17,7 @@ from diffpy.pdfgui.control.pdfcomponent import PDFComponent
 from diffpy.pdfgui.control.fitdataset import FitDataSet
 from diffpy.pdfgui.control.fitstructure import FitStructure
 from diffpy.pdfgui.control.calculation import Calculation
+from diffpy.pdfgui.control.controlerrors import ControlTypeError
 
 class Organizer(PDFComponent):
     """Base class for Fitting. It holds separate lists of datasets,

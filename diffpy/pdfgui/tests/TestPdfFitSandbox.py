@@ -17,7 +17,6 @@
 """
 
 
-import sys
 import os
 import unittest
 
@@ -602,8 +601,6 @@ class TestPdfFitSandbox(unittest.TestCase):
         sandbox = self.box.sandbox()
         fNi_data = os.path.join(testdata_dir, "Ni_2-8.chi.gr")
         f300K_data = os.path.join(testdata_dir, "300K.gr")
-        fNi_stru = os.path.join(testdata_dir, 'Ni.stru')
-        f300K_stru = os.path.join(testdata_dir, '300K.stru')
         self.assertEqual(None, self.box._curdataset)
         self.box.read_data(fNi_data, "X", 40.1, 0.05)
         self.assertEqual(0, self.box._curdataset)

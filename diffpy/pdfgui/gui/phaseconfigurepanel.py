@@ -20,7 +20,6 @@ import wx
 import wx.grid
 from diffpy.Structure import Atom
 from diffpy.pdffit2 import is_element
-from diffpy.pdfgui.control.constraint import Constraint
 from diffpy.pdfgui.control.controlerrors import *
 from diffpy.pdfgui.gui.insertrowsdialog import InsertRowsDialog
 from diffpy.pdfgui.gui.pdfpanel import PDFPanel
@@ -297,7 +296,6 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
         # Now the grid
         rows = self.gridAtoms.GetNumberRows()
         cols = self.gridAtoms.GetNumberCols()
-        selection = []
 
         for i in xrange(rows):
             for j in xrange(1, cols):

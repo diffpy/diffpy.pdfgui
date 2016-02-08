@@ -213,7 +213,6 @@ class PlotPanel(wx.Panel, PDFPanel):
         """Get the y-values selected in the y-value ListCtrl."""
         yvals = []
         item = self.yDataList.GetFirstSelected()
-        first_item = item
         while item != -1:
             name = self.yDataList.GetItemText(item)
             yvals.append(name)

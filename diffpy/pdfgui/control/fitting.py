@@ -18,8 +18,6 @@ import time
 
 from diffpy.pdfgui.control.organizer import Organizer
 from diffpy.pdfgui.control.controlerrors import *
-from diffpy.pdfgui.control.pdfstructure import PDFStructure
-from diffpy.pdfgui.control.pdfdataset import PDFDataSet
 
 # helper routines to deal with PDFfit2 exceptions
 

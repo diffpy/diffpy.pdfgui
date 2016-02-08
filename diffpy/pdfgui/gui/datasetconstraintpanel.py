@@ -20,7 +20,6 @@ import wx
 from diffpy.pdfgui.gui.pdfpanel import PDFPanel
 from diffpy.pdfgui.gui.tooltips import datasetconstraintpanel as toolTips
 from diffpy.pdfgui.control.constraint import Constraint
-from diffpy.pdfgui.control.controlerrors import ControlSyntaxError
 from diffpy.pdfgui.gui.wxExtensions.textctrlutils import textCtrlAsGridCell
 
 class DataSetConstraintPanel(wx.Panel, PDFPanel):

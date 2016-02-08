@@ -20,7 +20,6 @@ PDFPanel and MainFrame.
 
 import traceback
 import sys
-import os
 
 import wx
 

@@ -21,7 +21,6 @@ import math
 import types
 
 from diffpy.pdfgui.control.controlerrors import *
-from diffpy.pdfgui.control.fitstructure import FitStructure
 from diffpy.pdfgui.control.pdfcomponent import PDFComponent
 
 class Calculation(PDFComponent):
@@ -170,7 +169,6 @@ class Calculation(PDFComponent):
         # phase related variables
         # pair selection applies to current dataset,
         # therefore it has to be done after alloc
-        nstrucs = len(self.owner.strucs)
         for phaseidx0, struc in enumerate(self.owner.strucs):
             phaseidx1 = phaseidx0 + 1
             server.setphase(phaseidx1)
