@@ -7,15 +7,18 @@ to a root user and modification time is set to the git commit time.
 import sys
 import os
 import subprocess
-import time
 import glob
 import tarfile
 
 BASEDIR = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
 sys.path.insert(0, BASEDIR)
 
-from setup import versiondata
+from setup import versiondata, FALLBACK_VERSION
 timestamp = versiondata.getint('DEFAULT', 'timestamp')
+
+vfb = versiondata.get('DEFAULT', 'version').split('.post')[0] + '.post0'
+emsg = "Invalid FALLBACK_VERSION. Expected %r got %r."
+assert vfb == FALLBACK_VERSION, emsg % (vfb, FALLBACK_VERSION)
 
 print 'Run "setup.py sdist --formats=tar"',
 cmd_sdist = [sys.executable] + 'setup.py sdist --formats=tar'.split()
