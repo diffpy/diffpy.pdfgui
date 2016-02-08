@@ -1,7 +1,6 @@
 recursive-include diffpy *
 recursive-exclude diffpy *.py[co]
 include AUTHORS.txt LICENSE*.txt README*
-exclude MANIFEST.in
 recursive-include doc *
 prune doc/epydoc
 prune doc/manual/images/originals
