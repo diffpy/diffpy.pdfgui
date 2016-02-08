@@ -35,6 +35,7 @@ def gitinfo():
 
 
 def getversioncfg():
+    import re
     from ConfigParser import RawConfigParser
     vd0 = dict(version=FALLBACK_VERSION, commit='', date='', timestamp=0)
     # first fetch data from gitarchivecfgfile, ignore if it is unexpanded
@@ -43,6 +44,9 @@ def getversioncfg():
     cp0.read(gitarchivecfgfile)
     if '$Format:' not in cp0.get('DEFAULT', 'commit'):
         g = cp0.defaults()
+        mx = re.search(r'\btag: v(\d[^,]*)', g.pop('refnames'))
+        if mx:
+            g['version'] = mx.group(1)
     # then try to obtain version data from git.
     gitdir = os.path.join(MYDIR, '.git')
     if os.path.exists(gitdir) or 'GIT_DIR' in os.environ:
