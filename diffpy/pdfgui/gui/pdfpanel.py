@@ -45,7 +45,7 @@ class PDFPanel(object):
     def setToolTips(self, toolTips):
         '''Sets tooltips for controls
 
-        @param toolTips: dictionary of the form {'contolname' : 'tooltip'}
+        @param toolTips: dictionary of the form {'controlname' : 'tooltip'}
         '''
         for (controlName, tooltip) in toolTips.items():
             control = getattr(self, controlName)

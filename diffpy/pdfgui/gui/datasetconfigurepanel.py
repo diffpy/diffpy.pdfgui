@@ -25,7 +25,6 @@ from diffpy.pdfgui.gui.wxExtensions.textctrlutils import textCtrlAsGridCell
 class DataSetConfigurePanel(wx.Panel, PDFPanel):
     def __init__(self, *args, **kwds):
         PDFPanel.__init__(self)
-        self.toolTips = toolTips
         # begin wxGlade: DataSetConfigurePanel.__init__
         kwds["style"] = wx.TAB_TRAVERSAL
         wx.Panel.__init__(self, *args, **kwds)

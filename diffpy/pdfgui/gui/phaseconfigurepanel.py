@@ -225,24 +225,6 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
                 'textCtrlSpdiameter'    : 'spdiameter',
                 }
 
-        self.toolTips = {
-                'textCtrlA'             : "lat(1)",
-                'textCtrlB'             : "lat(2)",
-                'textCtrlC'             : "lat(3)",
-                'textCtrlAlpha'         : "lat(4)",
-                'textCtrlBeta'          : "lat(5)",
-                'textCtrlGamma'         : "lat(6)",
-                'textCtrlScaleFactor'   : "phase scale factor",
-                'textCtrlDelta1'        : 'delta1',
-                'textCtrlDelta1'        : "linear atomic correlation factor",
-                'textCtrlDelta2'        : "quadratic atomic correlation factor",
-                'textCtrlSratio'        : "low r peak sharpening",
-                'textCtrlRcut'          : "peak sharpening cutoff",
-                'textCtrlStepcut'       : "cutoff for profile step-function",
-                'textCtrlSpdiameter'    :
-                    "spherical nanoparticle amplitude correction",
-                }
-
         # bind onSetFocus onKillFocus events to text controls
         for tname in self.lConstraintsMap:
             self.__dict__[tname].Bind(wx.EVT_SET_FOCUS, self.onSetFocus)
@@ -291,7 +273,6 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
             else:
                 textCtrl.SetEditable(True)
                 textCtrl.SetBackgroundColour(wx.NullColour)
-#                textCtrl.SetToolTipString(self.toolTips[key])
 
         # Now the grid
         rows = self.gridAtoms.GetNumberRows()
