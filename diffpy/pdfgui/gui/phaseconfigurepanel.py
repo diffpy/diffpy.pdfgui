@@ -261,6 +261,7 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
         """Set 'read-only' boxes that correspond to constrained parameters."""
 
         self.setToolTips(toolTips)
+        txtbg = self.textCtrlA.GetDefaultAttributes().colBg
 
         # First the TextCtrls
         for key, var in self.lConstraintsMap.iteritems():
@@ -272,7 +273,7 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
                 textCtrl.SetToolTipString(self.constraints[var].formula)
             else:
                 textCtrl.SetEditable(True)
-                textCtrl.SetBackgroundColour(wx.NullColour)
+                textCtrl.SetBackgroundColour(txtbg)
 
         # Now the grid
         rows = self.gridAtoms.GetNumberRows()
