@@ -1,0 +1,68 @@
+package:
+  name: diffpy.pdfgui
+  ## Use __conda_version__.txt.
+
+source:
+  # git_url: https://github.com/diffpy/diffpy.pdfgui.git
+  git_url: ..
+
+build:
+  preserve_egg_dir: True
+
+  # If this is a new build for the same version, increment the build
+  # number. If you do not include this key, it defaults to 0.
+  number: 0
+
+  entry_points:
+    - pdfgui = diffpy.pdfgui.applications.pdfgui:main
+
+  osx_is_app: True
+
+app:
+  entry: pdfgui
+  icon: pdfgui_64x64.png
+  summary: materials structure analysis from Pair Distribution Function
+
+requirements:
+  build:
+    - python
+    - setuptools
+    - diffpy.pdffit2
+    - diffpy.structure 1.*
+    - diffpy.utils 1.*
+
+  run:
+    - python
+    - setuptools
+    - matplotlib
+    - wxpython
+    - diffpy.pdffit2
+    - diffpy.structure 1.*
+    - diffpy.utils 1.*
+
+test:
+  # Python imports
+  imports:
+    - diffpy.pdfgui.tui
+    - diffpy.pdfgui.tests
+
+  # commands:
+    # You can put test commands to be run here.  Use this to test that the
+    # entry points work.
+
+
+  # You can also put a file called run_test.py in the recipe that will be run
+  # at test time.
+
+  # requires:
+    # Put any additional test requirements here.  For example
+    # - nose
+
+about:
+  home: https://github.com/diffpy/diffpy.pdfgui
+  summary: GUI for PDF simulation and structure refinement
+  license: Modified BSD License
+  license_file: LICENSE.txt
+
+# See http://docs.continuum.io/conda/build.html
+# for more information about meta.yaml.
