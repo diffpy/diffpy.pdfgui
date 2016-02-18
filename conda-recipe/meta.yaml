@@ -19,7 +19,8 @@ build:
   osx_is_app: True
 
 app:
-  entry: pdfgui
+  entry: pdfgui                                         [not win]
+  entry: pythonw -m diffpy.pdfgui.applications.pdfgui   [win]
   icon: pdfgui_64x64.png
   summary: materials structure analysis from Pair Distribution Function
 
