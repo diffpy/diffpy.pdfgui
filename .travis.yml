@@ -67,6 +67,8 @@ before_install:
   - $NOMC || conda install --yes conda-build jinja2
   - $NOMC || conda create --name=testenv --yes python=${MYPYTHON_VERSION} coverage
   - $NOMC || conda config --add channels diffpy
+  # FIXME -- remove dev channel after release
+  - $NOMC || conda config --add channels pavoljuhas/channel/dev
 
   - $NOAPT || test "${TRAVIS_OS_NAME}" = "linux" || exit $?
   - $NOAPT || devutils/makesdist
