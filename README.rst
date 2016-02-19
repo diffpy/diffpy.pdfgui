@@ -1,3 +1,9 @@
+.. image:: https://travis-ci.org/diffpy/diffpy.pdfgui.svg?branch=master
+   :target: https://travis-ci.org/diffpy/diffpy.pdfgui
+
+.. image:: http://codecov.io/github/diffpy/diffpy.pdfgui/coverage.svg?branch=master
+   :target: http://codecov.io/github/diffpy/diffpy.pdfgui?branch=master
+
 PDFgui - graphical user interface for real space structure refinement.
 
 PDFgui is a friendly interface to PDFfit2 refinement engine, with many
