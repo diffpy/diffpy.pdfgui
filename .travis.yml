@@ -1,0 +1,96 @@
+# Use container-based travis workers
+sudo: false
+
+language: generic
+
+os:
+  - linux
+  - osx
+
+env:
+  global:
+    - MYPYTHON_VERSION=2.7
+  matrix:
+    - MYUSEMC=true
+    - MYUSEMC=false
+
+matrix:
+  exclude:
+    - os: osx
+      env: MYUSEMC=false
+
+git:
+  depth: 999999
+
+branches:
+  except:
+    - /^v[0-9]/
+
+addons:
+  apt:
+    packages:
+    - build-essential
+    - libgsl0-dev
+    - python-dev
+    - python-numpy
+    - python-setuptools
+
+before_install:
+  - umask 022
+  - git fetch origin --tags
+  - if ${MYUSEMC}; then
+        NOAPT=true; NOMC=false;
+    else
+        NOAPT=false; NOMC=true;
+        MYPIPFLAGS="--user";
+    fi
+  - MYMCREPO=https://repo.continuum.io/miniconda
+  - case ${TRAVIS_OS_NAME} in
+    linux)
+        MYMCBUNDLE=Miniconda-latest-Linux-x86_64.sh ;;
+    osx)
+        MYMCBUNDLE=Miniconda-latest-MacOSX-x86_64.sh ;;
+    *)
+        echo "Unsupported operating system." >&2;
+        exit 2 ;;
+    esac
+
+  - mkdir -p ~/pkgs/
+  - mkdir -p ~/rundir/
+
+  - $NOMC || pushd ~/pkgs/
+  - $NOMC || wget --timestamping ${MYMCREPO}/${MYMCBUNDLE}
+  - $NOMC || test -x ~/mc/bin/conda || bash ${MYMCBUNDLE} -b -f -p ~/mc
+  - $NOMC || popd
+  - $NOMC || export PATH="${HOME}/mc/bin:${PATH}"
+  - $NOMC || conda update --yes conda
+  - $NOMC || conda install --yes conda-build jinja2
+  - $NOMC || conda create --name=testenv --yes python=${MYPYTHON_VERSION} coverage
+  - $NOMC || conda config --add channels diffpy
+
+  - $NOAPT || test "${TRAVIS_OS_NAME}" = "linux" || exit $?
+  - $NOAPT || devutils/makesdist
+  - $NOAPT || MYTARBUNDLE="$(ls -t "${PWD}"/dist/*.tar.gz | head -1)"
+
+install:
+  - $NOMC || CONDA_PY=${MYPYTHON_VERSION} conda build conda-recipe
+  - $NOMC || conda list --name=_test --export diffpy.pdfgui > /tmp/mypackage.txt
+  - $NOMC || source activate testenv
+  - $NOMC || conda install --yes --use-local --file=/tmp/mypackage.txt
+
+  - $NOAPT || pip install $MYPIPFLAGS coverage
+  - $NOAPT || easy_install --user "${MYTARBUNDLE}"
+
+  - cd ~/rundir
+  - MYGIT_REV=$(python -c "import diffpy.pdfgui.version as v; print(v.__gitsha__)")
+  - if [[ "${TRAVIS_COMMIT}" != "${MYGIT_REV}" ]]; then
+        echo "Version mismatch ${TRAVIS_COMMIT} vs ${MYGIT_REV}.";
+        exit 1;
+    fi
+
+script:
+  - coverage run --source diffpy.pdfgui -m diffpy.pdfgui.tests.rundeps
+
+after_success:
+  - pip install $MYPIPFLAGS codecov
+  - codecov
