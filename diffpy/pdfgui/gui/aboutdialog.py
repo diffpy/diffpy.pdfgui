@@ -17,7 +17,7 @@ import random
 import wx
 import wx.lib.hyperlink
 from diffpy.pdfgui.gui.pdfguiglobals import iconpath
-from diffpy.pdfgui import __version__
+from diffpy.pdfgui.version import __version__, __date__
 
 # FIXME - this is not in sync with the wxglade file
 
@@ -111,7 +111,10 @@ class DialogAbout(wx.Dialog):
         random.shuffle(_authors)
         strLabel = ", ".join(_authors)
         self.label_author.SetLabel(strLabel)
-
+        # set copyright year to that of the current release
+        syear = __date__[:4]
+        scprt = self.label_copyright.GetLabel().replace('2009', syear)
+        self.label_copyright.SetLabel(scprt)
         # display version and svn revison numbers
         verwords = __version__.split('.post', 1)
         version = verwords[0]
