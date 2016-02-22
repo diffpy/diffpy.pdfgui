@@ -110,13 +110,12 @@ class DialogAbout(wx.Dialog):
         # randomly shuffle authors' names
         random.shuffle(_authors)
         strLabel = ", ".join(_authors)
+        self.label_author.SetLabel(strLabel)
 
         # display version and svn revison numbers
-        verwords = __version__.split('-')
+        verwords = __version__.split('.post', 1)
         version = verwords[0]
-        revision = '-'.join(verwords[1:])
-
-        self.label_author.SetLabel(strLabel)
+        revision = '0' if len(verwords) == 1 else verwords[1]
         self.label_version.SetLabel(version)
         self.label_svnrevision.SetLabel(revision)
 
