@@ -4,7 +4,12 @@
 .. image:: http://codecov.io/github/diffpy/diffpy.pdfgui/coverage.svg?branch=master
    :target: http://codecov.io/github/diffpy/diffpy.pdfgui?branch=master
 
-PDFgui - graphical user interface for real space structure refinement.
+
+PDFgui
+========================================================================
+
+Graphical user interface program for structure refinements to atomic
+pair distribution function.
 
 PDFgui is a friendly interface to PDFfit2 refinement engine, with many
 powerful extensions.  To get started, please open the manual from the
@@ -13,78 +18,108 @@ is available in the doc/Farrow-jpcm-2007.pdf paper.
 
 
 REQUIREMENTS
+------------------------------------------------------------------------
 
-PDFgui requires Python 2.5 and several third-party libraries that are
-used by PDFgui or other necessary components from the DiffPy library.
+PDFgui requires Python 2.6 or 2.7 and several third-party libraries
+that are used by PDFgui and its components.
 
-    setuptools  -- software distribution tools for Python
-    wxPython    -- graphical user interface toolkit for Python
-    numpy       -- numerical mathematics and fast array operations for Python
-    matplotlib  -- plotting library and interactive interface
-    python-dev  -- header files for interfacing Python with C
-    GSL         -- GNU Scientific Library for C
-    g++         -- GNU C++ compiler
+* setuptools   - tools for installing Python packages
+* wxpython     - graphical user interface toolkit for Python
+* NumPy        - library for scientific computing with Python
+* matplotlib   - Python 2D plotting library
+* diffpy.pdffit2 - computational engine for PDFgui,
+  https://github.com/diffpy/diffpy.pdffit2
+* diffpy.Structure - simple storage and manipulation of atomic
+  structures, https://github.com/diffpy/diffpy.Structure
+* diffpy.utils - shared helper utilities for wx GUI,
+  https://github.com/diffpy/diffpy.utils
 
-On Ubuntu Linux the required software can be easily installed using
-the system package manager:
+We recommend to use `Anaconda Python <https://www.continuum.io/downloads>`_
+which allows to conveniently install PDFgui and all its software
+dependencies with a single command.  For other Python distributions
+it is necessary to install the required software separately.  As an
+example, on Ubuntu Linux some of the required software can be
+installed using ::
 
     sudo aptitude install \
         python-setuptools python-wxtools python-numpy \
-        python-matplotlib python-dev libgsl0-dev g++
+        python-matplotlib
 
-For other Linux distributions use the respective package manager to install
-these packages.  Note there may be somewhat different names.  PDFgui should
-work on other Unix-like operating systems and on Mac as well.  Please, search
-the web for instructions how to install external dependencies on your
-particular platform.
+To install the remaining packages see the installation instructions
+at their respective web pages.
 
 
 INSTALLATION
+------------------------------------------------------------------------
 
-Once all the requirements are in place, the installation of PDFgui
-should be a breeze:
+The preferred method is to use Anaconda Python and install from the
+"diffpy" channel of Anaconda packages ::
+
+   conda config --add channels diffpy
+   conda install diffpy.pdfgui
+
+PDFgui can be then started from a terminal ("Anaconda Prompt" on
+Windows) by executing the "pdfgui" program.  An alternative
+method on Windows is to start PDFgui through the DiffPy start menu.
+
+If you don't use Anaconda or prefer to install from sources, make
+sure the required software is all in place and run ::
 
     python setup.py install
 
-This command installs the "pdfgui" program and all other DiffPy components
-that are needed for its operation.  By default the files are installed in
-standard system directories, which are usually writeable only by the root.
-See the usage info "./setup.py install --help" for options to install
-as a normal user under different location.  Note that installation to
-non-standard directories you may require adjustments to the PATH and
-PYTHONPATH environment variables.
+By default the files are installed to standard system directories,
+which may require the use of ``sudo`` for write privileges.  If
+administrator (root) access is not available, see the output from
+``python setup.py install --help`` for options to install as a regular
+user to user-owned locations.  Note that installation to a non-standard
+directories you may require adjustments to the PATH and PYTHONPATH
+environment variables.  The installation integrity can be verified by
+changing to the HOME directory and running ::
 
-The Python setuptools library provides an easy_install script, which can
-be used to update an existing installation of PDFgui or even to do a
-new install without an explicit need to download and unzip the code:
+   python -m diffpy.pdfgui.tests.rundeps
 
-    easy_install -U diffpy.pdfgui
+With Anaconda PDFgui can be later upgraded to the latest released
+version using ::
 
-This checks the package repository at http://www.diffpy.org/packages/
-for any newer releases of PDFgui and if they are present, it updates the
-installation.  The easy_install can be also used to get in sync with the
-latest development sources in the subversion repository:
+   conda update diffpy.pdfgui
 
-    easy_install -U \
-	svn://svn@danse.us/diffraction/diffraction/diffpy.pdfgui/trunk
+With other Python distributions the program can be upgraded to
+the latest version as follows ::
+
+    easy_install --upgrade diffpy.pdfgui
 
 
-OTHER SOFTWARE
+Other software
+````````````````````````````````````````````````````````````````````````
 
 PDFgui can use an external structure viewer for displaying analyzed
 structures.  We have tested with several structure viewers such as
 
-    AtomEye   http://mt.seas.upenn.edu/Archive/Graphics/A/
-    PyMol     http://pymol.sourceforge.net/
+* AtomEye, http://li.mit.edu/A/Graphics/A/
+* PyMol, https://www.pymol.org/
 
 Other viewers should work as well, as long as they understand one of
 the output structure formats supported by PDFgui.
 
 
+DEVELOPMENT
+------------------------------------------------------------------------
+
+PDFgui is an open-source software available in a git repository at
+https://github.com/diffpy/diffpy.pdfgui.
+
+Feel free to fork the project and contribute.  To install PDFgui
+in a development mode where the source files are used directly
+rather than copied to a system directory, use ::
+
+   python setup.py develop --user
+
+
 CONTACTS
+------------------------------------------------------------------------
 
 For more information on PDFgui please visit the project web-page:
 
-    http://www.diffpy.org/
+    http://www.diffpy.org/products/pdfgui.html
 
 or email Prof. Simon Billinge at sb2896@columbia.edu
