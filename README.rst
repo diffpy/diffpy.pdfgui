@@ -120,6 +120,6 @@ CONTACTS
 
 For more information on PDFgui please visit the project web-page:
 
-    http://www.diffpy.org/products/pdfgui.html
+http://www.diffpy.org/products/pdfgui.html
 
 or email Prof. Simon Billinge at sb2896@columbia.edu
