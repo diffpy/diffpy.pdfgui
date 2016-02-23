@@ -41,9 +41,9 @@ it is necessary to install the required software separately.  As an
 example, on Ubuntu Linux some of the required software can be
 installed using ::
 
-    sudo aptitude install \
-        python-setuptools python-wxtools python-numpy \
-        python-matplotlib
+   sudo apt-get install \
+      python-setuptools python-wxtools python-numpy \
+      python-matplotlib
 
 To install the remaining packages see the installation instructions
 at their respective web pages.
@@ -65,7 +65,7 @@ method on Windows is to start PDFgui through the DiffPy start menu.
 If you don't use Anaconda or prefer to install from sources, make
 sure the required software is all in place and run ::
 
-    python setup.py install
+   python setup.py install
 
 By default the files are installed to standard system directories,
 which may require the use of ``sudo`` for write privileges.  If
@@ -86,7 +86,7 @@ version using ::
 With other Python distributions the program can be upgraded to
 the latest version as follows ::
 
-    easy_install --upgrade diffpy.pdfgui
+   easy_install --upgrade diffpy.pdfgui
 
 
 Other software
@@ -96,7 +96,7 @@ PDFgui can use an external structure viewer for displaying analyzed
 structures.  We have tested with several structure viewers such as
 
 * AtomEye, http://li.mit.edu/A/Graphics/A/
-* PyMol, https://www.pymol.org/
+* PyMol, http://www.pymol.org
 
 Other viewers should work as well, as long as they understand one of
 the output structure formats supported by PDFgui.
