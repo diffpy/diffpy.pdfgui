@@ -273,7 +273,7 @@ freely available. For more information please contact Professor Simon Billinge
 (@email{sb2896@@columbia.edu}) or consult the web-page
 @url{http://www.diffpy.org}. News of updates and releases will be posted at
 this website and on the diffpy-users group at
-@url{http://groups.google.com/group/diffpy-users}.
+@url{https://groups.google.com/d/forum/diffpy-users}.
 
 @c @node NODE-NAME, NEXT, PREVIOUS, UP
 @node    Installation, What is new, Availability, Introduction
@@ -459,7 +459,7 @@ from the current source tree.  Therefore any changes in those sources
 would be reflected in program execution.  If you change the code,
 for example to fix a bug, please post your modifications as a patch
 to the diffpy-dev Google group at
-@url{http://groups.google.com/group/diffpy-dev}.
+@url{https://groups.google.com/d/forum/diffpy-dev}.
 To produce a code patch, change to the source tree base and run
 
 @example
