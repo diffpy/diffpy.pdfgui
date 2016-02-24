@@ -27,7 +27,7 @@ import wx.lib.hyperlink
 queryPDFguiTickets = ''.join(["http://danse.us/trac/diffraction/query",
     '?status=new&status=assigned&status=reopened',
     '&component=pdfgui&component=pdffit2&order=priority'])
-USERSMAILINGLIST = "http://groups.google.com/group/diffpy-users"
+USERSMAILINGLIST = "https://groups.google.com/d/forum/diffpy-users"
 _authdata = '99.77.79.61.111.82.67.112'
 
 class ErrorReportDialog(wx.Dialog):

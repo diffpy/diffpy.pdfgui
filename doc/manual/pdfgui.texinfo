@@ -627,12 +627,12 @@ DiffPy software.  Visit the links below for message archives or instructions on
 subscription and posting.
 
 @table @emph
-@item @b{diffpy-users} @url{http://groups.google.com/group/diffpy-users}
+@item @b{diffpy-users} @url{https://groups.google.com/d/forum/diffpy-users}
 Help on usage of PDFgui, PDFfit2 and other DiffPy packages.  This group should
 become a knowledge base of PDFgui user tips, tricks and troubleshooting.  Feel
 free to ask your question here.
 
-@item @b{diffpy-dev} @url{http://groups.google.com/group/diffpy-dev}
+@item @b{diffpy-dev} @url{https://groups.google.com/d/forum/diffpy-dev}
 For discussions about development and changes of PDFgui, PDFfit2 and DiffPy
 library in general.
 @end table
@@ -1457,7 +1457,7 @@ documentation for diffpy.pdfgui at
 @url{http://docs.danse.us/diffraction/diffpy.pdfgui/}.
 
 Feel free to ask at the
-@url{http://groups.google.com/group/diffpy-users, diffpy-users}
+@url{https://groups.google.com/d/forum/diffpy-users, diffpy-users}
 group if you need help with data extracting scripts.
 
 @c @node NODE-NAME, NEXT, PREVIOUS, UP
@@ -1633,8 +1633,8 @@ Python scripts in the expert command line mode, similar to that featured in the
 PDFFIT program.  Handling these situations requires detailed knowledge of the
 PDFfit2 syntax based on Python, which is beyond the scope of this user guide
 and will be described elsewhere. Refer to the PDFfit2 API
-(@url{http://docs.danse.us/diffraction/diffpy.pdffit2/} and the diffpy-users
-group (@url{http://groups.google.com/group/diffpy-users}) for help with PDFfit2
+(@url{http://www.diffpy.org/doc/pdffit2/} and the diffpy-users
+group (@url{https://groups.google.com/d/forum/diffpy-users}) for help with PDFfit2
 scripting.
 
 @c @node NODE-NAME, NEXT, PREVIOUS, UP

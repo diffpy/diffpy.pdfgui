@@ -52,6 +52,7 @@ from diffpy.pdfgui.gui.blankpanel import BlankPanel
 
 from diffpy.pdfgui.gui.aboutdialog import DialogAbout
 from diffpy.pdfgui.gui.errorreportdialog import ErrorReportDialog
+from diffpy.pdfgui.gui.errorreportdialog import USERSMAILINGLIST
 
 from diffpy.pdfgui.control import structureviewer
 
@@ -2105,16 +2106,13 @@ class MainFrame(wx.Frame):
         return
 
     def onCommunity(self, event):
-        """Open the brower and go to
-
-        http://groups.google.com/group/diffpy-users
+        """Open the brower and go to the diffpy-users Google Group.
         """
         import webbrowser
-        url = "http://groups.google.com/group/diffpy-users"
         try:
-            webbrowser.open(url)
+            webbrowser.open(USERSMAILINGLIST)
         except Exception, e:
-            errorinfo = 'Failed to open "%s"'%str(e)
+            errorinfo = 'Failed to open "%s"' % e
             raise ControlError(errorinfo)
         return
 
