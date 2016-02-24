@@ -241,10 +241,10 @@ show a local distortion. The code for space group definitions was provided by
 the Python Macromolecular Library (mmLib,
 @url{http://pymmlib.sourceforge.net}).  This was extened to include
 non-standard space groups using the Computational Crystallography Toolbox
-(cctbx, @uref{http://cctbx.sourceforge.net/}).  PDFgui also supports supercell
+(cctbx, @uref{http://cctbx.sourceforge.net}).  PDFgui also supports supercell
 expansion of a normal unit cell.
 
-PDFgui uses the matplotlib (@url{http://matplotlib.sourceforge.net}) Python
+PDFgui uses the matplotlib (@url{http://matplotlib.org}) Python
 package for 2D plotting of data and results. Matplotlib has a friendly
 interface so the user can quickly and easily view the results of a fitting.
 PDFgui lets users plot data from a series of fits and plot it against selected
@@ -253,8 +253,8 @@ same window, plot the PDF in real time as the fitting is running, plot the
 parameters or variables in real time as the refinement evolves, and save plots
 in common image formats or export the data to a text file.  PDFgui can be
 configured to use one of many structure visualization packages, such as AtomEye
-(@url{http://mt.seas.upenn.edu/Archive/Graphics/A/}) or PyMOL
-(@url{http://pymol.sourceforge.net}).
+(@url{http://li.mit.edu/A/Graphics/A/}) or PyMOL
+(@url{http://www.pymol.org}).
 
 PDFgui supports built-in macros for advanced fits. For a set of experimental
 data from one system at different temperatures or doping levels, PDFgui can
@@ -353,7 +353,7 @@ GUI toolkit for Python, recommended version 2.8 (minimum 2.6) @*
 @url{http://wxpython.org}
 @item matplotlib
 plotting library for Python, minimum version 0.90, @*
-@url{http://matplotlib.sourceforge.net}
+@url{http://matplotlib.org}
 @item g++
 GNU C++ compiler
 @item GSL
@@ -377,11 +377,11 @@ sudo aptitude install \
 @table @emph
 @item AtomEye
 AtomEye structure viewer, @*
-@url{http://mt.seas.upenn.edu/Archive/Graphics/A/}
+@url{http://li.mit.edu/A/Graphics/A/}
 
 @item PyMOL
 PyMOL structure viewer,
-@url{http://pymol.sourceforge.net}
+@url{http://www.pymol.org}
 @end table
 
 @subsubheading Installation using easy_install
@@ -577,7 +577,7 @@ that accepts structure file as a command-line argument.
 Added 249 space group
 representations in non-standard settings.  The new representations
 were generated using the
-@uref{http://cctbx.sourceforge.net/,cctbx library} and helpful
+@uref{http://cctbx.sourceforge.net,cctbx library} and helpful
 hints from Ralf W. Grosse-Kunstleve.
 
 @item symmetry constraints
