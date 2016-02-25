@@ -134,28 +134,12 @@ class ExtendedPlotFrame(wx.Frame):
         self.toolbar.Realize()
 
         self.coordLabel = wx.StaticText(self,-1,style = wx.ALIGN_RIGHT|wx.NO_BORDER)
-        if wx.Platform == '__WXMAC__':
-            # Mac platform (OSX 10.3, MacPython) does not seem to cope with
-            # having a toolbar in a sizer. This work-around gets the buttons
-            # back, but at the expense of having the toolbar at the top
-            self.SetToolBar(self.toolbar)
-            self.sizer.Add(self.coordLabel, 0, wx.EXPAND)
-        else:
-            # On Windows platform, default window size is incorrect, so set
-            # toolbar width to figure width.
-            tw, th = self.toolbar.GetSizeTuple()
-            sw, sh = self.coordLabel.GetSizeTuple()
-            fw, fh = self.canvas.GetSizeTuple()
-            # By adding toolbar in sizer, we are able to put it at the bottom
-            # of the frame - so appearance is closer to GTK version.
-            # As noted above, doesn't work for Mac.
-            self.coordLabel.SetSize(wx.Size(sw, th))
-            #self.coordLabel.SetBackgroundColour(self.toolbar.GetBackgroundColour())
-            barSizer = wx.BoxSizer(wx.HORIZONTAL)
-            self.sizer.Add(barSizer, 0, wx.EXPAND|wx.CENTER)
-            barSizer.Add(self.toolbar, 0, wx.CENTER)
-            barSizer.Add((20,10),0)
-            barSizer.Add(self.coordLabel, 0, wx.CENTER)
+        # Place coordinates textbox in a horizontal sizer next to the toolbar.
+        barSizer = wx.BoxSizer(wx.HORIZONTAL)
+        self.sizer.Add(barSizer, 0, wx.EXPAND|wx.CENTER)
+        barSizer.Add(self.toolbar, 0, wx.CENTER)
+        barSizer.Add((20,10),0)
+        barSizer.Add(self.coordLabel, 0, wx.CENTER)
 
         # update the axes menu on the toolbar
         self.toolbar.update()
