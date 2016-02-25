@@ -31,17 +31,12 @@ import wx
 
 
 DATA_SAVE_ID  = wx.NewId()
+
+
 class ExtendedToolbar(NavToolbar):
     """An extended plotting toolbar with a save and close button."""
-    def __init__(self, canvas, cankill):
-        if wx.Platform != '__WXMAC__':
-            NavToolbar.__init__(self, canvas)
-        else:
-            _realizer = self.Realize
-            def f(): pass
-            self.Realize = f
-            NavToolbar.__init__(self, canvas)
-            self.Realize = _realizer
+    def __init__(self, canvas):
+        NavToolbar.__init__(self, canvas)
 
         # Get rid of the configure subplots button
         self.DeleteToolByPos(6)
@@ -132,7 +127,7 @@ class ExtendedPlotFrame(wx.Frame):
 
         self.sizer = wx.BoxSizer(wx.VERTICAL)
         self.sizer.Add(self.canvas, 1, wx.TOP|wx.LEFT|wx.EXPAND)
-        self.toolbar = ExtendedToolbar(self.canvas, True)
+        self.toolbar = ExtendedToolbar(self.canvas)
         self.toolbar.Realize()
 
         self.coordLabel = wx.StaticText(self,-1,style = wx.ALIGN_RIGHT|wx.NO_BORDER)
