@@ -47,6 +47,9 @@ def catchFunctionErrors(obj, funcName):
     if pdfguiglobals.dbopts.noerrordialog:
         return func
 
+    # default return value when exception is skipped:
+    rvpass = wx.ID_CANCEL
+
     # otherwise wrap func within exceptions handler
     def _f(*args, **kwargs):
 
@@ -54,29 +57,38 @@ def catchFunctionErrors(obj, funcName):
 
         try:
             return func(*args, **kwargs)
+
+        # Display ControlError error messages in a dialog.
         except ControlError, e:
-            message = str(e)
-            if hasmf:
-                obj.mainFrame.showMessage(message, 'Oops!')
-            else:
+            if not hasmf:
                 raise
+            message = str(e)
+            obj.mainFrame.showMessage(message, 'Oops!')
+            return rvpass
+
         # Everything else
         except:
             if pdfguiglobals.dbopts.pythondebugger:
                 import pdb
                 tb = sys.exc_info()[2]
                 pdb.post_mortem(tb)
-            elif hasmf and not obj.mainFrame.quitting:
-                msglines = traceback.format_exception(*sys.exc_info())
-                message = "".join(msglines)
+                return rvpass
+            if not hasmf:
+                raise
+            msglines = traceback.format_exception(*sys.exc_info())
+            message = "".join(msglines)
+            if obj.mainFrame.quitting:
+                sys.stderr.write(message)
+                sys.stderr.write('\n')
+            else:
                 dlg = ErrorReportDialog(obj.mainFrame)
                 dlg.text_ctrl_log.SetValue(message)
                 dlg.ShowModal()
                 dlg.Destroy()
-            else:
-                raise
-        # Not sure this is needed
-        return wx.ID_CANCEL
+            return rvpass
+
+        # we should never get here
+        pass
 
     return _f
 
