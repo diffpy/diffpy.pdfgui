@@ -35,12 +35,14 @@ DATA_SAVE_ID  = wx.NewId()
 
 class ExtendedToolbar(NavToolbar):
     """An extended plotting toolbar with a save and close button."""
+
     def __init__(self, canvas):
         NavToolbar.__init__(self, canvas)
-
         # Get rid of the configure subplots button
-        self.DeleteToolByPos(6)
-
+        if hasattr(self, 'wx_ids'):
+            self.DeleteTool(self.wx_ids['Subplots'])
+        else:
+            self.DeleteToolByPos(6)
         # Add new buttons
         self.AddSimpleTool(wx.ID_PRINT,
                wx.ArtProvider.GetBitmap(wx.ART_PRINT, wx.ART_TOOLBAR),
@@ -52,6 +54,7 @@ class ExtendedToolbar(NavToolbar):
         self.AddSimpleTool(wx.ID_CLOSE,
                _load_bitmap('stock_close.xpm'),
                'Close window', 'Close window')
+        return
 
     def save(self, evt):
         # Fetch the required filename and file type.
