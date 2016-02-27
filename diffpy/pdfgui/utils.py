@@ -19,6 +19,9 @@
 """
 
 
+from ConfigParser import RawConfigParser
+
+
 def numericStringSort(lst):
     """Sort list of strings inplace according to general numeric value.
     Each string gets split to string and integer segments to create keys
@@ -53,5 +56,38 @@ def safeCPickleDumps(obj):
     except SystemError:
         s = cPickle.dumps(obj, ascii_protocol)
     return s
+
+
+# This should be unnecessary in Python 3
+class QuotedConfigParser(RawConfigParser):
+
+    def getquoted(self, section, option):
+        """Retrieve option value previously set with setquoted.
+
+        This allows to work with unicode strings.
+        """
+        vq = self.get(section, option)
+        if vq.startswith('u '):
+            rv = vq[2:].decode('utf8')
+        elif vq.startswith('s '):
+            rv = vq[2:]
+        else:
+            rv = vq
+        return rv
+
+
+    def setquoted(self, section, option, value):
+        """Set option to a value encoded with urllib.quote.
+
+        This allows to store and write out unicode strings.
+        Use getquoted to recover the decoded value.
+        """
+        if isinstance(value, unicode):
+            vq = 'u ' + value.encode('utf8')
+        else:
+            vq = 's ' + value
+        return self.set(section, option, vq)
+
+# class QuotedConfigParser
 
 # End of file

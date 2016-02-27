@@ -106,7 +106,7 @@ class AddPhasePanel(wx.Panel, PDFPanel):
 
         if remember:
             if self.cP.has_option("PHASE", "last"):
-                self.fullpath = self.cP.get("PHASE", "last")
+                self.fullpath = self.cP.getquoted("PHASE", "last")
                 import os.path
                 if not os.path.exists(self.fullpath):
                     self.fullpath = ''
@@ -118,7 +118,7 @@ class AddPhasePanel(wx.Panel, PDFPanel):
         """Update the configuration for the 'DATASET'."""
         if not self.cP.has_section("PHASE"):
             self.cP.add_section("PHASE")
-        self.cP.set("PHASE", "last", self.fullpath)
+        self.cP.setquoted("PHASE", "last", self.fullpath)
         return
 
     # EVENT CODE ####

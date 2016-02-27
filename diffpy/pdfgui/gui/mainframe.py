@@ -18,7 +18,6 @@
 """This module contains the main window of PDFgui."""
 
 import os.path
-from ConfigParser import RawConfigParser
 
 import wx
 import wx.lib.newevent
@@ -29,6 +28,7 @@ except ImportError:
     wxaui.AuiManager = wxaui.FrameManager
     wxaui.AuiPaneInfo = wxaui.PaneInfo
 
+from diffpy.pdfgui.utils import QuotedConfigParser
 from diffpy.pdfgui.gui.fittree import FitTree, FitTreeError
 from diffpy.pdfgui.control.pdfguicontrol import pdfguicontrol
 from diffpy.pdfgui.control.controlerrors import ControlError, ControlFileError
@@ -302,7 +302,7 @@ class MainFrame(wx.Frame):
         self.runningDict = {}
 
         # The configuration parser for getting configuration data.
-        self.cP = RawConfigParser()
+        self.cP = QuotedConfigParser()
 
         # Set the program mode
         self.mode = "fitting"
@@ -930,7 +930,7 @@ class MainFrame(wx.Frame):
             self.cP.read(localpath)
             for i in range(pdfguiglobals.MAXMRU, 0, -1):
                 if self.cP.has_option("MRU", str(i)):
-                    filename = self.cP.get("MRU", str(i))
+                    filename = self.cP.getquoted("MRU", str(i))
                     if filename:
                         self.fileHistory.AddFileToHistory(filename)
 
@@ -974,7 +974,7 @@ class MainFrame(wx.Frame):
 
         for i in range(self.fileHistory.GetCount()):
             item = self.fileHistory.GetHistoryFile(i)
-            self.cP.set("MRU", str(i+1), item)
+            self.cP.setquoted("MRU", str(i+1), item)
 
         # Window size
         if not self.cP.has_section("SIZE"):
