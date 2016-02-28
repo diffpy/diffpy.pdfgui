@@ -534,11 +534,6 @@ class PDFGuiControl:
             z.close()
             shutil.copyfile(tmpfilename, self.projfile)
 
-        except UnicodeError:
-            emsg = ("Non-ASCII character is not allowed in fit, " +
-                    "dataset or structure names.")
-            raise ControlValueError(emsg)
-
         except (IOError, PickleError):
             emsg = "Error when writing to %s" % self.projfile
             raise ControlFileError(emsg)
