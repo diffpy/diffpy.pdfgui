@@ -90,4 +90,23 @@ class QuotedConfigParser(RawConfigParser):
 
 # class QuotedConfigParser
 
+def quote_plain(s):
+    """Return a possibly Unicode string quoted as plain ASCII.
+
+    The returned value is suitable as a path component in the
+    project file format.
+    """
+    from urllib import quote_plus
+    rv = quote_plus(s.encode('utf8'))
+    return rv
+
+
+def unquote_plain(s):
+    """Unquote string previously encoded with quote_plain.
+    """
+    from urllib import unquote_plus
+    u = unquote_plus(str(s))
+    rv = u.decode('utf8')
+    return rv
+
 # End of file

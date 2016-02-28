@@ -148,24 +148,24 @@ class Organizer(PDFComponent):
         returns a tree of internal hierachy
         """
         # subpath = projName/myName/
-        from urllib import unquote_plus
+        from diffpy.pdfgui.utils import unquote_plain
         subs = subpath.split('/')
         rootDict = z.fileTree[subs[0]][subs[1]]
         if rootDict.has_key('structure'):
             for strucName in rootDict['structure'].keys():
-                struc = FitStructure(unquote_plus(strucName))
+                struc = FitStructure(unquote_plain(strucName))
                 struc.load(z, subpath + 'structure/' + strucName + '/')
                 self.add(struc)
 
         if rootDict.has_key('dataset'):
             for datasetName in rootDict['dataset'].keys():
-                dataset = FitDataSet(unquote_plus(datasetName))
+                dataset = FitDataSet(unquote_plain(datasetName))
                 dataset.load(z, subpath + 'dataset/' + datasetName + '/')
                 self.add(dataset)
 
         if rootDict.has_key('calculation'):
             for calcName in rootDict['calculation'].keys():
-                calc = Calculation(unquote_plus(calcName))
+                calc = Calculation(unquote_plain(calcName))
                 calc.load(z, subpath + 'calculation/' + calcName + '/')
                 self.add(calc)
 
@@ -180,13 +180,13 @@ class Organizer(PDFComponent):
         subpath -- path to its own storage within project file
         """
         # strucs and datasets
-        from urllib import quote_plus
+        from diffpy.pdfgui.utils import quote_plain
         for struc in self.strucs:
-            struc.save(z, subpath + 'structure/' + quote_plus(struc.name.encode('ascii')) + '/')
+            struc.save(z, subpath + 'structure/' + quote_plain(struc.name) + '/')
         for dataset in self.datasets:
-            dataset.save(z, subpath + 'dataset/' + quote_plus(dataset.name.encode('ascii')) + '/')
+            dataset.save(z, subpath + 'dataset/' + quote_plain(dataset.name) + '/')
         for calc in self.calcs:
-            calc.save(z, subpath + 'calculation/' + quote_plus(calc.name.encode('ascii')) +'/')
+            calc.save(z, subpath + 'calculation/' + quote_plain(calc.name) + '/')
         return
 
     def copy(self, other = None):

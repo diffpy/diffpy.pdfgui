@@ -431,7 +431,7 @@ class PDFGuiControl:
         organizations = []
         import zipfile
         from cPickle import PickleError
-        from urllib import quote_plus
+        from diffpy.pdfgui.utils import quote_plain
 
         # IOError can be raised when reading invalid zipfile
         # check for file existence here.
@@ -452,13 +452,14 @@ class PDFGuiControl:
             projName = z.fileTree.keys()[0]
 
             if rootDict.has_key('journal'):
-                self.journal = z.read(projName+'/journal')
+                self.journal = z.read(projName + '/journal').decode('utf8')
 
             # all the fitting and calculations
             #NOTE: It doesn't hurt to keep backward compatibility
             # old test project may not have file 'fits'
             if rootDict.has_key('fits'):
-                fitnames = z.read(projName+'/fits').splitlines()
+                ftxt = z.read(projName + '/fits').decode('utf8')
+                fitnames = ftxt.splitlines()
             else:
                 fitnames = [ x for x in rootDict.keys() if rootDict[x] is not None]
 
@@ -467,7 +468,7 @@ class PDFGuiControl:
                     continue
                 fit = Fitting(name)
                 # fitting name stored in rootDict should be quoted
-                rdname = quote_plus(name)
+                rdname = quote_plain(name)
                 # but let's also handle old project files
                 if rdname not in rootDict:
                     rdname = name
@@ -500,7 +501,7 @@ class PDFGuiControl:
         are preserved.
         """
         if projfile is not None:
-            self.projfile = projfile.encode('ascii')
+            self.projfile = projfile
 
         # self.projfile is unset here only due to a bug.
         assert self.projfile is not None
@@ -508,8 +509,8 @@ class PDFGuiControl:
         import zipfile
         import shutil
         from cPickle import PickleError
-        from urllib import quote_plus
         import tempfile
+        from diffpy.pdfgui.utils import quote_plain
 
         projbase = os.path.basename(self.projfile)
         projName = os.path.splitext(projbase)[0]
@@ -523,12 +524,13 @@ class PDFGuiControl:
             z = zipfile.ZipFile(tmpfilename, 'w', zipfile.ZIP_DEFLATED)
             # fits also contain calculations
             for fit in self.fits:
-                name = fit.name.encode('ascii')
-                fit.save(z, projName + '/' + quote_plus(name) + '/')
+                name = fit.name
+                fit.save(z, projName + '/' + quote_plain(fit.name) + '/')
                 fitnames.append(name)
             if self.journal:
-                z.writestr(projName +'/journal', self.journal)
-            z.writestr(projName + '/fits', '\n'.join(fitnames))
+                z.writestr(projName + '/journal', self.journal.encode('utf8'))
+            ftxt = '\n'.join(fitnames)
+            z.writestr(projName + '/fits', ftxt.encode('utf8'))
             z.close()
             shutil.copyfile(tmpfilename, self.projfile)
 
