@@ -13,7 +13,7 @@ the following paper in your publication:
 @bigskip{}
 
 @quotation
-C. L. Farrow, P. Juh@'as, J. W. Liu, D. Bryndin, E. S. Bo@v{z}in,
+C. L. Farrow, P. Juhás, J. W. Liu, D. Bryndin, E. S. Božin,
 J. Bloch, Th. Proffen and S. J. L. Billinge,
 @url{http://stacks.iop.org/0953-8984/19/335219,
 PDFfit2 and PDFgui: computer programs for studying nanostructure in crystals},

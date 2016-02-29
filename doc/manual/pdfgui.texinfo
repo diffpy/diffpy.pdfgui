@@ -1,5 +1,7 @@
 \input texinfo  @c -*-texinfo-*-
 
+@documentencoding UTF-8
+
 @ifnottex
 @macro smallskip{}
 @vskip 6pt
@@ -25,7 +27,7 @@
 @end macro
 
 @macro ReleaseDate{}
-February 2016
+March 2016
 @end macro
 
 @exampleindent 2
@@ -51,7 +53,7 @@ University, all rights reserved.
 @title PDFgui user guide
 @subtitle 1.1 release
 @subtitle @ReleaseDate{}
-@author C. L. Farrow, P. Juh@'as, J. W. Liu, D. Bryndin, E. S. Bo@v{z}in,
+@author C. L. Farrow, P. Juhás, J. W. Liu, D. Bryndin, E. S. Božin,
 @author J. Bloch, Th. Proffen, and S. J. L. Billinge
 
 @page
