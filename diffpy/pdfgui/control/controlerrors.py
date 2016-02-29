@@ -26,104 +26,59 @@ class ControlError(Exception):
     def __str__(self):
         return self.info
 
+
 class ControlConfigError(ControlError):
     """PDFGuiControl exception class -- object config is invalid"""
-    def __init__(self, info):
-        """initialize
+    pass
 
-        info -- description string
-        """
-        ControlError.__init__(self, info)
 
 class ControlFileError(ControlError):
     """PDFGuiControl exception class -- object config is invalid"""
-    def __init__(self, info):
-        """initialize
+    pass
 
-        info -- description string
-        """
-        ControlError.__init__(self, info)
 
 class ControlKeyError(ControlError):
     """PDFGuiControl exception class -- requested object can't be found"""
-    def __init__(self, info):
-        """initialize
+    pass
 
-        info -- description string
-        """
-        ControlError.__init__(self, info)
 
 class ControlValueError(ControlError):
     """PDFGuiControl exception class -- Invalid value"""
-    def __init__(self, info):
-        """initialize
+    pass
 
-        info -- description string
-        """
-        ControlError.__init__(self, info)
 
 class ControlTypeError(ControlError):
     """PDFGuiControl exception class -- Type mismatch"""
-    def __init__(self, info):
-        """initialize
+    pass
 
-        info -- description string
-        """
-        ControlError.__init__(self, info)
 
 class ControlStatusError(ControlError):
     """PDFGuiControl exception class -- Fitting status doesn't match"""
-    def __init__(self, info):
-        """initialize
+    pass
 
-        info -- description string
-        """
-        ControlError.__init__(self, info)
 
 class ControlRuntimeError(ControlError):
     """PDFGuiControl exception class -- various irrecoverable runtime error"""
-    def __init__(self, info):
-        """initialize
-
-        info -- description string
-        """
-        ControlError.__init__(self, info)
+    pass
 
 class ControlConnectError(ControlError):
     """PDFGuiControl exception class -- network connection error"""
-    def __init__(self, info):
-        """initialize
+    pass
 
-        info -- description string
-        """
-        ControlError.__init__(self, info)
 
 class ControlAuthError(ControlError):
     """PDFGuiControl exception class -- authentication failed """
-    def __init__(self, info):
-        """initialize
+    pass
 
-        info -- description string
-        """
-        ControlError.__init__(self, info)
 
 class ControlIndexError(ControlError):
     """PDFGuiControl exception class -- index out of bound """
-    def __init__(self, info):
-        """initialize
+    pass
 
-        info -- description string
-        """
-        ControlError.__init__(self, info)
 
 class ControlSyntaxError(ControlError):
     """PDFGuiControl exception class -- invalid syntax of constraint formula
     """
-    def __init__(self, info):
-        """initialize
-
-        info -- description string
-        """
-        ControlError.__init__(self, info)
+    pass
 
 # End of file
