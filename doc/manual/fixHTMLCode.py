@@ -42,19 +42,12 @@ def replaceEquationMarks(s):
     s1 = re.sub(eqmark, eqreplace, s)
     return s1
 
-def fixAccents(s):
-    """Fix accented characters in texinfo HTML output.
-    Return string with fixed characters.
-    """
-    s1 = s.replace('Boz&lt;in', 'Bo&#382;in')
-    return s1
-
 def main():
     for f in sys.argv[1:]:
         s = open(f).read()
         s1 = replaceEquationMarks(s)
-        s1 = fixAccents(s1)
-        if s1 != s:     open(f, 'w').write(s1)
+        if s1 != s:
+            open(f, 'w').write(s1)
 
 
 if __name__ == "__main__":
