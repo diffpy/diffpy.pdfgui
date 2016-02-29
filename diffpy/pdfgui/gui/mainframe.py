@@ -44,7 +44,7 @@ from diffpy.pdfgui.gui.plotpanel import PlotPanel
 from diffpy.pdfgui.gui.rseriespanel import RSeriesPanel
 from diffpy.pdfgui.gui.temperatureseriespanel import TemperatureSeriesPanel
 from diffpy.pdfgui.gui.dopingseriespanel import DopingSeriesPanel
-from diffpy.pdfgui.gui.serverpanel import ServerPanel
+# from diffpy.pdfgui.gui.serverpanel import ServerPanel
 from diffpy.pdfgui.gui.preferencespanel import PreferencesPanel
 from diffpy.pdfgui.gui.welcomepanel import WelcomePanel
 from diffpy.pdfgui.gui.outputpanel import OutputPanel
