@@ -32,7 +32,7 @@ February 2016
 
 @c start of header
 @setfilename pdfgui
-@settitle PDFgui user guide, release 1.0, @ReleaseDate
+@settitle PDFgui user guide, release 1.0, @ReleaseDate{}
 @c @setcontentsaftertitlepage
 @c end of header
 
@@ -50,7 +50,7 @@ University, all rights reserved.
 
 @title PDFgui user guide
 @subtitle 1.1 release
-@subtitle @ReleaseDate
+@subtitle @ReleaseDate{}
 @author C. L. Farrow, P. Juh@'as, J. W. Liu, D. Bryndin, E. S. Bo@v{z}in,
 @author J. Bloch, Th. Proffen, and S. J. L. Billinge
 
@@ -361,7 +361,7 @@ the GNU Scientific Library for C,
 @url{http://www.gnu.org/software/gsl}
 @end table
 
-@smallskip
+@smallskip{}
 @noindent
 On Ubuntu Linux the required packages can be all installed
 with one command
@@ -370,7 +370,7 @@ sudo aptitude install \
     python-dev python-setuptools python-wxtools \
     python-numpy python-matplotlib libgsl0-dev g++
 @end example
-@smallskip
+@smallskip{}
 
 @subsubheading Optional programs
 
@@ -1832,7 +1832,7 @@ Scale factor for the selected dataset.
 (float @AA{}@math{^-1}, default 0 @AA{}@math{^-1}, @var{qsig} in PDFFIT) @*
 PDF Gaussian dampening envelope due to limited Q-resolution.
 Not applied when equal to zero. The Gaussian envelope is of the form
-@EquationMark
+@EquationMark{}
 @tex
 $$ B(r) = e^{-{(r Q_{damp})^{2} \over 2} } $$
 @end tex
@@ -1925,7 +1925,7 @@ of the two contributing atoms is uncorrelated. For small distances, however,
 the motion can be strongly correlated leading to a sharpening of the first
 peak(s) in the observed PDF. PDFfit2 provides three different correction terms
 for the PDF peak width. The final width is given by
-@EquationMark
+@EquationMark{}
 @tex
 $$
 \sigma_{ij} = \sigma^{\prime}_{ij} \sqrt{ 1 - {\delta_1 \over r_{ij}} -
