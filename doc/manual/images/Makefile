@@ -10,12 +10,6 @@ images: $(IMAGECOPIES)
 clean:
 	/bin/rm -f -- *.png
 
-# png files are the same as originals.  Since png files are
-# also stored in subversion, perform svn copy when originals
-# change.
+# png files are the same as originals.
 %.png: originals/%.png
 	ln -f -- $< $@
-	if svn status $@ | grep -q '^[M?]'; then \
-	    svn delete --force $@; \
-	    svn copy $< $@; \
-	fi
