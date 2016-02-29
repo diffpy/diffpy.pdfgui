@@ -282,209 +282,73 @@ this website and on the diffpy-users group at
 @section Installation
 @cindex  installation
 
-PDFgui is included as a part of DiffPy, a Python library for structure
-analysis from diffraction data.  The latest version of DiffPy can be
-obtained from @url{http://www.diffpy.org}.  Refer to the section
-corresponding to your operating system for specific installation
-instructions.
+PDFgui is included as a part of DiffPy, a suite of Python and C++
+libraries for structure analysis from diffraction data.  For more
+information about DiffPy products visit the project homepage at
+@url{http://www.diffpy.org}.
 
 @menu
-* Windows::
-* Linux, Mac, Unix: LinuxMacUnix. Linux, Mac, Unix
-* Subversion repository::
+* Installation for Anaconda Python::
 * Configuration of structure viewer::
+* Installation from sources::
 @end menu
 
-@node Windows
-@subsection Windows
+@node Installation for Anaconda Python
+@subsection Installation for Anaconda Python
 
-DiffPy is provided as self-installing archive for Windows systems.  Download
-the latest @samp{diffpy-VERSION.exe} file, launch the executable and follow
-the prompts.  That's all - PDFgui and PDFfit2 should be now ready for use.
-The system ``Start Menu'' includes an ``Update PDFgui'' item, which can be
-used later to upgrade to the latest version of the software.  This menu
-item upgrades only the changed components of PDFgui, which will be released
-more frequently than a full installer.
+As of version 1.1 PDFgui is distributed as a pre-built package for
+@url{https://www.continuum.io, Anaconda Python}.  This method makes it
+easier to distribute software updates and also results in the same
+installation procedure on all supported platforms.
 
-The self-installing archive includes a complete installation of Python
-that is used to run PDFgui and PDFfit2.  Nevertheless, PDFgui and other
-components of the DiffPy library can be also installed under an
-existing Python tree.  This requires Python 2.5 and several external
-Python packages, namely setuptools, numpy, wxPython and matplotlib.
-@footnote{
-Some Python distributions already have these packages installed,
-for example Enthought Python @url{http://www.enthought.com/} or PythonXY
-@url{http://www.pythonxy.com/}.
-}
-To add PDFgui to an existing Python tree, start a command prompt
-and run the @command{easy_install} script from the @i{Python25/Scripts}
-directory
-@example
-easy_install diffpy.pdfgui
-@end example
-@noindent
-This installs library files under @i{Python25/Lib/site-packages} and executable
-scripts for @command{pdfgui} and @command{pdffit2} under @i{Python25/Scripts}.
-
-@node LinuxMacUnix
-@subsection Linux, Mac, Unix
-
-For unix-like operating systems DiffPy can be installed using easy-install,
-provided that some libraries and applications already exist on your computer.
-All required packages are listed below.  These packages should be available as
-binary files for recent Linux systems, in which case it is best to install them
-using your system's package manager such as @command{apt-get} or @command{yum}.
-In case a binary package is not available, refer to the corresponding
-project page for other installation options.
-
-@subsubheading Requirements
-
-@table @emph
-@item python
-Python interpreter version 2.5, @url{http://www.python.org}
-@item python-dev
-C development files for Python
-@item setuptools
-software distribution tools for Python, @*
-@url{http://peak.telecommunity.com/DevCenter/setuptools}
-@item numpy
-numerical Python, minimum version 0.9.8,
-@url{http://numpy.scipy.org}
-@item wxPython
-GUI toolkit for Python, recommended version 2.8 (minimum 2.6) @*
-@url{http://wxpython.org}
-@item matplotlib
-plotting library for Python, minimum version 0.90, @*
-@url{http://matplotlib.org}
-@item g++
-GNU C++ compiler
-@item GSL
-the GNU Scientific Library for C,
-@url{http://www.gnu.org/software/gsl}
-@end table
-
-@smallskip{}
-@noindent
-On Ubuntu Linux the required packages can be all installed
-with one command
-@example
-sudo aptitude install \
-    python-dev python-setuptools python-wxtools \
-    python-numpy python-matplotlib libgsl0-dev g++
-@end example
-@smallskip{}
-
-@subsubheading Optional programs
-
-@table @emph
-@item AtomEye
-AtomEye structure viewer, @*
-@url{http://li.mit.edu/A/Graphics/A/}
-
-@item PyMOL
-PyMOL structure viewer,
-@url{http://www.pymol.org}
-@end table
-
-@subsubheading Installation using easy_install
-
-With all the requirements in place, PDFgui can be installed with a
-single command
-@example
-easy_install diffpy.pdfgui
-@end example
-This installs DiffPy to a default location in python @samp{site-packages}
-directory and executable scripts @command{pdfgui} and @command{pdffit2} to
-@samp{python-prefix/bin/}. Missing dependencies will be automatically
-installed.  If you don't have root access, you can install DiffPy to other
-locations by adding suitable options to the @command{easy_install} invocation.
-For a list available easy_install options, execute
-@command{easy_install --help} from your system's command prompt.
-
-The @command{easy_install} program can be used to update the
-installation to later releases in the code repository
-@example
-easy_install -U diffpy.pdffit2
-@end example
-
-@subsubheading Installation from tar bundle
-
-If you need to install on a computer that does not have network access,
-you can do so from a complete package bundle @samp{diffpy-VERSION.tgz}.
-This archive contains necessary packages and the @command{easy_install} script
-configured to use packages from local directory rather than to download them
-from the Internet.  To install from the tgz bundle, unpack the archive and
-execute @command{easy_install} script included with the distribution:
-@example
-tar xzf diffpy-VERSION.tgz
-cd diffpy-VERSION
-./easy_install diffpy.pdfgui
-@end example
-
-@node Subversion repository
-@subsection Subversion repository
-@cindex subversion
-
-The latest development sources for PDFgui and other DiffPy packages
-are available in a public Subversion code repository.  To install the
-latest code, run
-@example
-easy_install -U \
-    svn://svn@@danse.us/diffraction/diffraction/diffpy.pdfgui/trunk
-@end example
-@noindent
-This should work on both Unix and Windows installation provided you
-have @command{svn}, a subversion client, installed on your computer.
-You will of course need the required packages listed above as well.
-
-@noindent
-@b{Installation for program debugging}
-@cindex debugging
-
-A recommended way to debug PDFgui or any other DiffPy package is to
-download its source tree from Subversion and install in development
-mode.  As an added benefit, it is easy to use subversion to produce
-patches or revert accidental changes.  The development installation can
-be performed by following steps
+To install PDFgui, download and install Anaconda Python from
+@url{https://www.continuum.io/downloads}.  When ready open a terminal
+application (or @i{Anaconda Command Prompt} on Windows) and use the
+@command{conda} package manager to install PDFgui from the ``diffpy''
+channel of Anaconda packages
 
 @example
-svn checkout \
-    svn://svn@@danse.us/diffraction/diffraction/diffpy.pdfgui/trunk \
-    diffpy.pdfgui
-cd diffpy.pdfgui
-python setup.py develop
+conda config --add channels diffpy
+conda install diffpy.pdfgui
 @end example
 
-@noindent
-The develop command instructs python to load the diffpy.pdfgui package
-from the current source tree.  Therefore any changes in those sources
-would be reflected in program execution.  If you change the code,
-for example to fix a bug, please post your modifications as a patch
-to the diffpy-dev Google group at
-@url{https://groups.google.com/d/forum/diffpy-dev}.
-To produce a code patch, change to the source tree base and run
+The first command instructs Anaconda system to always check the
+``diffpy'' channel for any new software.  Such configuration
+allows to obtain PDFgui updates using
 
 @example
-svn diff > patchfile
+conda update diffpy.pdfgui
 @end example
 
-@noindent
-To revert the installation back to the latest release, go to the
-@samp{lib/site-packages} directory in the Python installation
-and delete the @samp{diffpy.pdfgui.egg-link} file and use
-@command{easy_install} to update to the latest public package:
-@example
-easy_install -U diffpy.pdfgui
-@end example
+It is however not strictly necessary to make the ``diffpy''
+channel permanent.  The same effect can be accomplished by adding the
+@w{@option{--channel=diffpy}} option to either of
+@w{@command{conda install}} or @w{@command{conda update}} commands.
 
+After installation is complete PDFgui can be started from a terminal by
+entering @command{pdfgui} command or on Windows by using the DiffPy
+start menu.  PDFgui can be also started from the ``Launcher'' program
+that is included with Anaconda.  
 
 @node Configuration of structure viewer
 @subsection Configuration of structure viewer
 @cindex visualization setup
 
-Once PDFgui is up an running, you need to tell it where to find your preferred
-structure visualization program so it can display 3D structures. This
-information can be entered under the ``Edit->Preferences'' menu.
+PDFgui can visualize 3D structures by displaying them with an external
+visualization program.  The visualization program needs to
+be specified together with a suitable structure format in the
+``@w{Edit →} Preferences'' menu in PDFgui.  The structure plotting
+feature has been tested with the following programs:
+
+@table @emph
+@item AtomEye
+AtomEye structure viewer, XCFG format @*
+@url{http://li.mit.edu/A/Graphics/A/}
+
+@item PyMOL
+PyMOL structure viewer, PDB format @*
+@url{http://www.pymol.org}
+@end table
 
 @noindent
 @b{A note for AtomEye users:}
@@ -494,7 +358,7 @@ AtomEye requires its standard output is connected to a terminal.
 On Unix this happens when @command{pdfgui} is started from a terminal.
 However if you prefer to start PDFgui using a desktop shortcut or via
 ``Run Application'' dialog of the window manager, you need to put the
-following information to the ``Edit->Preferences'' menu of PDFgui.
+following information to the ``Edit → Preferences'' menu of PDFgui.
 @example
 Structure viewer executable: xterm
 Argument string: -iconic -e ATOMEYE %s
@@ -521,6 +385,71 @@ start A.exe %*
 @noindent
 Here @t{ATOMEYE_DIR} needs to be replaced with a proper path.  Make sure
 that the X-server application included with Cygwin is started.
+
+@node Installation from sources
+@subsection Installation from sources
+
+@cindex Git repository
+@cindex development
+
+PDFgui sources are available in a public
+@url{https://git-scm.com, Git} repository at
+@url{https://github.com/diffpy/diffpy.pdfgui}.
+Feel free to fork this project on GitHub and contribute.  To
+use the latest development version clone the Git repository
+to your computer and install it in a development mode so that sources
+are used directly rather than copied to a system location.  It is also
+recommended to uninstall the Anaconda package for PDFgui, so that
+there is no confusion as to what version is the active one.
+Here are the shell commands that would do it:
+
+@example
+# Install PDFgui together with software dependencies.
+conda install --channel=diffpy diffpy.pdfgui
+
+# Make room for the version from sources.  Keep dependencies installed.
+conda remove diffpy.pdfgui
+
+# Obtain a clone of the PDFgui Git repository.
+git clone https://github.com/diffpy/diffpy.pdfgui.git
+
+# Install PDFgui sources in a development mode.
+cd diffpy.pdfgui
+python setup.py develop
+@end example
+
+To verify that PDFgui is indeed loaded from the local source
+repository run
+
+@example
+python -m pydoc diffpy.pdfgui
+@end example
+
+and check the path displayed in the FILE section.  The application
+integrity can be verified by executing all builtin tests using
+
+@example
+python -m diffpy.pdfgui.tests.rundeps
+@end example
+
+Use @command{git pull} to bring your source directory into sync
+with the latest updates in the main repository.  It is recommend
+to afterwards do @command{`setup.py develop} again to refresh
+the version metadata associated with the program:
+
+@example
+git pull
+python setup.py develop
+@end example
+
+To revert PDFgui installation from the source-code installation
+back to the pre-built Anaconda package do
+
+@example
+pip uninstall diffpy.pdfgui
+conda install --channel=diffpy diffpy.pdfgui
+@end example
+
 
 @c @node NODE-NAME, NEXT, PREVIOUS, UP
 @node    What is new
