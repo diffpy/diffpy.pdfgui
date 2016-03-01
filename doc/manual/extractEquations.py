@@ -48,7 +48,7 @@ def loadEquations():
     attex = False
     eqlines = []
     for line in lines:
-        bareline = line.strip()
+        bareline = line.strip().rstrip('{}')
         if bareline == eqmark:
             atmark = True
             continue
@@ -102,8 +102,8 @@ def convertToPNG(texfile):
     hpx = pt2px * (bb[3] - bb[1])
     geometry = "%ix%i+%i+%i" % (wpx, hpx, xpx, ypx)
     pngfilename = texbasename + ".png"
-    cmd = "convert -density %i %r -crop %s +repage %r" % \
-            (rc['resolution'], psfilename, geometry, pngfilename)
+    cmd = "convert -strip -density %i %r -crop %s +repage %r" % \
+        (rc['resolution'], psfilename, geometry, pngfilename)
     os.system(cmd) != 0 and sys.exit(1)
     return
 
