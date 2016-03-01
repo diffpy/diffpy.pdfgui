@@ -8,8 +8,7 @@
 #
 # Variables:
 #
-#   EQSKIP   -- skip building equations in HTML format
-#
+#   EQBUILD  -- extract PNG equations for HTML manual
 
 
 all: pdfgui.pdf pdfgui.html
@@ -18,10 +17,10 @@ all: pdfgui.pdf pdfgui.html
 pdfgui.html: pdfgui.texinfo
 	$(MAKE) -C images
 	texi2html $<
-ifndef EQSKIP
+ifdef EQBUILD
 	python extractEquations.py $<
-	python fixHTMLCode.py $@
 endif
+	python fixHTMLCode.py $@
 
 
 pdfgui.pdf: pdfgui.texinfo
