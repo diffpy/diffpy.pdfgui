@@ -457,6 +457,68 @@ conda install --channel=diffpy diffpy.pdfgui
 @cindex  versions
 @cindex  whatisnew
 
+@subheading Version 1.1, released March 2016
+
+Improvements and modifications since the last major release
+1.0-r3067 from April 2009.
+
+@table @emph
+
+@item Anaconda installer
+
+PDFgui is now distributed as a pre-built package for Anaconda Python.
+The program is available for all platforms supported by Anaconda, i.e.,
+for 32 and 64-bit Linux, Mac OS X, and for 32 and 64-bit Windows.
+
+@item upgrade for recent GUI libraries
+
+Source codes were updated to work with WX GUI toolkit 2.9 or later.
+Fixed blacked-out text fields on Mac OS X.  Fixed missing toolbar
+in plot-windows on Mac OS X.
+
+@item select atoms menu
+
+Added ``Select Atoms'' context menu to the Phase Configuration and Phase
+Constraints panels.  This selects atom rows by a range of indices
+or by atom type.  Added keyboard shortcut @kbd{/} for activating the
+atom-selection dialog.
+
+@item small enhancements
+
+Fixed problems with @i{r}-grid interpolation near data boundaries.  Allow
+use of CIF-defined space groups for symmetry constraints.  Use consistent
+numbering for parameters created by symmetry constraints.  Improved
+export data tool in plot windows to group @i{y}-arrays that are on
+the same @i{x} grid.  Enhanced supercell expansion to also adjust
+the coordinate constraints.
+
+@item project moved to GitHub
+
+PDFgui source repository was converted from subversion to a Git repository at
+@url{https://github.com/diffpy/diffpy.pdfgui}.  Project now uses Git tags
+to define software release and version data.
+
+@item Unicode support
+
+Allow accented characters in project filenames and in folder paths
+where located.  Allow accented characters for naming the fit tree
+items.  Note that such projects are unlikely to work with older
+versions of PDFgui.  Fix failure to exit when there is some
+uncaught error in the at-exit cleanup functions.
+
+@item PDFgui tests
+
+PDFgui installation now includes built-in tests.  Added facility to
+test PDFgui and all its DiffPy components.  Implemented automated
+testing and generation of test coverage reports when sources on
+GitHub change.
+
+@item bug fixes
+Quite a few.  Consult the code history at
+@url{https://github.com/diffpy/diffpy.pdfgui/commits}.
+
+@end table
+
 @subheading Version 1.0, released April 2009
 
 This section describes improvements and modifications since the
@@ -540,9 +602,6 @@ Fixed problems with r-grid interpolation appearing due to round-off errors.
 Windows version could not read PDF datasets with NaN (not-a-number)
 values in the dGr column, because NaN is not supported by the Windows
 C-library.  Added check for NaN-s before converting to float.
-
-@item bug fixes
-too many to list here.
 
 @end table
 
