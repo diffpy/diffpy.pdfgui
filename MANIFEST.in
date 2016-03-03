@@ -4,9 +4,9 @@ include AUTHORS.txt LICENSE*.txt README*
 recursive-include doc *
 prune doc/epydoc
 prune doc/manual/images/originals
-exclude doc/manual/*.texinfo
-exclude doc/manual/*.py
 exclude doc/manual/images/*.pdf
-exclude doc/manual/Makefile
-exclude doc/manual/images/Makefile
+recursive-exclude doc/manual Makefile *.py *.texinfo
+recursive-exclude doc/manual *.aux *.cp *.cps *.err *.log *.toc *.vr *.vrs
 recursive-include icons *.png *.ico
+recursive-exclude * .gitignore .DS_Store
+exclude setup.cfg
