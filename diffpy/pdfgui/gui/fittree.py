@@ -176,17 +176,21 @@ class FitTree(wx.TreeCtrl):
 
         This is the "type" entry in the data dictionary of the node.
         """
-        if not node: return
-        return self.GetTreeItemDict(node)['type']
+        if not node:
+            return None
+        datadict = self.GetTreeItemDict(node)
+        if datadict is None:
+            return None
+        return datadict['type']
 
-    def SetNodeType(self, node, type):
+    def SetNodeType(self, node, tp):
         """Set the node type of a node."""
         if not node: return
         datadict = self.GetTreeItemDict(node)
-        if not datadict:
-            self.SetPyData(node, {'type': type})
-        else:
-            self.GetTreeItemDict(node)['type'] = type
+        if datadict is None:
+            datadict = {}
+            self.SetPyData(node, datadict)
+        datadict['type'] = tp
         return
 
     def GetBranchName(self, node):
