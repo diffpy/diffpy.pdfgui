@@ -56,14 +56,14 @@ class TextValidator(wx.PyValidator):
         val = tc.GetValue()
 
         if self.flag == ALPHA_ONLY:
-            return str.isalpha(val)
+            return val.isalpha()
 
         elif self.flag == DIGIT_ONLY:
             if self.allowNeg:
                 val1 = val[:1].lstrip('-') + val[1:]
             else:
                 val1 = val
-            return str.isdigit(val1)
+            return val1.isdigit()
 
         elif self.flag == FLOAT_ONLY:
             try:
@@ -100,7 +100,7 @@ class TextValidator(wx.PyValidator):
             newval1 = newval
             if self.allowNeg:
                 newval1 = newval[:1].lstrip('-') + newval[1:]
-            if str.isdigit(newval1):
+            if newval1.isdigit():
                 event.Skip()
                 return
 
