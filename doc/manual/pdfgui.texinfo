@@ -301,7 +301,7 @@ As of version 1.1 PDFgui is distributed as a pre-built package for
 easier to distribute software updates and also results in the same
 installation procedure on all supported platforms.
 
-To install PDFgui, download and install Anaconda Python from
+To install PDFgui, download and install Anaconda for Python 2.7 from
 @url{https://www.continuum.io/downloads}.  When ready open a terminal
 application (or @i{Anaconda Command Prompt} on Windows) and use the
 @command{conda} package manager to install PDFgui from the ``diffpy''
