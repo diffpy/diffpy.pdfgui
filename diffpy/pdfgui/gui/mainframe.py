@@ -1103,7 +1103,7 @@ class MainFrame(wx.Frame):
                 #return
             elif len(selections) == 1:
                 self.rightPanel.Enable()
-                selectiontype = self.treeCtrlMain.GetNodeType(node)
+                selectiontype = self.treeCtrlMain.GetNodeType(selections[0])
                 self.switchRightPanel(selectiontype)
             else:
                 self.rightPanel.Enable(False)
