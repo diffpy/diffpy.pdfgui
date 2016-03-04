@@ -145,7 +145,6 @@ class BondLengthDialog(wx.Dialog):
         self.eList = eDict.keys()
         self.eList.sort()
         self.eList.insert(0, "All")
-        map(str.title, self.eList)
 
         self.aComboBox.Clear()
         self.bComboBox.Clear()
