@@ -67,12 +67,7 @@ class QuotedConfigParser(RawConfigParser):
         This allows to work with unicode strings.
         """
         vq = self.get(section, option)
-        if vq.startswith('u '):
-            rv = vq[2:].decode('utf8')
-        elif vq.startswith('s '):
-            rv = vq[2:]
-        else:
-            rv = vq
+        rv = vq.decode('utf8')
         return rv
 
 
@@ -82,10 +77,7 @@ class QuotedConfigParser(RawConfigParser):
         This allows to store and write out unicode strings.
         Use getquoted to recover the decoded value.
         """
-        if isinstance(value, unicode):
-            vq = 'u ' + value.encode('utf8')
-        else:
-            vq = 's ' + value
+        vq = value.encode('utf8')
         return self.set(section, option, vq)
 
 # class QuotedConfigParser
