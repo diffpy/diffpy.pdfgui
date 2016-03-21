@@ -6,7 +6,8 @@
             "name" : "PDFgui",
             "pywscript" : "${PYTHON_SCRIPTS}/pdfgui-script.pyw",
             "workdir" : "${PERSONALDIR}",
-            "icon" : "${MENU_DIR}/pdfgui.ico"
+            "icon" : "${MENU_DIR}/pdfgui.ico",
+            "desktop" : true
         },
         {
             "name" : "PDFgui Manual",
