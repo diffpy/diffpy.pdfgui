@@ -20,14 +20,4 @@
 
 from diffpy.pdfgui.version import __version__
 
-# unit tests
-
-def test():
-    '''Execute all unit tests for the diffpy.pdfgui package.
-    Return a unittest TestResult object.
-    '''
-    from diffpy.pdfgui.tests import test
-    return test()
-
-
 # End of file
