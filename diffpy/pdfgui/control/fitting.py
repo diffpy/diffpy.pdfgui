@@ -136,7 +136,7 @@ class Fitting(Organizer):
         self.dataNameDict = {}
         self.itemIndex = 0
 
-    def __changeStatus(self, fitStatus = None, jobStatus = None):
+    def __changeStatus(self, fitStatus=None, jobStatus=None):
         """change current status of fitting
 
         fitStatus -- new  fitting status
@@ -166,7 +166,7 @@ class Fitting(Organizer):
         """
         return "f_" + self.name
 
-    def copy(self, other = None):
+    def copy(self, other=None):
         """copy self to other. if other is None, create an instance
 
         other -- ref to other object
@@ -235,7 +235,7 @@ class Fitting(Organizer):
 
         returns reference to stripped copy
         """
-        unpickleables = ( 'controlCenter', 'lock', 'pauseEvent', 'thread' )
+        unpickleables = ('controlCenter', 'lock', 'pauseEvent', 'thread')
         naked = self.copy()
         for a in unpickleables:
             if a in self.__dict__:
@@ -262,7 +262,7 @@ class Fitting(Organizer):
             if idx not in self.parameters:
                 self.parameters[idx] = par
         # remove unused parameters
-        unused = [ idx for idx in self.parameters if idx not in cpars ]
+        unused = [idx for idx in self.parameters if idx not in cpars]
         for idx in unused:
             del self.parameters[idx]
         return self.parameters
@@ -303,7 +303,7 @@ class Fitting(Organizer):
 
         return
 
-    def queue(self, enter = True ):
+    def queue(self, enter=True):
         """queue or dequeue self
 
         enter -- True to queue, False to dequeue
@@ -384,7 +384,7 @@ class Fitting(Organizer):
         return
 
 
-    def resetStatus ( self ):
+    def resetStatus(self):
         """reset status back to initialized"""
         self.snapshots = []
         self.step = 0
@@ -394,11 +394,11 @@ class Fitting(Organizer):
         # This status will mandate allocation of a new PdfFit instance
         self.__changeStatus(fitStatus=Fitting.INITIALIZED)
 
-    def run ( self ):
+    def run(self):
         """function to be run in daemon thread.
         """
         # Begin
-        self.__changeStatus ( jobStatus = Fitting.RUNNING )
+        self.__changeStatus(jobStatus=Fitting.RUNNING)
         try:
             for calc in self.calcs:
                 calc.start()
@@ -415,11 +415,11 @@ class Fitting(Organizer):
                         break
                 else:
                     #Wait on an event, pause for a while
-                    self.__changeStatus(jobStatus = Fitting.PAUSED)
+                    self.__changeStatus(jobStatus=Fitting.PAUSED)
                     self.pauseEvent.wait()
 
                     # Recover from pause now
-                    self.__changeStatus ( jobStatus = Fitting.RUNNING )
+                    self.__changeStatus(jobStatus=Fitting.RUNNING)
 
         finally:
             # whatever happened, resource should be released.
@@ -521,7 +521,7 @@ class Fitting(Organizer):
         return
 
 
-    def pause ( self,  bPause = None ):
+    def pause(self, bPause=None):
         """pause ( self, bPause = None ) --> pause a fitting process
 
         bPause -- True to pause, False to restart. If None, it will figure out
@@ -536,7 +536,7 @@ class Fitting(Organizer):
             self.paused = False
             self.pauseEvent.set()
 
-    def start ( self ):
+    def start(self):
         """start fitting"""
         # check if paused
         if self.jobStatus == Fitting.PAUSED:
@@ -552,7 +552,7 @@ class Fitting(Organizer):
         self.thread = Fitting.Worker(self)
         self.thread.start()
 
-    def stop ( self ):
+    def stop(self):
         """stop the fitting"""
         self.stopped = True
 
@@ -560,20 +560,20 @@ class Fitting(Organizer):
         if self.jobStatus == Fitting.PAUSED:
             self.pause(False)
 
-    def isThreadRunning ( self ):
+    def isThreadRunning(self):
         """check if fitting thread is running
 
         return: True if running, False otherwise
         """
         return self.thread is not None and self.thread.isAlive()
 
-    def join (self):
+    def join(self):
         """wait for current fitting to finish"""
         if self.thread:
             self.thread.join()
             self.thread = None
 
-    def close ( self, force = False ):
+    def close(self, force=False):
         """close up the fitting in order to exit
 
         force -- if force to exit
@@ -754,7 +754,7 @@ class Fitting(Organizer):
         """
         return []
 
-    def getData(self, name, step = -1 ):
+    def getData(self, name, step=-1):
         """get self's data member
 
         name -- data item name
@@ -768,11 +768,11 @@ class Fitting(Organizer):
         # FIXME: for next plot interface, we need find how many steps the
         # plotter is requiring for and make exact same number of copies of
         # data by name
-        data = self.getMetaData ( name )
+        data = self.getMetaData(name)
         if data is not None:
             return data
 
-        return self._getData(self, name, step )
+        return self._getData(self, name, step)
 
     def getMetaDataNames(self):
         """return all applicable meta data names
@@ -799,7 +799,7 @@ class Fitting(Organizer):
         except (KeyError, IndexError):
             return None
 
-    def _getData ( self, id, name, step = -1 ):
+    def _getData(self, id, name, step=-1):
         """get any data member from snapshots
 
         id   -- reference to a Fitting/Calculation/Phase/DataSet object
