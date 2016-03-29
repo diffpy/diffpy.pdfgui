@@ -723,14 +723,7 @@ class Fitting(Organizer):
         gui = self.controlCenter.gui
         if gui:
             gui.postEvent(gui.OUTPUT, None)
-        try:
-            if gui:
-                gui.lock()
-            for plot in self.controlCenter.plots:
-                plot.notify(self)
-        finally:
-            if gui:
-                gui.unlock()
+            gui.postEvent(gui.PLOTNOW, self)
 
         if finished:
             self.res = "* %s\n\n"%time.ctime()+ self.server.save_res_string()

@@ -286,6 +286,7 @@ class MainFrame(wx.Frame):
         self.ERROR = 1
         self.UPDATE = 1<<1
         self.OUTPUT = 1<<2
+        self.PLOTNOW = 1<<3
 
         # Needed for the error checker so it doesn't throw errors at quit time
         self.quitting = False
@@ -2472,6 +2473,11 @@ class MainFrame(wx.Frame):
             self.updateFittingStatus(job)
         elif event.type == self.OUTPUT:
             self.updateOutput()
+        elif event.type == self.PLOTNOW:
+            # job is a fitting or a calculation with a new data to plot.
+            job = event.info
+            for plot in self.control.plots:
+                plot.notify(job)
         return
 
     def updateFittingStatus(self, job):

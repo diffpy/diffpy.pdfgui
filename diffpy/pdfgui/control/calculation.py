@@ -130,12 +130,7 @@ class Calculation(PDFComponent):
         gui = self.owner.controlCenter.gui
         if gui:
             gui.postEvent(gui.OUTPUT, None)
-            try:
-                gui.lock()
-                for plot in self.owner.controlCenter.plots:
-                    plot.notify(self)
-            finally:
-                gui.unlock()
+            gui.postEvent(gui.PLOTNOW, self)
         return
 
     def calculate(self):
