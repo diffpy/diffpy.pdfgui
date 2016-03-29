@@ -350,10 +350,12 @@ class PhaseConstraintsPanel(wx.Panel, PDFPanel):
     def onSetFocus(self, event):
         """Saves a TextCtrl value, to be compared in onKillFocuse later."""
         self._focusedText = event.GetEventObject().GetValue()
+        event.Skip()
         return
 
     def onKillFocus(self, event):
         """Check value of TextCtrl and update structure if necessary."""
+        event.Skip()
         if not self.mainFrame: return
         textctrl = event.GetEventObject()
         value = textctrl.GetValue()

@@ -199,6 +199,7 @@ class SGConstrainDialog(wx.Dialog, PDFPanel):
     def onKillFocus(self, event):
         """Check value of widgets and update the dialog message."""
         self.updateWidgets()
+        event.Skip()
         return
 
     def onSGTextEnter(self, event): # wxGlade: SGConstrainDialog.<event_handler>

@@ -188,6 +188,7 @@ class SGStructureDialog(wx.Dialog, PDFPanel):
     def onKillFocus(self, event):
         """Check value of widgets and update the dialog message."""
         self.updateWidgets()
+        event.Skip()
         return
 
     def onSGTextEnter(self, event): # wxGlade: SGStructureDialog.<event_handler>

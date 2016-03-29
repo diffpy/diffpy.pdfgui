@@ -335,15 +335,19 @@ class DataSetConfigurePanel(wx.Panel, PDFPanel):
             # Update the text control
             self.textCtrlFitStep.SetValue(str(self.configuration.fitrstep))
 
+        if event is not None:
+            event.Skip()
         return
 
     def onSetFocus(self, event):
         """Saves a TextCtrl value, to be used later."""
         self._focusedText = event.GetEventObject().GetValue()
+        event.Skip()
         return
 
     def onLoseFocus(self, event):
         """Record the user's selection for the text ctrl data."""
+        event.Skip()
         if not self.configuration: return
         textCtrl = event.GetEventObject()
         value = textCtrl.GetValue()

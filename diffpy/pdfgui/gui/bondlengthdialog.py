@@ -161,6 +161,7 @@ class BondLengthDialog(wx.Dialog):
     def onTextKillFocus(self, event):
         self.lb = float(self.lbTextCtrl.GetValue())
         self.ub = float(self.ubTextCtrl.GetValue())
+        event.Skip()
         return
 
     def onComboKillFocus(self, event):
@@ -174,6 +175,7 @@ class BondLengthDialog(wx.Dialog):
 
         self.ea = self.aComboBox.GetValue()
         self.eb = self.bComboBox.GetValue()
+        event.Skip()
         return
 
     def getCtrlLetter(self, ctrl):

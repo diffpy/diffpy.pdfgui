@@ -186,6 +186,7 @@ class CalculationPanel(wx.Panel, PDFPanel):
         return
 
     def onCalcRange(self, event): # wxGlade: CalculationPanel.<event_handler>
+        event.Skip()
         if self.calculation is None: return
         from diffpy.pdfgui.control.controlerrors import ControlValueError
         # Since calculation.rmax gets adjusted by setRGrid,
@@ -216,6 +217,7 @@ class CalculationPanel(wx.Panel, PDFPanel):
     def onSetFocus(self, event):
         """Saves a TextCtrl value, to be used later."""
         self._focusedText = event.GetEventObject().GetValue()
+        event.Skip()
         return
 
     def onKillFocus(self, event):
@@ -227,6 +229,7 @@ class CalculationPanel(wx.Panel, PDFPanel):
         if oldval != value:
             setattr(self.calculation, name, value)
             self.mainFrame.needsSave()
+        event.Skip()
         return
 
     def onExport(self, event): # wxGlade: CalculationPanel.<event_handler>

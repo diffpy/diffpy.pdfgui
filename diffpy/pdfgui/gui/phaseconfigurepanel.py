@@ -255,6 +255,7 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
         self.textCtrlIncludedPairs.SetValue(pairs)
         phasepanelutils.refreshGrid(self)
         self.restrictConstrainedParameters()
+        self.textCtrlA.SetFocus()
         return
 
     def restrictConstrainedParameters(self):
@@ -390,6 +391,7 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
     def onSetFocus(self, event):
         """Saves a TextCtrl value, to be compared in onKillFocus later."""
         self._focusedText = event.GetEventObject().GetValue()
+        event.Skip()
         return
 
     def onKillFocus(self, event):
@@ -402,6 +404,7 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
             phasepanelutils.refreshTextCtrls(self)
             self.mainFrame.needsSave()
         self._focusedText = None
+        event.Skip()
         return
 
     def onSelectedPairs(self, event):
@@ -411,6 +414,7 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
         self.structure.setSelectedPairs(value)
         value = self.structure.getSelectedPairs()
         self.textCtrlIncludedPairs.SetValue(value)
+        event.Skip()
         return
 
 
