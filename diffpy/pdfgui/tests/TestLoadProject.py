@@ -17,19 +17,11 @@
 """
 
 
-import os
 import unittest
 
 from diffpy.pdfgui.control.controlerrors import ControlFileError
 from diffpy.pdfgui.tui import LoadProject
-
-# useful variables
-thisfile = locals().get('__file__', 'TestLoadProject.py')
-tests_dir = os.path.dirname(os.path.abspath(thisfile))
-testdata_dir = os.path.join(tests_dir, 'testdata')
-
-def testdatafile(basename):
-    return os.path.join(testdata_dir, basename)
+from diffpy.pdfgui.tests.testutils import datafile
 
 
 ##############################################################################
@@ -42,10 +34,10 @@ class TestLoadProject(unittest.TestCase):
     def setUp(self):
         # load project files once
         if TestLoadProject.prj_lcmo is None:
-            TestLoadProject.prj_lcmo = LoadProject(testdatafile('lcmo.ddp'))
+            TestLoadProject.prj_lcmo = LoadProject(datafile('lcmo.ddp'))
             TestLoadProject.prj_lcmo_full = LoadProject(
-                    testdatafile('lcmo_full.ddp'))
-            TestLoadProject.prj_ni = LoadProject(testdatafile('ni.ddp'))
+                    datafile('lcmo_full.ddp'))
+            TestLoadProject.prj_ni = LoadProject(datafile('ni.ddp'))
         # assign them to this instance
         self.prj_lcmo = TestLoadProject.prj_lcmo
         self.prj_lcmo_full = TestLoadProject.prj_lcmo_full

@@ -17,13 +17,7 @@
 """
 
 
-import os
 import unittest
-
-# useful variables
-thisfile = locals().get('__file__', 'TestCalculation.py')
-tests_dir = os.path.dirname(os.path.abspath(thisfile))
-# testdata_dir = os.path.join(tests_dir, 'testdata')
 
 from diffpy.pdfgui.control.controlerrors import ControlValueError
 from diffpy.pdfgui.control.calculation import Calculation

@@ -17,17 +17,12 @@
 """
 
 
-import os
 import unittest
 import numpy
 
 import diffpy.pdfgui.control.fitdataset as fds
 from diffpy.pdfgui.control.fitdataset import FitDataSet
-
-# useful variables
-thisfile = locals().get('__file__', 'TestFitDataSet.py')
-tests_dir = os.path.dirname(os.path.abspath(thisfile))
-testdata_dir = os.path.join(tests_dir, 'testdata')
+from diffpy.pdfgui.tests.testutils import datafile
 
 
 ##############################################################################
@@ -193,7 +188,7 @@ class TestRoutines(unittest.TestCase):
     def test__resampledPDFDataSet(self):
         """check FitDataSet._resampledPDFDataSet()
         """
-        fNi_data = os.path.join(testdata_dir, "Ni_2-8.chi.gr")
+        fNi_data = datafile("Ni_2-8.chi.gr")
         fds = FitDataSet('Ni')
         fds.read(fNi_data)
         npts = len(fds.rcalc)

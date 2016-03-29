@@ -17,17 +17,13 @@
 """
 
 
-import os
 import unittest
 
 from diffpy.pdfgui.control.controlerrors import ControlRuntimeError
 from diffpy.pdfgui.control.controlerrors import ControlKeyError
 from diffpy.pdfgui.control.parameter import Parameter
+from diffpy.pdfgui.tests.testutils import datafile
 
-# useful variables
-thisfile = locals().get('__file__', 'TestPdfFitSandbox.py')
-tests_dir = os.path.dirname(os.path.abspath(thisfile))
-testdata_dir = os.path.join(tests_dir, 'testdata')
 
 ##############################################################################
 class TestPdfFitSandbox(unittest.TestCase):
@@ -40,7 +36,7 @@ class TestPdfFitSandbox(unittest.TestCase):
 
     def tearDown(self):
         import cPickle
-        s = cPickle.dumps(self.box)
+        cPickle.dumps(self.box)
         return
 
     def test___init__(self):
@@ -62,7 +58,7 @@ class TestPdfFitSandbox(unittest.TestCase):
         """check PdfFitSandbox.allfits()
         """
         self.assertEqual(0, len(self.box.allfits()))
-        fNi_stru = os.path.join(testdata_dir, 'Ni.stru')
+        fNi_stru = datafile('Ni.stru')
         self.box.read_struct(fNi_stru)
         self.assertEqual(0, len(self.box.allfits()))
         self.box.refine()
@@ -72,8 +68,8 @@ class TestPdfFitSandbox(unittest.TestCase):
     def test_read_struct(self):
         """check PdfFitSandbox.read_struct()
         """
-        fNi_stru = os.path.join(testdata_dir, 'Ni.stru')
-        f300K_stru = os.path.join(testdata_dir, '300K.stru')
+        fNi_stru = datafile('Ni.stru')
+        f300K_stru = datafile('300K.stru')
         self.box.read_struct(fNi_stru)
         self.box.read_struct(f300K_stru)
         self.assertEqual(2, len(self.box._fits[-1].strucs))
@@ -90,8 +86,8 @@ class TestPdfFitSandbox(unittest.TestCase):
     def test_read_struct_string(self):
         """check PdfFitSandbox.read_struct_string()
         """
-        fNi_stru = os.path.join(testdata_dir, 'Ni.stru')
-        f300K_stru = os.path.join(testdata_dir, '300K.stru')
+        fNi_stru = datafile('Ni.stru')
+        f300K_stru = datafile('300K.stru')
         sNi = open(fNi_stru).read()
         s300K = open(f300K_stru).read()
         self.box.read_struct_string(sNi)
@@ -110,8 +106,8 @@ class TestPdfFitSandbox(unittest.TestCase):
     def test_read_data(self):
         """check PdfFitSandbox.read_data()
         """
-        fNi_data = os.path.join(testdata_dir, "Ni_2-8.chi.gr")
-        f300K_data = os.path.join(testdata_dir, "300K.gr")
+        fNi_data = datafile("Ni_2-8.chi.gr")
+        f300K_data = datafile("300K.gr")
         sandbox = self.box.sandbox()
         sandbox.update({ "fNi_data" : fNi_data, "f300K_data" : f300K_data })
         exec "read_data(fNi_data, X, 40.1, 0.05)" in sandbox
@@ -136,8 +132,8 @@ class TestPdfFitSandbox(unittest.TestCase):
     def test_read_data_string(self):
         """check PdfFitSandbox.read_data_string()
         """
-        fNi_data = os.path.join(testdata_dir, "Ni_2-8.chi.gr")
-        f300K_data = os.path.join(testdata_dir, "300K.gr")
+        fNi_data = datafile("Ni_2-8.chi.gr")
+        f300K_data = datafile("300K.gr")
         sNi = open(fNi_data).read()
         s300K = open(f300K_data).read()
         sandbox = self.box.sandbox()
@@ -171,8 +167,8 @@ class TestPdfFitSandbox(unittest.TestCase):
     def test_pdfrange(self):
         """check PdfFitSandbox.pdfrange()
         """
-        fNi_data = os.path.join(testdata_dir, "Ni_2-8.chi.gr")
-        f300K_data = os.path.join(testdata_dir, "300K.gr")
+        fNi_data = datafile("Ni_2-8.chi.gr")
+        f300K_data = datafile("300K.gr")
         self.box.read_data(fNi_data, 'X', 40.1, 0.05)
         self.box.read_data(f300K_data, 'N', 32.1, 0.05)
         sandbox = self.box.sandbox()
@@ -204,8 +200,8 @@ class TestPdfFitSandbox(unittest.TestCase):
     def test_reset(self):
         """check PdfFitSandbox.reset()
         """
-        fNi_stru = os.path.join(testdata_dir, 'Ni.stru')
-        fNi_data = os.path.join(testdata_dir, "Ni_2-8.chi.gr")
+        fNi_stru = datafile('Ni.stru')
+        fNi_data = datafile("Ni_2-8.chi.gr")
         sandbox = self.box.sandbox()
         sandbox.update({ "fNi_stru" : fNi_stru, "fNi_data" : fNi_data })
         exec "read_data(fNi_data, X, 40.1, 0.05)" in sandbox
@@ -228,7 +224,7 @@ class TestPdfFitSandbox(unittest.TestCase):
         """
         from diffpy.pdfgui.control.calculation import Calculation
         from diffpy.pdfgui.control.fitting import Fitting
-        fNi_stru = os.path.join(testdata_dir, 'Ni.stru')
+        fNi_stru = datafile('Ni.stru')
         sandbox = self.box.sandbox()
         sandbox.update({ "fNi_stru" : fNi_stru })
         exec "read_struct(fNi_stru)" in sandbox
@@ -253,7 +249,7 @@ class TestPdfFitSandbox(unittest.TestCase):
         """check PdfFitSandbox.calc()
         """
         from diffpy.pdfgui.control.calculation import Calculation
-        fNi_stru = os.path.join(testdata_dir, 'Ni.stru')
+        fNi_stru = datafile('Ni.stru')
         sandbox = self.box.sandbox()
         sandbox.update({ "fNi_stru" : fNi_stru })
         exec "read_struct(fNi_stru)" in sandbox
@@ -272,8 +268,8 @@ class TestPdfFitSandbox(unittest.TestCase):
     def test_refine(self):
         """check PdfFitSandbox.refine()
         """
-        fNi_stru = os.path.join(testdata_dir, 'Ni.stru')
-        fNi_data = os.path.join(testdata_dir, "Ni_2-8.chi.gr")
+        fNi_stru = datafile('Ni.stru')
+        fNi_data = datafile("Ni_2-8.chi.gr")
         sandbox = self.box.sandbox()
         sandbox.update({ "fNi_stru" : fNi_stru, "fNi_data" : fNi_data })
         exec "read_data(fNi_data, X, 40.1, 0.05)" in sandbox
@@ -369,11 +365,11 @@ class TestPdfFitSandbox(unittest.TestCase):
         """
         sandbox = self.box.sandbox()
         self.assertRaises(ControlKeyError, self.box.constrain, 'delta', 1)
-        fNi_stru = os.path.join(testdata_dir, 'Ni.stru')
+        fNi_stru = datafile('Ni.stru')
         self.box.read_struct(fNi_stru)
         exec 'constrain(delta, 1)' in sandbox
         self.assertRaises(ControlKeyError, self.box.constrain, 'qdamp', 10)
-        fNi_data = os.path.join(testdata_dir, "Ni_2-8.chi.gr")
+        fNi_data = datafile("Ni_2-8.chi.gr")
         self.box.read_data(fNi_data, "X", 40.1, 0.05)
         exec 'constrain(qdamp, 10)' in sandbox
         exec 'constrain(dscale, 2)' in sandbox
@@ -405,7 +401,7 @@ class TestPdfFitSandbox(unittest.TestCase):
     def test_constrain_calculation(self):
         """check exceptions when attempting to constrain Calculation
         """
-        fNi_stru = os.path.join(testdata_dir, 'Ni.stru')
+        fNi_stru = datafile('Ni.stru')
         sandbox = self.box.sandbox()
         sandbox.update({ "fNi_stru" : fNi_stru })
         exec "read_struct(fNi_stru)" in sandbox
@@ -425,8 +421,8 @@ class TestPdfFitSandbox(unittest.TestCase):
         curfit = self.box._fits[-1]
         self.box.setpar(1, 5.0)
         self.assertEqual(5.0, curfit.parameters[1].initialValue())
-        fNi_stru = os.path.join(testdata_dir, 'Ni.stru')
-        fNi_data = os.path.join(testdata_dir, "Ni_2-8.chi.gr")
+        fNi_stru = datafile('Ni.stru')
+        fNi_data = datafile("Ni_2-8.chi.gr")
         self.box.read_struct(fNi_stru)
         self.box.read_data(fNi_data, "X", 40.1, 0.05)
         exec 'constrain(dscale, 1)' in sandbox
@@ -452,8 +448,8 @@ class TestPdfFitSandbox(unittest.TestCase):
         curfit = self.box._fits[-1]
         self.box.setpar(1, 5.0)
         self.assertEqual(5.0, eval('getpar(1)', sandbox))
-        fNi_stru = os.path.join(testdata_dir, 'Ni.stru')
-        fNi_data = os.path.join(testdata_dir, "Ni_2-8.chi.gr")
+        fNi_stru = datafile('Ni.stru')
+        fNi_data = datafile("Ni_2-8.chi.gr")
         self.box.read_struct(fNi_stru)
         self.box.read_data(fNi_data, "X", 40.1, 0.05)
         exec 'setpar(1, dscale)' in sandbox
@@ -505,8 +501,8 @@ class TestPdfFitSandbox(unittest.TestCase):
         """check PdfFitSandbox.setvar()
         """
         sandbox = self.box.sandbox()
-        fNi_stru = os.path.join(testdata_dir, 'Ni.stru')
-        fNi_data = os.path.join(testdata_dir, "Ni_2-8.chi.gr")
+        fNi_stru = datafile('Ni.stru')
+        fNi_data = datafile("Ni_2-8.chi.gr")
         self.box.read_struct(fNi_stru)
         self.box.read_data(fNi_data, "X", 40.1, 0.05)
         curfit = self.box._fits[-1]
@@ -531,8 +527,8 @@ class TestPdfFitSandbox(unittest.TestCase):
         """check PdfFitSandbox.getvar()
         """
         sandbox = self.box.sandbox()
-        f300K_stru = os.path.join(testdata_dir, '300K.stru')
-        f300K_data = os.path.join(testdata_dir, "300K.gr")
+        f300K_stru = datafile('300K.stru')
+        f300K_data = datafile("300K.gr")
         sandbox.update({"f300K_stru" : f300K_stru, "f300K_data" : f300K_data})
         exec "read_data(f300K_data, 'N', 32.1, 0.05)" in sandbox
         exec "read_struct(f300K_stru)" in sandbox
@@ -578,8 +574,8 @@ class TestPdfFitSandbox(unittest.TestCase):
         """check PdfFitSandbox.setphase()
         """
         sandbox = self.box.sandbox()
-        fNi_stru = os.path.join(testdata_dir, 'Ni.stru')
-        f300K_stru = os.path.join(testdata_dir, '300K.stru')
+        fNi_stru = datafile('Ni.stru')
+        f300K_stru = datafile('300K.stru')
         self.assertEqual(None, self.box._curphase)
         self.box.read_struct(fNi_stru)
         self.assertEqual(0, self.box._curphase)
@@ -599,8 +595,8 @@ class TestPdfFitSandbox(unittest.TestCase):
         """check PdfFitSandbox.setdata()
         """
         sandbox = self.box.sandbox()
-        fNi_data = os.path.join(testdata_dir, "Ni_2-8.chi.gr")
-        f300K_data = os.path.join(testdata_dir, "300K.gr")
+        fNi_data = datafile("Ni_2-8.chi.gr")
+        f300K_data = datafile("300K.gr")
         self.assertEqual(None, self.box._curdataset)
         self.box.read_data(fNi_data, "X", 40.1, 0.05)
         self.assertEqual(0, self.box._curdataset)
@@ -703,7 +699,7 @@ class TestPdfFitSandbox(unittest.TestCase):
         """
         self.assertRaises(ControlKeyError, self.box.num_atoms)
         sandbox = self.box.sandbox()
-        fNi_stru = os.path.join(testdata_dir, 'Ni.stru')
+        fNi_stru = datafile('Ni.stru')
         self.box.read_struct(fNi_stru)
         self.assertEqual(4, eval('num_atoms()', sandbox))
         return

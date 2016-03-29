@@ -7,18 +7,10 @@
 import os
 import unittest
 
-from diffpy.pdfgui.control.controlerrors import *
-from diffpy.pdfgui.control.structureviewer import *
-
-# useful variables
-thisfile = locals().get('__file__', 'file.py')
-tests_dir = os.path.dirname(os.path.abspath(thisfile))
-testdata_dir = os.path.join(tests_dir, 'testdata')
-
-def datafile(filename):
-    """prepend testdata_dir to filename
-    """
-    return os.path.join(testdata_dir, filename)
+from diffpy.pdfgui.control.controlerrors import ControlConfigError
+from diffpy.pdfgui.control.structureviewer import getStructureViewer
+from diffpy.pdfgui.control.structureviewer import StructureViewer
+from diffpy.pdfgui.tests.testutils import datafile
 
 
 ##############################################################################

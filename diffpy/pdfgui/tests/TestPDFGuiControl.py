@@ -17,15 +17,11 @@
 """
 
 
-import os
 import unittest
 
 from diffpy.pdfgui.control.controlerrors import ControlRuntimeError
+from diffpy.pdfgui.tests.testutils import datafile
 
-# useful variables
-thisfile = locals().get('__file__', 'TestPDFGuiControl.py')
-tests_dir = os.path.dirname(os.path.abspath(thisfile))
-testdata_dir = os.path.join(tests_dir, 'testdata')
 
 ##############################################################################
 class TestPDFGuiControl(unittest.TestCase):
@@ -44,10 +40,10 @@ class TestPDFGuiControl(unittest.TestCase):
         """check PDFGuiControl.importPdffit2Script()
         """
         self.assertEqual(0, len(self.control.fits))
-        fgoodNi = os.path.join(testdata_dir, 'goodNiScript.py')
-        ftwophases = os.path.join(testdata_dir, 'CdSe15_twophases.py')
-        fbadNi1 = os.path.join(testdata_dir, 'badNiScript1.py')
-        fbadNi2 = os.path.join(testdata_dir, 'badNiScript2.py')
+        fgoodNi = datafile('goodNiScript.py')
+        ftwophases = datafile('CdSe15_twophases.py')
+        fbadNi1 = datafile('badNiScript1.py')
+        fbadNi2 = datafile('badNiScript2.py')
         newfits = self.control.importPdffit2Script(fgoodNi)
         self.assertEqual(1, len(newfits))
         self.assertEqual(1, len(self.control.fits))

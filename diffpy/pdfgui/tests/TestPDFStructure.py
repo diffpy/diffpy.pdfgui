@@ -4,16 +4,12 @@
 """
 
 
-import os
 import unittest
 
-# useful variables
-thisfile = locals().get('__file__', 'file.py')
-tests_dir = os.path.dirname(os.path.abspath(thisfile))
-testdata_dir = os.path.join(tests_dir, 'testdata')
-
 from diffpy.pdfgui.control.pdfstructure import PDFStructure
-from diffpy.pdfgui.control.controlerrors import *
+from diffpy.pdfgui.control.controlerrors import ControlFileError
+from diffpy.pdfgui.control.controlerrors import ControlKeyError
+from diffpy.pdfgui.tests.testutils import datafile
 
 
 ##############################################################################
@@ -40,7 +36,7 @@ class TestPDFStructure(unittest.TestCase):
         """check PDFStructure.read()
         """
         stru = self.stru
-        notastructurefile = os.path.join(testdata_dir, '300K.gr')
+        notastructurefile = datafile('300K.gr')
         self.assertRaises(ControlFileError,
                 stru.read, notastructurefile, format='pdffit')
         return

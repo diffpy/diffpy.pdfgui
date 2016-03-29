@@ -17,15 +17,10 @@
 """
 
 
-import os
 import unittest
 
 from diffpy.pdfgui.control.pdfdataset import PDFDataSet
-
-# useful variables
-thisfile = locals().get('__file__', 'TestPDFDataSet.py')
-tests_dir = os.path.dirname(os.path.abspath(thisfile))
-testdata_dir = os.path.join(tests_dir, 'testdata')
+from diffpy.pdfgui.tests.testutils import datafile
 
 
 ##############################################################################
@@ -63,7 +58,7 @@ class TestPDFDataSet(unittest.TestCase):
         """check PDFDataSet.read()
         """
         # neutron data -------------------------------------------------
-        fn_550K = os.path.join(testdata_dir, '550K.gr')
+        fn_550K = datafile('550K.gr')
         self.pdfds.read(fn_550K)
         self.assertEqual('N', self.pdfds.stype)
         self.assertEqual(32.0, self.pdfds.qmax)
@@ -75,7 +70,7 @@ class TestPDFDataSet(unittest.TestCase):
         # dGobs should be defined
         self.failUnless(min(self.pdfds.dGobs) > 0)
         # x-ray data ---------------------------------------------------
-        fx_Ni = os.path.join(testdata_dir, 'Ni_2-8.chi.gr')
+        fx_Ni = datafile('Ni_2-8.chi.gr')
         self.pdfds.read(fx_Ni)
         self.assertEqual('X', self.pdfds.stype)
         self.assertEqual(40.0, self.pdfds.qmax)
@@ -92,7 +87,7 @@ class TestPDFDataSet(unittest.TestCase):
         """check PDFDataSet.readStr()
         """
         # read Ni xray data, but invalidate the last dGobs
-        fx_Ni = os.path.join(testdata_dir, 'Ni_2-8.chi.gr')
+        fx_Ni = datafile('Ni_2-8.chi.gr')
         sNi = open(fx_Ni).read()
         lastdGobs = sNi.rstrip().rindex(' ')
         sNi_no_dGobs = sNi[:lastdGobs] + " -1.3e-3"
