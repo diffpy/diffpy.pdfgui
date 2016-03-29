@@ -248,6 +248,9 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
         """Cache the current structure and constraints for future comparison."""
         pass
 
+
+    __this_is_first_refresh = True
+
     def refresh(self):
         """Refreshes widgets on the panel."""
         phasepanelutils.refreshTextCtrls(self)
@@ -255,7 +258,14 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
         self.textCtrlIncludedPairs.SetValue(pairs)
         phasepanelutils.refreshGrid(self)
         self.restrictConstrainedParameters()
-        self.textCtrlA.SetFocus()
+        # wxpython 3.0 on Windows 7 prevents textCtrlA from receiving
+        # left-click input focus and can be only focused with a Tab key.
+        # This only happens for the first input, the text control behaves
+        # normally after receiving focus once.
+        # Workaround: do explicit focus here for the first rendering.
+        if self.__this_is_first_refresh:
+            self.textCtrlA.SetFocus()
+            self.__this_is_first_refresh = False
         return
 
     def restrictConstrainedParameters(self):
