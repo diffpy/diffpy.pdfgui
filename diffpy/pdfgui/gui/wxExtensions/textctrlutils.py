@@ -47,5 +47,6 @@ def textCtrlAsGridCell(panel, event):
     # ENTER - Act like TAB
     elif key == 13:
         wx.CallAfter(textctrl.Navigate)
-    event.Skip()
+    else:
+        event.Skip()
     return
