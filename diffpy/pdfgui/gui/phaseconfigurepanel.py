@@ -264,8 +264,10 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
         # normally after receiving focus once.
         # Workaround: do explicit focus here for the first rendering.
         if self.__this_is_first_refresh:
-            self.textCtrlA.SetFocus()
             self.__this_is_first_refresh = False
+            focusowner = self.textCtrlA.FindFocus()
+            wx.CallAfter(self.textCtrlA.SetFocus)
+            wx.CallAfter(focusowner.SetFocus)
         return
 
     def restrictConstrainedParameters(self):
