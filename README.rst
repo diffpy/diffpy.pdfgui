@@ -71,8 +71,8 @@ By default the files are installed to standard system directories,
 which may require the use of ``sudo`` for write privileges.  If
 administrator (root) access is not available, see the output from
 ``python setup.py install --help`` for options to install as a regular
-user to user-owned locations.  Note that installation to a non-standard
-directories you may require adjustments to the PATH and PYTHONPATH
+user to user-writable locations.  Note that installation to non-standard
+directories may require adjustments to the PATH and PYTHONPATH
 environment variables.  The installation integrity can be verified by
 changing to the HOME directory and running ::
 
