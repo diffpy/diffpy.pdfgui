@@ -188,7 +188,6 @@ class ErrorReportDialog(wx.Dialog):
 ##### testing code ############################################################
 class MyApp(wx.App):
     def OnInit(self):
-        wx.InitAllImageHandlers()
         self.dialog = ErrorReportDialog(None, -1, "")
         self.SetTopWindow(self.dialog)
         self.test()

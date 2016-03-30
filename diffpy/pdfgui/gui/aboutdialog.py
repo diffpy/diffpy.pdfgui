@@ -221,7 +221,6 @@ class DialogAbout(wx.Dialog):
 ##### testing code ############################################################
 class MyApp(wx.App):
     def OnInit(self):
-        wx.InitAllImageHandlers()
         dialog = DialogAbout(None, -1, "")
         self.SetTopWindow(dialog)
         dialog.ShowModal()

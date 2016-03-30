@@ -21,7 +21,6 @@ import wx
 class PDFGuiApp(wx.App):
     def OnInit(self):
         from diffpy.pdfgui.gui.mainframe import MainFrame
-        wx.InitAllImageHandlers()
         self.frame = MainFrame(None, -1, "")
         self.SetTopWindow(self.frame)
         self.frame.Show()

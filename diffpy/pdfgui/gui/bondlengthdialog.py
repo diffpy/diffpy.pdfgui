@@ -233,7 +233,6 @@ class BondLengthDialog(wx.Dialog):
 
 if __name__ == "__main__":
     app = wx.PySimpleApp(0)
-    wx.InitAllImageHandlers()
     blenDialog = BondLengthDialog(None, -1, "")
     app.SetTopWindow(blenDialog)
     blenDialog.Show()
