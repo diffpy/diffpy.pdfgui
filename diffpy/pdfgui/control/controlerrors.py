@@ -61,15 +61,6 @@ class ControlRuntimeError(ControlError):
     """PDFGuiControl exception class -- various irrecoverable runtime error"""
     pass
 
-class ControlConnectError(ControlError):
-    """PDFGuiControl exception class -- network connection error"""
-    pass
-
-
-class ControlAuthError(ControlError):
-    """PDFGuiControl exception class -- authentication failed """
-    pass
-
 
 class ControlIndexError(ControlError):
     """PDFGuiControl exception class -- index out of bound """

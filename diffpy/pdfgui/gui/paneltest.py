@@ -18,7 +18,6 @@
 
 import wx
 #from diffpy.pdfgui.gui.mainframe import MainPanel
-#from diffpy.pdfgui.gui.serverpanel import ServerPanel
 #from diffpy.pdfgui.gui.journalpanel import JournalPanel
 #from diffpy.pdfgui.gui.datasetconfigurepanel import DataSetConfigurePanel
 #from diffpy.pdfgui.gui.fitnotebookpanel import FitNotebookPanel
@@ -31,7 +30,6 @@ class MyFrame(wx.Frame):
         kwds["style"] = wx.DEFAULT_FRAME_STYLE
         wx.Frame.__init__(self, *args, **kwds)
         #self.window_1 = MainPanel(self, -1)
-        #self.window_1 = ServerPanel(self, -1)
         #self.window_1 = JournalPanel(self, -1)
         #self.window_1 = DataSetConfigurePanel(self, -1)
         #self.window_1 = FitNotebookPanel(self, -1)

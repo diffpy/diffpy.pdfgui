@@ -55,9 +55,8 @@ def handleEngineException(error, gui=None):
 
 ##############################################################################
 class Fitting(Organizer):
-    """Fitting is the class to control a PdfFit process, which can be either
-    running on a remote machine or locally. Fitting will start a thread to
-    interact with the PdfFit server using ssh2 and XMLRPC protocol.
+    """Fitting is the class to control a PdfFit process running locally.
+    Fitting will start a new thread to interact with the PdfFit server.
 
     rw:         fitness parameter
     tolerancy:  accurancy requirement
@@ -117,8 +116,7 @@ class Fitting(Organizer):
         self.stopped = False
         self.paused = False
 
-        # rpc memeber
-        self.host = None
+        # the PDFfit2 server instance.
         self.server = None
 
         # public data members
@@ -152,12 +150,8 @@ class Fitting(Organizer):
 
     def _release(self):
         """release resources"""
-        if self.host: # is not None (running on a remote server)
-            self.host.releaseServer(self.server)
-            self.host = None
-        else:
-            if self.server: # server has been allocated, we need free the memory
-                self.server.reset()
+        if self.server: # server has been allocated, we need free the memory
+            self.server.reset()
 
     def _getStrId(self):
         """make a string identifier
@@ -320,16 +314,9 @@ class Fitting(Organizer):
         """
         if self.fitStatus != Fitting.INITIALIZED:
             return
-
-        self.host = self.controlCenter.getHost()
-        if self.host is None:
-            # import directly from local host
-            from diffpy.pdffit2 import PdfFit
-            self.server = PdfFit()
-        else:
-            # get server without waiting.
-            self.server = self.host.getServer()
-
+        # create a new instance of calculation server
+        from diffpy.pdffit2 import PdfFit
+        self.server = PdfFit()
         self.__changeStatus(fitStatus=Fitting.CONNECTED)
 
 

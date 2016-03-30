@@ -38,10 +38,8 @@ class PDFGuiControl:
 
         gui: main panel of GUI
         """
-        # Lock , Gui and host machine
         self.lock = threading.RLock()
         self.gui = gui
-        self.host = None
 
         # clean up local data
         self.reset()
@@ -155,10 +153,6 @@ class PDFGuiControl:
         """exit when program finished
         """
         self.close()
-
-        if self.host:
-            self.host.close()
-
         if self.queueManager.isAlive():
             self.queueManager.running = False
 
@@ -579,28 +573,6 @@ class PDFGuiControl:
         for id in self.fits:
             if isinstance(id, Fitting):
                 id.stop()
-
-    def setHost(self, hostCfg):
-        """set the host machine to be used for fitting
-
-        hostCfg -- configuration dictionary of remote host. If it is blank or None,
-                   self.host will be set to None.
-        """
-        if not hostCfg:
-            # set self.host to None in order to use local host
-            self.host = None
-        else:
-            # create a host
-            from diffpy.pdfgui.control.serverhost import ServerHost
-            self.host = ServerHost(hostCfg['name'], hostCfg)
-
-    def getHost(self):
-        """get current host to be used. It can be None if we choose
-        localhost
-
-        return value: proxy instance
-        """
-        return self.host
 
     def __validateType(self, targetID):
         """check if targetID is a Fitting class"""

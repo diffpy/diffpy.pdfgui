@@ -173,33 +173,6 @@ E. g. '%s' or '-c %s' (for pymol).\
     }
 
 
-serverpanel = {
-#    'accountSizer_staticbox' : '', # StaticBox "Account"
-#    'rsaSizer_staticbox' : '', # StaticBox "RSA/DSA path"
-#    'hostSizer_staticbox' : '', # StaticBox "Host"
-    'serverList' : 'Click \"Servers\" to choose local machine', # AutoWidthListCtrl
-#    'newButton' : '', # Button "New"
-#    'deleteButton' : '', # Button "Delete"
-#    'hostLabel' : '', # StaticText "Host"
-#    'hostText' : '', # TextCtrl
-#    'portLabel' : '', # StaticText "SSH port"
-#    'portText' : '', # TextCtrl
-#    'portCheck' : '', # CheckBox "Use default port"
-#    'authRadio' : '', # RadioBox "Authentication type", choices=["Passwd", "RSA", "DSA"]
-#    'userLabel' : '', # StaticText "username"
-#    'userText' : '', # TextCtrl
-#    'passwdLabel' : '', # StaticText "password"
-#    'passwdText' : '', # TextCtrl
-#    'rsaCheck' : '', # CheckBox "Use default path"
-#    'pathText' : '', # TextCtrl
-    'keyfileBtn' : 'Choose RSA/DSA key file', # Button "Select"
-#    'passphraseLabel' : '', # StaticText "RSA/DSA Passphrase"
-#    'passphraseText' : '', # TextCtrl
-#    'okButton' : '', # Button "OK"
-#    'cancelButton' : '', # Button "Cancel"
-    }
-
-
 temperatureseriespanel = {
 #    'instructionsLabel' : '', # StaticText "Select a fit from the tree on the left then add datasets and assign\ntemperatues below. If you have not set up a fit to be the template\nfor the series, hit cancel and rerun this macro once a fit has been\ncreated."
     'listCtrlFiles' : 'Click header to sort by temperature', # AutoWidthListCtrl

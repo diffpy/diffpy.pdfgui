@@ -44,7 +44,6 @@ from diffpy.pdfgui.gui.plotpanel import PlotPanel
 from diffpy.pdfgui.gui.rseriespanel import RSeriesPanel
 from diffpy.pdfgui.gui.temperatureseriespanel import TemperatureSeriesPanel
 from diffpy.pdfgui.gui.dopingseriespanel import DopingSeriesPanel
-# from diffpy.pdfgui.gui.serverpanel import ServerPanel
 from diffpy.pdfgui.gui.preferencespanel import PreferencesPanel
 from diffpy.pdfgui.gui.welcomepanel import WelcomePanel
 from diffpy.pdfgui.gui.outputpanel import OutputPanel
@@ -154,10 +153,10 @@ class MainFrame(wx.Frame):
                     preserved in the current session and across new projects.
     cP          --  A python SafeConfigurationParser object. This is in charge
                     of storing configuration information about the most recently
-                    used files list. It is also used by serverpanel to store
-                    server configuration and by addphasepanel and adddatapanel
-                    to store their respective fullpath variables.  The code that
-                    handles the MRU files interacts directly with cP.
+                    used files list. It is also used by addphasepanel and
+                    adddatapanel to store their respective fullpath variables.
+                    The code that handles the MRU files interacts directly
+                    with cP.
     mode        --  The current mode of the program. This is modified using the
                     setMode method. See the MODES section above.
     name        --  The name of the program as defined in pdfguiglobals.
@@ -321,7 +320,6 @@ class MainFrame(wx.Frame):
              "calculation"  :       CalculationPanel(self, -1),
              "adddata"      :       AddDataPanel(self, -1),
              "addphase"     :       AddPhasePanel(self, -1),
-             # "serverconfig" :       ServerPanel(self, -1),
              "preferences"  :       PreferencesPanel(self, -1),
              "rseries"      :       RSeriesPanel(self, -1),
              "tseries"      :       TemperatureSeriesPanel(self, -1),
