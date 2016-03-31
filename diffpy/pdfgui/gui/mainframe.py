@@ -107,7 +107,7 @@ class MainFrame(wx.Frame):
                         mode.
     "addingdata"    --  This mode is for adding data.
     "addingphase"   --  This mode is for adding the phase
-    "config"        --  This mode is used for preferences and server
+    "config"        --  This mode is used for preferences and structure viewer
                         configuration.
     "rseries"       --  The mode used when configuring an r-series macro.
     "tseries"       --  The mode used when configuring a temperature series
@@ -141,7 +141,6 @@ class MainFrame(wx.Frame):
                     * Panels specific to other program modes
                     "adddata"       --  The panel used in 'addingdata' mode
                     "addphase"      --  The panel used in 'addingphase' mode
-                    "serverconfig"  --  The panel used in 'config' mode
 
                     * Panels for future implementation
                     "configuration" --  Another 'config' mode panel
@@ -463,9 +462,6 @@ class MainFrame(wx.Frame):
                 "Paste &Linked Fit", "", wx.ITEM_NORMAL)
         self.editMenu.AppendItem(self.pasteLinkItem)
         self.editMenu.AppendSeparator()
-        #self.servItem = wx.MenuItem(self.editMenu, wx.NewId(),
-        #        "&Server Configuration", "", wx.ITEM_NORMAL)
-        #self.editMenu.AppendItem(self.servItem)
         self.prefItem = wx.MenuItem(self.editMenu, wx.NewId(),
                 "&Preferences", "", wx.ITEM_NORMAL)
         self.editMenu.AppendItem(self.prefItem)
@@ -706,7 +702,6 @@ class MainFrame(wx.Frame):
         wx.EVT_MENU(self, self.copyId, self.onCopy)
         wx.EVT_MENU(self, self.pasteId, self.onPaste)
         wx.EVT_MENU(self, self.pasteLinkId, self.onPasteLink)
-        #wx.EVT_MENU(self, self.servItem.GetId(), self.onServerConfig)
         wx.EVT_MENU(self, self.prefItem.GetId(), self.onPreferences)
 
         ## View menu
@@ -1909,16 +1904,6 @@ class MainFrame(wx.Frame):
         """
         self.setMode("config")
         self.switchRightPanel("preferences")
-        return
-
-
-    def onServerConfig(self, event):
-        """Switch the right panel to the 'serverconfig' panel.
-
-        The 'serverconfig' panel uses the 'config' mode.
-        """
-        self.setMode("config")
-        self.switchRightPanel("serverconfig")
         return
 
     def onDefaultLayout(self, event):

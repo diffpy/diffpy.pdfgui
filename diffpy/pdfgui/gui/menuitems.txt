@@ -17,7 +17,7 @@ Edit
     _____________________________
     Journal               Ctrl-j
     -----------------------------
-    Preferences                     -- Contains server configuration
+    Preferences                     -- Contains structure viewer configuration
     _____________________________
 
 

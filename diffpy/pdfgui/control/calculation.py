@@ -28,8 +28,6 @@ class Calculation(PDFComponent):
 
     Data members:
 
-    serverFactory -- class used for creating PdfFit engine server
-    serverFactoryArgs -- tuple of arguments passed to serverFactory
     rmin   -- read-only lower boundary of rcalc, change with setRGrid()
     rstep  -- read-only r-grid step, use setRGrid() to change it
     rmax   -- read-only upper boundary of rcalc, change with setRGrid()
