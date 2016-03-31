@@ -21,12 +21,7 @@ import os.path
 
 import wx
 import wx.lib.newevent
-try:
-    import wx.aui as wxaui
-except ImportError:
-    import diffpy.pdfgui.gui.PyAUI as wxaui
-    wxaui.AuiManager = wxaui.FrameManager
-    wxaui.AuiPaneInfo = wxaui.PaneInfo
+import wx.aui
 
 from diffpy.pdfgui.utils import QuotedConfigParser
 from diffpy.pdfgui.gui.fittree import FitTree, FitTreeError
@@ -179,7 +174,7 @@ class MainFrame(wx.Frame):
         wx.Frame.__init__(self, *args, **kwds)
 
         self.SetMinSize((700,500))
-        self.auiManager = wxaui.AuiManager(self)
+        self.auiManager = wx.aui.AuiManager(self)
 
         self.treeCtrlMain = FitTree(self, -1, style=wx.TR_HAS_BUTTONS|wx.TR_NO_LINES|wx.TR_EDIT_LABELS|wx.TR_MULTIPLE|wx.TR_HIDE_ROOT|wx.TR_MULTIPLE|wx.TR_EXTENDED|wx.TR_DEFAULT_STYLE|wx.SUNKEN_BORDER)
         self.plotPanel = PlotPanel(self, -1)
@@ -329,7 +324,7 @@ class MainFrame(wx.Frame):
         self.rightPanel = self.panelDynamic
         for key in self.dynamicPanels:
             self.auiManager.AddPane(self.dynamicPanels[key],
-                              wxaui.AuiPaneInfo().
+                              wx.aui.AuiPaneInfo().
                               Name(key).
                               CenterPane().
                               BestSize(wx.Size(400,380)).
@@ -354,7 +349,7 @@ class MainFrame(wx.Frame):
 
         # Position other panels. Note that currently MinimizeButton does not do
         # anything. It is to be implemented in future versions of wx.aui
-        self.auiManager.AddPane(self.outputPanel, wxaui.AuiPaneInfo().
+        self.auiManager.AddPane(self.outputPanel, wx.aui.AuiPaneInfo().
                           Name("outputPanel").Caption("PDFfit2 Output").
                           Bottom().
                           TopDockable().
@@ -365,7 +360,7 @@ class MainFrame(wx.Frame):
                           BestSize(wx.Size(400,40)).
                           MinSize(wx.Size(200,40))
                           )
-        self.auiManager.AddPane(self.treeCtrlMain, wxaui.AuiPaneInfo().
+        self.auiManager.AddPane(self.treeCtrlMain, wx.aui.AuiPaneInfo().
                           Name("treeCtrlMain").Caption("Fit Tree").
                           Left().
                           TopDockable().
@@ -376,7 +371,7 @@ class MainFrame(wx.Frame):
                           BestSize(wx.Size(200,100)).
                           MinSize(wx.Size(200,40))
                           )
-        self.auiManager.AddPane(self.plotPanel, wxaui.AuiPaneInfo().
+        self.auiManager.AddPane(self.plotPanel, wx.aui.AuiPaneInfo().
                           Name("plotPanel").Caption("Plot Control").
                           Left().
                           TopDockable().
@@ -387,7 +382,7 @@ class MainFrame(wx.Frame):
                           BestSize(wx.Size(200,250)).
                           MinSize(wx.Size(200,150))
                           )
-        self.auiManager.AddPane(self.journalPanel, wxaui.AuiPaneInfo().
+        self.auiManager.AddPane(self.journalPanel, wx.aui.AuiPaneInfo().
                           Name("journalPanel").Caption("Project Journal").
                           TopDockable().
                           BottomDockable().
