@@ -2362,7 +2362,7 @@ class MainFrame(wx.Frame):
         name = self.treeCtrlMain.GetItemText(node)
         basename = '.'.join(name.split('.')[:-1]) or name
         matchstring = "PDF fit data file (*.fgr)|*.fgr|All Files|*"
-        d = wx.FileDialog(None, "Save as...", self.workpath, name,
+        d = wx.FileDialog(None, "Save as...", self.workpath, basename,
                 matchstring, wx.SAVE|wx.OVERWRITE_PROMPT)
         if d.ShowModal() == wx.ID_OK:
             path = d.GetPath()
