@@ -1168,6 +1168,8 @@ class MainFrame(wx.Frame):
         * Editing any item in "addingdata", "addingphase", or "config" mode.
         """
         nodetype = self.treeCtrlMain.GetNodeType(event.GetItem())
+        # silence the pyflakes syntax checker
+        assert nodetype or True
         if self.mode != "fitting":
             event.Veto()
         return
@@ -1233,6 +1235,8 @@ class MainFrame(wx.Frame):
         if selections:
             node = self.treeCtrlMain.GetFitRoot(selections[0])
             nodetype = self.treeCtrlMain.GetNodeType(node)
+            # silence the pyflakes syntax checker
+            assert nodetype or True
             if node in self.runningDict.values():
                 return
 
@@ -1271,6 +1275,8 @@ class MainFrame(wx.Frame):
                 self.treeCtrlMain.SelectItem(node)
                 selections = [node]
             itemtype = self.treeCtrlMain.GetNodeType(node)
+            # silence the pyflakes syntax checker
+            assert itemtype or True
             # Enable/Disable certain entries based upon where we clicked.
             self.disableSharedMenuItems(menu)
 
@@ -1967,7 +1973,7 @@ class MainFrame(wx.Frame):
             node = selections[0]
             itemtype = self.treeCtrlMain.GetNodeType(node)
             if itemtype == "phase":
-                panel = self.dynamicPanels['phase']
+                # panel = self.dynamicPanels['phase']
                 cdata = self.treeCtrlMain.GetControlData(node)
                 stru = getattr(cdata, stype)
                 viewer = structureviewer.getStructureViewer()
@@ -1983,7 +1989,7 @@ class MainFrame(wx.Frame):
             node = selections[0]
             itemtype = self.treeCtrlMain.GetNodeType(node)
             if itemtype == "phase":
-                panel = self.dynamicPanels['phase']
+                # panel = self.dynamicPanels['phase']
                 cdata = self.treeCtrlMain.GetControlData(node)
                 S = cdata.refined
                 if not S: S = cdata.initial
@@ -2026,7 +2032,7 @@ class MainFrame(wx.Frame):
             node = selections[0]
             itemtype = self.treeCtrlMain.GetNodeType(node)
             if itemtype == "phase":
-                panel = self.dynamicPanels['phase']
+                # panel = self.dynamicPanels['phase']
                 cdata = self.treeCtrlMain.GetControlData(node)
                 S = cdata.refined
                 if not S: S = cdata.initial
@@ -2296,7 +2302,7 @@ class MainFrame(wx.Frame):
         nodetype = self.treeCtrlMain.GetNodeType(node)
         if nodetype != 'phase': return
         cdata = self.treeCtrlMain.GetControlData(node)
-        branchname = self.treeCtrlMain.GetBranchName(node)
+        # branchname = self.treeCtrlMain.GetBranchName(node)
         name = self.treeCtrlMain.GetItemText(node)
         basename = '.'.join(name.split('.')[:-1]) or name
         matchstring = "PDFfit structure file (*.stru)|*.stru|Crystallographic Information File (*.cif)|*.cif|Protein Data Bank file (*.pdb)|*.pdb|Labeled coordinate file (*.xyz)|*.xyz|Raw corrdinate file (*.xyz)|*.xyz|AtomEye configuration file|*"
@@ -2328,7 +2334,7 @@ class MainFrame(wx.Frame):
         nodetype = self.treeCtrlMain.GetNodeType(node)
         if nodetype != 'phase': return
         cdata = self.treeCtrlMain.GetControlData(node)
-        branchname = self.treeCtrlMain.GetBranchName(node)
+        # branchname = self.treeCtrlMain.GetBranchName(node)
         name = self.treeCtrlMain.GetItemText(node)
         basename = '.'.join(name.split('.')[:-1]) or name
         matchstring = "PDFfit structure file (*.stru)|*.stru|Crystallographic Information File (*.cif)|*.cif|Protein Data Bank file (*.pdb)|*.pdb|Labeled coordinate file (*.xyz)|*.xyz|Raw corrdinate file (*.xyz)|*.xyz|AtomEye configuration file|*"
@@ -2358,7 +2364,7 @@ class MainFrame(wx.Frame):
         nodetype = self.treeCtrlMain.GetNodeType(node)
         if nodetype != 'dataset': return
         cdata = self.treeCtrlMain.GetControlData(node)
-        branchname = self.treeCtrlMain.GetBranchName(node)
+        # branchname = self.treeCtrlMain.GetBranchName(node)
         name = self.treeCtrlMain.GetItemText(node)
         basename = '.'.join(name.split('.')[:-1]) or name
         matchstring = "PDF fit data file (*.fgr)|*.fgr|All Files|*"

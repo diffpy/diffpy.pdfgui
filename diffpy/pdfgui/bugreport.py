@@ -96,6 +96,8 @@ def submitBugReport(formfields):
     post_request = urllib2.Request(post_url, post_content, post_headers)
     post_handle = opener.open(post_request)
     # result can be obtained by post_handle.read(), but it is not needed
+    # silence the pyflakes syntax checker
+    assert post_handle or True
     return
 
 

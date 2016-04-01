@@ -639,7 +639,7 @@ class PdfFitSandbox:
             IndexError if phase ip does not exist
         """
         # check if we have valid index
-        curphase = self._fits[-1].strucs[ip - 1]
+        self._fits[-1].strucs[ip - 1]
         # if we get here, it is OK
         self._curphase = ip - 1
         return
@@ -653,7 +653,7 @@ class PdfFitSandbox:
             IndexError if dataset iset does not exist
         """
         # check if we have valid index
-        curdataset = self._fits[-1].datasets[iset - 1]
+        self._fits[-1].datasets[iset - 1]
         # if we get here, it is OK
         self._curdataset = iset - 1
         return

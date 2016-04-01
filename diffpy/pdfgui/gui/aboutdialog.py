@@ -133,14 +133,8 @@ class DialogAbout(wx.Dialog):
         self.bitmap_button_columbia.SetBitmapLabel(logo)
 
         # resize dialog window to fit version number nicely
-        if wx.VERSION >= (2,7,2,0):
-            size = [self.GetEffectiveMinSize()[0], self.GetSize()[1]]
-        else:
-            size = [self.GetBestFittingSize()[0], self.GetSize()[1]]
-
         self.Fit()
-#        self.SetSize(size)
-#       self.FitInside()
+        return
 
 
     def __set_properties(self):

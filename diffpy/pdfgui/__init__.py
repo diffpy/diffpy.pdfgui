@@ -20,4 +20,7 @@
 
 from diffpy.pdfgui.version import __version__
 
+# silence the pyflakes syntax checker
+assert __version__
+
 # End of file

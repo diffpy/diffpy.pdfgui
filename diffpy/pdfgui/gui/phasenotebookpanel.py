@@ -89,7 +89,7 @@ class PhaseNotebookPanel(wx.Panel, PDFPanel):
 
     def onNotebookPageChanging(self, event):
         """Called during the page selection change."""
-        focusedId = event.GetOldSelection()
+        # focusedId = event.GetOldSelection()
         panel = self.notebook_phase.GetPage(self.focusedId)
         panel._cache()
         return

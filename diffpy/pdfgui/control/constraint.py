@@ -130,7 +130,7 @@ class Constraint:
             fncx = eval('lambda x:' +
                         re.sub('@\d+', 'x', newformula), vars(math))
             # check if fncx(0.25) is float
-            y = fncx(0.25) + 0.0
+            fncx(0.25) + 0.0
         except (ValueError, SyntaxError, TypeError, NameError):
             message = "invalid constraint formula '%s'" % newformula
             raise ControlSyntaxError, message
