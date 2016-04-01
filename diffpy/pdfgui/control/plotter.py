@@ -210,15 +210,6 @@ class Plotter(PDFComponent):
                 "(%s, %s) can't be plotted with both multiple refinements and multiple steps"%\
                 (self.xStr, self.yStr)
 
-        def register(self):
-            """Register self as dataListener in control center
-            """
-            self.controlCenter = controlCenter
-            for id in self.ids:
-                #self.plot.name -- the name of listener object
-                #self.name      -- the data for listener object
-                #controlCenter.registerListener(dataId,self.plot.name,self.name)
-                pass
 
         def notify(self, changedIds=None, plotwnd=None):
             """notify Curve object certain data is updated
