@@ -17,7 +17,9 @@ import threading
 import time
 
 from diffpy.pdfgui.control.organizer import Organizer
-from diffpy.pdfgui.control.controlerrors import *
+from diffpy.pdfgui.control.controlerrors import ControlError
+from diffpy.pdfgui.control.controlerrors import ControlStatusError
+from diffpy.pdfgui.control.controlerrors import ControlValueError
 
 # helper routines to deal with PDFfit2 exceptions
 

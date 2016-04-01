@@ -23,7 +23,7 @@ from diffpy.pdfgui.gui.tooltips import plotpanel as toolTips
 from diffpy.pdfgui.gui.wxExtensions.listctrls import KeyEventsListCtrl
 from diffpy.pdfgui.gui.wxExtensions.validators import TextValidator, FLOAT_ONLY
 from diffpy.pdfgui.gui.pdfpanel import PDFPanel
-from diffpy.pdfgui.control.controlerrors import *
+from diffpy.pdfgui.control.controlerrors import ControlConfigError
 
 class PlotPanel(wx.Panel, PDFPanel):
     def __init__(self, *args, **kwds):

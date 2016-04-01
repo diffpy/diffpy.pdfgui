@@ -16,7 +16,6 @@
 
 
 import wx
-from diffpy.pdfgui.control.controlerrors import *
 from diffpy.pdfgui.gui.pdfpanel import PDFPanel
 
 class BondAngleDialog(wx.Dialog, PDFPanel):

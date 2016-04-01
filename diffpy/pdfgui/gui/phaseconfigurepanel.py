@@ -20,7 +20,6 @@ import wx
 import wx.grid
 from diffpy.Structure import Atom
 from diffpy.pdffit2 import is_element
-from diffpy.pdfgui.control.controlerrors import *
 from diffpy.pdfgui.gui.insertrowsdialog import InsertRowsDialog
 from diffpy.pdfgui.gui.pdfpanel import PDFPanel
 from diffpy.pdfgui.gui.tooltips import phasepanel as toolTips

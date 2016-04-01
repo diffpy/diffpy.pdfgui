@@ -20,7 +20,7 @@ import re
 import wx
 import wx.grid
 from diffpy.pdfgui.control.constraint import Constraint
-from diffpy.pdfgui.control.controlerrors import *
+from diffpy.pdfgui.control.controlerrors import ControlValueError
 from diffpy.pdfgui.gui.pdfpanel import PDFPanel
 from diffpy.pdfgui.gui.tooltips import phasepanel as toolTips
 from diffpy.pdfgui.gui.wxExtensions.autowidthlabelsgrid import \

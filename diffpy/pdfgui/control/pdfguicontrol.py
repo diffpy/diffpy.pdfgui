@@ -25,7 +25,10 @@ from diffpy.pdfgui.control.calculation import Calculation
 from diffpy.pdfgui.control.fitdataset import FitDataSet
 from diffpy.pdfgui.control.organizer import Organizer
 from diffpy.pdfgui.control.fitstructure import FitStructure
-from diffpy.pdfgui.control.controlerrors import *
+from diffpy.pdfgui.control.controlerrors import ControlError
+from diffpy.pdfgui.control.controlerrors import ControlFileError
+from diffpy.pdfgui.control.controlerrors import ControlRuntimeError
+from diffpy.pdfgui.control.controlerrors import ControlTypeError
 
 
 class PDFGuiControl:

@@ -14,7 +14,8 @@
 ##############################################################################
 
 from diffpy.pdfgui.control.pdfcomponent import PDFComponent
-from diffpy.pdfgui.control.controlerrors import *
+from diffpy.pdfgui.control.controlerrors import ControlConfigError
+from diffpy.pdfgui.control.controlerrors import ControlStatusError
 from diffpy.pdfgui.gui.extendedplotframe import ExtendedPlotFrame
 
 # Preset plotting style

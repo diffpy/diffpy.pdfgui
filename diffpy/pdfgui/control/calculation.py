@@ -20,7 +20,9 @@ import copy
 import math
 import types
 
-from diffpy.pdfgui.control.controlerrors import *
+from diffpy.pdfgui.control.controlerrors import ControlConfigError
+from diffpy.pdfgui.control.controlerrors import ControlKeyError
+from diffpy.pdfgui.control.controlerrors import ControlValueError
 from diffpy.pdfgui.control.pdfcomponent import PDFComponent
 
 class Calculation(PDFComponent):

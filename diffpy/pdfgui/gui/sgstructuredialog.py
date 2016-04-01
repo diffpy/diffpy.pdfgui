@@ -18,7 +18,7 @@
 
 import math
 import wx
-from diffpy.pdfgui.control.controlerrors import *
+from diffpy.pdfgui.control.controlerrors import ControlValueError
 from diffpy.pdfgui.gui.pdfpanel import PDFPanel
 
 class SGStructureDialog(wx.Dialog, PDFPanel):
