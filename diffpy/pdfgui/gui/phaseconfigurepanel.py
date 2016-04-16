@@ -559,8 +559,7 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
             elif self.structure:
                 pos = len(self.structure)
             # insert "rows" atoms into the structure
-            atoms = [Atom("C",[0.0,0.0,0.0],
-                U=[[0.003,0,0],[0,0.003,0],[0,0,0.003]])]
+            atoms = [_defaultNewAtom()]
             self.structure.insertAtoms(pos, atoms)
             self.refresh()
             self.mainFrame.needsSave()
@@ -649,10 +648,7 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
                     self._row += 1
 
                 # insert "rows" atoms into the structure
-                atoms = []
-                for i in xrange(rows):
-                    atoms.append( Atom("C",[0.0,0.0,0.0],
-                        U=[[0.003,0,0],[0,0.003,0],[0,0,0.003]]))
+                atoms = [_defaultNewAtom() for i in range(rows)]
                 self.structure.insertAtoms(self._row, atoms)
                 self.refresh()
                 self.mainFrame.needsSave()
@@ -724,3 +720,13 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
         return
 
 # end of class PhaseConfigurePanel
+
+# Local helpers --------------------------------------------------------------
+
+def _defaultNewAtom():
+    """Create new atom instance with non-zero initial U.
+    """
+    uii = 0.003
+    rv = Atom("C", [0.0, 0.0, 0.0],
+              U=[[uii, 0, 0], [0, uii, 0], [0, 0, uii]])
+    return rv
