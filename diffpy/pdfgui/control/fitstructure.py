@@ -114,6 +114,9 @@ class FitStructure(PDFStructure):
         p = PDFStructure.read(self, filename, format)
         # update data only after successful reading
         self._update_custom_spacegroup(p)
+        # FIXME Temporary workaround to prevent forced isotropy of the Uij
+        # values.  To be removed and handled by atom isotropy column.
+        self.anisotropy = True
         return p
 
 
@@ -127,6 +130,9 @@ class FitStructure(PDFStructure):
         p = PDFStructure.readStr(self, s, format)
         # update data only after successful reading
         self._update_custom_spacegroup(p)
+        # FIXME Temporary workaround to prevent forced isotropy of the Uij
+        # values.  To be removed and handled by atom isotropy column.
+        self.anisotropy = True
         return p
 
 
@@ -265,6 +271,11 @@ class FitStructure(PDFStructure):
         atomlist -- list of atom instances.
         """
         acd = self._popAtomConstraints()
+        # FIXME Temporary workaround to prevent forced isotropy of the Uij
+        # values.  To be removed and handled by atom isotropy column.
+        for a in atomlist:
+            a.anisotropy = True
+        # workaround ends here.
         self.initial[index:index] = atomlist
         self._restoreAtomConstraints(acd)
         return
