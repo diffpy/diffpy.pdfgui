@@ -54,9 +54,10 @@ before_install:
         echo "Unsupported operating system." >&2;
         exit 2 ;;
     esac
+  - MYRUNDIR=${PWD}/build/rundir
 
   - mkdir -p ~/pkgs/
-  - mkdir -p ~/rundir/
+  - mkdir -p ${MYRUNDIR}
 
   - $NOMC || pushd ~/pkgs/
   - $NOMC || wget --timestamping ${MYMCREPO}/${MYMCBUNDLE}
@@ -81,7 +82,7 @@ install:
   - $NOAPT || pip install $MYPIPFLAGS coverage
   - $NOAPT || easy_install --user "${MYTARBUNDLE}"
 
-  - cd ~/rundir
+  - cd ${MYRUNDIR}
   - MYGIT_REV=$(python -c "import diffpy.pdfgui.version as v; print(v.__gitsha__)")
   - if [[ "${TRAVIS_COMMIT}" != "${MYGIT_REV}" ]]; then
         echo "Version mismatch ${TRAVIS_COMMIT} vs ${MYGIT_REV}.";
