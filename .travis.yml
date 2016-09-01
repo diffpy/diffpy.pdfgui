@@ -36,6 +36,7 @@ addons:
     - python-setuptools
 
 before_install:
+  - MYNAME=diffpy.pdfgui
   - umask 022
   - git fetch origin --tags
   - if ${MYUSEMC}; then
@@ -75,7 +76,7 @@ before_install:
 
 install:
   - $NOMC || CONDA_PY=${MYPYTHON_VERSION} conda build conda-recipe
-  - $NOMC || conda list --name=_test --export diffpy.pdfgui > /tmp/mypackage.txt
+  - $NOMC || conda list --name=_test --export ${MYNAME} > /tmp/mypackage.txt
   - $NOMC || source activate testenv
   - $NOMC || conda install --yes --use-local --file=/tmp/mypackage.txt
 
@@ -83,14 +84,14 @@ install:
   - $NOAPT || easy_install --user "${MYTARBUNDLE}"
 
   - cd ${MYRUNDIR}
-  - MYGIT_REV=$(python -c "import diffpy.pdfgui.version as v; print(v.__gitsha__)")
+  - MYGIT_REV=$(python -c "import ${MYNAME}.version as v; print(v.__gitsha__)")
   - if [[ "${TRAVIS_COMMIT}" != "${MYGIT_REV}" ]]; then
         echo "Version mismatch ${TRAVIS_COMMIT} vs ${MYGIT_REV}.";
         exit 1;
     fi
 
 script:
-  - coverage run --source diffpy.pdfgui -m diffpy.pdfgui.tests.rundeps
+  - coverage run --source ${MYNAME} -m ${MYNAME}.tests.run
 
 after_success:
   - pip install $MYPIPFLAGS codecov
