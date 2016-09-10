@@ -59,6 +59,7 @@ before_install:
 
   - mkdir -p ~/pkgs/
   - mkdir -p ${MYRUNDIR}
+  - cp .coveragerc ${MYRUNDIR}/
 
   - $NOMC || pushd ~/pkgs/
   - $NOMC || wget --timestamping ${MYMCREPO}/${MYMCBUNDLE}

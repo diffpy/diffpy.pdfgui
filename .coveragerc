@@ -1,0 +1,13 @@
+# Configuration of the coverage.py tool for reporting test coverage.
+
+[report]
+# RE patterns for lines to be excluded from consideration.
+exclude_lines =
+    ## Have to re-enable the standard pragma
+    pragma: no cover
+    ## Don't complain if tests don't hit defensive assertion code:
+    # raise AssertionError
+    # raise NotImplementedError
+
+    ## Don't complain if non-runnable code isn't run:
+    ^[ ]{4}unittest.main()
