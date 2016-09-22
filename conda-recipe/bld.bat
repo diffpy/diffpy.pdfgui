@@ -3,8 +3,6 @@ if errorlevel 1 exit 1
 
 :: Add more build steps here, if they are necessary.
 
-%PYTHON% setup.py --version > __conda_version__.txt
-
 set MENU_DIR=%PREFIX%\Menu
 if not exist (%MENU_DIR%) mkdir %MENU_DIR%
 
