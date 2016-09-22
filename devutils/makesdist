@@ -9,6 +9,7 @@ import os
 import subprocess
 import glob
 import tarfile
+import gzip
 
 BASEDIR = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
 sys.path.insert(0, BASEDIR)
@@ -29,7 +30,8 @@ print "[done]"
 tarname = max(glob.glob(BASEDIR + '/dist/*.tar'), key=os.path.getmtime)
 
 tfin = tarfile.open(tarname)
-tfout = tarfile.open(tarname + '.gz', 'w:gz')
+fpout = gzip.GzipFile(tarname + '.gz', 'w', mtime=0)
+tfout = tarfile.open(fileobj=fpout, mode='w')
 
 def fixtarinfo(tinfo):
     tinfo.uid = tinfo.gid = 0
@@ -42,5 +44,7 @@ def fixtarinfo(tinfo):
 print 'Filter %s --> %s.gz' % (2 * (os.path.basename(tarname),)),
 for ti in tfin:
     tfout.addfile(fixtarinfo(ti), tfin.extractfile(ti))
+
+tfin.close()
 os.remove(tarname)
 print "[done]"
