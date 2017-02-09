@@ -20,7 +20,7 @@ is available in the doc/Farrow-jpcm-2007.pdf paper.
 REQUIREMENTS
 ------------------------------------------------------------------------
 
-PDFgui requires Python 2.6 or 2.7 and several third-party libraries
+PDFgui requires Python 2.7 and several third-party libraries
 that are used by PDFgui and its components.
 
 * setuptools   - tools for installing Python packages
