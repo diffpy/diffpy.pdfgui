@@ -11,3 +11,9 @@ exclude_lines =
 
     ## Don't complain if non-runnable code isn't run:
     ^[ ]{4}unittest.main()
+
+
+[run]
+omit =
+    ## exclude debug.py from codecov report
+    */tests/debug.py
