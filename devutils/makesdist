@@ -21,11 +21,16 @@ vfb = versiondata.get('DEFAULT', 'version').split('.post')[0] + '.post0'
 emsg = "Invalid FALLBACK_VERSION. Expected %r got %r."
 assert vfb == FALLBACK_VERSION, emsg % (vfb, FALLBACK_VERSION)
 
-print 'Run "setup.py sdist --formats=tar"',
+def inform(s):
+    sys.stdout.write(s)
+    sys.stdout.flush()
+    return
+
+inform('Run "setup.py sdist --formats=tar" ')
 cmd_sdist = [sys.executable] + 'setup.py sdist --formats=tar'.split()
 ec = subprocess.call(cmd_sdist, cwd=BASEDIR, stdout=open(os.devnull, 'w'))
 if ec:  sys.exit(ec)
-print "[done]"
+inform("[done]\n")
 
 tarname = max(glob.glob(BASEDIR + '/dist/*.tar'), key=os.path.getmtime)
 
@@ -40,11 +45,10 @@ def fixtarinfo(tinfo):
     tinfo.mode &= ~0o022
     return tinfo
 
-
-print 'Filter %s --> %s.gz' % (2 * (os.path.basename(tarname),)),
+inform('Filter %s --> %s.gz ' % (2 * (os.path.basename(tarname),)))
 for ti in tfin:
     tfout.addfile(fixtarinfo(ti), tfin.extractfile(ti))
 
 tfin.close()
 os.remove(tarname)
-print "[done]"
+inform("[done]\n")
