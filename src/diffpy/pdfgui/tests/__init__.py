@@ -16,40 +16,55 @@
 """Unit tests for diffpy.pdfgui.
 """
 
+import unittest
 
-def testsuite():
-    '''Build a unit tests suite for the diffpy.pdfgui package.
 
-    Return a unittest.TestSuite object.
+def testsuite(pattern=''):
+    '''Create a unit tests suite for diffpy.pdfgui package.
+
+    Parameters
+    ----------
+    pattern : str, optional
+        Regular expression pattern for selecting test cases.
+        Select all tests when empty.
+
+    Returns
+    -------
+    suite : `unittest.TestSuite`
+        The TestSuite object containing the matching tests.
     '''
-    import unittest
-    modulenames = '''
-        diffpy.pdfgui.tests.TestBugReport
-        diffpy.pdfgui.tests.TestCalculation
-        diffpy.pdfgui.tests.TestConstraint
-        diffpy.pdfgui.tests.TestFitDataSet
-        diffpy.pdfgui.tests.TestFitStructure
-        diffpy.pdfgui.tests.TestLoadProject
-        diffpy.pdfgui.tests.TestPDFDataSet
-        diffpy.pdfgui.tests.TestPDFGuiControl
-        diffpy.pdfgui.tests.TestPDFStructure
-        diffpy.pdfgui.tests.TestPdfFitSandbox
-        diffpy.pdfgui.tests.TestStructureViewer
-    '''.split()
-    suite = unittest.TestSuite()
+    import re
+    from os.path import dirname
+    from itertools import chain
+    from pkg_resources import resource_filename
     loader = unittest.defaultTestLoader
-    mobj = None
-    for mname in modulenames:
-        exec ('import %s as mobj' % mname)
-        suite.addTests(loader.loadTestsFromModule(mobj))
+    thisdir = resource_filename(__name__, '')
+    depth = __name__.count('.') + 1
+    topdir = thisdir
+    for i in range(depth):
+        topdir = dirname(topdir)
+    suite_all = loader.discover(thisdir, 'Test*.py', top_level_dir=topdir)
+    # always filter the suite by pattern to test-cover the selection code.
+    suite = unittest.TestSuite()
+    rx = re.compile(pattern)
+    tcases = chain.from_iterable(chain.from_iterable(suite_all))
+    for tc in tcases:
+        tcwords = tc.id().rsplit('.', 2)
+        shortname = '.'.join(tcwords[-2:])
+        if rx.search(shortname):
+            suite.addTest(tc)
+    # verify all tests are found for an empty pattern.
+    assert pattern or suite_all.countTestCases() == suite.countTestCases()
     return suite
 
 
 def test():
     '''Execute all unit tests for the diffpy.pdfgui package.
-    Return a unittest TestResult object.
+
+    Returns
+    -------
+    result : `unittest.TestResult`
     '''
-    import unittest
     suite = testsuite()
     runner = unittest.TextTestRunner()
     result = runner.run(suite)
@@ -59,9 +74,10 @@ def test():
 def testdeps():
     '''Execute all unit tests for diffpy.pdfgui and its dependencies.
 
-    Return a unittest TestResult object.
+    Returns
+    -------
+    result : `unittest.TestResult`
     '''
-    import unittest
     modulenames = '''
         diffpy.pdfgui.tests
         diffpy.Structure.tests
@@ -76,6 +92,5 @@ def testdeps():
     runner = unittest.TextTestRunner()
     result = runner.run(suite)
     return result
-
 
 # End of file
