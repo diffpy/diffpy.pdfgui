@@ -79,57 +79,57 @@ def dirglob(d, *patterns):
 
 # define distribution
 setup_args = dict(
-        name = 'diffpy.pdfgui',
-        version = versiondata.get('DEFAULT', 'version'),
-        namespace_packages = ['diffpy'],
-        packages = find_packages('src'),
-        package_dir = {'' : 'src'},
-        include_package_data = True,
-        test_suite = 'diffpy.pdfgui.tests',
-        entry_points = {
-            'gui_scripts': [
-                'pdfgui=diffpy.pdfgui.applications.pdfgui:main',
-            ],
-        },
-        data_files = [
-            ('icons', dirglob('icons', '*.png', '*.ico')),
-            ('doc', dirglob('doc', '*.pdf')),
-            ('doc/manual', dirglob('doc/manual', '*.html', '*.pdf')),
-            ('doc/manual/images', dirglob('doc/manual/images', '*.png')),
-            ('doc/tutorial', dirglob('doc/tutorial', '*')),
+    name = 'diffpy.pdfgui',
+    version = versiondata.get('DEFAULT', 'version'),
+    namespace_packages = ['diffpy'],
+    packages = find_packages('src'),
+    package_dir = {'' : 'src'},
+    include_package_data = True,
+    test_suite = 'diffpy.pdfgui.tests',
+    entry_points = {
+        'gui_scripts': [
+            'pdfgui=diffpy.pdfgui.applications.pdfgui:main',
         ],
-        # manual and tutorial files should not be zipped
-        zip_safe = False,
-        install_requires = [
-            'diffpy.Structure>=1.2',
-            'diffpy.pdffit2>=1.1a0',
-            'diffpy.utils>=1.1',
-        ],
+    },
+    data_files = [
+        ('icons', dirglob('icons', '*.png', '*.ico')),
+        ('doc', dirglob('doc', '*.pdf')),
+        ('doc/manual', dirglob('doc/manual', '*.html', '*.pdf')),
+        ('doc/manual/images', dirglob('doc/manual/images', '*.png')),
+        ('doc/tutorial', dirglob('doc/tutorial', '*')),
+    ],
+    # manual and tutorial files should not be zipped
+    zip_safe = False,
+    install_requires = [
+        'diffpy.Structure>=1.2',
+        'diffpy.pdffit2>=1.1a0',
+        'diffpy.utils>=1.1',
+    ],
 
-        author = 'Simon J.L. Billinge',
-        author_email = 'sb2896@columbia.edu',
-        maintainer = 'Pavol Juhas',
-        maintainer_email = 'pavol.juhas@gmail.com',
-        url = 'https://github.com/diffpy/diffpy.pdfgui',
-        description = "GUI for PDF simulation and structure refinement.",
-        license = 'BSD',
-        keywords = 'PDF structure refinement GUI',
-        classifiers = [
-            # List of possible values at
-            # http://pypi.python.org/pypi?:action=list_classifiers
-            'Development Status :: 5 - Production/Stable',
-            'Environment :: MacOS X',
-            'Environment :: Win32 (MS Windows)',
-            'Environment :: X11 Applications',
-            'Intended Audience :: Science/Research',
-            'License :: OSI Approved :: BSD License',
-            'Operating System :: MacOS',
-            'Operating System :: Microsoft :: Windows',
-            'Operating System :: POSIX',
-            'Programming Language :: Python :: 2.7',
-            'Topic :: Scientific/Engineering :: Chemistry',
-            'Topic :: Scientific/Engineering :: Physics',
-        ],
+    author = 'Simon J.L. Billinge',
+    author_email = 'sb2896@columbia.edu',
+    maintainer = 'Pavol Juhas',
+    maintainer_email = 'pavol.juhas@gmail.com',
+    url = 'https://github.com/diffpy/diffpy.pdfgui',
+    description = "GUI for PDF simulation and structure refinement.",
+    license = 'BSD',
+    keywords = 'PDF structure refinement GUI',
+    classifiers = [
+        # List of possible values at
+        # http://pypi.python.org/pypi?:action=list_classifiers
+        'Development Status :: 5 - Production/Stable',
+        'Environment :: MacOS X',
+        'Environment :: Win32 (MS Windows)',
+        'Environment :: X11 Applications',
+        'Intended Audience :: Science/Research',
+        'License :: OSI Approved :: BSD License',
+        'Operating System :: MacOS',
+        'Operating System :: Microsoft :: Windows',
+        'Operating System :: POSIX',
+        'Programming Language :: Python :: 2.7',
+        'Topic :: Scientific/Engineering :: Chemistry',
+        'Topic :: Scientific/Engineering :: Physics',
+    ],
 )
 
 if __name__ == '__main__':
