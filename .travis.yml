@@ -45,9 +45,9 @@ before_install:
   - MYMCREPO=https://repo.continuum.io/miniconda
   - case ${TRAVIS_OS_NAME} in
     linux)
-        MYMCBUNDLE=Miniconda-latest-Linux-x86_64.sh ;;
+        MYMCBUNDLE=Miniconda2-latest-Linux-x86_64.sh ;;
     osx)
-        MYMCBUNDLE=Miniconda-latest-MacOSX-x86_64.sh ;;
+        MYMCBUNDLE=Miniconda2-latest-MacOSX-x86_64.sh ;;
     *)
         echo "Unsupported operating system." >&2;
         exit 2 ;;
