@@ -8,5 +8,4 @@ exclude doc/manual/images/*.pdf
 recursive-exclude doc/manual Makefile *.py *.texinfo
 recursive-exclude doc/manual *.aux *.cp *.cps *.err *.log *.toc *.vr *.vrs
 recursive-include icons *.png *.ico
-recursive-exclude * .gitignore .DS_Store
-exclude setup.cfg
+recursive-exclude * .gitattributes .gitignore .DS_Store
