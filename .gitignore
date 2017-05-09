@@ -40,4 +40,4 @@ nosetests.xml
 
 # version information
 setup.cfg
-/diffpy/pdfgui/version.cfg
+/src/diffpy/*/version.cfg

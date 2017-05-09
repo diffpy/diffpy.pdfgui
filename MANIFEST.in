@@ -1,5 +1,5 @@
-recursive-include diffpy *
-recursive-exclude diffpy *.py[co]
+recursive-include src *
+recursive-exclude src *.py[co]
 include AUTHORS.txt LICENSE*.txt README*
 recursive-include doc *
 prune doc/epydoc

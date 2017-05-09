@@ -18,7 +18,7 @@ FALLBACK_VERSION = '1.1.2.post0'
 # versioncfgfile holds version data for git commit hash and date.
 # It must reside in the same directory as version.py.
 MYDIR = os.path.dirname(os.path.abspath(__file__))
-versioncfgfile = os.path.join(MYDIR, 'diffpy/pdfgui/version.cfg')
+versioncfgfile = os.path.join(MYDIR, 'src/diffpy/pdfgui/version.cfg')
 gitarchivecfgfile = versioncfgfile.replace('version.cfg', 'gitarchive.cfg')
 
 def gitinfo():
@@ -82,7 +82,8 @@ setup_args = dict(
         name = 'diffpy.pdfgui',
         version = versiondata.get('DEFAULT', 'version'),
         namespace_packages = ['diffpy'],
-        packages = find_packages(),
+        packages = find_packages('src'),
+        package_dir = {'' : 'src'},
         include_package_data = True,
         test_suite = 'diffpy.pdfgui.tests',
         entry_points = {
