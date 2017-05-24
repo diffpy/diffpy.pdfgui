@@ -31,29 +31,34 @@ import wx
 
 
 DATA_SAVE_ID  = wx.NewId()
-
+# NOTE: for reference, only comment out unwanted icons
+CUSTOMIZED_TOOLITEMS = (
+        ('Home', 'Reset original view', 'home', 'home'),
+        ('Back', 'Back to  previous view', 'back', 'back'),
+        ('Forward', 'Forward to next view', 'forward', 'forward'),
+        (None, None, None, None),
+        ('Pan', 'Pan axes with left mouse, zoom with right', 'move', 'pan'),
+        ('Zoom', 'Zoom to rectangle', 'zoom_to_rect', 'zoom'),
+        #('Subplots', 'Configure subplots', 'subplots', 'configure_subplots'),
+        (None, None, None, None),
+        #('Save', 'Save the figure', 'filesave', 'save_figure')
+        )
 
 class ExtendedToolbar(NavToolbar):
     """An extended plotting toolbar with a save and close button."""
 
     def __init__(self, canvas):
+        # override class var before init
+        NavToolbar.toolitems = CUSTOMIZED_TOOLITEMS
         NavToolbar.__init__(self, canvas)
-        # Get rid of the configure subplots button
-        if hasattr(self, 'wx_ids'):
-            self.DeleteTool(self.wx_ids['Subplots'])
-        else:
-            self.DeleteToolByPos(6)
         # Add new buttons
         self.AddSimpleTool(wx.ID_PRINT,
                wx.ArtProvider.GetBitmap(wx.ART_PRINT, wx.ART_TOOLBAR),
                'Print', 'print graph')
         self.AddSimpleTool(DATA_SAVE_ID,
-               _load_bitmap('stock_save_as.xpm'),
+               _load_bitmap('filesave.png'),
                'Export plot data', 'Export plot data to file')
         self.AddSeparator()
-        self.AddSimpleTool(wx.ID_CLOSE,
-               _load_bitmap('stock_close.xpm'),
-               'Close window', 'Close window')
         return
 
     def save(self, evt):
