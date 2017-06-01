@@ -29,9 +29,8 @@ from matplotlib.artist import setp
 from matplotlib.font_manager import FontProperties
 import wx
 
-
 DATA_SAVE_ID  = wx.NewId()
-# NOTE: for reference, only comment out unwanted icons
+# NOTE: default toolitem at matplotlib.backend_bases
 CUSTOMIZED_TOOLITEMS = (
         ('Home', 'Reset original view', 'home', 'home'),
         ('Back', 'Back to  previous view', 'back', 'back'),
@@ -39,26 +38,23 @@ CUSTOMIZED_TOOLITEMS = (
         (None, None, None, None),
         ('Pan', 'Pan axes with left mouse, zoom with right', 'move', 'pan'),
         ('Zoom', 'Zoom to rectangle', 'zoom_to_rect', 'zoom'),
-        #('Subplots', 'Configure subplots', 'subplots', 'configure_subplots'),
         (None, None, None, None),
-        #('Save', 'Save the figure', 'filesave', 'save_figure')
+        ('Export plot data', 'Export plot data to file',
+         'filesave', 'save_figure')
         )
 
 class ExtendedToolbar(NavToolbar):
     """An extended plotting toolbar with a save and close button."""
 
     def __init__(self, canvas):
-        # override class var before init
+        # override class var with customized toolitems
         NavToolbar.toolitems = CUSTOMIZED_TOOLITEMS
         NavToolbar.__init__(self, canvas)
         # Add new buttons
         self.AddSimpleTool(wx.ID_PRINT,
-               wx.ArtProvider.GetBitmap(wx.ART_PRINT, wx.ART_TOOLBAR),
-               'Print', 'print graph')
-        self.AddSimpleTool(DATA_SAVE_ID,
-               _load_bitmap('filesave.png'),
-               'Export plot data', 'Export plot data to file')
-        self.AddSeparator()
+                           wx.ArtProvider.GetBitmap(wx.ART_PRINT,
+                                                    wx.ART_TOOLBAR),
+                           'Print', 'print graph')
         return
 
     def save(self, evt):
