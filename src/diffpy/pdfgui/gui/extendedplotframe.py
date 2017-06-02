@@ -29,24 +29,28 @@ from matplotlib.artist import setp
 from matplotlib.font_manager import FontProperties
 import wx
 
+from diffpy.pdfgui.gui.pdfguiglobals import iconpath
 
 DATA_SAVE_ID  = wx.NewId()
 
 class ExtendedToolbar(NavToolbar):
     """An extended plotting toolbar with a save and close button."""
-
+    # override class var to exclude subplots
+    toolitems = tuple(el for el in NavToolbar.toolitems
+                      if el[0] != 'Subplots')
     def __init__(self, canvas):
-        # override class var to exclude subplots
-        self.toolitems = tuple(el for el in NavToolbar.toolitems\
-                if el[0] != 'Subplots')
         NavToolbar.__init__(self, canvas)
+        # Load customized icon image
+        save_icon_fp = iconpath('stock_save_as_mpl2.png')
+        save_icon = wx.Bitmap(save_icon_fp)
         # Add new buttons
         self.AddSimpleTool(wx.ID_PRINT,
-               wx.ArtProvider.GetBitmap(wx.ART_PRINT, wx.ART_TOOLBAR),
-               'Print', 'print graph')
+                           wx.ArtProvider.GetBitmap(wx.ART_PRINT,
+                                                    wx.ART_TOOLBAR),
+                           'Print', 'print graph')
         self.AddSimpleTool(DATA_SAVE_ID,
-               _load_bitmap('filesave.png'),
-               'Export plot data', 'Export plot data to file')
+                           save_icon,
+                           'Export plot data', 'Export plot data to file')
         self.AddSeparator()
         return
 
