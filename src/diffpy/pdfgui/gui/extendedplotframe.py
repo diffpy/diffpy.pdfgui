@@ -31,25 +31,14 @@ import wx
 
 
 DATA_SAVE_ID  = wx.NewId()
-# NOTE: for reference, only comment out unwanted icons
-CUSTOMIZED_TOOLITEMS = (
-        ('Home', 'Reset original view', 'home', 'home'),
-        ('Back', 'Back to  previous view', 'back', 'back'),
-        ('Forward', 'Forward to next view', 'forward', 'forward'),
-        (None, None, None, None),
-        ('Pan', 'Pan axes with left mouse, zoom with right', 'move', 'pan'),
-        ('Zoom', 'Zoom to rectangle', 'zoom_to_rect', 'zoom'),
-        #('Subplots', 'Configure subplots', 'subplots', 'configure_subplots'),
-        (None, None, None, None),
-        #('Save', 'Save the figure', 'filesave', 'save_figure')
-        )
 
 class ExtendedToolbar(NavToolbar):
     """An extended plotting toolbar with a save and close button."""
 
     def __init__(self, canvas):
-        # override class var before init
-        NavToolbar.toolitems = CUSTOMIZED_TOOLITEMS
+        # override class var to exclude subplots
+        self.toolitems = tuple(el for el in NavToolbar.toolitems\
+                if el[0] != 'Subplots')
         NavToolbar.__init__(self, canvas)
         # Add new buttons
         self.AddSimpleTool(wx.ID_PRINT,
