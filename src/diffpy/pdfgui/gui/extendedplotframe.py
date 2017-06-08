@@ -208,7 +208,9 @@ class ExtendedPlotFrame(wx.Frame):
     def closeShortcut(self, event):
         """capture key pressed event with MPL and clsoe with onClose"""
         if event.key in self.quit_keys:
-            self.onClose(event)
+            self.Close()
+        return
+
 
     def replot(self):
         """officially call function in matplotlib to do drawing
