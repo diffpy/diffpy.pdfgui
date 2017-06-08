@@ -51,7 +51,6 @@ class ExtendedToolbar(NavToolbar):
         self.AddSimpleTool(DATA_SAVE_ID,
                            save_icon,
                            'Export plot data', 'Export plot data to file')
-        self.AddSeparator()
         return
 
     def save(self, evt):
@@ -156,7 +155,6 @@ class ExtendedPlotFrame(wx.Frame):
         self.canvas.mpl_connect('key_press_event', self.closeShortcut)
         wx.EVT_PAINT(self, self.OnPaint)
         wx.EVT_TOOL(self, DATA_SAVE_ID, self.savePlotData)
-        wx.EVT_TOOL(self, wx.ID_CLOSE, self.onClose)
         wx.EVT_CLOSE(self, self.onClose)
         wx.EVT_TOOL(self, wx.ID_PRINT, self.onPrint)
         wx.EVT_TOOL(self, wx.ID_PRINT_SETUP, self.onPrintSetup)
