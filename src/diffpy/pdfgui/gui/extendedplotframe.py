@@ -24,9 +24,9 @@ matplotlib.use('WXAgg')
 from matplotlib.backends.backend_wxagg import FigureCanvasWxAgg as FigureCanvas
 from matplotlib.backends.backend_wxagg import NavigationToolbar2WxAgg as NavToolbar
 from matplotlib.figure import Figure
-from matplotlib.backends.backend_wx import _load_bitmap
 from matplotlib.artist import setp
 from matplotlib.font_manager import FontProperties
+from matplotlib import rcParams
 import wx
 
 from diffpy.pdfgui.gui.pdfguiglobals import iconpath
@@ -102,6 +102,8 @@ class ExtendedPlotFrame(wx.Frame):
     data members. See the matplotlib API at:
     http://matplotlib.sourceforge.net/classdocs.html
     """
+    # keybord shortcut to catch
+    quit_keys = rcParams['keymap.quit']
 
     def __init__(self, parent = None, *args, **kwargs):
         """Initialize the CanvasFrame.
@@ -151,6 +153,7 @@ class ExtendedPlotFrame(wx.Frame):
         if wx.Platform == '__WXMAC__':
             self.SetBackgroundColour((200, 200, 200, 255))
         self.canvas.mpl_connect('motion_notify_event', self.UpdateStatusBar)
+        self.canvas.mpl_connect('key_press_event', self.closeShortcut)
         wx.EVT_PAINT(self, self.OnPaint)
         wx.EVT_TOOL(self, DATA_SAVE_ID, self.savePlotData)
         wx.EVT_TOOL(self, wx.ID_CLOSE, self.onClose)
@@ -203,6 +206,11 @@ class ExtendedPlotFrame(wx.Frame):
             x, y = event.xdata, event.ydata
             xystr = "x = %g, y = %g" % (x, y)
             self.coordLabel.SetLabel(xystr)
+
+    def closeShortcut(self, event):
+        """capture key pressed event with MPL and clsoe with onClose"""
+        if event.key in self.quit_keys:
+            self.onClose(event)
 
     def replot(self):
         """officially call function in matplotlib to do drawing
