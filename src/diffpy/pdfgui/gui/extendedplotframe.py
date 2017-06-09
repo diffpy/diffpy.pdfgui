@@ -26,7 +26,6 @@ from matplotlib.backends.backend_wxagg import NavigationToolbar2WxAgg as NavTool
 from matplotlib.figure import Figure
 from matplotlib.artist import setp
 from matplotlib.font_manager import FontProperties
-from matplotlib import rcParams
 import wx
 
 from diffpy.pdfgui.gui.pdfguiglobals import iconpath
@@ -35,9 +34,11 @@ DATA_SAVE_ID  = wx.NewId()
 
 class ExtendedToolbar(NavToolbar):
     """An extended plotting toolbar with a save and close button."""
-    # override class var to exclude subplots
+
+    # override NavToolbar.toolitems to exclude the subplots tool.
     toolitems = tuple(el for el in NavToolbar.toolitems
                       if el[0] != 'Subplots')
+
     def __init__(self, canvas):
         NavToolbar.__init__(self, canvas)
         # Load customized icon image
@@ -101,8 +102,9 @@ class ExtendedPlotFrame(wx.Frame):
     data members. See the matplotlib API at:
     http://matplotlib.sourceforge.net/classdocs.html
     """
-    # keybord shortcut to catch
-    quit_keys = rcParams['keymap.quit']
+
+    # keyboard shortcut(s) for closing plot window
+    close_keys = set(matplotlib.rcParamsDefault['keymap.quit'])
 
     def __init__(self, parent = None, *args, **kwargs):
         """Initialize the CanvasFrame.
@@ -152,7 +154,7 @@ class ExtendedPlotFrame(wx.Frame):
         if wx.Platform == '__WXMAC__':
             self.SetBackgroundColour((200, 200, 200, 255))
         self.canvas.mpl_connect('motion_notify_event', self.UpdateStatusBar)
-        self.canvas.mpl_connect('key_press_event', self.closeShortcut)
+        self.canvas.mpl_connect('key_press_event', self.mplKeyPress)
         wx.EVT_PAINT(self, self.OnPaint)
         wx.EVT_TOOL(self, DATA_SAVE_ID, self.savePlotData)
         wx.EVT_CLOSE(self, self.onClose)
@@ -205,9 +207,13 @@ class ExtendedPlotFrame(wx.Frame):
             xystr = "x = %g, y = %g" % (x, y)
             self.coordLabel.SetLabel(xystr)
 
-    def closeShortcut(self, event):
-        """capture key pressed event with MPL and clsoe with onClose"""
-        if event.key in self.quit_keys:
+
+    def mplKeyPress(self, event):
+        """Process keyboard input in matplotlib plot window.
+
+        This implements a standard close-window shortcut key.
+        """
+        if event.key in self.close_keys:
             self.Close()
         return
 
