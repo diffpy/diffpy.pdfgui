@@ -24,36 +24,34 @@ matplotlib.use('WXAgg')
 from matplotlib.backends.backend_wxagg import FigureCanvasWxAgg as FigureCanvas
 from matplotlib.backends.backend_wxagg import NavigationToolbar2WxAgg as NavToolbar
 from matplotlib.figure import Figure
-from matplotlib.backends.backend_wx import _load_bitmap
 from matplotlib.artist import setp
 from matplotlib.font_manager import FontProperties
 import wx
 
+from diffpy.pdfgui.gui.pdfguiglobals import iconpath
 
 DATA_SAVE_ID  = wx.NewId()
-
 
 class ExtendedToolbar(NavToolbar):
     """An extended plotting toolbar with a save and close button."""
 
+    # override NavToolbar.toolitems to exclude the subplots tool.
+    toolitems = tuple(el for el in NavToolbar.toolitems
+                      if el[0] != 'Subplots')
+
     def __init__(self, canvas):
         NavToolbar.__init__(self, canvas)
-        # Get rid of the configure subplots button
-        if hasattr(self, 'wx_ids'):
-            self.DeleteTool(self.wx_ids['Subplots'])
-        else:
-            self.DeleteToolByPos(6)
+        # Load customized icon image
+        save_icon_fp = iconpath('exportplotdata.png')
+        save_icon = wx.Bitmap(save_icon_fp)
         # Add new buttons
         self.AddSimpleTool(wx.ID_PRINT,
-               wx.ArtProvider.GetBitmap(wx.ART_PRINT, wx.ART_TOOLBAR),
-               'Print', 'print graph')
+                           wx.ArtProvider.GetBitmap(wx.ART_PRINT,
+                                                    wx.ART_TOOLBAR),
+                           'Print', 'print graph')
         self.AddSimpleTool(DATA_SAVE_ID,
-               _load_bitmap('stock_save_as.xpm'),
-               'Export plot data', 'Export plot data to file')
-        self.AddSeparator()
-        self.AddSimpleTool(wx.ID_CLOSE,
-               _load_bitmap('stock_close.xpm'),
-               'Close window', 'Close window')
+                           save_icon,
+                           'Export plot data', 'Export plot data to file')
         return
 
     def save(self, evt):
@@ -105,6 +103,9 @@ class ExtendedPlotFrame(wx.Frame):
     http://matplotlib.sourceforge.net/classdocs.html
     """
 
+    # keyboard shortcut(s) for closing plot window
+    close_keys = set(matplotlib.rcParamsDefault['keymap.quit'])
+
     def __init__(self, parent = None, *args, **kwargs):
         """Initialize the CanvasFrame.
 
@@ -153,9 +154,9 @@ class ExtendedPlotFrame(wx.Frame):
         if wx.Platform == '__WXMAC__':
             self.SetBackgroundColour((200, 200, 200, 255))
         self.canvas.mpl_connect('motion_notify_event', self.UpdateStatusBar)
+        self.canvas.mpl_connect('key_press_event', self.mplKeyPress)
         wx.EVT_PAINT(self, self.OnPaint)
         wx.EVT_TOOL(self, DATA_SAVE_ID, self.savePlotData)
-        wx.EVT_TOOL(self, wx.ID_CLOSE, self.onClose)
         wx.EVT_CLOSE(self, self.onClose)
         wx.EVT_TOOL(self, wx.ID_PRINT, self.onPrint)
         wx.EVT_TOOL(self, wx.ID_PRINT_SETUP, self.onPrintSetup)
@@ -205,6 +206,17 @@ class ExtendedPlotFrame(wx.Frame):
             x, y = event.xdata, event.ydata
             xystr = "x = %g, y = %g" % (x, y)
             self.coordLabel.SetLabel(xystr)
+
+
+    def mplKeyPress(self, event):
+        """Process keyboard input in matplotlib plot window.
+
+        This implements a standard close-window shortcut key.
+        """
+        if event.key in self.close_keys:
+            self.Close()
+        return
+
 
     def replot(self):
         """officially call function in matplotlib to do drawing
