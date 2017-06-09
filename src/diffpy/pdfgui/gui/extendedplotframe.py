@@ -42,7 +42,7 @@ class ExtendedToolbar(NavToolbar):
     def __init__(self, canvas):
         NavToolbar.__init__(self, canvas)
         # Load customized icon image
-        save_icon_fp = iconpath('stock_save_as_mpl2.png')
+        save_icon_fp = iconpath('exportplotdata.png')
         save_icon = wx.Bitmap(save_icon_fp)
         # Add new buttons
         self.AddSimpleTool(wx.ID_PRINT,
