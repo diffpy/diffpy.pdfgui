@@ -27,14 +27,21 @@ configfilename = os.path.expanduser("~/.pdfgui.cfg")
 # Project modification flag
 isAltered = False
 
-docMainFile = resource_filename(Requirement.parse("diffpy.pdfgui"),
-        'doc/manual/pdfgui.html')
+# Resolve APPDATADIR base path to application data files.
+_req = Requirement.parse("diffpy.pdfgui")
+_development_mode = (
+    os.path.basename(resource_filename(_req, "")) == "src" and
+    os.path.isfile(resource_filename(_req, "../setup.py"))
+)
 
-# static variable for the iconpath function
-_cached_iconpaths = {}
+APPDATADIR = resource_filename(_req, ".." if _development_mode else "")
+APPDATADIR = os.path.abspath(APPDATADIR)
+
+# Location of the HTML manual
+docMainFile = os.path.join(APPDATADIR, 'doc/manual/pdfgui.html')
+
 
 def iconpath(iconfilename):
-    # cached_iconpaths is a static variable
     """Full path to the icon file in pdfgui installation.
     This function should be used whenever GUI needs access
     to custom icons.
@@ -43,12 +50,9 @@ def iconpath(iconfilename):
 
     Return string.
     """
-    if iconfilename not in _cached_iconpaths:
-        f = resource_filename(Requirement.parse("diffpy.pdfgui"),
-                "icons/" + iconfilename)
-        _cached_iconpaths[iconfilename] = f
-    rv = _cached_iconpaths[iconfilename]
+    rv = os.path.join(APPDATADIR, 'icons', iconfilename)
     return rv
+
 
 # options and arguments passed on command line
 cmdopts = []
