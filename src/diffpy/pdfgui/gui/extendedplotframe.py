@@ -45,10 +45,6 @@ class ExtendedToolbar(NavToolbar):
         save_icon_fp = iconpath('exportplotdata.png')
         save_icon = wx.Bitmap(save_icon_fp)
         # Add new buttons
-        self.AddSimpleTool(wx.ID_PRINT,
-                           wx.ArtProvider.GetBitmap(wx.ART_PRINT,
-                                                    wx.ART_TOOLBAR),
-                           'Print', 'print graph')
         self.AddSimpleTool(DATA_SAVE_ID,
                            save_icon,
                            'Export plot data', 'Export plot data to file')
@@ -158,9 +154,6 @@ class ExtendedPlotFrame(wx.Frame):
         wx.EVT_PAINT(self, self.OnPaint)
         wx.EVT_TOOL(self, DATA_SAVE_ID, self.savePlotData)
         wx.EVT_CLOSE(self, self.onClose)
-        wx.EVT_TOOL(self, wx.ID_PRINT, self.onPrint)
-        wx.EVT_TOOL(self, wx.ID_PRINT_SETUP, self.onPrintSetup)
-        wx.EVT_TOOL(self, wx.ID_PREVIEW_PRINT, self.onPrintPreview)
 
         self.datalims = {}
 
@@ -190,16 +183,6 @@ class ExtendedPlotFrame(wx.Frame):
 
         d.Destroy()
         return
-
-    def onPrint(self, evt):
-        '''handle print event'''
-        self.canvas.Printer_Print(event=evt)
-
-    def onPrintSetup(self,event=None):
-        self.canvas.Printer_Setup(event=event)
-
-    def onPrintPreview(self,event=None):
-         self.canvas.Printer_Preview(event=event)
 
     def UpdateStatusBar(self, event):
         if event.inaxes:
