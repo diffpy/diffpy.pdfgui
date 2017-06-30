@@ -2126,7 +2126,7 @@ class MainFrame(wx.Frame):
             dir, filename = os.path.split(self.fullpath)
             if not dir:
                 dir = self.workpath
-            matchstring = "PDFgui project files (*.ddp)|*.ddp|All Files|*"
+            matchstring = "PDFgui project files (*.ddp)|*.ddp"
             d = wx.FileDialog(None, "Choose a file", dir
                     , "", matchstring, wx.OPEN)
             if d.ShowModal() == wx.ID_OK:
