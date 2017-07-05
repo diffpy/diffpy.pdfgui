@@ -37,7 +37,7 @@ requirements:
   run:
     - python
     - setuptools
-    - matplotlib 1.*
+    - matplotlib
     - wxpython
     - menuinst                  [win]
     - diffpy.pdffit2
