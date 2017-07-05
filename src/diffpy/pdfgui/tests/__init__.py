@@ -26,7 +26,8 @@ def testsuite(pattern=''):
     ----------
     pattern : str, optional
         Regular expression pattern for selecting test cases.
-        Select all tests when empty.
+        Select all tests when empty.  Ignore the pattern when
+        any of unit test modules fails to import.
 
     Returns
     -------
@@ -47,7 +48,11 @@ def testsuite(pattern=''):
     # always filter the suite by pattern to test-cover the selection code.
     suite = unittest.TestSuite()
     rx = re.compile(pattern)
-    tcases = chain.from_iterable(chain.from_iterable(suite_all))
+    tsuites = list(chain.from_iterable(suite_all))
+    tsok = all(isinstance(ts, unittest.TestSuite) for ts in tsuites)
+    if not tsok:    # pragma: no cover
+        return suite_all
+    tcases = chain.from_iterable(tsuites)
     for tc in tcases:
         tcwords = tc.id().rsplit('.', 2)
         shortname = '.'.join(tcwords[-2:])
