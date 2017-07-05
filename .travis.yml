@@ -91,7 +91,7 @@ install:
     fi
 
 script:
-  - coverage run --source ${MYNAME} -m ${MYNAME}.tests.run
+  - coverage run --source ${MYNAME} -m ${MYNAME}.tests.rundeps
 
 after_success:
   - pip install $MYPIPFLAGS codecov
