@@ -81,8 +81,7 @@ def dirglob(d, *patterns):
 setup_args = dict(
     name = 'diffpy.pdfgui',
     version = versiondata.get('DEFAULT', 'version'),
-    namespace_packages = ['diffpy'],
-    packages = find_packages('src'),
+    packages = find_packages(os.path.join(MYDIR, 'src')),
     package_dir = {'' : 'src'},
     include_package_data = True,
     test_suite = 'diffpy.pdfgui.tests',
