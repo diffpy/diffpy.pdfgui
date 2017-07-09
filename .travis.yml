@@ -73,10 +73,9 @@ before_install:
   - $NOAPT || MYTARBUNDLE="$(ls -t "${PWD}"/dist/*.tar.gz | head -1)"
 
 install:
-  - $NOMC || conda build --python=${MYPYTHON_VERSION} --dirty conda-recipe
-  - $NOMC || MYCONDATESTENV="$(ls -td ~/mc/conda-bld/${MYNAME}_*/_t_env* | head -1)"
-  - $NOMC || source activate ${MYCONDATESTENV:?"conda test environment not found"}
-  - $NOMC || conda list  --export ${MYNAME} > /tmp/mypackage.txt
+  - $NOMC || conda build --python=${MYPYTHON_VERSION} conda-recipe
+  - $NOMC || conda render --python=${MYPYTHON_VERSION} --output conda-recipe |
+                sed 's,.*/,,; s/[.]tar[.]bz2$//; s/-/=/g' > /tmp/mypackage.txt
   - $NOMC || source activate testenv
   - $NOMC || conda install --yes --use-local --file=/tmp/mypackage.txt
 
