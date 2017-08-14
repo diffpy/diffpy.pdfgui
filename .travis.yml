@@ -54,11 +54,11 @@ before_install:
     esac
   - MYRUNDIR=${PWD}/build/rundir
 
-  - mkdir -p ~/pkgs/
+  - mkdir -p ~/pkgs
   - mkdir -p ${MYRUNDIR}
   - cp .coveragerc ${MYRUNDIR}/
 
-  - $NOMC || pushd ~/pkgs/
+  - $NOMC || pushd ~/pkgs
   - $NOMC || wget --timestamping ${MYMCREPO}/${MYMCBUNDLE}
   - $NOMC || test -x ~/mc/bin/conda || bash ${MYMCBUNDLE} -b -f -p ~/mc
   - $NOMC || popd
