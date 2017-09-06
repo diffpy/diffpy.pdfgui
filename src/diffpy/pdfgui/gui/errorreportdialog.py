@@ -21,6 +21,7 @@
 #
 import wx
 import wx.lib.hyperlink
+import webbrowser
 
 
 # don't use trac ticket submission
@@ -41,23 +42,18 @@ class ErrorReportDialog(wx.Dialog):
         self.ticketlink = wx.lib.hyperlink.HyperLinkCtrl(self, wx.ID_ANY, "here.")
         self.label_view_community = wx.StaticText(self, wx.ID_ANY, "Discuss PDFgui and learn about new developments and features")
         self.communitylink = wx.lib.hyperlink.HyperLinkCtrl(self, wx.ID_ANY, "here.")
-        self.label_email = wx.StaticText(self, wx.ID_ANY, "Your email address (optional):")
-        self.text_ctrl_reporter = wx.TextCtrl(self, wx.ID_ANY, "")
-        self.label_summary = wx.StaticText(self, wx.ID_ANY, "Short summary:")
-        self.text_ctrl_summary = wx.TextCtrl(self, wx.ID_ANY, "")
-        self.label_description = wx.StaticText(self, wx.ID_ANY, "Full description:")
-        self.text_ctrl_description = wx.TextCtrl(self, wx.ID_ANY, "", style=wx.TE_MULTILINE)
         self.label_log = wx.StaticText(self, wx.ID_ANY, "Error log:")
         self.text_ctrl_log = wx.TextCtrl(self, wx.ID_ANY, "", style=wx.TE_MULTILINE | wx.TE_READONLY)
         self.static_line_1 = wx.StaticLine(self, wx.ID_ANY)
-        self.button_send = wx.Button(self, wx.ID_ANY, "Send Report")
+        self.button_google = wx.Button(self, wx.ID_ANY, "Google This Error")
+        self.button_copyErrorLog = wx.Button(self, wx.ID_ANY, "Copy Error Log")
         self.button_close = wx.Button(self, wx.ID_CANCEL, "Close")
 
         self.__set_properties()
         self.__do_layout()
 
-        self.Bind(wx.EVT_TEXT, self.onSummaryText, self.text_ctrl_summary)
-        self.Bind(wx.EVT_BUTTON, self.onSend, self.button_send)
+        self.Bind(wx.EVT_BUTTON, self.onGoogle, self.button_google)
+        self.Bind(wx.EVT_BUTTON, self.onCopyErrorLog, self.button_copyErrorLog)
         # end wxGlade
         self.__customProperties()
         return
@@ -66,14 +62,12 @@ class ErrorReportDialog(wx.Dialog):
         # begin wxGlade: ErrorReportDialog.__set_properties
         self.SetTitle("Problem Report for PDFgui")
         self.SetSize((540, 600))
-        self.button_send.Enable(False)
         # end wxGlade
 
     def __do_layout(self):
         # begin wxGlade: ErrorReportDialog.__do_layout
         sizer_main = wx.BoxSizer(wx.VERTICAL)
         sizer_buttons = wx.BoxSizer(wx.HORIZONTAL)
-        sizer_email = wx.BoxSizer(wx.HORIZONTAL)
         sizer_ticket_copy = wx.BoxSizer(wx.HORIZONTAL)
         sizer_ticket = wx.BoxSizer(wx.HORIZONTAL)
         sizer_main.Add(self.label_header, 0, wx.ALL | wx.EXPAND, 5)
@@ -84,18 +78,12 @@ class ErrorReportDialog(wx.Dialog):
         sizer_ticket_copy.Add(self.label_view_community, 0, wx.ALL | wx.EXPAND, 5)
         sizer_ticket_copy.Add(self.communitylink, 1, wx.BOTTOM | wx.TOP, 5)
         sizer_main.Add(sizer_ticket_copy, 0, wx.BOTTOM | wx.TOP, 5)
-        sizer_email.Add(self.label_email, 0, wx.ALL, 5)
-        sizer_email.Add(self.text_ctrl_reporter, 1, wx.ALIGN_CENTER_VERTICAL, 0)
-        sizer_main.Add(sizer_email, 0, wx.BOTTOM | wx.EXPAND | wx.TOP, 10)
-        sizer_main.Add(self.label_summary, 0, wx.EXPAND | wx.LEFT | wx.RIGHT | wx.TOP, 5)
-        sizer_main.Add(self.text_ctrl_summary, 0, wx.BOTTOM | wx.EXPAND | wx.LEFT | wx.RIGHT, 5)
-        sizer_main.Add(self.label_description, 0, wx.EXPAND | wx.LEFT | wx.RIGHT | wx.TOP, 5)
-        sizer_main.Add(self.text_ctrl_description, 1, wx.BOTTOM | wx.EXPAND | wx.LEFT | wx.RIGHT, 5)
         sizer_main.Add(self.label_log, 0, wx.EXPAND | wx.LEFT | wx.RIGHT | wx.TOP, 5)
         sizer_main.Add(self.text_ctrl_log, 1, wx.BOTTOM | wx.EXPAND | wx.LEFT | wx.RIGHT, 5)
         sizer_main.Add(self.static_line_1, 0, wx.EXPAND | wx.LEFT | wx.RIGHT | wx.TOP, 5)
         sizer_buttons.Add((20, 20), 1, 0, 0)
-        sizer_buttons.Add(self.button_send, 0, wx.ALL, 5)
+        sizer_buttons.Add(self.button_google, 0, wx.ALL, 5)
+        sizer_buttons.Add(self.button_copyErrorLog, 0, wx.ALL, 5)
         sizer_buttons.Add(self.button_close, 0, wx.ALL, 5)
         sizer_main.Add(sizer_buttons, 0, wx.EXPAND, 0)
         self.SetSizer(sizer_main)
@@ -182,6 +170,23 @@ class ErrorReportDialog(wx.Dialog):
             self.button_send.Enable(False)
         event.Skip()
 
+    def onGoogle(self, event):  # wxGlade: ErrorReportDialog.<event_handler>
+        # google the error log when click button "google this error"
+        traceback = self.text_ctrl_log.GetValue()
+        webbrowser.open("https://www.google.com/search?q=" + traceback)
+        event.Skip()
+        return
+
+    def onCopyErrorLog(self, event):  # wxGlade: ErrorReportDialog.<event_handler>
+        # copy the traceback enclosed in GitHub block quotations so it is easier to paste into GitHub issue.
+        traceback = self.text_ctrl_log.GetValue()
+        clipdata = wx.TextDataObject()
+        clipdata.SetText("```" + "\n" + traceback + "\n" + "```")
+        wx.TheClipboard.Open()
+        wx.TheClipboard.SetData(clipdata)
+        wx.TheClipboard.Close()
+        event.Skip()
+        return
 # end of class ErrorReportDialog
 
 
