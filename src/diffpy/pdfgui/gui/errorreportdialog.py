@@ -130,48 +130,6 @@ class ErrorReportDialog(wx.Dialog):
 
         wx.Dialog.ShowModal(self)
 
-
-    def onSend(self, event): # wxGlade: ErrorReportDialog.<event_handler>
-        from diffpy.pdfgui.bugreport import submitBugReport
-        if self.errorReport:
-            traceback = self.text_ctrl_log.GetValue()
-        else:
-            traceback = 'N/A'
-        # build the bugdata dictionary
-        bugdata = {
-                'summary' : self.text_ctrl_summary.GetValue(),
-                'description' : self.text_ctrl_description.GetValue(),
-                'reporter' : self.text_ctrl_reporter.GetValue(),
-                'traceback' : traceback,
-                # let submitBugReport fill the defaults for
-                # 'component' and 'version'
-        }
-        # handle failed submission gracefully
-        try:
-            submitBugReport(bugdata)
-        except IOError, e:
-            errorinfo = str(e)
-            if hasattr(e, 'code'):
-                errorinfo += '< Error code = %s >' % e.code
-            emsg = "Report can not be sent: " + errorinfo
-            dlg = wx.MessageDialog(self,
-                    emsg, "Error", wx.CANCEL|wx.ICON_ERROR)
-            dlg.ShowModal()
-            dlg.Destroy()
-        except:
-            raise
-        # success
-        else:
-            dlg = wx.MessageDialog(self,
-                    "Your report has been sent", "Message sent",
-                    wx.OK|wx.ICON_INFORMATION)
-            dlg.ShowModal()
-            dlg.Destroy()
-            self.Close()
-        event.Skip()
-        return
-
-
     def onSummaryText(self, event): # wxGlade: ErrorReportDialog.<event_handler>
         """Enable sending only if short summary is filled out."""
         self.button_send.Enable(True)
