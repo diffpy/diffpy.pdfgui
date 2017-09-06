@@ -25,10 +25,9 @@ import webbrowser
 
 
 # don't use trac ticket submission
-queryPDFguiTickets = ''.join(["http://danse.us/trac/diffraction/query",
-    '?status=new&status=assigned&status=reopened',
-    '&component=pdfgui&component=pdffit2&order=priority'])
-USERSMAILINGLIST = "https://groups.google.com/d/forum/diffpy-users"
+queryPDFguiTickets = "https://github.com/diffpy/diffpy.pdfgui/issues"
+USERSMAILINGLIST = "https://groups.google.com/forum/#!forum/diffpy-users"
+DEVMAILINGLIST = "https://groups.google.com/forum/#!forum/diffpy-dev"
 _authdata = '99.77.79.61.111.82.67.112'
 
 class ErrorReportDialog(wx.Dialog):
@@ -37,11 +36,13 @@ class ErrorReportDialog(wx.Dialog):
         kwds["style"] = wx.DEFAULT_DIALOG_STYLE | wx.MAXIMIZE_BOX | wx.MINIMIZE_BOX | wx.RESIZE_BORDER
         wx.Dialog.__init__(self, *args, **kwds)
         self.label_header = wx.StaticText(self, wx.ID_ANY, "PDFgui has encountered a problem. We are sorry for the inconvenience.")
-        self.label_text = wx.StaticText(self, wx.ID_ANY, "To help us improve this software, please provide at least a short summary of the problem. When you click the Send Error Report button, the short summary, full description, error log and the version of the software will be sent to developers.")
-        self.label_view_ticket = wx.StaticText(self, wx.ID_ANY, "You can view current bug reports and feature requests ")
-        self.ticketlink = wx.lib.hyperlink.HyperLinkCtrl(self, wx.ID_ANY, "here.")
-        self.label_view_community = wx.StaticText(self, wx.ID_ANY, "Discuss PDFgui and learn about new developments and features")
-        self.communitylink = wx.lib.hyperlink.HyperLinkCtrl(self, wx.ID_ANY, "here.")
+        self.label_text = wx.StaticText(self, wx.ID_ANY, "To help us improve this software, you can click the Copy Error Report button, and paste into GitHub issues.")
+        self.label_view_ticket = wx.StaticText(self, wx.ID_ANY, "You can view current bug reports and feature requests at GitHub issues:")
+        self.ticketlink = wx.lib.hyperlink.HyperLinkCtrl(self, wx.ID_ANY, "https://github.com/diffpy/diffpy.pdfgui/issues")
+        self.label_view_community_user = wx.StaticText(self, wx.ID_ANY, "Discuss PDFgui and learn about new developments and features at diffpy-users Google Group:")
+        self.community_user_link = wx.lib.hyperlink.HyperLinkCtrl(self, wx.ID_ANY, "https://groups.google.com/forum/#!forum/diffpy-users")
+        self.label_view_community_dev = wx.StaticText(self, wx.ID_ANY, "You can also report a bug and request features at diffpy-dev Google Group:")
+        self.community_dev_link = wx.lib.hyperlink.HyperLinkCtrl(self, wx.ID_ANY, "https://groups.google.com/forum/#!forum/diffpy-dev")
         self.label_log = wx.StaticText(self, wx.ID_ANY, "Error log:")
         self.text_ctrl_log = wx.TextCtrl(self, wx.ID_ANY, "", style=wx.TE_MULTILINE | wx.TE_READONLY)
         self.static_line_1 = wx.StaticLine(self, wx.ID_ANY)
@@ -61,23 +62,27 @@ class ErrorReportDialog(wx.Dialog):
     def __set_properties(self):
         # begin wxGlade: ErrorReportDialog.__set_properties
         self.SetTitle("Problem Report for PDFgui")
-        self.SetSize((540, 600))
+        self.SetSize((946, 687))
         # end wxGlade
 
     def __do_layout(self):
         # begin wxGlade: ErrorReportDialog.__do_layout
         sizer_main = wx.BoxSizer(wx.VERTICAL)
         sizer_buttons = wx.BoxSizer(wx.HORIZONTAL)
-        sizer_ticket_copy = wx.BoxSizer(wx.HORIZONTAL)
+        sizer_community_dev = wx.BoxSizer(wx.HORIZONTAL)
+        sizer_community_user = wx.BoxSizer(wx.HORIZONTAL)
         sizer_ticket = wx.BoxSizer(wx.HORIZONTAL)
         sizer_main.Add(self.label_header, 0, wx.ALL | wx.EXPAND, 5)
         sizer_main.Add(self.label_text, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALL | wx.EXPAND, 5)
         sizer_ticket.Add(self.label_view_ticket, 0, wx.ALL | wx.EXPAND, 5)
         sizer_ticket.Add(self.ticketlink, 1, wx.BOTTOM | wx.TOP, 5)
         sizer_main.Add(sizer_ticket, 0, wx.BOTTOM | wx.TOP, 5)
-        sizer_ticket_copy.Add(self.label_view_community, 0, wx.ALL | wx.EXPAND, 5)
-        sizer_ticket_copy.Add(self.communitylink, 1, wx.BOTTOM | wx.TOP, 5)
-        sizer_main.Add(sizer_ticket_copy, 0, wx.BOTTOM | wx.TOP, 5)
+        sizer_community_user.Add(self.label_view_community_user, 0, wx.ALL | wx.EXPAND, 5)
+        sizer_community_user.Add(self.community_user_link, 1, wx.BOTTOM | wx.TOP, 5)
+        sizer_main.Add(sizer_community_user, 0, wx.BOTTOM | wx.TOP, 5)
+        sizer_community_dev.Add(self.label_view_community_dev, 0, wx.ALL | wx.EXPAND, 5)
+        sizer_community_dev.Add(self.community_dev_link, 1, wx.BOTTOM | wx.TOP, 5)
+        sizer_main.Add(sizer_community_dev, 0, wx.BOTTOM | wx.TOP, 5)
         sizer_main.Add(self.label_log, 0, wx.EXPAND | wx.LEFT | wx.RIGHT | wx.TOP, 5)
         sizer_main.Add(self.text_ctrl_log, 1, wx.BOTTOM | wx.EXPAND | wx.LEFT | wx.RIGHT, 5)
         sizer_main.Add(self.static_line_1, 0, wx.EXPAND | wx.LEFT | wx.RIGHT | wx.TOP, 5)
@@ -97,8 +102,10 @@ class ErrorReportDialog(wx.Dialog):
 
         self.ticketlink.SetURL(queryPDFguiTickets)
         self.ticketlink.SetToolTip(wx.ToolTip(queryPDFguiTickets))
-        self.communitylink.SetURL(USERSMAILINGLIST)
-        self.communitylink.SetToolTip(wx.ToolTip(USERSMAILINGLIST))
+        self.community_user_link.SetURL(USERSMAILINGLIST)
+        self.community_user_link.SetToolTip(wx.ToolTip(USERSMAILINGLIST))
+        self.community_dev_link.SetURL(DEVMAILINGLIST)
+        self.community_dev_link.SetToolTip(wx.ToolTip(DEVMAILINGLIST))
         return
 
     def ShowModal(self):
@@ -106,14 +113,17 @@ class ErrorReportDialog(wx.Dialog):
         if self.text_ctrl_log.GetValue().strip() == "":
             self.SetTitle("Feature Request / Bug Report")
             self.label_header.SetLabel("Share you thoughts about PDFgui!")
-            self.label_text.SetLabel("To help us improve this software, please provide a short summary of the problem or request.  When you click the Send Report button, the short summary, full description and the version of the software will be sent to developers.")
+            self.label_text.SetLabel("To help us improve this software, you can submit feature request / bug report via following links.")
             self.label_log.SetLabel("")
             self.text_ctrl_log.Hide()
+            self.button_google.Hide()
+            self.button_copyErrorLog.Hide()
+            self.SetSize((946, 250))
             self.errorReport = False
         else:
             self.SetTitle("Problem Report for PDFgui")
             self.label_header.SetLabel("PDFgui has encountered a problem. We are sorry for the inconvenience.")
-            self.label_text.SetLabel("To help us improve this software, please provide a short summary of how the error occurred. When you click the Send Report button, the short summary, full description and the version of the software will be sent to developers.")
+            self.label_text.SetLabel("To help us improve this software, you can click the Copy Error Log button, and paste the Error Log into GitHub issues.")
             self.label_log.SetLabel("Error log:")
             self.text_ctrl_log.Show()
             self.errorReport = True
@@ -171,9 +181,14 @@ class ErrorReportDialog(wx.Dialog):
         event.Skip()
 
     def onGoogle(self, event):  # wxGlade: ErrorReportDialog.<event_handler>
-        # google the error log when click button "google this error"
+        # google the path-independent items in the traceback when click button "google this error"
         traceback = self.text_ctrl_log.GetValue()
-        webbrowser.open("https://www.google.com/search?q=" + traceback)
+        querydata = ""
+        for line in traceback.split("\n"):
+            if "Error" in line:
+                querydata += line.strip() + " "
+        if querydata != "":
+            webbrowser.open("https://www.google.com/search?q=" + querydata)
         event.Skip()
         return
 
