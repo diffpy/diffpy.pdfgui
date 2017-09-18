@@ -22,6 +22,7 @@
 import wx
 import wx.lib.hyperlink
 import webbrowser
+import re
 
 
 # don't use trac ticket submission
@@ -36,7 +37,7 @@ class ErrorReportDialog(wx.Dialog):
         kwds["style"] = wx.DEFAULT_DIALOG_STYLE | wx.MAXIMIZE_BOX | wx.MINIMIZE_BOX | wx.RESIZE_BORDER
         wx.Dialog.__init__(self, *args, **kwds)
         self.label_header = wx.StaticText(self, wx.ID_ANY, "PDFgui has encountered a problem. We are sorry for the inconvenience.")
-        self.label_text = wx.StaticText(self, wx.ID_ANY, "To help us improve this software, you can click the Copy Error Report button, and paste into GitHub issues.")
+        self.text_ctrl_text = wx.TextCtrl(self, wx.ID_ANY, "To help us improve this software, you can click the Copy Error Report button, and paste the Error Log into GitHub issues.", style=wx.BORDER_NONE | wx.TE_MULTILINE | wx.TE_READONLY)
         self.label_view_ticket = wx.StaticText(self, wx.ID_ANY, "You can view current bug reports and feature requests at GitHub issues:")
         self.ticketlink = wx.lib.hyperlink.HyperLinkCtrl(self, wx.ID_ANY, "https://github.com/diffpy/diffpy.pdfgui/issues")
         self.label_view_community_user = wx.StaticText(self, wx.ID_ANY, "Discuss PDFgui and learn about new developments and features at diffpy-users Google Group:")
@@ -63,6 +64,7 @@ class ErrorReportDialog(wx.Dialog):
         # begin wxGlade: ErrorReportDialog.__set_properties
         self.SetTitle("Problem Report for PDFgui")
         self.SetSize((946, 687))
+        self.text_ctrl_text.SetBackgroundColour(wx.Colour(236, 236, 236))
         # end wxGlade
 
     def __do_layout(self):
@@ -73,7 +75,7 @@ class ErrorReportDialog(wx.Dialog):
         sizer_community_user = wx.BoxSizer(wx.HORIZONTAL)
         sizer_ticket = wx.BoxSizer(wx.HORIZONTAL)
         sizer_main.Add(self.label_header, 0, wx.ALL | wx.EXPAND, 5)
-        sizer_main.Add(self.label_text, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALL | wx.EXPAND, 5)
+        sizer_main.Add(self.text_ctrl_text, 0, wx.EXPAND, 5)
         sizer_ticket.Add(self.label_view_ticket, 0, wx.ALL | wx.EXPAND, 5)
         sizer_ticket.Add(self.ticketlink, 1, wx.BOTTOM | wx.TOP, 5)
         sizer_main.Add(sizer_ticket, 0, wx.BOTTOM | wx.TOP, 5)
@@ -113,7 +115,7 @@ class ErrorReportDialog(wx.Dialog):
         if self.text_ctrl_log.GetValue().strip() == "":
             self.SetTitle("Feature Request / Bug Report")
             self.label_header.SetLabel("Share you thoughts about PDFgui!")
-            self.label_text.SetLabel("To help us improve this software, you can submit feature request / bug report via following links.")
+            self.text_ctrl_text.SetValue("To help us improve this software, you can submit feature request / bug report via following links.")
             self.label_log.SetLabel("")
             self.text_ctrl_log.Hide()
             self.button_google.Hide()
@@ -123,7 +125,7 @@ class ErrorReportDialog(wx.Dialog):
         else:
             self.SetTitle("Problem Report for PDFgui")
             self.label_header.SetLabel("PDFgui has encountered a problem. We are sorry for the inconvenience.")
-            self.label_text.SetLabel("To help us improve this software, you can click the Copy Error Log button, and paste the Error Log into GitHub issues.")
+            self.text_ctrl_text.SetValue("To help us improve this software, you can click the Copy Error Log button, and paste the Error Log into GitHub issues.")
             self.label_log.SetLabel("Error log:")
             self.text_ctrl_log.Show()
             self.errorReport = True
@@ -139,14 +141,25 @@ class ErrorReportDialog(wx.Dialog):
         event.Skip()
 
     def onGoogle(self, event):  # wxGlade: ErrorReportDialog.<event_handler>
-        # google the path-independent items in the traceback when click button "google this error"
+        # google the `str_to_search`, path-independent items, in the traceback when click button "google this error"
         traceback = self.text_ctrl_log.GetValue()
-        querydata = ""
+        str_to_search = ""
+        # find 'errorwrapper.py", line 60, in _f' patterns in error log using regular expression
+        pattern = re.compile('\w+\.py\"\,\sline\s\d+\,\sin\s\S+')
+        findpattern = re.findall(pattern, traceback)
+        if len(findpattern) != 0: # if found
+            str_to_search = ' '.join(findpattern)
+            # replace '", line 60, in ' in the patterns found with ' ' using regular expression
+            str_to_search = re.sub('\"\,\sline\s\d+\,\sin\s',' ',str_to_search)
+            str_to_search += " "
+        # add the Error line in error log into querydata
         for line in traceback.split("\n"):
-            if "Error" in line:
-                querydata += line.strip() + " "
-        if querydata != "":
-            webbrowser.open("https://www.google.com/search?q=" + querydata)
+            if "Error:" in line:
+                str_to_search += line.strip() + " "
+        if str_to_search != "":
+            webbrowser.open("https://www.google.com/search?q=" + str_to_search)
+        else: # if no error information is extracted successfully above, just google the whole traceback.
+            webbrowser.open("https://www.google.com/search?q=" + traceback)
         event.Skip()
         return
 
@@ -176,25 +189,14 @@ class MyApp(wx.App):
     def test(self):
         '''Testing code goes here.'''
         errortext = """\
-Exception in thread Thread-3:\n\
-Traceback (most recent call last):\n\
-  File "/usr/lib/python2.4/threading.py", line 442, in __bootstrap\n\
-    self.run()\n\
-  File "/u23b/farrowch/Programming/Pyre/diffraction/PDFGui/gui/../control/fitting.py", line 54, in run\n\
-    self.fitting.run()\n\
-  File "/u23b/farrowch/Programming/Pyre/diffraction/PDFGui/gui/../control/fitting.py", line 299, in run\n\
-    if self.refine_step():\n\
-  File "/u23b/farrowch/Programming/Pyre/diffraction/PDFGui/gui/../control/fitting.py", line 504, in refine_step\n\
-    phase.obtainRefined(self.server, iphase)\n\
-  File "/u23b/farrowch/Programming/Pyre/diffraction/PDFGui/gui/../control/fitstructure.py", line 79, in obtainRefined\n\
-    self.refined.readStr(server.save_struct_string(iphase), 'pdffit')\n\
-  File "/u23b/farrowch/Programming/Pyre/diffraction/Structure/Structure/structure.py", line 141, in readStr\n\
-    new_structure = parse(s, format)\n\
-  File "/u23b/farrowch/Programming/Pyre/diffraction/Structure/Structure/Parsers/__init__.py", line 43, in parse\n\
-    stru = p.parseLines(lines)\n\
-  File "/u23b/farrowch/Programming/Pyre/diffraction/Structure/Structure/Parsers/P_pdffit.py", line 85, in parseLines\n\
-    xyz = [ float(w) for w in wl1[1:4] ]\n\
-StructureFormatError: 10: file is not in PDFFit format
+Traceback (most recent call last): 
+  File "C:\DiffPy\Python25\lib\site-packages\diffpy.pdfgui-1.0_r3067_20090410-py2.5.egg\diffpy\pdfgui\gui\errorwrapper.py", line 60, in _f 
+    return func(*args, **kwargs) 
+  File "C:\DiffPy\Python25\lib\site-packages\diffpy.pdfgui-1.0_r3067_20090410-py2.5.egg\diffpy\pdfgui\gui\mainframe.py", line 2176, in onSave 
+    self.control.save(self.fullpath) 
+  File "C:\DiffPy\Python25\lib\site-packages\diffpy.pdfgui-1.0_r3067_20090410-py2.5.egg\diffpy\pdfgui\control\pdfguicontrol.py", line 507, in save 
+    self.projfile = projfile.encode('ascii') 
+UnicodeDecodeError: 'ascii' codec can't decode byte 0xb0 in position 115: ordinal not in range(128) 
 """
         self.dialog.text_ctrl_log.SetValue(errortext)
 # end of class MyApp
