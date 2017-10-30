@@ -20,18 +20,14 @@
 # "Bug report" Dialog
 #
 import wx
-import wx.lib.hyperlink
 import wx.html
 import webbrowser
 import re
 
 
-
 # don't use trac ticket submission
 queryPDFguiTickets = "https://github.com/diffpy/diffpy.pdfgui/issues"
 USERSMAILINGLIST = "https://groups.google.com/forum/#!forum/diffpy-users"
-_authdata = '99.77.79.61.111.82.67.112'
-
 
 
 msg_feature_request = """
@@ -138,14 +134,6 @@ class ErrorReportDialog(wx.Dialog):
             self.errorReport = True
 
         wx.Dialog.ShowModal(self)
-
-    def onSummaryText(self, event): # wxGlade: ErrorReportDialog.<event_handler>
-        """Enable sending only if short summary is filled out."""
-        self.button_send.Enable(True)
-        value = self.text_ctrl_summary.GetValue()
-        if not value.strip():
-            self.button_send.Enable(False)
-        event.Skip()
 
     def onGoogle(self, event):  # wxGlade: ErrorReportDialog.<event_handler>
         # google the `str_to_search`, path-independent items, in the traceback when click button "google this error"
