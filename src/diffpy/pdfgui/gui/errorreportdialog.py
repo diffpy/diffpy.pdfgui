@@ -28,6 +28,7 @@ import re
 
 ISSUESTRACKER = "https://github.com/diffpy/diffpy.pdfgui/issues"
 USERSMAILINGLIST = "https://groups.google.com/d/forum/diffpy-users"
+_WEBSEARCHURL = "https://www.google.com/search?q={query}"
 
 _MSG_TRAILER = """
 <p>
@@ -131,24 +132,19 @@ class ErrorReportDialog(wx.Dialog):
         wx.Dialog.ShowModal(self)
 
     def onGoogle(self, event):  # wxGlade: ErrorReportDialog.<event_handler>
-        # google the `str_to_search`, path-independent items, in the traceback when click button "google this error"
+        """
+        Handle the "Google This Error" button.
+
+        Search for path-independent module and function names and for
+        error message extracted from exception traceback.
+        """
+        from urllib import quote_plus
         traceback = self.text_ctrl_log.GetValue()
-        str_to_search = ""
-        # find 'errorwrapper.py", line 60, in _f' patterns in error log using regular expression
-        pattern = re.compile('\w+\.py\"\,\s+line\s+\d+\,\s+in\s+\S+')
-        pattern_found = re.findall(pattern, traceback)
-        if len(pattern_found) != 0: # if found, replace '", line 60, in ' in the `pattern_found` with ' ' using regular expression
-            str_to_search = ' '.join(pattern_found)
-            str_to_search = re.sub('\"\,\s+line\s+\d+\,\s+in\s+',' ',str_to_search)
-            str_to_search += " "
-        # add the Error line in error log into querydata as well
-        for line in traceback.split("\n"):
-            if "Error:" in line:
-                str_to_search += line.strip() + " "
-        if str_to_search != "":
-            webbrowser.open("https://www.google.com/search?q=" + str_to_search)
-        else: # if no error information is extracted successfully above, just google the whole traceback.
-            webbrowser.open("https://www.google.com/search?q=" + traceback)
+        terms = _extractSearchTerms(traceback)
+        str_to_search = " ".join(terms) if terms else traceback.strip()
+        query = quote_plus(str_to_search)
+        url = _WEBSEARCHURL.format(query=query)
+        webbrowser.open(url)
         event.Skip()
         return
 
@@ -169,6 +165,32 @@ class ErrorReportDialog(wx.Dialog):
         webbrowser.open(link.GetHref())
 
 # end of class ErrorReportDialog
+
+# Helper functions -----------------------------------------------------------
+
+def _extractSearchTerms(tbtext):
+    """
+    Extract search words from a Python exception traceback.
+
+    Parameters
+    ----------
+    tbtext : str
+        Python exception traceback converted to a string.
+
+    Returns
+    -------
+    searchterms : list
+        List of search terms to be used for Google search.
+    """
+    # extract module names and function names from a traceback
+    modfncpairs = re.findall(
+        r'File.*?([^/\\]*[.]py).*?, line \d+, in (\w+)',
+        tbtext, re.MULTILINE)
+    modfnc = list(sum(modfncpairs, ()))
+    # find the last line starting with "SomeError: ...".
+    lasterr = re.findall(r'^\w+Error:.*', tbtext, re.MULTILINE)
+    rv = modfnc + lasterr[-1:]
+    return rv
 
 ##### testing code ############################################################
 
