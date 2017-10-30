@@ -156,7 +156,7 @@ class ErrorReportDialog(wx.Dialog):
         # copy the traceback enclosed in GitHub block quotations so it is easier to paste into GitHub issue.
         traceback = self.text_ctrl_log.GetValue()
         clipdata = wx.TextDataObject()
-        clipdata.SetText("```" + "\n" + traceback + "\n" + "```")
+        clipdata.SetText("```\n" + traceback.strip() + "\n```\n")
         wx.TheClipboard.Open()
         wx.TheClipboard.SetData(clipdata)
         wx.TheClipboard.Close()
