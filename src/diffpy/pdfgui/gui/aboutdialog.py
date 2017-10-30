@@ -219,7 +219,7 @@ class MyApp(wx.App):
         self.SetTopWindow(dialog)
         dialog.ShowModal()
         dialog.Destroy()
-        return 1
+        return True
 
 # end of class MyApp
 

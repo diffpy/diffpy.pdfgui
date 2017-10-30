@@ -24,7 +24,7 @@ class PDFGuiApp(wx.App):
         self.frame = MainFrame(None, -1, "")
         self.SetTopWindow(self.frame)
         self.frame.Show()
-        return 1
+        return True
 
 # end of class PDFGuiApp
 
