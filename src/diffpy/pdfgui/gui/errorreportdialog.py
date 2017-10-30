@@ -24,39 +24,34 @@ import wx.html
 import webbrowser
 import re
 
+# Constants ------------------------------------------------------------------
 
-# don't use trac ticket submission
-queryPDFguiTickets = "https://github.com/diffpy/diffpy.pdfgui/issues"
-USERSMAILINGLIST = "https://groups.google.com/forum/#!forum/diffpy-users"
+ISSUESTRACKER = "https://github.com/diffpy/diffpy.pdfgui/issues"
+USERSMAILINGLIST = "https://groups.google.com/d/forum/diffpy-users"
 
+_MSG_TRAILER = """
+<p>
+You can view current bug reports and feature requests at
+<a href="{issues}">{issues}</a>.
+</p><p>
+Discuss PDFgui and learn about new developments and features at
+<a href="{mlist}">{mlist}</a>.
+</p>
+""".format(issues=ISSUESTRACKER, mlist=USERSMAILINGLIST)
 
-msg_feature_request = """
+_MSG_FEATURE_REQUEST = """
 <p>
 Share you thoughts about PDFgui!
-</p><p>
-You can view current bug reports and feature requests at
-<a href="https://github.com/diffpy/diffpy.pdfgui/issues">
-https://github.com/diffpy/diffpy.pdfgui/issues</a>.
-</p><p>
-Discuss PDFgui and learn about new developments and features at
-<a href="https://groups.google.com/d/forum/diffpy-users">
-https://groups.google.com/d/forum/diffpy-users</a>.
 </p>
-""".strip()
+""" + _MSG_TRAILER
 
-msg_error_report = """
+_MSG_ERROR_REPORT = """
 <p>
-PDFgui has encountered a problem. We are sorry for the inconvenience.
+PDFgui has encountered a problem.  We are sorry for the inconvenience.
 </p><p>
-You can view current bug reports and feature requests at
-<a href="https://github.com/diffpy/diffpy.pdfgui/issues">
-https://github.com/diffpy/diffpy.pdfgui/issues</a>.
-</p><p>
-Discuss PDFgui and learn about new developments and features at
-<a href="https://groups.google.com/d/forum/diffpy-users">
-https://groups.google.com/d/forum/diffpy-users</a>.
-</p>
-""".strip()
+""" + _MSG_TRAILER
+
+# ----------------------------------------------------------------------------
 
 class ErrorReportDialog(wx.Dialog):
     def __init__(self, *args, **kwds):
@@ -118,7 +113,7 @@ class ErrorReportDialog(wx.Dialog):
         # there are 2 modes: error report and feature request
         if self.text_ctrl_log.GetValue().strip() == "":
             self.SetTitle("Feature Request / Bug Report")
-            self.label_header.SetPage(msg_feature_request)
+            self.label_header.SetPage(_MSG_FEATURE_REQUEST)
             self.label_header.SetBackgroundColour('')
             self.label_log.Hide()
             self.text_ctrl_log.Hide()
@@ -128,7 +123,7 @@ class ErrorReportDialog(wx.Dialog):
             self.errorReport = False
         else:
             self.SetTitle("Problem Report for PDFgui")
-            self.label_header.SetPage(msg_error_report)
+            self.label_header.SetPage(_MSG_ERROR_REPORT)
             self.label_header.SetBackgroundColour('')
             self.text_ctrl_log.Show()
             self.errorReport = True
@@ -172,10 +167,22 @@ class ErrorReportDialog(wx.Dialog):
         # click on the URL link in dialog, it will open the URL in web browser.
         link = event.GetLinkInfo()
         webbrowser.open(link.GetHref())
+
 # end of class ErrorReportDialog
 
-
 ##### testing code ############################################################
+
+_EXAMPLE_TRACEBACK = """
+Traceback (most recent call last):
+  File "C:\DiffPy\Python25\lib\site-packages\diffpy.pdfgui-1.0_r3067_20090410-py2.5.egg\diffpy\pdfgui\gui\errorwrapper.py", line 60, in _f
+    return func(*args, **kwargs)
+  File "C:\DiffPy\Python25\lib\site-packages\diffpy.pdfgui-1.0_r3067_20090410-py2.5.egg\diffpy\pdfgui\gui\mainframe.py", line 2176, in onSave
+    self.control.save(self.fullpath)
+  File "C:\DiffPy\Python25\lib\site-packages\diffpy.pdfgui-1.0_r3067_20090410-py2.5.egg\diffpy\pdfgui\control\pdfguicontrol.py", line 507, in save
+    self.projfile = projfile.encode('ascii')
+UnicodeDecodeError: 'ascii' codec can't decode byte 0xb0 in position 115: ordinal not in range(128)
+""".strip()
+
 class MyApp(wx.App):
     def OnInit(self):
         self.dialog = ErrorReportDialog(None, -1, "")
@@ -187,17 +194,9 @@ class MyApp(wx.App):
 
     def test(self):
         '''Testing code goes here.'''
-        errortext = """\
-Traceback (most recent call last): 
-  File "C:\DiffPy\Python25\lib\site-packages\diffpy.pdfgui-1.0_r3067_20090410-py2.5.egg\diffpy\pdfgui\gui\errorwrapper.py", line 60, in _f 
-    return func(*args, **kwargs) 
-  File "C:\DiffPy\Python25\lib\site-packages\diffpy.pdfgui-1.0_r3067_20090410-py2.5.egg\diffpy\pdfgui\gui\mainframe.py", line 2176, in onSave 
-    self.control.save(self.fullpath) 
-  File "C:\DiffPy\Python25\lib\site-packages\diffpy.pdfgui-1.0_r3067_20090410-py2.5.egg\diffpy\pdfgui\control\pdfguicontrol.py", line 507, in save 
-    self.projfile = projfile.encode('ascii') 
-UnicodeDecodeError: 'ascii' codec can't decode byte 0xb0 in position 115: ordinal not in range(128) 
-"""
-        self.dialog.text_ctrl_log.SetValue(errortext)
+        self.dialog.text_ctrl_log.SetValue(_EXAMPLE_TRACEBACK)
+        return
+
 # end of class MyApp
 
 if __name__ == "__main__":
