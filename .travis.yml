@@ -69,6 +69,9 @@ before_install:
   - $NOMC || conda config --add channels diffpy
 
   - $NOAPT || test "${TRAVIS_OS_NAME}" = "linux" || exit $?
+  - $NOAPT || PATH="$(echo "$PATH" | sed 's,:/opt/pyenv/[^:]*,,g')"
+  - $NOAPT || test "$(which python)" = "/usr/bin/python" || (
+                  which python; exit 1)
   - $NOAPT || devutils/makesdist
   - $NOAPT || MYTARBUNDLE="$(ls -t "${PWD}"/dist/*.tar.gz | head -1)"
 
