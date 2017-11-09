@@ -212,7 +212,7 @@ class MyApp(wx.App):
         self.test()
         self.dialog.ShowModal()
         self.dialog.Destroy()
-        return 1
+        return True
 
     def test(self):
         '''Testing code goes here.'''
