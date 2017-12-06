@@ -88,7 +88,7 @@ install:
   - $NOAPT || easy_install --user "${MYTARBUNDLE}"
 
   - cd ${MYRUNDIR}
-  - MYGIT_REV=$(python -c "import ${MYNAME}.version as v; print(v.__gitsha__)")
+  - MYGIT_REV=$(python -c "import ${MYNAME}.version as v; print(v.__git_commit__)")
   - if [[ "${TRAVIS_COMMIT}" != "${MYGIT_REV}" ]]; then
         echo "Version mismatch ${TRAVIS_COMMIT} vs ${MYGIT_REV}.";
         exit 1;
