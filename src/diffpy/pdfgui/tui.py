@@ -13,7 +13,6 @@
 #
 ##############################################################################
 
-
 """Text user interface - utilities for extracting data from project files.
 """
 

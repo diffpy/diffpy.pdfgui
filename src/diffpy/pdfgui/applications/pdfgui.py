@@ -13,8 +13,8 @@
 #
 ##############################################################################
 
-
-"""PDFgui   Graphical User Interface for Pair Distribution Function fitting
+"""
+PDFgui Graphical User Interface for Pair Distribution Function fitting
 Usage: pdfgui [project.dpp]
 
 PDFgui is graphical user interface to PDFfit2 - a Python library for PDF

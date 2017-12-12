@@ -13,8 +13,7 @@
 #
 ##############################################################################
 
-
-"""\
+"""
 Convenience module for debugging the unit tests using
 
 python -m diffpy.pdfgui.tests.debug

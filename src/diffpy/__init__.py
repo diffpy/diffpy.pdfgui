@@ -13,7 +13,6 @@
 #
 ##############################################################################
 
-
 """diffpy - tools for structure analysis by diffraction.
 
 Blank namespace package.
