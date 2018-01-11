@@ -9,7 +9,8 @@ recursive-exclude doc/manual Makefile *.py *.texinfo
 recursive-exclude doc/manual *.aux *.cp *.cps *.err *.log *.toc *.vr *.vrs
 recursive-include icons *.png *.ico
 recursive-exclude icons *.m *.xcf
-global-exclude .gitattributes .gitignore .DS_Store
+global-exclude .gitattributes .gitignore .gitarchive.cfg
+global-exclude .DS_Store
 
 # Avoid user content in setup.cfg to make distribution reproducible.
 exclude setup.cfg
