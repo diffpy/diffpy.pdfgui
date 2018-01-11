@@ -8,7 +8,15 @@ exclude doc/manual/images/*.pdf
 recursive-exclude doc/manual Makefile *.py *.texinfo
 recursive-exclude doc/manual *.aux *.cp *.cps *.err *.log *.toc *.vr *.vrs
 recursive-include icons *.png *.ico
-recursive-exclude * .gitattributes .gitignore .DS_Store
+recursive-exclude icons *.m *.xcf
+global-exclude .gitattributes .gitignore .DS_Store
 
 # Avoid user content in setup.cfg to make distribution reproducible.
 exclude setup.cfg
+
+# Exclude git-tracked files spuriously added by setuptools_scm
+exclude .coveragerc
+exclude .travis*
+prune conda-recipe
+prune devutils
+prune doc
