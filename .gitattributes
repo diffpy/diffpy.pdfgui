@@ -3,4 +3,4 @@
 /.travis.yml  export-ignore
 /conda-recipe/  export-ignore
 /devutils  export-ignore
-gitarchive.cfg  export-subst
+.gitarchive.cfg  export-subst
