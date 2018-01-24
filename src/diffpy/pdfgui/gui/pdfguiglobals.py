@@ -28,17 +28,24 @@ configfilename = os.path.expanduser("~/.pdfgui.cfg")
 isAltered = False
 
 # Resolve APPDATADIR base path to application data files.
-_req = Requirement.parse("diffpy.pdfgui")
+_upbasedir = os.path.normpath(resource_filename(__name__, '../../..'))
 _development_mode = (
-    os.path.basename(resource_filename(_req, "")) == "src" and
-    os.path.isfile(resource_filename(_req, "../setup.py"))
+    os.path.basename(_upbasedir) == "src" and
+    os.path.isfile(os.path.join(_upbasedir, "../setup.py"))
 )
 
-APPDATADIR = resource_filename(_req, ".." if _development_mode else "")
+# Requirement must have egg-info.  Do not use in _development_mode.
+_req = Requirement.parse("diffpy.pdfgui")
+APPDATADIR = (os.path.dirname(_upbasedir) if _development_mode
+              else resource_filename(_req, ""))
 APPDATADIR = os.path.abspath(APPDATADIR)
 
 # Location of the HTML manual
 docMainFile = os.path.join(APPDATADIR, 'doc/manual/pdfgui.html')
+
+del _upbasedir
+del _development_mode
+del _req
 
 
 def iconpath(iconfilename):
