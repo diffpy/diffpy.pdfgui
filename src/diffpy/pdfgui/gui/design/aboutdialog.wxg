@@ -129,7 +129,7 @@
                                 <flag>wxLEFT|wxRIGHT</flag>
                                 <border>10</border>
                                 <option>0</option>
-                                <object class="wx.lib.hyperlink.HyperLinkCtrl" name="hyperlink" base="CustomWidget">
+                                <object class="wx.lib.agw.hyperlink.HyperLinkCtrl" name="hyperlink" base="CustomWidget">
                                     <arguments>
                                         <argument>$parent</argument>
                                         <argument>$id</argument>
@@ -150,7 +150,7 @@
                                 <flag>wxLEFT|wxRIGHT</flag>
                                 <border>10</border>
                                 <option>0</option>
-                                <object class="wx.lib.hyperlink.HyperLinkCtrl" name="hyperlink_license" base="CustomWidget">
+                                <object class="wx.lib.agw.hyperlink.HyperLinkCtrl" name="hyperlink_license" base="CustomWidget">
                                     <disabled>1</disabled>
                                     <arguments>
                                         <argument>$parent</argument>
@@ -165,7 +165,7 @@
                                 <flag>wxLEFT|wxRIGHT</flag>
                                 <border>10</border>
                                 <option>0</option>
-                                <object class="wx.lib.hyperlink.HyperLinkCtrl" name="hyperlink_paper" base="CustomWidget">
+                                <object class="wx.lib.agw.hyperlink.HyperLinkCtrl" name="hyperlink_paper" base="CustomWidget">
                                     <disabled>1</disabled>
                                     <arguments>
                                         <argument>$parent</argument>

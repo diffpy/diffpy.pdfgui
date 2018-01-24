@@ -15,7 +15,7 @@
 
 import random
 import wx
-import wx.lib.hyperlink
+import wx.lib.agw.hyperlink
 from diffpy.pdfgui.gui.pdfguiglobals import iconpath
 from diffpy.pdfgui.version import __version__, __date__
 
@@ -82,11 +82,11 @@ class DialogAbout(wx.Dialog):
         self.label_svnrevision = wx.StaticText(self, -1, "")
         self.label_copyright = wx.StaticText(self, -1, "(c) 2005-2009,")
         self.label_author = wx.StaticText(self, -1, "author")
-        self.hyperlink = wx.lib.hyperlink.HyperLinkCtrl(self, -1,
+        self.hyperlink = wx.lib.agw.hyperlink.HyperLinkCtrl(self, -1,
                 _homepage, URL=_homepage)
-        self.hyperlink_paper = wx.lib.hyperlink.HyperLinkCtrl(self, -1,
+        self.hyperlink_paper = wx.lib.agw.hyperlink.HyperLinkCtrl(self, -1,
                 _paper, URL=_paper)
-        self.hyperlink_license = wx.lib.hyperlink.HyperLinkCtrl(self, -1,
+        self.hyperlink_license = wx.lib.agw.hyperlink.HyperLinkCtrl(self, -1,
                 _license, URL=_license)
         self.static_line_1 = wx.StaticLine(self, -1)
         self.label_acknowledgement = wx.StaticText(self, -1, _acknowledgement)
