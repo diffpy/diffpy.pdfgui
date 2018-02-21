@@ -63,7 +63,7 @@ before_install:
   - $NOMC || wget --timestamping ${MYMCREPO}/${MYMCBUNDLE}
   - $NOMC || test -x ~/mc/bin/conda || bash ${MYMCBUNDLE} -b -f -p ~/mc
   - $NOMC || popd
-  - $NOMC || source ~/mc/bin/activate root
+  - $NOMC || source ~/mc/bin/activate base
   - $NOMC || conda update --yes conda
   - $NOMC || conda install --yes conda-build jinja2
   - $NOMC || conda create --name=testenv --yes python=${MYPYTHON_VERSION} coverage
