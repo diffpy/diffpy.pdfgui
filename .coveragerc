@@ -11,6 +11,7 @@ exclude_lines =
     ^[ ]*assert False
 
     ## Don't complain if non-runnable code isn't run:
+    ^[ ]*@unittest.skip\b
     ^[ ]{4}unittest.main()
     if __name__ == .__main__.:
 
