@@ -22,9 +22,9 @@ from diffpy.pdfgui.gui.pdfpanel import PDFPanel
 class OutputPanel(wx.Panel,PDFPanel):
     def __init__(self, *args, **kwds):
         # begin wxGlade: OutputPanel.__init__
-        kwds["style"] = wx.TAB_TRAVERSAL
+        kwds["style"] = kwds.get("style", 0) | wx.TAB_TRAVERSAL
         wx.Panel.__init__(self, *args, **kwds)
-        self.outputTextCtrl = wx.TextCtrl(self, -1, "", style=wx.TE_MULTILINE|wx.TE_READONLY|wx.HSCROLL)
+        self.outputTextCtrl = wx.TextCtrl(self, wx.ID_ANY, "", style=wx.HSCROLL | wx.TE_MULTILINE | wx.TE_READONLY)
 
         self.__set_properties()
         self.__do_layout()
@@ -33,17 +33,17 @@ class OutputPanel(wx.Panel,PDFPanel):
 
     def __set_properties(self):
         # begin wxGlade: OutputPanel.__set_properties
+        pass
         # end wxGlade
         return
 
     def __do_layout(self):
         # begin wxGlade: OutputPanel.__do_layout
         sizer_1 = wx.BoxSizer(wx.VERTICAL)
-        sizer_1.Add(self.outputTextCtrl, 1, wx.ALL|wx.EXPAND|wx.ADJUST_MINSIZE, 0)
-        self.SetAutoLayout(True)
+        sizer_1.Add(self.outputTextCtrl, 1, wx.ALL | wx.EXPAND, 0)
         self.SetSizer(sizer_1)
         sizer_1.Fit(self)
-        sizer_1.SetSizeHints(self)
+        self.Layout()
         # end wxGlade
 
     def __customProperties(self):
