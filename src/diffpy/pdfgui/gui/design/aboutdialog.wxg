@@ -112,7 +112,7 @@
                                 <border>10</border>
                                 <flag>wxLEFT|wxRIGHT|wxTOP</flag>
                                 <object class="wxStaticText" name="label_copyright" base="EditStaticText">
-                                    <label>(c) 2005-2007,</label>
+                                    <label>(c) 2005-YYYY,</label>
                                     <attribute>1</attribute>
                                 </object>
                             </object>
@@ -194,7 +194,7 @@
                 <border>7</border>
                 <flag>wxLEFT|wxTOP|wxBOTTOM</flag>
                 <object class="wxStaticText" name="label_acknowledgement" base="EditStaticText">
-                    <label>_acknowledgement</label>
+                    <label></label>
                     <attribute>1</attribute>
                 </object>
             </object>
