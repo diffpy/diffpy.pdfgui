@@ -34,6 +34,7 @@ addons:
 
 before_install:
   - MYNAME=diffpy.pdfgui
+  - MYCOMMIT="$(git rev-parse HEAD)"
   - umask 022
   - git fetch origin --tags
   - if ${MYUSEMC}; then
@@ -62,7 +63,7 @@ before_install:
   - $NOMC || wget --timestamping ${MYMCREPO}/${MYMCBUNDLE}
   - $NOMC || test -x ~/mc/bin/conda || bash ${MYMCBUNDLE} -b -f -p ~/mc
   - $NOMC || popd
-  - $NOMC || source ~/mc/bin/activate root
+  - $NOMC || source ~/mc/bin/activate base
   - $NOMC || conda update --yes conda
   - $NOMC || conda install --yes conda-build jinja2
   - $NOMC || conda create --name=testenv --yes python=${MYPYTHON_VERSION} coverage
@@ -89,8 +90,8 @@ install:
 
   - cd ${MYRUNDIR}
   - MYGIT_REV=$(python -c "import ${MYNAME}.version as v; print(v.__git_commit__)")
-  - if [[ "${TRAVIS_COMMIT}" != "${MYGIT_REV}" ]]; then
-        echo "Version mismatch ${TRAVIS_COMMIT} vs ${MYGIT_REV}.";
+  - if [[ "${MYCOMMIT}" != "${MYGIT_REV}" ]]; then
+        echo "Version mismatch ${MYCOMMIT} vs ${MYGIT_REV}.";
         exit 1;
     fi
 

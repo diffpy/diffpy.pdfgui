@@ -26,7 +26,7 @@ def gitinfo():
     kw = dict(stdout=PIPE, cwd=MYDIR)
     proc = Popen(['git', 'describe', '--match=v[[:digit:]]*'], **kw)
     desc = proc.stdout.read()
-    proc = Popen(['git', 'log', '-1', '--format=%H %at %ai'], **kw)
+    proc = Popen(['git', 'log', '-1', '--format=%H %ct %ci'], **kw)
     glog = proc.stdout.read()
     rv = {}
     rv['version'] = '.post'.join(desc.strip().split('-')[:2]).lstrip('v')

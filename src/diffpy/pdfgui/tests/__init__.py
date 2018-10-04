@@ -54,8 +54,8 @@ def testsuite(pattern=''):
         return suite_all
     tcases = chain.from_iterable(tsuites)
     for tc in tcases:
-        tcwords = tc.id().rsplit('.', 2)
-        shortname = '.'.join(tcwords[-2:])
+        tcwords = tc.id().split('.')
+        shortname = '.'.join(tcwords[-3:])
         if rx.search(shortname):
             suite.addTest(tc)
     # verify all tests are found for an empty pattern.
