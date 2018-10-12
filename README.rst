@@ -34,7 +34,7 @@ that are used by PDFgui and its components.
 * diffpy.utils - shared helper utilities for wx GUI,
   https://github.com/diffpy/diffpy.utils
 
-We recommend to use `Anaconda Python <https://www.continuum.io/downloads>`_
+We recommend to use `Anaconda Python <https://www.anaconda.com/download>`_
 which allows to conveniently install PDFgui and all its software
 dependencies with a single command.  For other Python distributions
 it is necessary to install the required software separately.  As an
