@@ -19,11 +19,8 @@ import wx.lib.agw.hyperlink
 from diffpy.pdfgui.gui.pdfguiglobals import iconpath
 from diffpy.pdfgui.version import __version__, __date__
 
-# FIXME - this is not in sync with the wxglade file
 
-
-_acknowledgement =  \
-'''\
+_acknowledgement =  '''\
 This software was developed by the Billinge-group as part of the Distributed
 Data Analysis of Neutron Scattering Experiments (DANSE) project funded by the US
 National Science Foundation under grant DMR-0520547.  Developments of PDFfit2
