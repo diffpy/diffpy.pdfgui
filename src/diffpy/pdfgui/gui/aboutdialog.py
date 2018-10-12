@@ -39,6 +39,8 @@ following paper in your publication:
     computer programs for studying nanostructure in crystals,
     J. Phys.: Condens. Matter 19, 335219 (2007).'''
 
+_copyright = "(c) 2005-{year},".format(year= __date__[:4])
+
 _homepage = "http://www.diffpy.org"
 
 # authors list is shuffled randomly every time
@@ -77,7 +79,7 @@ class DialogAbout(wx.Dialog):
         self.label_version = wx.StaticText(self, wx.ID_ANY, "")
         self.label_build = wx.StaticText(self, wx.ID_ANY, "Build:")
         self.label_svnrevision = wx.StaticText(self, wx.ID_ANY, "")
-        self.label_copyright = wx.StaticText(self, wx.ID_ANY, "(c) 2005-YYYY,")
+        self.label_copyright = wx.StaticText(self, wx.ID_ANY, "")
         self.label_author = wx.StaticText(self, wx.ID_ANY, "author")
         self.hyperlink = wx.lib.agw.hyperlink.HyperLinkCtrl(self, wx.ID_ANY, _homepage, URL=_homepage)
         self.hyperlink_license = wx.lib.agw.hyperlink.HyperLinkCtrl(self, wx.ID_ANY, _license, URL=_license)
@@ -105,12 +107,9 @@ class DialogAbout(wx.Dialog):
         random.shuffle(_authors)
         strLabel = ", ".join(_authors)
         self.label_author.SetLabel(strLabel)
-        # setup acknowledgement text
+        # setup acknowledgement and copyright text labels
         self.label_acknowledgement.SetLabel(_acknowledgement)
-        # set copyright year to that of the current release
-        syear = __date__[:4]
-        scprt = self.label_copyright.GetLabel().replace('YYYY', syear)
-        self.label_copyright.SetLabel(scprt)
+        self.label_copyright.SetLabel(_copyright)
         # display version and svn revison numbers
         verwords = __version__.split('.post', 1)
         version = verwords[0]
