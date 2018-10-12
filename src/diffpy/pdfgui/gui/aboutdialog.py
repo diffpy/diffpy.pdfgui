@@ -19,11 +19,8 @@ import wx.lib.agw.hyperlink
 from diffpy.pdfgui.gui.pdfguiglobals import iconpath
 from diffpy.pdfgui.version import __version__, __date__
 
-# FIXME - this is not in sync with the wxglade file
 
-
-_acknowledgement =  \
-'''\
+_acknowledgement =  '''\
 This software was developed by the Billinge-group as part of the Distributed
 Data Analysis of Neutron Scattering Experiments (DANSE) project funded by the US
 National Science Foundation under grant DMR-0520547.  Developments of PDFfit2
@@ -41,6 +38,8 @@ following paper in your publication:
     J. Bloch, Th. Proffen and S. J. L. Billinge, PDFfit2 and PDFgui:
     computer programs for studying nanostructure in crystals,
     J. Phys.: Condens. Matter 19, 335219 (2007).'''
+
+_copyright = "(c) 2005-{year},".format(year= __date__[:4])
 
 _homepage = "http://www.diffpy.org"
 
@@ -72,30 +71,27 @@ class DialogAbout(wx.Dialog):
     def __init__(self, *args, **kwds):
 
         # begin wxGlade: DialogAbout.__init__
-        kwds["style"] = wx.DEFAULT_DIALOG_STYLE
+        kwds["style"] = kwds.get("style", 0) | wx.DEFAULT_DIALOG_STYLE
         wx.Dialog.__init__(self, *args, **kwds)
-        self.bitmap_logo = wx.StaticBitmap(self, -1,
-        wx.Bitmap(iconpath("logo.png")))
-        self.label_title = wx.StaticText(self, -1, "PDFgui")
-        self.label_version = wx.StaticText(self, -1, "")
-        self.label_build = wx.StaticText(self, -1, "Build:")
-        self.label_svnrevision = wx.StaticText(self, -1, "")
-        self.label_copyright = wx.StaticText(self, -1, "(c) 2005-2009,")
-        self.label_author = wx.StaticText(self, -1, "author")
-        self.hyperlink = wx.lib.agw.hyperlink.HyperLinkCtrl(self, -1,
-                _homepage, URL=_homepage)
-        self.hyperlink_paper = wx.lib.agw.hyperlink.HyperLinkCtrl(self, -1,
-                _paper, URL=_paper)
-        self.hyperlink_license = wx.lib.agw.hyperlink.HyperLinkCtrl(self, -1,
-                _license, URL=_license)
-        self.static_line_1 = wx.StaticLine(self, -1)
-        self.label_acknowledgement = wx.StaticText(self, -1, _acknowledgement)
-        self.static_line_2 = wx.StaticLine(self, -1)
-        self.bitmap_button_nsf = wx.BitmapButton(self, -1, wx.NullBitmap)
-        self.bitmap_button_danse = wx.BitmapButton(self, -1, wx.NullBitmap)
-        self.bitmap_button_msu = wx.BitmapButton(self, -1, wx.NullBitmap)
-        self.bitmap_button_columbia = wx.BitmapButton(self, -1, wx.NullBitmap)
-        self.static_line_3 = wx.StaticLine(self, -1)
+        self.SetSize((600, 595))
+        self.bitmap_logo = wx.StaticBitmap(self, wx.ID_ANY, wx.Bitmap(iconpath("logo.png")))
+        self.label_title = wx.StaticText(self, wx.ID_ANY, "PDFgui")
+        self.label_version = wx.StaticText(self, wx.ID_ANY, "")
+        self.label_build = wx.StaticText(self, wx.ID_ANY, "Build:")
+        self.label_svnrevision = wx.StaticText(self, wx.ID_ANY, "")
+        self.label_copyright = wx.StaticText(self, wx.ID_ANY, "")
+        self.label_author = wx.StaticText(self, wx.ID_ANY, "author")
+        self.hyperlink = wx.lib.agw.hyperlink.HyperLinkCtrl(self, wx.ID_ANY, _homepage, URL=_homepage)
+        self.hyperlink_license = wx.lib.agw.hyperlink.HyperLinkCtrl(self, wx.ID_ANY, _license, URL=_license)
+        self.static_line_1 = wx.StaticLine(self, wx.ID_ANY)
+        self.label_acknowledgement = wx.StaticText(self, wx.ID_ANY, "")
+        self.hyperlink_paper = wx.lib.agw.hyperlink.HyperLinkCtrl(self, wx.ID_ANY, _paper, URL=_paper)
+        self.static_line_2 = wx.StaticLine(self, wx.ID_ANY)
+        self.bitmap_button_nsf = wx.BitmapButton(self, wx.ID_ANY, wx.NullBitmap)
+        self.bitmap_button_danse = wx.BitmapButton(self, wx.ID_ANY, wx.NullBitmap)
+        self.bitmap_button_msu = wx.BitmapButton(self, wx.ID_ANY, wx.NullBitmap)
+        self.bitmap_button_columbia = wx.BitmapButton(self, wx.ID_ANY, wx.NullBitmap)
+        self.static_line_3 = wx.StaticLine(self, wx.ID_ANY)
         self.button_OK = wx.Button(self, wx.ID_OK, "OK")
 
         self.__set_properties()
@@ -111,10 +107,9 @@ class DialogAbout(wx.Dialog):
         random.shuffle(_authors)
         strLabel = ", ".join(_authors)
         self.label_author.SetLabel(strLabel)
-        # set copyright year to that of the current release
-        syear = __date__[:4]
-        scprt = self.label_copyright.GetLabel().replace('2009', syear)
-        self.label_copyright.SetLabel(scprt)
+        # setup acknowledgement and copyright text labels
+        self.label_acknowledgement.SetLabel(_acknowledgement)
+        self.label_copyright.SetLabel(_copyright)
         # display version and svn revison numbers
         verwords = __version__.split('.post', 1)
         version = verwords[0]
@@ -161,23 +156,23 @@ class DialogAbout(wx.Dialog):
         sizer_build = wx.BoxSizer(wx.HORIZONTAL)
         sizer_title = wx.BoxSizer(wx.HORIZONTAL)
         sizer_header.Add(self.bitmap_logo, 0, wx.EXPAND, 0)
-        sizer_title.Add(self.label_title, 0, wx.LEFT|wx.TOP|wx.EXPAND, 10)
+        sizer_title.Add(self.label_title, 0, wx.EXPAND | wx.LEFT | wx.TOP, 10)
         sizer_title.Add((20, 20), 0, wx.EXPAND, 0)
-        sizer_title.Add(self.label_version, 0, wx.RIGHT|wx.ALIGN_BOTTOM, 10)
+        sizer_title.Add(self.label_version, 0, wx.ALIGN_BOTTOM | wx.RIGHT, 10)
         sizer_titles.Add(sizer_title, 0, wx.EXPAND, 0)
-        sizer_build.Add(self.label_build, 0, wx.LEFT|wx.RIGHT, 10)
+        sizer_build.Add(self.label_build, 0, wx.LEFT | wx.RIGHT, 10)
         sizer_build.Add(self.label_svnrevision, 0, 0, 0)
-        sizer_titles.Add(sizer_build, 0, wx.TOP|wx.EXPAND, 5)
-        sizer_titles.Add(self.label_copyright, 0, wx.LEFT|wx.RIGHT|wx.TOP, 10)
-        sizer_titles.Add(self.label_author, 0, wx.LEFT|wx.RIGHT, 10)
-        sizer_titles.Add(self.hyperlink, 0, wx.LEFT|wx.RIGHT, 10)
+        sizer_titles.Add(sizer_build, 0, wx.EXPAND | wx.TOP, 5)
+        sizer_titles.Add(self.label_copyright, 0, wx.LEFT | wx.RIGHT | wx.TOP, 10)
+        sizer_titles.Add(self.label_author, 0, wx.LEFT | wx.RIGHT, 10)
+        sizer_titles.Add(self.hyperlink, 0, wx.LEFT | wx.RIGHT, 10)
         sizer_titles.Add((20, 20), 0, 0, 0)
-        sizer_titles.Add(self.hyperlink_license, 0, wx.LEFT|wx.RIGHT, 10)
+        sizer_titles.Add(self.hyperlink_license, 0, wx.LEFT | wx.RIGHT, 10)
         sizer_header.Add(sizer_titles, 0, wx.EXPAND, 0)
-        sizer_main.Add(sizer_header, 0, wx.BOTTOM|wx.EXPAND, 3)
+        sizer_main.Add(sizer_header, 0, wx.BOTTOM | wx.EXPAND, 3)
         sizer_main.Add(self.static_line_1, 0, wx.EXPAND, 0)
-        sizer_main.Add(self.label_acknowledgement, 0, wx.LEFT|wx.TOP|wx.BOTTOM, 7)
-        sizer_main.Add(self.hyperlink_paper, 0, wx.LEFT|wx.TOP|wx.BOTTOM, 7)
+        sizer_main.Add(self.label_acknowledgement, 0, wx.BOTTOM | wx.LEFT | wx.TOP, 7)
+        sizer_main.Add(self.hyperlink_paper, 0, wx.BOTTOM | wx.LEFT | wx.TOP, 7)
         sizer_main.Add(self.static_line_2, 0, wx.EXPAND, 0)
         sizer_logos.Add(self.bitmap_button_nsf, 0, wx.LEFT, 2)
         sizer_logos.Add(self.bitmap_button_danse, 0, wx.LEFT, 2)
