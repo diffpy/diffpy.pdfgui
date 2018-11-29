@@ -231,11 +231,11 @@ class TestPdfFitSandbox(unittest.TestCase):
         self.assertEqual(1, len(self.box._fits))
         self.assertEqual(1, len(self.box._fits[-1].strucs))
         self.assertEqual(0, len(self.box._fits[-1].datasets))
-        self.failUnless(isinstance(self.box._fits[-1], Fitting))
+        self.assertTrue(isinstance(self.box._fits[-1], Fitting))
         exec "alloc(N, 37.0, 0.07, 0.01, 10.0, 1000)" in sandbox
         self.assertEqual(1, len(self.box._fits))
         self.assertEqual(1, len(self.box._fits[-1].strucs))
-        self.failUnless(isinstance(self.box._fits[-1], Calculation))
+        self.assertTrue(isinstance(self.box._fits[-1], Calculation))
         c = self.box._fits[-1]
         self.assertEqual(37.0, c.qmax)
         self.assertEqual(0.07, c.qdamp)
@@ -257,7 +257,7 @@ class TestPdfFitSandbox(unittest.TestCase):
         exec "alloc(N, 37.0, 0.07, 0.01, 10.0, 1000)" in sandbox
         self.assertEqual(1, len(self.box._fits))
         exec "calc()" in sandbox
-        self.failUnless(isinstance(self.box._fits[0], Calculation))
+        self.assertTrue(isinstance(self.box._fits[0], Calculation))
         self.assertEqual(2, len(self.box._fits))
         self.assertEqual(0, len(self.box._fits[-1].datasets))
         self.assertEqual(0, len(self.box._fits[-1].strucs))
@@ -385,7 +385,7 @@ class TestPdfFitSandbox(unittest.TestCase):
         cphase = self.box._fits[-1].strucs[self.box._curphase]
         cdataset = self.box._fits[-1].datasets[self.box._curdataset]
         self.assertEqual(10, len(cphase.constraints))
-        self.failUnless('pscale' in cphase.constraints)
+        self.assertTrue('pscale' in cphase.constraints)
         self.assertEqual('@6', cphase.constraints['u11(1)'].formula)
         self.assertEqual('@7+0.5', cphase.constraints['x(1)'].formula)
         self.assertEqual(2, len(cdataset.constraints))

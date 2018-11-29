@@ -84,10 +84,10 @@ class TestStructureViewer(unittest.TestCase):
         fs.read(datafile('LaMnO3.stru'))
         self.assertRaises(ControlConfigError, sv.plot, fs)
         sv.executable = 'does/not/exist'
-        self.failUnless(None is sv._tmpdir)
+        self.assertTrue(None is sv._tmpdir)
         self.assertEqual(0, sv._plotcount)
         self.assertRaises(ControlConfigError, sv.plot, fs)
-        self.failUnless(os.path.isdir(sv._tmpdir))
+        self.assertTrue(os.path.isdir(sv._tmpdir))
         self.assertEqual(1, sv._plotcount)
         return
 
@@ -103,10 +103,10 @@ class TestStructureViewer(unittest.TestCase):
         fs.read(datafile('LaMnO3.stru'))
         self.assertRaises(ControlConfigError, sv.plot, fs)
         tmpd = sv._tmpdir
-        self.failUnless(os.path.isdir(tmpd))
+        self.assertTrue(os.path.isdir(tmpd))
         del sv
         gc.collect()
-        self.failIf(os.path.isdir(tmpd))
+        self.assertFalse(os.path.isdir(tmpd))
         return
 
 #   def test__writeTemporaryStructure(self):

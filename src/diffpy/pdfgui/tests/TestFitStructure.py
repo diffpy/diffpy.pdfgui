@@ -55,7 +55,7 @@ class TestFitStructure(unittest.TestCase):
         """check FitStructure.__getattr__()
         """
         stru = self.stru
-        self.failUnless(stru is stru.initial)
+        self.assertTrue(stru is stru.initial)
         self.assertRaises(AttributeError, eval,
                 'stru.notdefined', locals())
         return
@@ -156,9 +156,9 @@ class TestFitStructure(unittest.TestCase):
         stru.insertAtoms(0, [Atom('Na', (0, 0, 0))])
         self.assertEqual(5, len(stru))
         self.assertEqual(1, len(stru.constraints))
-        self.failUnless(cns is stru.constraints['x(3)'])
+        self.assertTrue(cns is stru.constraints['x(3)'])
         stru.insertAtoms(5, [Atom('Cl', (0, 0, 0))])
-        self.failUnless(['x(3)'] == stru.constraints.keys())
+        self.assertTrue(['x(3)'] == stru.constraints.keys())
         return
 
 
@@ -171,10 +171,10 @@ class TestFitStructure(unittest.TestCase):
         stru.constraints['x(2)'] = cns
         stru.deleteAtoms([3])
         self.assertEqual(['x(2)'], stru.constraints.keys())
-        self.failUnless(cns is stru.constraints.values()[0])
+        self.assertTrue(cns is stru.constraints.values()[0])
         stru.deleteAtoms([0])
         self.assertEqual(['x(1)'], stru.constraints.keys())
-        self.failUnless(cns is stru.constraints.values()[0])
+        self.assertTrue(cns is stru.constraints.values()[0])
         stru.deleteAtoms([0])
         self.assertEqual({}, stru.constraints)
         return

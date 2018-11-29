@@ -200,7 +200,7 @@ class TestRoutines(unittest.TestCase):
         # reduce fitrmax to one half
         fds.fitrmax = fds.rmax / 2.0
         npts1 = len(fds.rcalc)
-        self.failUnless(npts1 < npts)
+        self.assertTrue(npts1 < npts)
         rds1 = fds._resampledPDFDataSet()
         self.assertEqual(npts1, len(rds1.robs))
         self.assertEqual(npts1, len(rds1.drobs))
