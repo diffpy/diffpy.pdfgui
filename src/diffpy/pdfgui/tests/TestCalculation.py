@@ -73,7 +73,7 @@ class TestCalculation(unittest.TestCase):
         # range should cover the argument range.
         self.calc.setRGrid(1, 0.7, 10)
         self.assertEqual(1, self.calc.rmin)
-        self.failUnless(10 < self.calc.rmax)
+        self.assertTrue(10 < self.calc.rmax)
         self.assertEqual(0.7, self.calc.rstep)
         return
 

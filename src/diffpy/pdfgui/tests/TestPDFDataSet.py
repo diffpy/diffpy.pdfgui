@@ -68,7 +68,7 @@ class TestPDFDataSet(unittest.TestCase):
         # drobs are all zero
         self.assertEqual(npts*[0.0], self.pdfds.drobs)
         # dGobs should be defined
-        self.failUnless(min(self.pdfds.dGobs) > 0)
+        self.assertTrue(min(self.pdfds.dGobs) > 0)
         # x-ray data ---------------------------------------------------
         fx_Ni = datafile('Ni_2-8.chi.gr')
         self.pdfds.read(fx_Ni)
@@ -80,7 +80,7 @@ class TestPDFDataSet(unittest.TestCase):
         # drobs are all zero
         self.assertEqual(npts*[0.0], self.pdfds.drobs)
         # dGobs should be defined
-        self.failUnless(min(self.pdfds.dGobs) > 0)
+        self.assertTrue(min(self.pdfds.dGobs) > 0)
         return
 
     def test_readStr(self):

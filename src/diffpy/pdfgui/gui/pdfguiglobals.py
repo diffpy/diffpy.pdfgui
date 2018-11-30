@@ -28,7 +28,8 @@ configfilename = os.path.expanduser("~/.pdfgui.cfg")
 isAltered = False
 
 # Resolve APPDATADIR base path to application data files.
-_upbasedir = os.path.normpath(resource_filename(__name__, '../../..'))
+_mydir = os.path.abspath(resource_filename(__name__, ''))
+_upbasedir = os.path.normpath(_mydir + '/../../..')
 _development_mode = (
     os.path.basename(_upbasedir) == "src" and
     os.path.isfile(os.path.join(_upbasedir, "../setup.py"))

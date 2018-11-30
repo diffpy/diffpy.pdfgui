@@ -33,7 +33,7 @@ class TestConstraint(unittest.TestCase):
     def test___init__(self):
         """check Constraint.__init__()
         """
-        self.failUnless(1 in self.c.parguess)
+        self.assertTrue(1 in self.c.parguess)
         self.assertEqual(1, len(self.c.parguess))
         c1 = Constraint('2*@2 + 3.0', 13.0)
         self.assertEqual(1, len(c1.parguess))
