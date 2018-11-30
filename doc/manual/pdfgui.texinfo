@@ -297,7 +297,7 @@ information about DiffPy products visit the project homepage at
 @subsection Installation for Anaconda Python
 
 As of version 1.1 PDFgui is distributed as a pre-built package for
-@url{https://www.continuum.io, Anaconda Python}.  This method makes it
+@url{https://www.anaconda.com, Anaconda Python}.  This method makes it
 easier to distribute software updates and also results in the same
 installation procedure on all supported platforms.
 
