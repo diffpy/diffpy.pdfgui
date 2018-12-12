@@ -194,7 +194,7 @@ def _extractSearchTerms(tbtext):
 
 ##### testing code ############################################################
 
-_EXAMPLE_TRACEBACK = """
+_EXAMPLE_TRACEBACK = r"""
 Traceback (most recent call last):
   File "C:\DiffPy\Python25\lib\site-packages\diffpy.pdfgui-1.0_r3067_20090410-py2.5.egg\diffpy\pdfgui\gui\errorwrapper.py", line 60, in _f
     return func(*args, **kwargs)
