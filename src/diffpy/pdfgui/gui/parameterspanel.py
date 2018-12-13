@@ -256,15 +256,12 @@ class ParametersPanel(wx.Panel, PDFPanel):
                 self.mainFrame.needsSave()
 
         elif col == 1:  # flag "fixed"
-            try:
-                temp = self.parameters[key].fixed
-                value = bool(int(value))
-                if temp != value:
-                    self.parameters[key].fixed = value
-                    self.grid_parameters.SetCellValue(row,1,str(int(value)))
-                    self.mainFrame.needsSave()
-            except ValueError:
-                pass
+            temp = bool(self.parameters[key].fixed)
+            value = bool(int(value))
+            if temp is not value:
+                self.parameters[key].fixed = value
+                self.grid_parameters.SetCellValue(row,1,str(int(value)))
+                self.mainFrame.needsSave()
 
         self.mainFrame.needsSave()
         return
@@ -337,11 +334,8 @@ class ParametersPanel(wx.Panel, PDFPanel):
             indices = self.getSelectedParameters()
             for row in indices:
                 state = self.grid_parameters.GetCellValue(row,1)
-                # This might be triggered when we enter into edit mode, but the
-                # grid cell will have a '' value. Check for that and ignore it.
-                if state:
-                    state = bool(int(state))
-                    seldict[row] = state
+                state = bool(int(state.strip() or "0"))
+                seldict[row] = state
 
             # Find the majority state
             nfixed = seldict.values().count(True)
