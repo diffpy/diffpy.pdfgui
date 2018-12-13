@@ -141,28 +141,25 @@ class ParametersPanel(wx.Panel, PDFPanel):
         self.grid_parameters.AutoSizeColumns()
         self.grid_parameters.EndBatch()
 
-    # FIXME
-    # When selecting a block, this should be bypassed.
-    #
-    # I've tried really hard. I can't get it to work right.
-    #
-    # The problem: A left-click also generates a range-select event.  When an
-    # actual range is selected, it generates two selection events, one at the
-    # start and one at the end of the selection.  However, the one at the start
-    # of the selection does not highlight a cell, and therefore gives no
-    # coordinates.
+
     def onCellLeftClick(self, event): # wxGlade: ParametersPanel.<event_handler>
-        """Toggle a fix/free cell when it is selected."""
-        # Toggle the check box if it is selected
+        """Toggle a fix/free cell when clicked."""
         r = event.GetRow()
         c = event.GetCol()
-        if c == 1:
-            self.grid_parameters.SelectBlock(r,c,r,c)
-            self.onPopupFixFree(event)
-            # Don't actually select the cell until we're sure its not part of a
-            # block. This is handled by onGridRangeSelect.
-        event.Skip()
+        # Only proceed if there is no selection and
+        # this click has no keyboard modifiers.
+        ignorethis = (c != 1 or self.grid_parameters.IsSelection() or
+                      event.ShiftDown() or event.ControlDown())
+        if ignorethis:
+            # do standard click event handling
+            event.Skip()
+            return
+        # We consume the event here.  This prevents focusing the clicked
+        # cell after a click, but that is not necessary for a checkbox.
+        state = int(self.grid_parameters.GetCellValue(r, c) or 0)
+        self.applyCellChange(r, c, not state)
         return
+
 
     def onGridRangeSelect(self, event): # wxGlade: ParametersPanel.<event_handler>
         """Handle range selections.
