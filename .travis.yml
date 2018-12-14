@@ -31,6 +31,7 @@ addons:
     - python-dev
     - python-numpy
     - python-setuptools
+    - python-wxtools
 
 before_install:
   - MYNAME=diffpy.pdfgui
@@ -95,8 +96,17 @@ install:
         exit 1;
     fi
 
+before_script:
+  # provide shell functions to execute coverage with GUI support
+  - case ${TRAVIS_OS_NAME} in
+    linux)
+        guicoverage() { xvfb-run coverage "$@"; } ;;
+    osx)
+        guicoverage() { pythonw -m coverage "$@"; } ;;
+    esac
+
 script:
-  - coverage run --source ${MYNAME} -m ${MYNAME}.tests.rundeps
+  - guicoverage run --source ${MYNAME} -m ${MYNAME}.tests.rundeps
 
 after_success:
   - pip install $MYPIPFLAGS codecov
