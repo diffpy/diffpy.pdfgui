@@ -58,6 +58,28 @@ class TestParametersPanel(unittest.TestCase):
         return
 
 
+    def test_onPopupFixFree(self):
+        "Check ParametersPanel.onPopupFixFree"
+        # event is not used, we just generate and reuse dummy event.
+        e = wx.PyCommandEvent(wx.EVT_MENU.typeId, wx.ID_ANY)
+        panel = self.panel
+        gp = self.panel.grid_parameters
+        plist = list(self.panel.parameters.values())
+        gp.SetCellValue(0, 1, "")
+        self.assertTrue(all(not p.fixed for p in plist))
+        gp.SelectAll()
+        panel.onPopupFixFree(e)
+        self.assertTrue(all(p.fixed for p in plist))
+        self.assertEqual("1", gp.GetCellValue(0, 1))
+        panel.onPopupFixFree(e)
+        self.assertTrue(all(not p.fixed for p in plist))
+        gp.DeselectRow(0)
+        panel.onPopupFixFree(e)
+        self.assertFalse(plist[0].fixed)
+        self.assertTrue(plist[1].fixed)
+        return
+
+
     def test_applyCellChange(self):
         "Check ParametersPanel.applyCellChange"
         gp = self.panel.grid_parameters
