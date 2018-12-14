@@ -260,8 +260,8 @@ class ParametersPanel(wx.Panel, PDFPanel):
                 self.grid_parameters.SetCellValue(row,1,str(int(value)))
                 self.mainFrame.needsSave()
 
-        self.mainFrame.needsSave()
         return
+
 
     def popupMenu(self, window, x, y):
         """Opens a popup menu

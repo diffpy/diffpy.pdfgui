@@ -58,7 +58,6 @@ class TestParametersPanel(unittest.TestCase):
         return
 
 
-    @unittest.expectedFailure
     def test_applyCellChange(self):
         "Check ParametersPanel.applyCellChange"
         gp = self.panel.grid_parameters
