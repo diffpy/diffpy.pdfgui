@@ -78,12 +78,17 @@ def getversioncfg():
 
 versiondata = getversioncfg()
 
+
 def dirglob(d, *patterns):
     from glob import glob
     rv = []
     for p in patterns:
         rv += glob(os.path.join(d, p))
     return rv
+
+
+with open(os.path.join(MYDIR, 'README.rst')) as fp:
+    long_description = fp.read()
 
 # define distribution
 setup_args = dict(
@@ -119,6 +124,8 @@ setup_args = dict(
     maintainer_email = 'pavol.juhas@gmail.com',
     url = 'https://github.com/diffpy/diffpy.pdfgui',
     description = "GUI for PDF simulation and structure refinement.",
+    long_description = long_description,
+    long_description_content_type = 'text/x-rst',
     license = 'BSD',
     keywords = 'PDF structure refinement GUI',
     classifiers = [
