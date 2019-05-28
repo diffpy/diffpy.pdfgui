@@ -77,9 +77,9 @@ class DataSetConfigurePanel(wx.Panel, PDFPanel):
         self.radioBoxStype.SetSelection(0)
         self.radioBoxSampling.SetMinSize((232, 44))
         self.radioBoxSampling.SetSelection(0)
-        self.textCtrlDataFrom.SetBackgroundColour(wx.SystemSettings_GetColour(wx.SYS_COLOUR_GRAYTEXT))
-        self.textCtrlDataTo.SetBackgroundColour(wx.SystemSettings_GetColour(wx.SYS_COLOUR_GRAYTEXT))
-        self.textCtrlDataStep.SetBackgroundColour(wx.SystemSettings_GetColour(wx.SYS_COLOUR_GRAYTEXT))
+        self.textCtrlDataFrom.SetBackgroundColour(wx.SystemSettings.GetColour(wx.SYS_COLOUR_GRAYTEXT))
+        self.textCtrlDataTo.SetBackgroundColour(wx.SystemSettings.GetColour(wx.SYS_COLOUR_GRAYTEXT))
+        self.textCtrlDataStep.SetBackgroundColour(wx.SystemSettings.GetColour(wx.SYS_COLOUR_GRAYTEXT))
         # end wxGlade
 
     def __do_layout(self):
