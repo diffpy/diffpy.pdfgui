@@ -28,7 +28,7 @@ app:
 
 requirements:
   build:
-    - python
+    - python {{ python }}
     - setuptools
     - diffpy.pdffit2
     - diffpy.structure 1.*
