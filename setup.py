@@ -100,9 +100,9 @@ setup_args = dict(
     # manual and tutorial files should not be zipped
     zip_safe = False,
     install_requires = [
-        'diffpy.Structure>=1.2',
-        'diffpy.pdffit2>=1.1a0',
-        'diffpy.utils>=1.1',
+        'diffpy.structure',
+        'diffpy.pdffit2',
+        'diffpy.utils',
     ],
 
     author = 'Simon J.L. Billinge',
