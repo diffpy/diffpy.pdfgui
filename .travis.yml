@@ -88,8 +88,6 @@ install:
   - $NOMC || conda install --yes --use-local --file=/tmp/mypackage.txt
 
   - $NOAPT || pip install $MYPIPFLAGS coverage
-  # TODO - remove after fixup release of PyCifRW following 4.3.
-  - $NOAPT || pip install $MYPIPFLAGS "pycifrw==4.2.1"
   - $NOAPT || easy_install --user "${MYTARBUNDLE}"
 
   - cd ${MYRUNDIR}
