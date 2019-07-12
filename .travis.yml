@@ -1,6 +1,4 @@
-# Use container-based travis workers
-sudo: false
-
+dist: xenial
 language: generic
 
 os:
@@ -23,15 +21,6 @@ branches:
   except:
     - /^v[0-9]/
 
-addons:
-  apt:
-    packages:
-    - build-essential
-    - libgsl0-dev
-    - python-dev
-    - python-numpy
-    - python-setuptools
-    - python-wxtools
 
 before_install:
   - MYNAME=diffpy.pdfgui
@@ -77,6 +66,10 @@ before_install:
   - $NOAPT || PATH="$(echo "$PATH" | sed 's,:/opt/pyenv/[^:]*,,g')"
   - $NOAPT || test "$(which python)" = "/usr/bin/python" || (
                   which python; exit 1)
+  - $NOAPT || sudo apt-get update -qq
+  - $NOAPT || sudo apt-get install -y
+                  build-essential libgsl0-dev python-dev
+                  python-numpy python-setuptools python-pip python-wxtools
   - $NOAPT || devutils/makesdist
   - $NOAPT || MYTARBUNDLE="$(ls -t "${PWD}"/dist/*.tar.gz | head -1)"
 
