@@ -80,6 +80,9 @@ install:
   - $NOMC || source activate testenv
   - $NOMC || conda install --yes --use-local --file=/tmp/mypackage.txt
 
+  # TODO - remove after fix of libgsl.a location in pdffit2
+  - $NOAPT || sudo ln -si /usr/lib/x86_64-linux-gnu/libgsl.a /usr/lib/libgsl.a
+
   - $NOAPT || pip install $MYPIPFLAGS coverage
   - $NOAPT || easy_install --user "${MYTARBUNDLE}"
 
