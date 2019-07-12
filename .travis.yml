@@ -84,7 +84,7 @@ install:
   - $NOAPT || sudo ln -si /usr/lib/x86_64-linux-gnu/libgsl.a /usr/lib/libgsl.a
 
   - $NOAPT || pip install $MYPIPFLAGS coverage
-  - $NOAPT || easy_install --user "${MYTARBUNDLE}"
+  - $NOAPT || pip install $MYPIPFLAGS "${MYTARBUNDLE}"
 
   - cd ${MYRUNDIR}
   - MYGIT_REV=$(python -c "import ${MYNAME}.version as v; print(v.__git_commit__)")
