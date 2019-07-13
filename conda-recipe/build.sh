@@ -1,6 +1,6 @@
 #!/bin/bash
 
-$PYTHON setup.py install
+$PYTHON -m pip install --no-deps -vv .
 
 # Add more build steps here, if they are necessary.
 

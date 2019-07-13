@@ -27,12 +27,10 @@ app:
   summary: materials structure analysis from Pair Distribution Function
 
 requirements:
-  build:
-    - python
+  host:
+    - python {{ python }}
+    - pip
     - setuptools
-    - diffpy.pdffit2
-    - diffpy.structure 1.*
-    - diffpy.utils 1.*
 
   run:
     - python
@@ -41,8 +39,8 @@ requirements:
     - wxpython 3.*
     - menuinst                  [win]
     - diffpy.pdffit2
-    - diffpy.structure 1.*
-    - diffpy.utils 1.*
+    - diffpy.structure
+    - diffpy.utils
 
 test:
   # Python imports
