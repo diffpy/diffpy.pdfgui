@@ -29,10 +29,8 @@ app:
 requirements:
   host:
     - python {{ python }}
+    - pip
     - setuptools
-    - diffpy.pdffit2
-    - diffpy.structure
-    - diffpy.utils
 
   run:
     - python
