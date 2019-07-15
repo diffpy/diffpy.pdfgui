@@ -1,8 +1,8 @@
 .. image:: https://travis-ci.org/diffpy/diffpy.pdfgui.svg?branch=master
    :target: https://travis-ci.org/diffpy/diffpy.pdfgui
 
-.. image:: http://codecov.io/github/diffpy/diffpy.pdfgui/coverage.svg?branch=master
-   :target: http://codecov.io/github/diffpy/diffpy.pdfgui?branch=master
+.. image:: https://codecov.io/gh/diffpy/diffpy.pdfgui/branch/master/graph/badge.svg
+  :target: https://codecov.io/gh/diffpy/diffpy.pdfgui
 
 
 PDFgui

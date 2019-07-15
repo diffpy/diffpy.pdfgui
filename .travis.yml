@@ -1,6 +1,4 @@
-# Use container-based travis workers
-sudo: false
-
+dist: xenial
 language: generic
 
 os:
@@ -23,15 +21,6 @@ branches:
   except:
     - /^v[0-9]/
 
-addons:
-  apt:
-    packages:
-    - build-essential
-    - libgsl0-dev
-    - python-dev
-    - python-numpy
-    - python-setuptools
-    - python-wxtools
 
 before_install:
   - MYNAME=diffpy.pdfgui
@@ -44,12 +33,12 @@ before_install:
         NOAPT=false; NOMC=true;
         MYPIPFLAGS="--user";
     fi
-  - MYMCREPO=https://repo.continuum.io/miniconda
+  - MYMCREPO=https://repo.anaconda.com/miniconda
   - case ${TRAVIS_OS_NAME} in
     linux)
-        MYMCBUNDLE=Miniconda2-latest-Linux-x86_64.sh ;;
+        MYMCBUNDLE=Miniconda3-latest-Linux-x86_64.sh ;;
     osx)
-        MYMCBUNDLE=Miniconda2-latest-MacOSX-x86_64.sh ;;
+        MYMCBUNDLE=Miniconda3-latest-MacOSX-x86_64.sh ;;
     *)
         echo "Unsupported operating system." >&2;
         exit 2 ;;
@@ -66,28 +55,36 @@ before_install:
   - $NOMC || popd
   - $NOMC || source ~/mc/bin/activate base
   - $NOMC || conda update --yes conda
-  - $NOMC || conda install --yes conda-build jinja2
+  - $NOMC || conda install --yes conda-build conda-verify jinja2
   - $NOMC || conda create --name=testenv --yes python=${MYPYTHON_VERSION} coverage
   - $NOMC || conda config --add channels diffpy
+
+  # TODO - remove after update to wxpython 4
+  - $NOMC || conda config --set restore_free_channel true
 
   - $NOAPT || test "${TRAVIS_OS_NAME}" = "linux" || exit $?
   - $NOAPT || PATH="$(echo "$PATH" | sed 's,:/opt/pyenv/[^:]*,,g')"
   - $NOAPT || test "$(which python)" = "/usr/bin/python" || (
                   which python; exit 1)
+  - $NOAPT || sudo apt-get update -qq
+  - $NOAPT || sudo apt-get install -y
+                  build-essential libgsl0-dev python-dev
+                  python-numpy python-setuptools python-pip python-wxtools
   - $NOAPT || devutils/makesdist
   - $NOAPT || MYTARBUNDLE="$(ls -t "${PWD}"/dist/*.tar.gz | head -1)"
 
 install:
-  - $NOMC || conda build --python=${MYPYTHON_VERSION} conda-recipe
+  - $NOMC || conda build --python=${MYPYTHON_VERSION} --no-test conda-recipe
   - $NOMC || conda render --python=${MYPYTHON_VERSION} --output conda-recipe |
                 sed 's,.*/,,; s/[.]tar[.]bz2$//; s/-/=/g' > /tmp/mypackage.txt
   - $NOMC || source activate testenv
   - $NOMC || conda install --yes --use-local --file=/tmp/mypackage.txt
 
+  # TODO - remove after fix of libgsl.a location in pdffit2
+  - $NOAPT || sudo ln -si /usr/lib/x86_64-linux-gnu/libgsl.a /usr/lib/libgsl.a
+
   - $NOAPT || pip install $MYPIPFLAGS coverage
-  # TODO - remove after fixup release of PyCifRW following 4.3.
-  - $NOAPT || pip install $MYPIPFLAGS "pycifrw==4.2.1"
-  - $NOAPT || easy_install --user "${MYTARBUNDLE}"
+  - $NOAPT || pip install $MYPIPFLAGS "${MYTARBUNDLE}"
 
   - cd ${MYRUNDIR}
   - MYGIT_REV=$(python -c "import ${MYNAME}.version as v; print(v.__git_commit__)")
