@@ -33,12 +33,12 @@ before_install:
         NOAPT=false; NOMC=true;
         MYPIPFLAGS="--user";
     fi
-  - MYMCREPO=https://repo.continuum.io/miniconda
+  - MYMCREPO=https://repo.anaconda.com/miniconda
   - case ${TRAVIS_OS_NAME} in
     linux)
-        MYMCBUNDLE=Miniconda2-latest-Linux-x86_64.sh ;;
+        MYMCBUNDLE=Miniconda3-latest-Linux-x86_64.sh ;;
     osx)
-        MYMCBUNDLE=Miniconda2-latest-MacOSX-x86_64.sh ;;
+        MYMCBUNDLE=Miniconda3-latest-MacOSX-x86_64.sh ;;
     *)
         echo "Unsupported operating system." >&2;
         exit 2 ;;
@@ -55,7 +55,7 @@ before_install:
   - $NOMC || popd
   - $NOMC || source ~/mc/bin/activate base
   - $NOMC || conda update --yes conda
-  - $NOMC || conda install --yes conda-build jinja2
+  - $NOMC || conda install --yes conda-build conda-verify jinja2
   - $NOMC || conda create --name=testenv --yes python=${MYPYTHON_VERSION} coverage
   - $NOMC || conda config --add channels diffpy
 
