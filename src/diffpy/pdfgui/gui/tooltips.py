@@ -45,7 +45,6 @@ datasetconfigurepanel = {
     }
 
 datasetconstraintpanel = {
-    'sizer_panelname_staticbox' : '', # StaticBox
     'panelNameLabel' : '', # StaticText "Data Set Constraints"
     'labelScaleFactor' : '', # StaticText "Scale Factor"
     'textCtrlScaleFactor' : 'Data scale factor', # TextCtrl
@@ -56,7 +55,6 @@ datasetconstraintpanel = {
     }
 
 datasetresultspanel = {
-    'sizer_panelname_staticbox' : '', # StaticBox
     'panelNameLabel' : '', # StaticText "Data Set Results"
     'labelScaleFactor' : '', # StaticText "Scale Factor"
     'textCtrlScaleFactor' : 'Data scale factor', # TextCtrl
