@@ -49,9 +49,8 @@ class OutputPanel(wx.Panel,PDFPanel):
     def __customProperties(self):
         """Set the custom properties."""
         # Set the font to monospace
-        font = self.outputTextCtrl.GetFont()
-        font = wx.Font(font.GetPointSize(), wx.FONTFAMILY_TELETYPE,
-                font.GetWeight(), font.GetStyle(), font.GetUnderlined())
+        font = wx.Font(self.outputTextCtrl.GetFont())
+        font.SetFamily(wx.FONTFAMILY_TELETYPE)
         self.outputTextCtrl.SetFont(font)
         return
 
