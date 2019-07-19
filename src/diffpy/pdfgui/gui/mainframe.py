@@ -176,7 +176,7 @@ class MainFrame(wx.Frame):
         self.SetMinSize((700,500))
         self.auiManager = wx.aui.AuiManager(self)
 
-        self.treeCtrlMain = FitTree(self, -1, style=wx.TR_HAS_BUTTONS|wx.TR_NO_LINES|wx.TR_EDIT_LABELS|wx.TR_MULTIPLE|wx.TR_HIDE_ROOT|wx.TR_MULTIPLE|wx.TR_EXTENDED|wx.TR_DEFAULT_STYLE|wx.SUNKEN_BORDER)
+        self.treeCtrlMain = FitTree(self, -1, style=wx.TR_HAS_BUTTONS|wx.TR_NO_LINES|wx.TR_EDIT_LABELS|wx.TR_MULTIPLE|wx.TR_HIDE_ROOT|wx.TR_MULTIPLE|wx.TR_DEFAULT_STYLE|wx.SUNKEN_BORDER)
         self.plotPanel = PlotPanel(self, -1)
         self.outputPanel = OutputPanel(self, -1)
         self.journalPanel = JournalPanel(self, -1)
