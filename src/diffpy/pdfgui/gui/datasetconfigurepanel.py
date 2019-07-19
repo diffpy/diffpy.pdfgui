@@ -255,7 +255,7 @@ class DataSetConfigurePanel(wx.Panel, PDFPanel):
             textCtrl = getattr(self, value)
             if key in self.constraints:
                 textCtrl.SetEditable(False)
-                textCtrl.SetBackgroundColour(wx.SystemSettings_GetColour(wx.SYS_COLOUR_GRAYTEXT))
+                textCtrl.SetBackgroundColour(wx.SystemSettings.GetColour(wx.SYS_COLOUR_GRAYTEXT))
                 textCtrl.SetToolTipString(self.constraints[key].formula)
             else:
                 textCtrl.SetEditable(True)
@@ -318,7 +318,7 @@ class DataSetConfigurePanel(wx.Panel, PDFPanel):
             step = None
             self.textCtrlFitStep.SetEditable(False)
             self.textCtrlFitStep.SetBackgroundColour(
-                wx.SystemSettings_GetColour(wx.SYS_COLOUR_GRAYTEXT))
+                wx.SystemSettings.GetColour(wx.SYS_COLOUR_GRAYTEXT))
 
         # Set the value of qmax
         val = self.__coerseText(self.textCtrlQmax.GetValue())

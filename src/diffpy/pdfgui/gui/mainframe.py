@@ -2427,11 +2427,11 @@ class MainFrame(wx.Frame):
 
     # control items
     def lock(self):
-        if not wx.Thread_IsMain():
+        if not wx.IsMainThread():
             wx.MutexGuiEnter()
 
     def unlock(self):
-        if not wx.Thread_IsMain():
+        if not wx.IsMainThread():
             wx.MutexGuiLeave()
 
     def postEvent(self, type, info):
