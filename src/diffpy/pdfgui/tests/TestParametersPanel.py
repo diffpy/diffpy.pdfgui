@@ -53,7 +53,11 @@ class TestParametersPanel(unittest.TestCase):
     def _leftclickcell(self, row, col, **kw):
         gp = self.panel.grid_parameters
         eventtype = wx.grid.EVT_GRID_CELL_LEFT_CLICK.typeId
-        e = wx.grid.GridEvent(gp.Id, eventtype, gp, row, col, **kw)
+        kbd = {'kbd': wx.KeyboardState(**kw)}
+        # TODO: remove this after deprecations of wxpython 3
+        if wx.VERSION[0] == 3:
+            kbd = {k.replace('Down', ''): v for k, v in kw.items()}
+        e = wx.grid.GridEvent(gp.Id, eventtype, gp, row, col, **kbd)
         gp.ProcessEvent(e)
         return
 
@@ -108,9 +112,9 @@ class TestParametersPanel(unittest.TestCase):
         self.assertTrue(self.panel.mainFrame.altered)
         self._leftclickcell(0, 1)
         self.assertEqual("0", gp.GetCellValue(0, 1))
-        self._leftclickcell(0, 1, control=True)
+        self._leftclickcell(0, 1, controlDown=True)
         self.assertEqual("0", gp.GetCellValue(0, 1))
-        self._leftclickcell(0, 1, shift=True)
+        self._leftclickcell(0, 1, shiftDown=True)
         self.assertEqual("0", gp.GetCellValue(0, 1))
         gp.SelectAll()
         self._leftclickcell(0, 1)
