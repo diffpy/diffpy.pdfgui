@@ -24,10 +24,10 @@ class JournalPanel(wx.Panel, PDFPanel):
     def __init__(self, *args, **kwds):
         PDFPanel.__init__(self)
         # begin wxGlade: JournalPanel.__init__
-        kwds["style"] = wx.TAB_TRAVERSAL
+        kwds["style"] = kwds.get("style", 0) | wx.TAB_TRAVERSAL
         wx.Panel.__init__(self, *args, **kwds)
-        self.textCtrlJournal = wx.TextCtrl(self, -1, "", style=wx.TE_MULTILINE)
-        self.exportButton = wx.Button(self, -1, "Export")
+        self.textCtrlJournal = wx.TextCtrl(self, wx.ID_ANY, "", style=wx.TE_MULTILINE)
+        self.exportButton = wx.Button(self, wx.ID_ANY, "Export")
         self.closeButton = wx.Button(self, wx.ID_CLOSE, "")
 
         self.__set_properties()
@@ -35,7 +35,7 @@ class JournalPanel(wx.Panel, PDFPanel):
 
         self.Bind(wx.EVT_TEXT, self.onText, self.textCtrlJournal)
         self.Bind(wx.EVT_BUTTON, self.onExport, self.exportButton)
-        self.Bind(wx.EVT_BUTTON, self.onClose, id=wx.ID_CLOSE)
+        self.Bind(wx.EVT_BUTTON, self.onClose, self.closeButton)
         # end wxGlade
         self.__customProperties()
 
@@ -55,6 +55,7 @@ class JournalPanel(wx.Panel, PDFPanel):
         sizer_1.Add(sizer_2, 0, wx.EXPAND, 0)
         self.SetSizer(sizer_1)
         sizer_1.Fit(self)
+        self.Layout()
         # end wxGlade
 
     def __customProperties(self):

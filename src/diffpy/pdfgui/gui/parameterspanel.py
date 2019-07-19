@@ -37,19 +37,19 @@ class ParametersPanel(wx.Panel, PDFPanel):
     def __init__(self, *args, **kwds):
         PDFPanel.__init__(self)
         # begin wxGlade: ParametersPanel.__init__
-        kwds["style"] = wx.TAB_TRAVERSAL
+        kwds["style"] = kwds.get("style", 0) | wx.TAB_TRAVERSAL
         wx.Panel.__init__(self, *args, **kwds)
-        self.grid_parameters = AutoWidthLabelsGrid(self, -1, size=(1, 1))
-        self.button_applyparameters = wx.Button(self, -1, "Apply parameters")
+        self.grid_parameters = AutoWidthLabelsGrid(self, wx.ID_ANY, size=(1, 1))
+        self.button_applyparameters = wx.Button(self, wx.ID_ANY, "Apply parameters")
 
         self.__set_properties()
         self.__do_layout()
 
-        self.Bind(wx.grid.EVT_GRID_CMD_RANGE_SELECT, self.onGridRangeSelect, self.grid_parameters)
+        self.Bind(wx.grid.EVT_GRID_CMD_CELL_CHANGE, self.onCellChange, self.grid_parameters)
+        self.Bind(wx.grid.EVT_GRID_CMD_CELL_LEFT_CLICK, self.onCellLeftClick, self.grid_parameters)
         self.Bind(wx.grid.EVT_GRID_CMD_CELL_RIGHT_CLICK, self.onCellRightClick, self.grid_parameters)
         self.Bind(wx.grid.EVT_GRID_CMD_EDITOR_SHOWN, self.onEditorShown, self.grid_parameters)
-        self.Bind(wx.grid.EVT_GRID_CMD_CELL_LEFT_CLICK, self.onCellLeftClick, self.grid_parameters)
-        self.Bind(wx.grid.EVT_GRID_CMD_CELL_CHANGE, self.onCellChange, self.grid_parameters)
+        self.Bind(wx.grid.EVT_GRID_CMD_RANGE_SELECT, self.onGridRangeSelect, self.grid_parameters)
         self.Bind(wx.EVT_BUTTON, self.onApplyParameters, self.button_applyparameters)
         # end wxGlade
         self.__customProperties()
@@ -82,13 +82,12 @@ class ParametersPanel(wx.Panel, PDFPanel):
         sizer_1 = wx.BoxSizer(wx.VERTICAL)
         sizer_buttons = wx.BoxSizer(wx.HORIZONTAL)
         sizer_1.Add(self.grid_parameters, 1, wx.EXPAND, 0)
-        sizer_buttons.Add((20, 20), 1, wx.ADJUST_MINSIZE, 0)
-        sizer_buttons.Add(self.button_applyparameters, 0, wx.ALL|wx.ADJUST_MINSIZE, 5)
+        sizer_buttons.Add((20, 20), 1, 0, 0)
+        sizer_buttons.Add(self.button_applyparameters, 0, wx.ALL, 5)
         sizer_1.Add(sizer_buttons, 0, wx.EXPAND, 0)
-        self.SetAutoLayout(True)
         self.SetSizer(sizer_1)
         sizer_1.Fit(self)
-        sizer_1.SetSizeHints(self)
+        self.Layout()
         # end wxGlade
 
     ##########################################################################

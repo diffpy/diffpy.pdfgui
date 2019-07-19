@@ -24,11 +24,12 @@ from diffpy.pdfgui.gui.resultspanel import ResultsPanel
 class FitNotebookPanel(wx.Panel, PDFPanel):
     def __init__(self, *args, **kwds):
         # begin wxGlade: FitNotebookPanel.__init__
-        kwds["style"] = wx.TAB_TRAVERSAL
+        kwds["style"] = kwds.get("style", 0) | wx.TAB_TRAVERSAL
         wx.Panel.__init__(self, *args, **kwds)
-        self.fitnotebook = wx.Notebook(self, -1, style=0)
-        self.parametersPanel = ParametersPanel(self.fitnotebook, -1)
-        self.resultsPanel = ResultsPanel(self.fitnotebook, -1)
+        self.fitnotebook = wx.Notebook(self, wx.ID_ANY, style=0)
+        self.parametersPanel = ParametersPanel(self.fitnotebook, wx.ID_ANY)
+        self.resultsPanel = ResultsPanel(self.fitnotebook, wx.ID_ANY)
+        self.outputPanel = OutputPanel(self.fitnotebook, wx.ID_ANY)
 
         self.__set_properties()
         self.__do_layout()
@@ -48,11 +49,11 @@ class FitNotebookPanel(wx.Panel, PDFPanel):
         sizer_1 = wx.BoxSizer(wx.HORIZONTAL)
         self.fitnotebook.AddPage(self.parametersPanel, "Parameters")
         self.fitnotebook.AddPage(self.resultsPanel, "Results")
+        self.fitnotebook.AddPage(self.outputPanel, "Output")
         sizer_1.Add(self.fitnotebook, 1, wx.EXPAND, 0)
-        self.SetAutoLayout(True)
         self.SetSizer(sizer_1)
         sizer_1.Fit(self)
-        sizer_1.SetSizeHints(self)
+        self.Layout()
         # end wxGlade
 
     def __customProperties(self):

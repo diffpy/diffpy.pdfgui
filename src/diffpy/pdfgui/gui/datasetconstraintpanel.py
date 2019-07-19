@@ -26,16 +26,15 @@ class DataSetConstraintPanel(wx.Panel, PDFPanel):
     def __init__(self, *args, **kwds):
         PDFPanel.__init__(self)
         # begin wxGlade: DataSetConstraintPanel.__init__
-        kwds["style"] = wx.TAB_TRAVERSAL
+        kwds["style"] = kwds.get("style", 0) | wx.TAB_TRAVERSAL
         wx.Panel.__init__(self, *args, **kwds)
-        self.sizer_panelname_staticbox = wx.StaticBox(self, -1, "")
-        self.panelNameLabel = wx.StaticText(self, -1, "Data Set Constraints")
-        self.labelScaleFactor = wx.StaticText(self, -1, "Scale Factor")
-        self.textCtrlScaleFactor = wx.TextCtrl(self, -1, "")
-        self.labelQdamp = wx.StaticText(self, -1, "Qdamp")
-        self.textCtrlQdamp = wx.TextCtrl(self, -1, "")
-        self.labelQbroad = wx.StaticText(self, -1, "Qbroad")
-        self.textCtrlQbroad = wx.TextCtrl(self, -1, "")
+        self.panelNameLabel = wx.StaticText(self, wx.ID_ANY, "Data Set Constraints")
+        self.labelScaleFactor = wx.StaticText(self, wx.ID_ANY, "Scale Factor")
+        self.textCtrlScaleFactor = wx.TextCtrl(self, wx.ID_ANY, "")
+        self.labelQdamp = wx.StaticText(self, wx.ID_ANY, "Qdamp")
+        self.textCtrlQdamp = wx.TextCtrl(self, wx.ID_ANY, "")
+        self.labelQbroad = wx.StaticText(self, wx.ID_ANY, "Qbroad")
+        self.textCtrlQbroad = wx.TextCtrl(self, wx.ID_ANY, "")
 
         self.__set_properties()
         self.__do_layout()
@@ -44,26 +43,27 @@ class DataSetConstraintPanel(wx.Panel, PDFPanel):
 
     def __set_properties(self):
         # begin wxGlade: DataSetConstraintPanel.__set_properties
-        self.panelNameLabel.SetFont(wx.Font(18, wx.DEFAULT, wx.NORMAL, wx.BOLD, 0, ""))
+        self.panelNameLabel.SetFont(wx.Font(18, wx.FONTFAMILY_DEFAULT, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_BOLD, 0, ""))
         # end wxGlade
         self.setToolTips(toolTips)
 
     def __do_layout(self):
         # begin wxGlade: DataSetConstraintPanel.__do_layout
         sizer_1 = wx.BoxSizer(wx.VERTICAL)
-        grid_sizer_1 = wx.FlexGridSizer(4, 2, 5, 10)
-        sizer_panelname = wx.StaticBoxSizer(self.sizer_panelname_staticbox, wx.HORIZONTAL)
-        sizer_panelname.Add(self.panelNameLabel, 0, wx.LEFT|wx.RIGHT|wx.ALIGN_CENTER_VERTICAL, 5)
-        sizer_1.Add(sizer_panelname, 0, wx.LEFT|wx.RIGHT|wx.EXPAND, 5)
-        grid_sizer_1.Add(self.labelScaleFactor, 0, wx.LEFT|wx.ALIGN_RIGHT|wx.ALIGN_CENTER_VERTICAL, 5)
-        grid_sizer_1.Add(self.textCtrlScaleFactor, 0, wx.ALL|wx.ALIGN_CENTER_VERTICAL, 0)
-        grid_sizer_1.Add(self.labelQdamp, 0, wx.LEFT|wx.ALIGN_RIGHT|wx.ALIGN_CENTER_VERTICAL, 5)
-        grid_sizer_1.Add(self.textCtrlQdamp, 0, wx.ALL|wx.ALIGN_CENTER_VERTICAL, 0)
-        grid_sizer_1.Add(self.labelQbroad, 0, wx.LEFT|wx.ALIGN_RIGHT|wx.ALIGN_CENTER_VERTICAL, 5)
-        grid_sizer_1.Add(self.textCtrlQbroad, 0, wx.ALL|wx.ALIGN_CENTER_VERTICAL, 0)
-        sizer_1.Add(grid_sizer_1, 0, wx.ALL|wx.EXPAND, 5)
+        grid_sizer_1 = wx.FlexGridSizer(3, 2, 5, 10)
+        sizer_panelname = wx.StaticBoxSizer(wx.StaticBox(self, wx.ID_ANY, ""), wx.HORIZONTAL)
+        sizer_panelname.Add(self.panelNameLabel, 0, wx.ALIGN_CENTER_VERTICAL | wx.LEFT | wx.RIGHT, 5)
+        sizer_1.Add(sizer_panelname, 0, wx.EXPAND | wx.LEFT | wx.RIGHT, 5)
+        grid_sizer_1.Add(self.labelScaleFactor, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALIGN_RIGHT | wx.LEFT, 5)
+        grid_sizer_1.Add(self.textCtrlScaleFactor, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALL, 0)
+        grid_sizer_1.Add(self.labelQdamp, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALIGN_RIGHT | wx.LEFT, 5)
+        grid_sizer_1.Add(self.textCtrlQdamp, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALL, 0)
+        grid_sizer_1.Add(self.labelQbroad, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALIGN_RIGHT | wx.LEFT, 5)
+        grid_sizer_1.Add(self.textCtrlQbroad, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALL, 0)
+        sizer_1.Add(grid_sizer_1, 0, wx.ALL | wx.EXPAND, 5)
         self.SetSizer(sizer_1)
         sizer_1.Fit(self)
+        self.Layout()
         # end wxGlade
 
     # USER CONFIGURATION CODE #################################################

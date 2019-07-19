@@ -61,7 +61,7 @@ class CalculationPanel(wx.Panel, PDFPanel):
 
     def __set_properties(self):
         # begin wxGlade: CalculationPanel.__set_properties
-        self.panelNameLabel.SetFont(wx.Font(18, wx.DEFAULT, wx.NORMAL, wx.BOLD, 0, ""))
+        self.panelNameLabel.SetFont(wx.Font(18, wx.FONTFAMILY_DEFAULT, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_BOLD, 0, ""))
         self.radioBoxStype.SetMinSize((330, 43))
         self.radioBoxStype.SetSelection(0)
         # end wxGlade

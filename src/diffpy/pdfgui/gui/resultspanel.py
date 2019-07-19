@@ -22,11 +22,10 @@ from diffpy.pdfgui.gui.pdfpanel import PDFPanel
 class ResultsPanel(wx.Panel, PDFPanel):
     def __init__(self, *args, **kwds):
         # begin wxGlade: ResultsPanel.__init__
-        kwds["style"] = wx.TAB_TRAVERSAL
+        kwds["style"] = kwds.get("style", 0) | wx.TAB_TRAVERSAL
         wx.Panel.__init__(self, *args, **kwds)
-        self.sizer_2_staticbox = wx.StaticBox(self, -1, "")
-        self.fitResLabel = wx.StaticText(self, -1, "Fit Summary")
-        self.resultsTextCtrl = wx.TextCtrl(self, -1, "Fit results will display here once the fit is complete.", style=wx.TE_MULTILINE|wx.TE_READONLY|wx.HSCROLL)
+        self.fitResLabel = wx.StaticText(self, wx.ID_ANY, "Fit Summary")
+        self.resultsTextCtrl = wx.TextCtrl(self, wx.ID_ANY, "Fit results will display here once the fit is complete.", style=wx.HSCROLL | wx.TE_MULTILINE | wx.TE_READONLY)
 
         self.__set_properties()
         self.__do_layout()
@@ -35,20 +34,19 @@ class ResultsPanel(wx.Panel, PDFPanel):
 
     def __set_properties(self):
         # begin wxGlade: ResultsPanel.__set_properties
-        self.fitResLabel.SetFont(wx.Font(18, wx.DEFAULT, wx.NORMAL, wx.BOLD, 0, ""))
+        self.fitResLabel.SetFont(wx.Font(18, wx.FONTFAMILY_DEFAULT, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_BOLD, 0, ""))
         # end wxGlade
 
     def __do_layout(self):
         # begin wxGlade: ResultsPanel.__do_layout
         sizer_1 = wx.BoxSizer(wx.VERTICAL)
-        sizer_2 = wx.StaticBoxSizer(self.sizer_2_staticbox, wx.HORIZONTAL)
-        sizer_2.Add(self.fitResLabel, 0, wx.ALL|wx.ADJUST_MINSIZE, 5)
-        sizer_1.Add(sizer_2, 0, wx.ALL|wx.EXPAND, 5)
-        sizer_1.Add(self.resultsTextCtrl, 1, wx.ALL|wx.EXPAND|wx.ADJUST_MINSIZE, 5)
-        self.SetAutoLayout(True)
+        sizer_2 = wx.StaticBoxSizer(wx.StaticBox(self, wx.ID_ANY, ""), wx.HORIZONTAL)
+        sizer_2.Add(self.fitResLabel, 0, wx.ALL, 5)
+        sizer_1.Add(sizer_2, 0, wx.ALL | wx.EXPAND, 5)
+        sizer_1.Add(self.resultsTextCtrl, 1, wx.ALL | wx.EXPAND, 5)
         self.SetSizer(sizer_1)
         sizer_1.Fit(self)
-        sizer_1.SetSizeHints(self)
+        self.Layout()
         # end wxGlade
 
     # UTILITY METHODS #################################

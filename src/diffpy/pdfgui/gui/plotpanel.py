@@ -29,17 +29,16 @@ class PlotPanel(wx.Panel, PDFPanel):
     def __init__(self, *args, **kwds):
         PDFPanel.__init__(self)
         # begin wxGlade: PlotPanel.__init__
-        kwds["style"] = wx.TAB_TRAVERSAL
+        kwds["style"] = kwds.get("style", 0) | wx.TAB_TRAVERSAL
         wx.Panel.__init__(self, *args, **kwds)
-        self.sizer_4_staticbox = wx.StaticBox(self, -1, "Y")
-        self.sizer_3_staticbox = wx.StaticBox(self, -1, "X")
-        self.xDataCombo = wx.ComboBox(self, -1, choices=[], style=wx.CB_DROPDOWN|wx.CB_READONLY)
-        self.yDataList = KeyEventsListCtrl(self, -1, style=wx.LC_REPORT|wx.LC_NO_HEADER|wx.SUNKEN_BORDER)
-        self.offsetLabel = wx.StaticText(self, -1, "offset", style=wx.ALIGN_RIGHT)
-        self.offsetTextCtrl = wx.TextCtrl(self, -1, "-5", style=wx.TE_PROCESS_ENTER)
-        self.static_line_1 = wx.StaticLine(self, -1)
-        self.plotButton = wx.Button(self, -1, "Plot")
-        self.resetButton = wx.Button(self, -1, "Reset")
+        self.SetSize((456, 659))
+        self.xDataCombo = wx.ComboBox(self, wx.ID_ANY, choices=[], style=wx.CB_READONLY)
+        self.yDataList = KeyEventsListCtrl(self, wx.ID_ANY, style=wx.BORDER_SUNKEN | wx.LC_NO_HEADER | wx.LC_REPORT)
+        self.offsetLabel = wx.StaticText(self, wx.ID_ANY, "offset", style=wx.ALIGN_RIGHT)
+        self.offsetTextCtrl = wx.TextCtrl(self, wx.ID_ANY, "-5", style=wx.TE_PROCESS_ENTER)
+        self.static_line_1 = wx.StaticLine(self, wx.ID_ANY)
+        self.plotButton = wx.Button(self, wx.ID_ANY, "Plot")
+        self.resetButton = wx.Button(self, wx.ID_ANY, "Reset")
 
         self.__set_properties()
         self.__do_layout()
@@ -56,9 +55,9 @@ class PlotPanel(wx.Panel, PDFPanel):
     def __set_properties(self):
         # begin wxGlade: PlotPanel.__set_properties
         self.SetSize((456, 659))
-        self.offsetLabel.SetToolTipString("The vertical gap between stacked plots")
-        self.plotButton.SetToolTipString("Plot the selected data")
-        self.resetButton.SetToolTipString("Reset the plot configuration")
+        self.offsetLabel.SetToolTip("The vertical gap between stacked plots")
+        self.plotButton.SetToolTip("Plot the selected data")
+        self.resetButton.SetToolTip("Reset the plot configuration")
         # end wxGlade
         self.setToolTips(toolTips)
 
@@ -67,20 +66,21 @@ class PlotPanel(wx.Panel, PDFPanel):
         sizer_1 = wx.BoxSizer(wx.VERTICAL)
         sizer_2 = wx.BoxSizer(wx.HORIZONTAL)
         sizer_6 = wx.BoxSizer(wx.HORIZONTAL)
-        sizer_4 = wx.StaticBoxSizer(self.sizer_4_staticbox, wx.HORIZONTAL)
-        sizer_3 = wx.StaticBoxSizer(self.sizer_3_staticbox, wx.HORIZONTAL)
+        sizer_4 = wx.StaticBoxSizer(wx.StaticBox(self, wx.ID_ANY, "Y"), wx.HORIZONTAL)
+        sizer_3 = wx.StaticBoxSizer(wx.StaticBox(self, wx.ID_ANY, "X"), wx.HORIZONTAL)
         sizer_3.Add(self.xDataCombo, 1, wx.ALL, 5)
         sizer_1.Add(sizer_3, 0, wx.EXPAND, 0)
-        sizer_4.Add(self.yDataList, 1, wx.ALL|wx.EXPAND, 5)
+        sizer_4.Add(self.yDataList, 1, wx.ALL | wx.EXPAND, 5)
         sizer_1.Add(sizer_4, 1, wx.EXPAND, 0)
-        sizer_6.Add(self.offsetLabel, 0, wx.ALL|wx.ALIGN_CENTER_VERTICAL, 5)
-        sizer_6.Add(self.offsetTextCtrl, 0, wx.ALL|wx.ALIGN_CENTER_VERTICAL, 5)
+        sizer_6.Add(self.offsetLabel, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALL, 5)
+        sizer_6.Add(self.offsetTextCtrl, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALL, 5)
         sizer_1.Add(sizer_6, 0, wx.EXPAND, 0)
-        sizer_1.Add(self.static_line_1, 0, wx.TOP|wx.BOTTOM|wx.EXPAND, 5)
+        sizer_1.Add(self.static_line_1, 0, wx.BOTTOM | wx.EXPAND | wx.TOP, 5)
         sizer_2.Add(self.plotButton, 0, wx.ALL, 5)
         sizer_2.Add(self.resetButton, 0, wx.ALL, 5)
         sizer_1.Add(sizer_2, 0, wx.EXPAND, 0)
         self.SetSizer(sizer_1)
+        self.Layout()
         # end wxGlade
 
     # USER CONFIGURATION CODE #################################################

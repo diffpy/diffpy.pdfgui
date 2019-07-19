@@ -26,20 +26,19 @@ class PreferencesPanel(wx.Panel, PDFPanel):
     def __init__(self, *args, **kwds):
         PDFPanel.__init__(self)
         # begin wxGlade: PreferencesPanel.__init__
-        kwds["style"] = wx.TAB_TRAVERSAL
+        kwds["style"] = kwds.get("style", 0) | wx.TAB_TRAVERSAL
         wx.Panel.__init__(self, *args, **kwds)
-        self.sizerPanelName_staticbox = wx.StaticBox(self, -1, "")
-        self.labelPanelName = wx.StaticText(self, -1, "Preferences")
-        self.labelViewer = wx.StaticText(self, -1, "Structure viewer executable")
-        self.textCtrlViewer = wx.TextCtrl(self, -1, "")
-        self.buttonViewerBrowse = wx.Button(self, -1, "Browse")
-        self.labelArgStr = wx.StaticText(self, -1, "Argument string")
-        self.textCtrlArgument = wx.TextCtrl(self, -1, "")
-        self.labelFormat = wx.StaticText(self, -1, "Structure format")
-        self.choiceFormat = wx.Choice(self, -1, choices=[])
-        self.structureDirCheckBox = wx.CheckBox(self, -1, "Remember path to structure files")
-        self.dataDirCheckBox = wx.CheckBox(self, -1, "Remember path to data sets")
-        self.static_line_1 = wx.StaticLine(self, -1)
+        self.labelPanelName = wx.StaticText(self, wx.ID_ANY, "Preferences")
+        self.labelViewer = wx.StaticText(self, wx.ID_ANY, "Structure viewer executable")
+        self.textCtrlViewer = wx.TextCtrl(self, wx.ID_ANY, "")
+        self.buttonViewerBrowse = wx.Button(self, wx.ID_ANY, "Browse")
+        self.labelArgStr = wx.StaticText(self, wx.ID_ANY, "Argument string")
+        self.textCtrlArgument = wx.TextCtrl(self, wx.ID_ANY, "")
+        self.labelFormat = wx.StaticText(self, wx.ID_ANY, "Structure format")
+        self.choiceFormat = wx.Choice(self, wx.ID_ANY, choices=[])
+        self.structureDirCheckBox = wx.CheckBox(self, wx.ID_ANY, "Remember path to structure files")
+        self.dataDirCheckBox = wx.CheckBox(self, wx.ID_ANY, "Remember path to data sets")
+        self.static_line_1 = wx.StaticLine(self, wx.ID_ANY)
         self.okButton = wx.Button(self, wx.ID_OK, "OK")
         self.cancelButton = wx.Button(self, wx.ID_CANCEL, "Cancel")
 
@@ -47,16 +46,16 @@ class PreferencesPanel(wx.Panel, PDFPanel):
         self.__do_layout()
 
         self.Bind(wx.EVT_BUTTON, self.onBrowse, self.buttonViewerBrowse)
-        self.Bind(wx.EVT_BUTTON, self.onOK, id=wx.ID_OK)
-        self.Bind(wx.EVT_BUTTON, self.onCancel, id=wx.ID_CANCEL)
+        self.Bind(wx.EVT_BUTTON, self.onOK, self.okButton)
+        self.Bind(wx.EVT_BUTTON, self.onCancel, self.cancelButton)
         # end wxGlade
         self.__customProperties()
 
     def __set_properties(self):
         # begin wxGlade: PreferencesPanel.__set_properties
-        self.labelPanelName.SetFont(wx.Font(18, wx.DEFAULT, wx.NORMAL, wx.BOLD, 0, "Bitstream Vera Sans"))
-        self.structureDirCheckBox.SetToolTipString("Remember the structures directory across sessions. If unchecked, the initial structures directory will default to the current path.")
-        self.dataDirCheckBox.SetToolTipString("Remember the data set directory across sessions. If unchecked, the initial data set directory will default to the current path.")
+        self.labelPanelName.SetFont(wx.Font(18, wx.FONTFAMILY_DEFAULT, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_BOLD, 0, "Bitstream Vera Sans"))
+        self.structureDirCheckBox.SetToolTip("Remember the structures directory across sessions. If unchecked, the initial structures directory will default to the current path.")
+        self.dataDirCheckBox.SetToolTip("Remember the data set directory across sessions. If unchecked, the initial data set directory will default to the current path.")
         # end wxGlade
 
     def __do_layout(self):
@@ -64,29 +63,30 @@ class PreferencesPanel(wx.Panel, PDFPanel):
         sizer_1 = wx.BoxSizer(wx.VERTICAL)
         sizer_3 = wx.BoxSizer(wx.HORIZONTAL)
         grid_sizer_1 = wx.GridSizer(3, 3, 10, 10)
-        sizerPanelName = wx.StaticBoxSizer(self.sizerPanelName_staticbox, wx.HORIZONTAL)
-        sizerPanelName.Add(self.labelPanelName, 1, wx.LEFT|wx.RIGHT|wx.EXPAND|wx.ALIGN_CENTER_HORIZONTAL|wx.ALIGN_CENTER_VERTICAL, 5)
-        sizer_1.Add(sizerPanelName, 0, wx.LEFT|wx.RIGHT|wx.EXPAND, 5)
-        grid_sizer_1.Add(self.labelViewer, 0, wx.ALIGN_RIGHT|wx.ALIGN_CENTER_VERTICAL, 0)
+        sizerPanelName = wx.StaticBoxSizer(wx.StaticBox(self, wx.ID_ANY, ""), wx.HORIZONTAL)
+        sizerPanelName.Add(self.labelPanelName, 1, wx.ALIGN_CENTER | wx.EXPAND | wx.LEFT | wx.RIGHT, 5)
+        sizer_1.Add(sizerPanelName, 0, wx.EXPAND | wx.LEFT | wx.RIGHT, 5)
+        grid_sizer_1.Add(self.labelViewer, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALIGN_RIGHT, 0)
         grid_sizer_1.Add(self.textCtrlViewer, 0, wx.EXPAND, 0)
         grid_sizer_1.Add(self.buttonViewerBrowse, 0, 0, 0)
-        grid_sizer_1.Add(self.labelArgStr, 0, wx.ALIGN_RIGHT|wx.ALIGN_CENTER_VERTICAL, 0)
+        grid_sizer_1.Add(self.labelArgStr, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALIGN_RIGHT, 0)
         grid_sizer_1.Add(self.textCtrlArgument, 0, wx.EXPAND, 0)
         grid_sizer_1.Add((20, 20), 0, 0, 0)
-        grid_sizer_1.Add(self.labelFormat, 0, wx.ALIGN_RIGHT|wx.ALIGN_CENTER_VERTICAL, 0)
+        grid_sizer_1.Add(self.labelFormat, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALIGN_RIGHT, 0)
         grid_sizer_1.Add(self.choiceFormat, 0, wx.EXPAND, 0)
         grid_sizer_1.Add((20, 20), 0, 0, 0)
         sizer_1.Add(grid_sizer_1, 0, wx.ALL, 5)
-        sizer_1.Add(self.structureDirCheckBox, 0, wx.ALL|wx.ALIGN_CENTER_VERTICAL, 5)
-        sizer_1.Add(self.dataDirCheckBox, 0, wx.ALL|wx.ALIGN_CENTER_VERTICAL, 5)
+        sizer_1.Add(self.structureDirCheckBox, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALL, 5)
+        sizer_1.Add(self.dataDirCheckBox, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALL, 5)
         sizer_1.Add((0, 0), 1, wx.EXPAND, 0)
-        sizer_1.Add(self.static_line_1, 0, wx.LEFT|wx.RIGHT|wx.EXPAND|wx.ALIGN_BOTTOM, 5)
+        sizer_1.Add(self.static_line_1, 0, wx.ALIGN_BOTTOM | wx.EXPAND | wx.LEFT | wx.RIGHT, 5)
         sizer_3.Add((0, 0), 1, 0, 0)
-        sizer_3.Add(self.okButton, 0, wx.ALL|wx.ALIGN_RIGHT, 5)
-        sizer_3.Add(self.cancelButton, 0, wx.ALL|wx.ALIGN_RIGHT, 5)
+        sizer_3.Add(self.okButton, 0, wx.ALIGN_RIGHT | wx.ALL, 5)
+        sizer_3.Add(self.cancelButton, 0, wx.ALIGN_RIGHT | wx.ALL, 5)
         sizer_1.Add(sizer_3, 0, wx.EXPAND, 0)
         self.SetSizer(sizer_1)
         sizer_1.Fit(self)
+        self.Layout()
         # end wxGlade
 
     def __customProperties(self):

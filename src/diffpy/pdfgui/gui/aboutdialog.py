@@ -136,8 +136,8 @@ class DialogAbout(wx.Dialog):
         # begin wxGlade: DialogAbout.__set_properties
         self.SetTitle("About")
         self.SetSize((600, 595))
-        self.label_title.SetFont(wx.Font(26, wx.DEFAULT, wx.NORMAL, wx.BOLD, 0, ""))
-        self.label_version.SetFont(wx.Font(26, wx.DEFAULT, wx.NORMAL, wx.NORMAL, 0, ""))
+        self.label_title.SetFont(wx.Font(26, wx.FONTFAMILY_DEFAULT, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_BOLD, 0, ""))
+        self.label_version.SetFont(wx.Font(26, wx.FONTFAMILY_DEFAULT, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_NORMAL, 0, ""))
         self.hyperlink_license.Enable(False)
         self.hyperlink_license.Hide()
         self.bitmap_button_nsf.SetSize(self.bitmap_button_nsf.GetBestSize())

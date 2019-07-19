@@ -57,8 +57,9 @@ PDFgui has encountered a problem.  We are sorry for the inconvenience.
 class ErrorReportDialog(wx.Dialog):
     def __init__(self, *args, **kwds):
         # begin wxGlade: ErrorReportDialog.__init__
-        kwds["style"] = wx.DEFAULT_DIALOG_STYLE | wx.MAXIMIZE_BOX | wx.MINIMIZE_BOX | wx.RESIZE_BORDER
+        kwds["style"] = kwds.get("style", 0) | wx.DEFAULT_DIALOG_STYLE | wx.MAXIMIZE_BOX | wx.MINIMIZE_BOX | wx.RESIZE_BORDER
         wx.Dialog.__init__(self, *args, **kwds)
+        self.SetSize((540, 600))
         self.label_header = wx.html.HtmlWindow(self, wx.ID_ANY)
         self.label_log = wx.StaticText(self, wx.ID_ANY, "Error Log:")
         self.text_ctrl_log = wx.TextCtrl(self, wx.ID_ANY, "", style=wx.TE_MULTILINE | wx.TE_READONLY)

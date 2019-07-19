@@ -26,15 +26,15 @@ class DataSetPanel(wx.Panel, PDFPanel):
     def __init__(self, *args, **kwds):
         PDFPanel.__init__(self)
         # begin wxGlade: DataSetPanel.__init__
-        kwds["style"] = wx.TAB_TRAVERSAL
+        kwds["style"] = kwds.get("style", 0) | wx.TAB_TRAVERSAL
         wx.Panel.__init__(self, *args, **kwds)
-        self.dataSetNotebook = wx.Notebook(self, -1, style=0)
-        self.resultsPage = wx.Panel(self.dataSetNotebook, -1)
-        self.constraintsPage = wx.Panel(self.dataSetNotebook, -1)
-        self.configurePage = wx.Panel(self.dataSetNotebook, -1)
-        self.configurePanel = DataSetConfigurePanel(self.configurePage, -1)
-        self.constraintPanel = DataSetConstraintPanel(self.constraintsPage, -1)
-        self.resultsPanel = DataSetResultsPanel(self.resultsPage, -1)
+        self.dataSetNotebook = wx.Notebook(self, wx.ID_ANY, style=0)
+        self.configurePage = wx.Panel(self.dataSetNotebook, wx.ID_ANY)
+        self.configurePanel = DataSetConfigurePanel(self.configurePage, wx.ID_ANY)
+        self.constraintsPage = wx.Panel(self.dataSetNotebook, wx.ID_ANY)
+        self.constraintPanel = DataSetConstraintPanel(self.constraintsPage, wx.ID_ANY)
+        self.resultsPage = wx.Panel(self.dataSetNotebook, wx.ID_ANY)
+        self.resultsPanel = DataSetResultsPanel(self.resultsPage, wx.ID_ANY)
 
         self.__set_properties()
         self.__do_layout()
@@ -55,28 +55,18 @@ class DataSetPanel(wx.Panel, PDFPanel):
         sizer_6 = wx.BoxSizer(wx.HORIZONTAL)
         sizer_1 = wx.BoxSizer(wx.HORIZONTAL)
         sizer_1.Add(self.configurePanel, 1, wx.EXPAND, 0)
-        self.configurePage.SetAutoLayout(True)
         self.configurePage.SetSizer(sizer_1)
-        sizer_1.Fit(self.configurePage)
-        sizer_1.SetSizeHints(self.configurePage)
         sizer_6.Add(self.constraintPanel, 1, wx.EXPAND, 0)
-        self.constraintsPage.SetAutoLayout(True)
         self.constraintsPage.SetSizer(sizer_6)
-        sizer_6.Fit(self.constraintsPage)
-        sizer_6.SetSizeHints(self.constraintsPage)
         sizer_7.Add(self.resultsPanel, 1, wx.EXPAND, 0)
-        self.resultsPage.SetAutoLayout(True)
         self.resultsPage.SetSizer(sizer_7)
-        sizer_7.Fit(self.resultsPage)
-        sizer_7.SetSizeHints(self.resultsPage)
         self.dataSetNotebook.AddPage(self.configurePage, "Configure")
         self.dataSetNotebook.AddPage(self.constraintsPage, "Constraints")
         self.dataSetNotebook.AddPage(self.resultsPage, "Results")
         sizer_3.Add(self.dataSetNotebook, 1, wx.EXPAND, 0)
-        self.SetAutoLayout(True)
         self.SetSizer(sizer_3)
         sizer_3.Fit(self)
-        sizer_3.SetSizeHints(self)
+        self.Layout()
         # end wxGlade
 
     # USER CONFIGURATION CODE #################################################
