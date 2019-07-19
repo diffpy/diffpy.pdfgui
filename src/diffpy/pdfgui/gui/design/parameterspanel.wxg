@@ -12,7 +12,7 @@
                 <flag>wxEXPAND</flag>
                 <object class="AutoWidthLabelsGrid" name="grid_parameters" base="EditGrid">
                     <events>
-                        <handler event="EVT_GRID_CMD_CELL_CHANGE">onCellChange</handler>
+                        <handler event="EVT_GRID_CMD_CELL_CHANGED">onCellChange</handler>
                         <handler event="EVT_GRID_CMD_CELL_LEFT_CLICK">onCellLeftClick</handler>
                         <handler event="EVT_GRID_CMD_CELL_RIGHT_CLICK">onCellRightClick</handler>
                         <handler event="EVT_GRID_CMD_EDITOR_SHOWN">onEditorShown</handler>

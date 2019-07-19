@@ -70,7 +70,7 @@ class PhaseConstraintsPanel(wx.Panel, PDFPanel):
         self.__set_properties()
         self.__do_layout()
 
-        self.Bind(wx.grid.EVT_GRID_CMD_CELL_CHANGE, self.onCellChange, self.gridAtoms)
+        self.Bind(wx.grid.EVT_GRID_CMD_CELL_CHANGED, self.onCellChange, self.gridAtoms)
         self.Bind(wx.grid.EVT_GRID_CMD_CELL_RIGHT_CLICK, self.onCellRightClick, self.gridAtoms)
         self.Bind(wx.grid.EVT_GRID_CMD_EDITOR_SHOWN, self.onEditorShown, self.gridAtoms)
         self.Bind(wx.grid.EVT_GRID_CMD_LABEL_RIGHT_CLICK, self.onLabelRightClick, self.gridAtoms)
@@ -409,7 +409,7 @@ class PhaseConstraintsPanel(wx.Panel, PDFPanel):
     def onCellChange(self, event): # wxGlade: PhaseConstraintsPanel.<event_handler>
         """Update focused and selected text when a cell changes."""
         # NOTE: be careful with refresh(). It calls Grid.AutoSizeColumns, which
-        # creates a EVT_GRID_CMD_CELL_CHANGE event, which causes a recursion
+        # creates a EVT_GRID_CMD_CELL_CHANGED event, which causes a recursion
         # loop.
         i = event.GetRow()
         j = event.GetCol()

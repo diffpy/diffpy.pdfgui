@@ -387,7 +387,7 @@
                         <flag>wxEXPAND</flag>
                         <object class="AutoWidthLabelsGrid" name="gridAtoms" base="EditGrid">
                             <events>
-                                <handler event="EVT_GRID_CMD_CELL_CHANGE">onCellChange</handler>
+                                <handler event="EVT_GRID_CMD_CELL_CHANGED">onCellChange</handler>
                                 <handler event="EVT_GRID_CMD_CELL_RIGHT_CLICK">onCellRightClick</handler>
                                 <handler event="EVT_GRID_CMD_EDITOR_SHOWN">onEditorShown</handler>
                                 <handler event="EVT_GRID_CMD_LABEL_RIGHT_CLICK">onLabelRightClick</handler>
