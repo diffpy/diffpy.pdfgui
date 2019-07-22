@@ -45,9 +45,8 @@ class ExtendedToolbar(NavToolbar):
         save_icon_fp = iconpath('exportplotdata.png')
         save_icon = wx.Bitmap(save_icon_fp)
         # Add new buttons
-        self.AddSimpleTool(DATA_SAVE_ID,
-                           save_icon,
-                           'Export plot data', 'Export plot data to file')
+        self.AddTool(DATA_SAVE_ID, "Export data", save_icon,
+                     shortHelp='Export plot data to file')
         return
 
     def save(self, evt):

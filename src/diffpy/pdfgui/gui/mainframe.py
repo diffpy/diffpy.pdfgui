@@ -1879,7 +1879,7 @@ class MainFrame(wx.Frame):
         for sel in allnodes:
             if self.treeCtrlMain.GetNodeType(sel) == 'fit':
                 self.treeCtrlMain.SetItemBackgroundColour(sel,
-                        wx.NamedColour("LIGHT GREY"))
+                        wx.Colour("LIGHT GREY"))
                 name = self.treeCtrlMain.GetItemText(sel)
                 self.runningDict[name] = sel
         self.needsSave()
@@ -2494,13 +2494,13 @@ class MainFrame(wx.Frame):
             if jobStatus == Fitting.RUNNING:
                 if fitStatus == Fitting.INITIALIZED:
                     self.treeCtrlMain.SetItemBackgroundColour(node,
-                            wx.NamedColour('LIGHT GRAY'))
+                            wx.Colour('LIGHT GRAY'))
                 elif fitStatus in (Fitting.CONNECTED, Fitting.CONFIGURED):
                     self.treeCtrlMain.SetItemBackgroundColour(node,
-                            wx.NamedColour('GREEN'))
+                            wx.Colour('GREEN'))
             elif jobStatus == Fitting.VOID:
                 self.treeCtrlMain.SetItemBackgroundColour(node,
-                        wx.NamedColour('WHITE'))
+                        wx.Colour('WHITE'))
                 selections = self.treeCtrlMain.GetSelections()
                 if len(selections) == 1:
                     # Enable whatever panel is currently being viewed.

@@ -557,7 +557,7 @@ class FitTree(wx.TreeCtrl):
         cdata.type = nodetype
         cdatastring = cPickle.dumps(cdata)
         cdatastring = "pdfgui_cliboard=" + cdatastring
-        textdata = wx.PyTextDataObject(cdatastring)
+        textdata = wx.TextDataObject(cdatastring)
         if not wx.TheClipboard.IsOpened():
             opened = wx.TheClipboard.Open()
             if not opened: raise FitTreeError, "Cannot open the clipboard."
@@ -575,7 +575,7 @@ class FitTree(wx.TreeCtrl):
         if not wx.TheClipboard.IsSupported(wx.DataFormat(wx.DF_TEXT)):
             return None
 
-        textdata = wx.PyTextDataObject()
+        textdata = wx.TextDataObject()
         if not wx.TheClipboard.IsOpened():
             opened = wx.TheClipboard.Open()
             if not opened: return None
