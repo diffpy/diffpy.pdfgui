@@ -2127,8 +2127,7 @@ class MainFrame(wx.Frame):
             if not dir:
                 dir = self.workpath
             matchstring = "PDFgui project files (*.ddp)|*.ddp"
-            d = wx.FileDialog(None, "Choose a file", dir
-                    , "", matchstring, wx.OPEN)
+            d = wx.FileDialog(None, "Choose a file", dir, "", matchstring)
             if d.ShowModal() == wx.ID_OK:
                 fullpath = d.GetPath()
                 # Load this file into the control center.
@@ -2261,8 +2260,7 @@ class MainFrame(wx.Frame):
 
     def onImportScript(self, event):
         matchstring = "pdffit2 script files (*.py)|*.py|All Files|*"
-        d = wx.FileDialog(None, "Choose a file", self.workpath, "", matchstring,
-                wx.OPEN)
+        d = wx.FileDialog(None, "Choose a file", self.workpath, "", matchstring)
         if d.ShowModal() == wx.ID_OK:
             fullpath = d.GetPath()
             self.workpath = os.path.dirname(fullpath)

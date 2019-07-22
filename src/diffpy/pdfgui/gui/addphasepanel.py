@@ -143,7 +143,7 @@ class AddPhasePanel(wx.Panel, PDFPanel):
             "Coordinate files (*.xyz)", "*.xyz;*.XYZ",
             "All Files", "*",
             ))
-        d = wx.FileDialog(None, "Choose a file", dir, "", matchstring, wx.OPEN)
+        d = wx.FileDialog(None, "Choose a file", dir, "", matchstring)
         if d.ShowModal() == wx.ID_OK:
             self.fullpath = d.GetPath()
             self.mainFrame.workpath = os.path.dirname(self.fullpath)

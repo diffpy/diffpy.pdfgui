@@ -180,7 +180,7 @@ class DopingSeriesPanel(wx.Panel,PDFPanel):
 
         matchstring = "PDF data files (*.gr)|*.gr|PDF fit files (*.fgr)|*.fgr|PDF fit files (*.fit)|*.fit|PDF calculation files (*.cgr)|*.cgr|PDF calculation files (*.calc)|*.calc|All Files|*"
         d = wx.FileDialog(None, "Choose files", dir, "", matchstring,
-                wx.OPEN|wx.FILE_MUST_EXIST|wx.MULTIPLE)
+                          wx.FD_OPEN|wx.FD_FILE_MUST_EXIST|wx.FD_MULTIPLE)
         paths = []
         if d.ShowModal() == wx.ID_OK:
             paths = d.GetPaths()

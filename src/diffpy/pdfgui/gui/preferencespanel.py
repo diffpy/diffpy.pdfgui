@@ -169,8 +169,8 @@ class PreferencesPanel(wx.Panel, PDFPanel):
         return
 
     def onBrowse(self, event): # wxGlade: PreferencesPanel.<event_handler>
-        d = wx.FileDialog(None, "Choose structure viewer", ".",
-                "", "All Files|*", wx.OPEN|wx.FD_FILE_MUST_EXIST)
+        d = wx.FileDialog(None, "Choose structure viewer", ".", "",
+                          "All Files|*", wx.FD_OPEN|wx.FD_FILE_MUST_EXIST)
         if d.ShowModal() == wx.ID_OK:
             fullpath = d.GetPath()
             self.textCtrlViewer.SetValue(fullpath)

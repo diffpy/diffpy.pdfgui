@@ -129,7 +129,7 @@ class AddDataPanel(wx.Panel, PDFPanel):
                 "PDF calculation files (*.calc)", "*.calc",
                 "All Files", "*"
                 ))
-        d = wx.FileDialog(None, "Choose a file", dir, "", matchstring, wx.OPEN)
+        d = wx.FileDialog(None, "Choose a file", dir, "", matchstring)
         if d.ShowModal() == wx.ID_OK:
             self.fullpath = d.GetPath()
             self.mainFrame.workpath = os.path.dirname(self.fullpath)
