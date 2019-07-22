@@ -422,23 +422,23 @@ class MainFrame(wx.Frame):
         self.fileMenu = wx.Menu()
         self.newItem = wx.MenuItem(self.fileMenu, self.newId,
                 "&New Project\tCtrl+n", "", wx.ITEM_NORMAL)
-        self.fileMenu.AppendItem(self.newItem)
+        self.fileMenu.Append(self.newItem)
         self.openItem = wx.MenuItem(self.fileMenu, self.openId,
                 "&Open Project\tCtrl+o", "", wx.ITEM_NORMAL)
-        self.fileMenu.AppendItem(self.openItem)
+        self.fileMenu.Append(self.openItem)
         self.recentMenu = wx.Menu()
-        self.fileMenu.AppendMenu(self.recentId, "&Recent Files", self.recentMenu)
+        self.fileMenu.Append(self.recentId, "&Recent Files", self.recentMenu)
         self.fileMenu.AppendSeparator()
         self.saveItem = wx.MenuItem(self.fileMenu, self.saveId,
                 "&Save Project\tCtrl+s", "", wx.ITEM_NORMAL)
-        self.fileMenu.AppendItem(self.saveItem)
+        self.fileMenu.Append(self.saveItem)
         self.saveAsItem = wx.MenuItem(self.fileMenu, self.saveAsId,
                 "Save Project &as\tCtrl+Shift+s", "", wx.ITEM_NORMAL)
-        self.fileMenu.AppendItem(self.saveAsItem)
+        self.fileMenu.Append(self.saveAsItem)
         self.fileMenu.AppendSeparator()
         self.quitItem = wx.MenuItem(self.fileMenu, self.quitId,
                 "&Quit\tCtrl+q", "", wx.ITEM_NORMAL)
-        self.fileMenu.AppendItem(self.quitItem)
+        self.fileMenu.Append(self.quitItem)
         self.menuBar.Append(self.fileMenu, "&File")
         # End File Menu
 
@@ -446,20 +446,20 @@ class MainFrame(wx.Frame):
         self.editMenu = wx.Menu()
         self.delItem = wx.MenuItem(self.editMenu, self.deleteId,
                 "&Delete Item(s)\tCtrl+X", "", wx.ITEM_NORMAL)
-        self.editMenu.AppendItem(self.delItem)
+        self.editMenu.Append(self.delItem)
         self.copyItem = wx.MenuItem(self.editMenu, self.copyId,
                 "&Copy Item\tCtrl+C", "", wx.ITEM_NORMAL)
-        self.editMenu.AppendItem(self.copyItem)
+        self.editMenu.Append(self.copyItem)
         self.pasteItem = wx.MenuItem(self.editMenu, self.pasteId,
                 "&Paste Item\tCtrl+V", "", wx.ITEM_NORMAL)
-        self.editMenu.AppendItem(self.pasteItem)
+        self.editMenu.Append(self.pasteItem)
         self.pasteLinkItem = wx.MenuItem(self.editMenu, self.pasteLinkId,
                 "Paste &Linked Fit", "", wx.ITEM_NORMAL)
-        self.editMenu.AppendItem(self.pasteLinkItem)
+        self.editMenu.Append(self.pasteLinkItem)
         self.editMenu.AppendSeparator()
         self.prefItem = wx.MenuItem(self.editMenu, wx.NewId(),
                 "&Preferences", "", wx.ITEM_NORMAL)
-        self.editMenu.AppendItem(self.prefItem)
+        self.editMenu.Append(self.prefItem)
         self.menuBar.Append(self.editMenu, "&Edit")
         # End Edit Menu
 
@@ -467,56 +467,56 @@ class MainFrame(wx.Frame):
         self.viewMenu = wx.Menu()
         self.defaultLayoutItem = wx.MenuItem(self.editMenu, wx.NewId(),
                 "Default Window Layout", "", wx.ITEM_NORMAL)
-        self.viewMenu.AppendItem(self.defaultLayoutItem)
+        self.viewMenu.Append(self.defaultLayoutItem)
         self.viewMenu.AppendSeparator()
         # These items are context sensitive.
         self.showFitItem = wx.MenuItem(self.viewMenu, wx.NewId(),
                 "Show Fit Tree", "", wx.ITEM_NORMAL)
-        self.viewMenu.AppendItem(self.showFitItem)
+        self.viewMenu.Append(self.showFitItem)
         self.showPlotItem = wx.MenuItem(self.viewMenu, wx.NewId(),
                 "Show Plot Control", "", wx.ITEM_NORMAL)
-        self.viewMenu.AppendItem(self.showPlotItem)
+        self.viewMenu.Append(self.showPlotItem)
         self.showOutputItem = wx.MenuItem(self.viewMenu, wx.NewId(),
                 "Show Output", "", wx.ITEM_NORMAL)
-        self.viewMenu.AppendItem(self.showOutputItem)
+        self.viewMenu.Append(self.showOutputItem)
         self.showJournalItem = wx.MenuItem(self.viewMenu, wx.NewId(),
                 "Show Journal\tCtrl+j", "", wx.ITEM_NORMAL)
-        self.viewMenu.AppendItem(self.showJournalItem)
+        self.viewMenu.Append(self.showJournalItem)
         self.menuBar.Append(self.viewMenu, "&View")
 
         # Fits Menu
         self.fitsMenu = wx.Menu()
         self.newFitItem = wx.MenuItem(self.fitsMenu, self.newFitId,
                 "&New Fit\tCtrl+t", "", wx.ITEM_NORMAL)
-        self.fitsMenu.AppendItem(self.newFitItem)
+        self.fitsMenu.Append(self.newFitItem)
         self.fitsMenu.AppendSeparator()
         self.runFitItem = wx.MenuItem(self.fitsMenu, self.runFitId,
                 "&Run Selected Fits", "", wx.ITEM_NORMAL)
-        self.fitsMenu.AppendItem(self.runFitItem)
+        self.fitsMenu.Append(self.runFitItem)
         self.stopFitItem = wx.MenuItem(self.fitsMenu, self.stopFitId,
                 "&Stop Fitting", "", wx.ITEM_NORMAL)
-        self.fitsMenu.AppendItem(self.stopFitItem)
+        self.fitsMenu.Append(self.stopFitItem)
         self.fitsMenu.AppendSeparator()
         self.impFitItem = wx.MenuItem(self.fitsMenu, wx.NewId(),
                 "&Import pdffit2 Script", "", wx.ITEM_NORMAL)
-        self.fitsMenu.AppendItem(self.impFitItem)
+        self.fitsMenu.Append(self.impFitItem)
         self.fitsMenu.AppendSeparator()
         self.expResItem = wx.MenuItem(self.fitsMenu, self.exportResId,
                 "Export Resu&lts File", "", wx.ITEM_NORMAL)
-        self.fitsMenu.AppendItem(self.expResItem)
+        self.fitsMenu.Append(self.expResItem)
         self.fitsMenu.AppendSeparator()
         # Macros sub-menu
         self.macrosMenu = wx.Menu()
         self.rseriesItem = wx.MenuItem(self.macrosMenu, wx.NewId(),
                 "r-Series", "", wx.ITEM_NORMAL)
-        self.macrosMenu.AppendItem(self.rseriesItem)
+        self.macrosMenu.Append(self.rseriesItem)
         self.tseriesItem = wx.MenuItem(self.macrosMenu, wx.NewId(),
                 "Temperature Series", "", wx.ITEM_NORMAL)
-        self.macrosMenu.AppendItem(self.tseriesItem)
+        self.macrosMenu.Append(self.tseriesItem)
         self.dseriesItem = wx.MenuItem(self.macrosMenu, wx.NewId(),
                 "Doping Series", "", wx.ITEM_NORMAL)
-        self.macrosMenu.AppendItem(self.dseriesItem)
-        self.fitsMenu.AppendMenu(wx.NewId(), "Macros", self.macrosMenu)
+        self.macrosMenu.Append(self.dseriesItem)
+        self.fitsMenu.Append(wx.NewId(), "Macros", self.macrosMenu)
         self.menuBar.Append(self.fitsMenu, "Fi&ts")
         # End Fits Menu
 
@@ -524,31 +524,31 @@ class MainFrame(wx.Frame):
         self.phasesMenu = wx.Menu()
         self.newPhaseItem = wx.MenuItem(self.phasesMenu, self.newPhaseId,
                 "&New Phase\tCtrl+p", "", wx.ITEM_NORMAL)
-        self.phasesMenu.AppendItem(self.newPhaseItem)
+        self.phasesMenu.Append(self.newPhaseItem)
         self.phasesMenu.AppendSeparator()
         self.printBLItem = wx.MenuItem(self.phasesMenu, self.printBLId,
                 "Calculate bond lengths", "", wx.ITEM_NORMAL)
-        self.phasesMenu.AppendItem(self.printBLItem)
+        self.phasesMenu.Append(self.printBLItem)
         self.printBAItem = wx.MenuItem(self.phasesMenu, self.printBAId,
                 "Calculate bond angles", "", wx.ITEM_NORMAL)
-        self.phasesMenu.AppendItem(self.printBAItem)
+        self.phasesMenu.Append(self.printBAItem)
         self.phasesMenu.AppendSeparator()
         self.expNewPhaseItem = wx.MenuItem(self.phasesMenu,
                 self.exportNewStruId, "Export &Selected Phase", "",
                 wx.ITEM_NORMAL)
-        self.phasesMenu.AppendItem(self.expNewPhaseItem)
+        self.phasesMenu.Append(self.expNewPhaseItem)
         self.expStruItem = wx.MenuItem(self.fitsMenu, self.exportFitStruId,
                 "&Export Fit Structure", "", wx.ITEM_NORMAL)
-        self.phasesMenu.AppendItem(self.expStruItem)
+        self.phasesMenu.Append(self.expStruItem)
         self.phasesMenu.AppendSeparator()
         self.plotIStructItem = wx.MenuItem(self.phasesMenu,
                 self.plotIStructId, "&Plot Initial Structure", "",
                 wx.ITEM_NORMAL)
-        self.phasesMenu.AppendItem(self.plotIStructItem)
+        self.phasesMenu.Append(self.plotIStructItem)
         self.plotFStructItem = wx.MenuItem(self.phasesMenu,
                 self.plotFStructId, "&Plot Final Structure", "",
                 wx.ITEM_NORMAL)
-        self.phasesMenu.AppendItem(self.plotFStructItem)
+        self.phasesMenu.Append(self.plotFStructItem)
 
 
 
@@ -559,11 +559,11 @@ class MainFrame(wx.Frame):
         self.dataMenu = wx.Menu()
         self.newDataItem = wx.MenuItem(self.dataMenu, self.newDataId,
                 "&New Data Set\tCtrl+d", "", wx.ITEM_NORMAL)
-        self.dataMenu.AppendItem(self.newDataItem)
+        self.dataMenu.Append(self.newDataItem)
         self.dataMenu.AppendSeparator()
         self.expFitPDFItem = wx.MenuItem(self.fitsMenu, self.exportFitPDFId,
                 "&Export Fit PDF", "", wx.ITEM_NORMAL)
-        self.dataMenu.AppendItem(self.expFitPDFItem)
+        self.dataMenu.Append(self.expFitPDFItem)
         self.menuBar.Append(self.dataMenu, "&Data")
         # End Data Menu
 
@@ -571,15 +571,15 @@ class MainFrame(wx.Frame):
         self.calcMenu = wx.Menu()
         self.newCalcItem = wx.MenuItem(self.calcMenu, self.newCalcId,
                 "&New Calculation\tCtrl+l", "", wx.ITEM_NORMAL)
-        self.calcMenu.AppendItem(self.newCalcItem)
+        self.calcMenu.Append(self.newCalcItem)
         self.calcMenu.AppendSeparator()
         self.runCalcItem = wx.MenuItem(self.calcMenu, self.runCalcId,
                 "&Run Selected Calculation", "", wx.ITEM_NORMAL)
-        self.calcMenu.AppendItem(self.runCalcItem)
+        self.calcMenu.Append(self.runCalcItem)
         self.calcMenu.AppendSeparator()
         self.expCalcPDFItem = wx.MenuItem(self.calcMenu, self.exportCalcPDFId,
                 "&Export Selected Calculation", "", wx.ITEM_NORMAL)
-        self.calcMenu.AppendItem(self.expCalcPDFItem)
+        self.calcMenu.Append(self.expCalcPDFItem)
         self.menuBar.Append(self.calcMenu, "Ca&lculations")
         # End Calculations Menu
 
@@ -588,16 +588,16 @@ class MainFrame(wx.Frame):
         self.helpMenu = wx.Menu()
         self.docItem = wx.MenuItem(self.helpMenu, wx.NewId(),
                 "&Documentation\tF1", "", wx.ITEM_NORMAL)
-        self.helpMenu.AppendItem(self.docItem)
+        self.helpMenu.Append(self.docItem)
         self.requestItem = wx.MenuItem(self.helpMenu, wx.NewId(),
                 "Request a Feature / Report a Bug", "", wx.ITEM_NORMAL)
-        self.helpMenu.AppendItem(self.requestItem)
+        self.helpMenu.Append(self.requestItem)
         self.communityItem = wx.MenuItem(self.helpMenu, wx.NewId(),
                 "PDFgui Community", "", wx.ITEM_NORMAL)
-        self.helpMenu.AppendItem(self.communityItem)
+        self.helpMenu.Append(self.communityItem)
         self.aboutItem = wx.MenuItem(self.helpMenu, wx.NewId(),
                 "&About", "", wx.ITEM_NORMAL)
-        self.helpMenu.AppendItem(self.aboutItem)
+        self.helpMenu.Append(self.aboutItem)
         self.menuBar.Append(self.helpMenu, "&Help")
         # End Help Menu
 
@@ -612,17 +612,17 @@ class MainFrame(wx.Frame):
         self.toolBar = self.CreateToolBar()
         size = (16, 16)
         bitmap = wx.ArtProvider.GetBitmap(wx.ART_NEW, wx.ART_TOOLBAR, size)
-        self.toolBar.AddLabelTool(
+        self.toolBar.AddTool(
             self.newId, "New Project", bitmap, wx.NullBitmap, wx.ITEM_NORMAL,
             "Start a new project")
         bitmap = wx.ArtProvider.GetBitmap(
             wx.ART_FILE_OPEN, wx.ART_TOOLBAR, size)
-        self.toolBar.AddLabelTool(
+        self.toolBar.AddTool(
             self.openId, "Open Project", bitmap, wx.NullBitmap, wx.ITEM_NORMAL,
             "Open an existing project")
         bitmap = wx.ArtProvider.GetBitmap(
             wx.ART_FILE_SAVE, wx.ART_TOOLBAR, size)
-        self.toolBar.AddLabelTool(
+        self.toolBar.AddTool(
             self.saveId, "Save Project", bitmap, wx.NullBitmap, wx.ITEM_NORMAL,
             "Save this project")
         self.toolBar.AddSeparator()
@@ -633,20 +633,20 @@ class MainFrame(wx.Frame):
         bitmap.SetSize(size)
         mask = wx.Mask(bitmap, maskcolor)
         bitmap.SetMask(mask)
-        self.toolBar.AddLabelTool(
+        self.toolBar.AddTool(
             self.runFitId, "Start", bitmap, wx.NullBitmap, wx.ITEM_NORMAL,
             "Start a fit or calculation")
         bitmap = wx.Bitmap(iconpath("stop.png"))
         bitmap.SetSize(size)
         mask = wx.Mask(bitmap, maskcolor)
         bitmap.SetMask(mask)
-        self.toolBar.AddLabelTool(
+        self.toolBar.AddTool(
             self.stopFitId, "Stop", bitmap, wx.NullBitmap, wx.ITEM_NORMAL,
             "Stop running fits or calculations")
         self.toolBar.AddSeparator()
         bitmap = wx.Bitmap(iconpath("datasetitem.png"))
         bitmap.SetSize(size)
-        self.toolBar.AddLabelTool(
+        self.toolBar.AddTool(
             self.quickPlotId, "Quick plot", bitmap, wx.NullBitmap,
             wx.ITEM_NORMAL, "Plot PDF or structure")
         self.toolBar.Realize()

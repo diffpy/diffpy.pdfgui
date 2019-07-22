@@ -100,7 +100,7 @@ class FitTree(wx.TreeCtrl):
 
     def GetTreeItemDict(self, node):
         """Get the data dictionary of the node."""
-        return self.GetPyData(node)
+        return self.GetItemData(node)
 
     def GetFitRoot(self, node):
         """Return the id of the fit in which the passed node resides."""
@@ -189,7 +189,7 @@ class FitTree(wx.TreeCtrl):
         datadict = self.GetTreeItemDict(node)
         if datadict is None:
             datadict = {}
-            self.SetPyData(node, datadict)
+            self.SetItemData(node, datadict)
         datadict['type'] = tp
         return
 

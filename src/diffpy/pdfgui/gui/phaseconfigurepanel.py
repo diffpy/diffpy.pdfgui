@@ -280,7 +280,7 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
                 textCtrl.SetEditable(False)
                 textCtrl.SetBackgroundColour(
                         wx.SystemSettings.GetColour(wx.SYS_COLOUR_GRAYTEXT))
-                textCtrl.SetToolTipString(self.constraints[var].formula)
+                textCtrl.SetToolTip(self.constraints[var].formula)
             else:
                 textCtrl.SetEditable(True)
                 textCtrl.SetBackgroundColour(txtbg)

@@ -49,5 +49,5 @@ class PDFPanel(object):
         '''
         for (controlName, tooltip) in toolTips.items():
             control = getattr(self, controlName)
-            control.SetToolTipString(tooltip)
+            control.SetToolTip(tooltip)
         return

@@ -256,7 +256,7 @@ class DataSetConfigurePanel(wx.Panel, PDFPanel):
             if key in self.constraints:
                 textCtrl.SetEditable(False)
                 textCtrl.SetBackgroundColour(wx.SystemSettings.GetColour(wx.SYS_COLOUR_GRAYTEXT))
-                textCtrl.SetToolTipString(self.constraints[key].formula)
+                textCtrl.SetToolTip(self.constraints[key].formula)
             else:
                 textCtrl.SetEditable(True)
                 textCtrl.SetBackgroundColour(txtbg)
