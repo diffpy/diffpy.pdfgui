@@ -970,7 +970,7 @@ class MainFrame(wx.Frame):
         if not self.cP.has_section("SIZE"):
             self.cP.add_section("SIZE")
 
-        w,h = self.GetSizeTuple()
+        w,h = self.GetSize()
         self.cP.set("SIZE", "width", str(w))
         self.cP.set("SIZE", "height", str(h))
 
