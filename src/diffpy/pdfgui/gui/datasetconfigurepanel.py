@@ -248,7 +248,7 @@ class DataSetConfigurePanel(wx.Panel, PDFPanel):
         if not self.configuration: return
 
         self.setToolTips(toolTips)
-        txtbg = self.textCtrlScaleFactor.GetDefaultAttributes().colBg
+        txtbg = self.textCtrlScaleFactor.DefaultStyle.BackgroundColour
 
         for key in self.constrainables:
             value = self.ctrlMap[key]
@@ -310,7 +310,7 @@ class DataSetConfigurePanel(wx.Panel, PDFPanel):
         oldstep = self.configuration.fitrstep
         # Get the value of the custom sampling and enable/disable status
         if sampling == "custom": # "custom"
-            txtbg = self.textCtrlFitStep.GetDefaultAttributes().colBg
+            txtbg = self.textCtrlFitStep.DefaultStyle.BackgroundColour
             step = self.__coerseText(self.textCtrlFitStep.GetValue())
             self.textCtrlFitStep.SetEditable(True)
             self.textCtrlFitStep.SetBackgroundColour(txtbg)
