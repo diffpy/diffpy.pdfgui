@@ -669,7 +669,7 @@ class MainFrame(wx.Frame):
         # Catch key events for the tree
         self.treeCtrlMain.Bind(wx.EVT_KEY_DOWN, self.onKey)
         # Catch the close event
-        wx.EVT_CLOSE(self, self.onQuit)
+        self.Bind(wx.EVT_CLOSE, self.onQuit)
         # Use the custom event to pop up error messages
         self.Bind(EVT_PDFCUSTOM, self.onCustom)
         # Do bindings for menu items
@@ -684,68 +684,69 @@ class MainFrame(wx.Frame):
         toolbar events do not need their own bindings.
         """
         # File Menu
-        wx.EVT_MENU(self, self.newId, self.onNew)
-        wx.EVT_MENU(self, self.openId, self.onOpen)
-        wx.EVT_MENU(self, self.saveId, self.onSave)
-        wx.EVT_MENU(self, self.saveAsId, self.onSaveAs)
-        wx.EVT_MENU(self, self.quitId, self.onQuit)
+        self.Bind(wx.EVT_MENU, self.onNew, id=self.newId)
+        self.Bind(wx.EVT_MENU, self.onOpen, id=self.openId)
+        self.Bind(wx.EVT_MENU, self.onSave, id=self.saveId)
+        self.Bind(wx.EVT_MENU, self.onSaveAs, id=self.saveAsId)
+        self.Bind(wx.EVT_MENU, self.onQuit, id=self.quitId)
         # For recent items
-        wx.EVT_MENU_RANGE(self, wx.ID_FILE1, wx.ID_FILE5, self.onMRUFile)
+        self.Bind(wx.EVT_MENU_RANGE, self.onMRUFile,
+                  id=wx.ID_FILE1, id2=wx.ID_FILE5)
 
         ## Edit Menu
-        wx.EVT_MENU(self, self.deleteId, self.onDelete)
-        wx.EVT_MENU(self, self.copyId, self.onCopy)
-        wx.EVT_MENU(self, self.pasteId, self.onPaste)
-        wx.EVT_MENU(self, self.pasteLinkId, self.onPasteLink)
-        wx.EVT_MENU(self, self.prefItem.GetId(), self.onPreferences)
+        self.Bind(wx.EVT_MENU, self.onDelete, id=self.deleteId)
+        self.Bind(wx.EVT_MENU, self.onCopy, id=self.copyId)
+        self.Bind(wx.EVT_MENU, self.onPaste, id=self.pasteId)
+        self.Bind(wx.EVT_MENU, self.onPasteLink, id=self.pasteLinkId)
+        self.Bind(wx.EVT_MENU, self.onPreferences, self.prefItem)
 
         ## View menu
-        wx.EVT_MENU(self, self.defaultLayoutItem.GetId(), self.onDefaultLayout)
-        wx.EVT_MENU(self, self.showFitItem.GetId(), self.onShowFit)
-        wx.EVT_MENU(self, self.showPlotItem.GetId(), self.onShowPlot)
-        wx.EVT_MENU(self, self.showOutputItem.GetId(), self.onShowOutput)
-        wx.EVT_MENU(self, self.showJournalItem.GetId(), self.onShowJournal)
+        self.Bind(wx.EVT_MENU, self.onDefaultLayout, self.defaultLayoutItem)
+        self.Bind(wx.EVT_MENU, self.onShowFit, self.showFitItem)
+        self.Bind(wx.EVT_MENU, self.onShowPlot, self.showPlotItem)
+        self.Bind(wx.EVT_MENU, self.onShowOutput, self.showOutputItem)
+        self.Bind(wx.EVT_MENU, self.onShowJournal, self.showJournalItem)
 
         ## Fits Menu
-        wx.EVT_MENU(self, self.newFitId, self.onNewFit)
-        wx.EVT_MENU(self, self.runFitId, self.onRun)
-        wx.EVT_MENU(self, self.stopFitId, self.onStop)
-        wx.EVT_MENU(self, self.exportResId, self.onExportRes)
-        wx.EVT_MENU(self, self.impFitItem.GetId(), self.onImportScript)
-        wx.EVT_MENU(self, self.rseriesItem.GetId(), self.onRSeries)
-        wx.EVT_MENU(self, self.tseriesItem.GetId(), self.onTSeries)
-        wx.EVT_MENU(self, self.dseriesItem.GetId(), self.onDSeries)
+        self.Bind(wx.EVT_MENU, self.onNewFit, id=self.newFitId)
+        self.Bind(wx.EVT_MENU, self.onRun, id=self.runFitId)
+        self.Bind(wx.EVT_MENU, self.onStop, id=self.stopFitId)
+        self.Bind(wx.EVT_MENU, self.onExportRes, id=self.exportResId)
+        self.Bind(wx.EVT_MENU, self.onImportScript, self.impFitItem)
+        self.Bind(wx.EVT_MENU, self.onRSeries, self.rseriesItem)
+        self.Bind(wx.EVT_MENU, self.onTSeries, self.tseriesItem)
+        self.Bind(wx.EVT_MENU, self.onDSeries, self.dseriesItem)
         ## Macros are inserted individually
 
         ## Phases Menu
-        wx.EVT_MENU(self, self.newPhaseId, self.onInsPhase)
-        wx.EVT_MENU(self, self.printBLId, self.onPrintBL)
-        wx.EVT_MENU(self, self.printBAId, self.onPrintBA)
-        wx.EVT_MENU(self, self.exportNewStruId, self.onExportNewStruct)
-        wx.EVT_MENU(self, self.exportFitStruId, self.onExportStruct)
-        wx.EVT_MENU(self, self.plotIStructId, self.onPlotIStruct)
-        wx.EVT_MENU(self, self.plotFStructId, self.onPlotFStruct)
+        self.Bind(wx.EVT_MENU, self.onInsPhase, id=self.newPhaseId)
+        self.Bind(wx.EVT_MENU, self.onPrintBL, id=self.printBLId)
+        self.Bind(wx.EVT_MENU, self.onPrintBA, id=self.printBAId)
+        self.Bind(wx.EVT_MENU, self.onExportNewStruct, id=self.exportNewStruId)
+        self.Bind(wx.EVT_MENU, self.onExportStruct, id=self.exportFitStruId)
+        self.Bind(wx.EVT_MENU, self.onPlotIStruct, id=self.plotIStructId)
+        self.Bind(wx.EVT_MENU, self.onPlotFStruct, id=self.plotFStructId)
 
         ## Data Menu
-        wx.EVT_MENU(self, self.newDataId, self.onInsData)
-        wx.EVT_MENU(self, self.exportFitPDFId, self.onExportPDF)
+        self.Bind(wx.EVT_MENU, self.onInsData, id=self.newDataId)
+        self.Bind(wx.EVT_MENU, self.onExportPDF, id=self.exportFitPDFId)
 
         ## Calculations Menu
-        wx.EVT_MENU(self, self.newCalcId, self.onInsCalc)
-        wx.EVT_MENU(self, self.runCalcId, self.onRun)
-        wx.EVT_MENU(self, self.exportCalcPDFId, self.onSaveCalc)
+        self.Bind(wx.EVT_MENU, self.onInsCalc, id=self.newCalcId)
+        self.Bind(wx.EVT_MENU, self.onRun, id=self.runCalcId)
+        self.Bind(wx.EVT_MENU, self.onSaveCalc, id=self.exportCalcPDFId)
 
         ## Help Menu
-        wx.EVT_MENU(self, self.docItem.GetId(), self.onDocumentation)
-        wx.EVT_MENU(self, self.aboutItem.GetId(), self.onAbout)
-        wx.EVT_MENU(self, self.requestItem.GetId(), self.onRequest)
-        wx.EVT_MENU(self, self.communityItem.GetId(), self.onCommunity)
+        self.Bind(wx.EVT_MENU, self.onDocumentation, self.docItem)
+        self.Bind(wx.EVT_MENU, self.onAbout, self.aboutItem)
+        self.Bind(wx.EVT_MENU, self.onRequest, self.requestItem)
+        self.Bind(wx.EVT_MENU, self.onCommunity, self.communityItem)
 
         # The generic menu-check.
-        wx.EVT_MENU_OPEN(self, self.onMainMenu)
+        self.Bind(wx.EVT_MENU_OPEN, self.onMainMenu)
 
         # Toolbar events that have no menu item
-        wx.EVT_MENU(self, self.quickPlotId, self.onQuickPlot)
+        self.Bind(wx.EVT_MENU, self.onQuickPlot, id=self.quickPlotId)
         return
 
     def __fittingRightMenuBindings(self):

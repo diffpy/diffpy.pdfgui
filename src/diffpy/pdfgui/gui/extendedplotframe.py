@@ -150,9 +150,9 @@ class ExtendedPlotFrame(wx.Frame):
             self.SetBackgroundColour((200, 200, 200, 255))
         self.canvas.mpl_connect('motion_notify_event', self.UpdateStatusBar)
         self.canvas.mpl_connect('key_press_event', self.mplKeyPress)
-        wx.EVT_PAINT(self, self.OnPaint)
-        wx.EVT_TOOL(self, DATA_SAVE_ID, self.savePlotData)
-        wx.EVT_CLOSE(self, self.onClose)
+        self.Bind(wx.EVT_PAINT, self.OnPaint)
+        self.Bind(wx.EVT_TOOL, self.savePlotData, id=DATA_SAVE_ID)
+        self.Bind(wx.EVT_CLOSE, self.onClose)
 
         self.datalims = {}
 
