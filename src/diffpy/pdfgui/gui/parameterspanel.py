@@ -65,11 +65,6 @@ class ParametersPanel(wx.Panel, PDFPanel):
         self.grid_parameters.SetColLabelValue(2, "Refined")
         # end wxGlade
 
-#        # set the first column to read-only
-#        attr = wx.grid.GridCellAttr()
-#        attr.SetReadOnly(True)
-#        self.grid_parameters.SetColAttr(0, attr)
-
         # set the second column to display boolean values
         attr = wx.grid.GridCellAttr()
         attr.SetEditor(wx.grid.GridCellBoolEditor())
