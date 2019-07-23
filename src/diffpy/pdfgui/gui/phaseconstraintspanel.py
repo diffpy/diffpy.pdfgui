@@ -212,11 +212,20 @@ class PhaseConstraintsPanel(wx.Panel, PDFPanel):
         textCtrlIds = [getattr(self, n).GetId() for n in self._textctrls]
         self._id2varname = dict(zip(textCtrlIds, self.lConstraints))
 
+        # NOTE: GridCellAttr is reference counted.
+        # Each call of SetX(attr) decreases its reference count.
+        # We need to call attr.IncRef before each SetX(attr)
+        # https://github.com/wxWidgets/Phoenix/issues/627#issuecomment-354219493
+
         # set 'elem' abd 'name' columns to read-only
         attr = wx.grid.GridCellAttr()
         attr.SetReadOnly(True)
+        attr.IncRef()
         self.gridAtoms.SetColAttr(0, attr)
+        attr.IncRef()
         self.gridAtoms.SetColAttr(11, attr)
+        # drop local reference to `attr` as it was constructed here.
+        attr.DecRef()
 
         # catch key events and apply them to the grid
         self.Bind(wx.EVT_KEY_DOWN, self.onKey)
