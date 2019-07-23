@@ -34,6 +34,7 @@ class TestDialogAbout(unittest.TestCase):
 
     def tearDown(self):
         self.dialog.Close()
+        self.app.Destroy()
         return
 
 

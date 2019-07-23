@@ -46,6 +46,7 @@ class TestParametersPanel(unittest.TestCase):
 
     def tearDown(self):
         self.frame.Close()
+        self.app.Destroy()
         dbopts.noerrordialog = self._save_noerrordialog
         return
 
