@@ -207,19 +207,9 @@ class DialogAbout(wx.Dialog):
 
 # end of class DialogAbout
 
-##### testing code ############################################################
-class MyApp(wx.App):
-    def OnInit(self):
-        dialog = DialogAbout(None, -1, "")
-        self.SetTopWindow(dialog)
-        dialog.ShowModal()
-        dialog.Destroy()
-        return True
-
-# end of class MyApp
+##### testing code ###########################################################
 
 if __name__ == "__main__":
-    app = MyApp(0)
-    app.MainLoop()
-
-##### end of testing code #####################################################
+    app = wx.App()
+    dialog = DialogAbout(None, -1, "")
+    dialog.ShowModal()
