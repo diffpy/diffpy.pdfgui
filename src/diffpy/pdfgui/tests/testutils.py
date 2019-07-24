@@ -16,8 +16,10 @@
 """Helper routines for running other unit tests.
 """
 
+from unittest import TestCase
 from contextlib import contextmanager
 
+from diffpy.pdfgui.gui.pdfguiglobals import dbopts
 
 # helper functions
 
@@ -43,5 +45,22 @@ def overridewebbrowser(fnc_open):
         del controller.open
         assert controller.open == save_open
     pass
+
+# GUI-specialized TestCase ---------------------------------------------------
+
+class GUITestCase(TestCase):
+    "Test GUI widgets without invoking ErrorReportDialog."
+
+    @classmethod
+    def setUpClass(cls):
+        cls._save_noerrordialog = dbopts.noerrordialog
+        return
+
+    @classmethod
+    def tearDownClass(cls):
+        dbopts.noerrordialog = cls._save_noerrordialog
+        return
+
+# end of class GUITestCase
 
 # End of file

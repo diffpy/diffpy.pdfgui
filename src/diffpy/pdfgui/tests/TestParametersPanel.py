@@ -23,15 +23,13 @@ import wx.grid
 
 from diffpy.pdfgui.gui.parameterspanel import ParametersPanel
 from diffpy.pdfgui.control.parameter import Parameter
-from diffpy.pdfgui.gui.pdfguiglobals import dbopts
+from diffpy.pdfgui.tests.testutils import GUITestCase
 
 # ----------------------------------------------------------------------------
 
-class TestParametersPanel(unittest.TestCase):
+class TestParametersPanel(GUITestCase):
 
     def setUp(self):
-        self._save_noerrordialog = dbopts.noerrordialog
-        dbopts.noerrordialog = True
         self.app = wx.App()
         self.frame = wx.Frame(None)
         self.panel = ParametersPanel(self.frame, -1)
@@ -47,7 +45,6 @@ class TestParametersPanel(unittest.TestCase):
     def tearDown(self):
         self.frame.Close()
         self.app.Destroy()
-        dbopts.noerrordialog = self._save_noerrordialog
         return
 
 
