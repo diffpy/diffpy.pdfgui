@@ -47,6 +47,11 @@ def overridewebbrowser(fnc_open):
         assert controller.open == save_open
     pass
 
+
+def tooltiptext(widget):
+    tt = widget.GetToolTip()
+    return tt.GetTip()
+
 # GUI-specialized TestCase ---------------------------------------------------
 
 class GUITestCase(TestCase):
@@ -69,6 +74,12 @@ class GUITestCase(TestCase):
         pdfguiglobals.dbopts.noconfirm = cls._save_noconfirm
         pdfguiglobals.cmdargs[:] = cls._save_cmdargs
         pdfguiglobals.configfilename = cls._save_configfilename
+        return
+
+    @classmethod
+    def setCmdArgs(cls, args):
+        assert hasattr(cls, '_save_cmdargs')
+        pdfguiglobals.cmdargs[:] = args
         return
 
     @staticmethod
