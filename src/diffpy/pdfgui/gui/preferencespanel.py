@@ -19,7 +19,7 @@
 import wx
 import wx.lib.filebrowsebutton
 from diffpy.pdfgui.gui.pdfpanel import PDFPanel
-from diffpy.pdfgui.gui.tooltips import preferencespanel as toolTips
+from diffpy.pdfgui.gui import tooltips
 from diffpy.pdfgui.control import structureviewer
 
 class PreferencesPanel(wx.Panel, PDFPanel):
@@ -54,8 +54,6 @@ class PreferencesPanel(wx.Panel, PDFPanel):
     def __set_properties(self):
         # begin wxGlade: PreferencesPanel.__set_properties
         self.labelPanelName.SetFont(wx.Font(18, wx.FONTFAMILY_DEFAULT, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_BOLD, 0, "Bitstream Vera Sans"))
-        self.structureDirCheckBox.SetToolTip("Remember the structures directory across sessions. If unchecked, the initial structures directory will default to the current path.")
-        self.dataDirCheckBox.SetToolTip("Remember the data set directory across sessions. If unchecked, the initial data set directory will default to the current path.")
         # end wxGlade
 
     def __do_layout(self):
@@ -99,7 +97,7 @@ class PreferencesPanel(wx.Panel, PDFPanel):
         for fmt in formats:
             self.choiceFormat.Append(fmt)
 
-        self.setToolTips(toolTips)
+        self.setToolTips(tooltips.preferencespanel)
         return
 
 
