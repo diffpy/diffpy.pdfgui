@@ -22,7 +22,7 @@ import wx.grid
 from diffpy.pdfgui.control.constraint import Constraint
 from diffpy.pdfgui.control.controlerrors import ControlValueError
 from diffpy.pdfgui.gui.pdfpanel import PDFPanel
-from diffpy.pdfgui.gui.tooltips import phasepanel as toolTips
+from diffpy.pdfgui.gui import tooltips
 from diffpy.pdfgui.gui.wxExtensions.autowidthlabelsgrid import \
         AutoWidthLabelsGrid
 from diffpy.pdfgui.gui.wxExtensions.textctrlutils import textCtrlAsGridCell
@@ -80,32 +80,6 @@ class PhaseConstraintsPanel(wx.Panel, PDFPanel):
     def __set_properties(self):
         # begin wxGlade: PhaseConstraintsPanel.__set_properties
         self.labelPanelName.SetFont(wx.Font(18, wx.FONTFAMILY_DEFAULT, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_BOLD, 0, ""))
-        self.labelA.SetToolTip("lat(1)")
-        self.textCtrlA.SetToolTip("lat(1)")
-        self.labelB.SetToolTip("lat(2)")
-        self.textCtrlB.SetToolTip("lat(2)")
-        self.labelC.SetToolTip("lat(3)")
-        self.textCtrlC.SetToolTip("lat(3)")
-        self.labelAlpha.SetToolTip("lat(4)")
-        self.textCtrlAlpha.SetToolTip("lat(4)")
-        self.labelBeta.SetToolTip("lat(5)")
-        self.textCtrlBeta.SetToolTip("lat(5)")
-        self.labelGamma.SetToolTip("lat(6)")
-        self.textCtrlGamma.SetToolTip("lat(6)")
-        self.labelScaleFactor.SetToolTip("phase scale factor")
-        self.textCtrlScaleFactor.SetToolTip("phase scale")
-        self.labelDelta1.SetToolTip("linear atomic correlation factor")
-        self.textCtrlDelta1.SetToolTip("linear atomic correlation factor")
-        self.labelDelta2.SetToolTip("quadratic atomic correlation factor")
-        self.textCtrlDelta2.SetToolTip("quadratic atomic correlation factor")
-        self.labelSpdiameter.SetToolTip("spherical nanoparticle amplitude correction")
-        self.textCtrlSpdiameter.SetToolTip("spherical nanoparticle amplitude correction")
-        self.labelSratio.SetToolTip("low r peak sharpening")
-        self.textCtrlSratio.SetToolTip("low r peak sharpening")
-        self.labelRcut.SetToolTip("peak sharpening cutoff")
-        self.textCtrlRcut.SetToolTip("peak sharpening cutoff")
-        self.labelStepcut.SetToolTip("cutoff for profile step-function")
-        self.textCtrlStepcut.SetToolTip("cutoff for profile step-function")
         self.textCtrlIncludedPairs.SetMinSize((240, 25))
         self.gridAtoms.CreateGrid(0, 11)
         self.gridAtoms.EnableDragRowSize(0)
@@ -212,7 +186,7 @@ class PhaseConstraintsPanel(wx.Panel, PDFPanel):
         self._id2varname = dict(zip(textCtrlIds, self.lConstraints))
 
         # Define tooltips.
-        self.setToolTips(toolTips)
+        self.setToolTips(tooltips.phasepanel)
 
         # NOTE: GridCellAttr is reference counted.
         # Each call of SetX(attr) decreases its reference count.
