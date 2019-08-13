@@ -18,7 +18,8 @@
 
 import wx
 from diffpy.pdfgui.gui.pdfpanel import PDFPanel
-from diffpy.pdfgui.gui.tooltips import datasetresultspanel as toolTips
+from diffpy.pdfgui.gui import tooltips
+
 
 class DataSetResultsPanel(wx.Panel, PDFPanel):
     def __init__(self, *args, **kwds):
@@ -76,7 +77,7 @@ class DataSetResultsPanel(wx.Panel, PDFPanel):
                         'qbroad'        :   'textCtrlQbroad',
                         }
         # Define tooltips.
-        self.setToolTips(toolTips)
+        self.setToolTips(tooltips.datasetresultspanel)
         return
 
     def setResultsData(self):

@@ -18,7 +18,7 @@
 
 import wx
 from diffpy.pdfgui.gui.pdfpanel import PDFPanel
-from diffpy.pdfgui.gui.tooltips import datasetconstraintpanel as toolTips
+from diffpy.pdfgui.gui import tooltips
 from diffpy.pdfgui.control.constraint import Constraint
 from diffpy.pdfgui.gui.wxExtensions.textctrlutils import textCtrlAsGridCell
 
@@ -89,7 +89,7 @@ class DataSetConstraintPanel(wx.Panel, PDFPanel):
             textCtrl.Bind(wx.EVT_KEY_DOWN, self.onTextCtrlKey)
 
         # Define tooltips.
-        self.setToolTips(toolTips)
+        self.setToolTips(tooltips.datasetconstraintpanel)
         return
 
     # Create the onTextCtrlKey event handler from textCtrlAsGridCell from
