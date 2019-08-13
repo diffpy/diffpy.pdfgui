@@ -153,20 +153,22 @@ plotpanel = {
 
 
 preferencespanel = {
-    'structureDirCheckBox' : \
-        """\
-Remember the structures directory across sessions. If unchecked, the initial structures directory will default to the current path.\
-        """,
+    'structureDirCheckBox' : (
+        "Remember the structures directory across sessions.  "
+        "If unchecked, the initial structures directory will "
+        "default to the current path."
+    ),
 
-    'dataDirCheckBox' :
-        """\
-Remember the data set directory across sessions. If unchecked, the initial data set directory will default to the current path.\
-        """,
+    'dataDirCheckBox' : (
+        "Remember the data set directory across sessions.  "
+        "If unchecked, the initial data set directory will "
+        "default to the current path."
+    ),
 
-    'textCtrlViewer' : \
-        """\
-The name of the structure viewer executable. E. g. 'atomeye' or 'pymol'.\
-        """,
+    'textCtrlViewer' : (
+        "The name of the structure viewer executable, "
+        "e.g., 'atomeye' or 'pymol'."
+    ),
 
     'textCtrlArgument' : \
         """\
@@ -177,7 +179,7 @@ E. g. '%s' or '-c %s' (for pymol).\
         """,
 
     'choiceFormat' : 'Choose a file format the structure viewer accepts.'
-    }
+}
 
 
 temperatureseriespanel = {
