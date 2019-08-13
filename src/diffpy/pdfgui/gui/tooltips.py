@@ -143,8 +143,6 @@ all-all, !Cl-, -!Cl  same as previous
 
 
 plotpanel = {
-#    'sizer_4_staticbox' : '', # StaticBox "Y"
-#    'sizer_3_staticbox' : '', # StaticBox "X"
 #    'xDataCombo' : '', # ComboBox
 #    'yDataList' : '', # KeyEventsListCtrl
     'offsetLabel' : 'The vertical gap between stacked plots', # StaticText "offset"
