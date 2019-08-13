@@ -114,8 +114,6 @@ phasepanel = _expand_tooltip_aliases({
     'textCtrlGamma' : 'Lattice angle gamma', # TextCtrl
     'labelScaleFactor' : '{textCtrlScaleFactor}', # StaticText "Scale Factor"
     'textCtrlScaleFactor' : 'Phase scale factor', # TextCtrl
-#    'labelCorrelationLimit' : '', # StaticText "Correlation limit"
-#    'textCtrlCorrelationLimit' : '', # TextCtrl
     'labelDelta1' : '{textCtrlDelta1}', # StaticText "delta1"
     'textCtrlDelta1' : 'Linear atomic correlation factor', # TextCtrl
     'labelDelta2' : '{textCtrlDelta2}', # StaticText "delta2"
@@ -125,7 +123,7 @@ phasepanel = _expand_tooltip_aliases({
     'labelRcut' : '{textCtrlRcut}', # StaticText "rcut"
     'textCtrlRcut' : 'Peak sharpening cutoff', # TextCtrl
     'labelStepcut' : '{textCtrlStepcut}', # StaticText "stepcut"
-    'textCtrlStepcut' : 'cutoff for profile step-function', #TextCtrl
+    'textCtrlStepcut' : 'Cutoff for profile step-function', #TextCtrl
     'labelSpdiameter'     : '{textCtrlSpdiameter}', # StaticText "Spdiameter"
     'textCtrlSpdiameter' : 'Spherical nanoparticle amplitude correction',
 #    'labelIncludedPairs' : '', # StaticText "Included Pairs"
