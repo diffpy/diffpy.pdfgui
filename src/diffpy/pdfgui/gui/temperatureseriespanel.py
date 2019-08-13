@@ -22,7 +22,7 @@ import re
 import wx
 from diffpy.pdfgui.control.pdfguimacros import makeTemperatureSeries
 from diffpy.pdfgui.gui.pdfpanel import PDFPanel
-from diffpy.pdfgui.gui.tooltips import temperatureseriespanel as toolTips
+from diffpy.pdfgui.gui import tooltips
 from diffpy.pdfgui.gui.wxExtensions.listctrls import AutoWidthListCtrl
 from diffpy.pdfgui.utils import numericStringSort
 
@@ -61,7 +61,6 @@ class TemperatureSeriesPanel(wx.Panel, PDFPanel):
     def __set_properties(self):
         # begin wxGlade: TemperatureSeriesPanel.__set_properties
         self.instructionsLabel.SetFont(wx.Font(10, wx.FONTFAMILY_DEFAULT, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_NORMAL, 0, "Sans"))
-        self.listCtrlFiles.SetToolTip("Click header to sort by temperature")
         self.buttonUp.SetSize(self.buttonUp.GetBestSize())
         self.buttonDown.SetSize(self.buttonDown.GetBestSize())
         # end wxGlade
@@ -109,7 +108,7 @@ class TemperatureSeriesPanel(wx.Panel, PDFPanel):
         self.listCtrlFiles.SetColumnWidth(0,-2)
 
         # Define tooltips.
-        self.setToolTips(toolTips)
+        self.setToolTips(tooltips.temperatureseriespanel)
         return
 
     def onEndLabelEdit(self, event): # wxGlade: TemperatureSeriesPanel.<event_handler>
