@@ -38,7 +38,7 @@ class TestParametersPanel(GUITestCase):
             (5, Parameter(5, 0.5)),
         ])
         self.panel.refresh()
-        self.panel.mainFrame = _TMainFrame()
+        self.panel.mainFrame = self._mockUpMainFrame()
         self.frame.window = self.panel
         return
 
@@ -123,17 +123,6 @@ class TestParametersPanel(GUITestCase):
         return
 
 # End of class TestParametersPanel
-
-# Local Helpers --------------------------------------------------------------
-
-class _TMainFrame(object):
-    "Think mockup of the used MainFrame methods."
-
-    altered = False
-
-    def needsSave(self):
-        self.altered = True
-        return
 
 # ----------------------------------------------------------------------------
 

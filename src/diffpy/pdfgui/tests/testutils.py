@@ -61,6 +61,23 @@ class GUITestCase(TestCase):
         dbopts.noerrordialog = cls._save_noerrordialog
         return
 
+    @staticmethod
+    def _mockUpMainFrame():
+        return _TMainFrame()
+
 # end of class GUITestCase
+
+# Helper for GUITestCase -----------------------------------------------------
+
+class _TMainFrame(object):
+    "Think mockup of the used MainFrame methods."
+
+    altered = False
+
+    def needsSave(self):
+        self.altered = True
+        return
+
+# end of class _TMainFrame
 
 # End of file

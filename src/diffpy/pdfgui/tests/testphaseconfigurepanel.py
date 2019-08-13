@@ -35,7 +35,7 @@ class TestPhaseConfigurePanel(GUITestCase):
         self.panel = PhaseConfigurePanel(self.frame)
         self.panel.structure = FitStructure("stru")
         self.panel.refresh()
-        self.panel.mainFrame = _TMainFrame()
+        self.panel.mainFrame = self._mockUpMainFrame()
         self.frame.window = self.panel
         return
 
@@ -51,19 +51,6 @@ class TestPhaseConfigurePanel(GUITestCase):
         return
 
 # End of class TestPhaseConfigurePanel
-
-# Local Helpers --------------------------------------------------------------
-
-# TODO - refactor into GUITestCase
-
-class _TMainFrame(object):
-    "Think mockup of the used MainFrame methods."
-
-    altered = False
-
-    def needsSave(self):
-        self.altered = True
-        return
 
 # ----------------------------------------------------------------------------
 
