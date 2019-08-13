@@ -114,7 +114,6 @@ class PhaseResultsPanel(wx.Panel, PDFPanel):
         self.gridAtoms.SetColLabelValue(9, "u23")
         self.gridAtoms.SetColLabelValue(10, "occ")
         # end wxGlade
-        self.setToolTips(toolTips)
 
 
     def __do_layout(self):
@@ -182,6 +181,8 @@ class PhaseResultsPanel(wx.Panel, PDFPanel):
         self.structure = None
         self.constraints = {}
         self.results = None
+        # Define tooltips.
+        self.setToolTips(toolTips)
         return
 
     def _cache(self):

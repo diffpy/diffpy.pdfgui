@@ -67,7 +67,6 @@ class DopingSeriesPanel(wx.Panel,PDFPanel):
         self.buttonUp.SetSize(self.buttonUp.GetBestSize())
         self.buttonDown.SetSize(self.buttonDown.GetBestSize())
         # end wxGlade
-        self.setToolTips(tooltips.dopingseriespanel)
 
     def __do_layout(self):
         # begin wxGlade: DopingSeriesPanel.__do_layout
@@ -120,6 +119,9 @@ class DopingSeriesPanel(wx.Panel,PDFPanel):
         # Set the validators
         self.textCtrlBaseElement.SetValidator(TextValidator(ALPHA_ONLY))
         self.textCtrlDopant.SetValidator(TextValidator(ALPHA_ONLY))
+
+        # Define tooltips.
+        self.setToolTips(tooltips.dopingseriespanel)
         return
 
     def onColClick(self, event): # wxGlade: DopingSeriesPanel.<event_handler>

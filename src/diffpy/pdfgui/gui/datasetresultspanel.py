@@ -46,7 +46,6 @@ class DataSetResultsPanel(wx.Panel, PDFPanel):
         self.panelNameLabel.SetFont(wx.Font(18, wx.FONTFAMILY_DEFAULT, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_BOLD, 0, ""))
         self.buttonExport.Hide()
         # end wxGlade
-        self.setToolTips(toolTips)
 
     def __do_layout(self):
         # begin wxGlade: DataSetResultsPanel.__do_layout
@@ -76,6 +75,8 @@ class DataSetResultsPanel(wx.Panel, PDFPanel):
                         'qdamp'         :   'textCtrlQdamp',
                         'qbroad'        :   'textCtrlQbroad',
                         }
+        # Define tooltips.
+        self.setToolTips(toolTips)
         return
 
     def setResultsData(self):

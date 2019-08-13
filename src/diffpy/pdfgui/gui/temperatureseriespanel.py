@@ -65,7 +65,6 @@ class TemperatureSeriesPanel(wx.Panel, PDFPanel):
         self.buttonUp.SetSize(self.buttonUp.GetBestSize())
         self.buttonDown.SetSize(self.buttonDown.GetBestSize())
         # end wxGlade
-        self.setToolTips(toolTips)
 
     def __do_layout(self):
         # begin wxGlade: TemperatureSeriesPanel.__do_layout
@@ -108,6 +107,9 @@ class TemperatureSeriesPanel(wx.Panel, PDFPanel):
         self.listCtrlFiles.InsertColumn(0, "Temperature")
         self.listCtrlFiles.InsertColumn(1, "Data Set")
         self.listCtrlFiles.SetColumnWidth(0,-2)
+
+        # Define tooltips.
+        self.setToolTips(toolTips)
         return
 
     def onEndLabelEdit(self, event): # wxGlade: TemperatureSeriesPanel.<event_handler>

@@ -121,7 +121,6 @@ class PhaseConstraintsPanel(wx.Panel, PDFPanel):
         self.gridAtoms.SetColLabelValue(9, "u23")
         self.gridAtoms.SetColLabelValue(10, "occ")
         # end wxGlade
-        self.setToolTips(toolTips)
 
 
     def __do_layout(self):
@@ -211,6 +210,9 @@ class PhaseConstraintsPanel(wx.Panel, PDFPanel):
             'pscale', 'delta1', 'delta2', 'sratio', 'spdiameter']
         textCtrlIds = [getattr(self, n).GetId() for n in self._textctrls]
         self._id2varname = dict(zip(textCtrlIds, self.lConstraints))
+
+        # Define tooltips.
+        self.setToolTips(toolTips)
 
         # NOTE: GridCellAttr is reference counted.
         # Each call of SetX(attr) decreases its reference count.
