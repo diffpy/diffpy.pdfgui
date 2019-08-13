@@ -994,16 +994,13 @@ class MainFrame(wx.Frame):
     def writeConfiguration(self):
         """Write the program configuration to file."""
         filename = os.path.expanduser(pdfguiglobals.configfilename)
+        oflags = os.O_CREAT | os.O_WRONLY
         try:
-            outfile = file(filename, 'w')
+            with os.fdopen(os.open(filename, oflags, 0o600), 'w') as outfile:
+                self.cP.write(outfile)
         except IOError:
             emsg = "Cannot write configuration file %r" % filename
             raise ControlFileError(emsg)
-        self.cP.write(outfile)
-        outfile.close()
-        # Change the mode of the file.
-        from stat import S_IRUSR, S_IWUSR
-        os.chmod(filename, S_IRUSR|S_IWUSR)
         return
 
     def checkForSave(self):
