@@ -2,7 +2,7 @@
 ##############################################################################
 #
 # diffpy.pdfgui     Complex Modeling Initiative
-#                   (c) 2018 Brookhaven Science Associates,
+#                   (c) 2019 Brookhaven Science Associates,
 #                   Brookhaven National Laboratory.
 #                   All rights reserved.
 #
@@ -22,32 +22,49 @@ import unittest
 import wx
 
 from diffpy.pdfgui.gui.phaseconfigurepanel import PhaseConfigurePanel
-from diffpy.pdfgui.control.fitstructure import FitStructure
-from diffpy.pdfgui.tests.testutils import GUITestCase
+from diffpy.pdfgui.gui.mainframe import MainFrame
+from diffpy.pdfgui.tests.testutils import GUITestCase, datafile, tooltiptext
 
 # ----------------------------------------------------------------------------
 
 class TestPhaseConfigurePanel(GUITestCase):
 
+    @classmethod
+    def setUpClass(cls):
+        GUITestCase.setUpClass()
+        GUITestCase.setCmdArgs([datafile("lcmo.ddp")])
+        cls.app = wx.App()
+        cls.frame = MainFrame(None, -1, "")
+        tree = cls.frame.treeCtrlMain
+        fits = tree.GetChildren(tree.root)
+        phases = tree.GetPhases(fits[0])
+        cls.frame.makeTreeSelection(phases[0])
+        return
+
+
+    @classmethod
+    def tearDownClass(cls):
+        cls.frame.Close()
+        cls.app.Destroy()
+        GUITestCase.tearDownClass()
+        return
+
+
     def setUp(self):
-        self.app = wx.App()
-        self.frame = wx.Frame(None)
-        self.panel = PhaseConfigurePanel(self.frame)
-        self.panel.structure = FitStructure("stru")
-        self.panel.refresh()
-        self.panel.mainFrame = self._mockUpMainFrame()
-        self.frame.window = self.panel
-        return
-
-    def tearDown(self):
-        self.frame.Close()
-        self.app.Destroy()
+        self.panel = self.frame.rightPanel.notebook_phase.GetPage(0)
+        assert isinstance(self.panel, PhaseConfigurePanel)
         return
 
 
-    def test_ok(self):
-        "FIXME - temporary dummy test"
-        self.assertTrue(True)
+    def test_restrictConstrainedParameters(self):
+        "check restrictConstrainedParameters function"
+        panel = self.panel
+        grid = self.panel.gridAtoms
+        self.assertTrue(panel.textCtrlScaleFactor.IsEditable())
+        self.assertFalse(panel.textCtrlDelta1.IsEditable())
+        self.assertTrue(grid.IsReadOnly(0, 1))
+        self.assertFalse(grid.IsReadOnly(0, 3))
+        self.assertEqual('@1', tooltiptext(panel.textCtrlA))
         return
 
 # End of class TestPhaseConfigurePanel
