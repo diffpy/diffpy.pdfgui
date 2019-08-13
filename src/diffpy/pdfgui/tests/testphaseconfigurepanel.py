@@ -27,6 +27,7 @@ from diffpy.pdfgui.tests.testutils import GUITestCase, datafile, tooltiptext
 
 # ----------------------------------------------------------------------------
 
+@unittest.skipIf(wx.VERSION[0] == 3, "FIXME - wx3 font issues")
 class TestPhaseConfigurePanel(GUITestCase):
 
     @classmethod
