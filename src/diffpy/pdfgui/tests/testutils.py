@@ -21,6 +21,8 @@ from unittest import TestCase
 from contextlib import contextmanager
 
 from diffpy.pdfgui.gui import pdfguiglobals
+from diffpy.pdfgui.control import pdfguicontrol
+from diffpy.pdfgui.gui import mainframe
 
 # helper functions
 
@@ -65,6 +67,10 @@ class GUITestCase(TestCase):
         pdfguiglobals.dbopts.noconfirm = True
         cls._save_cmdargs = list(pdfguiglobals.cmdargs)
         cls._save_configfilename = pdfguiglobals.configfilename
+        mainframe.pdfguicontrol = pdfguicontrol.PDFGuiControl
+        cls._save_qmrun = pdfguicontrol.PDFGuiControl.QueueManager.run
+        pdfguicontrol.PDFGuiControl.QueueManager.run = lambda self: None
+        cls._save_factory = mainframe.pdfguicontrol
         pdfguiglobals.configfilename = os.devnull
         return
 
@@ -74,6 +80,8 @@ class GUITestCase(TestCase):
         pdfguiglobals.dbopts.noconfirm = cls._save_noconfirm
         pdfguiglobals.cmdargs[:] = cls._save_cmdargs
         pdfguiglobals.configfilename = cls._save_configfilename
+        pdfguicontrol.PDFGuiControl.QueueManager.run = cls._save_qmrun
+        mainframe.pdfguicontrol = cls._save_factory
         return
 
     @classmethod
