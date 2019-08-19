@@ -19,7 +19,7 @@
 import wx
 import sys
 from diffpy.pdfgui.utils import numericStringSort
-from diffpy.pdfgui.gui.tooltips import plotpanel as toolTips
+from diffpy.pdfgui.gui import tooltips
 from diffpy.pdfgui.gui.wxExtensions.listctrls import KeyEventsListCtrl
 from diffpy.pdfgui.gui.wxExtensions.validators import TextValidator, FLOAT_ONLY
 from diffpy.pdfgui.gui.pdfpanel import PDFPanel
@@ -55,11 +55,7 @@ class PlotPanel(wx.Panel, PDFPanel):
     def __set_properties(self):
         # begin wxGlade: PlotPanel.__set_properties
         self.SetSize((456, 659))
-        self.offsetLabel.SetToolTip("The vertical gap between stacked plots")
-        self.plotButton.SetToolTip("Plot the selected data")
-        self.resetButton.SetToolTip("Reset the plot configuration")
         # end wxGlade
-        self.setToolTips(toolTips)
 
     def __do_layout(self):
         # begin wxGlade: PlotPanel.__do_layout
@@ -88,6 +84,9 @@ class PlotPanel(wx.Panel, PDFPanel):
         """Custom Properties go here."""
         self.yDataList.InsertColumn(0, "Y data")
         self.offsetTextCtrl.SetValidator(TextValidator(FLOAT_ONLY,allowNeg=True))
+
+        # Define tooltips.
+        self.setToolTips(tooltips.plotpanel)
 
         # Testing Code. Comment or delete this block when finished.
         #self.yDataList.InsertStringItem(sys.maxint, "y1")

@@ -22,7 +22,7 @@ import os.path
 import wx
 
 from diffpy.pdfgui.gui.pdfpanel import PDFPanel
-from diffpy.pdfgui.gui.tooltips import dopingseriespanel as toolTips
+from diffpy.pdfgui.gui import tooltips
 from diffpy.pdfgui.control.pdfguimacros import makeDopingSeries
 from diffpy.pdfgui.gui.wxExtensions.listctrls import AutoWidthListCtrl
 from diffpy.pdfgui.gui.wxExtensions.validators import TextValidator, ALPHA_ONLY
@@ -64,11 +64,9 @@ class DopingSeriesPanel(wx.Panel,PDFPanel):
     def __set_properties(self):
         # begin wxGlade: DopingSeriesPanel.__set_properties
         self.instructionsLabel.SetFont(wx.Font(10, wx.FONTFAMILY_DEFAULT, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_NORMAL, 0, "Sans"))
-        self.listCtrlFiles.SetToolTip("Click header to sort by doping")
         self.buttonUp.SetSize(self.buttonUp.GetBestSize())
         self.buttonDown.SetSize(self.buttonDown.GetBestSize())
         # end wxGlade
-        self.setToolTips(toolTips)
 
     def __do_layout(self):
         # begin wxGlade: DopingSeriesPanel.__do_layout
@@ -121,6 +119,9 @@ class DopingSeriesPanel(wx.Panel,PDFPanel):
         # Set the validators
         self.textCtrlBaseElement.SetValidator(TextValidator(ALPHA_ONLY))
         self.textCtrlDopant.SetValidator(TextValidator(ALPHA_ONLY))
+
+        # Define tooltips.
+        self.setToolTips(tooltips.dopingseriespanel)
         return
 
     def onColClick(self, event): # wxGlade: DopingSeriesPanel.<event_handler>

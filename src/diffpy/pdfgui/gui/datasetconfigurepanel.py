@@ -19,7 +19,7 @@
 import wx
 from diffpy.pdfgui.gui.wxExtensions.validators import TextValidator, FLOAT_ONLY
 from diffpy.pdfgui.gui.pdfpanel import PDFPanel
-from diffpy.pdfgui.gui.tooltips import datasetconfigurepanel as toolTips
+from diffpy.pdfgui.gui import tooltips
 from diffpy.pdfgui.gui.wxExtensions.textctrlutils import textCtrlAsGridCell
 
 class DataSetConfigurePanel(wx.Panel, PDFPanel):
@@ -175,6 +175,13 @@ class DataSetConfigurePanel(wx.Panel, PDFPanel):
         self.textCtrlFitStep.Bind(wx.EVT_KEY_DOWN, self.onTextCtrlKey)
         self.textCtrlQmax.Bind(wx.EVT_KEY_DOWN, self.onTextCtrlKey)
 
+        # define tooltips
+        self.setToolTips(tooltips.datasetconfigurepanel)
+        # make sure tooltips exist for all controls in `constrainables` as
+        # this is later assumed in restrictConstrainedParameters code
+        for tname in map(self.ctrlMap.get, self.constrainables):
+            assert getattr(self, tname).GetToolTip() is not None
+
         # For blocked text controls.
         self.message = "This variable is constrained. Edit the associated parameter."
         return
@@ -247,7 +254,7 @@ class DataSetConfigurePanel(wx.Panel, PDFPanel):
         """Set 'read-only' boxes that correspond to constrained parameters."""
         if not self.configuration: return
 
-        self.setToolTips(toolTips)
+        self.setToolTips(tooltips.datasetconfigurepanel)
         txtbg = self.textCtrlScaleFactor.DefaultStyle.BackgroundColour
 
         for key in self.constrainables:
@@ -256,7 +263,8 @@ class DataSetConfigurePanel(wx.Panel, PDFPanel):
             if key in self.constraints:
                 textCtrl.SetEditable(False)
                 textCtrl.SetBackgroundColour(wx.SystemSettings.GetColour(wx.SYS_COLOUR_GRAYTEXT))
-                textCtrl.SetToolTip(self.constraints[key].formula)
+                tt = textCtrl.GetToolTip()
+                tt.SetTip(self.constraints[key].formula)
             else:
                 textCtrl.SetEditable(True)
                 textCtrl.SetBackgroundColour(txtbg)

@@ -18,7 +18,8 @@
 
 import wx
 from diffpy.pdfgui.gui.pdfpanel import PDFPanel
-from diffpy.pdfgui.gui.tooltips import datasetresultspanel as toolTips
+from diffpy.pdfgui.gui import tooltips
+
 
 class DataSetResultsPanel(wx.Panel, PDFPanel):
     def __init__(self, *args, **kwds):
@@ -46,7 +47,6 @@ class DataSetResultsPanel(wx.Panel, PDFPanel):
         self.panelNameLabel.SetFont(wx.Font(18, wx.FONTFAMILY_DEFAULT, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_BOLD, 0, ""))
         self.buttonExport.Hide()
         # end wxGlade
-        self.setToolTips(toolTips)
 
     def __do_layout(self):
         # begin wxGlade: DataSetResultsPanel.__do_layout
@@ -76,11 +76,8 @@ class DataSetResultsPanel(wx.Panel, PDFPanel):
                         'qdamp'         :   'textCtrlQdamp',
                         'qbroad'        :   'textCtrlQbroad',
                         }
-
-        # Hide all of the pscale stuff until it is needed.
-        #for i in range(10):
-        #    self.pscaleGridSizer.Show(i, False)
-        #self.pscaleGridSizer.Layout()
+        # Define tooltips.
+        self.setToolTips(tooltips.datasetresultspanel)
         return
 
     def setResultsData(self):
@@ -110,24 +107,6 @@ class DataSetResultsPanel(wx.Panel, PDFPanel):
     # Methods overloaded from PDFPanel
     def refresh(self):
         """Refresh the panel."""
-
-        # Enable the label widgets
-        #selections = self.treeCtrlMain.GetSelections()
-        #if selections:
-        #    node = selections[0]
-        #    phases = self.treeCtrlMain.GetPhases(node)
-        #    for i in range(5):
-        #        labelWidget = getattr(self, "pscaleLabel" + str(i+1))
-        #        if i < len(phases):
-        #            self.pscaleGridSizer.Show(2*i, True)
-        #            self.pscaleGridSizer.Show(2*i+1, True)
-        #            label = self.treeCtrlMain.GetItemText(phases[i])
-        #            labelWidget.SetLabel(label)
-        #        else:
-        #            self.pscaleGridSizer.Show(2*i, False)
-        #            self.pscaleGridSizer.Show(2*i+1, False)
-        #    self.pscaleGridSizer.Layout()
-
         # Set the results data
         self.setResultsData()
         return

@@ -14,21 +14,21 @@
 ##############################################################################
 
 """
-Unit tests for PhaseConfigurePanel class.
+Unit tests for DataSet panels.
 """
 
 import unittest
 
 import wx
 
-from diffpy.pdfgui.gui.phaseconfigurepanel import PhaseConfigurePanel
+from diffpy.pdfgui.gui.datasetpanel import DataSetPanel
 from diffpy.pdfgui.gui.mainframe import MainFrame
 from diffpy.pdfgui.tests.testutils import GUITestCase, datafile, tooltiptext
 
 # ----------------------------------------------------------------------------
 
 @unittest.skipIf(wx.VERSION[0] == 3, "FIXME - wx3 font issues")
-class TestPhaseConfigurePanel(GUITestCase):
+class TestDataSetPanel(GUITestCase):
 
     @classmethod
     def setUpClass(cls):
@@ -38,8 +38,8 @@ class TestPhaseConfigurePanel(GUITestCase):
         cls.frame = MainFrame(None, -1, "")
         tree = cls.frame.treeCtrlMain
         fits = tree.GetChildren(tree.root)
-        phases = tree.GetPhases(fits[0])
-        cls.frame.makeTreeSelection(phases[0])
+        dsids = tree.GetDataSets(fits[0])
+        cls.frame.makeTreeSelection(dsids[0])
         return
 
 
@@ -52,23 +52,38 @@ class TestPhaseConfigurePanel(GUITestCase):
 
 
     def setUp(self):
-        self.panel = self.frame.rightPanel.notebook_phase.GetPage(0)
-        assert isinstance(self.panel, PhaseConfigurePanel)
+        self.pconfigure = self.frame.rightPanel.configurePanel
+        self.pconstraints = self.frame.rightPanel.constraintPanel
+        self.presults = self.frame.rightPanel.resultsPanel
+        return
+
+
+    def _selectpage(self, page):
+        nb = self.frame.rightPanel.dataSetNotebook
+        nb.SetSelection(page)
         return
 
 
     def test_restrictConstrainedParameters(self):
-        "check restrictConstrainedParameters function"
-        panel = self.panel
-        grid = self.panel.gridAtoms
-        self.assertTrue(panel.textCtrlScaleFactor.IsEditable())
-        self.assertFalse(panel.textCtrlDelta1.IsEditable())
-        self.assertTrue(grid.IsReadOnly(0, 1))
-        self.assertFalse(grid.IsReadOnly(0, 3))
-        self.assertEqual('@1', tooltiptext(panel.textCtrlA))
+        "check DataSetConfigurePanel.restrictConstrainedParameters method"
+        self._selectpage(0)
+        panel = self.pconfigure
+        self.assertFalse(panel.textCtrlScaleFactor.IsEditable())
+        self.assertTrue(panel.textCtrlQbroad.IsEditable())
+        self.assertEqual('@100', tooltiptext(panel.textCtrlScaleFactor))
         return
 
-# End of class TestPhaseConfigurePanel
+
+    def test_setConstraintsData(self):
+        "check DataSetConstraintPanel.setConstraintsData method"
+        self._selectpage(1)
+        panel = self.pconstraints
+        self.assertEqual('@100', panel.textCtrlScaleFactor.GetValue())
+        self.assertEqual('Data scale factor',
+                         tooltiptext(panel.textCtrlScaleFactor))
+        return
+
+# End of class TestDataSetConfigurePanel
 
 # ----------------------------------------------------------------------------
 

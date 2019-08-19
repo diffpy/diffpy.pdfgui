@@ -16,6 +16,19 @@
 """Tooltips for pdfgui panels.
 """
 
+def _expand_tooltip_aliases(ttps):
+    "Replace aliased equivalent values {other} in tooltip strings."
+    isalias = lambda s: (s[1:-1] and s[::len(s) - 1] == '{}' and
+                         s[1:-1].replace('_', '').isalnum())
+    for n, t in ttps.items():
+        if not isalias(t):
+            continue
+        t1 = t.format(**ttps)
+        assert not isalias(t1), "chained tooltip alias is not allowed"
+        ttps[n] = t1
+    return ttps
+
+
 datasetconfigurepanel = {
 #    'panelNameLabel'      : '', # StaticText "Data Set Configuration"
     'radioBoxStype'       : 'Radiation type', # RadioBox "Scatterer Type", choices=["Neutron", "X-ray"]
@@ -81,39 +94,37 @@ dopingseriespanel = {
 #    'cancelButton' : '', # Button "Cancel"
     }
 
-phasepanel = {
+phasepanel = _expand_tooltip_aliases({
 #    'sizerLatticeParameters_staticbox' : '', # StaticBox
 #    'sizerAdditionalParameters_staticbox' : '', # StaticBox
 #    'sizerAtoms_staticbox' : '', # StaticBox
 #    'sizerPanelName_staticbox' : '', # StaticBox
 #    'labelPanelName' : '', # StaticText "Phase Configuration"
-#    'labelA' : '', # StaticText "a"
+    'labelA' : '{textCtrlA}', # StaticText "a"
     'textCtrlA' : 'Lattice parameter a', # TextCtrl
-#    'labelB' : '', # StaticText "b"
+    'labelB' : '{textCtrlB}', # StaticText "b"
     'textCtrlB' : 'Lattice parameter b', # TextCtrl
-#    'labelC' : '', # StaticText "c"
+    'labelC' : '{textCtrlC}', # StaticText "c"
     'textCtrlC' : 'Lattice parameter c', # TextCtrl
-#    'labelAlpha' : '', # StaticText "alpha"
+    'labelAlpha' : '{textCtrlAlpha}', # StaticText "alpha"
     'textCtrlAlpha' : 'Lattice angle alpha', # TextCtrl
-#    'labelBeta' : '', # StaticText "beta"
+    'labelBeta' : '{textCtrlBeta}', # StaticText "beta"
     'textCtrlBeta' : 'Lattice angle beta', # TextCtrl
-#    'labelGamma' : '', # StaticText "gamma"
+    'labelGamma' : '{textCtrlGamma}', # StaticText "gamma"
     'textCtrlGamma' : 'Lattice angle gamma', # TextCtrl
-#    'labelScaleFactor' : '', # StaticText "Scale Factor"
+    'labelScaleFactor' : '{textCtrlScaleFactor}', # StaticText "Scale Factor"
     'textCtrlScaleFactor' : 'Phase scale factor', # TextCtrl
-#    'labelCorrelationLimit' : '', # StaticText "Correlation limit"
-#    'textCtrlCorrelationLimit' : '', # TextCtrl
-#    'labelDelta1' : '', # StaticText "delta1"
+    'labelDelta1' : '{textCtrlDelta1}', # StaticText "delta1"
     'textCtrlDelta1' : 'Linear atomic correlation factor', # TextCtrl
-#    'labelDelta2' : '', # StaticText "delta2"
+    'labelDelta2' : '{textCtrlDelta2}', # StaticText "delta2"
     'textCtrlDelta2' : 'Quadratic atomic correlation factor', # TextCtrl
-#    'labelSratio' : '', # StaticText "sratio"
+    'labelSratio' : '{textCtrlSratio}', # StaticText "sratio"
     'textCtrlSratio' : 'Low r peak sharpening', # TextCtrl
-#    'labelRcut' : '', # StaticText "rcut"
+    'labelRcut' : '{textCtrlRcut}', # StaticText "rcut"
     'textCtrlRcut' : 'Peak sharpening cutoff', # TextCtrl
-#    'labelStepcut' : '', # StaticText "stepcut"
-    'textCtrlStepcut' : 'cutoff for profile step-function', #TextCtrl
-#    'labelSpdiameter'     : '', # StaticText "Spdiameter"
+    'labelStepcut' : '{textCtrlStepcut}', # StaticText "stepcut"
+    'textCtrlStepcut' : 'Cutoff for profile step-function', #TextCtrl
+    'labelSpdiameter'     : '{textCtrlSpdiameter}', # StaticText "Spdiameter"
     'textCtrlSpdiameter' : 'Spherical nanoparticle amplitude correction',
 #    'labelIncludedPairs' : '', # StaticText "Included Pairs"
     'textCtrlIncludedPairs' :
@@ -128,12 +139,10 @@ all-all, !Cl-!Cl     exclude any pairs containing Cl
 all-all, !Cl-, -!Cl  same as previous
 1-all                only pairs including the first atom""", # TextCtrl "all-all"
 #    'gridAtoms' : '', # AutoWidthLabelsGrid
-    }
+})
 
 
 plotpanel = {
-#    'sizer_4_staticbox' : '', # StaticBox "Y"
-#    'sizer_3_staticbox' : '', # StaticBox "X"
 #    'xDataCombo' : '', # ComboBox
 #    'yDataList' : '', # KeyEventsListCtrl
     'offsetLabel' : 'The vertical gap between stacked plots', # StaticText "offset"
@@ -144,20 +153,22 @@ plotpanel = {
 
 
 preferencespanel = {
-    'structureDirCheckBox' : \
-        """\
-Remember the structures directory across sessions. If unchecked, the initial structures directory will default to the current path.\
-        """,
+    'structureDirCheckBox' : (
+        "Remember the structures directory across sessions.  "
+        "If unchecked, the initial structures directory will "
+        "default to the current path."
+    ),
 
-    'dataDirCheckBox' :
-        """\
-Remember the data set directory across sessions. If unchecked, the initial data set directory will default to the current path.\
-        """,
+    'dataDirCheckBox' : (
+        "Remember the data set directory across sessions.  "
+        "If unchecked, the initial data set directory will "
+        "default to the current path."
+    ),
 
-    'textCtrlViewer' : \
-        """\
-The name of the structure viewer executable. E. g. 'atomeye' or 'pymol'.\
-        """,
+    'textCtrlViewer' : (
+        "The name of the structure viewer executable, "
+        "e.g., 'atomeye' or 'pymol'."
+    ),
 
     'textCtrlArgument' : \
         """\
@@ -168,7 +179,7 @@ E. g. '%s' or '-c %s' (for pymol).\
         """,
 
     'choiceFormat' : 'Choose a file format the structure viewer accepts.'
-    }
+}
 
 
 temperatureseriespanel = {
