@@ -57,8 +57,9 @@ class ResultsPanel(wx.Panel, PDFPanel):
         self.results = self.defres
 
         # Set the font to monospace
-        font = wx.Font(self.resultsTextCtrl.GetFont())
-        font.SetFamily(wx.FONTFAMILY_TELETYPE)
+        ftxt = self.resultsTextCtrl.GetFont()
+        font = wx.Font(ftxt.GetPointSize(), wx.FONTFAMILY_TELETYPE,
+                       ftxt.GetStyle(), ftxt.GetWeight())
         self.resultsTextCtrl.SetFont(font)
         return
 
