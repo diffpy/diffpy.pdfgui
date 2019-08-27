@@ -296,7 +296,7 @@ class DopingSeriesPanel(wx.Panel,PDFPanel):
         if idx == -1: idx = len(cp)
         for doping, filename in self.datasets:
             shortname = "..." + filename[idx:]
-            index = self.listCtrlFiles.InsertStringItem(sys.maxint, str(doping))
+            index = self.listCtrlFiles.InsertItem(sys.maxint, str(doping))
             self.listCtrlFiles.SetStringItem(index, 1, shortname)
         return
 

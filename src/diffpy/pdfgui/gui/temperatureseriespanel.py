@@ -283,7 +283,7 @@ class TemperatureSeriesPanel(wx.Panel, PDFPanel):
         if idx == -1: idx = len(cp)
         for temperature, filename in self.datasets:
             shortname = "..." + filename[idx:]
-            index = self.listCtrlFiles.InsertStringItem(sys.maxint, str(temperature))
+            index = self.listCtrlFiles.InsertItem(sys.maxint, str(temperature))
             self.listCtrlFiles.SetStringItem(index, 1, shortname)
         return
 

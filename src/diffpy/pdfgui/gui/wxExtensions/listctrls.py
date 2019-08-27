@@ -25,12 +25,14 @@ name.
 
 import wx
 import wx.lib.mixins.listctrl as listmix
+from diffpy.pdfgui.gui.wxExtensions import wx12
 
-class AutoWidthListCtrl(wx.ListCtrl, listmix.ListCtrlAutoWidthMixin):
+
+class AutoWidthListCtrl(wx12.ListCtrl, listmix.ListCtrlAutoWidthMixin):
     """wxListCtrl subclass that automatically adjusts its column width."""
     def __init__(self, parent, ID, pos=wx.DefaultPosition,
                  size=wx.DefaultSize, style=0, *args, **kwargs):
-        wx.ListCtrl.__init__(self, parent, ID, pos, size, style, *args, **kwargs)
+        wx12.ListCtrl.__init__(self, parent, ID, pos, size, style, *args, **kwargs)
         listmix.ListCtrlAutoWidthMixin.__init__(self)
 
     def clearSelections(self):
@@ -176,3 +178,8 @@ class KeyEventsListCtrl(ColumnSortListCtrl):
         pass
 
 # End of class KeyEventsListCtrl
+
+# verify inheritance of all ListCtrl classes
+assert issubclass(AutoWidthListCtrl, wx12.ListCtrl)
+assert issubclass(ColumnSortListCtrl, wx12.ListCtrl)
+assert issubclass(KeyEventsListCtrl, wx12.ListCtrl)
