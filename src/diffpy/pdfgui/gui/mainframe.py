@@ -243,7 +243,7 @@ class MainFrame(wx.Frame):
         # Misc. functions, these are exclusive to the main menu.
         self.newId = wx.ID_NEW          # Start a new Project
         self.openId = wx.ID_OPEN        # Open a project
-        self.recentId = wx.NewId()      # Open a recent project
+        self.recentId = None            # Open a recent project (set later)
         self.saveId = wx.ID_SAVE        # Save the project
         self.saveAsId = wx.ID_SAVEAS    # Save the project as...
         self.quitId = wx.ID_CLOSE       # Quit the program
@@ -429,7 +429,8 @@ class MainFrame(wx.Frame):
                 "&Open Project\tCtrl+o", "", wx.ITEM_NORMAL)
         self.fileMenu.Append(self.openItem)
         self.recentMenu = wx12.Menu()
-        self.fileMenu.Append(self.recentId, "&Recent Files", self.recentMenu)
+        msub = self.fileMenu.AppendSubMenu(self.recentMenu, "&Recent Files")
+        self.recentId = msub.Id
         self.fileMenu.AppendSeparator()
         self.saveItem = wx.MenuItem(self.fileMenu, self.saveId,
                 "&Save Project\tCtrl+s", "", wx.ITEM_NORMAL)
@@ -518,7 +519,7 @@ class MainFrame(wx.Frame):
         self.dseriesItem = wx.MenuItem(self.macrosMenu, wx.NewId(),
                 "Doping Series", "", wx.ITEM_NORMAL)
         self.macrosMenu.Append(self.dseriesItem)
-        self.fitsMenu.Append(wx.NewId(), "Macros", self.macrosMenu)
+        self.fitsMenu.AppendSubMenu(self.macrosMenu, "Macros")
         self.menuBar.Append(self.fitsMenu, "Fi&ts")
         # End Fits Menu
 
