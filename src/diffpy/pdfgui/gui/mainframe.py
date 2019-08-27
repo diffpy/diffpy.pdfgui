@@ -54,6 +54,8 @@ from diffpy.pdfgui.gui import pdfguiglobals
 from diffpy.pdfgui.gui.pdfguiglobals import iconpath, docMainFile
 from diffpy.pdfgui.gui.errorwrapper import catchObjectErrors
 
+from diffpy.pdfgui.gui.wxExtensions import wx12
+
 (PDFCustomEvent, EVT_PDFCUSTOM) = wx.lib.newevent.NewEvent()
 
 # WARNING - This file cannot be maintained with wxglade any longer. Do not make
@@ -419,14 +421,14 @@ class MainFrame(wx.Frame):
         self.SetMenuBar(self.menuBar)
 
         # File Menu
-        self.fileMenu = wx.Menu()
+        self.fileMenu = wx12.Menu()
         self.newItem = wx.MenuItem(self.fileMenu, self.newId,
                 "&New Project\tCtrl+n", "", wx.ITEM_NORMAL)
         self.fileMenu.Append(self.newItem)
         self.openItem = wx.MenuItem(self.fileMenu, self.openId,
                 "&Open Project\tCtrl+o", "", wx.ITEM_NORMAL)
         self.fileMenu.Append(self.openItem)
-        self.recentMenu = wx.Menu()
+        self.recentMenu = wx12.Menu()
         self.fileMenu.Append(self.recentId, "&Recent Files", self.recentMenu)
         self.fileMenu.AppendSeparator()
         self.saveItem = wx.MenuItem(self.fileMenu, self.saveId,
@@ -443,7 +445,7 @@ class MainFrame(wx.Frame):
         # End File Menu
 
         # Edit Menu
-        self.editMenu = wx.Menu()
+        self.editMenu = wx12.Menu()
         self.delItem = wx.MenuItem(self.editMenu, self.deleteId,
                 "&Delete Item(s)\tCtrl+X", "", wx.ITEM_NORMAL)
         self.editMenu.Append(self.delItem)
@@ -464,7 +466,7 @@ class MainFrame(wx.Frame):
         # End Edit Menu
 
         # View Menu
-        self.viewMenu = wx.Menu()
+        self.viewMenu = wx12.Menu()
         self.defaultLayoutItem = wx.MenuItem(self.editMenu, wx.NewId(),
                 "Default Window Layout", "", wx.ITEM_NORMAL)
         self.viewMenu.Append(self.defaultLayoutItem)
@@ -485,7 +487,7 @@ class MainFrame(wx.Frame):
         self.menuBar.Append(self.viewMenu, "&View")
 
         # Fits Menu
-        self.fitsMenu = wx.Menu()
+        self.fitsMenu = wx12.Menu()
         self.newFitItem = wx.MenuItem(self.fitsMenu, self.newFitId,
                 "&New Fit\tCtrl+t", "", wx.ITEM_NORMAL)
         self.fitsMenu.Append(self.newFitItem)
@@ -506,7 +508,7 @@ class MainFrame(wx.Frame):
         self.fitsMenu.Append(self.expResItem)
         self.fitsMenu.AppendSeparator()
         # Macros sub-menu
-        self.macrosMenu = wx.Menu()
+        self.macrosMenu = wx12.Menu()
         self.rseriesItem = wx.MenuItem(self.macrosMenu, wx.NewId(),
                 "r-Series", "", wx.ITEM_NORMAL)
         self.macrosMenu.Append(self.rseriesItem)
@@ -521,7 +523,7 @@ class MainFrame(wx.Frame):
         # End Fits Menu
 
         # Phases Menu
-        self.phasesMenu = wx.Menu()
+        self.phasesMenu = wx12.Menu()
         self.newPhaseItem = wx.MenuItem(self.phasesMenu, self.newPhaseId,
                 "&New Phase\tCtrl+p", "", wx.ITEM_NORMAL)
         self.phasesMenu.Append(self.newPhaseItem)
@@ -556,7 +558,7 @@ class MainFrame(wx.Frame):
         # End Phases Menu
 
         # Data Menu
-        self.dataMenu = wx.Menu()
+        self.dataMenu = wx12.Menu()
         self.newDataItem = wx.MenuItem(self.dataMenu, self.newDataId,
                 "&New Data Set\tCtrl+d", "", wx.ITEM_NORMAL)
         self.dataMenu.Append(self.newDataItem)
@@ -568,7 +570,7 @@ class MainFrame(wx.Frame):
         # End Data Menu
 
         # Calculations Menu
-        self.calcMenu = wx.Menu()
+        self.calcMenu = wx12.Menu()
         self.newCalcItem = wx.MenuItem(self.calcMenu, self.newCalcId,
                 "&New Calculation\tCtrl+l", "", wx.ITEM_NORMAL)
         self.calcMenu.Append(self.newCalcItem)
@@ -585,7 +587,7 @@ class MainFrame(wx.Frame):
 
 
         # Help Menu
-        self.helpMenu = wx.Menu()
+        self.helpMenu = wx12.Menu()
         self.docItem = wx.MenuItem(self.helpMenu, wx.NewId(),
                 "&Documentation\tF1", "", wx.ITEM_NORMAL)
         self.helpMenu.Append(self.docItem)
@@ -610,6 +612,7 @@ class MainFrame(wx.Frame):
     def __setupToolBar(self):
         """This sets up the tool bar in the parent window."""
         self.toolBar = self.CreateToolBar()
+        wx12.patchToolBarMethods(self.toolBar)
         size = (16, 16)
         bitmap = wx.ArtProvider.GetBitmap(wx.ART_NEW, wx.ART_TOOLBAR, size)
         self.toolBar.AddTool(
@@ -1241,7 +1244,7 @@ class MainFrame(wx.Frame):
         if self.mode == "fitting":
 
             # The menu Ids are defined in __defineLocalIds.
-            menu = wx.Menu()
+            menu = wx12.Menu()
             menu.Append(self.newFitId, "New Fit")
             menu.AppendSeparator()
             menu.Append(self.copyId, "Copy")
