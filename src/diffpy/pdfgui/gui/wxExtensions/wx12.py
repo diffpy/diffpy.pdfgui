@@ -61,9 +61,7 @@ class TreeCtrl(wx.TreeCtrl):
 if WX4:
     TreeCtrl = wx.TreeCtrl
 
-# ----------------------------------------------------------------------------
-
-# wx.ToolBar
+# wx.ToolBar -----------------------------------------------------------------
 
 def AddTool(self, *args, **kwargs):
     return super(wx.ToolBar, self).AddLabelTool(*args, **kwargs)
@@ -73,6 +71,10 @@ def patchToolBarMethods(toolbar):
     if WX3:
         toolbar.AddTool = types.MethodType(AddTool, toolbar)
     return
+
+# Functions ------------------------------------------------------------------
+
+IsMainThread = wx.Thread_IsMain if WX3 else wx.IsMainThread
 
 # Final checks ---------------------------------------------------------------
 
