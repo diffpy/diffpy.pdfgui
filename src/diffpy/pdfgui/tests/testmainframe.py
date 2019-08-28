@@ -46,11 +46,15 @@ class TestMainFrame(GUITestCase):
 
     def test_onRightClick(self):
         "check MainFrame.onRightClick method for context menu"
-        # just open and close menu
+        # just instantiate the context menu
+        # disable modal Frame.PopupMenu
+        self.frame.PopupMenu = lambda menu, pos: None
         e = wx.MouseEvent(wx.EVT_RIGHT_DOWN.typeId)
-        ui = wx.UIActionSimulator()
-        wx.CallLater(1, ui.Char, wx.WXK_ESCAPE)
-        self.frame.treeCtrlMain.ProcessEvent(e)
+        try:
+            self.frame.treeCtrlMain.ProcessEvent(e)
+        finally:
+            del self.frame.PopupMenu
+        self.assertIsNotNone(self.frame.PopupMenu)
         return
 
 # End of class TestMainFrame
