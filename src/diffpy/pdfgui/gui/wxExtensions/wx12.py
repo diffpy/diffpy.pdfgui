@@ -33,10 +33,16 @@ WX4 = (wx.VERSION[0] == 4)
 class Menu(wx.Menu):
 
     def Append(self, *args, **kwargs):
+        na = len(args)
         if isinstance(args[0], wx.MenuItem):
             return super(Menu, self).AppendItem(*args, **kwargs)
-        if all(isinstance(a, tp) for a, tp in zip(args, (int, str, wx.Menu))):
+        if na > 2 and isinstance(args[2], wx.Menu):
             return super(Menu, self).AppendMenu(*args, **kwargs)
+        plain_append = (
+            isinstance(args[0], int) and
+            (na > 1 and isinstance(args[1], str) or 'item' in kwargs))
+        if plain_append:
+            return super(Menu, self).Append(*args, **kwargs)
         assert False, "unexpected argument types"
 
 if WX4:
