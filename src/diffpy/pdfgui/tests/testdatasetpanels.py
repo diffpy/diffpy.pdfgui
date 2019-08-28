@@ -73,6 +73,13 @@ class TestDataSetPanel(GUITestCase):
         return
 
 
+    def test_refreshSelectedPage(self):
+        "check DataSetPanel.refreshSelectedPage method"
+        # cover all if branches in refreshSelectedPage
+        self._selectpage(2)
+        return
+
+
     def test_restrictConstrainedParameters(self):
         "check DataSetConfigurePanel.restrictConstrainedParameters method"
         self._selectpage(0)
