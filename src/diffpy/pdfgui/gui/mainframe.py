@@ -1289,11 +1289,11 @@ class MainFrame(wx.Frame):
         # event that summoned the menu.
 
         # This is to position the menu correctly on a floating frame.
-        # wx.treeCtrlMain.GetPositionTuple() will return (0,0) if the frame is
+        # wx.treeCtrlMain.GetPosition() will return (0,0) if the frame is
         # not docked. This is a bit of a hack, since pane.floating_pos is not
         # designed to be a public attribute.
         pane = self.auiManager.GetPane("treeCtrlMain")
-        (x0, y0) = self.treeCtrlMain.GetPositionTuple()
+        (x0, y0) = self.treeCtrlMain.GetPosition()
         if pane.IsFloating():
             (x0, y0) = self.ScreenToClient(pane.floating_pos)
         self.PopupMenu(menu, (x0+x,y0+y))
@@ -1663,27 +1663,27 @@ class MainFrame(wx.Frame):
 
         # Show/Hide fitTree
         if self.auiManager.GetPane("treeCtrlMain").IsShown():
-            self.showFitItem.SetText("Hide Fit Tree")
+            self.showFitItem.SetItemLabel("Hide Fit Tree")
         else:
-            self.showFitItem.SetText("Show Fit Tree")
+            self.showFitItem.SetItemLabel("Show Fit Tree")
 
         # Show/Hide plotPanel
         if self.auiManager.GetPane("plotPanel").IsShown():
-            self.showPlotItem.SetText("Hide Plot Control")
+            self.showPlotItem.SetItemLabel("Hide Plot Control")
         else:
-            self.showPlotItem.SetText("Show Plot Control")
+            self.showPlotItem.SetItemLabel("Show Plot Control")
 
         # Show/Hide outputPanel
         if self.auiManager.GetPane("outputPanel").IsShown():
-            self.showOutputItem.SetText("Hide Output")
+            self.showOutputItem.SetItemLabel("Hide Output")
         else:
-            self.showOutputItem.SetText("Show Output")
+            self.showOutputItem.SetItemLabel("Show Output")
 
         # Show/Hide journalPanel
         if self.auiManager.GetPane("journalPanel").IsShown():
-            self.showJournalItem.SetText("Hide Journal\tCtrl+j")
+            self.showJournalItem.SetItemLabel("Hide Journal\tCtrl+j")
         else:
-            self.showJournalItem.SetText("Show Journal\tCtrl+j")
+            self.showJournalItem.SetItemLabel("Show Journal\tCtrl+j")
 
         return
 
