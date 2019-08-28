@@ -63,6 +63,16 @@ class TestDataSetPanel(GUITestCase):
         return
 
 
+    def _selectsampling(self, selection):
+        "select specified item in sampling radio box"
+        rbxid = self.pconfigure.radioBoxSampling.Id
+        self.pconfigure.radioBoxSampling.SetSelection(selection)
+        e = wx.CommandEvent(wx.EVT_RADIOBOX.typeId, rbxid)
+        e.SetInt(selection)
+        self.pconfigure.ProcessEvent(e)
+        return
+
+
     def test_restrictConstrainedParameters(self):
         "check DataSetConfigurePanel.restrictConstrainedParameters method"
         self._selectpage(0)
@@ -70,6 +80,23 @@ class TestDataSetPanel(GUITestCase):
         self.assertFalse(panel.textCtrlScaleFactor.IsEditable())
         self.assertTrue(panel.textCtrlQbroad.IsEditable())
         self.assertEqual('@100', tooltiptext(panel.textCtrlScaleFactor))
+        return
+
+
+    def test_onSampling(self):
+        "check DataSetConfigurePanel.onSampling method"
+        self._selectpage(0)
+        panel = self.pconfigure
+        self._selectsampling(0)
+        self.assertEqual(0.04, panel.configuration.fitrstep)
+        panel.textCtrlFitStep.SetValue("0.1")
+        self._selectsampling(2)
+        self.assertEqual(0.1, panel.configuration.fitrstep)
+        self.assertEqual(32, panel.configuration.qmax)
+        panel.textCtrlQmax.SetValue("27")
+        e = wx.FocusEvent(wx.EVT_KILL_FOCUS.typeId, panel.textCtrlQmax.Id)
+        panel.textCtrlQmax.ProcessEvent(e)
+        self.assertEqual(27, panel.configuration.qmax)
         return
 
 
@@ -82,7 +109,7 @@ class TestDataSetPanel(GUITestCase):
                          tooltiptext(panel.textCtrlScaleFactor))
         return
 
-# End of class TestDataSetConfigurePanel
+# End of class TestDataSetPanel
 
 # ----------------------------------------------------------------------------
 
