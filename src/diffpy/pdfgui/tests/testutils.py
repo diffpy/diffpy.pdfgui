@@ -20,6 +20,8 @@ import os
 from unittest import TestCase
 from contextlib import contextmanager
 
+import wx
+
 from diffpy.pdfgui.gui import pdfguiglobals
 from diffpy.pdfgui.control import pdfguicontrol
 from diffpy.pdfgui.gui import mainframe
@@ -48,6 +50,24 @@ def overridewebbrowser(fnc_open):
         del controller.open
         assert controller.open == save_open
     pass
+
+
+@contextmanager
+def overridefiledialog(status, paths):
+    "Temporarily replace wx.FileDialog with non-blocking ShowModal()."
+    save_filedialog = wx.FileDialog
+    class NBFileDialog(wx.FileDialog):
+        def ShowModal(self):
+            return status
+        def GetPaths(self):
+            return paths
+        pass
+    wx.FileDialog = NBFileDialog
+    try:
+        yield
+    finally:
+        wx.FileDialog = save_filedialog
+    return
 
 
 def tooltiptext(widget):
