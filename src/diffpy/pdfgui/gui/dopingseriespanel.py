@@ -297,7 +297,7 @@ class DopingSeriesPanel(wx.Panel,PDFPanel):
         for doping, filename in self.datasets:
             shortname = "..." + filename[idx:]
             index = self.listCtrlFiles.InsertItem(sys.maxint, str(doping))
-            self.listCtrlFiles.SetStringItem(index, 1, shortname)
+            self.listCtrlFiles.SetItem(index, 1, shortname)
         return
 
     ## Needed by mainframe

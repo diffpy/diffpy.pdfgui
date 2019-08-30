@@ -53,6 +53,7 @@ if WX4:
 class ListCtrl(wx.ListCtrl):
 
     InsertItem = wx.ListCtrl.InsertStringItem
+    SetItem = wx.ListCtrl.SetStringItem
 
 if WX4:
     ListCtrl = wx.ListCtrl
