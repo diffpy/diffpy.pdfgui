@@ -27,7 +27,7 @@ from diffpy.pdfgui.tests.testutils import datafile
 
 # ----------------------------------------------------------------------------
 
-class TestMainFrame(GUITestCase):
+class TestDopingSeriesPanel(GUITestCase):
 
     def setUp(self):
         self.app = wx.App()
@@ -54,7 +54,7 @@ class TestMainFrame(GUITestCase):
         self.assertEqual([0, 20, 0, 0.2], [xf[0] for xf in panel.datasets])
         return
 
-# End of class TestMainFrame
+# End of class TestDopingSeriesPanel
 
 # ----------------------------------------------------------------------------
 
