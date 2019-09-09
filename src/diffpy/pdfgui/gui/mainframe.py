@@ -2177,7 +2177,7 @@ class MainFrame(wx.Frame):
         if not dir:
             dir = self.workpath
         d = wx.FileDialog(None, "Save as...", dir, filename or "project.ddp",
-                matchstring, wx.SAVE|wx.OVERWRITE_PROMPT)
+                matchstring, wx.FD_SAVE|wx.FD_OVERWRITE_PROMPT)
         code = d.ShowModal()
         if code == wx.ID_OK:
             self.fullpath = d.GetPath()
@@ -2245,7 +2245,7 @@ class MainFrame(wx.Frame):
         basename = '.'.join(name.split('.')[:-1]) or name
         matchstring = "PDFgui results files (*.res)|*.res|All Files|*"
         d = wx.FileDialog(None, "Save as...", self.workpath, basename,
-                matchstring, wx.SAVE|wx.OVERWRITE_PROMPT)
+                matchstring, wx.FD_SAVE|wx.FD_OVERWRITE_PROMPT)
         if d.ShowModal() == wx.ID_OK:
             path = d.GetPath()
             self.workpath, savename = os.path.split(path)
@@ -2306,7 +2306,7 @@ class MainFrame(wx.Frame):
         basename = '.'.join(name.split('.')[:-1]) or name
         matchstring = "PDFfit structure file (*.stru)|*.stru|Crystallographic Information File (*.cif)|*.cif|Protein Data Bank file (*.pdb)|*.pdb|Labeled coordinate file (*.xyz)|*.xyz|Raw corrdinate file (*.xyz)|*.xyz|AtomEye configuration file|*"
         d = wx.FileDialog(None, "Save as...", self.workpath, basename,
-                matchstring, wx.SAVE|wx.OVERWRITE_PROMPT)
+                matchstring, wx.FD_SAVE|wx.FD_OVERWRITE_PROMPT)
         if d.ShowModal() == wx.ID_OK:
             i = d.GetFilterIndex()
             path = d.GetPath()
@@ -2338,7 +2338,7 @@ class MainFrame(wx.Frame):
         basename = '.'.join(name.split('.')[:-1]) or name
         matchstring = "PDFfit structure file (*.stru)|*.stru|Crystallographic Information File (*.cif)|*.cif|Protein Data Bank file (*.pdb)|*.pdb|Labeled coordinate file (*.xyz)|*.xyz|Raw corrdinate file (*.xyz)|*.xyz|AtomEye configuration file|*"
         d = wx.FileDialog(None, "Save as...", self.workpath, basename,
-                matchstring, wx.SAVE|wx.OVERWRITE_PROMPT)
+                matchstring, wx.FD_SAVE|wx.FD_OVERWRITE_PROMPT)
         if d.ShowModal() == wx.ID_OK:
             i = d.GetFilterIndex()
             path = d.GetPath()
@@ -2368,7 +2368,7 @@ class MainFrame(wx.Frame):
         basename = '.'.join(name.split('.')[:-1]) or name
         matchstring = "PDF fit data file (*.fgr)|*.fgr|All Files|*"
         d = wx.FileDialog(None, "Save as...", self.workpath, basename,
-                matchstring, wx.SAVE|wx.OVERWRITE_PROMPT)
+                matchstring, wx.FD_SAVE|wx.FD_OVERWRITE_PROMPT)
         if d.ShowModal() == wx.ID_OK:
             path = d.GetPath()
             self.workpath, savename = os.path.split(path)
@@ -2392,7 +2392,7 @@ class MainFrame(wx.Frame):
         basename = '.'.join(name.split('.')[:-1]) or name
         matchstring = "PDF calculated data file (*.cgr)|*.cgr|All Files|*"
         d = wx.FileDialog(None, "Save as...", self.workpath, basename,
-                matchstring, wx.SAVE|wx.OVERWRITE_PROMPT)
+                matchstring, wx.FD_SAVE|wx.FD_OVERWRITE_PROMPT)
         if d.ShowModal() == wx.ID_OK:
             path = d.GetPath()
             self.workpath, savename = os.path.split(path)

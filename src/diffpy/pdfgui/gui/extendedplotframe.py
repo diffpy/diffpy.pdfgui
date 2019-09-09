@@ -75,7 +75,7 @@ class ExtendedToolbar(NavToolbar):
         # rejoin filetypes
         filetypes = '|'.join(sortedtypes)
         dlg =wx.FileDialog(self._parent, "Save to file", "", "", filetypes,
-                           wx.SAVE|wx.OVERWRITE_PROMPT|wx.CHANGE_DIR)
+                           wx.FD_SAVE|wx.FD_OVERWRITE_PROMPT|wx.FD_CHANGE_DIR)
         if dlg.ShowModal() == wx.ID_OK:
             dirname  = dlg.GetDirectory()
             filename = dlg.GetFilename()
@@ -175,7 +175,7 @@ class ExtendedPlotFrame(wx.Frame):
     def savePlotData(self, evt):
         """Save the data in the plot in columns."""
         d = wx.FileDialog(None, "Save as...", self.dirname, self.filename,
-                "(*.dat)|*.dat|(*.txt)|*.txt|(*)|*", wx.SAVE|wx.OVERWRITE_PROMPT)
+                "(*.dat)|*.dat|(*.txt)|*.txt|(*)|*", wx.FD_SAVE|wx.FD_OVERWRITE_PROMPT)
         if d.ShowModal() == wx.ID_OK:
             fullname = d.GetPath()
             self.dirname = os.path.dirname(fullname)

@@ -81,7 +81,7 @@ class JournalPanel(wx.Panel, PDFPanel):
         if not dir: dir = self.mainFrame.workpath
         d = wx.FileDialog(None, "Export to...",
                 dir, filename, matchstring,
-                wx.SAVE|wx.OVERWRITE_PROMPT)
+                wx.FD_SAVE|wx.FD_OVERWRITE_PROMPT)
 
         if d.ShowModal() == wx.ID_OK:
             self.fullpath = d.GetPath()
