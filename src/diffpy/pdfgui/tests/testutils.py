@@ -59,6 +59,8 @@ def overridefiledialog(status, paths):
     class NBFileDialog(wx.FileDialog):
         def ShowModal(self):
             return status
+        def GetPath(self):
+            return paths[-1] if paths else ''
         def GetPaths(self):
             return paths
         pass

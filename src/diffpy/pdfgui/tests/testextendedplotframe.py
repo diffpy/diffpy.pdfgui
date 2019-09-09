@@ -22,8 +22,10 @@ import unittest
 import numpy
 import wx
 
+from diffpy.pdfgui.gui import extendedplotframe as epf
 from diffpy.pdfgui.gui.extendedplotframe import ExtendedPlotFrame
-from diffpy.pdfgui.tests.testutils import GUITestCase
+from diffpy.pdfgui.control.plotter import Plotter
+from diffpy.pdfgui.tests.testutils import GUITestCase, overridefiledialog
 
 # ----------------------------------------------------------------------------
 
@@ -39,6 +41,11 @@ class TestExtendedPlotFrame(GUITestCase):
         self.app.Destroy()
         return
 
+    def _clicktoolbar(self, tbid):
+        e = wx.CommandEvent(wx.EVT_TOOL.typeId, tbid)
+        self.frame.toolbar.ProcessEvent(e)
+        return
+
 
     def test_insertCurve(self):
         "Check ExtendedPlotFrame.insertCurve"
@@ -51,10 +58,19 @@ class TestExtendedPlotFrame(GUITestCase):
         return
 
 
-    @unittest.expectedFailure
     def test_savePlotData(self):
-        # TODO - cover the FileDialog code and invalid wx constants
-        assert 0
+        self.frame.plotter = Plotter()
+        # intercept plotter.export to avoid plot setup and temporary files
+        self.frame.plotter.export = lambda fn: setattr(self, 'spd', fn)
+        self.spd = ''
+        with overridefiledialog(wx.ID_OK, ['testfile.dat']):
+            self._clicktoolbar(epf.DATA_SAVE_ID)
+        self.assertEqual('testfile.dat', self.spd)
+        self.spd = ''
+        with overridefiledialog(wx.ID_CANCEL, ['testfile2.dat']):
+            self._clicktoolbar(epf.DATA_SAVE_ID)
+        self.assertEqual('', self.spd)
+        return
 
 # End of class TestExtendedPlotFrame
 
