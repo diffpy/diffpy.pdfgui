@@ -51,44 +51,8 @@ class ExtendedToolbar(NavToolbar):
                      shortHelp='Export plot data to file')
         return
 
-    def save(self, evt):
-        # Fetch the required filename and file type.
-        filetypes = self.canvas._get_imagesave_wildcards()
-        exts = []
-        # sortedtypes put png in the first
-        sortedtypes = []
-        import re
-        types = filetypes[0].split('|')
-        n = 0
-        for ext in types[1::2]:
-            # Extract only the file extension
-            res = re.search(r'\*\.(\w+)', ext)
-            pos = n*2
-            if re.search(r'png', ext):
-                pos = 0
-            sortedtypes.insert(pos, ext)
-            sortedtypes.insert(pos, types[n*2])
-            if res:
-                exts.insert(pos/2,res.groups()[0])
-            n += 1
-
-        # rejoin filetypes
-        filetypes = '|'.join(sortedtypes)
-        dlg =wx.FileDialog(self._parent, "Save to file", "", "", filetypes,
-                           wx.FD_SAVE|wx.FD_OVERWRITE_PROMPT|wx.FD_CHANGE_DIR)
-        if dlg.ShowModal() == wx.ID_OK:
-            dirname  = dlg.GetDirectory()
-            filename = dlg.GetFilename()
-            i = dlg.GetFilterIndex()
-            dotext = '.' + exts[i]
-            if os.path.splitext(filename)[-1] != dotext:
-                filename = filename + dotext
-            # matplotlib does not like UTF strings
-            fullpath = str(os.path.join(dirname, filename))
-            self.canvas.print_figure(fullpath)
-        return
-
 # End class ExtendedToolbar
+
 
 class ExtendedPlotFrame(wx.Frame):
     """An extended plotting frame with a save and close button.
