@@ -57,6 +57,12 @@ class TestMainFrame(GUITestCase):
         self.assertIsNotNone(self.frame.PopupMenu)
         return
 
+
+    def test_disableMainMenuItems(self):
+        "cover MainFrame.disableMainMenuItems method."
+        self.frame.disableMainMenuItems()
+        return
+
 # End of class TestMainFrame
 
 # ----------------------------------------------------------------------------
