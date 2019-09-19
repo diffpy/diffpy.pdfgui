@@ -48,9 +48,13 @@ class TestParametersPanel(GUITestCase):
         return
 
 
-    def _leftclickcell(self, row, col, **kw):
+    def _clickcell(self, leftright, row, col, **kw):
         gp = self.panel.grid_parameters
-        eventtype = wx.grid.EVT_GRID_CELL_LEFT_CLICK.typeId
+        assert leftright in ('left', 'right')
+        if leftright == "left":
+            eventtype = wx.grid.EVT_GRID_CELL_LEFT_CLICK.typeId
+        else:
+            eventtype = wx.grid.EVT_GRID_CELL_RIGHT_CLICK.typeId
         kbd = {'kbd': wx.KeyboardState(**kw)}
         # TODO: remove this after deprecations of wxpython 3
         if wx.VERSION[0] == 3:
@@ -104,22 +108,35 @@ class TestParametersPanel(GUITestCase):
         self.assertFalse(self.panel.mainFrame.altered)
         self.assertEqual("0", gp.GetCellValue(0, 1))
         self.assertFalse(p.fixed)
-        self._leftclickcell(0, 1)
+        self._clickcell("left", 0, 1)
         self.assertEqual("1", gp.GetCellValue(0, 1))
         self.assertTrue(p.fixed)
         self.assertTrue(self.panel.mainFrame.altered)
-        self._leftclickcell(0, 1)
+        self._clickcell("left", 0, 1)
         self.assertEqual("0", gp.GetCellValue(0, 1))
-        self._leftclickcell(0, 1, controlDown=True)
+        self._clickcell("left", 0, 1, controlDown=True)
         self.assertEqual("0", gp.GetCellValue(0, 1))
-        self._leftclickcell(0, 1, shiftDown=True)
+        self._clickcell("left", 0, 1, shiftDown=True)
         self.assertEqual("0", gp.GetCellValue(0, 1))
         gp.SelectAll()
-        self._leftclickcell(0, 1)
+        self._clickcell("left", 0, 1)
         self.assertEqual("0", gp.GetCellValue(0, 1))
         gp.ClearSelection()
-        self._leftclickcell(0, 1)
+        self._clickcell("left", 0, 1)
         self.assertEqual("1", gp.GetCellValue(0, 1))
+        return
+
+
+    def test_onCellRightClick(self):
+        "Check right-click handling on the Parameters grid."
+        # disable modal grid_parameters.PopupMenu
+        gp = self.panel.grid_parameters
+        gp.PopupMenu = lambda menu, pos: None
+        try:
+            self._clickcell("right", 0, 1)
+        finally:
+            del gp.PopupMenu
+        self.assertTrue(self.panel.did_popupIDs)
         return
 
 # End of class TestParametersPanel
