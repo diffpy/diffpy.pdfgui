@@ -36,6 +36,7 @@ class TestPDFGuiControl(unittest.TestCase):
         del self.control
         return
 
+    @unittest.skip("feature planned for removal")
     def test_importPdffit2Script(self):
         """check PDFGuiControl.importPdffit2Script()
         """
