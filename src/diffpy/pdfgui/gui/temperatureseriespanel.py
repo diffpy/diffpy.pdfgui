@@ -284,7 +284,7 @@ class TemperatureSeriesPanel(wx.Panel, PDFPanel):
         for temperature, filename in self.datasets:
             shortname = "..." + filename[idx:]
             index = self.listCtrlFiles.InsertItem(sys.maxint, str(temperature))
-            self.listCtrlFiles.SetStringItem(index, 1, shortname)
+            self.listCtrlFiles.SetItem(index, 1, shortname)
         return
 
     ## Needed by mainframe
