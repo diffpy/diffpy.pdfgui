@@ -38,12 +38,6 @@ class TestInsertRowsDialog(GUITestCase):
         return
 
 
-    def _clickbutton(self, button):
-        e = wx.CommandEvent(wx.EVT_BUTTON.typeId, button.Id)
-        self.dialog.ProcessEvent(e)
-        return
-
-
     def test_spin_ctrl_rows(self):
         "Check default number of rows to insert"
         d = self.dialog
