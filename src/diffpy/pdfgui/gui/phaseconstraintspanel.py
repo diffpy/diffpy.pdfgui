@@ -28,7 +28,9 @@ from diffpy.pdfgui.gui.wxExtensions.autowidthlabelsgrid import \
 from diffpy.pdfgui.gui.wxExtensions.textctrlutils import textCtrlAsGridCell
 from diffpy.pdfgui.gui.sgconstraindialog import SGConstrainDialog
 from diffpy.pdfgui.gui import phasepanelutils
+from diffpy.pdfgui.gui.wxExtensions import wx12
 from diffpy.utils.wx import gridutils
+
 
 class PhaseConstraintsPanel(wx.Panel, PDFPanel):
     def __init__(self, *args, **kwds):
@@ -493,10 +495,10 @@ class PhaseConstraintsPanel(wx.Panel, PDFPanel):
         """
         # only do this part the first time so the events are only bound once
         if not hasattr(self, "spaceGroupID"):
-            self.spaceGroupID = wx.NewId()
-            self.selectID = wx.NewId()
-            self.copyID = wx.NewId()
-            self.pasteID = wx.NewId()
+            self.spaceGroupID = wx12.NewIdRef()
+            self.selectID = wx12.NewIdRef()
+            self.copyID = wx12.NewIdRef()
+            self.pasteID = wx12.NewIdRef()
 
             self.Bind(wx.EVT_MENU, self.onPopupSpaceGroup, id=self.spaceGroupID)
             self.Bind(wx.EVT_MENU, self.onPopupSelect, id=self.selectID)

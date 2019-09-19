@@ -31,7 +31,7 @@ import wx
 from diffpy.pdfgui.gui.wxExtensions import wx12
 from diffpy.pdfgui.gui.pdfguiglobals import iconpath
 
-DATA_SAVE_ID  = wx.NewId()
+DATA_SAVE_ID  = wx12.NewIdRef()
 
 class ExtendedToolbar(NavToolbar):
     """An extended plotting toolbar with a save and close button."""

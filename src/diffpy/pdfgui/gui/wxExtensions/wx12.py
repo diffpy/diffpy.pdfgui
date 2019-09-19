@@ -82,6 +82,7 @@ def patchToolBarMethods(toolbar):
 # Functions ------------------------------------------------------------------
 
 IsMainThread = wx.Thread_IsMain if WX3 else wx.IsMainThread
+NewIdRef = wx.NewIdRef if WX4 else wx.NewId
 
 # Final checks ---------------------------------------------------------------
 

@@ -27,6 +27,7 @@ from diffpy.pdfgui.gui.wxExtensions.autowidthlabelsgrid import \
         AutoWidthLabelsGrid
 from diffpy.pdfgui.gui.wxExtensions.validators import TextValidator, FLOAT_ONLY
 from diffpy.pdfgui.gui.wxExtensions.textctrlutils import textCtrlAsGridCell
+from diffpy.pdfgui.gui.wxExtensions import wx12
 from diffpy.pdfgui.gui import phasepanelutils
 from diffpy.utils.wx import gridutils
 
@@ -560,13 +561,13 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
         """
         # only do this part the first time so the events are only bound once
         if not hasattr(self, "insertID"):
-            self.insertID = wx.NewId()
-            self.deleteID = wx.NewId()
-            self.selectID = wx.NewId()
-            self.copyID = wx.NewId()
-            self.pasteID = wx.NewId()
-            self.supercellID = wx.NewId()
-            self.spaceGroupID = wx.NewId()
+            self.insertID = wx12.NewIdRef()
+            self.deleteID = wx12.NewIdRef()
+            self.selectID = wx12.NewIdRef()
+            self.copyID = wx12.NewIdRef()
+            self.pasteID = wx12.NewIdRef()
+            self.supercellID = wx12.NewIdRef()
+            self.spaceGroupID = wx12.NewIdRef()
 
             self.Bind(wx.EVT_MENU, self.onPopupInsert, id=self.insertID)
             self.Bind(wx.EVT_MENU, self.onPopupDelete, id=self.deleteID)

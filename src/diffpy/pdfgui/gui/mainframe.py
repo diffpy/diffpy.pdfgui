@@ -231,14 +231,14 @@ class MainFrame(wx.Frame):
         """
         # Functions that modify the tree.
         # These are used in the fitting right-click menu and the main menu.
-        self.newFitId = wx.NewId()      # New Fit
-        self.newCalcId = wx.NewId()     # New Calculation
-        self.newPhaseId = wx.NewId()    # New Phase
-        self.newDataId = wx.NewId()     # New Data Set
+        self.newFitId = wx12.NewIdRef()     # New Fit
+        self.newCalcId = wx12.NewIdRef()    # New Calculation
+        self.newPhaseId = wx12.NewIdRef()   # New Phase
+        self.newDataId = wx12.NewIdRef()    # New Data Set
         self.deleteId = wx.ID_DELETE    # Delete tree item
         self.copyId = wx.ID_COPY        # Copy a tree item
         self.pasteId = wx.ID_PASTE      # Paste a tree item into tree
-        self.pasteLinkId = wx.NewId()   # Paste and link a fit node
+        self.pasteLinkId = wx12.NewIdRef()  # Paste and link a fit node
 
         # Misc. functions, these are exclusive to the main menu.
         self.newId = wx.ID_NEW          # Start a new Project
@@ -247,19 +247,19 @@ class MainFrame(wx.Frame):
         self.saveId = wx.ID_SAVE        # Save the project
         self.saveAsId = wx.ID_SAVEAS    # Save the project as...
         self.quitId = wx.ID_CLOSE       # Quit the program
-        self.runFitId = wx.NewId()      # Run a fit
-        self.stopFitId = wx.NewId()     # Stop a fit
-        self.quickPlotId = wx.NewId()   # Quick plot a fit
-        self.exportFitPDFId = wx.NewId()  # Save a fit PDF
-        self.exportFitStruId = wx.NewId()    # Save a fit structure
-        self.exportNewStruId = wx.NewId() # Export a 'new' structure
-        self.plotIStructId = wx.NewId() # Plot initial structure
-        self.plotFStructId = wx.NewId() # Plot final structure
-        self.printBLId = wx.NewId() # Print the bond lengths of a structure
-        self.printBAId = wx.NewId() # Print the bond angles of a structure
-        self.exportResId = wx.NewId()     # Save the results file
-        self.runCalcId = wx.NewId()     # Run a calculation
-        self.exportCalcPDFId = wx.NewId() # Save a calculated PDF
+        self.runFitId = wx12.NewIdRef()     # Run a fit
+        self.stopFitId = wx12.NewIdRef()    # Stop a fit
+        self.quickPlotId = wx12.NewIdRef()  # Quick plot a fit
+        self.exportFitPDFId = wx12.NewIdRef()   # Save a fit PDF
+        self.exportFitStruId = wx12.NewIdRef()  # Save a fit structure
+        self.exportNewStruId = wx12.NewIdRef()  # Export a 'new' structure
+        self.plotIStructId = wx12.NewIdRef()    # Plot initial structure
+        self.plotFStructId = wx12.NewIdRef()    # Plot final structure
+        self.printBLId = wx12.NewIdRef()    # Print the bond lengths of a structure
+        self.printBAId = wx12.NewIdRef()    # Print the bond angles of a structure
+        self.exportResId = wx12.NewIdRef()  # Save the results file
+        self.runCalcId = wx12.NewIdRef()    # Run a calculation
+        self.exportCalcPDFId = wx12.NewIdRef()  # Save a calculated PDF
         return
 
     def __customProperties(self):
@@ -460,7 +460,7 @@ class MainFrame(wx.Frame):
                 "Paste &Linked Fit", "", wx.ITEM_NORMAL)
         self.editMenu.Append(self.pasteLinkItem)
         self.editMenu.AppendSeparator()
-        self.prefItem = wx.MenuItem(self.editMenu, wx.NewId(),
+        self.prefItem = wx.MenuItem(self.editMenu, wx12.NewIdRef(),
                 "&Preferences", "", wx.ITEM_NORMAL)
         self.editMenu.Append(self.prefItem)
         self.menuBar.Append(self.editMenu, "&Edit")
@@ -468,21 +468,21 @@ class MainFrame(wx.Frame):
 
         # View Menu
         self.viewMenu = wx12.Menu()
-        self.defaultLayoutItem = wx.MenuItem(self.editMenu, wx.NewId(),
+        self.defaultLayoutItem = wx.MenuItem(self.editMenu, wx12.NewIdRef(),
                 "Default Window Layout", "", wx.ITEM_NORMAL)
         self.viewMenu.Append(self.defaultLayoutItem)
         self.viewMenu.AppendSeparator()
         # These items are context sensitive.
-        self.showFitItem = wx.MenuItem(self.viewMenu, wx.NewId(),
+        self.showFitItem = wx.MenuItem(self.viewMenu, wx12.NewIdRef(),
                 "Show Fit Tree", "", wx.ITEM_NORMAL)
         self.viewMenu.Append(self.showFitItem)
-        self.showPlotItem = wx.MenuItem(self.viewMenu, wx.NewId(),
+        self.showPlotItem = wx.MenuItem(self.viewMenu, wx12.NewIdRef(),
                 "Show Plot Control", "", wx.ITEM_NORMAL)
         self.viewMenu.Append(self.showPlotItem)
-        self.showOutputItem = wx.MenuItem(self.viewMenu, wx.NewId(),
+        self.showOutputItem = wx.MenuItem(self.viewMenu, wx12.NewIdRef(),
                 "Show Output", "", wx.ITEM_NORMAL)
         self.viewMenu.Append(self.showOutputItem)
-        self.showJournalItem = wx.MenuItem(self.viewMenu, wx.NewId(),
+        self.showJournalItem = wx.MenuItem(self.viewMenu, wx12.NewIdRef(),
                 "Show Journal\tCtrl+j", "", wx.ITEM_NORMAL)
         self.viewMenu.Append(self.showJournalItem)
         self.menuBar.Append(self.viewMenu, "&View")
@@ -500,7 +500,7 @@ class MainFrame(wx.Frame):
                 "&Stop Fitting", "", wx.ITEM_NORMAL)
         self.fitsMenu.Append(self.stopFitItem)
         self.fitsMenu.AppendSeparator()
-        self.impFitItem = wx.MenuItem(self.fitsMenu, wx.NewId(),
+        self.impFitItem = wx.MenuItem(self.fitsMenu, wx12.NewIdRef(),
                 "&Import pdffit2 Script", "", wx.ITEM_NORMAL)
         self.fitsMenu.Append(self.impFitItem)
         self.fitsMenu.AppendSeparator()
@@ -510,13 +510,13 @@ class MainFrame(wx.Frame):
         self.fitsMenu.AppendSeparator()
         # Macros sub-menu
         self.macrosMenu = wx12.Menu()
-        self.rseriesItem = wx.MenuItem(self.macrosMenu, wx.NewId(),
+        self.rseriesItem = wx.MenuItem(self.macrosMenu, wx12.NewIdRef(),
                 "r-Series", "", wx.ITEM_NORMAL)
         self.macrosMenu.Append(self.rseriesItem)
-        self.tseriesItem = wx.MenuItem(self.macrosMenu, wx.NewId(),
+        self.tseriesItem = wx.MenuItem(self.macrosMenu, wx12.NewIdRef(),
                 "Temperature Series", "", wx.ITEM_NORMAL)
         self.macrosMenu.Append(self.tseriesItem)
-        self.dseriesItem = wx.MenuItem(self.macrosMenu, wx.NewId(),
+        self.dseriesItem = wx.MenuItem(self.macrosMenu, wx12.NewIdRef(),
                 "Doping Series", "", wx.ITEM_NORMAL)
         self.macrosMenu.Append(self.dseriesItem)
         self.fitsMenu.AppendSubMenu(self.macrosMenu, "Macros")
@@ -589,16 +589,16 @@ class MainFrame(wx.Frame):
 
         # Help Menu
         self.helpMenu = wx12.Menu()
-        self.docItem = wx.MenuItem(self.helpMenu, wx.NewId(),
+        self.docItem = wx.MenuItem(self.helpMenu, wx12.NewIdRef(),
                 "&Documentation\tF1", "", wx.ITEM_NORMAL)
         self.helpMenu.Append(self.docItem)
-        self.requestItem = wx.MenuItem(self.helpMenu, wx.NewId(),
+        self.requestItem = wx.MenuItem(self.helpMenu, wx12.NewIdRef(),
                 "Request a Feature / Report a Bug", "", wx.ITEM_NORMAL)
         self.helpMenu.Append(self.requestItem)
-        self.communityItem = wx.MenuItem(self.helpMenu, wx.NewId(),
+        self.communityItem = wx.MenuItem(self.helpMenu, wx12.NewIdRef(),
                 "PDFgui Community", "", wx.ITEM_NORMAL)
         self.helpMenu.Append(self.communityItem)
-        self.aboutItem = wx.MenuItem(self.helpMenu, wx.NewId(),
+        self.aboutItem = wx.MenuItem(self.helpMenu, wx12.NewIdRef(),
                 "&About", "", wx.ITEM_NORMAL)
         self.helpMenu.Append(self.aboutItem)
         self.menuBar.Append(self.helpMenu, "&Help")
