@@ -76,6 +76,37 @@ def tooltiptext(widget):
     tt = widget.GetToolTip()
     return tt.GetTip()
 
+
+def clickcell(grid, leftright, row, col, **kw):
+    """Simulate left or right mouse click over wx.grid.Grid
+
+    Parameters
+    ----------
+    grid : wx.grid.Grid
+        The grid object to be clicked
+    leftright : str
+        The button that is clicked, possible values are ("left", "right").
+    row : int
+        The zero-based row of the clicked cell.
+    col : int
+        The zero-based columnt of the clicked cell.
+    kw : misc, optional
+        Keyword arguments for the wx.GridEvent constructor.
+        Typically a keyboard modifier for the click.
+    """
+    assert leftright in ('left', 'right')
+    if leftright == "left":
+        eventtype = wx.grid.EVT_GRID_CELL_LEFT_CLICK.typeId
+    else:
+        eventtype = wx.grid.EVT_GRID_CELL_RIGHT_CLICK.typeId
+    kbd = {'kbd': wx.KeyboardState(**kw)}
+    # TODO: remove this after deprecations of wxpython 3
+    if wx.VERSION[0] == 3:
+        kbd = {k.replace('Down', ''): v for k, v in kw.items()}
+    e = wx.grid.GridEvent(grid.Id, eventtype, grid, row, col, **kbd)
+    grid.ProcessEvent(e)
+    return
+
 # GUI-specialized TestCase ---------------------------------------------------
 
 class GUITestCase(TestCase):

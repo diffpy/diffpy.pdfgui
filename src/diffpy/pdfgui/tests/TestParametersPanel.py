@@ -23,7 +23,7 @@ import wx.grid
 
 from diffpy.pdfgui.gui.parameterspanel import ParametersPanel
 from diffpy.pdfgui.control.parameter import Parameter
-from diffpy.pdfgui.tests.testutils import GUITestCase
+from diffpy.pdfgui.tests.testutils import GUITestCase, clickcell
 
 # ----------------------------------------------------------------------------
 
@@ -45,22 +45,6 @@ class TestParametersPanel(GUITestCase):
     def tearDown(self):
         self.frame.Close()
         self.app.Destroy()
-        return
-
-
-    def _clickcell(self, leftright, row, col, **kw):
-        gp = self.panel.grid_parameters
-        assert leftright in ('left', 'right')
-        if leftright == "left":
-            eventtype = wx.grid.EVT_GRID_CELL_LEFT_CLICK.typeId
-        else:
-            eventtype = wx.grid.EVT_GRID_CELL_RIGHT_CLICK.typeId
-        kbd = {'kbd': wx.KeyboardState(**kw)}
-        # TODO: remove this after deprecations of wxpython 3
-        if wx.VERSION[0] == 3:
-            kbd = {k.replace('Down', ''): v for k, v in kw.items()}
-        e = wx.grid.GridEvent(gp.Id, eventtype, gp, row, col, **kbd)
-        gp.ProcessEvent(e)
         return
 
 
@@ -108,21 +92,21 @@ class TestParametersPanel(GUITestCase):
         self.assertFalse(self.panel.mainFrame.altered)
         self.assertEqual("0", gp.GetCellValue(0, 1))
         self.assertFalse(p.fixed)
-        self._clickcell("left", 0, 1)
+        clickcell(gp, "left", 0, 1)
         self.assertEqual("1", gp.GetCellValue(0, 1))
         self.assertTrue(p.fixed)
         self.assertTrue(self.panel.mainFrame.altered)
-        self._clickcell("left", 0, 1)
+        clickcell(gp, "left", 0, 1)
         self.assertEqual("0", gp.GetCellValue(0, 1))
-        self._clickcell("left", 0, 1, controlDown=True)
+        clickcell(gp, "left", 0, 1, controlDown=True)
         self.assertEqual("0", gp.GetCellValue(0, 1))
-        self._clickcell("left", 0, 1, shiftDown=True)
+        clickcell(gp, "left", 0, 1, shiftDown=True)
         self.assertEqual("0", gp.GetCellValue(0, 1))
         gp.SelectAll()
-        self._clickcell("left", 0, 1)
+        clickcell(gp, "left", 0, 1)
         self.assertEqual("0", gp.GetCellValue(0, 1))
         gp.ClearSelection()
-        self._clickcell("left", 0, 1)
+        clickcell(gp, "left", 0, 1)
         self.assertEqual("1", gp.GetCellValue(0, 1))
         return
 
@@ -133,7 +117,7 @@ class TestParametersPanel(GUITestCase):
         gp = self.panel.grid_parameters
         gp.PopupMenu = lambda menu, pos: None
         try:
-            self._clickcell("right", 0, 1)
+            clickcell(gp, "right", 0, 1)
         finally:
             del gp.PopupMenu
         self.assertTrue(self.panel.did_popupIDs)
