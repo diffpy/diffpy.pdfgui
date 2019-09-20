@@ -24,6 +24,7 @@ import wx
 from diffpy.pdfgui.gui.phaseconfigurepanel import PhaseConfigurePanel
 from diffpy.pdfgui.gui.mainframe import MainFrame
 from diffpy.pdfgui.tests.testutils import GUITestCase, datafile, tooltiptext
+from diffpy.pdfgui.tests.testutils import clickcell
 
 # ----------------------------------------------------------------------------
 
@@ -65,6 +66,19 @@ class TestPhaseConfigurePanel(GUITestCase):
         self.assertTrue(grid.IsReadOnly(0, 1))
         self.assertFalse(grid.IsReadOnly(0, 3))
         self.assertEqual('@1', tooltiptext(panel.textCtrlA))
+        return
+
+
+    def test_onCellRightClick(self):
+        "check right-click handling over the atoms grid."
+        # disable modal gridAtoms.PopupMenu
+        ga = self.panel.gridAtoms
+        ga.PopupMenu = lambda menu, pos: None
+        try:
+            clickcell(ga, "right", 0, 1)
+        finally:
+            del ga.PopupMenu
+        self.assertIsNotNone(self.panel.insertID)
         return
 
 # End of class TestPhaseConfigurePanel
