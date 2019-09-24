@@ -27,7 +27,6 @@ from diffpy.pdfgui.control.organizer import Organizer
 from diffpy.pdfgui.control.fitstructure import FitStructure
 from diffpy.pdfgui.control.controlerrors import ControlError
 from diffpy.pdfgui.control.controlerrors import ControlFileError
-from diffpy.pdfgui.control.controlerrors import ControlRuntimeError
 from diffpy.pdfgui.control.controlerrors import ControlTypeError
 
 
@@ -333,74 +332,6 @@ class PDFGuiControl:
         target.add(o, position)
         return o
 
-    def importPdffit2Script(self, scriptfile, args=[]):
-        """add fits and calculations from pdffit2 script
-
-        scriptfile -- path to old pdffit2 script
-        args       -- optional arguments passed to scriptfile
-
-        returns list of imported fits
-        """
-        pyexe = sys.executable
-        # Build python command to be executed in the child process.
-        pycommand = '\n'.join([
-            'from diffpy.pdfgui.control.dumppdffit2script import main',
-            'main()',
-            ])
-        # Build argument list.  Include the '-u' option so that child
-        # Python opens it input and output streams in binary mode.
-        cmdargs = [pyexe, '-u', '-c', pycommand, scriptfile] + args
-        scriptdir = os.path.dirname(scriptfile)
-        import platform
-        from subprocess import Popen, PIPE
-        cfds = (platform.system() != 'Windows')
-        pcmd = Popen(cmdargs, cwd=scriptdir,
-                stdin=PIPE, stdout=PIPE, stderr=PIPE, close_fds=cfds)
-        # close child standard input
-        out, err = pcmd.communicate()
-        status = pcmd.wait()
-        if status != 0:
-            raise ControlRuntimeError, \
-                "Import of pdffit2 script failed:\n" + err
-        # seems that everything worked fine here
-        import cPickle
-        impfits = cPickle.loads(out)
-        orgnames = [ f.name for f in impfits ]
-        usednames = dict.fromkeys([ f.name for f in self.fits ])
-        basename, ext = os.path.splitext(os.path.basename(scriptfile))
-        start = 0
-        while True:
-            start = start + 1
-            newnames = [ basename + str(i) \
-                         for i in range(start, start+len(impfits)) ]
-            anyused = [ n for n in newnames if n in usednames ]
-            if not anyused:
-                break
-        # here we have correct new names
-        # build a dictionary with name translations
-        old2new = dict(zip(orgnames, newnames))
-        for fit in impfits:
-            # items in impfits were stripped, we need to insert normal copy
-            clothed = fit.copy()
-            clothed.name = old2new[fit.name]
-            # take care of linked parameters:
-            if isinstance(clothed, Fitting):
-                for idx, par in clothed.parameters.iteritems():
-                    inistr = par.initialStr()
-                    if inistr[:1] == "=":
-                        iniwords = inistr[1:].split(':')
-                        if len(iniwords) == 1:
-                            ininame = iniwords[0]
-                            srcparidx = str(idx)
-                        else:
-                            ininame = ':'.join(iniwords[:-1])
-                            srcparidx = iniwords[-1]
-                        newlinkedname = old2new[ininame]
-                        par.setInitial("=%s:%s" % (newlinkedname, srcparidx))
-            # finally we can put it in
-            self.add(clothed)
-        newfits = self.fits[len(self.fits)-len(impfits):]
-        return [obj.organization() for obj in newfits]
 
     def load(self, projfile):
         """load project from projfile.

@@ -500,10 +500,6 @@ class MainFrame(wx.Frame):
                 "&Stop Fitting", "", wx.ITEM_NORMAL)
         self.fitsMenu.Append(self.stopFitItem)
         self.fitsMenu.AppendSeparator()
-        self.impFitItem = wx.MenuItem(self.fitsMenu, wx12.NewIdRef(),
-                "&Import pdffit2 Script", "", wx.ITEM_NORMAL)
-        self.fitsMenu.Append(self.impFitItem)
-        self.fitsMenu.AppendSeparator()
         self.expResItem = wx.MenuItem(self.fitsMenu, self.exportResId,
                 "Export Resu&lts File", "", wx.ITEM_NORMAL)
         self.fitsMenu.Append(self.expResItem)
@@ -716,7 +712,6 @@ class MainFrame(wx.Frame):
         self.Bind(wx.EVT_MENU, self.onRun, id=self.runFitId)
         self.Bind(wx.EVT_MENU, self.onStop, id=self.stopFitId)
         self.Bind(wx.EVT_MENU, self.onExportRes, id=self.exportResId)
-        self.Bind(wx.EVT_MENU, self.onImportScript, self.impFitItem)
         self.Bind(wx.EVT_MENU, self.onRSeries, self.rseriesItem)
         self.Bind(wx.EVT_MENU, self.onTSeries, self.tseriesItem)
         self.Bind(wx.EVT_MENU, self.onDSeries, self.dseriesItem)
@@ -2256,20 +2251,6 @@ class MainFrame(wx.Frame):
             outfile = file(path, 'w')
             outfile.write(cdata.res)
             outfile.close()
-        d.Destroy()
-        return
-
-    def onImportScript(self, event):
-        matchstring = "pdffit2 script files (*.py)|*.py|All Files|*"
-        d = wx.FileDialog(None, "Choose a file", self.workpath, "", matchstring)
-        if d.ShowModal() == wx.ID_OK:
-            fullpath = d.GetPath()
-            self.workpath = os.path.dirname(fullpath)
-            # Load this file into the control center.
-            organizations = self.control.importPdffit2Script(fullpath)
-            if organizations:
-                self.treeCtrlMain.ExtendProjectTree(organizations, clear=False)
-                self.needsSave()
         d.Destroy()
         return
 
