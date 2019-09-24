@@ -24,7 +24,7 @@ import wx
 from diffpy.pdfgui.gui.phaseconfigurepanel import PhaseConfigurePanel
 from diffpy.pdfgui.gui.mainframe import MainFrame
 from diffpy.pdfgui.tests.testutils import GUITestCase, datafile, tooltiptext
-from diffpy.pdfgui.tests.testutils import clickcell
+from diffpy.pdfgui.tests.testutils import clickcell, overrideclipboard
 
 # ----------------------------------------------------------------------------
 
@@ -75,7 +75,8 @@ class TestPhaseConfigurePanel(GUITestCase):
         ga = self.panel.gridAtoms
         ga.PopupMenu = lambda menu, pos: None
         try:
-            clickcell(ga, "right", 0, 1)
+            with overrideclipboard():
+                clickcell(ga, "right", 0, 1)
         finally:
             del ga.PopupMenu
         self.assertIsNotNone(self.panel.insertID)
