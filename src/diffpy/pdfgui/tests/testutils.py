@@ -168,7 +168,7 @@ class GUITestCase(TestCase):
 # Helper for GUITestCase -----------------------------------------------------
 
 class _TMainFrame(object):
-    "Think mockup of the used MainFrame methods."
+    "Thin mockup of the used MainFrame methods."
 
     altered = False
 

@@ -24,8 +24,8 @@ import diffpy.pdfgui.control.fitdataset as fds
 from diffpy.pdfgui.control.fitdataset import FitDataSet
 from diffpy.pdfgui.tests.testutils import datafile
 
+# ----------------------------------------------------------------------------
 
-##############################################################################
 class TestRoutines(unittest.TestCase):
 
     def setUp(self):
@@ -71,9 +71,10 @@ class TestRoutines(unittest.TestCase):
 
 # End of class TestRoutines
 
-##############################################################################
-#class TestFitDataSet(unittest.TestCase):
-#
+# ----------------------------------------------------------------------------
+
+class TestFitDataSet(unittest.TestCase):
+
 #   def setUp(self):
 #       return
 #
@@ -374,6 +375,8 @@ class TestRoutines(unittest.TestCase):
 #       return
 
 # End of class TestFitDataSet
+
+# ----------------------------------------------------------------------------
 
 if __name__ == '__main__':
     unittest.main()
