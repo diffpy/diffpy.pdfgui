@@ -72,6 +72,22 @@ def overridefiledialog(status, paths):
     return
 
 
+@contextmanager
+def overrideclipboard():
+    "Temporarily replace wx.TheClipboard with a dummy object."
+    save_theclipboard = wx.TheClipboard
+    class _TTheClipboard(object):
+        def IsSupported(self, fmt):
+            return False
+        pass
+    wx.TheClipboard = _TTheClipboard()
+    try:
+        yield wx.TheClipboard
+    finally:
+        wx.TheClipboard = save_theclipboard
+    return
+
+
 def tooltiptext(widget):
     tt = widget.GetToolTip()
     return tt.GetTip()
