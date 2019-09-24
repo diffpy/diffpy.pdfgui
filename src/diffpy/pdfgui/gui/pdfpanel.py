@@ -13,6 +13,8 @@
 #
 ##############################################################################
 
+import wx
+
 from diffpy.pdfgui.gui.errorwrapper import catchObjectErrors
 
 class PDFPanel(object):
@@ -49,5 +51,8 @@ class PDFPanel(object):
         '''
         for (controlName, tooltip) in toolTips.items():
             control = getattr(self, controlName)
-            control.SetToolTipString(tooltip)
+            if control.GetToolTip() is None:
+                control.SetToolTip(wx.ToolTip(''))
+            tt = control.GetToolTip()
+            tt.SetTip(tooltip)
         return

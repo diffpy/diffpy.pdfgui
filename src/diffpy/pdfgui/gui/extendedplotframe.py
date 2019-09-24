@@ -28,9 +28,10 @@ from matplotlib.artist import setp
 from matplotlib.font_manager import FontProperties
 import wx
 
+from diffpy.pdfgui.gui.wxExtensions import wx12
 from diffpy.pdfgui.gui.pdfguiglobals import iconpath
 
-DATA_SAVE_ID  = wx.NewId()
+DATA_SAVE_ID  = wx12.NewIdRef()
 
 class ExtendedToolbar(NavToolbar):
     """An extended plotting toolbar with a save and close button."""
@@ -41,53 +42,17 @@ class ExtendedToolbar(NavToolbar):
 
     def __init__(self, canvas):
         NavToolbar.__init__(self, canvas)
+        wx12.patchToolBarMethods(self)
         # Load customized icon image
         save_icon_fp = iconpath('exportplotdata.png')
         save_icon = wx.Bitmap(save_icon_fp)
         # Add new buttons
-        self.AddSimpleTool(DATA_SAVE_ID,
-                           save_icon,
-                           'Export plot data', 'Export plot data to file')
-        return
-
-    def save(self, evt):
-        # Fetch the required filename and file type.
-        filetypes = self.canvas._get_imagesave_wildcards()
-        exts = []
-        # sortedtypes put png in the first
-        sortedtypes = []
-        import re
-        types = filetypes[0].split('|')
-        n = 0
-        for ext in types[1::2]:
-            # Extract only the file extension
-            res = re.search(r'\*\.(\w+)', ext)
-            pos = n*2
-            if re.search(r'png', ext):
-                pos = 0
-            sortedtypes.insert(pos, ext)
-            sortedtypes.insert(pos, types[n*2])
-            if res:
-                exts.insert(pos/2,res.groups()[0])
-            n += 1
-
-        # rejoin filetypes
-        filetypes = '|'.join(sortedtypes)
-        dlg =wx.FileDialog(self._parent, "Save to file", "", "", filetypes,
-                           wx.SAVE|wx.OVERWRITE_PROMPT|wx.CHANGE_DIR)
-        if dlg.ShowModal() == wx.ID_OK:
-            dirname  = dlg.GetDirectory()
-            filename = dlg.GetFilename()
-            i = dlg.GetFilterIndex()
-            dotext = '.' + exts[i]
-            if os.path.splitext(filename)[-1] != dotext:
-                filename = filename + dotext
-            # matplotlib does not like UTF strings
-            fullpath = str(os.path.join(dirname, filename))
-            self.canvas.print_figure(fullpath)
+        self.AddTool(DATA_SAVE_ID, "Export data", save_icon,
+                     shortHelp='Export plot data to file')
         return
 
 # End class ExtendedToolbar
+
 
 class ExtendedPlotFrame(wx.Frame):
     """An extended plotting frame with a save and close button.
@@ -151,9 +116,9 @@ class ExtendedPlotFrame(wx.Frame):
             self.SetBackgroundColour((200, 200, 200, 255))
         self.canvas.mpl_connect('motion_notify_event', self.UpdateStatusBar)
         self.canvas.mpl_connect('key_press_event', self.mplKeyPress)
-        wx.EVT_PAINT(self, self.OnPaint)
-        wx.EVT_TOOL(self, DATA_SAVE_ID, self.savePlotData)
-        wx.EVT_CLOSE(self, self.onClose)
+        self.Bind(wx.EVT_PAINT, self.OnPaint)
+        self.Bind(wx.EVT_TOOL, self.savePlotData, id=DATA_SAVE_ID)
+        self.Bind(wx.EVT_CLOSE, self.onClose)
 
         self.datalims = {}
 
@@ -174,7 +139,7 @@ class ExtendedPlotFrame(wx.Frame):
     def savePlotData(self, evt):
         """Save the data in the plot in columns."""
         d = wx.FileDialog(None, "Save as...", self.dirname, self.filename,
-                "(*.dat)|*.dat|(*.txt)|*.txt|(*)|*", wx.SAVE|wx.OVERWRITE_PROMPT)
+                "(*.dat)|*.dat|(*.txt)|*.txt|(*)|*", wx.FD_SAVE|wx.FD_OVERWRITE_PROMPT)
         if d.ShowModal() == wx.ID_OK:
             fullname = d.GetPath()
             self.dirname = os.path.dirname(fullname)

@@ -23,15 +23,13 @@ import wx.grid
 
 from diffpy.pdfgui.gui.parameterspanel import ParametersPanel
 from diffpy.pdfgui.control.parameter import Parameter
-from diffpy.pdfgui.gui.pdfguiglobals import dbopts
+from diffpy.pdfgui.tests.testutils import GUITestCase, clickcell
 
 # ----------------------------------------------------------------------------
 
-class TestParametersPanel(unittest.TestCase):
+class TestParametersPanel(GUITestCase):
 
     def setUp(self):
-        self._save_noerrordialog = dbopts.noerrordialog
-        dbopts.noerrordialog = True
         self.app = wx.App()
         self.frame = wx.Frame(None)
         self.panel = ParametersPanel(self.frame, -1)
@@ -40,21 +38,13 @@ class TestParametersPanel(unittest.TestCase):
             (5, Parameter(5, 0.5)),
         ])
         self.panel.refresh()
-        self.panel.mainFrame = _TMainFrame()
+        self.panel.mainFrame = self._mockUpMainFrame()
         self.frame.window = self.panel
         return
 
     def tearDown(self):
         self.frame.Close()
-        dbopts.noerrordialog = self._save_noerrordialog
-        return
-
-
-    def _leftclickcell(self, row, col, **kw):
-        gp = self.panel.grid_parameters
-        eventtype = wx.grid.EVT_GRID_CELL_LEFT_CLICK.typeId
-        e = wx.grid.GridEvent(gp.Id, eventtype, gp, row, col, **kw)
-        gp.ProcessEvent(e)
+        self.app.Destroy()
         return
 
 
@@ -102,36 +92,38 @@ class TestParametersPanel(unittest.TestCase):
         self.assertFalse(self.panel.mainFrame.altered)
         self.assertEqual("0", gp.GetCellValue(0, 1))
         self.assertFalse(p.fixed)
-        self._leftclickcell(0, 1)
+        clickcell(gp, "left", 0, 1)
         self.assertEqual("1", gp.GetCellValue(0, 1))
         self.assertTrue(p.fixed)
         self.assertTrue(self.panel.mainFrame.altered)
-        self._leftclickcell(0, 1)
+        clickcell(gp, "left", 0, 1)
         self.assertEqual("0", gp.GetCellValue(0, 1))
-        self._leftclickcell(0, 1, control=True)
+        clickcell(gp, "left", 0, 1, controlDown=True)
         self.assertEqual("0", gp.GetCellValue(0, 1))
-        self._leftclickcell(0, 1, shift=True)
+        clickcell(gp, "left", 0, 1, shiftDown=True)
         self.assertEqual("0", gp.GetCellValue(0, 1))
         gp.SelectAll()
-        self._leftclickcell(0, 1)
+        clickcell(gp, "left", 0, 1)
         self.assertEqual("0", gp.GetCellValue(0, 1))
         gp.ClearSelection()
-        self._leftclickcell(0, 1)
+        clickcell(gp, "left", 0, 1)
         self.assertEqual("1", gp.GetCellValue(0, 1))
         return
 
-# End of class TestParametersPanel
 
-# Local Helpers --------------------------------------------------------------
-
-class _TMainFrame(object):
-    "Think mockup of the used MainFrame methods."
-
-    altered = False
-
-    def needsSave(self):
-        self.altered = True
+    def test_onCellRightClick(self):
+        "Check right-click handling on the Parameters grid."
+        # disable modal grid_parameters.PopupMenu
+        gp = self.panel.grid_parameters
+        gp.PopupMenu = lambda menu, pos: None
+        try:
+            clickcell(gp, "right", 0, 1)
+        finally:
+            del gp.PopupMenu
+        self.assertTrue(self.panel.did_popupIDs)
         return
+
+# End of class TestParametersPanel
 
 # ----------------------------------------------------------------------------
 

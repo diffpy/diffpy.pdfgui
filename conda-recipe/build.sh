@@ -1,6 +1,6 @@
 #!/bin/bash
 
-$PYTHON -m pip install --no-deps -vv .
+$PYTHON -m easy_install --no-deps .
 
 # Add more build steps here, if they are necessary.
 

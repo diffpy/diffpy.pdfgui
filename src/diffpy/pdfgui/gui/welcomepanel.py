@@ -26,8 +26,7 @@ class WelcomePanel(wx.Panel, PDFPanel):
         PDFPanel.__init__(self)
         wx.Panel.__init__(self, *args, **kwds)
         kwds["style"] = wx.TAB_TRAVERSAL
-        image = wx.Image(iconpath("titlepage.png"), wx.BITMAP_TYPE_PNG)
-        bitmap = wx.BitmapFromImage(image)
+        bitmap = wx.Bitmap(iconpath("titlepage.png"))
         self.bitmap_1 = wx.StaticBitmap(self, -1, bitmap)
 
         self.__set_properties()

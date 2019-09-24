@@ -209,7 +209,7 @@ def canPasteIntoCells(panel):
     if not wx.TheClipboard.IsSupported(wx.DataFormat(wx.DF_TEXT)):
         return False
 
-    textdata = wx.PyTextDataObject()
+    textdata = wx.TextDataObject()
     if not wx.TheClipboard.IsOpened():
         opened = wx.TheClipboard.Open()
         if not opened: return False
@@ -277,7 +277,7 @@ def copySelectedCells(panel):
     if not wx.TheClipboard.IsOpened():
         opened = wx.TheClipboard.Open()
         if not opened: raise IOError, "Cannot open the clipboard."
-        textdata = wx.PyTextDataObject(copytext)
+        textdata = wx.TextDataObject(copytext)
     wx.TheClipboard.SetData(textdata)
     wx.TheClipboard.Close()
     return

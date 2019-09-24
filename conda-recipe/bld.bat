@@ -1,4 +1,4 @@
-%PYTHON% -m pip install --no-deps -vv .
+%PYTHON% -m easy_install --no-deps .
 if errorlevel 1 exit 1
 
 :: Add more build steps here, if they are necessary.

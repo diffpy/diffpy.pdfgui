@@ -29,8 +29,9 @@ import cPickle
 from diffpy.pdfgui.gui.pdfguiglobals import iconpath
 from diffpy.pdfgui.control.fitting import Fitting
 from diffpy.pdfgui.control.controlerrors import ControlError
+from diffpy.pdfgui.gui.wxExtensions import wx12
 
-class FitTree(wx.TreeCtrl):
+class FitTree(wx12.TreeCtrl):
     """TreeCtrl designed to organize pdffit fits.
 
     The root of the tree is hidden. Below that there are several levels
@@ -100,7 +101,7 @@ class FitTree(wx.TreeCtrl):
 
     def GetTreeItemDict(self, node):
         """Get the data dictionary of the node."""
-        return self.GetPyData(node)
+        return self.GetItemData(node)
 
     def GetFitRoot(self, node):
         """Return the id of the fit in which the passed node resides."""
@@ -189,7 +190,7 @@ class FitTree(wx.TreeCtrl):
         datadict = self.GetTreeItemDict(node)
         if datadict is None:
             datadict = {}
-            self.SetPyData(node, datadict)
+            self.SetItemData(node, datadict)
         datadict['type'] = tp
         return
 
@@ -557,7 +558,7 @@ class FitTree(wx.TreeCtrl):
         cdata.type = nodetype
         cdatastring = cPickle.dumps(cdata)
         cdatastring = "pdfgui_cliboard=" + cdatastring
-        textdata = wx.PyTextDataObject(cdatastring)
+        textdata = wx.TextDataObject(cdatastring)
         if not wx.TheClipboard.IsOpened():
             opened = wx.TheClipboard.Open()
             if not opened: raise FitTreeError, "Cannot open the clipboard."
@@ -575,7 +576,7 @@ class FitTree(wx.TreeCtrl):
         if not wx.TheClipboard.IsSupported(wx.DataFormat(wx.DF_TEXT)):
             return None
 
-        textdata = wx.PyTextDataObject()
+        textdata = wx.TextDataObject()
         if not wx.TheClipboard.IsOpened():
             opened = wx.TheClipboard.Open()
             if not opened: return None

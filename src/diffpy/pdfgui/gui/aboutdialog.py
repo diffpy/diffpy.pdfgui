@@ -87,10 +87,10 @@ class DialogAbout(wx.Dialog):
         self.label_acknowledgement = wx.StaticText(self, wx.ID_ANY, "")
         self.hyperlink_paper = wx.lib.agw.hyperlink.HyperLinkCtrl(self, wx.ID_ANY, _paper, URL=_paper)
         self.static_line_2 = wx.StaticLine(self, wx.ID_ANY)
-        self.bitmap_button_nsf = wx.BitmapButton(self, wx.ID_ANY, wx.NullBitmap)
-        self.bitmap_button_danse = wx.BitmapButton(self, wx.ID_ANY, wx.NullBitmap)
-        self.bitmap_button_msu = wx.BitmapButton(self, wx.ID_ANY, wx.NullBitmap)
-        self.bitmap_button_columbia = wx.BitmapButton(self, wx.ID_ANY, wx.NullBitmap)
+        self.bitmap_button_nsf = wx.BitmapButton(self, wx.ID_ANY, wx.NullBitmap, style=wx.BU_AUTODRAW)
+        self.bitmap_button_danse = wx.BitmapButton(self, wx.ID_ANY, wx.NullBitmap, style=wx.BU_AUTODRAW)
+        self.bitmap_button_msu = wx.BitmapButton(self, wx.ID_ANY, wx.NullBitmap, style=wx.BU_AUTODRAW)
+        self.bitmap_button_columbia = wx.BitmapButton(self, wx.ID_ANY, wx.NullBitmap, style=wx.BU_AUTODRAW)
         self.static_line_3 = wx.StaticLine(self, wx.ID_ANY)
         self.button_OK = wx.Button(self, wx.ID_OK, "OK")
 
@@ -136,8 +136,8 @@ class DialogAbout(wx.Dialog):
         # begin wxGlade: DialogAbout.__set_properties
         self.SetTitle("About")
         self.SetSize((600, 595))
-        self.label_title.SetFont(wx.Font(26, wx.DEFAULT, wx.NORMAL, wx.BOLD, 0, ""))
-        self.label_version.SetFont(wx.Font(26, wx.DEFAULT, wx.NORMAL, wx.NORMAL, 0, ""))
+        self.label_title.SetFont(wx.Font(26, wx.FONTFAMILY_DEFAULT, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_BOLD, 0, ""))
+        self.label_version.SetFont(wx.Font(26, wx.FONTFAMILY_DEFAULT, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_NORMAL, 0, ""))
         self.hyperlink_license.Enable(False)
         self.hyperlink_license.Hide()
         self.bitmap_button_nsf.SetSize(self.bitmap_button_nsf.GetBestSize())
@@ -207,19 +207,9 @@ class DialogAbout(wx.Dialog):
 
 # end of class DialogAbout
 
-##### testing code ############################################################
-class MyApp(wx.App):
-    def OnInit(self):
-        dialog = DialogAbout(None, -1, "")
-        self.SetTopWindow(dialog)
-        dialog.ShowModal()
-        dialog.Destroy()
-        return True
-
-# end of class MyApp
+##### testing code ###########################################################
 
 if __name__ == "__main__":
-    app = MyApp(0)
-    app.MainLoop()
-
-##### end of testing code #####################################################
+    app = wx.App()
+    dialog = DialogAbout(None, -1, "")
+    dialog.ShowModal()

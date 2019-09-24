@@ -44,7 +44,7 @@ def testsuite(pattern=''):
     topdir = thisdir
     for i in range(depth):
         topdir = dirname(topdir)
-    suite_all = loader.discover(thisdir, 'Test*.py', top_level_dir=topdir)
+    suite_all = loader.discover(thisdir, '[Tt]est*.py', top_level_dir=topdir)
     # always filter the suite by pattern to test-cover the selection code.
     suite = unittest.TestSuite()
     rx = re.compile(pattern)

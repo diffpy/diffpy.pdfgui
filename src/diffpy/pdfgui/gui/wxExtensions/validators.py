@@ -26,7 +26,7 @@ FLOAT_ONLY = 3
 import wx
 import string
 
-class TextValidator(wx.PyValidator):
+class TextValidator(wx.Validator):
     """This validator is designed to check text input for wxTextCtrls. (It might
     have uses in other widgets.) It can validate for letters only, digits only,
     floats only, and can allow for a negative at the beginning of a digit string
@@ -43,7 +43,7 @@ class TextValidator(wx.PyValidator):
         allowNeg    --  Allow a negative sign in front of DIGIT_ONLY, or
                         FLOAT_ONLY text. (default False)
         """
-        wx.PyValidator.__init__(self)
+        wx.Validator.__init__(self)
         self.flag = flag
         self.allowNeg = allowNeg
         self.Bind(wx.EVT_CHAR, self.OnChar)
@@ -114,7 +114,7 @@ class TextValidator(wx.PyValidator):
             except ValueError:
                 pass
 
-        if not wx.Validator_IsSilent():
+        if not wx.Validator.IsSilent():
             wx.Bell()
 
         # Returning without calling even. Skip eats the event before it

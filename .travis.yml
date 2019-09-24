@@ -70,6 +70,7 @@ before_install:
   - $NOAPT || sudo apt-get install -y
                   build-essential libgsl0-dev python-dev
                   python-numpy python-setuptools python-pip python-wxtools
+                  python-matplotlib
   - $NOAPT || devutils/makesdist
   - $NOAPT || MYTARBUNDLE="$(ls -t "${PWD}"/dist/*.tar.gz | head -1)"
 
@@ -80,11 +81,10 @@ install:
   - $NOMC || source activate testenv
   - $NOMC || conda install --yes --use-local --file=/tmp/mypackage.txt
 
-  # TODO - remove after fix of libgsl.a location in pdffit2
-  - $NOAPT || sudo ln -si /usr/lib/x86_64-linux-gnu/libgsl.a /usr/lib/libgsl.a
-
   - $NOAPT || pip install $MYPIPFLAGS coverage
-  - $NOAPT || pip install $MYPIPFLAGS "${MYTARBUNDLE}"
+  # TODO - restore pip install once it works.
+  # - $NOAPT || pip install $MYPIPFLAGS "${MYTARBUNDLE}"
+  - $NOAPT || easy_install --user "${MYTARBUNDLE}"
 
   - cd ${MYRUNDIR}
   - MYGIT_REV=$(python -c "import ${MYNAME}.version as v; print(v.__git_commit__)")
