@@ -21,11 +21,11 @@ import unittest
 
 from diffpy.pdfgui.control.controlerrors import ControlFileError
 from diffpy.pdfgui.tui import LoadProject
-from diffpy.pdfgui.tests.testutils import datafile
+from diffpy.pdfgui.tests.testutils import GUITestCase, datafile
 
+# ----------------------------------------------------------------------------
 
-##############################################################################
-class TestLoadProject(unittest.TestCase):
+class TestLoadProject(GUITestCase):
 
     prj_lcmo = None
     prj_lcmo_full = None
@@ -113,6 +113,8 @@ class TestLoadProject(unittest.TestCase):
         return
 
 # End of class TestLoadProject
+
+# ----------------------------------------------------------------------------
 
 if __name__ == '__main__':
     unittest.main()
