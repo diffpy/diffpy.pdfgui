@@ -19,7 +19,7 @@
 """
 
 
-from ConfigParser import RawConfigParser
+from six.moves.configparser import RawConfigParser
 import six.moves.cPickle as pickle
 
 
