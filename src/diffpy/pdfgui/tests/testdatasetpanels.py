@@ -21,7 +21,6 @@ import unittest
 
 import wx
 
-from diffpy.pdfgui.gui.datasetpanel import DataSetPanel
 from diffpy.pdfgui.gui.mainframe import MainFrame
 from diffpy.pdfgui.tests.testutils import GUITestCase, datafile, tooltiptext
 
