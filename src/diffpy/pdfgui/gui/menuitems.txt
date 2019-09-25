@@ -31,9 +31,6 @@ Fits
     Run Selected Fits               -- Only when fit is selected
     Stop Fitting
     -----------------------------
-    Import pdffit2 script
-    Export pdffit2 script           -- Only when fit is selected
-    -----------------------------
     Save Fit PDF(s)                 -- Brings up selection dialog
     Save Fit Structure(s)           -- Brings up selection dialog
     Save Results
