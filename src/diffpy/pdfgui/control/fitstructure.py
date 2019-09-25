@@ -24,7 +24,7 @@ from diffpy.pdfgui.control.pdfstructure import PDFStructure
 from diffpy.pdfgui.control.constraint import Constraint
 from diffpy.pdfgui.control.parameter import Parameter
 from diffpy.pdfgui.control.controlerrors import ControlTypeError, ControlValueError
-from diffpy.Structure import Atom
+from diffpy.structure import Atom
 
 class FitStructure(PDFStructure):
     """FitStructure holds initial and refined structure and related fit
@@ -42,7 +42,7 @@ class FitStructure(PDFStructure):
                        Use setSelectedPairs() and getSelectedPairs() methods
                        to access its value.
         custom_spacegroup -- instance of SpaceGroup which has no equivalent
-                       in diffpy.Structure.SpaceGroups module.  This can happen
+                       in diffpy.structure.spacegroups module.  This can happen
                        after reading from a CIF file.  When equivalent space
                        group exists, custom_spacegroup is None.
 
@@ -366,7 +366,7 @@ class FitStructure(PDFStructure):
 
         Return bool.
         """
-        from diffpy.Structure.SymmetryUtilities import isSpaceGroupLatPar
+        from diffpy.structure.symmetryutilities import isSpaceGroupLatPar
         return isSpaceGroupLatPar(spacegroup, *self.initial.lattice.abcABG())
 
 
@@ -376,7 +376,7 @@ class FitStructure(PDFStructure):
         with custom_spacegroup.
         """
         if not FitStructure.sorted_standard_space_groups:
-            import diffpy.Structure.SpaceGroups as SG
+            import diffpy.structure.spacegroups as SG
             existing_names = {}
             unique_named_list = []
             for sg in SG.SpaceGroupList:
@@ -400,7 +400,7 @@ class FitStructure(PDFStructure):
         Raise ValueError if sgname cannot be found or when it is not present
         in getSpaceGroupList().
         """
-        import diffpy.Structure.SpaceGroups as SG
+        import diffpy.structure.spacegroups as SG
         # this should match the "CIF data" sgname
         sgmatch = [sg for sg in self.getSpaceGroupList()
                 if sg.short_name == sgname]
@@ -420,11 +420,11 @@ class FitStructure(PDFStructure):
         of the occupancy("occ".  Constraints of unaffected atoms are adjusted
         for new positions self.initial.
 
-        spacegroup  -- instance of Structure.SpaceGroup
+        spacegroup  -- instance of SpaceGroup from diffpy.structure
         indices     -- list of integer indices of atoms to be expanded
         sgoffset    -- optional offset of space group origin [0,0,0]
         """
-        from diffpy.Structure.SymmetryUtilities import ExpandAsymmetricUnit
+        from diffpy.structure.symmetryutilities import ExpandAsymmetricUnit
         acd = self._popAtomConstraints()
         # get unique, reverse sorted indices
         ruindices = dict.fromkeys(indices).keys()
@@ -470,7 +470,7 @@ class FitStructure(PDFStructure):
         erased.  New parameter indices start at fist decade after the last
         used parameter.
 
-        spacegroup  -- instance of Structure.SpaceGroup
+        spacegroup  -- instance of SpaceGroup from diffpy.structure
         indices     -- list of integer indices of atoms to be expanded
         posflag     -- required bool flag for constraining positions
         Uijflag     -- required bool flag for Uij constrainment
@@ -478,7 +478,7 @@ class FitStructure(PDFStructure):
         """
         if not posflag and not Uijflag:     return
         # need to do something
-        from diffpy.Structure.SymmetryUtilities import SymmetryConstraints
+        from diffpy.structure.symmetryutilities import SymmetryConstraints
         # get unique sorted indices
         tobeconstrained = dict.fromkeys(indices)
         uindices = tobeconstrained.keys()

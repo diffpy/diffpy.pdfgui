@@ -151,7 +151,7 @@ class TestFitStructure(unittest.TestCase):
     def test_insertAtoms(self):
         """check FitStructure.insertAtoms()
         """
-        from diffpy.Structure import Atom
+        from diffpy.structure import Atom
         stru = self.stru
         stru.read(datafile('Ni.stru'), format='pdffit')
         cns = Constraint('@1')

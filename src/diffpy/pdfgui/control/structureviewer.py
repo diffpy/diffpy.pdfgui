@@ -51,7 +51,7 @@ class StructureViewer(object):
                   quoting.  Instances of '%s' in the string are replaced with
                   temporary structure file.  By default '%s'
     fileformat -- structure format that can be loaded by the viewer.
-                  Must be one of output formats supported by diffpy.Structure
+                  Must be one of output formats supported by diffpy.structure
                   package.  By default 'pdb'.
     _tmpdir    -- Temporary directory for structure files opened by the viewer.
                   tmpdir is None before the first call to plot.  The directory
@@ -71,7 +71,7 @@ class StructureViewer(object):
         argstr     -- argument string for the viewer program, it can use
                       shell quoting.  Instances of '%s' are replaced with
                       temporary structure file.
-        fileformat -- structure format supported by diffpy.Structure package.
+        fileformat -- structure format supported by diffpy.structure package.
         """
         # declare instance data
         self.executable = ''
@@ -119,7 +119,7 @@ class StructureViewer(object):
     def getFileFormats():
         """Return list of valid values for the fileformat attribute.
         """
-        from diffpy.Structure.Parsers import outputFormats
+        from diffpy.structure.parsers import outputFormats
         return outputFormats()
     getFileFormats = staticmethod(getFileFormats)
 
@@ -127,7 +127,7 @@ class StructureViewer(object):
     def plot(self, stru):
         """Launch new structure viewer and open a temporary copy of stru.
 
-        stru    -- instance of Structure class from diffpy.Structure
+        stru    -- instance of Structure class from diffpy.structure
 
         No return value.
         Raise ControlConfigError if structure viewer could not be launched.
@@ -203,7 +203,7 @@ class StructureViewer(object):
         Return full path to the temporary file.
         """
         # get extension preferred by fileformat
-        from diffpy.Structure.Parsers import parser_index
+        from diffpy.structure.parsers import parser_index
         ffext = parser_index[self.fileformat]['file_extension']
         d = self._createTemporaryDirectory()
         # Use a simple file name to avoid naming errors. It is common to put

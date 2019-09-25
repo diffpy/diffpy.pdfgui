@@ -16,7 +16,7 @@
 import copy
 import re
 
-from diffpy.Structure import PDFFitStructure
+from diffpy.structure import PDFFitStructure
 from diffpy.pdfgui.control.pdfcomponent import PDFComponent
 from diffpy.pdfgui.control.controlerrors import \
         ControlKeyError, ControlFileError
@@ -48,7 +48,7 @@ class PDFStructure(PDFComponent, PDFFitStructure):
         Return instance of StructureParser used to load the data.
         See Structure.read() for more info.
         """
-        from diffpy.Structure import StructureFormatError
+        from diffpy.structure import StructureFormatError
         try:
             p = PDFFitStructure.read(self, filename, format)
         except StructureFormatError, err:

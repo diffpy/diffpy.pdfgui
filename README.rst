@@ -29,8 +29,8 @@ that are used by PDFgui and its components.
 * matplotlib   - Python 2D plotting library
 * diffpy.pdffit2 - computational engine for PDFgui,
   https://github.com/diffpy/diffpy.pdffit2
-* diffpy.Structure - simple storage and manipulation of atomic
-  structures, https://github.com/diffpy/diffpy.Structure
+* diffpy.structure - simple storage and manipulation of atomic
+  structures, https://github.com/diffpy/diffpy.structure
 * diffpy.utils - shared helper utilities for wx GUI,
   https://github.com/diffpy/diffpy.utils
 

@@ -92,7 +92,7 @@ class TestPDFStructure(unittest.TestCase):
     def test_getvar(self):
         """check PDFStructure.getvar()
         """
-        from diffpy.Structure import Atom
+        from diffpy.structure import Atom
         stru = self.stru
         abcABG = (3.0, 4.0, 5.0, 81, 82, 83)
         stru.lattice.setLatPar(*abcABG)

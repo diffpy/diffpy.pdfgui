@@ -85,7 +85,7 @@ def testdeps():
     '''
     modulenames = '''
         diffpy.pdfgui.tests
-        diffpy.Structure.tests
+        diffpy.structure.tests
         diffpy.pdffit2.tests
         diffpy.utils.tests
     '''.split()

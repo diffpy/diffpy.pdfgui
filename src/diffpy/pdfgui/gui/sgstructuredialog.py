@@ -163,7 +163,7 @@ class SGStructureDialog(wx.Dialog, PDFPanel):
             self.offset[i] = val
 
         # find how many new atoms would be generated
-        from diffpy.Structure.SymmetryUtilities import ExpandAsymmetricUnit
+        from diffpy.structure.symmetryutilities import ExpandAsymmetricUnit
         corepos = [ self.structure[i].xyz for i in self.indices ]
         symposeps = self.structure.symposeps
         eau = ExpandAsymmetricUnit(self.spacegroup, corepos,
