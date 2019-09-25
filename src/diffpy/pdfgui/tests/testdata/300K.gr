@@ -5,7 +5,7 @@ prep=gsas     machine=npdf
 run=300K     background=npdf_00907
 smooth=2    smoothParam=32 32 0    backKillThresh=-1.0
 in beam: radius=0.635     height=2.54
-temp=308     runTitle=Run 1018: LMO - RT (before), HIPPO-furnace                                      
+temp=308     runTitle=Run 1018: LMO - RT (before), HIPPO-furnace
 
 ##### Vanadium     runCorrection=T
 run=npdf_00709     background=npdf_00710
