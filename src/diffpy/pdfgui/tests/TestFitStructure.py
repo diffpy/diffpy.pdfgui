@@ -6,12 +6,15 @@
 
 import unittest
 
+from diffpy.structure import Structure
+from diffpy.pdfgui.control.pdfstructure import PDFStructure
 from diffpy.pdfgui.control.fitstructure import FitStructure
 from diffpy.pdfgui.control.constraint import Constraint
 from diffpy.pdfgui.tests.testutils import datafile
+from diffpy.pdfgui.control.controlerrors import ControlTypeError
 
+# ----------------------------------------------------------------------------
 
-##############################################################################
 class TestFitStructure(unittest.TestCase):
 
 
@@ -265,14 +268,22 @@ class TestFitStructure(unittest.TestCase):
 #       """check FitStructure.applyPairSelection()
 #       """
 #       return
-#
-#
-#   def test_copy(self):
-#       """check FitStructure.copy()
-#       """
-#       return
-#
-#
+
+
+    def test_copy(self):
+        """check FitStructure.copy()
+        """
+        stru2 = self.stru.copy()
+        self.assertEqual('noname', stru2.name)
+        stru3 = Structure()
+        self.assertRaises(ControlTypeError, stru2.copy, stru3)
+        self.stru.refined = PDFStructure('refined-name')
+        stru4 = self.stru.copy()
+        self.assertIsNot(self.stru.refined, stru4.refined)
+        self.assertEqual('refined-name',  stru4.refined.name)
+        return
+
+
 #   def test_load(self):
 #       """check FitStructure.load()
 #       """
@@ -305,6 +316,7 @@ class TestFitStructure(unittest.TestCase):
 
 # End of class TestFitStructure
 
+# ----------------------------------------------------------------------------
 
 if __name__ == '__main__':
     unittest.main()
