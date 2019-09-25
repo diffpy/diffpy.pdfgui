@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 ##############################################################################
 #
-# wxExtensions      by DANSE Diffraction group
+# wxextensions      by DANSE Diffraction group
 #                   Simon J. L. Billinge
 #                   (c) 2006 trustees of the Michigan State University.
 #                   All rights reserved.
@@ -25,7 +25,7 @@ name.
 
 import wx
 import wx.lib.mixins.listctrl as listmix
-from diffpy.pdfgui.gui.wxExtensions import wx12
+from diffpy.pdfgui.gui.wxextensions import wx12
 
 
 class AutoWidthListCtrl(wx12.ListCtrl, listmix.ListCtrlAutoWidthMixin):

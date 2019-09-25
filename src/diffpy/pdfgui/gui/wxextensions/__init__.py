@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 ##############################################################################
 #
-# wxExtensions      by DANSE Diffraction group
+# wxextensions      by DANSE Diffraction group
 #                   Simon J. L. Billinge
 #                   (c) 2006 trustees of the Michigan State University.
 #                   All rights reserved.

@@ -23,11 +23,11 @@ from diffpy.pdffit2 import is_element
 from diffpy.pdfgui.gui.insertrowsdialog import InsertRowsDialog
 from diffpy.pdfgui.gui.pdfpanel import PDFPanel
 from diffpy.pdfgui.gui import tooltips
-from diffpy.pdfgui.gui.wxExtensions.autowidthlabelsgrid import \
+from diffpy.pdfgui.gui.wxextensions.autowidthlabelsgrid import \
         AutoWidthLabelsGrid
-from diffpy.pdfgui.gui.wxExtensions.validators import TextValidator, FLOAT_ONLY
-from diffpy.pdfgui.gui.wxExtensions.textctrlutils import textCtrlAsGridCell
-from diffpy.pdfgui.gui.wxExtensions import wx12
+from diffpy.pdfgui.gui.wxextensions.validators import TextValidator, FLOAT_ONLY
+from diffpy.pdfgui.gui.wxextensions.textctrlutils import textCtrlAsGridCell
+from diffpy.pdfgui.gui.wxextensions import wx12
 from diffpy.pdfgui.gui import phasepanelutils
 from diffpy.utils.wx import gridutils
 
@@ -219,7 +219,7 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
         return
 
     # Create the onTextCtrlKey event handler from textCtrlAsGridCell from
-    # wxExtensions.textctrlutils
+    # wxextensions.textctrlutils
     onTextCtrlKey = textCtrlAsGridCell
 
     def _cache(self):

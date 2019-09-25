@@ -23,8 +23,8 @@
 
 import wx.grid
 from diffpy.pdfgui.gui.pdfpanel import PDFPanel
-from diffpy.pdfgui.gui.wxExtensions import wx12
-from diffpy.pdfgui.gui.wxExtensions.autowidthlabelsgrid import \
+from diffpy.pdfgui.gui.wxextensions import wx12
+from diffpy.pdfgui.gui.wxextensions.autowidthlabelsgrid import \
         AutoWidthLabelsGrid
 from diffpy.utils.wx import gridutils
 

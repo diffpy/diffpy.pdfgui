@@ -23,7 +23,7 @@ import wx
 from diffpy.pdfgui.control.pdfguimacros import makeTemperatureSeries
 from diffpy.pdfgui.gui.pdfpanel import PDFPanel
 from diffpy.pdfgui.gui import tooltips
-from diffpy.pdfgui.gui.wxExtensions.listctrls import AutoWidthListCtrl
+from diffpy.pdfgui.gui.wxextensions.listctrls import AutoWidthListCtrl
 from diffpy.pdfgui.utils import numericStringSort
 
 class TemperatureSeriesPanel(wx.Panel, PDFPanel):

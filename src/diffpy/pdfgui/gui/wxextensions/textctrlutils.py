@@ -2,7 +2,7 @@
 # -*- coding: UTF-8 -*-
 ##############################################################################
 #
-# wxExtensions      by DANSE Diffraction group
+# wxextensions      by DANSE Diffraction group
 #                   Simon J. L. Billinge
 #                   (c) 2009 trustees of Columbia University in the City of
 #                   New York.

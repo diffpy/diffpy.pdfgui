@@ -24,8 +24,8 @@ import wx
 from diffpy.pdfgui.gui.pdfpanel import PDFPanel
 from diffpy.pdfgui.gui import tooltips
 from diffpy.pdfgui.control.pdfguimacros import makeDopingSeries
-from diffpy.pdfgui.gui.wxExtensions.listctrls import AutoWidthListCtrl
-from diffpy.pdfgui.gui.wxExtensions.validators import TextValidator, ALPHA_ONLY
+from diffpy.pdfgui.gui.wxextensions.listctrls import AutoWidthListCtrl
+from diffpy.pdfgui.gui.wxextensions.validators import TextValidator, ALPHA_ONLY
 
 class DopingSeriesPanel(wx.Panel,PDFPanel):
     def __init__(self, *args, **kwds):

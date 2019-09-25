@@ -29,7 +29,7 @@ import cPickle
 from diffpy.pdfgui.gui.pdfguiglobals import iconpath
 from diffpy.pdfgui.control.fitting import Fitting
 from diffpy.pdfgui.control.controlerrors import ControlError
-from diffpy.pdfgui.gui.wxExtensions import wx12
+from diffpy.pdfgui.gui.wxextensions import wx12
 
 class FitTree(wx12.TreeCtrl):
     """TreeCtrl designed to organize pdffit fits.

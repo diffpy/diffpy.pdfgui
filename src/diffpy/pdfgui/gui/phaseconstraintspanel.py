@@ -23,12 +23,12 @@ from diffpy.pdfgui.control.constraint import Constraint
 from diffpy.pdfgui.control.controlerrors import ControlValueError
 from diffpy.pdfgui.gui.pdfpanel import PDFPanel
 from diffpy.pdfgui.gui import tooltips
-from diffpy.pdfgui.gui.wxExtensions.autowidthlabelsgrid import \
+from diffpy.pdfgui.gui.wxextensions.autowidthlabelsgrid import \
         AutoWidthLabelsGrid
-from diffpy.pdfgui.gui.wxExtensions.textctrlutils import textCtrlAsGridCell
+from diffpy.pdfgui.gui.wxextensions.textctrlutils import textCtrlAsGridCell
 from diffpy.pdfgui.gui.sgconstraindialog import SGConstrainDialog
 from diffpy.pdfgui.gui import phasepanelutils
-from diffpy.pdfgui.gui.wxExtensions import wx12
+from diffpy.pdfgui.gui.wxextensions import wx12
 from diffpy.utils.wx import gridutils
 
 
@@ -216,7 +216,7 @@ class PhaseConstraintsPanel(wx.Panel, PDFPanel):
         return
 
     # Create the onTextCtrlKey event handler from textCtrlAsGridCell from
-    # wxExtensions.textctrlutils
+    # wxextensions.textctrlutils
     onTextCtrlKey = textCtrlAsGridCell
 
     def _cache(self):
