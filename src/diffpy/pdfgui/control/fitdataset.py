@@ -17,6 +17,7 @@
 """
 
 import copy
+import six.moves.cPickle as pickle
 import numpy
 
 from diffpy.pdfgui.control.pdfdataset import PDFDataSet
@@ -455,12 +456,11 @@ class FitDataSet(PDFDataSet):
         self.clear()
         subs = subpath.split('/')
         rootDict = z.fileTree[subs[0]][subs[1]][subs[2]][subs[3]]
-        import cPickle
         # raw data
         self.readObsStr(z.read(subpath+'obs'))
 
         # data from calculation
-        content = cPickle.loads(z.read(subpath+'calc'))
+        content = pickle.loads(z.read(subpath+'calc'))
         for item in FitDataSet.persistentItems:
             # skip items which are not in the project file
             if item not in content: continue

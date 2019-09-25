@@ -15,11 +15,12 @@
 
 """Small shared routines:
     numericStringSort   -- sort list of strings according to numeric value
-    safeCPickleDumps    -- same as cPickleDumps, but safe for NaN and Inf
+    safeCPickleDumps    -- same as pickle.dumps, but safe for NaN and Inf
 """
 
 
 from ConfigParser import RawConfigParser
+import six.moves.cPickle as pickle
 
 
 def numericStringSort(lst):
@@ -41,20 +42,19 @@ def numericStringSort(lst):
     return
 
 def safeCPickleDumps(obj):
-    """Get cPickle representation of an object possibly containing NaN or Inf.
-    By default it uses cPickle.HIGHEST_PROTOCOL, but falls back to ASCII
+    """Get pickle representation of an object possibly containing NaN or Inf.
+    By default it uses pickle.HIGHEST_PROTOCOL, but falls back to ASCII
     protocol 0 if there is SystemError frexp() exception.
 
     obj -- object to be pickled
 
-    Return cPickle string.
+    Return pickle string.
     """
-    import cPickle
     ascii_protocol = 0
     try:
-        s = cPickle.dumps(obj, cPickle.HIGHEST_PROTOCOL)
+        s = pickle.dumps(obj, pickle.HIGHEST_PROTOCOL)
     except SystemError:
-        s = cPickle.dumps(obj, ascii_protocol)
+        s = pickle.dumps(obj, ascii_protocol)
     return s
 
 

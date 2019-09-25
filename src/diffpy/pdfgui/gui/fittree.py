@@ -24,7 +24,7 @@ Exceptions:
 
 import wx
 import re
-import cPickle
+import six.moves.cPickle as pickle
 
 from diffpy.pdfgui.gui.pdfguiglobals import iconpath
 from diffpy.pdfgui.control.fitting import Fitting
@@ -556,7 +556,7 @@ class FitTree(wx12.TreeCtrl):
         if isinstance(cdata, Fitting):
             cdata = cdata.stripped()
         cdata.type = nodetype
-        cdatastring = cPickle.dumps(cdata)
+        cdatastring = pickle.dumps(cdata)
         cdatastring = "pdfgui_cliboard=" + cdatastring
         textdata = wx.TextDataObject(cdatastring)
         if not wx.TheClipboard.IsOpened():
@@ -589,14 +589,9 @@ class FitTree(wx12.TreeCtrl):
         if cdatastring[:16] == "pdfgui_cliboard=":
             cdatastring = cdatastring[16:]
             try:
-                cdata = cPickle.loads(str(cdatastring))
+                cdata = pickle.loads(str(cdatastring))
             except:
                 pass
-
-        #try:
-        #    cdata = cPickle.loads(str(cdatastring))
-        #except (cPickle.UnpicklingError, UnicodeEncodeError, EOFError):
-        #    cdata = None
         return cdata
 
     def PasteBranch(self, entrypoint = None):

@@ -19,6 +19,7 @@ import sys
 import os
 import threading
 import time
+import six.moves.cPickle as pickle
 
 from diffpy.pdfgui.control.pdflist import PDFList
 from diffpy.pdfgui.control.fitting import Fitting
@@ -359,7 +360,6 @@ class PDFGuiControl:
         self.projfile = projfile
         organizations = []
         import zipfile
-        from cPickle import PickleError
         from diffpy.pdfgui.utils import quote_plain
 
         # IOError can be raised when reading invalid zipfile
@@ -409,7 +409,7 @@ class PDFGuiControl:
                 organizations.append(org)
                 self.add(fit)
 
-        except (IOError, zipfile.error, PickleError):
+        except (IOError, zipfile.error, pickle.PickleError):
             raise ControlFileError(emsg_invalid_file)
 
         # close input file if opened
@@ -437,7 +437,6 @@ class PDFGuiControl:
 
         import zipfile
         import shutil
-        from cPickle import PickleError
         import tempfile
         from diffpy.pdfgui.utils import quote_plain
 
@@ -463,7 +462,7 @@ class PDFGuiControl:
             z.close()
             shutil.copyfile(tmpfilename, self.projfile)
 
-        except (IOError, PickleError):
+        except (IOError, pickle.PickleError):
             emsg = "Error when writing to %s" % self.projfile
             raise ControlFileError(emsg)
 
@@ -568,9 +567,8 @@ class CtrlUnpickler:
     pickle.
     '''
     def loads(s):
-        import cPickle
         try:
-            return cPickle.loads(s)
+            return pickle.loads(s)
         except ImportError,err:
             missedModule = str(err).split(' ')[-1]
             if missedModule.find('pdfgui.control') == -1:
@@ -580,7 +578,7 @@ class CtrlUnpickler:
             except ImportError:
                 from StringIO import StringIO
             f = StringIO(s)
-            unpickler = cPickle.Unpickler(f)
+            unpickler = pickle.Unpickler(f)
             unpickler.find_global = _find_global
             return unpickler.load()
     loads = _StaticMethod(loads)

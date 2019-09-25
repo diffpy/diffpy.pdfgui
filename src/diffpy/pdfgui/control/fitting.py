@@ -15,6 +15,7 @@
 
 from __future__ import print_function
 
+import six.moves.cPickle as pickle
 import threading
 import time
 
@@ -193,15 +194,14 @@ class Fitting(Organizer):
         subs = subpath.split('/')
         rootDict = z.fileTree[subs[0]][subs[1]]
 
-        import cPickle
         if rootDict.has_key('parameters'):
             from diffpy.pdfgui.control.pdfguicontrol import CtrlUnpickler
             self.parameters = CtrlUnpickler.loads(z.read(subpath+'parameters'))
         if rootDict.has_key('steps'):
             self.itemIndex, self.dataNameDict, self.snapshots = \
-                    cPickle.loads(z.read(subpath+'steps'))
+                    pickle.loads(z.read(subpath+'steps'))
         if rootDict.has_key('result'):
-            self.rw, self.res = cPickle.loads(z.read(subpath+'result'))
+            self.rw, self.res = pickle.loads(z.read(subpath+'result'))
 
         return Organizer.load(self, z, subpath)
 

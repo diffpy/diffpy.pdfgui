@@ -18,7 +18,7 @@
 
 import copy
 import math
-import types
+import six.moves.cPickle as pickle
 
 from diffpy.pdfgui.control.controlerrors import ControlConfigError
 from diffpy.pdfgui.control.controlerrors import ControlKeyError
@@ -248,8 +248,7 @@ class Calculation(PDFComponent):
 
         returns a tree of internal hierachy
         """
-        import cPickle
-        config = cPickle.loads(z.read(subpath + 'config'))
+        config = pickle.loads(z.read(subpath + 'config'))
         self.rmin = config['rmin']
         self.rstep = config['rstep']
         self.rmax = config['rmax']
