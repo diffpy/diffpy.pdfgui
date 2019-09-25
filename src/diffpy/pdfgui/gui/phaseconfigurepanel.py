@@ -18,7 +18,7 @@
 
 import wx
 import wx.grid
-from diffpy.Structure import Atom
+from diffpy.structure import Atom
 from diffpy.pdffit2 import is_element
 from diffpy.pdfgui.gui.insertrowsdialog import InsertRowsDialog
 from diffpy.pdfgui.gui.pdfpanel import PDFPanel
