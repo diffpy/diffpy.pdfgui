@@ -39,7 +39,7 @@ requirements:
     - wxpython 4.*
     - menuinst                  [win]
     - diffpy.pdffit2
-    - diffpy.structure
+    - diffpy.structure >=3
     - diffpy.utils
 
 test:
