@@ -13,6 +13,8 @@
 #
 ##############################################################################
 
+from __future__ import print_function
+
 import threading
 import time
 
@@ -52,7 +54,7 @@ def handleEngineException(error, gui=None):
     if gui:
         gui.postEvent(gui.ERROR, "<Engine exception> %s" % errorInfo)
     else:
-        print "<Engine exception> %s" % errorInfo
+        print("<Engine exception> %s" % errorInfo)
     return
 
 ##############################################################################
@@ -97,7 +99,7 @@ class Fitting(Organizer):
                 if gui:
                     gui.postEvent(gui.ERROR, "<Fitting exception> %s" % error.info)
                 else:
-                    print "<Fitting exception> %s" % error.info
+                    print("<Fitting exception> %s" % error.info)
             except getEngineExceptions(), error:
                 gui = self.fitting.controlCenter.gui
                 handleEngineException(error, gui)

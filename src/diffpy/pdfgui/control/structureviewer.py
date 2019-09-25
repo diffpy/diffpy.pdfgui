@@ -16,6 +16,8 @@
 """Structure plotting in an external viewer process.
 """
 
+from __future__ import print_function
+
 import sys
 import os.path
 import tempfile
@@ -156,7 +158,7 @@ class StructureViewer(object):
         if self._tmpdir is None:    return
         # Function for showing unremovable files
         def onerror(fnc, path, error):
-            print >> sys.stderr, ('Cannot remove %s - %s' % (path, error))
+            print(('Cannot remove %s - %s' % (path, error)), file=sys.stderr)
             return
         # For safety remove _tmpdir subdirectories by their names
         for i in range(self._plotcount):

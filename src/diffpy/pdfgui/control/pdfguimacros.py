@@ -15,6 +15,8 @@
 
 """Methods for macros used in pdfgui."""
 
+from __future__ import print_function
+
 import os
 import copy
 
@@ -353,6 +355,6 @@ if __name__ == "__main__":
     control.load("../../tests/testdata/ni.ddp")
     fit = control.fits[0]
     olist = makeRSeries(control, fit, 5, 20, 5)
-    print '\n'.join([f[0].name for f in olist])
+    print('\n'.join(f[0].name for f in olist))
 
 # End of file

@@ -13,6 +13,7 @@
 #
 ##############################################################################
 
+from __future__ import print_function
 
 import sys
 import os
@@ -77,7 +78,7 @@ class PDFGuiControl:
                     if gui:
                         gui.postEvent(gui.ERROR, "<Queue exception> %s"%error.info)
                     else:
-                        print "<Queue exception> %s"%error.info
+                        print("<Queue exception> %s"%error.info)
                 # another check before go to sleep
                 if not self.running: break
                 time.sleep(1)
