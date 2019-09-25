@@ -59,6 +59,7 @@ def iconpath(iconfilename):
     Return string.
     """
     rv = os.path.join(APPDATADIR, 'icons', iconfilename)
+    assert os.path.isfile(rv), "icon file does not exist"
     return rv
 
 
