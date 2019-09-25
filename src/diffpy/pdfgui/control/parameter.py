@@ -188,12 +188,3 @@ class Parameter:
         return ref
 
 # End of class Parameter
-
-# simple test code
-if __name__ == "__main__":
-    p = Parameter(3)
-    p.setInitial(0.55)
-    print "p.initialStr() =", p.initialStr()
-    print "p.initialValue() =", p.initialValue()
-
-# End of file

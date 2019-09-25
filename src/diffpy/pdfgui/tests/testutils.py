@@ -136,10 +136,13 @@ class GUITestCase(TestCase):
         pdfguiglobals.dbopts.noconfirm = True
         cls._save_cmdargs = list(pdfguiglobals.cmdargs)
         cls._save_configfilename = pdfguiglobals.configfilename
-        mainframe.pdfguicontrol = pdfguicontrol.PDFGuiControl
-        cls._save_qmrun = pdfguicontrol.PDFGuiControl.QueueManager.run
+        cls._save_qmrun = (pdfguicontrol.PDFGuiControl.QueueManager.run,)
         pdfguicontrol.PDFGuiControl.QueueManager.run = lambda self: None
-        cls._save_factory = mainframe.pdfguicontrol
+        cls._save_factory = (mainframe.pdfguicontrol,)
+        cls.__pdfguicontrol = None
+        assert mainframe.pdfguicontrol is pdfguicontrol.pdfguicontrol
+        mainframe.pdfguicontrol = cls.pdfguicontrol
+        pdfguicontrol.pdfguicontrol = cls.pdfguicontrol
         pdfguiglobals.configfilename = os.devnull
         return
 
@@ -149,8 +152,11 @@ class GUITestCase(TestCase):
         pdfguiglobals.dbopts.noconfirm = cls._save_noconfirm
         pdfguiglobals.cmdargs[:] = cls._save_cmdargs
         pdfguiglobals.configfilename = cls._save_configfilename
-        pdfguicontrol.PDFGuiControl.QueueManager.run = cls._save_qmrun
-        mainframe.pdfguicontrol = cls._save_factory
+        pdfguicontrol.PDFGuiControl.QueueManager.run, = cls._save_qmrun
+        mainframe.pdfguicontrol, = cls._save_factory
+        pdfguicontrol.pdfguicontrol, = cls._save_factory
+        assert mainframe.pdfguicontrol is pdfguicontrol.pdfguicontrol
+        cls.__pdfguicontrol = None
         return
 
     @classmethod
@@ -158,6 +164,13 @@ class GUITestCase(TestCase):
         assert hasattr(cls, '_save_cmdargs')
         pdfguiglobals.cmdargs[:] = args
         return
+
+    @classmethod
+    def pdfguicontrol(cls, *args, **kwargs):
+        if cls.__pdfguicontrol is not None:
+            return cls.__pdfguicontrol
+        cls.__pdfguicontrol = pdfguicontrol.PDFGuiControl(*args, **kwargs)
+        return cls.pdfguicontrol()
 
     @staticmethod
     def _mockUpMainFrame():

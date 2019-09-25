@@ -734,7 +734,7 @@ class FitStructure(PDFStructure):
             if self.refined is None:
                 other.refined = None
             else:
-                self.refined.copy(other.refined)
+                other.refined = self.refined.copy(other.refined)
         # copy constraints
         other.constraints = copy.deepcopy(self.constraints)
         other.selected_pairs = self.selected_pairs
