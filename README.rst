@@ -96,7 +96,7 @@ PDFgui can use an external structure viewer for displaying analyzed
 structures.  We have tested with several structure viewers such as
 
 * AtomEye, http://li.mit.edu/A/Graphics/A/
-* PyMol, http://www.pymol.org
+* PyMol, https://www.pymol.org
 
 Other viewers should work as well, as long as they understand one of
 the output structure formats supported by PDFgui.
@@ -120,6 +120,6 @@ CONTACTS
 
 For more information on PDFgui please visit the project web-page:
 
-http://www.diffpy.org/products/pdfgui.html
+https://www.diffpy.org/products/pdfgui.html
 
 or email Prof. Simon Billinge at sb2896@columbia.edu

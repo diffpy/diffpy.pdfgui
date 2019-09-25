@@ -175,7 +175,7 @@ as well.
 Instead of rewriting the PDFfit command interpreter, which is used
 to define the fitting problem and to control and run the refinement,
 its functions are carried out using the Python language
-(@url{http://www.python.org}). Python is a powerful, cross-platform,
+(@url{https://www.python.org}). Python is a powerful, cross-platform,
 open-source interpreted programming language (i.e., it does not need
 to be compiled to run, similar to scripting) that emphasizes
 object-oriented and modular design. PDFfit2 scripts written in
@@ -212,7 +212,7 @@ written in a variety of programming languages can be bound into Python, which
 allows them to be used together. Python is becoming a popular choice in the
 scientific computation community.
 
-PDFgui's interface is built using wxPython (@url{http://www.wxPython.org}), the
+PDFgui's interface is built using wxPython (@url{https://www.wxpython.org}), the
 Python package for wxWidgets, a mature cross-platform GUI library.  Graphical
 applications written in wxPython provide a look and feel native to the platform
 on which they are run.  PDFgui is designed to run on Windows, Mac OS, Linux,
@@ -243,10 +243,10 @@ show a local distortion. The code for space group definitions was provided by
 the Python Macromolecular Library (mmLib,
 @url{http://pymmlib.sourceforge.net}).  This was extened to include
 non-standard space groups using the Computational Crystallography Toolbox
-(cctbx, @uref{http://cctbx.sourceforge.net}).  PDFgui also supports supercell
+(cctbx, @uref{https://cctbx.github.io}).  PDFgui also supports supercell
 expansion of a normal unit cell.
 
-PDFgui uses the matplotlib (@url{http://matplotlib.org}) Python
+PDFgui uses the matplotlib (@url{https://matplotlib.org}) Python
 package for 2D plotting of data and results. Matplotlib has a friendly
 interface so the user can quickly and easily view the results of a fitting.
 PDFgui lets users plot data from a series of fits and plot it against selected
@@ -256,7 +256,7 @@ parameters or variables in real time as the refinement evolves, and save plots
 in common image formats or export the data to a text file.  PDFgui can be
 configured to use one of many structure visualization packages, such as AtomEye
 (@url{http://li.mit.edu/A/Graphics/A/}) or PyMOL
-(@url{http://www.pymol.org}).
+(@url{https://www.pymol.org}).
 
 PDFgui supports built-in macros for advanced fits. For a set of experimental
 data from one system at different temperatures or doping levels, PDFgui can
@@ -273,7 +273,7 @@ PDFfit2 and PDFgui are open source and distributed under a BSD license.  They
 run on Windows, Mac OS, Linux, and all major Unix systems. The source code is
 freely available. For more information please contact Professor Simon Billinge
 (@email{sb2896@@columbia.edu}) or consult the web-page
-@url{http://www.diffpy.org}. News of updates and releases will be posted at
+@url{https://www.diffpy.org}. News of updates and releases will be posted at
 this website and on the diffpy-users group at
 @url{https://groups.google.com/d/forum/diffpy-users}.
 
@@ -285,7 +285,7 @@ this website and on the diffpy-users group at
 PDFgui is included as a part of DiffPy, a suite of Python and C++
 libraries for structure analysis from diffraction data.  For more
 information about DiffPy products visit the project homepage at
-@url{http://www.diffpy.org}.
+@url{https://www.diffpy.org}.
 
 @menu
 * Installation for Anaconda Python::
@@ -347,7 +347,7 @@ AtomEye structure viewer, XCFG format @*
 
 @item PyMOL
 PyMOL structure viewer, PDB format @*
-@url{http://www.pymol.org}
+@url{https://www.pymol.org}
 @end table
 
 @noindent
@@ -570,7 +570,7 @@ that accepts structure file as a command-line argument.
 Added 249 space group
 representations in non-standard settings.  The new representations
 were generated using the
-@uref{http://cctbx.sourceforge.net,cctbx library} and helpful
+@uref{https://cctbx.github.io,cctbx library} and helpful
 hints from Ralf W. Grosse-Kunstleve.
 
 @item symmetry constraints
@@ -1515,7 +1515,7 @@ obtained by introducing anisotropic ADPs, where again values related to the
 z-direction will remain abnormally large most probably due to the stacking
 related disorder.  A detailed description of this system and successful
 PDF modeling can be found in this publication:
-@url{http://link.aps.org/doi/10.1103/PhysRevB.76.115413,Quantitative
+@url{https://link.aps.org/doi/10.1103/PhysRevB.76.115413,Quantitative
 size-dependent structure and strain determination of CdSe nanoparticles using
 atomic pair distribution function analysis}.
 
@@ -1623,7 +1623,7 @@ Python scripts in the expert command line mode, similar to that featured in the
 PDFFIT program.  Handling these situations requires detailed knowledge of the
 PDFfit2 syntax based on Python, which is beyond the scope of this user guide
 and will be described elsewhere. Refer to the PDFfit2 API
-(@url{http://www.diffpy.org/doc/pdffit2/} and the diffpy-users
+(@url{https://www.diffpy.org/doc/pdffit2} and the diffpy-users
 group (@url{https://groups.google.com/d/forum/diffpy-users}) for help with PDFfit2
 scripting.
 

@@ -15,7 +15,7 @@ Copyright 2008-2017, Board of Trustees of Columbia University in the
 city of New York.  (Copyright holder indicated in each source file).
 
 For more information please visit the project web-page:
-    http://www.diffpy.org/
+    https://www.diffpy.org
 or email Prof. Simon Billinge at sb2896@columbia.edu
 
 Redistribution and use in source and binary forms, with or without

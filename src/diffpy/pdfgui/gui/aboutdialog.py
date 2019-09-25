@@ -41,12 +41,12 @@ following paper in your publication:
 
 _copyright = "(c) 2005-{year},".format(year= __date__[:4])
 
-_homepage = "http://www.diffpy.org"
+_homepage = "https://www.diffpy.org"
 
 # authors list is shuffled randomly every time
 _authors = ["S. J. L. Billinge", "E. S. Bozin", "D. Bryndin",
                 "C. L. Farrow", "P. Juhas", "J. W. Liu"]
-_paper = "http://stacks.iop.org/0953-8984/19/335219"
+_paper = "https://stacks.iop.org/0953-8984/19/335219"
 _license = ""
 
 
@@ -190,7 +190,7 @@ class DialogAbout(wx.Dialog):
         # end wxGlade
 
     def onNsfLogo(self, event): # wxGlade: DialogAbout.<event_handler>
-        launchBrowser("http://www.nsf.gov")
+        launchBrowser("https://www.nsf.gov")
         event.Skip()
 
     def onDanseLogo(self, event): # wxGlade: DialogAbout.<event_handler>
@@ -198,11 +198,11 @@ class DialogAbout(wx.Dialog):
         event.Skip()
 
     def onMsuLogo(self, event): # wxGlade: DialogAbout.<event_handler>
-        launchBrowser("http://www.msu.edu")
+        launchBrowser("https://www.msu.edu")
         event.Skip()
 
     def onColumbiaLogo(self, event): # wxGlade: DialogAbout.<event_handler>
-        launchBrowser("http://www.columbia.edu")
+        launchBrowser("https://www.columbia.edu")
         event.Skip()
 
 # end of class DialogAbout
