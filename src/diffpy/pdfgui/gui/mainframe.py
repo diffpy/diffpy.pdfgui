@@ -54,7 +54,7 @@ from diffpy.pdfgui.gui import pdfguiglobals
 from diffpy.pdfgui.gui.pdfguiglobals import iconpath, docMainFile
 from diffpy.pdfgui.gui.errorwrapper import catchObjectErrors
 
-from diffpy.pdfgui.gui.wxExtensions import wx12
+from diffpy.pdfgui.gui.wxextensions import wx12
 
 (PDFCustomEvent, EVT_PDFCUSTOM) = wx.lib.newevent.NewEvent()
 

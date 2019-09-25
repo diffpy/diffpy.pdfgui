@@ -113,7 +113,7 @@ def main():
     # bail out when no gui is needed
     if not proceed:     sys.exit()
     # initialize gui
-    import diffpy.pdfgui.gui.Main as guimain
+    import diffpy.pdfgui.gui.main as guimain
     # Catch control errors, that may happen during project
     # loading, before the GUI gets running
     from diffpy.pdfgui.control.controlerrors import ControlError

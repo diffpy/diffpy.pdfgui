@@ -20,8 +20,8 @@ import wx
 import sys
 from diffpy.pdfgui.utils import numericStringSort
 from diffpy.pdfgui.gui import tooltips
-from diffpy.pdfgui.gui.wxExtensions.listctrls import KeyEventsListCtrl
-from diffpy.pdfgui.gui.wxExtensions.validators import TextValidator, FLOAT_ONLY
+from diffpy.pdfgui.gui.wxextensions.listctrls import KeyEventsListCtrl
+from diffpy.pdfgui.gui.wxextensions.validators import TextValidator, FLOAT_ONLY
 from diffpy.pdfgui.gui.pdfpanel import PDFPanel
 from diffpy.pdfgui.control.controlerrors import ControlConfigError
 

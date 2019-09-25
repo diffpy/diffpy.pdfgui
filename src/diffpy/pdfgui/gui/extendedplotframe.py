@@ -28,7 +28,7 @@ from matplotlib.artist import setp
 from matplotlib.font_manager import FontProperties
 import wx
 
-from diffpy.pdfgui.gui.wxExtensions import wx12
+from diffpy.pdfgui.gui.wxextensions import wx12
 from diffpy.pdfgui.gui.pdfguiglobals import iconpath
 
 DATA_SAVE_ID  = wx12.NewIdRef()
