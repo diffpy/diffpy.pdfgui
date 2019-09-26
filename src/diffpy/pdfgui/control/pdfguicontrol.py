@@ -31,6 +31,7 @@ from diffpy.pdfgui.control.fitstructure import FitStructure
 from diffpy.pdfgui.control.controlerrors import ControlError
 from diffpy.pdfgui.control.controlerrors import ControlFileError
 from diffpy.pdfgui.control.controlerrors import ControlTypeError
+from diffpy.pdfgui.utils import asunicode, quote_plain
 
 
 class PDFGuiControl:
@@ -359,7 +360,6 @@ class PDFGuiControl:
         self.projfile = projfile
         organizations = []
         import zipfile
-        from diffpy.pdfgui.utils import quote_plain, asunicode
 
         # IOError can be raised when reading invalid zipfile
         # check for file existence here.
@@ -437,7 +437,6 @@ class PDFGuiControl:
         import zipfile
         import shutil
         import tempfile
-        from diffpy.pdfgui.utils import quote_plain
 
         projbase = os.path.basename(self.projfile)
         projName = os.path.splitext(projbase)[0]
@@ -455,9 +454,9 @@ class PDFGuiControl:
                 fit.save(z, projName + '/' + quote_plain(fit.name) + '/')
                 fitnames.append(name)
             if self.journal:
-                z.writestr(projName + '/journal', self.journal.encode('utf8'))
+                z.writestr(projName + '/journal', asunicode(self.journal))
             ftxt = '\n'.join(fitnames)
-            z.writestr(projName + '/fits', ftxt.encode('utf8'))
+            z.writestr(projName + '/fits', asunicode(ftxt))
             z.close()
             shutil.copyfile(tmpfilename, self.projfile)
 
