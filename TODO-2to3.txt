@@ -1,15 +1,1 @@
-src/diffpy/pdfgui/tests/testinsertrowsdialog.py
-src/diffpy/pdfgui/tests/testloadproject.py
-src/diffpy/pdfgui/tests/testmainframe.py
-src/diffpy/pdfgui/tests/testparameter.py
-src/diffpy/pdfgui/tests/testparameterspanel.py
-src/diffpy/pdfgui/tests/testpdfdataset.py
-src/diffpy/pdfgui/tests/testpdfguicontrol.py
-src/diffpy/pdfgui/tests/testpdfstructure.py
-src/diffpy/pdfgui/tests/testphaseconfigurepanel.py
-src/diffpy/pdfgui/tests/teststructureviewer.py
-src/diffpy/pdfgui/tests/testtemperatureseriespanel.py
-src/diffpy/pdfgui/tests/testutils.py
-src/diffpy/pdfgui/tui.py
-src/diffpy/pdfgui/utils.py
 src/diffpy/pdfgui/version.py

@@ -36,8 +36,7 @@ def numericStringSort(lst):
     rx = re.compile(r'(\d+)')
     keys = [ rx.split(s) for s in lst ]
     for k in keys:  k[1::2] = [ int(i) for i in k[1::2] ]
-    newlst = zip(keys, lst)
-    newlst.sort()
+    newlst = sorted(zip(keys, lst))
     lst[:] = [kv[1] for kv in newlst]
     return
 
