@@ -7,6 +7,9 @@ os:
 
 env:
   - MYUSEMC=true MYPYTHON_VERSION=2.7
+  - MYUSEMC=true MYPYTHON_VERSION=3.5
+  - MYUSEMC=true MYPYTHON_VERSION=3.6
+  - MYUSEMC=true MYPYTHON_VERSION=3.7
   - MYUSEMC=false
 
 matrix:
@@ -74,6 +77,7 @@ before_install:
   - $NOAPT || devutils/makesdist
   - $NOAPT || MYTARBUNDLE="$(ls -t "${PWD}"/dist/*.tar.gz | head -1)"
 
+
 install:
   - $NOMC || conda build --python=${MYPYTHON_VERSION} --no-test conda-recipe
   - $NOMC || conda render --python=${MYPYTHON_VERSION} --output conda-recipe |
@@ -93,6 +97,7 @@ install:
         exit 1;
     fi
 
+
 before_script:
   # provide shell functions to execute coverage with GUI support
   - case ${TRAVIS_OS_NAME} in
@@ -102,8 +107,10 @@ before_script:
         guicoverage() { pythonw -m coverage "$@"; } ;;
     esac
 
+
 script:
   - guicoverage run --source ${MYNAME} -m ${MYNAME}.tests.rundeps
+
 
 after_success:
   - pip install $MYPIPFLAGS codecov
