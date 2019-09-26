@@ -19,6 +19,7 @@
 """
 
 
+import six
 from six.moves.configparser import RawConfigParser
 import six.moves.cPickle as pickle
 
@@ -58,6 +59,8 @@ def safeCPickleDumps(obj):
 
 
 # This should be unnecessary in Python 3
+# TODO - replace getquoted/setquoted with get/set after dropping Python 2
+
 class QuotedConfigParser(RawConfigParser):
 
     def getquoted(self, section, option):
@@ -66,7 +69,7 @@ class QuotedConfigParser(RawConfigParser):
         This allows to work with unicode strings.
         """
         vq = self.get(section, option)
-        rv = vq.decode('utf8')
+        rv = vq.decode('utf8') if six.PY2 else vq
         return rv
 
 
@@ -76,7 +79,7 @@ class QuotedConfigParser(RawConfigParser):
         This allows to store and write out unicode strings.
         Use getquoted to recover the decoded value.
         """
-        vq = value.encode('utf8')
+        vq = value.encode('utf8') if six.PY2 else value
         return self.set(section, option, vq)
 
 # class QuotedConfigParser
