@@ -1,5 +1,3 @@
-src/diffpy/pdfgui/control/__init__.py
-src/diffpy/pdfgui/control/calculation.py
 src/diffpy/pdfgui/control/constraint.py
 src/diffpy/pdfgui/control/controlerrors.py
 src/diffpy/pdfgui/control/fitdataset.py

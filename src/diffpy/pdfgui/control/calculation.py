@@ -122,7 +122,7 @@ class Calculation(PDFComponent):
         from diffpy.pdfgui.control.fitting import getEngineExceptions,handleEngineException
         try:
             self.calculate()
-        except getEngineExceptions(), error:
+        except getEngineExceptions() as error:
             gui = self.owner.controlCenter.gui
             handleEngineException(error, gui)
 
@@ -226,7 +226,7 @@ class Calculation(PDFComponent):
             qmax_line = 'qmax=%.2f' % self.qmax
         lines.append(qmax_line)
         # qdamp
-        if type(self.qdamp) is types.FloatType:
+        if isinstance(self.qdamp, float):
             lines.append('qdamp=%g' % self.qdamp)
         # qbroad
         if self.qbroad:
