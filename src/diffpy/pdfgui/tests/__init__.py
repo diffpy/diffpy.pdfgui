@@ -83,6 +83,7 @@ def testdeps():
     -------
     result : `unittest.TestResult`
     '''
+    from importlib import import_module
     modulenames = '''
         diffpy.pdfgui.tests
         diffpy.structure.tests
@@ -90,10 +91,9 @@ def testdeps():
         diffpy.utils.tests
     '''.split()
     suite = unittest.TestSuite()
-    t = None
     for mname in modulenames:
-        exec ('from %s import testsuite as t' % mname)
-        suite.addTests(t())
+        mod = import_module(mname)
+        suite.addTests(mod.testsuite())
     runner = unittest.TextTestRunner()
     result = runner.run(suite)
     return result
