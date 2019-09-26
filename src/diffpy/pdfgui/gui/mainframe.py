@@ -1481,7 +1481,7 @@ class MainFrame(wx.Frame):
                 # not, we disable pasteLink
                 fitname = cdata.name
                 fits = self.treeCtrlMain.GetChildren(self.treeCtrlMain.root)
-                fitnames = map(self.treeCtrlMain.GetItemText, fits)
+                fitnames = set(map(self.treeCtrlMain.GetItemText, fits))
                 if fitname not in fitnames:
                     menu.Enable(self.pasteLinkId, False)
             # pasteLink only if there's a fit in the clipboard
@@ -1735,7 +1735,7 @@ class MainFrame(wx.Frame):
         cdata = self.treeCtrlMain.GetClipboard()
         fitname = cdata.name
         fits = self.treeCtrlMain.GetChildren(self.treeCtrlMain.root)
-        fitnames = map(self.treeCtrlMain.GetItemText, fits)
+        fitnames = set(map(self.treeCtrlMain.GetItemText, fits))
         if fitname not in fitnames: return
 
         ep = None
@@ -1745,7 +1745,7 @@ class MainFrame(wx.Frame):
         newnode = self.treeCtrlMain.PasteBranch(ep)
         # Now link the fit
         newfit = self.treeCtrlMain.GetControlData(newnode)
-        oldparnames = cdata.parameters.keys()
+        oldparnames = set(cdata.parameters.keys())
         for (parname, par) in newfit.parameters.items():
             if parname in oldparnames:
                 parval = "=%s:%s" % (fitname, parname)
@@ -1812,7 +1812,7 @@ class MainFrame(wx.Frame):
         # find a node to choose after deletion
         fitroot = None
         roots = self.treeCtrlMain.GetChildren(self.treeCtrlMain.root)
-        delroots = map(self.treeCtrlMain.GetFitRoot, selections)
+        delroots = list(map(self.treeCtrlMain.GetFitRoot, selections))
         # Find the fit node above the first removed node.
         for root in roots:
             if root in selections:
@@ -1880,7 +1880,7 @@ class MainFrame(wx.Frame):
                 self.runningDict[name] = sel
         self.needsSave()
 
-        IDlist = map(self.treeCtrlMain.GetControlData, allnodes)
+        IDlist = list(map(self.treeCtrlMain.GetControlData, allnodes))
         self.control.start(IDlist)
         return
 
@@ -2092,7 +2092,7 @@ class MainFrame(wx.Frame):
         import webbrowser
         try:
             webbrowser.open(USERSMAILINGLIST)
-        except Exception, e:
+        except Exception as e:
             errorinfo = 'Failed to open "%s"' % e
             raise ControlError(errorinfo)
         return
@@ -2221,7 +2221,7 @@ class MainFrame(wx.Frame):
                 self.workpath = os.path.dirname(self.fullpath)
                 self.fileHistory.AddFileToHistory(self.fullpath)
                 self.updateTitle()
-            except ControlError, e:
+            except ControlError as e:
                 self.fileHistory.RemoveFileFromHistory(index)
                 self.updateConfiguration()
                 self.writeConfiguration()
