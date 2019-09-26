@@ -73,7 +73,7 @@ class Constraint:
 
         returns lambda function
         """
-        expr = re.sub('@(\d*)', r'p[\1]', self.formula)
+        expr = re.sub(r'@(\d*)', r'p[\1]', self.formula)
         f = eval('lambda p:' + expr, vars(math))
         return f
 
@@ -119,7 +119,7 @@ class Constraint:
         # here we are assigning to formula
         # first we need to check it it is valid
         newformula = value
-        pars = re.findall('@\d+', newformula)
+        pars = re.findall(r'@\d+', newformula)
         # require at least one parameter in the formula
         if len(pars) == 0:
             message = "No parameter in formula '%s'" % newformula
@@ -128,7 +128,7 @@ class Constraint:
             # this raises ControlSyntaxError if newformula is invalid
             # define fncx in math module namespace
             fncx = eval('lambda x:' +
-                        re.sub('@\d+', 'x', newformula), vars(math))
+                        re.sub(r'@\d+', 'x', newformula), vars(math))
             # check if fncx(0.25) is float
             fncx(0.25) + 0.0
         except (ValueError, SyntaxError, TypeError, NameError):

@@ -733,7 +733,7 @@ class FitTree(wx12.TreeCtrl):
         # In that case, just add a number to indicate which copy it is.
         siblings = self.GetChildren(entrypoint)
         labels = [self.GetItemText(sb) for sb in siblings]
-        match = "_copy\d*$"
+        match = r"_copy\d*$"
         label = re.sub(match, '', oldlabel)
         label += "_copy"
         label = incrementName(label, labels)
@@ -900,7 +900,7 @@ def incrementName(name, namelist, start = 1):
     that the name does not appear in the namelist.
     """
     newname = name
-    match = "\d+$"
+    match = r"\d+$"
     counter = start
     while newname in namelist:
         newname = re.sub(match, '', name)
