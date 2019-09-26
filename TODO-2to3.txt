@@ -1,10 +1,3 @@
-src/diffpy/pdfgui/gui/__init__.py
-src/diffpy/pdfgui/gui/aboutdialog.py
-src/diffpy/pdfgui/gui/adddatapanel.py
-src/diffpy/pdfgui/gui/addphasepanel.py
-src/diffpy/pdfgui/gui/blankpanel.py
-src/diffpy/pdfgui/gui/bondangledialog.py
-src/diffpy/pdfgui/gui/bondlengthdialog.py
 src/diffpy/pdfgui/gui/calculationpanel.py
 src/diffpy/pdfgui/gui/datasetconfigurepanel.py
 src/diffpy/pdfgui/gui/datasetconstraintpanel.py
