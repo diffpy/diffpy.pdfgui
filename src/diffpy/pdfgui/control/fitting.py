@@ -336,21 +336,19 @@ class Fitting(Organizer):
             struc.clearRefined()
             self.server.read_struct_string(struc.initial.writeStr("pdffit") )
             for key, var in struc.constraints.items():
-                key_ascii = key.encode('ascii')
-                formula_ascii = var.formula.encode('ascii')
-                self.server.constrain(key_ascii, formula_ascii)
+                self.server.constrain(key, var.formula)
 
         # phase paramters configured
 
         for dataset in self.datasets:
             dataset.clearRefined()
             self.server.read_data_string(dataset.writeResampledObsStr(),
-                                         dataset.stype.encode('ascii'),
+                                         dataset.stype,
                                          dataset.qmax,
                                          dataset.qdamp)
             self.server.setvar('qbroad', dataset.qbroad)
             for key,var in dataset.constraints.items():
-                self.server.constrain(key.encode('ascii'), var.formula.encode('ascii'))
+                self.server.constrain(key, var.formula)
             # Removed call to pdfrange call, because data were already
             # resampled to at fit range.
             #

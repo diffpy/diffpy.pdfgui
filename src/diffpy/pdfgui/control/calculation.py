@@ -153,7 +153,7 @@ class Calculation(PDFComponent):
         for struc in self.owner.strucs:
             server.read_struct_string(struc.writeStr('pdffit'))
             for key,var in struc.constraints.items():
-                server.constrain(key.encode('ascii'), var.formula.encode('ascii'))
+                server.constrain(key, var.formula)
 
         # set up dataset
         server.alloc(self.stype, self.qmax, self.qdamp,
