@@ -1,6 +1,3 @@
-src/diffpy/pdfgui/gui/outputpanel.py
-src/diffpy/pdfgui/gui/paneltest.py
-src/diffpy/pdfgui/gui/parameterspanel.py
 src/diffpy/pdfgui/gui/pdfguiglobals.py
 src/diffpy/pdfgui/gui/pdfpanel.py
 src/diffpy/pdfgui/gui/phaseconfigurepanel.py
