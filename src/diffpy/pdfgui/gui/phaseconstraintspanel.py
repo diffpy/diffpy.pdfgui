@@ -251,7 +251,7 @@ class PhaseConstraintsPanel(wx.Panel, PDFPanel):
         bareAtomVarColumn = dict( zip(self.lAtomConstraints,
             range(1, 1 + len(self.lAtomConstraints))) )
         avpat = re.compile(r'(\w+)\((\d+)\)$')
-        for var, con in self.constraints.iteritems():
+        for var, con in self.constraints.items():
             m = avpat.match(var)
             if not m:   continue
             barevar = m.group(1)
@@ -316,7 +316,7 @@ class PhaseConstraintsPanel(wx.Panel, PDFPanel):
         somehow invalid.
         """
         self.mainFrame.needsSave()
-        key = self.lAtomConstraints[j-1] + '('+`i+1`+')'
+        key = self.lAtomConstraints[j-1] + '({})'.format(i + 1)
         formula = value.strip()
         if formula != "":
             self.constraints[key] = Constraint(formula)
