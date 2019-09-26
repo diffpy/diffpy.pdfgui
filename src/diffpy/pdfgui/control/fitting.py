@@ -95,13 +95,13 @@ class Fitting(Organizer):
             """overload function from Thread """
             try:
                 self.fitting.run()
-            except ControlError,error:
+            except ControlError as error:
                 gui = self.fitting.controlCenter.gui
                 if gui:
                     gui.postEvent(gui.ERROR, "<Fitting exception> %s" % error.info)
                 else:
                     print("<Fitting exception> %s" % error.info)
-            except getEngineExceptions(), error:
+            except getEngineExceptions() as error:
                 gui = self.fitting.controlCenter.gui
                 handleEngineException(error, gui)
             return
@@ -194,13 +194,13 @@ class Fitting(Organizer):
         subs = subpath.split('/')
         rootDict = z.fileTree[subs[0]][subs[1]]
 
-        if rootDict.has_key('parameters'):
+        if 'parameters' in rootDict:
             from diffpy.pdfgui.control.pdfguicontrol import CtrlUnpickler
             self.parameters = CtrlUnpickler.loads(z.read(subpath+'parameters'))
-        if rootDict.has_key('steps'):
+        if 'steps' in rootDict:
             self.itemIndex, self.dataNameDict, self.snapshots = \
                     pickle.loads(z.read(subpath+'steps'))
-        if rootDict.has_key('result'):
+        if 'result' in rootDict:
             self.rw, self.res = pickle.loads(z.read(subpath+'result'))
 
         return Organizer.load(self, z, subpath)
@@ -248,15 +248,15 @@ class Fitting(Organizer):
         # create dictionary of parameters used in constraints
         cpars = {}
         for struc in self.strucs:
-            for idx, par in struc.findParameters().iteritems():
+            for idx, par in struc.findParameters().items():
                 if idx not in cpars:
                     cpars[idx] = par
         for dataset in self.datasets:
-            for idx, par in dataset.findParameters().iteritems():
+            for idx, par in dataset.findParameters().items():
                 if idx not in cpars:
                     cpars[idx] = par
         # add new parameters
-        for idx, par in cpars.iteritems():
+        for idx, par in cpars.items():
             if idx not in self.parameters:
                 self.parameters[idx] = par
         # remove unused parameters
@@ -295,7 +295,7 @@ class Fitting(Organizer):
         fits = pdfguicontrol().fits
         for fit in fits:
             parameters = fit.parameters
-            for par in parameters.itervalues():
+            for par in parameters.values():
                 if par.initialStr() == fiteq:
                     par.setInitial(newfiteq)
 
@@ -454,11 +454,11 @@ class Fitting(Organizer):
             self._configureBondCalculation(struc)
             self.server.bang(i, j, k)
             self._release()
-        except getEngineExceptions(), error:
+        except getEngineExceptions() as error:
             gui = self.controlCenter.gui
             handleEngineException(error, gui)
-        except ValueError, error:
-            raise ControlValueError, str(error)
+        except ValueError as error:
+            raise ControlValueError(str(error))
         return
 
 
@@ -478,11 +478,11 @@ class Fitting(Organizer):
             self._configureBondCalculation(struc)
             self.server.blen(i, j)
             self._release()
-        except getEngineExceptions(), error:
+        except getEngineExceptions() as error:
             gui = self.controlCenter.gui
             handleEngineException(error, gui)
-        except ValueError, error:
-            raise ControlValueError, str(error)
+        except ValueError as error:
+            raise ControlValueError(str(error))
         return
 
 
@@ -504,11 +504,11 @@ class Fitting(Organizer):
             self._configureBondCalculation(struc)
             self.server.blen(a1, a2, lb, ub)
             self._release()
-        except getEngineExceptions(), error:
+        except getEngineExceptions() as error:
             gui = self.controlCenter.gui
             handleEngineException(error, gui)
-        except ValueError, error:
-            raise ControlValueError, str(error)
+        except ValueError as error:
+            raise ControlValueError(str(error))
         return
 
 
@@ -576,8 +576,7 @@ class Fitting(Organizer):
                 #      way while user choose to stop forcefully
         else:
             if self.isThreadRunning():
-                raise ControlStatusError,\
-                "Fitting: Fitting %s is still running"%self.name
+                raise ControlStatusError("Fitting: Fitting %s is still running"%self.name)
             if self.thread is not None:
                 self.thread.join()
 
@@ -607,7 +606,7 @@ class Fitting(Organizer):
         for dataset in self.datasets:
             id = dataset._getStrId()
             dataNameDict[id] = {}
-            for itemName in dataset.constraints.keys() + ['Gcalc','crw']:
+            for itemName in list(dataset.constraints.keys()) + ['Gcalc','crw']:
                 dataNameDict[id][itemName] = self.itemIndex
                 self.itemIndex += 1
 
@@ -702,7 +701,7 @@ class Fitting(Organizer):
             istruc += 1
 
         # update parameters
-        for idx, par in self.parameters.iteritems():
+        for idx, par in self.parameters.items():
             par.refined = self.server.getpar(idx)
 
         self.rw = self.server.getrw()
@@ -727,7 +726,7 @@ class Fitting(Organizer):
 
         returns a name str list
         """
-        names = self.parameters.keys()
+        names = list(self.parameters.keys())
         names.append('rw')
         return names
 
@@ -765,10 +764,10 @@ class Fitting(Organizer):
         for dataset in self.datasets:
             # build up the name list
             if not names:
-                names = dataset.metadata.keys()
+                names = list(dataset.metadata.keys())
             else:
                 for name in names[:]:
-                    if name not in dataset.metadata.keys():
+                    if name not in dataset.metadata:
                         names.remove(name)
         return names
 

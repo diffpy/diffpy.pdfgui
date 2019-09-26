@@ -1,4 +1,3 @@
-src/diffpy/pdfgui/control/fitting.py
 src/diffpy/pdfgui/control/organizer.py
 src/diffpy/pdfgui/control/parameter.py
 src/diffpy/pdfgui/control/pdfcomponent.py
