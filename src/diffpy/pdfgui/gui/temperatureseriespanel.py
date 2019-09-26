@@ -208,7 +208,7 @@ class TemperatureSeriesPanel(wx.Panel, PDFPanel):
                     temperature = float(res.groups()[1])
             else:
                 # Look in the file
-                infile = file(path,'r')
+                infile = open(path, 'r')
                 datastring = infile.read()
                 infile.close()
                 # Look for it first in the file

@@ -2248,7 +2248,7 @@ class MainFrame(wx.Frame):
             if len(savename) < 3 or savename[-3:] != "res":
                 savename += ".res"
             path = os.path.join(self.workpath, savename)
-            outfile = file(path, 'w')
+            outfile = open(path, 'w')
             outfile.write(cdata.res)
             outfile.close()
         d.Destroy()
@@ -2298,7 +2298,7 @@ class MainFrame(wx.Frame):
                 savename += ".%s" % extlist[i]
             path = os.path.join(self.workpath, savename)
             text = cdata.initial.writeStr(fmtlist[i])
-            outfile = file(path, 'w')
+            outfile = open(path, 'w')
             outfile.write(text)
             outfile.close()
         d.Destroy()
@@ -2330,7 +2330,7 @@ class MainFrame(wx.Frame):
                 savename += ".%s" % extlist[i]
             path = os.path.join(self.workpath, savename)
             text = cdata.refined.writeStr(fmtlist[i])
-            outfile = file(path, 'w')
+            outfile = open(path, 'w')
             outfile.write(text)
             outfile.close()
         d.Destroy()

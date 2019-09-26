@@ -204,7 +204,7 @@ class DopingSeriesPanel(wx.Panel,PDFPanel):
                 doping = float(res.groups()[0])
             else:
                 # Look in the file
-                infile = file(path,'r')
+                infile = open(path, 'r')
                 datastring = infile.read()
                 infile.close()
                 # Look for it first in the file
