@@ -1,9 +1,3 @@
-src/diffpy/pdfgui/gui/calculationpanel.py
-src/diffpy/pdfgui/gui/datasetconfigurepanel.py
-src/diffpy/pdfgui/gui/datasetconstraintpanel.py
-src/diffpy/pdfgui/gui/datasetpanel.py
-src/diffpy/pdfgui/gui/datasetresultspanel.py
-src/diffpy/pdfgui/gui/debugoptions.py
 src/diffpy/pdfgui/gui/dopingseriespanel.py
 src/diffpy/pdfgui/gui/errorreportdialog.py
 src/diffpy/pdfgui/gui/errorwrapper.py
