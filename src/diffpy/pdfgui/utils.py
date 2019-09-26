@@ -69,7 +69,7 @@ class QuotedConfigParser(RawConfigParser):
         This allows to work with unicode strings.
         """
         vq = self.get(section, option)
-        rv = vq.decode('utf8') if six.PY2 else vq
+        rv = vq.decode('utf-8') if six.PY2 else vq
         return rv
 
 
@@ -79,7 +79,7 @@ class QuotedConfigParser(RawConfigParser):
         This allows to store and write out unicode strings.
         Use getquoted to recover the decoded value.
         """
-        vq = value.encode('utf8') if six.PY2 else value
+        vq = value.encode('utf-8') if six.PY2 else value
         return self.set(section, option, vq)
 
 # class QuotedConfigParser
@@ -91,7 +91,7 @@ def quote_plain(s):
     project file format.
     """
     from six.moves.urllib.parse import quote_plus
-    rv = quote_plus(s.encode('utf8'))
+    rv = quote_plus(s.encode('utf-8'))
     return rv
 
 
@@ -100,7 +100,7 @@ def unquote_plain(s):
     """
     from six.moves.urllib.parse import unquote_plus
     u = unquote_plus(str(s))
-    rv = u.decode('utf8')
+    rv = u.decode('utf-8')
     return rv
 
 
