@@ -151,19 +151,19 @@ class Organizer(PDFComponent):
         from diffpy.pdfgui.utils import unquote_plain
         subs = subpath.split('/')
         rootDict = z.fileTree[subs[0]][subs[1]]
-        if rootDict.has_key('structure'):
+        if 'structure' in rootDict:
             for strucName in rootDict['structure'].keys():
                 struc = FitStructure(unquote_plain(strucName))
                 struc.load(z, subpath + 'structure/' + strucName + '/')
                 self.add(struc)
 
-        if rootDict.has_key('dataset'):
+        if 'dataset' in rootDict:
             for datasetName in rootDict['dataset'].keys():
                 dataset = FitDataSet(unquote_plain(datasetName))
                 dataset.load(z, subpath + 'dataset/' + datasetName + '/')
                 self.add(dataset)
 
-        if rootDict.has_key('calculation'):
+        if 'calculation' in rootDict:
             for calcName in rootDict['calculation'].keys():
                 calc = Calculation(unquote_plain(calcName))
                 calc.load(z, subpath + 'calculation/' + calcName + '/')
@@ -238,15 +238,15 @@ class Organizer(PDFComponent):
             if stru.getvar('spdiameter'):   return
         # Search datasets for spdiameter and its constraints
         spd_assigned = lambda ds : bool(ds.spdiameter)
-        spd_constrained = lambda ds : ds.constraints.has_key('spdiameter')
+        spd_constrained = lambda ds : 'spdiameter' in ds.constraints
         # Figure out the value and constraint for spdiameter.
         # The highest priority is for a dataset with constrained spdiameter,
         # then for dataset with assigned spdiameter and finally from
         # a calculation.
         spd_val = spd_cns = None
-        constrained_datas = filter(spd_constrained, self.datasets)
-        assigned_datas = filter(spd_assigned, self.datasets)
-        assigned_calcs = filter(spd_assigned, self.calcs)
+        constrained_datas = list(filter(spd_constrained, self.datasets))
+        assigned_datas = list(filter(spd_assigned, self.datasets))
+        assigned_calcs = list(filter(spd_assigned, self.calcs))
         if constrained_datas:
             spd_val = constrained_datas[0].spdiameter
             spd_cns = constrained_datas[0].constraints['spdiameter']
