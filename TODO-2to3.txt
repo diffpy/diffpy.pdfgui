@@ -1,11 +1,3 @@
-src/diffpy/pdfgui/gui/preferencespanel.py
-src/diffpy/pdfgui/gui/resultspanel.py
-src/diffpy/pdfgui/gui/rseriespanel.py
-src/diffpy/pdfgui/gui/sgconstraindialog.py
-src/diffpy/pdfgui/gui/sgstructuredialog.py
-src/diffpy/pdfgui/gui/simplecipher.py
-src/diffpy/pdfgui/gui/supercelldialog.py
-src/diffpy/pdfgui/gui/temperatureseriespanel.py
 src/diffpy/pdfgui/gui/tooltips.py
 src/diffpy/pdfgui/gui/welcomepanel.py
 src/diffpy/pdfgui/gui/windowperspective.py
