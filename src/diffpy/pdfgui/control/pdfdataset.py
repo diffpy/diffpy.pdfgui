@@ -272,9 +272,9 @@ class PDFDataSet(PDFComponent):
 
         No return value.
         """
-        bytes = self.writeStr()
+        txt = self.writeStr()
         f = open(filename, 'w')
-        f.write(bytes)
+        f.write(txt)
         f.close()
         return
 

@@ -772,8 +772,8 @@ class FitStructure(PDFStructure):
             self.initial.pdffit['sgoffset'] = sgoffset
         # custom_spacegroup
         if "custom_spacegroup" in rootDict:
-            bytes = z.read(subpath+'custom_spacegroup')
-            self.custom_spacegroup = CtrlUnpickler.loads(bytes)
+            spkl = z.read(subpath+'custom_spacegroup')
+            self.custom_spacegroup = CtrlUnpickler.loads(spkl)
         return
 
     def save(self, z, subpath):
@@ -787,16 +787,16 @@ class FitStructure(PDFStructure):
         if self.refined:
             z.writestr(subpath+'refined', self.refined.writeStr('pdffit'))
         if self.constraints:
-            bytes = safeCPickleDumps(self.constraints)
-            z.writestr(subpath+'constraints', bytes)
+            spkl = safeCPickleDumps(self.constraints)
+            z.writestr(subpath+'constraints', spkl)
         z.writestr(subpath+'selected_pairs', self.selected_pairs)
         # sgoffset
         sgoffset = self.initial.pdffit.get('sgoffset', [0.0, 0.0, 0.0])
         sgoffsetstr = "%g %g %g" % tuple(sgoffset)
         z.writestr(subpath+'sgoffset', sgoffsetstr)
         if self.custom_spacegroup:
-            bytes = safeCPickleDumps(self.custom_spacegroup)
-            z.writestr(subpath+'custom_spacegroup', bytes)
+            spkl = safeCPickleDumps(self.custom_spacegroup)
+            z.writestr(subpath+'custom_spacegroup', spkl)
         return
 
     def getYNames(self):

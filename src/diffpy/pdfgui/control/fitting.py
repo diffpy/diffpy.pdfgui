@@ -213,15 +213,15 @@ class Fitting(Organizer):
         """
         from diffpy.pdfgui.utils import safeCPickleDumps
         if self.parameters:
-            bytes = safeCPickleDumps(self.parameters)
-            z.writestr(subpath + 'parameters', bytes)
+            spkl = safeCPickleDumps(self.parameters)
+            z.writestr(subpath + 'parameters', spkl)
         if self.res:
-            bytes = safeCPickleDumps((self.rw, self.res))
-            z.writestr(subpath + 'result', bytes)
+            spkl = safeCPickleDumps((self.rw, self.res))
+            z.writestr(subpath + 'result', spkl)
         if self.snapshots:
-            bytes = safeCPickleDumps(
+            spkl = safeCPickleDumps(
                     (self.itemIndex, self.dataNameDict, self.snapshots) )
-            z.writestr(subpath + 'steps', bytes)
+            z.writestr(subpath + 'steps', spkl)
         Organizer.save(self, z, subpath)
         return
 

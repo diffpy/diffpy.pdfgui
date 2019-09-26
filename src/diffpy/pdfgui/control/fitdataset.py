@@ -254,9 +254,9 @@ class FitDataSet(PDFDataSet):
 
         No return value.
         """
-        bytes = self.writeCalcStr()
+        txt = self.writeCalcStr()
         f = open(filename, 'w')
-        f.write(bytes)
+        f.write(txt)
         f.close()
         return
 
@@ -499,13 +499,13 @@ class FitDataSet(PDFDataSet):
         content = {}
         for item in FitDataSet.persistentItems:
             content[item] = getattr(self, item, None)
-        bytes = safeCPickleDumps(content)
-        z.writestr(subpath+'calc', bytes)
+        spkl = safeCPickleDumps(content)
+        z.writestr(subpath+'calc', spkl)
 
         # make a picklable dictionary of constraints
         if self.constraints:
-            bytes = safeCPickleDumps(self.constraints)
-            z.writestr(subpath + 'constraints', bytes)
+            spkl = safeCPickleDumps(self.constraints)
+            z.writestr(subpath + 'constraints', spkl)
         return
 
     # interface for data sampling
