@@ -1,6 +1,3 @@
-src/diffpy/pdfgui/gui/pdfguiglobals.py
-src/diffpy/pdfgui/gui/pdfpanel.py
-src/diffpy/pdfgui/gui/phaseconfigurepanel.py
 src/diffpy/pdfgui/gui/phaseconstraintspanel.py
 src/diffpy/pdfgui/gui/phasenotebookpanel.py
 src/diffpy/pdfgui/gui/phasepanelutils.py
