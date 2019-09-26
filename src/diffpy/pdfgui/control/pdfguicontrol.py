@@ -19,6 +19,7 @@ import sys
 import os
 import threading
 import time
+import six
 import six.moves.cPickle as pickle
 
 from diffpy.pdfgui.control.pdflist import PDFList
@@ -517,12 +518,11 @@ class PDFGuiControl:
     def redirectStdout(self):
         """Redirect standard out.
 
-        This redirect engine output to cStringIO if not done yet.
+        This redirect engine output to StringIO if not done yet.
         """
         from diffpy.pdffit2 import redirect_stdout, output
         if output.stdout is sys.stdout:
-            import cStringIO
-            redirect_stdout(cStringIO.StringIO())
+            redirect_stdout(six.StringIO())
         return
 
     def getEngineOutput(self):
@@ -530,8 +530,7 @@ class PDFGuiControl:
         from diffpy.pdffit2 import output, redirect_stdout
         txt = output.stdout.getvalue()
         output.stdout.close()
-        import cStringIO
-        redirect_stdout(cStringIO.StringIO())
+        redirect_stdout(six.StringIO())
         return txt
 
 _pdfguicontrol = None
@@ -573,11 +572,7 @@ class CtrlUnpickler:
             missedModule = str(err).split(' ')[-1]
             if missedModule.find('pdfgui.control') == -1:
                 raise err
-            try:
-                from cStringIO import StringIO
-            except ImportError:
-                from StringIO import StringIO
-            f = StringIO(s)
+            f = six.StringIO(s)
             unpickler = pickle.Unpickler(f)
             unpickler.find_global = _find_global
             return unpickler.load()
