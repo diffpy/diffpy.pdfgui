@@ -551,9 +551,6 @@ def _find_global(moduleName, clsName):
     m = _importByName(moduleName,clsName)
     return m
 
-class _StaticMethod:
-    def __init__(self, func):
-        self.__call__ = func
 
 class CtrlUnpickler:
     '''Occasionally the project file may be generated on a platform where
@@ -562,6 +559,7 @@ class CtrlUnpickler:
     be safely loaded. Only constraints and parameters need this class to un-
     pickle.
     '''
+    @staticmethod
     def loads(s):
         try:
             return pickle.loads(s)
@@ -573,7 +571,5 @@ class CtrlUnpickler:
             unpickler = pickle.Unpickler(f)
             unpickler.find_global = _find_global
             return unpickler.load()
-    loads = _StaticMethod(loads)
-
 
 # End of file
