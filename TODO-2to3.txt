@@ -1,4 +1,3 @@
-src/diffpy/pdfgui/control/parameter.py
 src/diffpy/pdfgui/control/pdfcomponent.py
 src/diffpy/pdfgui/control/pdfdataset.py
 src/diffpy/pdfgui/control/pdfguicontrol.py

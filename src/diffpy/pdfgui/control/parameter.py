@@ -17,7 +17,7 @@
 To be stored in Fitting.parameters { idx : parameter } dictionary
 """
 
-import types
+import six
 
 from diffpy.pdfgui.control.controlerrors import \
         ControlTypeError, ControlKeyError, ControlRuntimeError, ControlError
@@ -72,11 +72,11 @@ class Parameter:
         if isinstance(initial, Fitting):
             self.__initial = "=" + initial.name
             self.__fitrepr = repr(initial)
-        elif type(initial) in types.StringTypes and initial[:1] == '=':
+        elif isinstance(initial, six.string_types) and initial[:1] == '=':
             self.__initial = initial
             self.__findLinkedFitting()
         else:
-            raise ControlTypeError, "invalid type of Parameter initial value"
+            raise ControlTypeError("invalid type of Parameter initial value")
         return
 
     def initialStr(self):
@@ -84,7 +84,7 @@ class Parameter:
 
         returns string in "=fitname:idx" or "%f" format
         """
-        if type(self.__initial) is types.FloatType:
+        if isinstance(self.__initial, float):
             s = str(self.__initial)
         else:
             self.__findLinkedFitting()
@@ -100,15 +100,15 @@ class Parameter:
 
         returns the initial value
         """
-        if type(self.__initial) is types.FloatType:
+        if isinstance(self.__initial, float):
             value = self.__initial
         else:
             try:
                 value = self.__getLinkedValue()
-            except RuntimeError, v:
+            except RuntimeError as v:
                 # we will catch only recursion RuntimeError
                 if "maximum recursion" in str(v):
-                    raise ControlRuntimeError, "self-dependent parameter"
+                    raise ControlRuntimeError("self-dependent parameter")
                 # other RuntimeError should be left alone
                 else:
                     raise
@@ -129,22 +129,19 @@ class Parameter:
                 fitname = (':'.join(isplit[:-1]))[1:]
         except ValueError:
             # __initial should be in the form "=fitname[:srcidx]"
-            raise ControlError, \
-                "Malformed linked parameter %s" % self.__initial
+            raise ControlError("Malformed linked parameter %s" % self.__initial)
         srcfit = self.__findLinkedFitting()
         if srcfit is None:
-            raise ControlKeyError, \
-                "Fitting '%s' does not exist" % fitname
+            raise ControlKeyError("Fitting '%s' does not exist" % fitname)
         # Check to see if srcfit has paramter srcidx
         try:
             srcpar = srcfit.parameters[srcidx]
         except KeyError:
-            raise ControlKeyError, \
-                "Fitting '%s' has no parameter %s" % (fitname, srcidx)
+            raise ControlKeyError("Fitting '%s' has no parameter %s" % (fitname, srcidx))
 
         if srcpar.refined is not None:
             value = srcpar.refined
-        elif type(srcpar.__initial) is types.FloatType:
+        elif isinstance(srcpar.__initial, float):
             value = srcpar.__initial
         else:
             value = srcpar.__getLinkedValue()
