@@ -453,11 +453,13 @@ class FitDataSet(PDFDataSet):
         z       -- zipped project file
         subpath -- path to its own storage within project file
         """
+        from diffpy.pdfgui.utils import asunicode
         self.clear()
         subs = subpath.split('/')
         rootDict = z.fileTree[subs[0]][subs[1]][subs[2]][subs[3]]
         # raw data
-        self.readObsStr(z.read(subpath+'obs'))
+        obsdata = asunicode(z.read(subpath + 'obs'))
+        self.readObsStr(obsdata)
 
         # data from calculation
         content = pickle.loads(z.read(subpath+'calc'))

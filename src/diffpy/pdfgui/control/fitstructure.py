@@ -742,14 +742,17 @@ class FitStructure(PDFStructure):
         subpath -- path to its own storage within project file
         """
         #subpath = projname/fitname/structure/myname/
+        from diffpy.pdfgui.utils import asunicode
         from diffpy.pdfgui.control.pdfguicontrol import CtrlUnpickler
         subs = subpath.split('/')
         rootDict = z.fileTree[subs[0]][subs[1]][subs[2]][subs[3]]
-        self.initial.readStr(z.read(subpath+'initial'), 'pdffit')
+        strudata = asunicode(z.read(subpath + 'initial'))
+        self.initial.readStr(strudata, 'pdffit')
         # refined
         if 'refined' in rootDict:
             self.refined = PDFStructure(self.name)
-            self.refined.readStr(z.read(subpath+'refined'), 'pdffit')
+            refdata = asunicode(z.read(subpath + 'refined'))
+            self.refined.readStr(refdata, 'pdffit')
         # constraints
         if 'constraints' in rootDict:
             self.constraints = CtrlUnpickler.loads(z.read(subpath+'constraints'))
@@ -761,10 +764,10 @@ class FitStructure(PDFStructure):
                     self.constraints[new] = self.constraints.pop(old)
         # selected_pairs
         if "selected_pairs" in rootDict:
-            self.selected_pairs = z.read(subpath+'selected_pairs')
+            self.selected_pairs = asunicode(z.read(subpath+'selected_pairs'))
         # sgoffset
         if "sgoffset" in rootDict:
-            sgoffsetstr = z.read(subpath+'sgoffset')
+            sgoffsetstr = asunicode(z.read(subpath+'sgoffset'))
             sgoffset = [float(w) for w in sgoffsetstr.split()]
             self.initial.pdffit['sgoffset'] = sgoffset
         # custom_spacegroup

@@ -359,7 +359,7 @@ class PDFGuiControl:
         self.projfile = projfile
         organizations = []
         import zipfile
-        from diffpy.pdfgui.utils import quote_plain
+        from diffpy.pdfgui.utils import quote_plain, asunicode
 
         # IOError can be raised when reading invalid zipfile
         # check for file existence here.
@@ -380,13 +380,13 @@ class PDFGuiControl:
             projName = next(iter(z.fileTree.keys()))
 
             if 'journal' in rootDict:
-                self.journal = z.read(projName + '/journal').decode('utf8')
+                self.journal = asunicode(z.read(projName + '/journal'))
 
             # all the fitting and calculations
             #NOTE: It doesn't hurt to keep backward compatibility
             # old test project may not have file 'fits'
             if 'fits' in rootDict:
-                ftxt = z.read(projName + '/fits').decode('utf8')
+                ftxt = asunicode(z.read(projName + '/fits'))
                 fitnames = ftxt.splitlines()
             else:
                 fitnames = [ x for x in rootDict.keys() if rootDict[x] is not None]

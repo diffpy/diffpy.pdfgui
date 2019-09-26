@@ -103,4 +103,15 @@ def unquote_plain(s):
     rv = u.decode('utf8')
     return rv
 
+
+def asunicode(s):
+    '''Convert string or bytes object to a text type.
+
+    This is `unicode` in Python 2 and `str` in Python 3.
+    '''
+    rv = s
+    if not isinstance(s, six.text_type):
+        rv = s.decode('utf-8')
+    return rv
+
 # End of file
