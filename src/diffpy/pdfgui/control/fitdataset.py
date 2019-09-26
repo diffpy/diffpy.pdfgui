@@ -107,7 +107,7 @@ class FitDataSet(PDFDataSet):
         returns list of strings
         """
         ynames = [ 'Gobs', 'Gcalc', 'Gdiff', 'Gtrunc', 'dGcalc', 'crw' ] + \
-                 self.constraints.keys()
+                 list(self.constraints.keys())
         return ynames
 
     def getXNames(self):
@@ -303,7 +303,7 @@ class FitDataSet(PDFDataSet):
         # metadata
         if len(self.metadata) > 0:
             lines.append('# metadata')
-            for k, v in self.metadata.iteritems():
+            for k, v in self.metadata.items():
                 lines.append( "%s=%s" % (k,v) )
         # write data:
         lines.append('##### start data')
@@ -375,9 +375,9 @@ class FitDataSet(PDFDataSet):
         returns dictionary of indices and Parameter instances
         """
         foundpars = {}
-        for var, con in self.constraints.iteritems():
+        for var, con in self.constraints.items():
             con.guess(self.getvar(var))
-            for pidx, pguess in con.parguess.iteritems():
+            for pidx, pguess in con.parguess.items():
                 # skip if already found
                 if pidx in foundpars:
                     continue
@@ -396,13 +396,13 @@ class FitDataSet(PDFDataSet):
         """
         # convert values to floats
         parvalues = { }
-        for pidx, par in parameters.iteritems():
+        for pidx, par in parameters.items():
             if isinstance(par, Parameter):
                 parvalues[pidx] = par.initialValue()
             else:
                 parvalues[pidx] = float(par)
         # evaluate constraints
-        for var, con in self.constraints.iteritems():
+        for var, con in self.constraints.items():
             # __setattr__ assigns var in self.initial
             self.setvar(var, con.evalFormula(parvalues))
         return
@@ -474,7 +474,7 @@ class FitDataSet(PDFDataSet):
         self._updateRcalcRange()
 
         # constraints
-        if rootDict.has_key('constraints'):
+        if 'constraints' in rootDict:
             from diffpy.pdfgui.control.pdfguicontrol import CtrlUnpickler
             self.constraints = CtrlUnpickler.loads(z.read(subpath+'constraints'))
             # handle renamed variable from old project files
@@ -723,9 +723,8 @@ class FitDataSet(PDFDataSet):
     # Gdiff
 
     def _get_Gdiff(self):
-        import operator
         if len(self.Gcalc):
-            rv = map(operator.sub, self.Gtrunc, self.Gcalc)
+            rv = [(yo - yc) for yo, yc in zip(self.Gtrunc, self.Gcalc)]
         else:
             rv = []
         return rv
