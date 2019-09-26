@@ -113,6 +113,7 @@ setup_args = dict(
     # manual and tutorial files should not be zipped
     zip_safe = False,
     install_requires = [
+        'six',
         'diffpy.structure>=3',
         'diffpy.pdffit2',
         'diffpy.utils',
