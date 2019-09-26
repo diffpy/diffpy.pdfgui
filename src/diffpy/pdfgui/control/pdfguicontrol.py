@@ -75,7 +75,7 @@ class PDFGuiControl:
             while self.running:
                 try:
                     self.control.checkQueue()
-                except ControlError, error:
+                except ControlError as error:
                     gui = self.control.gui
                     if gui:
                         gui.postEvent(gui.ERROR, "<Queue exception> %s"%error.info)
@@ -249,8 +249,7 @@ class PDFGuiControl:
         """
         if not isinstance(ID, Fitting) and \
            not isinstance(ID, Calculation):
-            raise ControlTypeError, "Can't add %s to list"%\
-                  self.__class__.__name__
+            raise ControlTypeError("Can't add %s to list" % self.__class__.__name__)
         if position is not None:
             self.fits.insert(position, ID)
         else:
@@ -271,8 +270,7 @@ class PDFGuiControl:
             try:
                 return ID.owner
             except AttributeError:
-                raise ControlTypeError, "Object %s doesn't exit in the list"\
-                                        %ID.name
+                raise ControlTypeError("Object %s doesn't exit in the list" % ID.name)
 
     def rename(self, ID, new_name):
         """rename Fitting, Calculation, Dataset or Structure
@@ -349,7 +347,7 @@ class PDFGuiControl:
                 pathDict = fileTree
                 for x in subs[:-1]:
                     # if no node has been created
-                    if not pathDict.has_key(x):
+                    if x not in pathDict:
                         pathDict[x] = {}
                     pathDict = pathDict[x]
 
@@ -378,16 +376,16 @@ class PDFGuiControl:
             if len(z.fileTree) == 0:
                 raise ControlFileError(emsg_invalid_file)
             # The first layer has only one folder
-            rootDict = z.fileTree.values()[0]
-            projName = z.fileTree.keys()[0]
+            rootDict = next(iter(z.fileTree.values()))
+            projName = next(iter(z.fileTree.keys()))
 
-            if rootDict.has_key('journal'):
+            if 'journal' in rootDict:
                 self.journal = z.read(projName + '/journal').decode('utf8')
 
             # all the fitting and calculations
             #NOTE: It doesn't hurt to keep backward compatibility
             # old test project may not have file 'fits'
-            if rootDict.has_key('fits'):
+            if 'fits' in rootDict:
                 ftxt = z.read(projName + '/fits').decode('utf8')
                 fitnames = ftxt.splitlines()
             else:
@@ -402,7 +400,7 @@ class PDFGuiControl:
                 # but let's also handle old project files
                 if rdname not in rootDict:
                     rdname = name
-                if rootDict.has_key(rdname):
+                if rdname in rootDict:
                     org = fit.load(z, projName + '/' + rdname + '/')
                 else:
                     # it's simply a blank fitting, has no info in proj file yet
@@ -512,8 +510,7 @@ class PDFGuiControl:
     def __validateType(self, targetID):
         """check if targetID is a Fitting class"""
         if not isinstance(targetID, Organizer):
-            raise ControlTypeError, "Can't insert to %s"%\
-                  self.__class__.__name__
+            raise ControlTypeError("Can't insert to %s" % self.__class__.__name__)
 
     def redirectStdout(self):
         """Redirect standard out.
@@ -568,7 +565,7 @@ class CtrlUnpickler:
     def loads(s):
         try:
             return pickle.loads(s)
-        except ImportError,err:
+        except ImportError as err:
             missedModule = str(err).split(' ')[-1]
             if missedModule.find('pdfgui.control') == -1:
                 raise err

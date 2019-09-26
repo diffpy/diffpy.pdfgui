@@ -1,4 +1,3 @@
-src/diffpy/pdfgui/control/pdfguicontrol.py
 src/diffpy/pdfgui/control/pdfguimacros.py
 src/diffpy/pdfgui/control/pdflist.py
 src/diffpy/pdfgui/control/pdfstructure.py
