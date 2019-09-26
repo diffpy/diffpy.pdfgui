@@ -1,5 +1,3 @@
-src/diffpy/pdfgui/gui/fitnotebookpanel.py
-src/diffpy/pdfgui/gui/fittree.py
 src/diffpy/pdfgui/gui/insertrowsdialog.py
 src/diffpy/pdfgui/gui/journalpanel.py
 src/diffpy/pdfgui/gui/main.py

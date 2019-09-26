@@ -281,7 +281,7 @@ class FitTree(wx12.TreeCtrl):
         nodetype = self.GetNodeType(node)
         if nodetype != 'fit':
             message = 'Node type %s does not hold its own data' % nodetype
-            raise FitTreeError, message
+            raise FitTreeError(message)
 
         self.GetTreeItemDict(node)['cdata'] = data
         return
@@ -308,7 +308,7 @@ class FitTree(wx12.TreeCtrl):
             return pdata.getCalculation(pos)
         else:
             message = "Node of type %s does not exist" % nodetype
-            raise FitTreeError, message
+            raise FitTreeError(message)
         return
 
     def AddFit(self, fitname = "Fit 1", cdata = None, paste = False):
@@ -325,7 +325,7 @@ class FitTree(wx12.TreeCtrl):
         """
         # Name the fit, but check to not duplicate names.
         fits = self.GetChildren(self.root)
-        names = map(self.GetItemText, fits)
+        names = [self.GetItemText(f) for f in fits]
         fitname = incrementName(fitname, names)
 
         newfit = self.AppendItem(self.root, fitname)
@@ -377,7 +377,7 @@ class FitTree(wx12.TreeCtrl):
         nodetype = self.GetNodeType(node)
         if nodetype != "fit":
             message = "Can only add a phase as a child of a fit."
-            raise FitTreeError, message
+            raise FitTreeError(message)
 
         if insertafter is not None:
             afttype = self.GetNodeType(insertafter)
@@ -448,7 +448,7 @@ class FitTree(wx12.TreeCtrl):
         nodetype = self.GetNodeType(node)
         if nodetype != "fit":
             message = "Can only add a data set as a child of a fit."
-            raise FitTreeError, message
+            raise FitTreeError(message)
 
         if insertafter is not None:
             afttype = self.GetNodeType(node)
@@ -475,7 +475,7 @@ class FitTree(wx12.TreeCtrl):
                 if filename is not None:
                     self.control.loadDataset(pdata, filename, label, pos)
                 else:
-                    raise FitTreeError, "Cannot load a dataset without a name!"
+                    raise FitTreeError("Cannot load a dataset without a name!")
             elif cdata is not None:
                 self.control.paste(cdata, pdata, label, pos)
             return newset
@@ -512,7 +512,7 @@ class FitTree(wx12.TreeCtrl):
         nodetype = self.GetNodeType(node)
         if nodetype != "fit":
             message = "Can only add a calculation as a child of a fit."
-            raise FitTreeError, message
+            raise FitTreeError(message)
 
         if insertafter is not None:
             afttype = self.GetNodeType(node)
@@ -520,7 +520,7 @@ class FitTree(wx12.TreeCtrl):
                 insertafter = None
 
         sibs = self.GetCalculations(node)
-        names = map(self.GetItemText, sibs)
+        names = [self.GetItemText(sb) for sb in sibs]
         label = incrementName(label, names)
 
         if insertafter:
@@ -561,7 +561,7 @@ class FitTree(wx12.TreeCtrl):
         textdata = wx.TextDataObject(cdatastring)
         if not wx.TheClipboard.IsOpened():
             opened = wx.TheClipboard.Open()
-            if not opened: raise FitTreeError, "Cannot open the clipboard."
+            if not opened: raise FitTreeError("Cannot open the clipboard.")
         wx.TheClipboard.SetData(textdata)
         wx.TheClipboard.Close()
         return
@@ -624,7 +624,7 @@ class FitTree(wx12.TreeCtrl):
         cdata = self.GetClipboard()
         if cdata is None:
             message = "There is no branch to paste!"
-            raise FitTreeError, message
+            raise FitTreeError(message)
 
         # Now we have the cdata, we must put it into the tree
         branchtype = cdata.type
@@ -652,7 +652,7 @@ class FitTree(wx12.TreeCtrl):
                 insertafter = entrypoint
                 entrypoint = self.root
             else: # Just in case
-                raise FitTreeError, "Cannot paste a fit branch here."
+                raise FitTreeError("Cannot paste a fit branch here.")
 
         if branchtype == "phase":
             # Paste after selected phase, or append to the end of the phase
@@ -677,7 +677,7 @@ class FitTree(wx12.TreeCtrl):
                     # Put the branch at the beginning of the phases
                     prepend = True
             else: # Just in case
-                raise FitTreeError, "Cannot paste a phase branch here."
+                raise FitTreeError("Cannot paste a phase branch here.")
 
         if branchtype == "dataset":
             # Paste after a selected dataset, or into a selected fit.
@@ -700,7 +700,7 @@ class FitTree(wx12.TreeCtrl):
                 # the calculations.
                 pass
             else:
-                raise FitTreeError, "Cannot paste a data set branch here."
+                raise FitTreeError("Cannot paste a data set branch here.")
 
         if branchtype == "calculation":
             # Paste after the selected calculation or after the calculations.
@@ -715,7 +715,7 @@ class FitTree(wx12.TreeCtrl):
             elif entrytype == "fit":
                 insertafter = self.GetLastDataSet(entrypoint)
             else: # Just in case
-                raise FitTreeError, "Cannot paste a calculation branch here."
+                raise FitTreeError("Cannot paste a calculation branch here.")
 
 
         # Now set the name of the item to be inserted.
@@ -732,7 +732,7 @@ class FitTree(wx12.TreeCtrl):
         # Append "_copy" to the end of the label, unless it already has that.
         # In that case, just add a number to indicate which copy it is.
         siblings = self.GetChildren(entrypoint)
-        labels = map(self.GetItemText, siblings)
+        labels = [self.GetItemText(sb) for sb in siblings]
         match = "_copy\d*$"
         label = re.sub(match, '', oldlabel)
         label += "_copy"
@@ -756,7 +756,7 @@ class FitTree(wx12.TreeCtrl):
         """
         if cdata is None:
             message = "There is no branch to paste!"
-            raise FitTreeError, message
+            raise FitTreeError(message)
 
         branchtype = cdata.type
         #cdata.name = label
@@ -774,7 +774,7 @@ class FitTree(wx12.TreeCtrl):
             newnode = self.AddCalc(entrypoint, label, insertafter=insertafter,
                     makedata=False, cdata=cdata)
         else:
-            raise FitTreeError, "Unrecognized node type: %s" % branchtype
+            raise FitTreeError("Unrecognized node type: %s" % branchtype)
 
         return newnode
 
@@ -863,7 +863,7 @@ class FitTree(wx12.TreeCtrl):
 
             if node is None:
                 message = "Cannot insert data. Malformed tree list."
-                raise FitTreeError, message
+                raise FitTreeError(message)
 
             roots.append(node)
             # Build the rest of the tree. Note that we don't want to create new
