@@ -108,7 +108,7 @@ def main():
     proceed = False
     try:
         proceed = processArguments(sys.argv[1:])
-    except (getopt.GetoptError, ValueError), err:
+    except (getopt.GetoptError, ValueError) as err:
         print(err, file=sys.stderr)
         sys.exit(1)
     # bail out when no gui is needed
@@ -120,7 +120,7 @@ def main():
     from diffpy.pdfgui.control.controlerrors import ControlError
     try:
         guimain.main()
-    except ControlError, err:
+    except ControlError as err:
         print(err, file=sys.stderr)
         sys.exit(1)
     return
