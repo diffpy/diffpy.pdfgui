@@ -130,7 +130,8 @@ class PDFDataSet(PDFComponent):
         returns self
         """
         try:
-            self.readStr(open(filename,'rb').read())
+            with open(filename) as fp:
+                self.readStr(fp.read())
         except PDFDataFormatError as err:
             basename = os.path.basename(filename)
             emsg = ("Could not open '%s' due to unsupported file format " +
