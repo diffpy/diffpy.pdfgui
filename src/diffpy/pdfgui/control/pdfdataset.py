@@ -351,28 +351,4 @@ class PDFDataFormatError(Exception):
     """
     pass
 
-
-# simple test code
-if __name__ == '__main__':
-    import sys
-    filename = sys.argv[1]
-    dataset = PDFDataSet("test")
-    dataset.read(filename)
-    print "== metadata =="
-    for k, v in dataset.metadata.iteritems():
-        print k, "=", v
-    print "== data members =="
-    for k, v in dataset.__dict__.iteritems():
-        if k in ('metadata', 'robs', 'Gobs', 'drobs', 'dGobs') or k[0] == "_":
-            continue
-        print k, "=", v
-    print "== robs Gobs drobs dGobs =="
-    for i in range(len(dataset.robs)):
-        print dataset.robs[i], dataset.Gobs[i], dataset.drobs[i], dataset.dGobs[i]
-    print "== writeStr() =="
-    print dataset.writeStr()
-    print "== datasetcopy.writeStr() =="
-    datasetcopy = dataset.copy()
-    print datasetcopy.writeStr()
-
 # End of file
