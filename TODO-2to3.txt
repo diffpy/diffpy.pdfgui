@@ -1,4 +1,3 @@
-src/diffpy/pdfgui/gui/extendedplotframe.py
 src/diffpy/pdfgui/gui/fitnotebookpanel.py
 src/diffpy/pdfgui/gui/fittree.py
 src/diffpy/pdfgui/gui/insertrowsdialog.py
