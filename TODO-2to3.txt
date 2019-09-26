@@ -1,4 +1,3 @@
-src/diffpy/pdfgui/control/pdflist.py
 src/diffpy/pdfgui/control/pdfstructure.py
 src/diffpy/pdfgui/control/plotter.py
 src/diffpy/pdfgui/control/structureviewer.py

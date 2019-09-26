@@ -40,7 +40,7 @@ class PDFList(list):
                 if item.name == idnm:
                     return item
             else:
-                raise ControlKeyError, "'%s' does not exist"%idnm
+                raise ControlKeyError("'%s' does not exist" % idnm)
 
     def __setitem__(self, idnm, obj):
         """Set the item by idnm
@@ -49,7 +49,7 @@ class PDFList(list):
         obj  -- The object to be inserted
         """
         if obj.name in self.keys():
-            raise ControlKeyError, "'%s' already exists" % obj.name
+            raise ControlKeyError("'%s' already exists" % obj.name)
         try:
             list.__setitem__(self, idnm, obj)
             return
@@ -70,7 +70,7 @@ class PDFList(list):
                 index = self.keys.index(idnm)
                 list.__delitem__(self, index)
             except IndexError:
-                raise ControlKeyError, "'%s' does not exist"%idnm
+                raise ControlKeyError("'%s' does not exist" % idnm)
 
     def rename(self, idnmrf, newname):
         """Rename an item
@@ -79,7 +79,7 @@ class PDFList(list):
         newname -- new name
         """
         if newname in self.keys():
-            raise ControlKeyError, "'%s' already exists"%newname
+            raise ControlKeyError("'%s' already exists" % newname)
         try:
             self.index(idnmrf)
             # if no exception, it is a object in the list.
