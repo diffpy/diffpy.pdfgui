@@ -98,7 +98,7 @@ class Constraint:
             try:
                 eps = 1.0e-8
                 lo, hi = 1.0 - eps ,  1.0 + eps
-                k = self.parguess.keys()[0]
+                k, = self.parguess.keys()
                 y = [ fncp({k : 0.25}), fncp({k : 0.5}), fncp({k : 0.75}) ]
                 dy = [ y[1] - y[0],  y[2] - y[1] ]
                 ady = [ abs(z) for z in dy ]
@@ -123,7 +123,7 @@ class Constraint:
         # require at least one parameter in the formula
         if len(pars) == 0:
             message = "No parameter in formula '%s'" % newformula
-            raise ControlSyntaxError, message
+            raise ControlSyntaxError(message)
         try:
             # this raises ControlSyntaxError if newformula is invalid
             # define fncx in math module namespace
@@ -133,12 +133,12 @@ class Constraint:
             fncx(0.25) + 0.0
         except (ValueError, SyntaxError, TypeError, NameError):
             message = "invalid constraint formula '%s'" % newformula
-            raise ControlSyntaxError, message
+            raise ControlSyntaxError(message)
         # few more checks of the formula:
         if newformula.find('**') != -1:
-            raise ControlSyntaxError, \
-                    "invalid constraint formula '%s'" % newformula + \
-                    ", operator '**' not supported."
+            emsg = ("invalid constraint formula '{}', "
+                    "operator '**' not supported.").format(newformula)
+            raise ControlSyntaxError(emsg)
         # checks checked
         self.__dict__['formula'] = newformula
         self.parguess = dict.fromkeys([ int(p[1:]) for p in pars ])
