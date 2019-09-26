@@ -88,7 +88,7 @@ def quote_plain(s):
     The returned value is suitable as a path component in the
     project file format.
     """
-    from urllib import quote_plus
+    from six.moves.urllib.parse import quote_plus
     rv = quote_plus(s.encode('utf8'))
     return rv
 
@@ -96,7 +96,7 @@ def quote_plain(s):
 def unquote_plain(s):
     """Unquote string previously encoded with quote_plain.
     """
-    from urllib import unquote_plus
+    from six.moves.urllib.parse import unquote_plus
     u = unquote_plus(str(s))
     rv = u.decode('utf8')
     return rv
