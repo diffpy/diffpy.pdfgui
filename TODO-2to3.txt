@@ -1,4 +1,3 @@
-src/diffpy/pdfgui/control/structureviewer.py
 src/diffpy/pdfgui/gui/__init__.py
 src/diffpy/pdfgui/gui/aboutdialog.py
 src/diffpy/pdfgui/gui/adddatapanel.py

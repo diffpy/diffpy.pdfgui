@@ -144,7 +144,7 @@ class StructureViewer(object):
         args = [self.executable] + self._getArgumentList(strupath)
         try:
             subprocess.Popen(args)
-        except OSError, err:
+        except OSError as err:
             emsg = ('Error executing StructureViewer %s: %s' %
                     (self.executable, err))
             raise ControlConfigError(emsg)
@@ -167,7 +167,7 @@ class StructureViewer(object):
         # finally remove _tmpdir, which should now be empty
         try:
             os.rmdir(self._tmpdir)
-        except OSError, err:
+        except OSError as err:
             onerror(None, self._tmpdir, err)
             pass
         return
