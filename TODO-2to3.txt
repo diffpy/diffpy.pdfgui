@@ -1,5 +1,3 @@
-src/diffpy/pdfgui/gui/phasenotebookpanel.py
-src/diffpy/pdfgui/gui/phasepanelutils.py
 src/diffpy/pdfgui/gui/phaseresultspanel.py
 src/diffpy/pdfgui/gui/plotpanel.py
 src/diffpy/pdfgui/gui/preferencespanel.py

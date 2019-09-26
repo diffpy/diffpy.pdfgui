@@ -276,7 +276,7 @@ def copySelectedCells(panel):
     # Place the copytext into the clipboard
     if not wx.TheClipboard.IsOpened():
         opened = wx.TheClipboard.Open()
-        if not opened: raise IOError, "Cannot open the clipboard."
+        if not opened: raise IOError("Cannot open the clipboard.")
         textdata = wx.TextDataObject(copytext)
     wx.TheClipboard.SetData(textdata)
     wx.TheClipboard.Close()
