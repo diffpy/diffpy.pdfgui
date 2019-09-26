@@ -62,9 +62,6 @@ before_install:
   - $NOMC || conda create --name=testenv --yes python=${MYPYTHON_VERSION} coverage
   - $NOMC || conda config --add channels diffpy
 
-  # TODO - remove after update to wxpython 4
-  - $NOMC || conda config --set restore_free_channel true
-
   - $NOAPT || test "${TRAVIS_OS_NAME}" = "linux" || exit $?
   - $NOAPT || PATH="$(echo "$PATH" | sed 's,:/opt/pyenv/[^:]*,,g')"
   - $NOAPT || test "$(which python)" = "/usr/bin/python" || (
