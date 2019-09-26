@@ -1,4 +1,3 @@
-src/diffpy/pdfgui/gui/dopingseriespanel.py
 src/diffpy/pdfgui/gui/errorreportdialog.py
 src/diffpy/pdfgui/gui/errorwrapper.py
 src/diffpy/pdfgui/gui/extendedplotframe.py
