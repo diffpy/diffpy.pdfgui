@@ -23,6 +23,9 @@ import six
 from six.moves.configparser import RawConfigParser
 import six.moves.cPickle as pickle
 
+# keep project files compatible with Python 2
+PDFGUI_PICKLE_PROTOCOL = 2
+
 
 def numericStringSort(lst):
     """Sort list of strings inplace according to general numeric value.
@@ -56,7 +59,7 @@ def pickle_loads(sdata, encoding="ASCII"):
 
 def safeCPickleDumps(obj):
     """Get pickle representation of an object possibly containing NaN or Inf.
-    By default it uses pickle.HIGHEST_PROTOCOL, but falls back to ASCII
+    By default it uses PDFGUI_PICKLE_PROTOCOL, but falls back to ASCII
     protocol 0 if there is SystemError frexp() exception.
 
     obj -- object to be pickled
@@ -65,7 +68,7 @@ def safeCPickleDumps(obj):
     """
     ascii_protocol = 0
     try:
-        s = pickle.dumps(obj, pickle.HIGHEST_PROTOCOL)
+        s = pickle.dumps(obj, PDFGUI_PICKLE_PROTOCOL)
     except SystemError:
         s = pickle.dumps(obj, ascii_protocol)
     return s
