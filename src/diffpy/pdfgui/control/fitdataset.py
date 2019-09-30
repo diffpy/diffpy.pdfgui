@@ -461,7 +461,7 @@ class FitDataSet(PDFDataSet):
         self.readObsStr(obsdata)
 
         # data from calculation
-        content = pickle_loads(z.read(subpath + 'calc'), encoding='latin1')
+        content = pickle_loads(z.read(subpath + 'calc'))
         for item in FitDataSet.persistentItems:
             # skip items which are not in the project file
             if item not in content: continue

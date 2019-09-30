@@ -44,7 +44,7 @@ def numericStringSort(lst):
     lst[:] = [kv[1] for kv in newlst]
     return
 
-def pickle_loads(sdata, encoding="ASCII"):
+def pickle_loads(sdata, encoding="latin1"):
     """Mimic interface of Python 3 pickle.loads.
 
     Using encoding='latin1' is required for unpickling NumPy arrays and
