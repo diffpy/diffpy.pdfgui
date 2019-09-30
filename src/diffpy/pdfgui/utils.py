@@ -91,7 +91,7 @@ def quote_plain(s):
     project file format.
     """
     from six.moves.urllib.parse import quote_plus
-    rv = quote_plus(s.encode('utf-8'))
+    rv = quote_plus(asunicode(s).encode('utf-8'))
     return rv
 
 
@@ -99,8 +99,8 @@ def unquote_plain(s):
     """Unquote string previously encoded with quote_plain.
     """
     from six.moves.urllib.parse import unquote_plus
-    u = unquote_plus(str(s))
-    rv = u.decode('utf-8')
+    u = unquote_plus(s)
+    rv = asunicode(u)
     return rv
 
 
