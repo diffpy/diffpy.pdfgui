@@ -41,6 +41,19 @@ def numericStringSort(lst):
     lst[:] = [kv[1] for kv in newlst]
     return
 
+def pickle_loads(sdata, encoding="ASCII"):
+    """Mimic interface of Python 3 pickle.loads.
+
+    Using encoding='latin1' is required for unpickling NumPy arrays and
+    instances of datetime, date and time pickled by Python 2.
+
+    Return the reconstructed object hierarchy.
+    """
+    rv = (pickle.loads(sdata, encoding=encoding) if six.PY3
+          else pickle.loads(sdata))
+    return rv
+
+
 def safeCPickleDumps(obj):
     """Get pickle representation of an object possibly containing NaN or Inf.
     By default it uses pickle.HIGHEST_PROTOCOL, but falls back to ASCII
