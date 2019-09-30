@@ -29,6 +29,7 @@ import six.moves.cPickle as pickle
 from diffpy.pdfgui.gui.pdfguiglobals import iconpath
 from diffpy.pdfgui.control.fitting import Fitting
 from diffpy.pdfgui.control.controlerrors import ControlError
+from diffpy.pdfgui.utils import safeCPickleDumps
 from diffpy.pdfgui.gui.wxextensions import wx12
 
 class FitTree(wx12.TreeCtrl):
@@ -556,7 +557,7 @@ class FitTree(wx12.TreeCtrl):
         if isinstance(cdata, Fitting):
             cdata = cdata.stripped()
         cdata.type = nodetype
-        cdatastring = pickle.dumps(cdata)
+        cdatastring = safeCPickleDumps(cdata)
         cdatastring = "pdfgui_cliboard=" + cdatastring
         textdata = wx.TextDataObject(cdatastring)
         if not wx.TheClipboard.IsOpened():
