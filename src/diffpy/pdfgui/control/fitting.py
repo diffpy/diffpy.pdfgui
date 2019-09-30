@@ -15,7 +15,6 @@
 
 from __future__ import print_function
 
-import six.moves.cPickle as pickle
 import threading
 import time
 
@@ -23,6 +22,7 @@ from diffpy.pdfgui.control.organizer import Organizer
 from diffpy.pdfgui.control.controlerrors import ControlError
 from diffpy.pdfgui.control.controlerrors import ControlStatusError
 from diffpy.pdfgui.control.controlerrors import ControlValueError
+from diffpy.pdfgui.utils import safeCPickleDumps, pickle_loads
 
 # helper routines to deal with PDFfit2 exceptions
 
@@ -199,9 +199,9 @@ class Fitting(Organizer):
             self.parameters = CtrlUnpickler.loads(z.read(subpath+'parameters'))
         if 'steps' in rootDict:
             self.itemIndex, self.dataNameDict, self.snapshots = \
-                    pickle.loads(z.read(subpath+'steps'))
+                    pickle_loads(z.read(subpath+'steps'))
         if 'result' in rootDict:
-            self.rw, self.res = pickle.loads(z.read(subpath+'result'))
+            self.rw, self.res = pickle_loads(z.read(subpath+'result'))
 
         return Organizer.load(self, z, subpath)
 
@@ -211,7 +211,6 @@ class Fitting(Organizer):
         z       -- zipped project file
         subpath -- path to its own storage within project file
         """
-        from diffpy.pdfgui.utils import safeCPickleDumps
         if self.parameters:
             spkl = safeCPickleDumps(self.parameters)
             z.writestr(subpath + 'parameters', spkl)

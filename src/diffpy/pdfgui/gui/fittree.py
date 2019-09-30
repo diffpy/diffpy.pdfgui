@@ -24,12 +24,11 @@ Exceptions:
 
 import wx
 import re
-import six.moves.cPickle as pickle
 
 from diffpy.pdfgui.gui.pdfguiglobals import iconpath
 from diffpy.pdfgui.control.fitting import Fitting
 from diffpy.pdfgui.control.controlerrors import ControlError
-from diffpy.pdfgui.utils import safeCPickleDumps
+from diffpy.pdfgui.utils import safeCPickleDumps, pickle_loads
 from diffpy.pdfgui.gui.wxextensions import wx12
 
 class FitTree(wx12.TreeCtrl):
@@ -590,7 +589,7 @@ class FitTree(wx12.TreeCtrl):
         if cdatastring[:16] == "pdfgui_cliboard=":
             cdatastring = cdatastring[16:]
             try:
-                cdata = pickle.loads(str(cdatastring))
+                cdata = pickle_loads(cdatastring)
             except:
                 pass
         return cdata

@@ -18,12 +18,13 @@
 
 import copy
 import math
-import six.moves.cPickle as pickle
 
 from diffpy.pdfgui.control.controlerrors import ControlConfigError
 from diffpy.pdfgui.control.controlerrors import ControlKeyError
 from diffpy.pdfgui.control.controlerrors import ControlValueError
 from diffpy.pdfgui.control.pdfcomponent import PDFComponent
+from diffpy.pdfgui.utils import safeCPickleDumps, pickle_loads
+
 
 class Calculation(PDFComponent):
     """Perform a theoretical computation of PDF from model structure.
@@ -248,7 +249,7 @@ class Calculation(PDFComponent):
 
         returns a tree of internal hierachy
         """
-        config = pickle.loads(z.read(subpath + 'config'))
+        config = pickle_loads(z.read(subpath + 'config'))
         self.rmin = config['rmin']
         self.rstep = config['rstep']
         self.rmax = config['rmax']
@@ -269,7 +270,6 @@ class Calculation(PDFComponent):
         z       -- zipped project file
         subpath -- path to its own storage within project file
         """
-        from diffpy.pdfgui.utils import safeCPickleDumps
         config = {
             'rmin' : self.rmin,
             'rstep' : self.rstep,
