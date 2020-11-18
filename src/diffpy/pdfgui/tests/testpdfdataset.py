@@ -88,7 +88,8 @@ class TestPDFDataSet(unittest.TestCase):
         """
         # read Ni xray data, but invalidate the last dGobs
         fx_Ni = datafile('Ni_2-8.chi.gr')
-        sNi = open(fx_Ni).read()
+        with open(fx_Ni) as fp:
+            sNi = fp.read()
         lastdGobs = sNi.rstrip().rindex(' ')
         sNi_no_dGobs = sNi[:lastdGobs] + " -1.3e-3"
         self.pdfds.readStr(sNi_no_dGobs)

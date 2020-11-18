@@ -139,9 +139,7 @@ class BondLengthDialog(wx.Dialog):
         self.bSpinCtrl.SetValue(min(2,natoms))
 
         # Fill the combo boxes
-        eDict = dict.fromkeys([a.element for a in structure])
-        self.eList = eDict.keys()
-        self.eList.sort()
+        self.eList = sorted(set(a.element for a in structure))
         self.eList.insert(0, "All")
 
         self.aComboBox.Clear()

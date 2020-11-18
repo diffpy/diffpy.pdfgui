@@ -130,8 +130,9 @@ class PDFDataSet(PDFComponent):
         returns self
         """
         try:
-            self.readStr(open(filename,'rb').read())
-        except PDFDataFormatError, err:
+            with open(filename) as fp:
+                self.readStr(fp.read())
+        except PDFDataFormatError as err:
             basename = os.path.basename(filename)
             emsg = ("Could not open '%s' due to unsupported file format " +
                 "or corrupted data. [%s]") % (basename, err)
@@ -255,7 +256,7 @@ class PDFDataSet(PDFComponent):
                 self.drobs = len(self.robs) * [0.0]
             if not has_dGobs:
                 self.dGobs = len(self.robs) * [0.0]
-        except (ValueError, IndexError), err:
+        except (ValueError, IndexError) as err:
             raise PDFDataFormatError(err)
         self.rmin = self.robs[0]
         self.rmax = self.robs[-1]
@@ -271,9 +272,9 @@ class PDFDataSet(PDFComponent):
 
         No return value.
         """
-        bytes = self.writeStr()
+        txt = self.writeStr()
         f = open(filename, 'w')
-        f.write(bytes)
+        f.write(txt)
         f.close()
         return
 
@@ -308,7 +309,7 @@ class PDFDataSet(PDFComponent):
         # metadata
         if len(self.metadata) > 0:
             lines.append('# metadata')
-            for k, v in self.metadata.iteritems():
+            for k, v in self.metadata.items():
                 lines.append( "%s=%s" % (k,v) )
         # write data:
         lines.append('##### start data')
@@ -350,29 +351,5 @@ class PDFDataFormatError(Exception):
     """Exception class marking failure to proccess PDF data string.
     """
     pass
-
-
-# simple test code
-if __name__ == '__main__':
-    import sys
-    filename = sys.argv[1]
-    dataset = PDFDataSet("test")
-    dataset.read(filename)
-    print "== metadata =="
-    for k, v in dataset.metadata.iteritems():
-        print k, "=", v
-    print "== data members =="
-    for k, v in dataset.__dict__.iteritems():
-        if k in ('metadata', 'robs', 'Gobs', 'drobs', 'dGobs') or k[0] == "_":
-            continue
-        print k, "=", v
-    print "== robs Gobs drobs dGobs =="
-    for i in range(len(dataset.robs)):
-        print dataset.robs[i], dataset.Gobs[i], dataset.drobs[i], dataset.dGobs[i]
-    print "== writeStr() =="
-    print dataset.writeStr()
-    print "== datasetcopy.writeStr() =="
-    datasetcopy = dataset.copy()
-    print datasetcopy.writeStr()
 
 # End of file

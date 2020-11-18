@@ -44,10 +44,12 @@ def replaceEquationMarks(s):
 
 def main():
     for f in sys.argv[1:]:
-        s = open(f).read()
+        with open(f) as fp:
+            s = fp.read()
         s1 = replaceEquationMarks(s)
         if s1 != s:
-            open(f, 'w').write(s1)
+            with open(f, 'w') as fpout:
+                fpout.write(s1)
 
 
 if __name__ == "__main__":

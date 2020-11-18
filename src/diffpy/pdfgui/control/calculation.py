@@ -18,12 +18,13 @@
 
 import copy
 import math
-import types
 
 from diffpy.pdfgui.control.controlerrors import ControlConfigError
 from diffpy.pdfgui.control.controlerrors import ControlKeyError
 from diffpy.pdfgui.control.controlerrors import ControlValueError
 from diffpy.pdfgui.control.pdfcomponent import PDFComponent
+from diffpy.pdfgui.utils import safeCPickleDumps, pickle_loads
+
 
 class Calculation(PDFComponent):
     """Perform a theoretical computation of PDF from model structure.
@@ -122,7 +123,7 @@ class Calculation(PDFComponent):
         from diffpy.pdfgui.control.fitting import getEngineExceptions,handleEngineException
         try:
             self.calculate()
-        except getEngineExceptions(), error:
+        except getEngineExceptions() as error:
             gui = self.owner.controlCenter.gui
             handleEngineException(error, gui)
 
@@ -153,7 +154,7 @@ class Calculation(PDFComponent):
         for struc in self.owner.strucs:
             server.read_struct_string(struc.writeStr('pdffit'))
             for key,var in struc.constraints.items():
-                server.constrain(key.encode('ascii'), var.formula.encode('ascii'))
+                server.constrain(key, var.formula)
 
         # set up dataset
         server.alloc(self.stype, self.qmax, self.qdamp,
@@ -192,9 +193,9 @@ class Calculation(PDFComponent):
 
         No return value.
         """
-        bytes = self.writeStr()
+        txt = self.writeStr()
         f = open( filename, 'w' )
-        f.write(bytes)
+        f.write(txt)
         f.close()
         return
 
@@ -226,7 +227,7 @@ class Calculation(PDFComponent):
             qmax_line = 'qmax=%.2f' % self.qmax
         lines.append(qmax_line)
         # qdamp
-        if type(self.qdamp) is types.FloatType:
+        if isinstance(self.qdamp, float):
             lines.append('qdamp=%g' % self.qdamp)
         # qbroad
         if self.qbroad:
@@ -248,8 +249,7 @@ class Calculation(PDFComponent):
 
         returns a tree of internal hierachy
         """
-        import cPickle
-        config = cPickle.loads(z.read(subpath + 'config'))
+        config = pickle_loads(z.read(subpath + 'config'))
         self.rmin = config['rmin']
         self.rstep = config['rstep']
         self.rmax = config['rmax']
@@ -270,7 +270,6 @@ class Calculation(PDFComponent):
         z       -- zipped project file
         subpath -- path to its own storage within project file
         """
-        from diffpy.pdfgui.utils import safeCPickleDumps
         config = {
             'rmin' : self.rmin,
             'rstep' : self.rstep,

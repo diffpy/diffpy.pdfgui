@@ -20,7 +20,7 @@ def _expand_tooltip_aliases(ttps):
     "Replace aliased equivalent values {other} in tooltip strings."
     isalias = lambda s: (s[1:-1] and s[::len(s) - 1] == '{}' and
                          s[1:-1].replace('_', '').isalnum())
-    for n, t in ttps.items():
+    for n, t in list(ttps.items()):
         if not isalias(t):
             continue
         t1 = t.format(**ttps)

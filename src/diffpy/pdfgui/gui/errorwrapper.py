@@ -59,7 +59,7 @@ def catchFunctionErrors(obj, funcName):
             return func(*args, **kwargs)
 
         # Display ControlError error messages in a dialog.
-        except ControlError, e:
+        except ControlError as e:
             if not hasmf:
                 raise
             message = str(e)

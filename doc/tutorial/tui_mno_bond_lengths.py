@@ -7,6 +7,8 @@ their shortest Mn-O bond lengths using diffpy.pdffit2 library.  The results
 are plotted versus temperature and saved to "mno-bond-lengths.dat" file.
 '''
 
+from __future__ import print_function
+
 # PDFgui project file
 project_file = 'lmo-template.ddp'
 output_file = 'mno-bond-lengths.dat'
@@ -44,24 +46,24 @@ temperatures = prj.getTemperatures()
 MnO_bond_lengths = []
 for phase in prj.getPhases():
     if phase.refined is None:
-        print "Cannot find phase refinement results in", project_file
-        print "Open the file in PDFgui, run refinement, save and try again."
+        print("Cannot find phase refinement results in", project_file)
+        print("Open the file in PDFgui, run refinement, save and try again.")
         # terminate the script by raising error condition
         raise RuntimeError('Missing refinement results.')
     MnO_bond_lengths.append(shortestBond_MnO(phase.refined))
 
 # Save bond lengths to a file
 outfile = open(output_file, 'w')
-print >> outfile, "# Shortest Mn-O bond length extracted from", project_file
-print >> outfile, "# temperature(K) bond_length(A)"
+print("# Shortest Mn-O bond length extracted from", project_file, file=outfile)
+print("# temperature(K) bond_length(A)", file=outfile)
 for t, b in zip(temperatures, MnO_bond_lengths):
-    print >> outfile, t, b
+    print(t, b, file=outfile)
 outfile.close()
 
 dashline = 78 * '-'
-print dashline
-print "Mn-O bond lengths saved to", output_file
-print dashline
+print(dashline)
+print("Mn-O bond lengths saved to", output_file)
+print(dashline)
 
 # Plot results using matplotlib; pylab is a part of matplotlib that
 # provides MATLAB-like plotting functions.

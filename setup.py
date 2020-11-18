@@ -113,6 +113,7 @@ setup_args = dict(
     # manual and tutorial files should not be zipped
     zip_safe = False,
     install_requires = [
+        'six',
         'diffpy.structure>=3',
         'diffpy.pdffit2',
         'diffpy.utils',
@@ -141,6 +142,9 @@ setup_args = dict(
         'Operating System :: Microsoft :: Windows',
         'Operating System :: POSIX',
         'Programming Language :: Python :: 2.7',
+        'Programming Language :: Python :: 3.5',
+        'Programming Language :: Python :: 3.6',
+        'Programming Language :: Python :: 3.7',
         'Topic :: Scientific/Engineering :: Chemistry',
         'Topic :: Scientific/Engineering :: Physics',
     ],

@@ -1422,7 +1422,7 @@ for i in range(tcount):
     Ti = temperatures[i]
     # get the refined lattice parameter c
     ci = phases[i].refined.lattice.c
-    print Ti, ci
+    print(Ti, ci)
 @end example
 
 @noindent

@@ -208,7 +208,7 @@ class TemperatureSeriesPanel(wx.Panel, PDFPanel):
                     temperature = float(res.groups()[1])
             else:
                 # Look in the file
-                infile = file(path,'r')
+                infile = open(path, 'r')
                 datastring = infile.read()
                 infile.close()
                 # Look for it first in the file
@@ -283,7 +283,7 @@ class TemperatureSeriesPanel(wx.Panel, PDFPanel):
         if idx == -1: idx = len(cp)
         for temperature, filename in self.datasets:
             shortname = "..." + filename[idx:]
-            index = self.listCtrlFiles.InsertItem(sys.maxint, str(temperature))
+            index = self.listCtrlFiles.InsertItem(sys.maxsize, str(temperature))
             self.listCtrlFiles.SetItem(index, 1, shortname)
         return
 

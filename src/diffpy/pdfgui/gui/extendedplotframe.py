@@ -234,7 +234,7 @@ class ExtendedPlotFrame(wx.Frame):
             return
         # ignore previous range
         self.subplot.dataLim.ignore(True)
-        bounds = self.datalims.values()
+        bounds = list(self.datalims.values())
         xmin = min([b[0] for b in bounds])
         xmax = max([b[1] for b in bounds])
         ymin = min([b[2] for b in bounds])
@@ -293,7 +293,7 @@ class ExtendedPlotFrame(wx.Frame):
             properties.update({'color':color,'linestyle':lineStyle,
                              'linewidth':lineWidth})
 
-        if style.has_key('legend'):
+        if 'legend' in style:
             properties['label'] = style['legend']
         return stylestr, properties
 

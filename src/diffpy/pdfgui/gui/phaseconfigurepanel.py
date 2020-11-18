@@ -256,7 +256,7 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
         txtbg = self.textCtrlA.DefaultStyle.BackgroundColour
 
         # First the TextCtrls
-        for key, var in self.lConstraintsMap.iteritems():
+        for key, var in self.lConstraintsMap.items():
             textCtrl = getattr(self, key)
             if var in self.constraints:
                 textCtrl.SetEditable(False)
@@ -272,8 +272,8 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
         rows = self.gridAtoms.GetNumberRows()
         cols = self.gridAtoms.GetNumberCols()
 
-        for i in xrange(rows):
-            for j in xrange(1, cols):
+        for i in range(rows):
+            for j in range(1, cols):
                 var = self.lAtomConstraints[j-1]
                 var += '(%i)'%(i+1)
                 if var in self.constraints:

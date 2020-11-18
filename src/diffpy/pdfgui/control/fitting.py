@@ -13,6 +13,8 @@
 #
 ##############################################################################
 
+from __future__ import print_function
+
 import threading
 import time
 
@@ -20,6 +22,7 @@ from diffpy.pdfgui.control.organizer import Organizer
 from diffpy.pdfgui.control.controlerrors import ControlError
 from diffpy.pdfgui.control.controlerrors import ControlStatusError
 from diffpy.pdfgui.control.controlerrors import ControlValueError
+from diffpy.pdfgui.utils import safeCPickleDumps, pickle_loads
 
 # helper routines to deal with PDFfit2 exceptions
 
@@ -52,7 +55,7 @@ def handleEngineException(error, gui=None):
     if gui:
         gui.postEvent(gui.ERROR, "<Engine exception> %s" % errorInfo)
     else:
-        print "<Engine exception> %s" % errorInfo
+        print("<Engine exception> %s" % errorInfo)
     return
 
 ##############################################################################
@@ -92,13 +95,13 @@ class Fitting(Organizer):
             """overload function from Thread """
             try:
                 self.fitting.run()
-            except ControlError,error:
+            except ControlError as error:
                 gui = self.fitting.controlCenter.gui
                 if gui:
                     gui.postEvent(gui.ERROR, "<Fitting exception> %s" % error.info)
                 else:
-                    print "<Fitting exception> %s" % error.info
-            except getEngineExceptions(), error:
+                    print("<Fitting exception> %s" % error.info)
+            except getEngineExceptions() as error:
                 gui = self.fitting.controlCenter.gui
                 handleEngineException(error, gui)
             return
@@ -191,15 +194,14 @@ class Fitting(Organizer):
         subs = subpath.split('/')
         rootDict = z.fileTree[subs[0]][subs[1]]
 
-        import cPickle
-        if rootDict.has_key('parameters'):
+        if 'parameters' in rootDict:
             from diffpy.pdfgui.control.pdfguicontrol import CtrlUnpickler
             self.parameters = CtrlUnpickler.loads(z.read(subpath+'parameters'))
-        if rootDict.has_key('steps'):
+        if 'steps' in rootDict:
             self.itemIndex, self.dataNameDict, self.snapshots = \
-                    cPickle.loads(z.read(subpath+'steps'))
-        if rootDict.has_key('result'):
-            self.rw, self.res = cPickle.loads(z.read(subpath+'result'))
+                    pickle_loads(z.read(subpath+'steps'))
+        if 'result' in rootDict:
+            self.rw, self.res = pickle_loads(z.read(subpath+'result'))
 
         return Organizer.load(self, z, subpath)
 
@@ -209,17 +211,16 @@ class Fitting(Organizer):
         z       -- zipped project file
         subpath -- path to its own storage within project file
         """
-        from diffpy.pdfgui.utils import safeCPickleDumps
         if self.parameters:
-            bytes = safeCPickleDumps(self.parameters)
-            z.writestr(subpath + 'parameters', bytes)
+            spkl = safeCPickleDumps(self.parameters)
+            z.writestr(subpath + 'parameters', spkl)
         if self.res:
-            bytes = safeCPickleDumps((self.rw, self.res))
-            z.writestr(subpath + 'result', bytes)
+            spkl = safeCPickleDumps((self.rw, self.res))
+            z.writestr(subpath + 'result', spkl)
         if self.snapshots:
-            bytes = safeCPickleDumps(
+            spkl = safeCPickleDumps(
                     (self.itemIndex, self.dataNameDict, self.snapshots) )
-            z.writestr(subpath + 'steps', bytes)
+            z.writestr(subpath + 'steps', spkl)
         Organizer.save(self, z, subpath)
         return
 
@@ -246,15 +247,15 @@ class Fitting(Organizer):
         # create dictionary of parameters used in constraints
         cpars = {}
         for struc in self.strucs:
-            for idx, par in struc.findParameters().iteritems():
+            for idx, par in struc.findParameters().items():
                 if idx not in cpars:
                     cpars[idx] = par
         for dataset in self.datasets:
-            for idx, par in dataset.findParameters().iteritems():
+            for idx, par in dataset.findParameters().items():
                 if idx not in cpars:
                     cpars[idx] = par
         # add new parameters
-        for idx, par in cpars.iteritems():
+        for idx, par in cpars.items():
             if idx not in self.parameters:
                 self.parameters[idx] = par
         # remove unused parameters
@@ -293,7 +294,7 @@ class Fitting(Organizer):
         fits = pdfguicontrol().fits
         for fit in fits:
             parameters = fit.parameters
-            for par in parameters.itervalues():
+            for par in parameters.values():
                 if par.initialStr() == fiteq:
                     par.setInitial(newfiteq)
 
@@ -334,21 +335,19 @@ class Fitting(Organizer):
             struc.clearRefined()
             self.server.read_struct_string(struc.initial.writeStr("pdffit") )
             for key, var in struc.constraints.items():
-                key_ascii = key.encode('ascii')
-                formula_ascii = var.formula.encode('ascii')
-                self.server.constrain(key_ascii, formula_ascii)
+                self.server.constrain(key, var.formula)
 
         # phase paramters configured
 
         for dataset in self.datasets:
             dataset.clearRefined()
             self.server.read_data_string(dataset.writeResampledObsStr(),
-                                         dataset.stype.encode('ascii'),
+                                         dataset.stype,
                                          dataset.qmax,
                                          dataset.qdamp)
             self.server.setvar('qbroad', dataset.qbroad)
             for key,var in dataset.constraints.items():
-                self.server.constrain(key.encode('ascii'), var.formula.encode('ascii'))
+                self.server.constrain(key, var.formula)
             # Removed call to pdfrange call, because data were already
             # resampled to at fit range.
             #
@@ -452,11 +451,11 @@ class Fitting(Organizer):
             self._configureBondCalculation(struc)
             self.server.bang(i, j, k)
             self._release()
-        except getEngineExceptions(), error:
+        except getEngineExceptions() as error:
             gui = self.controlCenter.gui
             handleEngineException(error, gui)
-        except ValueError, error:
-            raise ControlValueError, str(error)
+        except ValueError as error:
+            raise ControlValueError(str(error))
         return
 
 
@@ -476,11 +475,11 @@ class Fitting(Organizer):
             self._configureBondCalculation(struc)
             self.server.blen(i, j)
             self._release()
-        except getEngineExceptions(), error:
+        except getEngineExceptions() as error:
             gui = self.controlCenter.gui
             handleEngineException(error, gui)
-        except ValueError, error:
-            raise ControlValueError, str(error)
+        except ValueError as error:
+            raise ControlValueError(str(error))
         return
 
 
@@ -502,11 +501,11 @@ class Fitting(Organizer):
             self._configureBondCalculation(struc)
             self.server.blen(a1, a2, lb, ub)
             self._release()
-        except getEngineExceptions(), error:
+        except getEngineExceptions() as error:
             gui = self.controlCenter.gui
             handleEngineException(error, gui)
-        except ValueError, error:
-            raise ControlValueError, str(error)
+        except ValueError as error:
+            raise ControlValueError(str(error))
         return
 
 
@@ -574,8 +573,7 @@ class Fitting(Organizer):
                 #      way while user choose to stop forcefully
         else:
             if self.isThreadRunning():
-                raise ControlStatusError,\
-                "Fitting: Fitting %s is still running"%self.name
+                raise ControlStatusError("Fitting: Fitting %s is still running"%self.name)
             if self.thread is not None:
                 self.thread.join()
 
@@ -605,7 +603,7 @@ class Fitting(Organizer):
         for dataset in self.datasets:
             id = dataset._getStrId()
             dataNameDict[id] = {}
-            for itemName in dataset.constraints.keys() + ['Gcalc','crw']:
+            for itemName in list(dataset.constraints.keys()) + ['Gcalc','crw']:
                 dataNameDict[id][itemName] = self.itemIndex
                 self.itemIndex += 1
 
@@ -700,7 +698,7 @@ class Fitting(Organizer):
             istruc += 1
 
         # update parameters
-        for idx, par in self.parameters.iteritems():
+        for idx, par in self.parameters.items():
             par.refined = self.server.getpar(idx)
 
         self.rw = self.server.getrw()
@@ -725,7 +723,7 @@ class Fitting(Organizer):
 
         returns a name str list
         """
-        names = self.parameters.keys()
+        names = list(self.parameters.keys())
         names.append('rw')
         return names
 
@@ -763,10 +761,10 @@ class Fitting(Organizer):
         for dataset in self.datasets:
             # build up the name list
             if not names:
-                names = dataset.metadata.keys()
+                names = list(dataset.metadata.keys())
             else:
                 for name in names[:]:
-                    if name not in dataset.metadata.keys():
+                    if name not in dataset.metadata:
                         names.remove(name)
         return names
 

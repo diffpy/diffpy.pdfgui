@@ -146,7 +146,7 @@ class PlotPanel(wx.Panel, PDFPanel):
             xdata.extend(fit.getYNames())
 
         # reduce
-        xdata = dict.fromkeys(xdata).keys()
+        xdata = list(set(xdata))
 
         # Make the parameter entries a bit more presentable.
         def _represent(mixedNames):
@@ -196,7 +196,7 @@ class PlotPanel(wx.Panel, PDFPanel):
         # Fill the List
         self.yDataList.DeleteAllItems()
         for val in yvals:
-            self.yDataList.InsertItem(sys.maxint, str(val))
+            self.yDataList.InsertItem(sys.maxsize, str(val))
         self.yDataList.makeIDM()
         self.yDataList.initializeSorter()
         if yvals:
