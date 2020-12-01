@@ -266,7 +266,8 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
                 tt.SetTip(self.constraints[var].formula)
             else:
                 textCtrl.SetEditable(True)
-                textCtrl.SetBackgroundColour(txtbg)
+                #textCtrl.SetBackgroundColour(txtbg)
+                textCtrl.SetBackgroundColour(wx.WHITE)
 
         # Now the grid
         rows = self.gridAtoms.GetNumberRows()
