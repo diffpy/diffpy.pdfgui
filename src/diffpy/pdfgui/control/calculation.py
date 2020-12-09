@@ -25,6 +25,8 @@ from diffpy.pdfgui.control.controlerrors import ControlValueError
 from diffpy.pdfgui.control.pdfcomponent import PDFComponent
 from diffpy.pdfgui.utils import safeCPickleDumps, pickle_loads
 
+from diffpy.srreal.pdfcalculator import PDFCalculator, DebyePDFCalculator
+
 
 class Calculation(PDFComponent):
     """Perform a theoretical computation of PDF from model structure.
@@ -65,10 +67,12 @@ class Calculation(PDFComponent):
         self.stype = 'X'
         # user must specify qmax to get termination ripples
         self.qmax = 0.0
+        self.qmin = 0.0
         self.qdamp = 0.001
         self.qbroad = 0.0
         self.spdiameter = None
         self.dscale = 1.0
+        self.pctype = 'PC' # default use PDF real space calculator
         return
 
     def _getStrId(self):
@@ -149,6 +153,20 @@ class Calculation(PDFComponent):
         self.owner.updateParameters()
         from diffpy.pdffit2 import PdfFit
         server = PdfFit()
+
+        if self.pctype == 'PC': # use PDFCalculator
+            pc = PDFCalculator()
+        elif self.pctype == 'DPC': # use DebyePDFCalculator
+            pc = DebyePDFCalculator()
+
+        pc.qmax = self.qmax
+        pc.qmin = self.qmin
+        pc.qdamp = self.qdamp
+        pc.qbroad = self.qbroad
+        pc.rmin = self.rmin
+        pc.rmax = self.rmax
+        pc.rstep = self.rstep
+        pc.scale = self.dscale
 
         # structure needs to be read before dataset allocation
         for struc in self.owner.strucs:
