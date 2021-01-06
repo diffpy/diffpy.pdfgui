@@ -26,6 +26,7 @@ from diffpy.pdfgui.control.pdfcomponent import PDFComponent
 from diffpy.pdfgui.utils import safeCPickleDumps, pickle_loads
 
 from diffpy.srreal.pdfcalculator import PDFCalculator, DebyePDFCalculator
+from diffpy.srreal.structureadapter import nometa
 
 
 class Calculation(PDFComponent):
@@ -138,8 +139,9 @@ class Calculation(PDFComponent):
             gui.postEvent(gui.PLOTNOW, self)
         return
 
-    def calculate(self):
-        """do the real calculation
+    def calculate_cmi(self):
+        """
+        Perform calculation in diffpy.srreal
         """
         # clean up old results
         self.rcalc = []
@@ -148,16 +150,17 @@ class Calculation(PDFComponent):
         # do the job
         if len(self.owner.strucs) == 0:
             raise ControlConfigError("No structure is given for calculation")
-
         # make sure parameters are initialized
         self.owner.updateParameters()
-        from diffpy.pdffit2 import PdfFit
-        server = PdfFit()
 
+        # initialize the calculator
         if self.pctype == 'PC': # use PDFCalculator
             pc = PDFCalculator()
         elif self.pctype == 'DPC': # use DebyePDFCalculator
             pc = DebyePDFCalculator()
+        # x-ray or neutron, PC default x-ray
+        if self.stye == "N":
+            pc.scatteringfactortable = "neutron"
 
         pc.qmax = self.qmax
         pc.qmin = self.qmin
@@ -178,9 +181,6 @@ class Calculation(PDFComponent):
             pc_temp = pc.copy()
             pc_temp.delta1 = struc.getvar('delta1')
             pc_temp.delta2 = struc.getvar('delta2')
-            if struc.getvar('pscale'):
-                pc_temp.addEnvelope('scale')
-                pc_temp.scale = struc.getvar('pscale')
             if struc.getvar('spdiameter'):
                 pc_temp.addEnvelope('sphericalshape')
                 pc_temp.spdiameter = struc.getvar('spdiameter')
@@ -194,20 +194,39 @@ class Calculation(PDFComponent):
             # pc_temp.setTypeMask("Ni","O",True)
 
             r, g = pc_temp(nometa(struc))
-            g = g * struc.getvar('pscale')
+            if struc.getvar('pscale'):
+                g = g * struc.getvar('pscale')
             r_list.append(r)
             g_list.append(g)
         print("len(r_list)", len(r_list))
         print("len(g_list)", len(g_list))
 
         # get results
+
         self.rcalc = r_list[0].tolist()  # r0, r1, r2 are the same, so just use r0
-        # print self.rcalc
         # sum up multi-phase PDFs
         gsum = 0
         for i in range(len(self.owner.strucs)):
             gsum += g_list[i]
         self.Gcalc = gsum.tolist()
+
+        return
+
+    def calculate(self):
+        """do the real calculation
+        """
+        # clean up old results
+        self.rcalc = []
+        self.Gcalc = []
+
+        # do the job
+        if len(self.owner.strucs) == 0:
+            raise ControlConfigError("No structure is given for calculation")
+
+        # make sure parameters are initialized
+        self.owner.updateParameters()
+        from diffpy.pdffit2 import PdfFit
+        server = PdfFit()
 
         # structure needs to be read before dataset allocation
         for struc in self.owner.strucs:
