@@ -168,6 +168,47 @@ class Calculation(PDFComponent):
         pc.rstep = self.rstep
         pc.scale = self.dscale
 
+        # load structure and disable metadata using the nometa function
+        # and set any calculator attributes as needed as above
+        r_list = []
+        g_list = []
+        for struc in self.owner.strucs:
+            # pc is for one calculation. the common setting
+            # pc_temp is for each phase, specific setting
+            pc_temp = pc.copy()
+            pc_temp.delta1 = struc.getvar('delta1')
+            pc_temp.delta2 = struc.getvar('delta2')
+            if struc.getvar('pscale'):
+                pc_temp.addEnvelope('scale')
+                pc_temp.scale = struc.getvar('pscale')
+            if struc.getvar('spdiameter'):
+                pc_temp.addEnvelope('sphericalshape')
+                pc_temp.spdiameter = struc.getvar('spdiameter')
+            if struc.getvar('stepcut'):
+                pc_temp.addEnvelope('stepcut')
+                pc_temp.stepcut = struc.getvar('stepcut')
+
+
+            ##TODO: pair mask. the baseline is not correct with PDFFIT.
+            pc_temp = struc.applyCMIPairSelection(pc_temp)
+            # pc_temp.setTypeMask("Ni","O",True)
+
+            r, g = pc_temp(nometa(struc))
+            g = g * struc.getvar('pscale')
+            r_list.append(r)
+            g_list.append(g)
+        print("len(r_list)", len(r_list))
+        print("len(g_list)", len(g_list))
+
+        # get results
+        self.rcalc = r_list[0].tolist()  # r0, r1, r2 are the same, so just use r0
+        # print self.rcalc
+        # sum up multi-phase PDFs
+        gsum = 0
+        for i in range(len(self.owner.strucs)):
+            gsum += g_list[i]
+        self.Gcalc = gsum.tolist()
+
         # structure needs to be read before dataset allocation
         for struc in self.owner.strucs:
             server.read_struct_string(struc.writeStr('pdffit'))
