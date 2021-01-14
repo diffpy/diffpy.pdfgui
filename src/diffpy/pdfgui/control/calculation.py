@@ -42,8 +42,11 @@ class Calculation(PDFComponent):
     rcalc  -- list of r values, this is set after calculation is finished
     Gcalc  -- list of calculated G values
     stype  -- scattering type, 'X' or 'N'
+    pctype -- PDF calculator type, 'PC' or 'DPC', to use RealSpacePC
+              or DebyePC.
     qmax   -- maximum value of Q in inverse Angstroms.  Termination ripples
               are ignored for qmax=0.
+    qmin   -- minimum value of Q in inverse Angstroms.  Default qmin=0.
     qdamp  -- specifies width of Gaussian damping factor in pdf_obs due
               to imperfect Q resolution
     qbroad -- quadratic peak broadening factor related to dataset
@@ -66,6 +69,7 @@ class Calculation(PDFComponent):
         self.rcalc = []
         self.Gcalc = []
         self.stype = 'X'
+        self.pctype = 'PC' # default use PDF real space calculator
         # user must specify qmax to get termination ripples
         self.qmax = 0.0
         self.qmin = 0.0
@@ -73,7 +77,6 @@ class Calculation(PDFComponent):
         self.qbroad = 0.0
         self.spdiameter = None
         self.dscale = 1.0
-        self.pctype = 'PC' # default use PDF real space calculator
         return
 
     def _getStrId(self):
@@ -159,7 +162,7 @@ class Calculation(PDFComponent):
         elif self.pctype == 'DPC': # use DebyePDFCalculator
             pc = DebyePDFCalculator()
         # x-ray or neutron, PC default x-ray
-        if self.stye == "N":
+        if self.stype == "N":
             pc.scatteringfactortable = "neutron"
 
         pc.qmax = self.qmax
@@ -190,7 +193,7 @@ class Calculation(PDFComponent):
 
 
             ##TODO: pair mask. the baseline is not correct with PDFFIT.
-            pc_temp = struc.applyCMIPairSelection(pc_temp)
+            struc.applyCMIPairSelection(pc_temp)
             # pc_temp.setTypeMask("Ni","O",True)
 
             r, g = pc_temp(nometa(struc))

@@ -621,6 +621,25 @@ class FitStructure(PDFStructure):
             server.selectAtomIndex(phaseidx, 'j', idx, jflag)
         return
 
+    def applyCMIPairSelection(self, pc):
+        """Apply pair selection for CMI calculations of partial PDF.
+
+        pc   -- instance of CMI PDFCalculator engine
+        """
+        psf = self.getPairSelectionFlags()
+        # to begin masking, first remove ALL
+        pc.setTypeMask("all", "all", False)
+        #option1: mask by site index. has problem
+        # for i, iflag in enumerate(psf['firstflags']):
+        #     for j, jflag in enumerate(psf['secondflags']):
+        #         print("i, iflag", i, iflag)
+        #         print("j, jflag", j, jflag)
+        #         pc.setPairMask(i, j, (iflag and jflag))
+        #option2: mask by element type
+        firstelement = str(psf['fixed_pair_string'].split("-")[0])
+        secondelement = str(psf['fixed_pair_string'].split("-")[1])
+        pc.setTypeMask(firstelement, secondelement, True)
+        return
 
     def getSelectedIndices(self, s):
         '''Indices of the atoms that match the specified selection string.
