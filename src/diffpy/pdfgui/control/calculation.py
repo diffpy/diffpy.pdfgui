@@ -295,6 +295,11 @@ class Calculation(PDFComponent):
             lines.append('stype=X  x-ray scattering')
         elif self.stype == 'N':
             lines.append('stype=N  neutron scattering')
+        # pctype
+        if self.pctype == 'PC':
+            lines.append('pctype=PC  real space PDF calculator')
+        elif self.pctype == 'DPC':
+            lines.append('pctype=DPC  Debye PDF calculator')
         # dscale
         if self.dscale:
             lines.append('dscale=%g' % self.dscale)
@@ -304,6 +309,12 @@ class Calculation(PDFComponent):
         else:
             qmax_line = 'qmax=%.2f' % self.qmax
         lines.append(qmax_line)
+        # qmin
+        if self.qmin == 0:
+            qmin_line = 'qmin=0'
+        else:
+            qmin_line = 'qmin=%.2f' % self.qmin
+        lines.append(qmin_line)
         # qdamp
         if isinstance(self.qdamp, float):
             lines.append('qdamp=%g' % self.qdamp)
@@ -335,7 +346,9 @@ class Calculation(PDFComponent):
         self.rcalc = config['rcalc']
         self.Gcalc = config['Gcalc']
         self.stype = config['stype']
+        self.pctype = config['pctype']
         self.qmax = config['qmax']
+        self.qmin = config['qmin']
         self.qdamp = config.get('qdamp', config.get('qsig'))
         self.qbroad = config.get('qbroad', config.get('qalp', 0.0))
         self.spdiameter = config.get('spdiameter')
@@ -356,7 +369,9 @@ class Calculation(PDFComponent):
             'rcalc' : self.rcalc,
             'Gcalc' : self.Gcalc,
             'stype' : self.stype,
+            'pctype' : self.pctype,
             'qmax' : self.qmax,
+            'qmin' : self.qmin,
             'qdamp' : self.qdamp,
             'qbroad' : self.qbroad,
             'dscale' : self.dscale,
@@ -377,7 +392,7 @@ class Calculation(PDFComponent):
         # rcalc and Gcalc may be assigned, they get replaced by new lists
         # after every calculation
         assign_attributes = ( 'rmin', 'rstep', 'rmax', 'rlen',
-                'rcalc', 'Gcalc', 'stype', 'qmax', 'qdamp',
+                'rcalc', 'Gcalc', 'stype', 'pctype', 'qmax', 'qmin', 'qdamp',
                 'qbroad', 'dscale', )
         copy_attributes = ( )
         for a in assign_attributes:
