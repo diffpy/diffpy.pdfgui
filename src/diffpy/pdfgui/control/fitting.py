@@ -123,6 +123,8 @@ class Fitting(Organizer):
 
         # the PDFfit2 server instance.
         self.server = None
+        # the CMI server instance.
+        self.cmiserver = None
 
         # public data members
         self.step = 0
@@ -157,6 +159,8 @@ class Fitting(Organizer):
         """release resources"""
         if self.server: # server has been allocated, we need free the memory
             self.server.reset()
+        if self.cmiserver:
+            self.ciserver.reset()
 
     def _getStrId(self):
         """make a string identifier
@@ -320,6 +324,8 @@ class Fitting(Organizer):
         # create a new instance of calculation server
         from diffpy.pdffit2 import PdfFit
         self.server = PdfFit()
+        from diffpy.srfit.pdf import PDFContribution
+        self.cmiserver = PDFContribution("cmi")
         self.__changeStatus(fitStatus=Fitting.CONNECTED)
 
 
@@ -330,6 +336,17 @@ class Fitting(Organizer):
 
         # make sure parameters are initialized
         self.updateParameters()
+
+        from diffpy.srreal.structureadapter import nometa
+        from diffpy.srfit.fitbase import FitRecipe, FitResults
+        from scipy.optimize.minpack import leastsq
+        self.cmiserver.addStructure("cmi",self.strucs[0])
+        self.cmiserver.loadData(self.datasets[0].writeResampledObsStr())
+        cmirecipe = FitRecipe()
+        cmirecipe.addContribution(self.cmiserver)
+
+
+
         self.server.reset()
         for struc in self.strucs:
             struc.clearRefined()
