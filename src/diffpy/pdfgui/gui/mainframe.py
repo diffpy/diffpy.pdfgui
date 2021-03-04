@@ -2497,7 +2497,13 @@ class MainFrame(wx.Frame):
 
     def updateOutput(self):
         """Update text in outputPanel with text in stdout."""
-        self.outputPanel.updateText(self.control.getEngineOutput())
+        # self.outputPanel.updateText(self.control.getEngineOutput())
+        #long
+        # TODO: append CMI result after pdffit result
+        if self.control.getCMIOutput():
+            self.outputPanel.updateText(self.control.getCMIOutput())
+            self.control.resetCMIOutput() #only output cmi results once
+        #end long
         return
 
 # end of class MainPanel

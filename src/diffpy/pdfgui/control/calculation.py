@@ -178,6 +178,7 @@ class Calculation(PDFComponent):
         # and set any calculator attributes as needed as above
         r_list = []
         g_list = []
+        self.owner.applyParameters()
         for struc in self.owner.strucs:
             # pc is for one calculation. the common setting
             # pc_temp is for each phase, specific setting

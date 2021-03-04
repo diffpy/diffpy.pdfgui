@@ -418,8 +418,9 @@ class Fitting(Organizer):
         self.cmirecipe.fithooks[0].verbose = 3
 
         leastsq(self.cmirecipe.residual, self.cmirecipe.values)
-        self.cmiresults = str(FitResults(self.cmirecipe))
-
+        self.cmiresults = "\n=============================== CMI RESULTS ==================================\n"
+        self.cmiresults += str(FitResults(self.cmirecipe))
+        self.cmiresults += "============================ END OF CMI RESULTS ==============================\n\n"
 
 
 
@@ -471,6 +472,14 @@ class Fitting(Organizer):
         """reset status back to initialized"""
         self.snapshots = []
         self.step = 0
+        # long
+        # initialize cmi
+        self.cmipdfgen = None
+        self.cmiprofile = None
+        self.cmicontribution = None
+        self.cmirecipe = None
+        self.cmiresults = None
+        # end long
         if self.fitStatus == Fitting.INITIALIZED:
             return  # already reset
 
