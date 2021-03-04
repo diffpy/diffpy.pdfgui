@@ -352,7 +352,7 @@ class MainFrame(wx.Frame):
         # Position other panels. Note that currently MinimizeButton does not do
         # anything. It is to be implemented in future versions of wx.aui
         self.auiManager.AddPane(self.outputPanel, wx.aui.AuiPaneInfo().
-                          Name("outputPanel").Caption("PDFfit2 Output").
+                          Name("outputPanel").Caption("DiffPy-CMI Output").
                           Bottom().
                           TopDockable().
                           BottomDockable().
