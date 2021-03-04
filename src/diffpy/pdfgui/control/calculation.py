@@ -142,7 +142,7 @@ class Calculation(PDFComponent):
             gui.postEvent(gui.PLOTNOW, self)
         return
 
-    def calculate_cmi(self):
+    def calculate(self):
         """
         Perform calculation in diffpy.srreal
         """
@@ -162,7 +162,7 @@ class Calculation(PDFComponent):
         elif self.pctype == 'DPC': # use DebyePDFCalculator
             pc = DebyePDFCalculator()
         # x-ray or neutron, PC default x-ray
-        if self.stype == "N":
+        if self.stype == 'N':
             pc.scatteringfactortable = "neutron"
 
         pc.qmax = self.qmax
@@ -215,8 +215,8 @@ class Calculation(PDFComponent):
 
         return
 
-    def calculate(self):
-        """do the real calculation
+    def calculate_pdffit(self):
+        """do the real calculation in PDFFIT
         """
         # clean up old results
         self.rcalc = []
