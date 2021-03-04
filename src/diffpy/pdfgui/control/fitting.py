@@ -419,18 +419,38 @@ class Fitting(Organizer):
                     if key_arg == '6':
                         self.cmirecipe.constrain(lat.gamma, var_name)
 
-                # ADP
-                ## TODO key == 'u11(i)', constrain the ith atom's ADP U11.
-                # How to determine key == 'u11(i)' and parse the number 'i' in ().
-                # if key == 'u11(i)':
-                    # self.cmirecipe.constrain(atoms[i-1].U11, var_name)
-
                 # delta term
                 if key_ref == 'delta1':
                     self.cmirecipe.constrain(self.cmipdfgen.delta1, var_name)
                 if key_ref == 'delta2':
                     self.cmirecipe.constrain(self.cmipdfgen.delta2, var_name)
 
+                # ADP
+                ## TODO key_ascii == 'u11(i)', constrain the ith atom's ADP U11.
+                if key_ref == 'u11':
+                    self.cmirecipe.constrain(atoms[key_arg-1].U11, var_name)
+                if key_ref == 'u22':
+                    self.cmirecipe.constrain(atoms[key_arg-1].U22, var_name)
+                if key_ref == 'u33':
+                    self.cmirecipe.constrain(atoms[key_arg-1].U33, var_name)
+                if key_ref == 'u12':
+                    self.cmirecipe.constrain(atoms[key_arg-1].U12, var_name)
+                if key_ref == 'u13':
+                    self.cmirecipe.constrain(atoms[key_arg-1].U13, var_name)
+                if key_ref == 'u23':
+                    self.cmirecipe.constrain(atoms[key_arg-1].U23, var_name)
+
+                # atom positions
+                if key_ref == 'x':
+                    self.cmirecipe.constrain(atoms[key_arg-1].x, var_name)
+                if key_ref == 'y':
+                    self.cmirecipe.constrain(atoms[key_arg-1].y, var_name)
+                if key_ref == 'z':
+                    self.cmirecipe.constrain(atoms[key_arg-1].z, var_name)
+
+                # occupancy
+                if key_ref == 'occ':
+                    self.cmirecipe.constrain(atoms[key_arg-1].occupancy, var_name)
 
 
         # turn on printout fithook in each refinement step
