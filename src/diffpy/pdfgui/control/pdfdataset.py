@@ -35,8 +35,11 @@ class PDFDataSet(PDFComponent):
         drobs      -- list of standard deviations of robs
         dGobs      -- list of standard deviations of Gobs
         stype      -- scattering type, 'X' or 'N'
+        pctype     -- PDF calculator type, 'PC' or 'DPC', to use RealSpacePC
+                      or DebyePC.
         qmax       -- maximum value of Q in inverse Angstroms.  Termination
                       ripples are neglected for qmax=0.
+        qmin       -- minimum value of Q in inverse Angstroms.  Default qmin=0.
         qdamp      -- specifies width of Gaussian damping factor in pdf_obs due
                       to imperfect Q resolution
         qbroad     -- quadratic peak broadening factor related to dataset
@@ -56,7 +59,7 @@ class PDFDataSet(PDFComponent):
         refinableVars   -- set (dict) of refinable variable names.
     """
 
-    persistentItems = [ 'robs', 'Gobs', 'drobs', 'dGobs', 'stype', 'qmax',
+    persistentItems = [ 'robs', 'Gobs', 'drobs', 'dGobs', 'stype', 'pctype', 'qmax', 'qmin',
                      'qdamp', 'qbroad', 'dscale', 'rmin', 'rmax', 'metadata' ]
     refinableVars = dict.fromkeys(('qdamp', 'qbroad', 'dscale'))
 
@@ -77,6 +80,8 @@ class PDFDataSet(PDFComponent):
         self.dGobs = []
         self.stype = 'X'
         # user must specify qmax to get termination ripples
+        self.pctype = 'PC'
+        self.qmin = 0.0
         self.qmax = 0.0
         self.qdamp = 0.001
         self.qbroad = 0.0
@@ -216,7 +221,7 @@ class PDFDataSet(PDFComponent):
         if res:
             self.metadata['doping'] = float(res.groups()[0])
 
-        # parsing gerneral metadata
+        # parsing general metadata
         if metadata:
             regexp = r"\b(\w+)\ *=\ *(%(f)s)\b" % rx
             while True:
