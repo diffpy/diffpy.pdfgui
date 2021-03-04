@@ -371,8 +371,6 @@ class Fitting(Organizer):
         self.cmipdfgen.qdamp.value = self.datasets[0].qdamp
         self.cmipdfgen.qbroad.value = self.datasets[0].qbroad
 
-        lat = self.cmipdfgen.phase.getLattice()
-        atoms = self.cmipdfgen.phase.getScatterers()
 
         self.cmirecipe = FitRecipe()
         self.cmirecipe.addContribution(self.cmicontribution)
@@ -396,61 +394,8 @@ class Fitting(Organizer):
             struc.clearRefined()
             for key, var in struc.constraints.items():
                 # self.server.constrain(key, var.formula)
-                key_ref, key_arg = self.__getRef(key)
-                var_name = self.transVar(var.formula)
-                print("var_name here")
-                print(var_name)
-                print("key", key, type(key))
-                print("key_ref", key_ref)
-                print("key_arg", key_arg)
-                if key_ref == 'pscale':
-                    self.cmirecipe.constrain(self.cmicontribution.scale, var_name)
-                if key_ref == 'lat':
-                    if key_arg == '1':
-                        self.cmirecipe.constrain(lat.a, var_name)
-                    if key_arg == '2':
-                        self.cmirecipe.constrain(lat.b, var_name)
-                    if key_arg == '3':
-                        self.cmirecipe.constrain(lat.c, var_name)
-                    if key_arg == '4':
-                        self.cmirecipe.constrain(lat.alpha, var_name)
-                    if key_arg == '5':
-                        self.cmirecipe.constrain(lat.beta, var_name)
-                    if key_arg == '6':
-                        self.cmirecipe.constrain(lat.gamma, var_name)
 
-                # delta term
-                if key_ref == 'delta1':
-                    self.cmirecipe.constrain(self.cmipdfgen.delta1, var_name)
-                if key_ref == 'delta2':
-                    self.cmirecipe.constrain(self.cmipdfgen.delta2, var_name)
-
-                # ADP
-                ## TODO key_ascii == 'u11(i)', constrain the ith atom's ADP U11.
-                if key_ref == 'u11':
-                    self.cmirecipe.constrain(atoms[key_arg-1].U11, var_name)
-                if key_ref == 'u22':
-                    self.cmirecipe.constrain(atoms[key_arg-1].U22, var_name)
-                if key_ref == 'u33':
-                    self.cmirecipe.constrain(atoms[key_arg-1].U33, var_name)
-                if key_ref == 'u12':
-                    self.cmirecipe.constrain(atoms[key_arg-1].U12, var_name)
-                if key_ref == 'u13':
-                    self.cmirecipe.constrain(atoms[key_arg-1].U13, var_name)
-                if key_ref == 'u23':
-                    self.cmirecipe.constrain(atoms[key_arg-1].U23, var_name)
-
-                # atom positions
-                if key_ref == 'x':
-                    self.cmirecipe.constrain(atoms[key_arg-1].x, var_name)
-                if key_ref == 'y':
-                    self.cmirecipe.constrain(atoms[key_arg-1].y, var_name)
-                if key_ref == 'z':
-                    self.cmirecipe.constrain(atoms[key_arg-1].z, var_name)
-
-                # occupancy
-                if key_ref == 'occ':
-                    self.cmirecipe.constrain(atoms[key_arg-1].occupancy, var_name)
+                self.cmiConstrain(key, var)
 
 
         # turn on printout fithook in each refinement step
@@ -944,6 +889,72 @@ class Fitting(Organizer):
             return self.snapshots[step][index]
 
     # Long new helper function
+    def cmiConstrain(self, key, var):
+        """Constrain structure parameters into cmi receipe.
+        key -- names of parameters, like pscale, lat(n).
+        var -- var.formula represents names of constrains, like @1, @2 + 1.
+        """
+        key_ref, key_arg = self.__getRef(key)
+        var_name = self.transVar(var.formula)
+
+        lat = self.cmipdfgen.phase.getLattice()
+        atoms = self.cmipdfgen.phase.getScatterers()
+
+        print("var_name here")
+        print(var_name)
+        print("key", key, type(key))
+        print("key_ref", key_ref)
+        print("key_arg", key_arg)
+        if key_ref == 'pscale':
+            self.cmirecipe.constrain(self.cmicontribution.scale, var_name)
+        if key_ref == 'lat':
+            if key_arg == '1':
+                self.cmirecipe.constrain(lat.a, var_name)
+            if key_arg == '2':
+                self.cmirecipe.constrain(lat.b, var_name)
+            if key_arg == '3':
+                self.cmirecipe.constrain(lat.c, var_name)
+            if key_arg == '4':
+                self.cmirecipe.constrain(lat.alpha, var_name)
+            if key_arg == '5':
+                self.cmirecipe.constrain(lat.beta, var_name)
+            if key_arg == '6':
+                self.cmirecipe.constrain(lat.gamma, var_name)
+
+        # delta term
+        if key_ref == 'delta1':
+            self.cmirecipe.constrain(self.cmipdfgen.delta1, var_name)
+        if key_ref == 'delta2':
+            self.cmirecipe.constrain(self.cmipdfgen.delta2, var_name)
+
+        # ADP
+        ## TODO key_ascii == 'u11(i)', constrain the ith atom's ADP U11.
+        if key_ref == 'u11':
+            self.cmirecipe.constrain(atoms[key_arg - 1].U11, var_name)
+        if key_ref == 'u22':
+            self.cmirecipe.constrain(atoms[key_arg - 1].U22, var_name)
+        if key_ref == 'u33':
+            self.cmirecipe.constrain(atoms[key_arg - 1].U33, var_name)
+        if key_ref == 'u12':
+            self.cmirecipe.constrain(atoms[key_arg - 1].U12, var_name)
+        if key_ref == 'u13':
+            self.cmirecipe.constrain(atoms[key_arg - 1].U13, var_name)
+        if key_ref == 'u23':
+            self.cmirecipe.constrain(atoms[key_arg - 1].U23, var_name)
+
+        # atom positions
+        if key_ref == 'x':
+            self.cmirecipe.constrain(atoms[key_arg - 1].x, var_name)
+        if key_ref == 'y':
+            self.cmirecipe.constrain(atoms[key_arg - 1].y, var_name)
+        if key_ref == 'z':
+            self.cmirecipe.constrain(atoms[key_arg - 1].z, var_name)
+
+        # occupancy
+        if key_ref == 'occ':
+            self.cmirecipe.constrain(atoms[key_arg - 1].occupancy, var_name)
+        return
+
     def transVar(self, str):
         # input "@11"
         # output "var11"
