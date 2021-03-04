@@ -393,12 +393,25 @@ class Fitting(Organizer):
             # if par.fixed:
             #     self.server.fixpar(index)
 
+        # phase constrains
         for struc in self.strucs:
             struc.clearRefined()
             for key, var in struc.constraints.items():
-                # self.server.constrain(key, var.formula)
-
                 self.cmiConstrain(key, var)
+
+        # data constrains
+        for dataset in self.datasets:
+            dataset.clearRefined()
+            for key, var in dataset.constraints.items():
+                self.cmiConstrain(key, var)
+            # Removed call to pdfrange call, because data were already
+            # resampled to at fit range.
+            #
+            # Pair selection applies only to the current dataset,
+            # therefore it has to be done here.
+            nstrucs = len(self.strucs)
+            for phaseidx, struc in zip(range(1, nstrucs + 1), self.strucs):
+                struc.applyPairSelection(self.server, phaseidx)
 
 
         # turn on printout fithook in each refinement step
@@ -956,6 +969,14 @@ class Fitting(Organizer):
         # occupancy
         if key_ref == 'occ':
             self.cmirecipe.constrain(atoms[key_arg - 1].occupancy, var_name)
+
+        # data parameters
+        if key_ascii_ref == 'qdamp':
+            self.cmirecipe.constrain(self.cmipdfgen.qdamp, var_name)
+        if key_ascii_ref == 'qbroad':
+            self.cmirecipe.constrain(self.cmipdfgen.qbroad, var_name)
+        # TODO how to deal with `dscale`. cmipdfgen don't have `dscale` parameter.
+
         return
 
     def transVar(self, str):
