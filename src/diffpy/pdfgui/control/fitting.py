@@ -345,6 +345,7 @@ class Fitting(Organizer):
         # make sure parameters are initialized
         self.updateParameters()
 
+        self.applyParameters()
         from diffpy.srreal.structureadapter import nometa
         from diffpy.srfit.fitbase import FitContribution, FitRecipe, FitResults
         from diffpy.srfit.pdf import PDFParser
@@ -372,9 +373,63 @@ class Fitting(Organizer):
         self.cmipdfgen.qdamp.value = self.datasets[0].qdamp
         self.cmipdfgen.qbroad.value = self.datasets[0].qbroad
 
+        lat = self.cmipdfgen.phase.getLattice()
+        atoms = self.cmipdfgen.phase.getScatterers()
+
         cmirecipe = FitRecipe()
         cmirecipe.addContribution(self.cmicontribution)
-        self.cmirecipe.addVar(self.cmicontribution.scale, 1.0)
+        # self.cmirecipe.addVar(self.cmicontribution.scale, 1.0)
+
+        for index, par in self.parameters.items():
+            # clean any refined value
+            par.refined = None
+            # self.server.setpar(index, par.initialValue()) # info[0] = init value
+            var_name = "var" + str(index)
+            print("var_name")
+            print(var_name)
+            print("par.initialValue()")
+            print(par.initialValue())
+            self.cmirecipe.newVar(var_name, par.initialValue())
+            # fix if fixed.  Note: all parameters are free after self.server.reset().
+            # if par.fixed:
+            #     self.server.fixpar(index)
+
+        for struc in self.strucs:
+            struc.clearRefined()
+            for key, var in struc.constraints.items():
+                # self.server.constrain(key, var.formula)
+                var_name = self.transVar(var.formula)
+                print("var_name here")
+                print(var_name)
+                print("key", key, type(key))
+                if key == 'pscale':
+                    self.cmirecipe.constrain(self.cmicontribution.scale, var_name)
+                if key == 'lat(1)':
+                    self.cmirecipe.constrain(lat.a, var_name)
+                if key == 'lat(2)':
+                    self.cmirecipe.constrain(lat.b, var_name)
+                if key == 'lat(3)':
+                    self.cmirecipe.constrain(lat.c, var_name)
+                if key == 'lat(4)':
+                    self.cmirecipe.constrain(lat.alpha, var_name)
+                if key == 'lat(5)':
+                    self.cmirecipe.constrain(lat.beta, var_name)
+                if key == 'lat(6)':
+                    self.cmirecipe.constrain(lat.gamma, var_name)
+
+                # ADP
+                ## TODO key == 'u11(i)', constrain the ith atom's ADP U11.
+                # How to determine key == 'u11(i)' and parse the number 'i' in ().
+                # if key == 'u11(i)':
+                    # self.cmirecipe.constrain(atoms[i-1].U11, var_name)
+
+                # delta term
+                if key == 'delta2':
+                    self.cmirecipe.constrain(self.cmipdfgen.delta2, var_name)
+                if key == 'delta1':
+                    self.cmirecipe.constrain(self.cmipdfgen.delta1, var_name)
+
+
         # turn on printout fithook in each refinement step
         self.cmirecipe.fithooks[0].verbose = 3
 
@@ -864,5 +919,11 @@ class Fitting(Organizer):
             return [ self.snapshots[i][index] for i in step ]
         else:
             return self.snapshots[step][index]
+
+    # Long new helper function
+    def transVar(self, str):
+        # input "@11"
+        # output "var11"
+        return str.replace("@", "var")
 
 # End of file
