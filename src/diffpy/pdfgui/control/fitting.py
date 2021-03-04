@@ -24,6 +24,15 @@ from diffpy.pdfgui.control.controlerrors import ControlStatusError
 from diffpy.pdfgui.control.controlerrors import ControlValueError
 from diffpy.pdfgui.utils import safeCPickleDumps, pickle_loads
 
+from diffpy.srfit.pdf import PDFContribution
+from diffpy.srfit.fitbase import Profile
+from diffpy.srreal.structureadapter import nometa
+from diffpy.srfit.fitbase import FitContribution, FitRecipe, FitResults
+from diffpy.srfit.pdf import PDFParser
+from diffpy.srfit.pdf import PDFGenerator, DebyePDFGenerator
+from diffpy.srfit.fitbase import FitRecipe, FitResults
+from scipy.optimize.minpack import leastsq
+
 # helper routines to deal with PDFfit2 exceptions
 
 def getEngineExceptions():
@@ -328,8 +337,6 @@ class Fitting(Organizer):
         from diffpy.pdffit2 import PdfFit
         self.server = PdfFit()
 
-        from diffpy.srfit.pdf import PDFContribution
-        from diffpy.srfit.fitbase import Profile
         self.cmiprofile = Profile()
 
         self.__changeStatus(fitStatus=Fitting.CONNECTED)
@@ -343,13 +350,8 @@ class Fitting(Organizer):
         # make sure parameters are initialized
         self.updateParameters()
 
+        #long CMI part
         self.applyParameters()
-        from diffpy.srreal.structureadapter import nometa
-        from diffpy.srfit.fitbase import FitContribution, FitRecipe, FitResults
-        from diffpy.srfit.pdf import PDFParser
-        from diffpy.srfit.pdf import PDFGenerator, DebyePDFGenerator
-        from diffpy.srfit.fitbase import FitRecipe, FitResults
-        from scipy.optimize.minpack import leastsq
 
         if self.datasets[0].pctype == 'PC':
             self.cmipdfgen = PDFGenerator("cmipdfgen")
@@ -373,7 +375,6 @@ class Fitting(Organizer):
         self.cmipdfgen.setQmax(self.datasets[0].qmax)
         self.cmipdfgen.qdamp.value = self.datasets[0].qdamp
         self.cmipdfgen.qbroad.value = self.datasets[0].qbroad
-
 
         self.cmirecipe = FitRecipe()
         self.cmirecipe.addContribution(self.cmicontribution)
@@ -422,9 +423,7 @@ class Fitting(Organizer):
         self.cmiresults += str(FitResults(self.cmirecipe))
         self.cmiresults += "============================ END OF CMI RESULTS ==============================\n\n"
 
-
-
-
+        #Long end CMI part
 
         self.server.reset()
         for struc in self.strucs:
@@ -925,11 +924,6 @@ class Fitting(Organizer):
         lat = self.cmipdfgen.phase.getLattice()
         atoms = self.cmipdfgen.phase.getScatterers()
 
-        print("var_name here")
-        print(var_name)
-        print("key", key, type(key))
-        print("key_ref", key_ref)
-        print("key_arg", key_arg)
         if key_ref == 'pscale':
             self.cmirecipe.constrain(self.cmicontribution.scale, var_name)
         if key_ref == 'lat':
