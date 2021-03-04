@@ -123,8 +123,13 @@ class Fitting(Organizer):
 
         # the PDFfit2 server instance.
         self.server = None
+
         # the CMI server instance.
-        self.cmiserver = None
+        self.cmipdfgen = None
+        self.cmiprofile = None
+        self.cmicontribution = None
+        self.cmirecipe = None
+        self.cmiresults = None
 
         # public data members
         self.step = 0
@@ -324,8 +329,11 @@ class Fitting(Organizer):
         # create a new instance of calculation server
         from diffpy.pdffit2 import PdfFit
         self.server = PdfFit()
+
         from diffpy.srfit.pdf import PDFContribution
-        self.cmiserver = PDFContribution("cmi")
+        from diffpy.srfit.fitbase import Profile
+        self.cmiprofile = Profile()
+
         self.__changeStatus(fitStatus=Fitting.CONNECTED)
 
 
@@ -338,19 +346,50 @@ class Fitting(Organizer):
         self.updateParameters()
 
         from diffpy.srreal.structureadapter import nometa
+        from diffpy.srfit.fitbase import FitContribution, FitRecipe, FitResults
+        from diffpy.srfit.pdf import PDFParser
+        from diffpy.srfit.pdf import PDFGenerator, DebyePDFGenerator
         from diffpy.srfit.fitbase import FitRecipe, FitResults
         from scipy.optimize.minpack import leastsq
-        self.cmiserver.addStructure("cmi",self.strucs[0])
-        self.cmiserver.loadData(self.datasets[0].writeResampledObsStr())
+
+        if self.datasets[0].pctype == 'PC':
+            self.cmipdfgen = PDFGenerator("cmipdfgen")
+        elif self.datasets[0].pctype == 'DPC':
+            self.cmipdfgen = DebyePDFGenerator("cmipdfgen")
+
+        self.cmipdfgen.setStructure(self.strucs[0])
+        parser = PDFParser()
+        parser.parseString(self.datasets[0].writeResampledObsStr())
+        self.cmiprofile.loadParsedData(parser)
+
+        self.cmicontribution = FitContribution("cmicontribution")
+        self.cmicontribution.addProfileGenerator(self.cmipdfgen)
+        self.cmicontribution.setProfile(self.cmiprofile, xname ="r")
+        self.cmicontribution.setEquation("scale * cmipdfgen")
+
+        # add qmax, qdamp, qbroad into cmipdfgen
+        self.cmipdfgen.setQmax(self.datasets[0].qmax)
+        self.cmipdfgen.qdamp.value = self.datasets[0].qdamp
+        self.cmipdfgen.qbroad.value = self.datasets[0].qbroad
+
         cmirecipe = FitRecipe()
-        cmirecipe.addContribution(self.cmiserver)
+        cmirecipe.addContribution(self.cmicontribution)
+        self.cmirecipe.addVar(self.cmicontribution.scale, 1.0)
+        # turn on printout fithook in each refinement step
+        self.cmirecipe.fithooks[0].verbose = 3
+
+        leastsq(self.cmirecipe.residual, self.cmirecipe.values)
+        self.cmiresults = str(FitResults(self.cmirecipe))
+
+
+
 
 
 
         self.server.reset()
         for struc in self.strucs:
             struc.clearRefined()
-            self.server.read_struct_string(struc.initial.writeStr("pdffit") )
+            self.server.read_struct_string(struc.initial.writeStr("pdffit"))
             for key, var in struc.constraints.items():
                 self.server.constrain(key, var.formula)
 
