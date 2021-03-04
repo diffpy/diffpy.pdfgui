@@ -164,8 +164,6 @@ class Fitting(Organizer):
         """release resources"""
         if self.server: # server has been allocated, we need free the memory
             self.server.reset()
-        if self.cmiserver:
-            self.ciserver.reset()
 
     def _getStrId(self):
         """make a string identifier
@@ -376,8 +374,8 @@ class Fitting(Organizer):
         lat = self.cmipdfgen.phase.getLattice()
         atoms = self.cmipdfgen.phase.getScatterers()
 
-        cmirecipe = FitRecipe()
-        cmirecipe.addContribution(self.cmicontribution)
+        self.cmirecipe = FitRecipe()
+        self.cmirecipe.addContribution(self.cmicontribution)
         # self.cmirecipe.addVar(self.cmicontribution.scale, 1.0)
 
         for index, par in self.parameters.items():
@@ -398,24 +396,28 @@ class Fitting(Organizer):
             struc.clearRefined()
             for key, var in struc.constraints.items():
                 # self.server.constrain(key, var.formula)
+                key_ref, key_arg = self.__getRef(key)
                 var_name = self.transVar(var.formula)
                 print("var_name here")
                 print(var_name)
                 print("key", key, type(key))
-                if key == 'pscale':
+                print("key_ref", key_ref)
+                print("key_arg", key_arg)
+                if key_ref == 'pscale':
                     self.cmirecipe.constrain(self.cmicontribution.scale, var_name)
-                if key == 'lat(1)':
-                    self.cmirecipe.constrain(lat.a, var_name)
-                if key == 'lat(2)':
-                    self.cmirecipe.constrain(lat.b, var_name)
-                if key == 'lat(3)':
-                    self.cmirecipe.constrain(lat.c, var_name)
-                if key == 'lat(4)':
-                    self.cmirecipe.constrain(lat.alpha, var_name)
-                if key == 'lat(5)':
-                    self.cmirecipe.constrain(lat.beta, var_name)
-                if key == 'lat(6)':
-                    self.cmirecipe.constrain(lat.gamma, var_name)
+                if key_ref == 'lat':
+                    if key_arg == '1':
+                        self.cmirecipe.constrain(lat.a, var_name)
+                    if key_arg == '2':
+                        self.cmirecipe.constrain(lat.b, var_name)
+                    if key_arg == '3':
+                        self.cmirecipe.constrain(lat.c, var_name)
+                    if key_arg == '4':
+                        self.cmirecipe.constrain(lat.alpha, var_name)
+                    if key_arg == '5':
+                        self.cmirecipe.constrain(lat.beta, var_name)
+                    if key_arg == '6':
+                        self.cmirecipe.constrain(lat.gamma, var_name)
 
                 # ADP
                 ## TODO key == 'u11(i)', constrain the ith atom's ADP U11.
@@ -424,10 +426,11 @@ class Fitting(Organizer):
                     # self.cmirecipe.constrain(atoms[i-1].U11, var_name)
 
                 # delta term
-                if key == 'delta2':
-                    self.cmirecipe.constrain(self.cmipdfgen.delta2, var_name)
-                if key == 'delta1':
+                if key_ref == 'delta1':
                     self.cmirecipe.constrain(self.cmipdfgen.delta1, var_name)
+                if key_ref == 'delta2':
+                    self.cmirecipe.constrain(self.cmipdfgen.delta2, var_name)
+
 
 
         # turn on printout fithook in each refinement step
@@ -925,5 +928,44 @@ class Fitting(Organizer):
         # input "@11"
         # output "var11"
         return str.replace("@", "var")
+
+    def __getRef(self, var_string):
+        # copy from __getRef in pdffit.py from PDFfit2 package.
+        # input pscale, output method_string = "pscale", arg_int = None
+        # input lat(1), output method_string = "lat", arg_int = 1
+        # input u11(2), output method_string = "u11", arg_int = 2
+        """Return the actual reference to the variable in the var_string.
+
+        This function must be called before trying to actually reference an
+        internal variable. See the constrain method for an example.
+
+        Raises:
+            pdffit2.unassignedError if variable is not yet assigned
+            ValueError if variable index does not exist (e.g. lat(7))
+        """
+        var_string = _convertCallable(var_string)
+        arg_int = None
+        try:
+            method_string, arg_string = var_string.split("(")
+            method_string = method_string.strip()
+            arg_int = int(arg_string.strip(")").strip())
+        except ValueError: #There is no arg_string
+            method_string = var_string.strip()
+        return method_string, arg_int
+
+
+# Long helper routines
+def _convertCallable(var):
+     """Convert an object to the result of its call when callable.
+
+     var -- string or callable object that returns string
+
+     Return var or var().
+     """
+     if callable(var):
+         rv = var()
+     else:
+         rv = var
+     return rv
 
 # End of file
