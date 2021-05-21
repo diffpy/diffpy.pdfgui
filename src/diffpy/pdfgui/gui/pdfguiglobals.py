@@ -13,13 +13,13 @@
 #
 ##############################################################################
 
-"""This module contains gloabal parameters needed by PDFgui."""
+"""This module contains global parameters needed by PDFgui."""
 
 import os.path
 from pkg_resources import Requirement, resource_filename
 
 # Name of the program
-name = "PDFgui"
+name = "PDFgui 2.0"
 # Maximum number of files to be remembered
 MAXMRU = 5
 # The location of the configuration file
