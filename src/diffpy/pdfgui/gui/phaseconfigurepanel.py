@@ -60,6 +60,7 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
         self.textCtrlBeta = wx.TextCtrl(self, wx.ID_ANY, "", style=wx.TE_PROCESS_ENTER)
         self.labelGamma = wx.StaticText(self, wx.ID_ANY, "gamma")
         self.textCtrlGamma = wx.TextCtrl(self, wx.ID_ANY, "", style=wx.TE_PROCESS_ENTER)
+        self.enableMag = wx.CheckBox(self, wx.ID_ANY, "Enable Magnetic PDF")
         self.labelScaleFactor = wx.StaticText(self, wx.ID_ANY, "Scale Factor")
         self.textCtrlScaleFactor = wx.TextCtrl(self, wx.ID_ANY, "", style=wx.TE_PROCESS_ENTER)
         self.labelDelta1 = wx.StaticText(self, wx.ID_ANY, "delta1")
@@ -85,6 +86,7 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
         self.Bind(wx.grid.EVT_GRID_CMD_CELL_RIGHT_CLICK, self.onCellRightClick, self.gridAtoms)
         self.Bind(wx.grid.EVT_GRID_CMD_EDITOR_SHOWN, self.onEditorShown, self.gridAtoms)
         self.Bind(wx.grid.EVT_GRID_CMD_LABEL_RIGHT_CLICK, self.onLabelRightClick, self.gridAtoms)
+        self.Bind(wx.EVT_CHECKBOX, self.onCheck, self.enableMag)
         # end wxGlade
         self.__customProperties()
 
@@ -113,6 +115,7 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
         sizerMain = wx.BoxSizer(wx.VERTICAL)
         sizerAtoms = wx.StaticBoxSizer(wx.StaticBox(self, wx.ID_ANY, ""), wx.VERTICAL)
         sizer_1 = wx.BoxSizer(wx.HORIZONTAL)
+        sizer_2 = wx.BoxSizer(wx.HORIZONTAL)
         sizerAdditionalParameters = wx.StaticBoxSizer(wx.StaticBox(self, wx.ID_ANY, ""), wx.HORIZONTAL)
         grid_sizer_4 = wx.FlexGridSizer(3, 6, 0, 0)
         sizerLatticeParameters = wx.StaticBoxSizer(wx.StaticBox(self, wx.ID_ANY, ""), wx.HORIZONTAL)
@@ -132,7 +135,9 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
         grid_sizer_3.Add(self.textCtrlBeta, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALL, 0)
         grid_sizer_3.Add(self.labelGamma, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALIGN_RIGHT | wx.ALL, 5)
         grid_sizer_3.Add(self.textCtrlGamma, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALL, 0)
+        sizer_2.Add(self.enableMag, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALL, 15)
         sizerLatticeParameters.Add(grid_sizer_3, 1, wx.EXPAND, 0)
+        sizerLatticeParameters.Add(sizer_2, 2, wx.EXPAND,0)
         sizerMain.Add(sizerLatticeParameters, 0, wx.EXPAND | wx.LEFT | wx.RIGHT, 5)
         grid_sizer_4.Add(self.labelScaleFactor, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALIGN_RIGHT | wx.ALL, 5)
         grid_sizer_4.Add(self.textCtrlScaleFactor, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALL, 0)
@@ -379,6 +384,12 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
 
     ##########################################################################
     # Event Handlers
+
+    # CheckBox Events
+    def onCheck(self, event):
+        """Toggles magnetic setting visibility and updates structure"""
+        self.structure.magnetism = self.enableMag.GetValue()
+        event.Skip()
 
     # TextCtrl Events
     def onSetFocus(self, event):
