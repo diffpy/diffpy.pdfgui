@@ -29,7 +29,8 @@ from diffpy.pdfgui.gui.phaseconfigurepanel import PhaseConfigurePanel
 from diffpy.pdfgui.gui.phaseconstraintspanel import PhaseConstraintsPanel
 from diffpy.pdfgui.gui.phaseresultspanel import PhaseResultsPanel
 
-
+from diffpy.pdfgui.gui.magconfigurepanel import MagConfigurePanel
+from diffpy.pdfgui.gui.magconstraintspanel import MagConstraintsPanel
 
 class PhaseNotebookPanel(wx.Panel, PDFPanel):
     def __init__(self, *args, **kwds):
@@ -41,6 +42,17 @@ class PhaseNotebookPanel(wx.Panel, PDFPanel):
         self.notebook_phase_pane_Constraints = PhaseConstraintsPanel(self.notebook_phase, -1)
         self.notebook_phase_pane_Results     = PhaseResultsPanel(self.notebook_phase, -1)
 
+        self.notebook_phase_pane_MagConstraints = MagConstraintsPanel(self.notebook_phase, -1)
+        self.notebook_phase_pane_MagConfigure   = MagConfigurePanel(self.notebook_phase, -1)
+        self.notebook_phase_pane_MagConstraints.Hide()
+        self.notebook_phase_pane_MagConfigure.Hide()
+
+        self.notebook_phase_pane_Configure.notebook_phase = self.notebook_phase
+        self.notebook_phase_pane_Configure.notebook_phase_pane_MagConstraints = self.notebook_phase_pane_MagConstraints
+        self.notebook_phase_pane_Configure.notebook_phase_pane_MagConfigure = self.notebook_phase_pane_MagConfigure
+        self.notebook_phase_pane_Configure.notebook_phase_pane_Configure = self.notebook_phase_pane_Configure
+        self.notebook_phase_pane_Configure.notebook_phase_pane_Constraints = self.notebook_phase_pane_Constraints
+        self.notebook_phase_pane_Configure.notebook_phase_pane_Results = self.notebook_phase_pane_Results
         self.__set_properties()
         self.__do_layout()
 
