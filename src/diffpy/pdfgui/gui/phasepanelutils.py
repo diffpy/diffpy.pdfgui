@@ -124,6 +124,11 @@ def refreshGrid(panel):
         panel.gridAtoms.SetColLabelValue(8, "u13")
         panel.gridAtoms.SetColLabelValue(9, "u23")
         panel.gridAtoms.SetColLabelValue(10, "occ")
+        panel.gridAtoms.SetColLabelValue(11, "magnetic")
+        if not panel.structure.magnetism:
+            panel.gridAtoms.HideCol(11)
+        else:
+            panel.gridAtoms.ShowCol(11)
 
         # make sure grid has correct number of rows and blank it
         natoms = len(panel.structure)
@@ -145,6 +150,9 @@ def refreshGrid(panel):
             panel.gridAtoms.SetCellValue(i,8, float2str(atom.U[0,2])) # U(1,3)
             panel.gridAtoms.SetCellValue(i,9, float2str(atom.U[1,2])) # U(2,3)
             panel.gridAtoms.SetCellValue(i,10,float2str(atom.occupancy)) # occupancy
+            if panel.structure.magnetism:
+                magnetic_value = '1' if i in panel.structure.magnetic_atoms else '0'
+                panel.gridAtoms.SetCellValue(i,11,magnetic_value) # magnetic
 
     panel.gridAtoms.AutosizeLabels()
     panel.gridAtoms.AutoSizeColumns()
