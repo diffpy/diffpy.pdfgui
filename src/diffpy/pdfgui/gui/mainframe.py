@@ -35,6 +35,7 @@ from diffpy.pdfgui.gui.datasetpanel import DataSetPanel
 from diffpy.pdfgui.gui.fitnotebookpanel import FitNotebookPanel
 from diffpy.pdfgui.gui.journalpanel import JournalPanel
 from diffpy.pdfgui.gui.phasenotebookpanel import PhaseNotebookPanel
+from diffpy.pdfgui.gui.magnotebookpanel import MagNotebookPanel
 from diffpy.pdfgui.gui.plotpanel import PlotPanel
 from diffpy.pdfgui.gui.rseriespanel import RSeriesPanel
 from diffpy.pdfgui.gui.temperatureseriespanel import TemperatureSeriesPanel
@@ -312,6 +313,7 @@ class MainFrame(wx.Frame):
              "welcome"      :       WelcomePanel(self, -1),
              "fit"          :       FitNotebookPanel(self, -1),
              "phase"        :       PhaseNotebookPanel(self, -1),
+             "mag"          :       MagNotebookPanel(self, -1),
              "dataset"      :       DataSetPanel(self, -1),
              "calculation"  :       CalculationPanel(self, -1),
              "adddata"      :       AddDataPanel(self, -1),
