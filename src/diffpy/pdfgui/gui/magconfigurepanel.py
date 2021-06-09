@@ -32,6 +32,7 @@ from diffpy.pdfgui.gui import phasepanelutils
 #from diffpy.pdfgui.gui.advancedmagconfig import AdvancedFrame
 from diffpy.utils.wx import gridutils
 from diffpy.pdfgui.gui.phasepanelutils import float2str
+#from diffpy.mpdf.magStructure import MagSpecies
 
 
 class MagConfigurePanel(wx.Panel, PDFPanel):
@@ -116,7 +117,6 @@ class MagConfigurePanel(wx.Panel, PDFPanel):
     def __customProperties(self):
         """Custom properties for the panel."""
         self.structure = None
-        self.magnetics = []
         self.magStructure = None
         self.constraints = {}
         self.results = None
@@ -126,7 +126,7 @@ class MagConfigurePanel(wx.Panel, PDFPanel):
         self._selectedCells = []
 
         self.lAtomConstraints = [
-            'x','y','z','bx','by','bz','px','py','pz',
+            'elem','basis vecs','prop. vecs',
             'corr. length','ord. scale', 'para. scale', 'FF key']
 
         '''
@@ -192,7 +192,7 @@ class MagConfigurePanel(wx.Panel, PDFPanel):
         self.textCtrlIncludedPairs.SetValue(pairs)
         #phasepanelutils.refreshGrid(self)
         ### update the grid ###
-        nmagatoms = self.magnetics.count(1)
+        nmagatoms = len(self.structure.magnetic_atoms)
         nrows = self.gridAtoms.GetNumberRows()
         self.gridAtoms.BeginBatch()
         # make sure grid has correct number of rows
@@ -207,7 +207,7 @@ class MagConfigurePanel(wx.Panel, PDFPanel):
         # fill the first 'elem' column with element symbols and x, y, z values if magnetic
         count = 0
         for row, atom in zip(range(len(self.structure)), self.structure):
-            if self.magnetics[row] == 1:
+            if row in self.structure.magnetic_atoms:
                 self.gridAtoms.SetRowLabelValue(count, str(row+1))
                 atom_info = atom.element + " (" + float2str(atom.xyz[0]) + "," + float2str(atom.xyz[1]) + "," + float2str(atom.xyz[2]) + ")"
                 self.gridAtoms.SetCellValue(count, 0, atom_info)
@@ -232,10 +232,11 @@ class MagConfigurePanel(wx.Panel, PDFPanel):
             '''
         return
 
+
     def restrictConstrainedParameters(self):
         """Set 'read-only' boxes that correspond to constrained parameters."""
 
-        self.setToolTips(tooltips.magpanel)
+        #self.setToolTips(tooltips.magpanel)
         #txtbg = self.textCtrlA.DefaultStyle.BackgroundColour
 
         '''
@@ -315,6 +316,35 @@ class MagConfigurePanel(wx.Panel, PDFPanel):
             return None
     '''
 
+    def readCoordinates(text):
+        """Returns a str of coordinates as a nested numpy array
+
+        crds    --  string of coordinates in format (x,y,z),(x,y,z)...
+        """
+        try:
+            ret = []
+
+            crds = text.split('),') # split coordinates
+            for i, crd in enumerate(crds):
+                if crd[0] != '(': # verify valid coordinate
+                    raise ValueError
+                if i == len(crds) - 1: # remove end parenthesis not removed by split
+                    crd = crd[:-1]
+                crd = crd[1:] # remove start parentheses
+                crd = crd.split(',') # split each coordinate
+                if len(crd) != 3:
+                    raise ValueError
+                arr = []
+                for val in crd:
+                    arr.append(float(val)) # add each value to an array
+                ret.append(arr)
+            return np.array(ret)
+
+        except ValueError:
+            return
+
+
+    ## IN PROGRESS
     def applyCellChange(self, i, j, value):
         """Update an atom according to a change in a cell.
 
@@ -322,22 +352,28 @@ class MagConfigurePanel(wx.Panel, PDFPanel):
         j       --  cell position
         value   --  new value
         """
-        if not self.mainFrame or self.structure is None: return
+        if not self.mainFrame or self.magStructure is None: return
 
+
+        ''' Make col 0 uneditable
         # The element name
         if j == 0:
             value = value.title()
             if not is_element(value): return
             self.structure[i].element = value  # element
             return value
+        '''
+        '''
+        species in structure are in dict
+        list(self.magStructure.species.keys())
+        I'm not sure the names yet so I will just call them their index for now
+        '''
 
         # Other entries
         # ignore the change if the value is not valid
         try:
-            value = float(value)
-            if value == "": value = 0.0
             if j == 1:
-                self.structure[i].xyz[0]    = value # x
+                self.magStructure.species[str(i)]    = value # x
             elif j == 2:
                 self.structure[i].xyz[1]    = value # y
             elif j == 3:
@@ -368,7 +404,7 @@ class MagConfigurePanel(wx.Panel, PDFPanel):
 
 
     def onAdvanced(self, event):
-        #frame = AdvancedFrame(title = "Advanced", mags = self.magnetics, struc = self.structure)
+        #frame = AdvancedFrame(title = "Advanced", mags = self.structure.magnetic_atoms, struc = self.structure)
         pass
 
     # TextCtrl Events
@@ -482,7 +518,6 @@ class MagConfigurePanel(wx.Panel, PDFPanel):
                 oldvalue = self._focusedText or self.gridAtoms.GetCellValue(i,j)
                 self._focusedText = None
                 newvalue = self.applyCellChange(i,j, value)
-                #print i, j, value, oldvalue, newvalue
                 if newvalue is None: newvalue = oldvalue
                 self.gridAtoms.SetCellValue(i,j,str(newvalue))
 

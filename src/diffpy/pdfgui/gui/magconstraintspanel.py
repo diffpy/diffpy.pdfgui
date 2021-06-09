@@ -107,7 +107,6 @@ class MagConstraintsPanel(wx.Panel, PDFPanel):
     def __customProperties(self):
         """Custom properties for the panel."""
         self.structure = None
-        self.magnetics = []
         self.magStructure = None
         self.constraints = {}
         self.results = None
@@ -168,14 +167,13 @@ class MagConstraintsPanel(wx.Panel, PDFPanel):
 
     def refresh(self):
         """Refresh wigets on the panel."""
-        print("self struc refresh", self.structure)
         if self.structure is None:
             raise ValueError("structure is not defined.")
 
         #self.refreshTextCtrls()
 
         ### update the grid ###
-        nmagatoms = self.magnetics.count(1)
+        nmagatoms = len(self.structure.magnetic_atoms)
         nrows = self.gridAtoms.GetNumberRows()
         self.gridAtoms.BeginBatch()
         # make sure grid has correct number of rows
@@ -190,7 +188,7 @@ class MagConstraintsPanel(wx.Panel, PDFPanel):
         # fill the first 'elem' column with element symbols and x, y, z values if magnetic
         count = 0
         for row, atom in zip(range(len(self.structure)), self.structure):
-            if self.magnetics[row] == 1:
+            if row in self.structure.magnetic_atoms:
                 self.gridAtoms.SetRowLabelValue(count, str(row+1))
                 atom_info = atom.element + " (" + float2str(atom.xyz[0]) + "," + float2str(atom.xyz[1]) + "," + float2str(atom.xyz[2]) + ")"
                 self.gridAtoms.SetCellValue(count, 0, atom_info)
@@ -257,7 +255,6 @@ class MagConstraintsPanel(wx.Panel, PDFPanel):
     '''
 
     def applyCellChange(self, i, j, value):
-        print("self struc apply cell cha", self.structure)
         """Update an atom according to a change in a cell.
 
         i       --  cell position
@@ -315,7 +312,6 @@ class MagConstraintsPanel(wx.Panel, PDFPanel):
     # Grid Events
     def onLabelRightClick(self, event): # wxGlade: PhaseConstraintsPanel.<event_handler>
         """Bring up right-click menu."""
-        print("self struc onlabelRightClick", self.structure)
         if self.structure is not None:
             dx = dy = 0
             if event.GetRow() == -1:
@@ -349,7 +345,6 @@ class MagConstraintsPanel(wx.Panel, PDFPanel):
         return
 
     def onEditorShown(self, event): # wxGlade: PhaseConstraintsPanel.<event_handler>
-        print("on edit shown", self.structure)
         """Capture the focused text when the grid editor is shown."""
         i = event.GetRow()
         j = event.GetCol()
@@ -358,7 +353,6 @@ class MagConstraintsPanel(wx.Panel, PDFPanel):
         return
 
     def onCellChange(self, event): # wxGlade: PhaseConstraintsPanel.<event_handler>
-        print("on cell change", self.structure)
         """Update focused and selected text when a cell changes."""
         # NOTE: be careful with refresh(). It calls Grid.AutoSizeColumns, which
         # creates a EVT_GRID_CMD_CELL_CHANGED event, which causes a recursion
@@ -383,7 +377,6 @@ class MagConstraintsPanel(wx.Panel, PDFPanel):
         This uses the member variable _selectedCells, a list of (i,j) tuples for
         the selected cells.
         """
-        print("self struc fill cell", self.structure)
         for (i,j) in self._selectedCells:
             if not self.gridAtoms.IsReadOnly(i,j):
                 # Get the last valid text from the cell. For the cell that triggered
@@ -409,7 +402,6 @@ class MagConstraintsPanel(wx.Panel, PDFPanel):
 
 
     def onKey(self, event):
-        print("onkey", self.structure)
         """Catch key events in the panel."""
         key = event.GetKeyCode()
 
@@ -500,7 +492,6 @@ class MagConstraintsPanel(wx.Panel, PDFPanel):
         return
 
     def onPopupSpaceGroup(self, event):
-        print("on popup space group", self.structure)
         """Create a supercell with the supercell dialog."""
         if self.structure is not None:
 
