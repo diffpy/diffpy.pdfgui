@@ -383,10 +383,9 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
             elif j == 11:
                 if value and i not in self.structure.magnetic_atoms:
                     self.structure.magnetic_atoms.add(i)
-                    print("add", i, self.structure.magnetic_atoms)
                 elif not value and i in self.structure.magnetic_atoms:
                     self.structure.magnetic_atoms.remove(i)
-                    print("rem", i, self.structure.magnetic_atoms)
+
 
 
 
@@ -531,7 +530,6 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
                 oldvalue = self._focusedText or self.gridAtoms.GetCellValue(i,j)
                 self._focusedText = None
                 newvalue = self.applyCellChange(i,j, value)
-                #print i, j, value, oldvalue, newvalue
                 if newvalue is None: newvalue = oldvalue
                 self.gridAtoms.SetCellValue(i,j,str(newvalue))
 
