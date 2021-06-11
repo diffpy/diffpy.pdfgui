@@ -70,7 +70,8 @@ class FitStructure(PDFStructure):
         # self.initial deliberately not assigned,
         # it gets mapped to self by __getattr__
         self.refined = None
-        self.magnetism = True
+        self.magnetism = False
+        self.magnetic_atoms = set()
         self.constraints = {}
         self.selected_pairs = "all-all"
         self.initial.pdffit['sgoffset'] = [0.0, 0.0, 0.0]
