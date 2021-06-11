@@ -248,8 +248,8 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
         # Workaround: do explicit focus here for the first rendering.
         if self.__this_is_first_refresh:
             self.__this_is_first_refresh = False
-            focusowner = self.textCtrlA.FindFocus()
-            wx.CallAfter(self.textCtrlA.SetFocus)
+            focusowner = self.enableMag.FindFocus()
+            wx.CallAfter(self.enableMag.SetFocus)
             if focusowner is not None:
                 wx.CallAfter(focusowner.SetFocus)
         return
