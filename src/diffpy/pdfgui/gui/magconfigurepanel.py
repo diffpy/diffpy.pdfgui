@@ -29,7 +29,7 @@ from diffpy.pdfgui.gui.wxextensions.autowidthlabelsgrid import \
 from diffpy.pdfgui.gui.wxextensions.textctrlutils import textCtrlAsGridCell
 from diffpy.pdfgui.gui.wxextensions import wx12
 from diffpy.pdfgui.gui import phasepanelutils
-#from diffpy.pdfgui.gui.advancedmagconfig import AdvancedFrame
+from diffpy.pdfgui.gui.advancedmagconfig import AdvancedFrame
 from diffpy.utils.wx import gridutils
 from diffpy.pdfgui.gui.phasepanelutils import float2str
 #from diffpy.mpdf.magStructure import MagSpecies
@@ -404,7 +404,7 @@ class MagConfigurePanel(wx.Panel, PDFPanel):
 
 
     def onAdvanced(self, event):
-        #frame = AdvancedFrame(title = "Advanced", mags = self.structure.magnetic_atoms, struc = self.structure)
+        frame = AdvancedFrame(title = "Advanced", mags = self.structure.magnetic_atoms, struc = self.structure)
         pass
 
     # TextCtrl Events
