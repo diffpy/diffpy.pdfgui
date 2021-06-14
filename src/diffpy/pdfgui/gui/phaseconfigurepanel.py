@@ -247,17 +247,19 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
         self.textCtrlIncludedPairs.SetValue(pairs)
         phasepanelutils.refreshGrid(self)
         self.restrictConstrainedParameters()
+        """Currently, the CMI engine does not support Windows"""
+        """rendering the workaround obsolete for now"""
         # wxpython 3.0 on Windows 7 prevents textCtrlA from receiving
         # left-click input focus and can be only focused with a Tab key.
         # This only happens for the first input, the text control behaves
         # normally after receiving focus once.
         # Workaround: do explicit focus here for the first rendering.
-        if self.__this_is_first_refresh:
+        """if self.__this_is_first_refresh:
             self.__this_is_first_refresh = False
             focusowner = self.enableMag.FindFocus()
             wx.CallAfter(self.enableMag.SetFocus)
             if focusowner is not None:
-                wx.CallAfter(focusowner.SetFocus)
+                wx.CallAfter(focusowner.SetFocus)"""
         return
 
     def restrictConstrainedParameters(self):
