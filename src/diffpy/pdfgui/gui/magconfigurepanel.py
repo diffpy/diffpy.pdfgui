@@ -32,7 +32,7 @@ from diffpy.pdfgui.gui import phasepanelutils
 from diffpy.pdfgui.gui.advancedmagconfig import AdvancedFrame
 from diffpy.utils.wx import gridutils
 from diffpy.pdfgui.gui.phasepanelutils import float2str
-#from diffpy.mpdf.magStructure import MagSpecies
+from diffpy.mpdf import MagSpecies, MagStructure
 
 
 class MagConfigurePanel(wx.Panel, PDFPanel):
@@ -117,7 +117,7 @@ class MagConfigurePanel(wx.Panel, PDFPanel):
     def __customProperties(self):
         """Custom properties for the panel."""
         self.structure = None
-        self.magStructure = None
+        self.magStructure = MagStructure()
         self.constraints = {}
         self.results = None
         self._row = 0
@@ -239,39 +239,14 @@ class MagConfigurePanel(wx.Panel, PDFPanel):
         #self.setToolTips(tooltips.magpanel)
         #txtbg = self.textCtrlA.DefaultStyle.BackgroundColour
 
-        '''
-        # First the TextCtrls
-        for key, var in self.lConstraintsMap.items():
-            textCtrl = getattr(self, key)
-            if var in self.constraints:
-                textCtrl.SetEditable(False)
-                textCtrl.SetBackgroundColour(
-                        wx.SystemSettings.GetColour(wx.SYS_COLOUR_GRAYTEXT))
-                tt = textCtrl.GetToolTip()
-                tt.SetTip(self.constraints[var].formula)
-            else:
-                textCtrl.SetEditable(True)
-                textCtrl.SetBackgroundColour(txtbg)
-
-
         # Now the grid
         rows = self.gridAtoms.GetNumberRows()
-        cols = self.gridAtoms.GetNumberCols()
-
         for i in range(rows):
-            for j in range(1, cols):
-                var = self.lAtomConstraints[j-1]
-                var += '(%i)'%(i+1)
-                if var in self.constraints:
-                    self.gridAtoms.SetReadOnly(i, j, True)
-                    self.gridAtoms.SetCellBackgroundColour(i, j,
-                        wx.SystemSettings.GetColour(wx.SYS_COLOUR_GRAYTEXT))
-                else:
-                    self.gridAtoms.SetReadOnly(i, j, False)
-                    self.gridAtoms.SetCellBackgroundColour(i, j, wx.NullColour)
-
+            self.gridAtoms.SetReadOnly(i, 0, True)
+            self.gridAtoms.SetCellBackgroundColour(i, 1,
+                wx.SystemSettings.GetColour(wx.SYS_COLOUR_GRAYTEXT))
         return
-        '''
+
     '''
     def applyTextCtrlChange(self, id, value):
         """Update a structure according to a change in a TextCtrl.
