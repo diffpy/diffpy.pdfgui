@@ -31,6 +31,7 @@ from diffpy.pdfgui.gui.phaseresultspanel import PhaseResultsPanel
 
 from diffpy.pdfgui.gui.magconfigurepanel import MagConfigurePanel
 from diffpy.pdfgui.gui.magconstraintspanel import MagConstraintsPanel
+from diffpy.mpdf import MagSpecies, MagStructure
 
 class PhaseNotebookPanel(wx.Panel, PDFPanel):
     def __init__(self, *args, **kwds):
@@ -62,6 +63,7 @@ class PhaseNotebookPanel(wx.Panel, PDFPanel):
         self.configuration = None
         self.constraints   = {}
         self.results       = None
+        self.magStructure = None
         self.mainFrame     = None
         self.focusedId     = 0
 
@@ -92,6 +94,8 @@ class PhaseNotebookPanel(wx.Panel, PDFPanel):
         panel.structure = self.configuration
         panel.constraints = self.constraints
         panel.results = self.results
+
+        panel.magStructure = self.magStructure
 
         # This has to be done here, because this panel does not know who it
         # belongs to until after it is instantiated.

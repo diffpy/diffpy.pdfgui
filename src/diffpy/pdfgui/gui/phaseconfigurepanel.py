@@ -388,7 +388,6 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
 
 
 
-
             self.mainFrame.needsSave()
             return value
 

@@ -88,7 +88,7 @@ class AdvancedPanel(wx.Panel):
             raise ValueError("structure is not defined.")
 
         ### update the grid ###
-        nmagatoms = len(self.magnetic_atoms)
+        nmagatoms = len(self.structure.magnetic_atoms)
         nrows = self.advancedAtoms.GetNumberRows()
         self.advancedAtoms.BeginBatch()
         # make sure grid has correct number of rows
@@ -101,12 +101,12 @@ class AdvancedPanel(wx.Panel):
         self.advancedAtoms.ClearGrid()
 
         # fill the first 'elem' column with element symbols and x, y, z values if magnetic
-        for row, atom in zip(range(natoms), self.structure):
-            print(atom.element + " (" + str(atom.xyz[0]) + "," + str(atom.xyz[1]) + "," + str(atom.xyz[2]) + ")")
-            print("magnetics", self.magnetics)
-            if self.magnetics[row] == 1:
+        count = 0
+        for row, atom in zip(range(len(self.structure)), self.structure):
+            if row in self.structure.magnetic_atoms:
                 atom_info = atom.element + " (" + str(atom.xyz[0]) + "," + str(atom.xyz[1]) + "," + str(atom.xyz[2]) + ")"
-                self.advancedAtoms.SetCellValue(row, 0, atom_info)
+                self.advancedAtoms.SetCellValue(count, 0, atom_info)
+                count += 1
 
 
         self.advancedAtoms.AutosizeLabels()
