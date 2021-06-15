@@ -41,6 +41,8 @@ class ParametersPanel(wx.Panel, PDFPanel):
         # begin wxGlade: ParametersPanel.__init__
         kwds["style"] = kwds.get("style", 0) | wx.TAB_TRAVERSAL
         wx.Panel.__init__(self, *args, **kwds)
+        self.mpdfType = wx.RadioBox(self, wx.ID_ANY, label="Magnetic Fitting Type", choices=["Normalized", "Unnormalized"], style=wx.RA_SPECIFY_ROWS)
+        self.fitProtocol = wx.RadioBox(self, wx.ID_ANY, label="Fitting Protocol", choices=["Syncronous", "Asyncronous"], style=wx.RA_SPECIFY_ROWS)
         self.grid_parameters = AutoWidthLabelsGrid(self, wx.ID_ANY, size=(1, 1))
         self.button_applyparameters = wx.Button(self, wx.ID_ANY, "Apply parameters")
 
@@ -77,7 +79,13 @@ class ParametersPanel(wx.Panel, PDFPanel):
     def __do_layout(self):
         # begin wxGlade: ParametersPanel.__do_layout
         sizer_1 = wx.BoxSizer(wx.VERTICAL)
+        sizer_2 = wx.BoxSizer(wx.HORIZONTAL)
+        sizer_2.Add(self.mpdfType, 0, 15)
+        sizer_2.Add(50, 50, 0, 15)
+        sizer_2.Add(self.fitProtocol, 0, 15)
         sizer_buttons = wx.BoxSizer(wx.HORIZONTAL)
+        sizer_1.Add(sizer_2, 0, wx.EXPAND, 20)
+        sizer_1.Add(5, 5, 0, 15)
         sizer_1.Add(self.grid_parameters, 1, wx.EXPAND, 0)
         sizer_buttons.Add((20, 20), 1, 0, 0)
         sizer_buttons.Add(self.button_applyparameters, 0, wx.ALL, 5)
