@@ -280,6 +280,8 @@ class FitStructure(PDFStructure):
         # workaround ends here.
         self.initial[index:index] = atomlist
         mag_insert = [0]*len(atomlist)
+        for i in range(len(mag_insert)):
+            mag_insert[i] = [0,""]
         self.magnetic_atoms = self.magnetic_atoms[:index] + mag_insert + self.magnetic_atoms[index:]
         self._restoreAtomConstraints(acd)
         return

@@ -117,7 +117,7 @@ class MagConfigurePanel(wx.Panel, PDFPanel):
     def __customProperties(self):
         """Custom properties for the panel."""
         self.structure = None
-        self.magStructure = MagStructure()
+        self.magStructure = None
         self.constraints = {}
         self.results = None
         self._row = 0
@@ -192,7 +192,10 @@ class MagConfigurePanel(wx.Panel, PDFPanel):
         self.textCtrlIncludedPairs.SetValue(pairs)
         #phasepanelutils.refreshGrid(self)
         ### update the grid ###
-        nmagatoms = self.structure.magnetic_atoms.count(1)
+        nmagatoms = 0
+        for m in self.structure.magnetic_atoms:
+            if m[0] == 1:
+                nmagatoms += 1
         nrows = self.gridAtoms.GetNumberRows()
         self.gridAtoms.BeginBatch()
         # make sure grid has correct number of rows
@@ -207,7 +210,7 @@ class MagConfigurePanel(wx.Panel, PDFPanel):
         # fill the first 'elem' column with element symbols and x, y, z values if magnetic
         count = 0
         for row, atom in zip(range(len(self.structure)), self.structure):
-            if self.structure.magnetic_atoms[row] == 1:
+            if self.structure.magnetic_atoms[row][0] == 1:
                 self.gridAtoms.SetRowLabelValue(count, str(row+1))
                 atom_info = atom.element + " (" + float2str(atom.xyz[0]) + "," + float2str(atom.xyz[1]) + "," + float2str(atom.xyz[2]) + ")"
                 self.gridAtoms.SetCellValue(count, 0, atom_info)
@@ -291,7 +294,7 @@ class MagConfigurePanel(wx.Panel, PDFPanel):
             return None
     '''
 
-    def readCoordinates(text):
+    def readCoordinates(self, text):
         """Returns a str of coordinates as a nested numpy array
 
         crds    --  string of coordinates in format (x,y,z),(x,y,z)...
@@ -329,44 +332,34 @@ class MagConfigurePanel(wx.Panel, PDFPanel):
         """
         if not self.mainFrame or self.magStructure is None: return
 
-
-        ''' Make col 0 uneditable
         # The element name
         if j == 0:
+            """
             value = value.title()
             if not is_element(value): return
             self.structure[i].element = value  # element
             return value
-        '''
-        '''
-        species in structure are in dict
-        list(self.magStructure.species.keys())
-        I'm not sure the names yet so I will just call them their index for now
-        '''
+            """
+            # should be uneditable
+            return
 
         # Other entries
         # ignore the change if the value is not valid
+
         try:
+            label = self.magnetic_atoms[i][1]
             if j == 1:
-                self.magStructure.species[str(i)]    = value # x
+                self.magStructure.species[label].basisvecs = value # basis vecs
             elif j == 2:
-                self.structure[i].xyz[1]    = value # y
+                self.magStructure.species[label].kvecs    = value # prop. vecs
             elif j == 3:
-                self.structure[i].xyz[2]    = value # z
+                self.structure[i].xyz[2]    = value # corr. length
             elif j == 4:
-                self.structure[i].U[0,0]    = value # U(1,1)
+                self.structure[i].U[0,0]    = value # ord. scale
             elif j == 5:
-                self.structure[i].U[1,1]    = value # U(2,2)
+                self.structure[i].U[1,1]    = value # para. scale
             elif j == 6:
-                self.structure[i].U[2,2]    = value # U(3,3)
-            elif j == 7:
-                self.structure[i].U[0,1] = self.structure[i].U[1,0] = value # U(1,2)
-            elif j == 8:
-                self.structure[i].U[0,2] = self.structure[i].U[2,0] = value # U(1,3)
-            elif j == 9:
-                self.structure[i].U[1,2] = self.structure[i].U[2,1] = value # U(2,3)
-            elif j == 10:
-                self.structure[i].occupancy = value # occupancy
+                self.structure[i].U[2,2]    = value # FF key
 
             self.mainFrame.needsSave()
             return value

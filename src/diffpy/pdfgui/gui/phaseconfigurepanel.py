@@ -33,7 +33,8 @@ from diffpy.utils.wx import gridutils
 
 from diffpy.pdfgui.gui.magconfigurepanel import MagConfigurePanel
 from diffpy.pdfgui.gui.magconstraintspanel import MagConstraintsPanel
-
+from diffpy.mpdf import MagSpecies, MagStructure
+import random, string
 
 class PhaseConfigurePanel(wx.Panel, PDFPanel):
     """Panel for configuring a phase.
@@ -341,6 +342,15 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
         except:
             return None
 
+    def randValidKey(self):
+        "generates a random key that is not in the magSpecies dictionary"
+        while True:
+            key = ''.join(random.choices(string.ascii_uppercase + string.digits, k=8))
+            if key not in self.magStructure.species:
+                break
+        return key
+
+
     def applyCellChange(self, i, j, value):
         """Update an atom according to a change in a cell.
 
@@ -383,9 +393,19 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
             elif j == 10:
                 self.structure[i].occupancy = value # occupancy
             elif j == 11:
-                self.structure.magnetic_atoms[i] = value
+                if value == 1 and self.structure.magnetic_atoms[i][1] == "" and self.magStructure:
+                    # if not a magSpecies (name = "" or not in dict), create and insert
+                    label = self.randValidKey()
+                    self.magStructure.makeSpecies(label=label)
+                    self.structure.magnetic_atoms[i] = [value,label]
 
-
+                elif value == 0:
+                    # is val a magSpecies? if so, remove
+                    if self.magStructure and self.structure.magnetic_atoms[i][1] in self.magStructure.species:
+                        self.magStructure.removeSpecies(label=self.structure.magnetic_atoms[i][1])
+                        self.structure.magnetic_atoms[i] = [value,""]
+                print(self.magStructure)
+                print(self.magStructure.species)
             self.mainFrame.needsSave()
             return value
 
@@ -417,6 +437,9 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
         """Toggles magnetic setting visibility and updates structure"""
         self.structure.magnetism = self.enableMag.GetValue()
         self.structure.magnetic_atoms = [0]*len(self.structure)
+        for i in range(len(self.structure.magnetic_atoms)):
+            self.structure.magnetic_atoms[i] = [0,""]
+        self.magStructure = MagStructure()
         phasepanelutils.refreshGrid(self)
         self.tabsShown()
         event.Skip()
@@ -569,7 +592,6 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
             self.structure.deleteAtoms(indices)
             self.refresh()
             self.mainFrame.needsSave()
-
 
         # Append an atom
         # Ctrl + or Ctrl =
