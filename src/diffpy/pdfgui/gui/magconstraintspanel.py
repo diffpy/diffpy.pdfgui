@@ -173,7 +173,10 @@ class MagConstraintsPanel(wx.Panel, PDFPanel):
         #self.refreshTextCtrls()
 
         ### update the grid ###
-        nmagatoms = len(self.structure.magnetic_atoms)
+        nmagatoms = 0
+        for m in self.structure.magnetic_atoms:
+            if m[0] == 1:
+                nmagatoms += 1
         nrows = self.gridAtoms.GetNumberRows()
         self.gridAtoms.BeginBatch()
         # make sure grid has correct number of rows
@@ -188,7 +191,7 @@ class MagConstraintsPanel(wx.Panel, PDFPanel):
         # fill the first 'elem' column with element symbols and x, y, z values if magnetic
         count = 0
         for row, atom in zip(range(len(self.structure)), self.structure):
-            if row in self.structure.magnetic_atoms:
+            if self.structure.magnetic_atoms[row][0] == 1:
                 self.gridAtoms.SetRowLabelValue(count, str(row+1))
                 atom_info = atom.element + " (" + float2str(atom.xyz[0]) + "," + float2str(atom.xyz[1]) + "," + float2str(atom.xyz[2]) + ")"
                 self.gridAtoms.SetCellValue(count, 0, atom_info)
