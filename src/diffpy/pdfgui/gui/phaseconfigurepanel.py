@@ -383,11 +383,7 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
             elif j == 10:
                 self.structure[i].occupancy = value # occupancy
             elif j == 11:
-                if value and i not in self.structure.magnetic_atoms:
-                    self.structure.magnetic_atoms.add(i)
-                elif not value and i in self.structure.magnetic_atoms:
-                    self.structure.magnetic_atoms.remove(i)
-
+                self.structure.magnetic_atoms[i] = value
 
 
             self.mainFrame.needsSave()
@@ -420,6 +416,7 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
     def onCheck(self, event):
         """Toggles magnetic setting visibility and updates structure"""
         self.structure.magnetism = self.enableMag.GetValue()
+        self.structure.magnetic_atoms = [0]*len(self.structure)
         phasepanelutils.refreshGrid(self)
         self.tabsShown()
         event.Skip()
@@ -572,6 +569,7 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
             self.structure.deleteAtoms(indices)
             self.refresh()
             self.mainFrame.needsSave()
+
 
         # Append an atom
         # Ctrl + or Ctrl =

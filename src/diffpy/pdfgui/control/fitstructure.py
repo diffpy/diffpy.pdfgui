@@ -71,7 +71,7 @@ class FitStructure(PDFStructure):
         # it gets mapped to self by __getattr__
         self.refined = None
         self.magnetism = False
-        self.magnetic_atoms = set()
+        self.magnetic_atoms = []
         self.constraints = {}
         self.selected_pairs = "all-all"
         self.initial.pdffit['sgoffset'] = [0.0, 0.0, 0.0]
@@ -279,6 +279,8 @@ class FitStructure(PDFStructure):
             a.anisotropy = True
         # workaround ends here.
         self.initial[index:index] = atomlist
+        mag_insert = [0]*len(atomlist)
+        self.magnetic_atoms = self.magnetic_atoms[:index] + mag_insert + self.magnetic_atoms[index:]
         self._restoreAtomConstraints(acd)
         return
 
@@ -292,6 +294,7 @@ class FitStructure(PDFStructure):
         ruindices = sorted(set(indices), reverse=True)
         for i in ruindices:
             self.initial.pop(i)
+            del(self.magnetic_atoms[i])
         self._restoreAtomConstraints(acd)
         return
 
