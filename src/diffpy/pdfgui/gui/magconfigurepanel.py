@@ -192,7 +192,7 @@ class MagConfigurePanel(wx.Panel, PDFPanel):
         self.textCtrlIncludedPairs.SetValue(pairs)
         #phasepanelutils.refreshGrid(self)
         ### update the grid ###
-        nmagatoms = len(self.structure.magnetic_atoms)
+        nmagatoms = self.structure.magnetic_atoms.count(1)
         nrows = self.gridAtoms.GetNumberRows()
         self.gridAtoms.BeginBatch()
         # make sure grid has correct number of rows
@@ -207,7 +207,7 @@ class MagConfigurePanel(wx.Panel, PDFPanel):
         # fill the first 'elem' column with element symbols and x, y, z values if magnetic
         count = 0
         for row, atom in zip(range(len(self.structure)), self.structure):
-            if row in self.structure.magnetic_atoms:
+            if self.structure.magnetic_atoms[row] == 1:
                 self.gridAtoms.SetRowLabelValue(count, str(row+1))
                 atom_info = atom.element + " (" + float2str(atom.xyz[0]) + "," + float2str(atom.xyz[1]) + "," + float2str(atom.xyz[2]) + ")"
                 self.gridAtoms.SetCellValue(count, 0, atom_info)
@@ -243,7 +243,7 @@ class MagConfigurePanel(wx.Panel, PDFPanel):
         rows = self.gridAtoms.GetNumberRows()
         for i in range(rows):
             self.gridAtoms.SetReadOnly(i, 0, True)
-            self.gridAtoms.SetCellBackgroundColour(i, 1,
+            self.gridAtoms.SetCellBackgroundColour(i, 0,
                 wx.SystemSettings.GetColour(wx.SYS_COLOUR_GRAYTEXT))
         return
 
