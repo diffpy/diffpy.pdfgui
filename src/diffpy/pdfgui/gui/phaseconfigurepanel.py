@@ -94,6 +94,7 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
         # end wxGlade
         self.__customProperties()
 
+
     def __set_properties(self):
         # begin wxGlade: PhaseConfigurePanel.__set_properties
         self.SetFocus()
@@ -181,6 +182,7 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
     def __customProperties(self):
         """Custom properties for the panel."""
         self.structure = None
+        self.magStructure = None
         self.constraints = {}
         self.results = None
         self._row = 0
@@ -393,19 +395,25 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
             elif j == 10:
                 self.structure[i].occupancy = value # occupancy
             elif j == 11:
-                if value == 1 and self.structure.magnetic_atoms[i][1] == "" and self.magStructure:
+                print("val", value)
+                if value != 1 and value != 0: raise ValueError
+                
+                if value == 1 and self.structure.magnetic_atoms[i][1] == "":
+                    if not self.magStructure:
+                        self.magStructure = MagStructure()
+
                     # if not a magSpecies (name = "" or not in dict), create and insert
                     label = self.randValidKey()
                     self.magStructure.makeSpecies(label=label)
                     self.structure.magnetic_atoms[i] = [value,label]
+                    print("magStructure", self.magStructure)
+                    print(self.magStructure.species)
 
                 elif value == 0:
                     # is val a magSpecies? if so, remove
                     if self.magStructure and self.structure.magnetic_atoms[i][1] in self.magStructure.species:
                         self.magStructure.removeSpecies(label=self.structure.magnetic_atoms[i][1])
                         self.structure.magnetic_atoms[i] = [value,""]
-                print(self.magStructure)
-                print(self.magStructure.species)
             self.mainFrame.needsSave()
             return value
 
@@ -439,8 +447,7 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
         self.structure.magnetic_atoms = [0]*len(self.structure)
         for i in range(len(self.structure.magnetic_atoms)):
             self.structure.magnetic_atoms[i] = [0,""]
-        self.magStructure = MagStructure()
-        phasepanelutils.refreshGrid(self)
+        self.refresh()
         self.tabsShown()
         event.Skip()
 
