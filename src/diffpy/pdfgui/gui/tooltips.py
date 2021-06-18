@@ -141,6 +141,23 @@ all-all, !Cl-, -!Cl  same as previous
 #    'gridAtoms' : '', # AutoWidthLabelsGrid
 })
 
+magpanel = _expand_tooltip_aliases({
+    'buttonAdvanced' : 'Opens advanced magnetic PDF panel', # Button "Advanced"
+    'radio1' : 'The type of magnetic PDF', # RadioBox "mPDF Type"
+    'radio2' : 'The magnetic fitting technique', # RadioBox "Magnetic Fitting Technique"
+    'textCtrlIncludedPairs' :
+"""[!]{element|indexOrRange|all}-[!]{element|indexOrRange|all}
+Examples:
+all-all              all possible pairs
+Na-Na                only Na-Na pairs
+all-all, !Na-        all pairs except Na-Na
+all-all, -!Na        same as previous
+Na-1:4               pairs of Na and first 4 atoms
+all-all, !Cl-!Cl     exclude any pairs containing Cl
+all-all, !Cl-, -!Cl  same as previous
+1-all                only pairs including the first atom""", # TextCtrl "all-all"
+})
+
 
 plotpanel = {
 #    'xDataCombo' : '', # ComboBox

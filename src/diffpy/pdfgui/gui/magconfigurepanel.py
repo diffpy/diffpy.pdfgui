@@ -161,7 +161,7 @@ class MagConfigurePanel(wx.Panel, PDFPanel):
         self.textCtrlIncludedPairs.Bind(wx.EVT_KEY_DOWN, self.onTextCtrlKey)
         '''
         # define tooltips
-        #self.setToolTips(tooltips.magpanel)
+        self.setToolTips(tooltips.magpanel)
         # make sure tooltips exist for all lConstraintsMap controls as
         # this is later assumed in restrictConstrainedParameters code
 
@@ -219,7 +219,7 @@ class MagConfigurePanel(wx.Panel, PDFPanel):
 
         self.gridAtoms.AutosizeLabels()
         self.gridAtoms.AutoSizeColumns()
-        self.restrictConstrainedParameters()
+        #self.restrictConstrainedParameters()
         # wxpython 3.0 on Windows 7 prevents textCtrlA from receiving
         # left-click input focus and can be only focused with a Tab key.
         # This only happens for the first input, the text control behaves
@@ -235,7 +235,7 @@ class MagConfigurePanel(wx.Panel, PDFPanel):
             '''
         return
 
-
+    '''
     def restrictConstrainedParameters(self):
         """Set 'read-only' boxes that correspond to constrained parameters."""
 
@@ -249,6 +249,8 @@ class MagConfigurePanel(wx.Panel, PDFPanel):
             self.gridAtoms.SetCellBackgroundColour(i, 0,
                 wx.SystemSettings.GetColour(wx.SYS_COLOUR_GRAYTEXT))
         return
+    '''
+
 
     '''
     def applyTextCtrlChange(self, id, value):
@@ -303,23 +305,29 @@ class MagConfigurePanel(wx.Panel, PDFPanel):
             ret = []
 
             crds = text.split('),') # split coordinates
+            print("crds", crds)
             for i, crd in enumerate(crds):
                 if crd[0] != '(': # verify valid coordinate
+                    print("ERROR 1")
                     raise ValueError
                 if i == len(crds) - 1: # remove end parenthesis not removed by split
                     crd = crd[:-1]
                 crd = crd[1:] # remove start parentheses
                 crd = crd.split(',') # split each coordinate
                 if len(crd) != 3:
+                    print("ERROR 2")
                     raise ValueError
+
                 arr = []
                 for val in crd:
                     arr.append(float(val)) # add each value to an array
                 ret.append(arr)
+            print("ret", ret)
             return np.array(ret)
 
         except ValueError:
-            return
+            print("VAL ERROR")
+            return ""
 
 
     ## IN PROGRESS
@@ -330,36 +338,26 @@ class MagConfigurePanel(wx.Panel, PDFPanel):
         j       --  cell position
         value   --  new value
         """
+        print("apply cell", i,j, self.magStructure)
         if not self.mainFrame or self.magStructure is None: return
+        if j == 0: return
+        print(i,j)
 
-        # The element name
-        if j == 0:
-            """
-            value = value.title()
-            if not is_element(value): return
-            self.structure[i].element = value  # element
-            return value
-            """
-            # should be uneditable
-            return
-
-        # Other entries
         # ignore the change if the value is not valid
-
         try:
             label = self.magnetic_atoms[i][1]
             if j == 1:
-                self.magStructure.species[label].basisvecs = value # basis vecs
+                self.magStructure.species[label].basisvecs = self.readCoordinates(value) # basis vecs
             elif j == 2:
-                self.magStructure.species[label].kvecs    = value # prop. vecs
+                self.magStructure.species[label].kvecs    = self.readCoordinates(value)  # prop. vecs
             elif j == 3:
-                self.structure[i].xyz[2]    = value # corr. length
+                self.magStructure.species[label].kvecs    = value # corr. length
             elif j == 4:
-                self.structure[i].U[0,0]    = value # ord. scale
+                self.magStructure.species[label].kvecs    = value # ord. scale
             elif j == 5:
-                self.structure[i].U[1,1]    = value # para. scale
+                self.magStructure.species[label].kvecs  = value # para. scale
             elif j == 6:
-                self.structure[i].U[2,2]    = value # FF key
+                self.magStructure.species[label].kvecs    = value # FF key
 
             self.mainFrame.needsSave()
             return value
@@ -466,6 +464,7 @@ class MagConfigurePanel(wx.Panel, PDFPanel):
             self._selectedCells.remove((i,j))
         # We need the edited cell to be at the front of the list
         self._selectedCells.insert(0,(i,j))
+        print("cell change VAL", value)
         self.fillCells(value)
         self._focusedText = None
         return
@@ -478,6 +477,7 @@ class MagConfigurePanel(wx.Panel, PDFPanel):
         This uses the member variable _selectedCells, a list of (i,j) tuples for
         the selected cells.
         """
+        print("fill cells")
         for (i,j) in self._selectedCells:
             if not self.gridAtoms.IsReadOnly(i,j):
                 # Get the last valid text from the cell. For the cell that triggered

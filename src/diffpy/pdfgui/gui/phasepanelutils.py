@@ -151,7 +151,7 @@ def refreshGrid(panel):
             panel.gridAtoms.SetCellValue(i,9, float2str(atom.U[1,2])) # U(2,3)
             panel.gridAtoms.SetCellValue(i,10,float2str(atom.occupancy)) # occupancy
             if panel.structure.magnetism:
-                magnetic_value = '1' if panel.structure.magnetic_atoms[i] == 1 else '0'
+                magnetic_value = '1' if panel.structure.magnetic_atoms[i][0] == 1 else '0'
                 panel.gridAtoms.SetCellValue(i,11,magnetic_value) # magnetic
 
     panel.gridAtoms.AutosizeLabels()
