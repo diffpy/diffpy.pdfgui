@@ -420,23 +420,6 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
         except ValueError:
             return
 
-    def tabsShown(self):
-        """Updates visible tabs in Phase Notebook depending on if Magnetic PDF is enabled"""
-        for index in range(self.notebook_phase.GetPageCount()):
-            self.notebook_phase.RemovePage(0)
-            self.notebook_phase.SendSizeEvent()
-        if self.structure.magnetism:
-            self.notebook_phase.AddPage(self.notebook_phase_pane_Configure,   "Configure")
-            self.notebook_phase.AddPage(self.notebook_phase_pane_MagConfigure,   "Magnetic Configure")
-            self.notebook_phase.AddPage(self.notebook_phase_pane_Constraints, "Constraints")
-            self.notebook_phase.AddPage(self.notebook_phase_pane_MagConstraints, "Magnetic Constraints")
-            self.notebook_phase.AddPage(self.notebook_phase_pane_Results,     "Results")
-        else:
-            self.notebook_phase.AddPage(self.notebook_phase_pane_Configure,   "Configure")
-            self.notebook_phase.AddPage(self.notebook_phase_pane_Constraints, "Constraints")
-            self.notebook_phase.AddPage(self.notebook_phase_pane_Results,     "Results")
-
-
     ##########################################################################
     # Event Handlers
 
@@ -448,7 +431,12 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
         for i in range(len(self.structure.magnetic_atoms)):
             self.structure.magnetic_atoms[i] = [0,""]
         self.refresh()
-        self.tabsShown()
+        if self.structure.magnetism and self.notebook_phase.GetPageCount() == 3:
+            self.notebook_phase.InsertPage(1, self.notebook_phase_pane_MagConfigure, text="Magnetic Configure")
+            self.notebook_phase.InsertPage(3, self.notebook_phase_pane_MagConstraints, text="Magnetic Constraints")
+        elif not self.structure.magnetism and self.notebook_phase.GetPageCount() == 5:
+            self.notebook_phase.RemovePage(1)
+            self.notebook_phase.RemovePage(2)
         event.Skip()
 
     # TextCtrl Events
