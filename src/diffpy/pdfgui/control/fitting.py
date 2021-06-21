@@ -974,9 +974,9 @@ class Fitting(Organizer):
             self.cmirecipe.constrain(atoms[key_arg - 1].occupancy, var_name)
 
         # data parameters
-        if key_ascii_ref == 'qdamp':
+        if key_ref == 'qdamp':
             self.cmirecipe.constrain(self.cmipdfgen.qdamp, var_name)
-        if key_ascii_ref == 'qbroad':
+        if key_ref == 'qbroad':
             self.cmirecipe.constrain(self.cmipdfgen.qbroad, var_name)
         # TODO how to deal with `dscale`. cmipdfgen don't have `dscale` parameter.
 
