@@ -45,6 +45,8 @@ class PhaseNotebookPanel(wx.Panel, PDFPanel):
 
         self.notebook_phase_pane_MagConstraints = MagConstraintsPanel(self.notebook_phase, -1)
         self.notebook_phase_pane_MagConfigure   = MagConfigurePanel(self.notebook_phase, -1)
+        self.notebook_phase_pane_MagConstraints.Hide()
+        self.notebook_phase_pane_MagConfigure.Hide()
 
         self.notebook_phase_pane_Configure.notebook_phase = self.notebook_phase
         self.notebook_phase_pane_Configure.notebook_phase_pane_MagConstraints = self.notebook_phase_pane_MagConstraints
@@ -61,7 +63,6 @@ class PhaseNotebookPanel(wx.Panel, PDFPanel):
         self.configuration = None
         self.constraints   = {}
         self.results       = None
-        self.magStructure = None
         self.mainFrame     = None
         self.focusedId     = 0
 
@@ -92,8 +93,6 @@ class PhaseNotebookPanel(wx.Panel, PDFPanel):
         panel.structure = self.configuration
         panel.constraints = self.constraints
         panel.results = self.results
-
-        panel.magStructure = self.magStructure
 
         # This has to be done here, because this panel does not know who it
         # belongs to until after it is instantiated.

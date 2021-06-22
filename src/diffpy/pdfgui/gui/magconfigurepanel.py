@@ -33,6 +33,8 @@ from diffpy.pdfgui.gui.advancedmagconfig import AdvancedFrame
 from diffpy.utils.wx import gridutils
 from diffpy.pdfgui.gui.phasepanelutils import float2str
 from diffpy.mpdf import MagSpecies, MagStructure
+import numpy as np
+import re
 
 
 class MagConfigurePanel(wx.Panel, PDFPanel):
@@ -50,9 +52,15 @@ class MagConfigurePanel(wx.Panel, PDFPanel):
         # begin wxGlade: PhaseConfigurePanel.__init__
         kwds["style"] = kwds.get("style", 0) | wx.TAB_TRAVERSAL
         wx.Panel.__init__(self, *args, **kwds)
+
+        self.labelCorrLength = wx.StaticText(self, wx.ID_ANY, "corr. length")
+        self.textCtrlCorrLength = wx.TextCtrl(self, wx.ID_ANY, "", style=wx.TE_PROCESS_ENTER)
+        self.labelOrdScale = wx.StaticText(self, wx.ID_ANY, "ord. scale")
+        self.textCtrlOrdScale = wx.TextCtrl(self, wx.ID_ANY, "", style=wx.TE_PROCESS_ENTER)
+        self.labelParaScale = wx.StaticText(self, wx.ID_ANY, "para. scale")
+        self.textCtrlParaScale = wx.TextCtrl(self, wx.ID_ANY, "", style=wx.TE_PROCESS_ENTER)
         types = ["Unnormalized", "Normalized"]
         fitters = ["Synchronous Fitting", "Iterative Fitting"]
-
         self.labelPanelName = wx.StaticText(self, wx.ID_ANY, "Magnetic Configuration")
         self.radio1 = wx.RadioBox(self, wx.ID_ANY, "mPDF Type ", choices = types, style = wx.RA_SPECIFY_ROWS)
         self.radio2 = wx.RadioBox(self, wx.ID_ANY, "Magnetic Fitting Technique", choices = fitters, style = wx.RA_SPECIFY_ROWS)
@@ -76,15 +84,12 @@ class MagConfigurePanel(wx.Panel, PDFPanel):
         self.SetFocus()
         self.labelPanelName.SetFont(wx.Font(18, wx.FONTFAMILY_DEFAULT, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_BOLD, 0, ""))
         self.textCtrlIncludedPairs.SetMinSize((240, 25))
-        self.gridAtoms.CreateGrid(0, 7)
+        self.gridAtoms.CreateGrid(0, 4)
         self.gridAtoms.EnableDragRowSize(0)
         self.gridAtoms.SetColLabelValue(0, "elem")
         self.gridAtoms.SetColLabelValue(1, "basis vecs")
         self.gridAtoms.SetColLabelValue(2, "prop. vecs")
-        self.gridAtoms.SetColLabelValue(3, "corr. length")
-        self.gridAtoms.SetColLabelValue(4, "ord. scale")
-        self.gridAtoms.SetColLabelValue(5, "para. scale")
-        self.gridAtoms.SetColLabelValue(6, "FF key")
+        self.gridAtoms.SetColLabelValue(3, "FF key")
 
     def __do_layout(self):
         sizerMain = wx.BoxSizer(wx.VERTICAL)
@@ -96,6 +101,18 @@ class MagConfigurePanel(wx.Panel, PDFPanel):
         sizerPanelName.Add(5, 0, 0)
         sizerPanelName.Add(self.buttonAdvanced, 1, wx.ALL | wx.ALIGN_CENTER_VERTICAL | wx.ALIGN_RIGHT, 10)
         sizerMain.Add(sizerPanelName, 0, wx.EXPAND | wx.LEFT | wx.RIGHT, 5)
+
+        sizerLatticeParameters = wx.StaticBoxSizer(wx.StaticBox(self, wx.ID_ANY, ""), wx.HORIZONTAL)
+        grid_sizer_3 = wx.FlexGridSizer(2, 6, 0, 0)
+        grid_sizer_3.Add(self.labelCorrLength, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALIGN_RIGHT | wx.ALL, 5)
+        grid_sizer_3.Add(self.textCtrlCorrLength, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALL, 0)
+        grid_sizer_3.Add(self.labelOrdScale, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALIGN_RIGHT | wx.ALL, 5)
+        grid_sizer_3.Add(self.textCtrlOrdScale, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALL, 0)
+        grid_sizer_3.Add(self.labelParaScale, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALIGN_RIGHT | wx.ALL, 5)
+        grid_sizer_3.Add(self.textCtrlParaScale, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALL, 0)
+        sizerLatticeParameters.Add(grid_sizer_3, 1, wx.EXPAND, 0)
+        sizerMain.Add(sizerLatticeParameters, 0, wx.EXPAND | wx.LEFT | wx.RIGHT, 5)
+
         sizer_3.Add(self.radio1, 0, wx.ALL, 20)
         sizer_3.Add(self.radio2, 0, wx.ALL, 20)
         sizer_3.Add(1, 0, )
@@ -117,7 +134,6 @@ class MagConfigurePanel(wx.Panel, PDFPanel):
     def __customProperties(self):
         """Custom properties for the panel."""
         self.structure = None
-        self.magStructure = None
         self.constraints = {}
         self.results = None
         self._row = 0
@@ -125,9 +141,17 @@ class MagConfigurePanel(wx.Panel, PDFPanel):
         self._focusedText = None
         self._selectedCells = []
 
-        self.lAtomConstraints = [
-            'elem','basis vecs','prop. vecs',
-            'corr. length','ord. scale', 'para. scale', 'FF key']
+        self.lAtomConstraints = ['elem','basis vecs','prop. vecs','FF key']
+
+        self.ffkeys = set(['None', 'Am2', 'Am3', 'Am4', 'Am5', 'Am6', 'Am7', 'Ce2', 'Co0',
+        'Co1','Co2', 'Co3', 'Co4', 'Cr0', 'Cr1', 'Cr2', 'Cr3', 'Cr4', 'Cu0', 'Cu1', 'Cu2',
+        'Cu3','Cu4', 'Dy2', 'Dy3', 'Er2', 'Er3', 'Eu2', 'Eu3', 'Fe0', 'Fe1', 'Fe2', 'Fe3',
+        'Fe4','Gd2', 'Gd3', 'Ho2', 'Ho3', 'Mn0', 'Mn1', 'Mn2', 'Mn3', 'Mn4', 'Mo0', 'Mo1',
+        'Nb0','Nb1', 'Nd2', 'Nd3', 'Ni0', 'Ni1', 'Ni2', 'Ni3', 'Ni4', 'Np3', 'Np4', 'Np5',
+        'Np6','Pd0', 'Pd1', 'Pr3', 'Pu3', 'Pu4', 'Pu5', 'Pu6', 'Rh0', 'Rh1', 'Ru0', 'Ru1',
+        'Sc0','Sc1', 'Sc2', 'Sm2', 'Sm3', 'Tb2', 'Tb3', 'Tc0', 'Tc1', 'Ti0', 'Ti1', 'Ti2',
+        'Ti3','Tm2', 'Tm3', 'U3', 'U4', 'U5', 'V0', 'V1', 'V2', 'V3', 'V4', 'Y0', 'Yb2',
+        'Yb3','Zr0', 'Zr1'])
 
         '''
         # pdffit internal naming
@@ -138,13 +162,6 @@ class MagConfigurePanel(wx.Panel, PDFPanel):
                 'textCtrlAlpha'         : 'lat(4)',
                 'textCtrlBeta'          : 'lat(5)',
                 'textCtrlGamma'         : 'lat(6)',
-                'textCtrlScaleFactor'   : 'pscale',
-                'textCtrlDelta1'        : 'delta1',
-                'textCtrlDelta2'        : 'delta2',
-                'textCtrlSratio'        : 'sratio',
-                'textCtrlRcut'          : 'rcut',
-                'textCtrlStepcut'       : 'stepcut',
-                'textCtrlSpdiameter'    : 'spdiameter',
                 }
 
         # bind onSetFocus onKillFocus events to text controls
@@ -182,6 +199,15 @@ class MagConfigurePanel(wx.Panel, PDFPanel):
         """Cache the current structure and constraints for future comparison."""
         pass
 
+    def arrayToStr(self, arr):
+        """returns basis and kvec numpy arrays in str format
+        Ex. [[1 2 3],[4 5 6]] -> (1, 2, 3),(4, 5, 6)"""
+        if arr is None or type(arr) != np.ndarray:
+            return
+        ret = str(arr.astype(float).tolist())[1:-1]
+        ret = ret.replace("[","(")
+        ret = ret.replace("]",")")
+        return ret
 
     __this_is_first_refresh = True
 
@@ -214,6 +240,14 @@ class MagConfigurePanel(wx.Panel, PDFPanel):
                 self.gridAtoms.SetRowLabelValue(count, str(row+1))
                 atom_info = atom.element + " (" + float2str(atom.xyz[0]) + "," + float2str(atom.xyz[1]) + "," + float2str(atom.xyz[2]) + ")"
                 self.gridAtoms.SetCellValue(count, 0, atom_info)
+
+                magSpecies = self.structure.magStructure.species[self.structure.magnetic_atoms[row][1]]
+                basisvecs = '(0.0, 0.0, 0.0)' if magSpecies.basisvecs is None else self.arrayToStr(magSpecies.basisvecs)
+                self.gridAtoms.SetCellValue(count, 1, basisvecs)
+                kvecs = '(0.0, 0.0, 0.0)' if magSpecies.kvecs is None else self.arrayToStr(magSpecies.kvecs)
+                self.gridAtoms.SetCellValue(count, 2, kvecs)
+                ffkey = 'None' if magSpecies.ffparamkey is None else magSpecies.ffparamkey
+                self.gridAtoms.SetCellValue(count, 3, ffkey)
                 count += 1
 
 
@@ -302,35 +336,37 @@ class MagConfigurePanel(wx.Panel, PDFPanel):
         crds    --  string of coordinates in format (x,y,z),(x,y,z)...
         """
         try:
+            # check if string is valid
+            text = text.replace(" ", "")
+            text = text.replace("[","(")
+            text = text.replace("{","(")
+            text = text.replace("]",")")
+            text = text.replace("}",")")
+            if text[-1] != ",": text = text + ","
+            if not re.match("^(\(\d*\.?\d+\,\d*\.?\d+\,\d*\.?\d+\),)+$", text):
+                return
+            text = text[:-1]
             ret = []
-
             crds = text.split('),') # split coordinates
-            print("crds", crds)
             for i, crd in enumerate(crds):
                 if crd[0] != '(': # verify valid coordinate
-                    print("ERROR 1")
-                    raise ValueError
+                    return
                 if i == len(crds) - 1: # remove end parenthesis not removed by split
                     crd = crd[:-1]
                 crd = crd[1:] # remove start parentheses
                 crd = crd.split(',') # split each coordinate
                 if len(crd) != 3:
-                    print("ERROR 2")
-                    raise ValueError
-
+                    return
                 arr = []
                 for val in crd:
                     arr.append(float(val)) # add each value to an array
                 ret.append(arr)
-            print("ret", ret)
             return np.array(ret)
 
-        except ValueError:
-            print("VAL ERROR")
-            return ""
+        except:
+            return
 
 
-    ## IN PROGRESS
     def applyCellChange(self, i, j, value):
         """Update an atom according to a change in a cell.
 
@@ -338,26 +374,24 @@ class MagConfigurePanel(wx.Panel, PDFPanel):
         j       --  cell position
         value   --  new value
         """
-        print("apply cell", i,j, self.magStructure)
-        if not self.mainFrame or self.magStructure is None: return
+        if not self.mainFrame or self.structure.magStructure is None: return
         if j == 0: return
-        print(i,j)
 
         # ignore the change if the value is not valid
         try:
-            label = self.magnetic_atoms[i][1]
+            i = int(self.gridAtoms.GetRowLabelValue(i)) - 1
+            label = self.structure.magnetic_atoms[i][1]
             if j == 1:
-                self.magStructure.species[label].basisvecs = self.readCoordinates(value) # basis vecs
+                value = self.readCoordinates(value)
+                self.structure.magStructure.species[label].basisvecs  = value # basis vecs
+                value = self.arrayToStr(value)
             elif j == 2:
-                self.magStructure.species[label].kvecs    = self.readCoordinates(value)  # prop. vecs
+                value = self.readCoordinates(value)
+                self.structure.magStructure.species[label].kvecs      = value  # prop. vecs
+                value = self.arrayToStr(value)
             elif j == 3:
-                self.magStructure.species[label].kvecs    = value # corr. length
-            elif j == 4:
-                self.magStructure.species[label].kvecs    = value # ord. scale
-            elif j == 5:
-                self.magStructure.species[label].kvecs  = value # para. scale
-            elif j == 6:
-                self.magStructure.species[label].kvecs    = value # FF key
+                value = value if value in self.ffkeys else None
+                self.structure.magStructure.species[label].ffparamkey = value # FF key
 
             self.mainFrame.needsSave()
             return value
@@ -464,7 +498,6 @@ class MagConfigurePanel(wx.Panel, PDFPanel):
             self._selectedCells.remove((i,j))
         # We need the edited cell to be at the front of the list
         self._selectedCells.insert(0,(i,j))
-        print("cell change VAL", value)
         self.fillCells(value)
         self._focusedText = None
         return
@@ -477,7 +510,6 @@ class MagConfigurePanel(wx.Panel, PDFPanel):
         This uses the member variable _selectedCells, a list of (i,j) tuples for
         the selected cells.
         """
-        print("fill cells")
         for (i,j) in self._selectedCells:
             if not self.gridAtoms.IsReadOnly(i,j):
                 # Get the last valid text from the cell. For the cell that triggered

@@ -107,7 +107,6 @@ class MagConstraintsPanel(wx.Panel, PDFPanel):
     def __customProperties(self):
         """Custom properties for the panel."""
         self.structure = None
-        self.magStructure = None
         self.constraints = {}
         self.results = None
         #self._textctrls = []
