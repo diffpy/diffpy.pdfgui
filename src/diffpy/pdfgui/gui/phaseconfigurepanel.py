@@ -348,7 +348,7 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
         "generates a random key that is not in the magSpecies dictionary"
         while True:
             key = ''.join(random.choices(string.ascii_uppercase + string.digits, k=8))
-            if key not in self.magStructure.species:
+            if key not in self.structure.magStructure.species:
                 break
         return key
 
@@ -395,24 +395,23 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
             elif j == 10:
                 self.structure[i].occupancy = value # occupancy
             elif j == 11:
-                print("val", value)
                 if value != 1 and value != 0: raise ValueError
-                
+
                 if value == 1 and self.structure.magnetic_atoms[i][1] == "":
-                    if not self.magStructure:
-                        self.magStructure = MagStructure()
+                    if self.structure.magStructure == None:
+                        self.structure.magStructure = MagStructure()
 
                     # if not a magSpecies (name = "" or not in dict), create and insert
                     label = self.randValidKey()
-                    self.magStructure.makeSpecies(label=label)
+                    self.structure.magStructure.makeSpecies(label=label)
                     self.structure.magnetic_atoms[i] = [value,label]
-                    print("magStructure", self.magStructure)
-                    print(self.magStructure.species)
+                    print("magStructure", self.structure.magStructure)
+                    print(self.structure.magStructure.species)
 
                 elif value == 0:
                     # is val a magSpecies? if so, remove
-                    if self.magStructure and self.structure.magnetic_atoms[i][1] in self.magStructure.species:
-                        self.magStructure.removeSpecies(label=self.structure.magnetic_atoms[i][1])
+                    if self.structure.magStructure and self.structure.magnetic_atoms[i][1] in self.structure.magStructure.species:
+                        self.structure.magStructure.removeSpecies(label=self.structure.magnetic_atoms[i][1])
                         self.structure.magnetic_atoms[i] = [value,""]
             self.mainFrame.needsSave()
             return value
