@@ -33,6 +33,8 @@ from diffpy.pdfgui.gui.wxextensions import wx12
 from diffpy.utils.wx import gridutils
 #from diffpy.pdfgui.gui.PDFguiAtom import PDFguiAtom
 from diffpy.pdfgui.gui.phasepanelutils import float2str
+import numpy as np
+import re
 
 
 class MagConstraintsPanel(wx.Panel, PDFPanel):
@@ -41,9 +43,14 @@ class MagConstraintsPanel(wx.Panel, PDFPanel):
         # begin wxGlade: PhaseConstraintsPanel.__init__
         kwds["style"] = kwds.get("style", 0) | wx.TAB_TRAVERSAL
         wx.Panel.__init__(self, *args, **kwds)
+        self.labelCorrLength = wx.StaticText(self, wx.ID_ANY, "corr. length")
+        self.textCtrlCorrLength = wx.TextCtrl(self, wx.ID_ANY, "", style=wx.TE_PROCESS_ENTER)
+        self.labelOrdScale = wx.StaticText(self, wx.ID_ANY, "ord. scale")
+        self.textCtrlOrdScale = wx.TextCtrl(self, wx.ID_ANY, "", style=wx.TE_PROCESS_ENTER)
+        self.labelParaScale = wx.StaticText(self, wx.ID_ANY, "para. scale")
+        self.textCtrlParaScale = wx.TextCtrl(self, wx.ID_ANY, "", style=wx.TE_PROCESS_ENTER)
         types = ["Unnormalized", "Normalized"]
         fitters = ["Synchronous Fitting", "Iterative Fitting"]
-
         self.labelPanelName = wx.StaticText(self, wx.ID_ANY, "Magnetic Constraints")
         self.radio1 = wx.RadioBox(self, wx.ID_ANY, "mPDF Type ", choices = types, style = wx.RA_SPECIFY_ROWS)
         self.radio2 = wx.RadioBox(self, wx.ID_ANY, "Magnetic Fitting Technique", choices = fitters, style = wx.RA_SPECIFY_ROWS)
@@ -66,30 +73,42 @@ class MagConstraintsPanel(wx.Panel, PDFPanel):
     def __set_properties(self):
         self.labelPanelName.SetFont(wx.Font(18, wx.FONTFAMILY_DEFAULT, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_BOLD, 0, ""))
         self.textCtrlIncludedPairs.SetMinSize((240, 25))
-        self.gridAtoms.CreateGrid(0, 7)
+        self.gridAtoms.CreateGrid(0, 4)
         self.gridAtoms.EnableDragRowSize(0)
         self.gridAtoms.SetColLabelValue(0, "elem")
         self.gridAtoms.SetColLabelValue(1, "basis vecs")
         self.gridAtoms.SetColLabelValue(2, "prop. vecs")
-        self.gridAtoms.SetColLabelValue(3, "corr. length")
-        self.gridAtoms.SetColLabelValue(4, "ord. scale")
-        self.gridAtoms.SetColLabelValue(5, "para. scale")
-        self.gridAtoms.SetColLabelValue(6, "FF key")
+        self.gridAtoms.SetColLabelValue(3, "FF key")
 
     def __do_layout(self):
         sizerMain = wx.BoxSizer(wx.VERTICAL)
         sizerAtoms = wx.StaticBoxSizer(wx.StaticBox(self, wx.ID_ANY, ""), wx.VERTICAL)
         sizer_1 = wx.BoxSizer(wx.HORIZONTAL)
-        sizer_3 = wx.StaticBoxSizer(wx.StaticBox(self, wx.ID_ANY, ""), wx.HORIZONTAL)
         sizerPanelName = wx.StaticBoxSizer(wx.StaticBox(self, wx.ID_ANY, ""), wx.HORIZONTAL)
         sizerPanelName.Add(self.labelPanelName, 5, wx.ALIGN_CENTER_VERTICAL | wx.LEFT | wx.RIGHT, 5)
         sizerPanelName.Add(5, 0, 0)
-        sizerPanelName.Add(self.buttonAdvanced, 1, wx.ALL | wx.ALIGN_CENTER_VERTICAL | wx.ALIGN_RIGHT, 10)
+        sizerPanelName.Add(self.buttonAdvanced, 1, wx.ALL | wx.ALIGN_CENTER_VERTICAL | wx.ALIGN_RIGHT, 5)
         sizerMain.Add(sizerPanelName, 0, wx.EXPAND | wx.LEFT | wx.RIGHT, 5)
-        sizer_3.Add(self.radio1, 0, wx.ALL, 20)
-        sizer_3.Add(self.radio2, 0, wx.ALL, 20)
-        sizer_3.Add(1, 0, )
-        sizerMain.Add(sizer_3, 0, wx.EXPAND, 5)
+
+        sizerLatticeParameters = wx.StaticBoxSizer(wx.StaticBox(self, wx.ID_ANY, ""), wx.HORIZONTAL)
+        grid_sizer_3 = wx.FlexGridSizer(2, 6, 0, 0)
+        grid_sizer_3.Add(self.labelCorrLength, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALIGN_RIGHT | wx.ALL, 5)
+        grid_sizer_3.Add(self.textCtrlCorrLength, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALL, 0)
+        grid_sizer_3.Add(self.labelOrdScale, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALIGN_RIGHT | wx.ALL, 5)
+        grid_sizer_3.Add(self.textCtrlOrdScale, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALL, 0)
+        grid_sizer_3.Add(self.labelParaScale, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALIGN_RIGHT | wx.ALL, 5)
+        grid_sizer_3.Add(self.textCtrlParaScale, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALL, 0)
+        sizerLatticeParameters.Add(grid_sizer_3, 1, wx.EXPAND, 0)
+        sizerMain.Add(sizerLatticeParameters, 0, wx.EXPAND | wx.LEFT | wx.RIGHT, 5)
+
+        sizer_3 = wx.StaticBoxSizer(wx.StaticBox(self, wx.ID_ANY, ""), wx.HORIZONTAL)
+        grid_sizer_2 = wx.FlexGridSizer(2, 6, 0, 0)
+        grid_sizer_2.Add(self.radio1, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALIGN_RIGHT | wx.ALL, 5)
+        grid_sizer_2.Add(5, 0, )
+        grid_sizer_2.Add(self.radio2, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALIGN_RIGHT | wx.ALL, 5)
+        sizer_3.Add(grid_sizer_2, 1, wx.EXPAND, 0)
+        sizerMain.Add(sizer_3, 0, wx.EXPAND | wx.LEFT | wx.RIGHT, 5)
+
         sizer_1.Add(self.labelIncludedPairs, 0, wx.ALIGN_CENTER | wx.ALL, 5)
         sizer_1.Add(self.textCtrlIncludedPairs, 0, wx.ALL, 5)
         sizerAtoms.Add(sizer_1, 0, wx.EXPAND, 0)
@@ -109,7 +128,7 @@ class MagConstraintsPanel(wx.Panel, PDFPanel):
         self.structure = None
         self.constraints = {}
         self.results = None
-        #self._textctrls = []
+        self._textctrls = []
         self._row = 0
         self._col = 0
         self._focusedText = None
@@ -124,8 +143,7 @@ class MagConstraintsPanel(wx.Panel, PDFPanel):
 
         # set up grid
         self.lAtomConstraints = [
-            'elem','basis vecs','prop. vecs',
-            'corr. length','ord. scale', 'para. scale', 'FF key']
+            'elem','basis vecs','prop. vecs','FF key']
         # pdffit internal naming
         self.lConstraints = [
             'lat(1)', 'lat(2)', 'lat(3)', 'lat(4)', 'lat(5)', 'lat(6)',
@@ -163,6 +181,16 @@ class MagConstraintsPanel(wx.Panel, PDFPanel):
     def _cache(self):
         """Cache the current structure and constraints for future comparison."""
         pass
+
+    def arrayToStr(self, arr):
+        """returns basis and kvec numpy arrays in str format
+        Ex. [[1 2 3],[4 5 6]] -> (1, 2, 3),(4, 5, 6)"""
+        if arr is None or type(arr) != np.ndarray:
+            return
+        ret = str(arr.astype(float).tolist())[1:-1]
+        ret = ret.replace("[","(")
+        ret = ret.replace("]",")")
+        return ret
 
     def refresh(self):
         """Refresh wigets on the panel."""
@@ -221,6 +249,7 @@ class MagConstraintsPanel(wx.Panel, PDFPanel):
         self.gridAtoms.AdjustScrollbars()
         self.gridAtoms.ForceRefresh()
         return
+
     '''
     def refreshTextCtrls(self):
         """Refreshes the TextCtrls. """

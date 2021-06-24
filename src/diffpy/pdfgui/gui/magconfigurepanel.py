@@ -52,7 +52,6 @@ class MagConfigurePanel(wx.Panel, PDFPanel):
         # begin wxGlade: PhaseConfigurePanel.__init__
         kwds["style"] = kwds.get("style", 0) | wx.TAB_TRAVERSAL
         wx.Panel.__init__(self, *args, **kwds)
-
         self.labelCorrLength = wx.StaticText(self, wx.ID_ANY, "corr. length")
         self.textCtrlCorrLength = wx.TextCtrl(self, wx.ID_ANY, "", style=wx.TE_PROCESS_ENTER)
         self.labelOrdScale = wx.StaticText(self, wx.ID_ANY, "ord. scale")
@@ -95,11 +94,10 @@ class MagConfigurePanel(wx.Panel, PDFPanel):
         sizerMain = wx.BoxSizer(wx.VERTICAL)
         sizerAtoms = wx.StaticBoxSizer(wx.StaticBox(self, wx.ID_ANY, ""), wx.VERTICAL)
         sizer_1 = wx.BoxSizer(wx.HORIZONTAL)
-        sizer_3 = wx.StaticBoxSizer(wx.StaticBox(self, wx.ID_ANY, ""), wx.HORIZONTAL)
         sizerPanelName = wx.StaticBoxSizer(wx.StaticBox(self, wx.ID_ANY, ""), wx.HORIZONTAL)
         sizerPanelName.Add(self.labelPanelName, 5, wx.ALIGN_CENTER_VERTICAL | wx.LEFT | wx.RIGHT, 5)
         sizerPanelName.Add(5, 0, 0)
-        sizerPanelName.Add(self.buttonAdvanced, 1, wx.ALL | wx.ALIGN_CENTER_VERTICAL | wx.ALIGN_RIGHT, 10)
+        sizerPanelName.Add(self.buttonAdvanced, 1, wx.ALL | wx.ALIGN_CENTER_VERTICAL | wx.ALIGN_RIGHT, 5)
         sizerMain.Add(sizerPanelName, 0, wx.EXPAND | wx.LEFT | wx.RIGHT, 5)
 
         sizerLatticeParameters = wx.StaticBoxSizer(wx.StaticBox(self, wx.ID_ANY, ""), wx.HORIZONTAL)
@@ -113,10 +111,14 @@ class MagConfigurePanel(wx.Panel, PDFPanel):
         sizerLatticeParameters.Add(grid_sizer_3, 1, wx.EXPAND, 0)
         sizerMain.Add(sizerLatticeParameters, 0, wx.EXPAND | wx.LEFT | wx.RIGHT, 5)
 
-        sizer_3.Add(self.radio1, 0, wx.ALL, 20)
-        sizer_3.Add(self.radio2, 0, wx.ALL, 20)
-        sizer_3.Add(1, 0, )
-        sizerMain.Add(sizer_3, 0, wx.EXPAND, 5)
+        sizer_3 = wx.StaticBoxSizer(wx.StaticBox(self, wx.ID_ANY, ""), wx.HORIZONTAL)
+        grid_sizer_2 = wx.FlexGridSizer(2, 6, 0, 0)
+        grid_sizer_2.Add(self.radio1, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALIGN_RIGHT | wx.ALL, 5)
+        grid_sizer_2.Add(5, 0, )
+        grid_sizer_2.Add(self.radio2, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALIGN_RIGHT | wx.ALL, 5)
+        sizer_3.Add(grid_sizer_2, 1, wx.EXPAND, 0)
+        sizerMain.Add(sizer_3, 0, wx.EXPAND | wx.LEFT | wx.RIGHT, 5)
+
         sizer_1.Add(self.labelIncludedPairs, 0, wx.ALIGN_CENTER | wx.ALL, 5)
         sizer_1.Add(self.textCtrlIncludedPairs, 0, wx.ALL, 5)
         sizerAtoms.Add(sizer_1, 0, wx.EXPAND, 0)
@@ -136,6 +138,7 @@ class MagConfigurePanel(wx.Panel, PDFPanel):
         self.structure = None
         self.constraints = {}
         self.results = None
+        self._textctrls = []
         self._row = 0
         self._col = 0
         self._focusedText = None
@@ -186,6 +189,15 @@ class MagConfigurePanel(wx.Panel, PDFPanel):
         for tname in self.lConstraintsMap:
             assert getattr(self, tname).GetToolTip() is not None
         """
+
+        # set 'elem' column to read-only
+        attr = wx.grid.GridCellAttr()
+        attr.SetReadOnly(True)
+        attr.IncRef()
+        self.gridAtoms.SetColAttr(0, attr)
+        # drop local reference to `attr` as it was constructed here.
+        attr.DecRef()
+
 
         # catch key events and apply them to the grid
         self.Bind(wx.EVT_KEY_DOWN, self.onKey)
@@ -240,7 +252,6 @@ class MagConfigurePanel(wx.Panel, PDFPanel):
                 self.gridAtoms.SetRowLabelValue(count, str(row+1))
                 atom_info = atom.element + " (" + float2str(atom.xyz[0]) + "," + float2str(atom.xyz[1]) + "," + float2str(atom.xyz[2]) + ")"
                 self.gridAtoms.SetCellValue(count, 0, atom_info)
-
                 magSpecies = self.structure.magStructure.species[self.structure.magnetic_atoms[row][1]]
                 basisvecs = '(0.0, 0.0, 0.0)' if magSpecies.basisvecs is None else self.arrayToStr(magSpecies.basisvecs)
                 self.gridAtoms.SetCellValue(count, 1, basisvecs)
