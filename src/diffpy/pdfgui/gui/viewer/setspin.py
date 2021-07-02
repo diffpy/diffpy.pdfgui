@@ -7,10 +7,11 @@ import re
 
 # prop vector regex
 #  r"^(\({1}((\d+\.{1}\d+|\d+|.\d+),){2}(\d+\.{1}\d+|\d+|.\d+)\){1},)*(\({1}((\d+\.{1}\d+|\d+|.\d+),){2}(\d+\.{1}\d+|\d+|.\d+)\){1})$"
+#
 
 class window(QtWidgets.QWidget):
     """
-    Popup window that sets prompts the user to input the 
+    Popup window that sets prompts the user to input the
         spin, magnitude, and propagation vector
     """
     def __init__(self):

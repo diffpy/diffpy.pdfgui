@@ -29,12 +29,12 @@ from diffpy.pdfgui.gui.wxextensions.textctrlutils import textCtrlAsGridCell
 from diffpy.pdfgui.gui.wxextensions import wx12
 from diffpy.pdfgui.gui import magpanelutils
 from diffpy.pdfgui.gui.advancedmagconfig import AdvancedFrame
-from diffpy.pdfgui.gui.magviewerpanel import CanvasFrame
+from diffpy.pdfgui.gui.test_panel import CanvasFrame
 from diffpy.utils.wx import gridutils
 
 import numpy as np
 import re
-
+from viewer.magview import MagView
 
 class MagConfigurePanel(wx.Panel, PDFPanel):
     """Panel for configuring magnetism.
@@ -280,7 +280,7 @@ class MagConfigurePanel(wx.Panel, PDFPanel):
         return
 '''
 
-
+# self.mpdffit = {"qdamp": 0.0, "ordScale": 1.0, "paraScale": 1.0}
     def applyTextCtrlChange(self, id, value):
         """Update a structure according to a change in a TextCtrl.
 
@@ -291,17 +291,17 @@ class MagConfigurePanel(wx.Panel, PDFPanel):
 
         try:
             value = float(value)
-            if   id == self.textCtrlCorrLength.GetId():
-                self.structure.magStructure.corr = value
+            if id == self.textCtrlCorrLength.GetId():
+                self.structure.magStructure.corrLength = value
             elif id == self.textCtrlOrdScale.GetId():
-                self.structure.magStructure.ord = value
+                self.structure.mpdffit['ordScale'] = value
             elif id == self.textCtrlParaScale.GetId():
-                self.structure.magStructure.para = value
-
+                self.structure.mpdffit['paraScale'] = value
             return value
 
         except:
             return None
+
 
     def readCoordinates(self, text):
         """Returns a str of coordinates as a nested numpy array
@@ -381,38 +381,94 @@ class MagConfigurePanel(wx.Panel, PDFPanel):
 
 
     def onPanel(self, event):
-        if False:
-            raise CustomError("An error occurred")
-        else:
-            def split_up_magnetics(cond, mags, struc, row_element):
-                X, orig_inx, nonmag, Xelem = [], [], [], []
+        '''
+        with open('data.npy', 'wb') as f:
+            np.save(f, X)
+            np.save(f, Xelem)
+            np.save(f, revdmap)
+            np.save(f, nonmag)
+            np.save(f, cif_name)
+            np.save(f, struc_ob.lattice.stdbase)
+        '''
+        def split_up_magnetics(cond, mags, struc, row_element):
+            X, orig_inx, nonmag, Xelem = [], [], [], []
 
-                for i in range(len(struc)):
-                    if str(cond[i]) in mags:
-                        X += [struc[i,:]]
-                        orig_inx += [i]
-                        Xelem += [row_element[i]]
-                    else:
-                        nonmag += [struc[i,:]]
-                return np.array(X), np.array(orig_inx), np.array(nonmag), np.array(Xelem)
+            for i in range(len(struc)):
+                if str(cond[i]) in mags:
+                    X += [struc[i,:]]
+                    orig_inx += [i]
+                    Xelem += [row_element[i]]
+                else:
+                    nonmag += [struc[i,:]]
+            return np.array(X), np.array(orig_inx), np.array(nonmag), np.array(Xelem)
 
-            mags = []
-            count = 1
-            for a in self.structure.magnetic_atoms:
-                if a[0] == 1:
-                    mags.append(str(count))
-                count += 1
+        mags = []
+        count = 1
+        for a in self.structure.magnetic_atoms:
+            if a[0] == 1:
+                mags.append(str(count))
+            count += 1
 
-            struc = self.structure.xyz_cartn
-            elems = list(set(self.structure.element))
-            elems.sort() 				# alphabetical list of elements
-            element_inx = np.arange(1,1+len(elems)) 		# 1 to n+1 indices for each element
-            dmap = dict(zip(elems, element_inx)) 		# element name to associated number
-            revdmap = dict(zip(element_inx, elems))
-            row_element = np.array([dmap[i] for i in self.structure.element])
+        struc = self.structure.xyz_cartn
+        elems = list(set(self.structure.element))
+        elems.sort() 				# alphabetical list of elements
+        element_inx = np.arange(1,1+len(elems)) 		# 1 to n+1 indices for each element
+        dmap = dict(zip(elems, element_inx)) 		# element name to associated number
+        revdmap = dict(zip(element_inx, elems))
+        row_element = np.array([dmap[i] for i in self.structure.element])
 
-            X, orig_inx, nonmag, Xelem = split_up_magnetics(np.arange(1,1+len(struc)), mags, struc, row_element)
-            canvas = CanvasFrame(X, Xelem, revdmap, self, nonmag = nonmag, basis=self.structure.lattice.stdbase)
+        X, orig_inx, nonmag, Xelem = split_up_magnetics(np.arange(1,1+len(struc)), mags, struc, row_element)
+        canvas = CanvasFrame(X, Xelem, revdmap, nonmag = nonmag, basis=self.structure.lattice.stdbase)
+
+
+    def onMagViewer(self, event):
+        '''
+        with open('data.npy', 'wb') as f:
+            np.save(f, X)
+            np.save(f, Xelem)
+            np.save(f, revdmap)
+            np.save(f, nonmag)
+            np.save(f, cif_name)
+            np.save(f, struc_ob.lattice.stdbase)
+        '''
+        def split_up_magnetics(cond, mags, struc, row_element):
+            X, orig_inx, nonmag, Xelem = [], [], [], []
+
+            for i in range(len(struc)):
+                if str(cond[i]) in mags:
+                    X += [struc[i,:]]
+                    orig_inx += [i]
+                    Xelem += [row_element[i]]
+                else:
+                    nonmag += [struc[i,:]]
+            return np.array(X), np.array(orig_inx), np.array(nonmag), np.array(Xelem)
+
+        mags = []
+        count = 1
+        for a in self.structure.magnetic_atoms:
+            if a[0] == 1:
+                mags.append(str(count))
+            count += 1
+
+        struc = self.structure.xyz_cartn
+        elems = list(set(self.structure.element))
+        elems.sort() 				# alphabetical list of elements
+        element_inx = np.arange(1,1+len(elems)) 		# 1 to n+1 indices for each element
+        dmap = dict(zip(elems, element_inx)) 		# element name to associated number
+        revdmap = dict(zip(element_inx, elems))
+        row_element = np.array([dmap[i] for i in self.structure.element])
+
+        print("np.arange(1,1+len(struc))", np.arange(1,1+len(struc)))
+        print("mags", mags)
+        print("struc", struc)
+        print("row_element", row_element)
+        X, orig_inx, nonmag, Xelem = split_up_magnetics(np.arange(1,1+len(struc)), mags, struc, row_element)
+        print("X", X)
+        print("orig_inx", orig_inx)
+        print("Xelem", Xelem)
+        print("nonmag", nonmag)
+        MagView(X, Xelem, revdmap, nonmag = nonmag, basis=self.structure.lattice.stdbase)
+
 
     # TextCtrl Events
     def onSetFocus(self, event):
