@@ -73,6 +73,7 @@ class FitStructure(PDFStructure):
         self.magnetism = False
         self.magnetic_atoms = []
         self.magStructure = None
+        self.mpdffit = {"qdamp": 0.0, "ordScale": 1.0, "paraScale": 1.0, "normalized": True}
         self.constraints = {}
         self.selected_pairs = "all-all"
         self.initial.pdffit['sgoffset'] = [0.0, 0.0, 0.0]
