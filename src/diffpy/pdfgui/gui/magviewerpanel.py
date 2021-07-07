@@ -17,14 +17,14 @@ import wx
 
 class CanvasFrame(wx.Frame):
 
-    def __init__(self, X, elems, revdmap, magconfigure, nonmag=None, cif="", basis=np.eye(3), size=(900,700)):
-        wx.Frame.__init__(self, parent=magconfigure, size=(900,700))
-        panel = CanvasPanel(self, X, elems, revdmap, magconfigure, nonmag, cif, basis)
+    def __init__(self, X, elems, revdmap, nonmag=None, cif="", basis=np.eye(3)):
+        wx.Frame.__init__(self, parent=None)
+        panel = CanvasPanel(self, X, elems, revdmap, nonmag, cif, basis)
         panel.connect()
         self.Show(True)
 
 class CanvasPanel(wx.Panel):
-    def __init__(self, parent, X, elems, revdmap, magconfigure, nonmag=None, cif="", basis=np.eye(3), ):
+    def __init__(self, parent, X, elems, revdmap, nonmag=None, cif="", basis=np.eye(3)):
         """
         Attributes:
 
@@ -70,7 +70,7 @@ class CanvasPanel(wx.Panel):
         self.btn1 = wx.Button(self, wx.ID_ANY, "Done")
         self.btn1.Bind(wx.EVT_BUTTON, self.destroy)
 
-        self.magconfigure = magconfigure
+
         if X is None:
             raise ValueError("Must an assign X matrix")
         if cif is None:
@@ -100,7 +100,6 @@ class CanvasPanel(wx.Panel):
         self.showticks = True
         self.isfull = False
         self.props = dict(zip(list(range(self.n)),[np.array([[0,0,0]]) for i in range(self.n)]))
-        self.saves ={}
 
         #scatter the structure data
         if len(self.X) == 0: # check if there are any coordinates
@@ -131,6 +130,13 @@ class CanvasPanel(wx.Panel):
 
         self.canvas = FigureCanvas(self, -1, self.fig)
         self.__do_layout()
+        """
+
+        self.sizer = wx.BoxSizer(wx.VERTICAL)
+        self.sizer.Add(self.canvas, 1, wx.LEFT | wx.TOP | wx.GROW)
+        self.SetSizer(self.sizer)
+        self.Fit()
+        """
 
     def __do_layout(self):
         sizerMain = wx.BoxSizer(wx.VERTICAL)
@@ -153,7 +159,6 @@ class CanvasPanel(wx.Panel):
 
 
     def destroy(self, event):
-        self.on_close(event)
         frame = self.GetParent()
         frame.Close()
 
@@ -214,8 +219,8 @@ class CanvasPanel(wx.Panel):
 
         # graph cosmetics
         title = "\n\n"+str(cif)
-        #self.fig.canvas.set_window_title("MagPlotSpin")
-        #self.fig.suptitle(title, fontweight='bold')
+        self.fig.canvas.set_window_title("MagPlotSpin")
+        self.fig.suptitle(title, fontweight='bold')
 
         # save all axes ticks
         self.update_ticks()
@@ -265,18 +270,14 @@ class CanvasPanel(wx.Panel):
                            self.centroid[2] + self.zoom*self.axscalefactor)
 
     def on_close(self, event=[]):
-        """save basis and prop vecs on close"""
-
-        count = 0
-        for i in range(len(self.magconfigure.structure.magnetic_atoms)):
-            if self.magconfigure.structure.magnetic_atoms[i][0] == 1:
-                label = self.magconfigure.structure.magnetic_atoms[i][1]
-                self.magconfigure.structure.magStructure.species[label].basisvecs = np.array([self.X[:,4:7][count]])
-                self.magconfigure.structure.magStructure.species[label].kvecs = np.array(self.props[count])
-                count += 1
-
-        self.magconfigure.refresh()
-        self.magconfigure.mainFrame.needsSave()
+        """
+        Function called when escape is pressed / plot is closed
+            Upon close, data is saved in the temp folder
+        """
+        #os.chdir('../temp')
+        with open('viewer/X.npy', 'wb') as f:
+            np.save(f, self.X,allow_pickle=True)
+            np.save(f, [self.props],allow_pickle=True)
 
     def enter(self):
         """
@@ -284,18 +285,18 @@ class CanvasPanel(wx.Panel):
             Upon enter, if any points are selected, vector assignement GUI
             is opened and the input data is loaded into the magview viewer
         """
-        self.save = {}
-        dlg = DialogSetSpins(self)
-        dlg.ShowModal()
-        dlg.Destroy()
-
-        if self.clicked and 'spin vector' in self.save:
-
-            vector = self.save['spin vector']
-            mag = self.save['magnitude']
-            usecrys = self.save['crystal coords checked']
-            prop = self.save['prop vec']
-
+        # change directory and run vector assignment GUI
+        #os.chdir('../textgui')
+        os.system('python3 viewer/setspin.py')
+        #os.chdir('../temp')
+        # if vector was set in the seperate GUI
+        if os.path.exists("viewer/vector.npy"):
+            with open('viewer/vector.npy', 'rb') as f:
+                vector = np.load(f,allow_pickle=True)
+                mag = np.load(f,allow_pickle=True)
+                usecrys = np.load(f,allow_pickle=True)
+                prop = np.load(f,allow_pickle=True)
+            os.remove('viewer/vector.npy')
             # normalize and set vector
             if vector.size != 1:
                 if not np.allclose(vector, np.zeros_like(vector)):
@@ -311,14 +312,15 @@ class CanvasPanel(wx.Panel):
                         self.props[i] = prop
                 else:
                     self.fc[np.array(self.clicked),:] = self.blue
-
+        else:
+            # set color back to blue if nothing was done
+            self.fc[np.array(self.clicked),:] = self.blue
         # reset colors and replot
         self.plot._facecolor3d = self.fc
         self.plot._edgecolor3d = self.fc
         self.clicked = []
         self.redraw_arrows()
         self.plotted = (self.X[:,3] == 1).nonzero()
-
 
     def update_ticks(self):
         self.xticks = self.ax.get_xticks()
@@ -330,12 +332,19 @@ class CanvasPanel(wx.Panel):
         Keyboard helper function that sends a keyboard touch to the
         appropriate action
         """
-        print("EVENT")
-        if (event.key == "enter") and (len(self.clicked) != 0): # and (len(self.clicked) != 0): # proceed to save and continue to vector assignemnt
-            self.enter()
+        print("ON MAG KEY")
+
+        if (event.key == "enter") and (len(self.clicked) != 0): # proceed to save and continue to vector assignemnt
+            #self.enter()
+            print("enter")
+            #self.enter()
+            dlg = DialogSetSpins(self)
+            dlg.ShowModal()
+            dlg.Destroy()
             return
         elif (event.key == "escape"): # end program
-            self.destroy(event)
+            #plt.close()
+            print("close")
 
         else:
             if (event.key == "f"):
@@ -476,3 +485,21 @@ mpl.rcParams['keymap.fullscreen'] = 'None'
 mpl.rcParams['keymap.quit'] = 'None'
 mpl.rcParams['keymap.xscale'] = 'None'
 mpl.rcParams['keymap.yscale'] = 'None'
+
+
+
+"""
+    def draw(self):
+        t = arange(0.0, 3.0, 0.01)
+        s = sin(2 * pi * t)
+        self.axes.plot(t, s)
+
+
+if __name__ == "__main__":
+    app = wx.PySimpleApp()
+    fr = wx.Frame(None, title='test')
+    panel = CanvasPanel(fr)
+    panel.draw()
+    fr.Show()
+    app.MainLoop()
+"""
