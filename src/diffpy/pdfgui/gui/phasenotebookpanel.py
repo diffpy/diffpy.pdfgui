@@ -42,15 +42,7 @@ class PhaseNotebookPanel(wx.Panel, PDFPanel):
         self.notebook_phase_pane_Configure   = PhaseConfigurePanel(self.notebook_phase, -1)
         self.notebook_phase_pane_Constraints = PhaseConstraintsPanel(self.notebook_phase, -1)
         self.notebook_phase_pane_Results     = PhaseResultsPanel(self.notebook_phase, -1)
-        """
-        self.notebook_phase_pane_MagConstraints = MagConstraintsPanel(self.notebook_phase, -1)
-        self.notebook_phase_pane_MagConfigure   = MagConfigurePanel(self.notebook_phase, -1)
-        self.notebook_phase_pane_MagConstraints.Hide()
-        self.notebook_phase_pane_MagConfigure.Hide()
-        """
         self.notebook_phase_pane_Configure.notebook_phase = self.notebook_phase
-        #self.notebook_phase_pane_Configure.notebook_phase_pane_MagConstraints = self.notebook_phase_pane_MagConstraints
-        #self.notebook_phase_pane_Configure.notebook_phase_pane_MagConfigure = self.notebook_phase_pane_MagConfigure
         self.notebook_phase_pane_Configure.notebook_phase_pane_Configure = self.notebook_phase_pane_Configure
         self.notebook_phase_pane_Configure.notebook_phase_pane_Constraints = self.notebook_phase_pane_Constraints
         self.notebook_phase_pane_Configure.notebook_phase_pane_Results = self.notebook_phase_pane_Results
