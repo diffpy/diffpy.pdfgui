@@ -429,13 +429,15 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
         self.structure.magnetic_atoms = [0]*len(self.structure)
         for i in range(len(self.structure.magnetic_atoms)):
             self.structure.magnetic_atoms[i] = [0,""]
-        self.refresh()
         if self.structure.magnetism and self.notebook_phase.GetPageCount() == 3:
-            self.notebook_phase.InsertPage(1, self.notebook_phase_pane_MagConfigure, text="Magnetic Configure")
-            self.notebook_phase.InsertPage(3, self.notebook_phase_pane_MagConstraints, text="Magnetic Constraints")
+            magConf = MagConfigurePanel(self.notebook_phase)
+            magConst = MagConstraintsPanel(self.notebook_phase)
+            self.notebook_phase.InsertPage(1, magConf, text="Magnetic Configure")
+            self.notebook_phase.InsertPage(3, magConst, text="Magnetic Constraints")
         elif not self.structure.magnetism and self.notebook_phase.GetPageCount() == 5:
             self.notebook_phase.RemovePage(1)
             self.notebook_phase.RemovePage(2)
+        self.refresh()
         event.Skip()
 
     # TextCtrl Events
