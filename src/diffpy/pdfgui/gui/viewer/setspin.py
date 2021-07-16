@@ -7,7 +7,6 @@ import re
 
 # prop vector regex
 #  r"^(\({1}((\d+\.{1}\d+|\d+|.\d+),){2}(\d+\.{1}\d+|\d+|.\d+)\){1},)*(\({1}((\d+\.{1}\d+|\d+|.\d+),){2}(\d+\.{1}\d+|\d+|.\d+)\){1})$"
-#
 
 class window(QtWidgets.QWidget):
     """
