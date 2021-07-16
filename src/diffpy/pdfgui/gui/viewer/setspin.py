@@ -7,7 +7,6 @@ import re
 
 # prop vector regex
 #  r"^(\({1}((\d+\.{1}\d+|\d+|.\d+),){2}(\d+\.{1}\d+|\d+|.\d+)\){1},)*(\({1}((\d+\.{1}\d+|\d+|.\d+),){2}(\d+\.{1}\d+|\d+|.\d+)\){1})$"
-#
 
 class window(QtWidgets.QWidget):
     """
@@ -28,7 +27,7 @@ class window(QtWidgets.QWidget):
 
         self.reset_labels()
 
-        ### check magnitude 
+        ### check magnitude
         if self.line_mag.text() != "":
             try:
                 mag = float(eval(self.line_mag.text()))
@@ -59,8 +58,8 @@ class window(QtWidgets.QWidget):
                 self.veclabel.setText("<b>Spin Vector</b><br>Format: <b>sx,sy,sz</b><br><b>Entry did not match the format.  Try again.</b>")
             return
 
-        ### 
-        
+        ###
+
         prop = self.line_prop.text().replace("]", ")").replace("[", "(").replace("{", "(").replace("}", ")").replace(" ", "").replace("\t", "").replace("\n", "")
 
         if prop == "":
@@ -86,7 +85,7 @@ class window(QtWidgets.QWidget):
 
             self.proplabel.setText("<b>Propagation Vector</b><br>Format: <b>k1,k2,k3</b><br>(Optional: will default to (0, 0, 0))<br>Entry did not match format for either single<br>or multiple propagation vectors.<br><b>Try again</b>")
             return
-        
+
         os.chdir('../temp')
         with open('vector.npy', 'wb') as f:
             np.save(f, np.array([x,y,z]))
@@ -110,7 +109,7 @@ class window(QtWidgets.QWidget):
 
         self.multiple_props = re.compile(r"^(\({1}((\d+\.{1}\d+|\d+\/{1}\d+|\d+|.\d+),){2}(\d+\.{1}\d+|\d+\/{1}\d+|\d+|.\d+)\){1},)*(\({1}((\d+\.{1}\d+|\d+\/{1}\d+|\d+|.\d+),){2}(\d+\.{1}\d+|\d+\/{1}\d+|\d+|.\d+)\){1})$")
         self.single_prop = re.compile(r"^((\d+\.{1}\d+|\d+\/{1}\d+|\d+|.\d+),){2}(\d+\.{1}\d+|\d+\/{1}\d+|\d+|.\d+)$")
-        
+
         self.mag = 1
         icon = QIcon('iconset.png')
         self.setWindowIcon(icon)
@@ -122,10 +121,10 @@ class window(QtWidgets.QWidget):
 
         self.veclabel = QtWidgets.QLabel()
         self.veclabel.move(50,0)
-        
+
         self.maglabel = QtWidgets.QLabel()
         self.maglabel.move(50,75)
-        
+
         self.line_mag = QtWidgets.QLineEdit()
         self.line_mag.move(50,25)
         self.line_mag.returnPressed.connect(self.save_data)
@@ -150,14 +149,14 @@ class window(QtWidgets.QWidget):
         self.b2 = QtWidgets.QPushButton()
         self.b2.setText("Go Back")
         self.b2.move(100,100)
-        self.b2.clicked.connect(self.close_no_save)    
+        self.b2.clicked.connect(self.close_no_save)
 
         self.b3 = QtWidgets.QCheckBox("Crystallographic Coordinates (a, b, c)")
         self.b3.toggled.connect(self.check_radio)
         self.b3.move(50,50)
 
         self.reset_labels()
-        
+
         layout = QtWidgets.QVBoxLayout()
         layout.addWidget(self.veclabel)
         layout.addWidget(self.line_vec)
@@ -166,14 +165,13 @@ class window(QtWidgets.QWidget):
         layout.addWidget(self.line_mag)
         layout.addWidget(self.proplabel)
         layout.addWidget(self.line_prop)
-        layout.addWidget(self.multlabel)  
+        layout.addWidget(self.multlabel)
         layout.addWidget(self.b1)
         layout.addWidget(self.b2)
-        
+
         self.setLayout(layout)
 
 app = QtWidgets.QApplication(sys.argv)
 win = window()
 win.show()
 sys.exit(app.exec_())
-
