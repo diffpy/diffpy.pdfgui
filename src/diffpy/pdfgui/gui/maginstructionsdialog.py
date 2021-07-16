@@ -16,20 +16,20 @@
 import random
 import wx
 
-_instructions = """<b>Mouse Controls</b>:<br>
-<br><b>L. Click</b>: Select atoms for next spin assignment<br>
-<b>R. Click</b>: Undo previous spin assignments<br>
-<br><b>Keyboard Controls</b>:
-<br><br><b>Enter</b>: Assign Spins after selecting<br>
-<b>t</b> : Toggle non-magnetic atoms<br>
-<b>b</b> : Toggle bounding box<br>
-<b>g</b> : Toggle plot grid<br>
-<b>n</b> : Toggle ploted numbers on axes ticks<br>
-<b>f</b>: Enter fullscreen mode<br>
-<b>Escape</b>: Exit Program<br>
-<b>CTRL +</b> / <b>CTRL -</b> : Zoom in or out<br>
-<b>U / D Arrows</b>: Change atom size<br>
-<b>R</b> / <b>L Arrows</b>: Change vector length"""
+_instructions = """Mouse Controls:>
+L. Click: Select atoms for next spin assignment
+R. Click: Undo previous spin assignments
+Keyboard Controls:
+Enter: Assign Spins after selecting
+t: Toggle non-magnetic atoms
+b: Toggle bounding box
+g: Toggle plot grid
+n: Toggle ploted numbers on axes ticks
+f: Enter fullscreen mode
+Escape: Exit Program
+CTRL +/CTRL -: Zoom in or out
+U/D Arrows: Change atom size
+R/L Arrows: Change vector length"""
 
 
 class DialogInstructions(wx.Dialog):
@@ -62,8 +62,9 @@ class DialogInstructions(wx.Dialog):
         sizer_button = wx.BoxSizer(wx.HORIZONTAL)
         sizer_instructions.Add(self.label_instructions, 0, wx.RIGHT, 10)
         sizer_main.Add(sizer_instructions, 0, wx.EXPAND, 0)
-        sizer_button.Add((20, 20), 1, wx.EXPAND, 0)
+        sizer_button.Add((20, 20), 5, wx.EXPAND, 0)
         sizer_button.Add(self.button_OK, 0, wx.RIGHT, 10)
+        sizer_button.Add(0, 0, 1)
         sizer_main.Add(sizer_button, 0, wx.EXPAND, 0)
         self.SetSizer(sizer_main)
         self.Layout()
