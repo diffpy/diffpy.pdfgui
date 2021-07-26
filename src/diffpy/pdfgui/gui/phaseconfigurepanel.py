@@ -33,7 +33,7 @@ from diffpy.utils.wx import gridutils
 
 from diffpy.pdfgui.gui.magconfigurepanel import MagConfigurePanel
 from diffpy.pdfgui.gui.magconstraintspanel import MagConstraintsPanel
-from diffpy.mpdf import MagSpecies, MagStructure
+from diffpy.pdfgui.control.magstructure import MagStructure
 import random, string
 
 class PhaseConfigurePanel(wx.Panel, PDFPanel):

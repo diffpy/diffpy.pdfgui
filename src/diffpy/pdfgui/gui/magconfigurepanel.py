@@ -19,20 +19,18 @@
 import wx
 import wx.grid
 from diffpy.structure import Atom
-from diffpy.pdffit2 import is_element
 from diffpy.pdfgui.gui.insertrowsdialog import InsertRowsDialog
 from diffpy.pdfgui.gui.pdfpanel import PDFPanel
 from diffpy.pdfgui.gui import tooltips
 from diffpy.pdfgui.gui.wxextensions.autowidthlabelsgrid import \
         AutoWidthLabelsGrid
-#from diffpy.pdfgui.gui.wxextensions.validators import TextValidator, FLOAT_ONLY
+from diffpy.pdfgui.gui.wxextensions.validators import TextValidator, FLOAT_ONLY
 from diffpy.pdfgui.gui.wxextensions.textctrlutils import textCtrlAsGridCell
 from diffpy.pdfgui.gui.wxextensions import wx12
-from diffpy.pdfgui.gui import phasepanelutils
+from diffpy.pdfgui.gui import magpanelutils
 from diffpy.pdfgui.gui.advancedmagconfig import AdvancedFrame
 from diffpy.utils.wx import gridutils
-from diffpy.pdfgui.gui.phasepanelutils import float2str
-from diffpy.mpdf import MagSpecies, MagStructure
+
 import numpy as np
 import re
 
