@@ -144,7 +144,6 @@ all-all, !Cl-, -!Cl  same as previous
 magpanel = _expand_tooltip_aliases({
     'buttonAdvanced' : 'Opens advanced magnetic PDF panel', # Button "Advanced"
     'radio1' : 'The type of magnetic PDF', # RadioBox "mPDF Type"
-    'radio2' : 'The magnetic fitting technique', # RadioBox "Magnetic Fitting Technique"
     'textCtrlIncludedPairs' :
 """[!]{element|indexOrRange|all}-[!]{element|indexOrRange|all}
 Examples:
