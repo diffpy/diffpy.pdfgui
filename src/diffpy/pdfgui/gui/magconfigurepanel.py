@@ -151,15 +151,11 @@ class MagConfigurePanel(wx.Panel, PDFPanel):
         'Ti3','Tm2', 'Tm3', 'U3', 'U4', 'U5', 'V0', 'V1', 'V2', 'V3', 'V4', 'Y0', 'Yb2',
         'Yb3','Zr0', 'Zr1'])
 
-        '''
         # pdffit internal naming
         self.lConstraintsMap = {
-                'textCtrlA'             : 'lat(1)',
-                'textCtrlB'             : 'lat(2)',
-                'textCtrlC'             : 'lat(3)',
-                'textCtrlAlpha'         : 'lat(4)',
-                'textCtrlBeta'          : 'lat(5)',
-                'textCtrlGamma'         : 'lat(6)',
+                'textCtrlCorrLength'    : 'lat(1)',
+                'textCtrlOrdScale'      : 'lat(2)',
+                'textCtrlParaScale'     : 'lat(3)',
                 }
 
         # bind onSetFocus onKillFocus events to text controls
@@ -170,11 +166,10 @@ class MagConfigurePanel(wx.Panel, PDFPanel):
             self.__dict__[tname].SetValidator(TextValidator(FLOAT_ONLY))
             self.__dict__[tname].Bind(wx.EVT_KEY_DOWN, self.onTextCtrlKey)
 
-
         self.textCtrlIncludedPairs.Bind(wx.EVT_SET_FOCUS, self.onSetFocus)
         self.textCtrlIncludedPairs.Bind(wx.EVT_KILL_FOCUS, self.onSelectedPairs)
         self.textCtrlIncludedPairs.Bind(wx.EVT_KEY_DOWN, self.onTextCtrlKey)
-        '''
+
         # define tooltips
         self.setToolTips(tooltips.magpanel)
         # make sure tooltips exist for all lConstraintsMap controls as
@@ -220,46 +215,12 @@ class MagConfigurePanel(wx.Panel, PDFPanel):
 
     def refresh(self):
         """Refreshes widgets on the panel."""
-        #phasepanelutils.refreshTextCtrls(self)
+        magpanelutils.refreshTextCtrls(self)
         pairs = self.structure.getSelectedPairs()
         self.textCtrlIncludedPairs.SetValue(pairs)
-        #phasepanelutils.refreshGrid(self)
-        ### update the grid ###
-        nmagatoms = 0
-        for m in self.structure.magnetic_atoms:
-            if m[0] == 1:
-                nmagatoms += 1
-        nrows = self.gridAtoms.GetNumberRows()
-        self.gridAtoms.BeginBatch()
-        # make sure grid has correct number of rows
-        if nmagatoms > nrows:
-            self.gridAtoms.InsertRows(numRows = nmagatoms - nrows)
-        elif nmagatoms < nrows:
-            self.gridAtoms.DeleteRows(numRows = nrows - nmagatoms)
-
-        # start with clean grid
-        self.gridAtoms.ClearGrid()
-
-        # fill the first 'elem' column with element symbols and x, y, z values if magnetic
-        count = 0
-        for row, atom in zip(range(len(self.structure)), self.structure):
-            if self.structure.magnetic_atoms[row][0] == 1:
-                self.gridAtoms.SetRowLabelValue(count, str(row+1))
-                atom_info = atom.element + " (" + float2str(atom.xyz[0]) + "," + float2str(atom.xyz[1]) + "," + float2str(atom.xyz[2]) + ")"
-                self.gridAtoms.SetCellValue(count, 0, atom_info)
-                magSpecies = self.structure.magStructure.species[self.structure.magnetic_atoms[row][1]]
-                basisvecs = '(0.0, 0.0, 0.0)' if magSpecies.basisvecs is None else self.arrayToStr(magSpecies.basisvecs)
-                self.gridAtoms.SetCellValue(count, 1, basisvecs)
-                kvecs = '(0.0, 0.0, 0.0)' if magSpecies.kvecs is None else self.arrayToStr(magSpecies.kvecs)
-                self.gridAtoms.SetCellValue(count, 2, kvecs)
-                ffkey = 'None' if magSpecies.ffparamkey is None else magSpecies.ffparamkey
-                self.gridAtoms.SetCellValue(count, 3, ffkey)
-                count += 1
-
-
-        self.gridAtoms.AutosizeLabels()
-        self.gridAtoms.AutoSizeColumns()
+        magpanelutils.refreshGrid(self)
         #self.restrictConstrainedParameters()
+
         # wxpython 3.0 on Windows 7 prevents textCtrlA from receiving
         # left-click input focus and can be only focused with a Tab key.
         # This only happens for the first input, the text control behaves
@@ -292,7 +253,7 @@ class MagConfigurePanel(wx.Panel, PDFPanel):
     '''
 
 
-    '''
+
     def applyTextCtrlChange(self, id, value):
         """Update a structure according to a change in a TextCtrl.
 
@@ -303,38 +264,17 @@ class MagConfigurePanel(wx.Panel, PDFPanel):
 
         try:
             value = float(value)
-            if   id == self.textCtrlA.GetId():
-                self.structure.lattice.setLatPar(a = value)
-            elif id == self.textCtrlB.GetId():
-                self.structure.lattice.setLatPar(b = value)
-            elif id == self.textCtrlC.GetId():
-                self.structure.lattice.setLatPar(c = value)
-            elif id == self.textCtrlAlpha.GetId():
-                self.structure.lattice.setLatPar(alpha = value)
-            elif id == self.textCtrlBeta.GetId():
-                self.structure.lattice.setLatPar(beta = value)
-            elif id == self.textCtrlGamma.GetId():
-                self.structure.lattice.setLatPar(gamma = value)
-            elif id == self.textCtrlScaleFactor.GetId():
-                self.structure.pdffit['scale'] = value
-            elif id == self.textCtrlDelta1.GetId():
-                self.structure.pdffit['delta1'] = value
-            elif id == self.textCtrlDelta2.GetId():
-                self.structure.pdffit['delta2']  = value
-            elif id == self.textCtrlSratio.GetId():
-                self.structure.pdffit['sratio'] = value
-            elif id == self.textCtrlRcut.GetId():
-                self.structure.pdffit['rcut']  = value
-            elif id == self.textCtrlStepcut.GetId():
-                self.structure.pdffit['stepcut']  = value
-            elif id == self.textCtrlSpdiameter.GetId():
-                self.structure.pdffit['spdiameter']  = value
+            if   id == self.textCtrlCorrLength.GetId():
+                self.structure.magStructure.corr = value
+            elif id == self.textCtrlOrdScale.GetId():
+                self.structure.magStruture.ord = value
+            elif id == self.textCtrlParaScale.GetId():
+                self.structure.magStruture.para = value
 
             return value
 
         except:
             return None
-    '''
 
     def readCoordinates(self, text):
         """Returns a str of coordinates as a nested numpy array
@@ -414,14 +354,11 @@ class MagConfigurePanel(wx.Panel, PDFPanel):
         pass
 
     # TextCtrl Events
-    '''
     def onSetFocus(self, event):
         """Saves a TextCtrl value, to be compared in onKillFocus later."""
         self._focusedText = event.GetEventObject().GetValue()
         event.Skip()
         return
-    '''
-    '''
 
     def onKillFocus(self, event):
         """Check value of TextCtrl and update structure if necessary."""
@@ -430,12 +367,11 @@ class MagConfigurePanel(wx.Panel, PDFPanel):
         value = textctrl.GetValue()
         if value != self._focusedText:
             self.applyTextCtrlChange(textctrl.GetId(), value)
-            phasepanelutils.refreshTextCtrls(self)
+            magpanelutils.refreshTextCtrls(self)
             self.mainFrame.needsSave()
         self._focusedText = None
         event.Skip()
         return
-    '''
 
     def onSelectedPairs(self, event):
         """Check to see if the value of the selected pairs is valid."""
@@ -446,7 +382,6 @@ class MagConfigurePanel(wx.Panel, PDFPanel):
         self.textCtrlIncludedPairs.SetValue(value)
         event.Skip()
         return
-
 
     # Grid Events
     def onLabelRightClick(self, event): # wxGlade: PhaseConfigurePanel.<event_handler>
@@ -641,9 +576,9 @@ class MagConfigurePanel(wx.Panel, PDFPanel):
             menu.Enable(self.spaceGroupID, False);
 
         # Check for copy/paste
-        if not phasepanelutils.canCopySelectedCells(self):
+        if not magpanelutils.canCopySelectedCells(self):
             menu.Enable(self.copyID, False)
-        if not phasepanelutils.canPasteIntoCells(self):
+        if not magpanelutils.canPasteIntoCells(self):
             menu.Enable(self.pasteID, False)
 
         # Popup the menu.  If an item is selected then its handler
@@ -691,17 +626,17 @@ class MagConfigurePanel(wx.Panel, PDFPanel):
     def onPopupSelect(self, event):
         """Limit cell selection to specified atom selection string.
         """
-        phasepanelutils.showSelectAtomsDialog(self)
+        magpanelutils.showSelectAtomsDialog(self)
         return
 
     def onPopupCopy(self, event):
         """Copy selected cells."""
-        phasepanelutils.copySelectedCells(self)
+        magpanelutils.copySelectedCells(self)
         return
 
     def onPopupPaste(self, event):
         """Paste previously copied cells."""
-        phasepanelutils.pasteIntoCells(self)
+        magpanelutils.pasteIntoCells(self)
         return
 
     def onPopupSupercell(self, event):
