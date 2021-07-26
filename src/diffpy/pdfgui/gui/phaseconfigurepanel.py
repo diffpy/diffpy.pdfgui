@@ -398,9 +398,6 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
                 if value != 1 and value != 0: raise ValueError
 
                 if value == 1 and self.structure.magnetic_atoms[i][1] == "":
-                    if self.structure.magStructure == None:
-                        self.structure.magStructure = MagStructure()
-
                     # if not a magSpecies (name = "" or not in dict), create and insert
                     label = self.randValidKey()
                     self.structure.magStructure.makeSpecies(label=label)
@@ -424,12 +421,17 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
 
     # CheckBox Events
     def onCheck(self, event):
-        """Toggles magnetic setting visibility and updates structure"""
+        """Toggles magnetic setting visibility and creates magnetic structure"""
         self.structure.magnetism = self.enableMag.GetValue()
-        self.structure.magnetic_atoms = [0]*len(self.structure)
-        for i in range(len(self.structure.magnetic_atoms)):
-            self.structure.magnetic_atoms[i] = [0,""]
         if self.structure.magnetism and self.notebook_phase.GetPageCount() == 3:
+            if self.structure.magStructure == None:
+                self.structure.magStructure = MagStructure()
+                self.structure.magStructure.corr = 0
+                self.structure.magStructure.ord = 0
+                self.structure.magStructure.para = 0
+                self.structure.magnetic_atoms = [0]*len(self.structure)
+                for i in range(len(self.structure.magnetic_atoms)):
+                    self.structure.magnetic_atoms[i] = [0,""]
             magConf = MagConfigurePanel(self.notebook_phase)
             magConst = MagConstraintsPanel(self.notebook_phase)
             self.notebook_phase.InsertPage(1, magConf, text="Magnetic Configure")
