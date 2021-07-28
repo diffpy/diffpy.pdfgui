@@ -29,9 +29,7 @@ from diffpy.pdfgui.gui.phaseconfigurepanel import PhaseConfigurePanel
 from diffpy.pdfgui.gui.phaseconstraintspanel import PhaseConstraintsPanel
 from diffpy.pdfgui.gui.phaseresultspanel import PhaseResultsPanel
 
-from diffpy.pdfgui.gui.magconfigurepanel import MagConfigurePanel
-from diffpy.pdfgui.gui.magconstraintspanel import MagConstraintsPanel
-from diffpy.mpdf import MagSpecies, MagStructure
+
 
 class PhaseNotebookPanel(wx.Panel, PDFPanel):
     def __init__(self, *args, **kwds):
