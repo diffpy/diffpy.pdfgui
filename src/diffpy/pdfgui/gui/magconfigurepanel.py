@@ -212,9 +212,7 @@ class MagConfigurePanel(wx.Panel, PDFPanel):
         Ex. [[1 2 3],[4 5 6]] -> (1, 2, 3),(4, 5, 6)"""
         if arr is None or type(arr) != np.ndarray:
             return
-        ret = arr.astype(float).tolist() #[[2,3,5],[2,1,4]]
-        ret = [[float(float2str(f)) for f in r] for r in ret]
-        ret = str(ret)[1:-1] # remove outer square brackets
+        ret = str(arr.astype(float).tolist())[1:-1]
         ret = ret.replace("[","(")
         ret = ret.replace("]",")")
         return ret
@@ -383,7 +381,7 @@ class MagConfigurePanel(wx.Panel, PDFPanel):
 
 
     def onPanel(self, event):
-        if True:
+        if False:
             raise CustomError("An error occurred")
         else:
             def split_up_magnetics(cond, mags, struc, row_element):
