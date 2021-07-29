@@ -29,6 +29,7 @@ from diffpy.pdfgui.gui.wxextensions.textctrlutils import textCtrlAsGridCell
 from diffpy.pdfgui.gui.wxextensions import wx12
 from diffpy.pdfgui.gui import magpanelutils
 from diffpy.pdfgui.gui.advancedmagconfig import AdvancedFrame
+from diffpy.pdfgui.gui.magviewerpanel import CanvasFrame
 from diffpy.utils.wx import gridutils
 
 import numpy as np
@@ -60,6 +61,7 @@ class MagConfigurePanel(wx.Panel, PDFPanel):
         self.labelPanelName = wx.StaticText(self, wx.ID_ANY, "Magnetic Configuration")
         self.radio1 = wx.RadioBox(self, wx.ID_ANY, "mPDF Type ", choices = types, style = wx.RA_SPECIFY_ROWS)
         self.buttonAdvanced = wx.Button(self, wx.ID_ANY, "Advanced")
+        self.buttonMagViewer = wx.Button(self, wx.ID_ANY, "Mag Viewer")
         self.labelIncludedPairs = wx.StaticText(self, wx.ID_ANY, "Included Pairs")
         self.textCtrlIncludedPairs = wx.TextCtrl(self, wx.ID_ANY, "all-all", style=wx.TE_READONLY)
         self.gridAtoms = AutoWidthLabelsGrid(self, wx.ID_ANY, size=(1, 1))
@@ -72,6 +74,7 @@ class MagConfigurePanel(wx.Panel, PDFPanel):
         self.Bind(wx.grid.EVT_GRID_CMD_EDITOR_SHOWN, self.onEditorShown, self.gridAtoms)
         self.Bind(wx.grid.EVT_GRID_CMD_LABEL_RIGHT_CLICK, self.onLabelRightClick, self.gridAtoms)
         self.buttonAdvanced.Bind(wx.EVT_BUTTON, self.onAdvanced)
+        self.buttonMagViewer.Bind(wx.EVT_BUTTON, self.onPanel)
         # end wxGlade
         self.__customProperties()
 
@@ -112,6 +115,8 @@ class MagConfigurePanel(wx.Panel, PDFPanel):
         grid_sizer_2.Add(self.radio1, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALIGN_RIGHT | wx.ALL, 5)
         grid_sizer_2.Add(5, 0, )
         sizer_3.Add(grid_sizer_2, 1, wx.EXPAND, 0)
+        sizer_3.Add(5, 0, 0)
+        sizer_3.Add(self.buttonMagViewer, 1, wx.ALL | wx.ALIGN_CENTER_VERTICAL | wx.ALIGN_RIGHT, 5)
         sizerMain.Add(sizer_3, 0, wx.EXPAND | wx.LEFT | wx.RIGHT, 5)
 
         sizer_1.Add(self.labelIncludedPairs, 0, wx.ALIGN_CENTER | wx.ALL, 5)
@@ -141,6 +146,7 @@ class MagConfigurePanel(wx.Panel, PDFPanel):
 
         self.lAtomConstraints = ['elem','basis vecs','prop. vecs','FF key']
 
+        # ff keys in ffkey dictionary
         self.ffkeys = set(['None', 'Am2', 'Am3', 'Am4', 'Am5', 'Am6', 'Am7', 'Ce2', 'Co0',
         'Co1','Co2', 'Co3', 'Co4', 'Cr0', 'Cr1', 'Cr2', 'Cr3', 'Cr4', 'Cu0', 'Cu1', 'Cu2',
         'Cu3','Cu4', 'Dy2', 'Dy3', 'Er2', 'Er3', 'Eu2', 'Eu3', 'Fe0', 'Fe1', 'Fe2', 'Fe3',
@@ -206,7 +212,9 @@ class MagConfigurePanel(wx.Panel, PDFPanel):
         Ex. [[1 2 3],[4 5 6]] -> (1, 2, 3),(4, 5, 6)"""
         if arr is None or type(arr) != np.ndarray:
             return
-        ret = str(arr.astype(float).tolist())[1:-1]
+        ret = arr.astype(float).tolist() #[[2,3,5],[2,1,4]]
+        ret = [[float(float2str(f)) for f in r] for r in ret]
+        ret = str(ret)[1:-1] # remove outer square brackets
         ret = ret.replace("[","(")
         ret = ret.replace("]",")")
         return ret
@@ -235,23 +243,44 @@ class MagConfigurePanel(wx.Panel, PDFPanel):
                 wx.CallAfter(focusowner.SetFocus)
             '''
         return
-
     '''
     def restrictConstrainedParameters(self):
         """Set 'read-only' boxes that correspond to constrained parameters."""
 
-        #self.setToolTips(tooltips.magpanel)
+        self.setToolTips(tooltips.magpanel)
         #txtbg = self.textCtrlA.DefaultStyle.BackgroundColour
+
+        # First the TextCtrls
+        for key, var in self.lConstraintsMap.items():
+            textCtrl = getattr(self, key)
+            if var in self.constraints:
+                textCtrl.SetEditable(False)
+                textCtrl.SetBackgroundColour(
+                        wx.SystemSettings.GetColour(wx.SYS_COLOUR_GRAYTEXT))
+                tt = textCtrl.GetToolTip()
+                tt.SetTip(self.constraints[var].formula)
+            else:
+                textCtrl.SetEditable(True)
+                #textCtrl.SetBackgroundColour(txtbg)
+                textCtrl.SetBackgroundColour(wx.WHITE)
 
         # Now the grid
         rows = self.gridAtoms.GetNumberRows()
+        cols = self.gridAtoms.GetNumberCols()
         for i in range(rows):
-            self.gridAtoms.SetReadOnly(i, 0, True)
-            self.gridAtoms.SetCellBackgroundColour(i, 0,
-                wx.SystemSettings.GetColour(wx.SYS_COLOUR_GRAYTEXT))
-        return
-    '''
+            for j in range(1, cols):
+                var = self.lAtomConstraints[j-1]
+                var += '(%i)'%(i+1)
+                if var in self.constraints:
+                    self.gridAtoms.SetReadOnly(i, j, True)
+                    self.gridAtoms.SetCellBackgroundColour(i, j,
+                        wx.SystemSettings.GetColour(wx.SYS_COLOUR_GRAYTEXT))
+                else:
+                    self.gridAtoms.SetReadOnly(i, j, False)
+                    self.gridAtoms.SetCellBackgroundColour(i, j, wx.NullColour)
 
+        return
+'''
 
 
     def applyTextCtrlChange(self, id, value):
@@ -267,9 +296,9 @@ class MagConfigurePanel(wx.Panel, PDFPanel):
             if   id == self.textCtrlCorrLength.GetId():
                 self.structure.magStructure.corr = value
             elif id == self.textCtrlOrdScale.GetId():
-                self.structure.magStruture.ord = value
+                self.structure.magStructure.ord = value
             elif id == self.textCtrlParaScale.GetId():
-                self.structure.magStruture.para = value
+                self.structure.magStructure.para = value
 
             return value
 
@@ -351,7 +380,41 @@ class MagConfigurePanel(wx.Panel, PDFPanel):
 
     def onAdvanced(self, event):
         frame = AdvancedFrame(title = "Advanced", mags = self.structure.magnetic_atoms, struc = self.structure)
-        pass
+
+
+    def onPanel(self, event):
+        if True:
+            raise CustomError("An error occurred")
+        else:
+            def split_up_magnetics(cond, mags, struc, row_element):
+                X, orig_inx, nonmag, Xelem = [], [], [], []
+
+                for i in range(len(struc)):
+                    if str(cond[i]) in mags:
+                        X += [struc[i,:]]
+                        orig_inx += [i]
+                        Xelem += [row_element[i]]
+                    else:
+                        nonmag += [struc[i,:]]
+                return np.array(X), np.array(orig_inx), np.array(nonmag), np.array(Xelem)
+
+            mags = []
+            count = 1
+            for a in self.structure.magnetic_atoms:
+                if a[0] == 1:
+                    mags.append(str(count))
+                count += 1
+
+            struc = self.structure.xyz_cartn
+            elems = list(set(self.structure.element))
+            elems.sort() 				# alphabetical list of elements
+            element_inx = np.arange(1,1+len(elems)) 		# 1 to n+1 indices for each element
+            dmap = dict(zip(elems, element_inx)) 		# element name to associated number
+            revdmap = dict(zip(element_inx, elems))
+            row_element = np.array([dmap[i] for i in self.structure.element])
+
+            X, orig_inx, nonmag, Xelem = split_up_magnetics(np.arange(1,1+len(struc)), mags, struc, row_element)
+            canvas = CanvasFrame(X, Xelem, revdmap, self, nonmag = nonmag, basis=self.structure.lattice.stdbase)
 
     # TextCtrl Events
     def onSetFocus(self, event):
