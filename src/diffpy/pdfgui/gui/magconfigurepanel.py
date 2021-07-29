@@ -212,7 +212,9 @@ class MagConfigurePanel(wx.Panel, PDFPanel):
         Ex. [[1 2 3],[4 5 6]] -> (1, 2, 3),(4, 5, 6)"""
         if arr is None or type(arr) != np.ndarray:
             return
-        ret = str(arr.astype(float).tolist())[1:-1]
+        ret = arr.astype(float).tolist() #[[2,3,5],[2,1,4]]
+        ret = [[float(float2str(f)) for f in r] for r in ret]
+        ret = str(ret)[1:-1] # remove outer square brackets
         ret = ret.replace("[","(")
         ret = ret.replace("]",")")
         return ret
@@ -280,7 +282,6 @@ class MagConfigurePanel(wx.Panel, PDFPanel):
         return
 '''
 
-
     def applyTextCtrlChange(self, id, value):
         """Update a structure according to a change in a TextCtrl.
 
@@ -302,6 +303,7 @@ class MagConfigurePanel(wx.Panel, PDFPanel):
 
         except:
             return None
+
 
     def readCoordinates(self, text):
         """Returns a str of coordinates as a nested numpy array
