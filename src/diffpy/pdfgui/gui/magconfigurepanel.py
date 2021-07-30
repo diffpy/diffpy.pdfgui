@@ -23,17 +23,18 @@ from diffpy.pdfgui.gui.insertrowsdialog import InsertRowsDialog
 from diffpy.pdfgui.gui.pdfpanel import PDFPanel
 from diffpy.pdfgui.gui import tooltips
 from diffpy.pdfgui.gui.wxextensions.autowidthlabelsgrid import \
-        AutoWidthLabelsGrid
+    AutoWidthLabelsGrid
 from diffpy.pdfgui.gui.wxextensions.validators import TextValidator, FLOAT_ONLY
 from diffpy.pdfgui.gui.wxextensions.textctrlutils import textCtrlAsGridCell
 from diffpy.pdfgui.gui.wxextensions import wx12
 from diffpy.pdfgui.gui import magpanelutils
 from diffpy.pdfgui.gui.advancedmagconfig import AdvancedFrame
-from diffpy.pdfgui.gui.magviewerpanel import CanvasFrame
+from diffpy.pdfgui.gui.test_panel import CanvasFrame
 from diffpy.utils.wx import gridutils
 
 import numpy as np
 import re
+from viewer.magview import MagView
 
 
 class MagConfigurePanel(wx.Panel, PDFPanel):
@@ -46,33 +47,45 @@ class MagConfigurePanel(wx.Panel, PDFPanel):
         _row            -- row,    where rightclick occured
         _col            -- column, where rightclick occured
     """
+
     def __init__(self, *args, **kwds):
         PDFPanel.__init__(self)
         # begin wxGlade: PhaseConfigurePanel.__init__
         kwds["style"] = kwds.get("style", 0) | wx.TAB_TRAVERSAL
         wx.Panel.__init__(self, *args, **kwds)
         self.labelCorrLength = wx.StaticText(self, wx.ID_ANY, "corr. length")
-        self.textCtrlCorrLength = wx.TextCtrl(self, wx.ID_ANY, "", style=wx.TE_PROCESS_ENTER)
+        self.textCtrlCorrLength = wx.TextCtrl(
+            self, wx.ID_ANY, "", style=wx.TE_PROCESS_ENTER)
         self.labelOrdScale = wx.StaticText(self, wx.ID_ANY, "ord. scale")
-        self.textCtrlOrdScale = wx.TextCtrl(self, wx.ID_ANY, "", style=wx.TE_PROCESS_ENTER)
+        self.textCtrlOrdScale = wx.TextCtrl(
+            self, wx.ID_ANY, "", style=wx.TE_PROCESS_ENTER)
         self.labelParaScale = wx.StaticText(self, wx.ID_ANY, "para. scale")
-        self.textCtrlParaScale = wx.TextCtrl(self, wx.ID_ANY, "", style=wx.TE_PROCESS_ENTER)
+        self.textCtrlParaScale = wx.TextCtrl(
+            self, wx.ID_ANY, "", style=wx.TE_PROCESS_ENTER)
         types = ["Unnormalized", "Normalized"]
-        self.labelPanelName = wx.StaticText(self, wx.ID_ANY, "Magnetic Configuration")
-        self.radio1 = wx.RadioBox(self, wx.ID_ANY, "mPDF Type ", choices = types, style = wx.RA_SPECIFY_ROWS)
+        self.labelPanelName = wx.StaticText(
+            self, wx.ID_ANY, "Magnetic Configuration")
+        self.radio1 = wx.RadioBox(
+            self, wx.ID_ANY, "mPDF Type ", choices=types, style=wx.RA_SPECIFY_ROWS)
         self.buttonAdvanced = wx.Button(self, wx.ID_ANY, "Advanced")
         self.buttonMagViewer = wx.Button(self, wx.ID_ANY, "Mag Viewer")
-        self.labelIncludedPairs = wx.StaticText(self, wx.ID_ANY, "Included Pairs")
-        self.textCtrlIncludedPairs = wx.TextCtrl(self, wx.ID_ANY, "all-all", style=wx.TE_READONLY)
+        self.labelIncludedPairs = wx.StaticText(
+            self, wx.ID_ANY, "Included Pairs")
+        self.textCtrlIncludedPairs = wx.TextCtrl(
+            self, wx.ID_ANY, "all-all", style=wx.TE_READONLY)
         self.gridAtoms = AutoWidthLabelsGrid(self, wx.ID_ANY, size=(1, 1))
 
         self.__set_properties()
         self.__do_layout()
 
-        self.Bind(wx.grid.EVT_GRID_CMD_CELL_CHANGED, self.onCellChange, self.gridAtoms)
-        self.Bind(wx.grid.EVT_GRID_CMD_CELL_RIGHT_CLICK, self.onCellRightClick, self.gridAtoms)
-        self.Bind(wx.grid.EVT_GRID_CMD_EDITOR_SHOWN, self.onEditorShown, self.gridAtoms)
-        self.Bind(wx.grid.EVT_GRID_CMD_LABEL_RIGHT_CLICK, self.onLabelRightClick, self.gridAtoms)
+        self.Bind(wx.grid.EVT_GRID_CMD_CELL_CHANGED,
+                  self.onCellChange, self.gridAtoms)
+        self.Bind(wx.grid.EVT_GRID_CMD_CELL_RIGHT_CLICK,
+                  self.onCellRightClick, self.gridAtoms)
+        self.Bind(wx.grid.EVT_GRID_CMD_EDITOR_SHOWN,
+                  self.onEditorShown, self.gridAtoms)
+        self.Bind(wx.grid.EVT_GRID_CMD_LABEL_RIGHT_CLICK,
+                  self.onLabelRightClick, self.gridAtoms)
         self.buttonAdvanced.Bind(wx.EVT_BUTTON, self.onAdvanced)
         self.buttonMagViewer.Bind(wx.EVT_BUTTON, self.onPanel)
         # end wxGlade
@@ -80,7 +93,8 @@ class MagConfigurePanel(wx.Panel, PDFPanel):
 
     def __set_properties(self):
         self.SetFocus()
-        self.labelPanelName.SetFont(wx.Font(18, wx.FONTFAMILY_DEFAULT, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_BOLD, 0, ""))
+        self.labelPanelName.SetFont(wx.Font(
+            18, wx.FONTFAMILY_DEFAULT, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_BOLD, 0, ""))
         self.textCtrlIncludedPairs.SetMinSize((240, 25))
         self.gridAtoms.CreateGrid(0, 4)
         self.gridAtoms.EnableDragRowSize(0)
@@ -91,32 +105,47 @@ class MagConfigurePanel(wx.Panel, PDFPanel):
 
     def __do_layout(self):
         sizerMain = wx.BoxSizer(wx.VERTICAL)
-        sizerAtoms = wx.StaticBoxSizer(wx.StaticBox(self, wx.ID_ANY, ""), wx.VERTICAL)
+        sizerAtoms = wx.StaticBoxSizer(
+            wx.StaticBox(self, wx.ID_ANY, ""), wx.VERTICAL)
         sizer_1 = wx.BoxSizer(wx.HORIZONTAL)
-        sizerPanelName = wx.StaticBoxSizer(wx.StaticBox(self, wx.ID_ANY, ""), wx.HORIZONTAL)
-        sizerPanelName.Add(self.labelPanelName, 5, wx.ALIGN_CENTER_VERTICAL | wx.LEFT | wx.RIGHT, 5)
+        sizerPanelName = wx.StaticBoxSizer(
+            wx.StaticBox(self, wx.ID_ANY, ""), wx.HORIZONTAL)
+        sizerPanelName.Add(self.labelPanelName, 5,
+                           wx.ALIGN_CENTER_VERTICAL | wx.LEFT | wx.RIGHT, 5)
         sizerPanelName.Add(5, 0, 0)
-        sizerPanelName.Add(self.buttonAdvanced, 1, wx.ALL | wx.ALIGN_CENTER_VERTICAL | wx.ALIGN_RIGHT, 5)
+        sizerPanelName.Add(self.buttonAdvanced, 1, wx.ALL |
+                           wx.ALIGN_CENTER_VERTICAL | wx.ALIGN_RIGHT, 5)
         sizerMain.Add(sizerPanelName, 0, wx.EXPAND | wx.LEFT | wx.RIGHT, 5)
 
-        sizerLatticeParameters = wx.StaticBoxSizer(wx.StaticBox(self, wx.ID_ANY, ""), wx.HORIZONTAL)
+        sizerLatticeParameters = wx.StaticBoxSizer(
+            wx.StaticBox(self, wx.ID_ANY, ""), wx.HORIZONTAL)
         grid_sizer_3 = wx.FlexGridSizer(2, 6, 0, 0)
-        grid_sizer_3.Add(self.labelCorrLength, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALIGN_RIGHT | wx.ALL, 5)
-        grid_sizer_3.Add(self.textCtrlCorrLength, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALL, 0)
-        grid_sizer_3.Add(self.labelOrdScale, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALIGN_RIGHT | wx.ALL, 5)
-        grid_sizer_3.Add(self.textCtrlOrdScale, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALL, 0)
-        grid_sizer_3.Add(self.labelParaScale, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALIGN_RIGHT | wx.ALL, 5)
-        grid_sizer_3.Add(self.textCtrlParaScale, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALL, 0)
+        grid_sizer_3.Add(self.labelCorrLength, 0,
+                         wx.ALIGN_CENTER_VERTICAL | wx.ALIGN_RIGHT | wx.ALL, 5)
+        grid_sizer_3.Add(self.textCtrlCorrLength, 0,
+                         wx.ALIGN_CENTER_VERTICAL | wx.ALL, 0)
+        grid_sizer_3.Add(self.labelOrdScale, 0,
+                         wx.ALIGN_CENTER_VERTICAL | wx.ALIGN_RIGHT | wx.ALL, 5)
+        grid_sizer_3.Add(self.textCtrlOrdScale, 0,
+                         wx.ALIGN_CENTER_VERTICAL | wx.ALL, 0)
+        grid_sizer_3.Add(self.labelParaScale, 0,
+                         wx.ALIGN_CENTER_VERTICAL | wx.ALIGN_RIGHT | wx.ALL, 5)
+        grid_sizer_3.Add(self.textCtrlParaScale, 0,
+                         wx.ALIGN_CENTER_VERTICAL | wx.ALL, 0)
         sizerLatticeParameters.Add(grid_sizer_3, 1, wx.EXPAND, 0)
-        sizerMain.Add(sizerLatticeParameters, 0, wx.EXPAND | wx.LEFT | wx.RIGHT, 5)
+        sizerMain.Add(sizerLatticeParameters, 0,
+                      wx.EXPAND | wx.LEFT | wx.RIGHT, 5)
 
-        sizer_3 = wx.StaticBoxSizer(wx.StaticBox(self, wx.ID_ANY, ""), wx.HORIZONTAL)
+        sizer_3 = wx.StaticBoxSizer(wx.StaticBox(
+            self, wx.ID_ANY, ""), wx.HORIZONTAL)
         grid_sizer_2 = wx.FlexGridSizer(2, 6, 0, 0)
-        grid_sizer_2.Add(self.radio1, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALIGN_RIGHT | wx.ALL, 5)
+        grid_sizer_2.Add(self.radio1, 0, wx.ALIGN_CENTER_VERTICAL |
+                         wx.ALIGN_RIGHT | wx.ALL, 5)
         grid_sizer_2.Add(5, 0, )
         sizer_3.Add(grid_sizer_2, 1, wx.EXPAND, 0)
         sizer_3.Add(5, 0, 0)
-        sizer_3.Add(self.buttonMagViewer, 1, wx.ALL | wx.ALIGN_CENTER_VERTICAL | wx.ALIGN_RIGHT, 5)
+        sizer_3.Add(self.buttonMagViewer, 1, wx.ALL |
+                    wx.ALIGN_CENTER_VERTICAL | wx.ALIGN_RIGHT, 5)
         sizerMain.Add(sizer_3, 0, wx.EXPAND | wx.LEFT | wx.RIGHT, 5)
 
         sizer_1.Add(self.labelIncludedPairs, 0, wx.ALIGN_CENTER | wx.ALL, 5)
@@ -128,10 +157,8 @@ class MagConfigurePanel(wx.Panel, PDFPanel):
         sizerMain.Fit(self)
         self.Layout()
 
-
     ##########################################################################
     # Misc Methods
-
 
     def __customProperties(self):
         """Custom properties for the panel."""
@@ -144,25 +171,25 @@ class MagConfigurePanel(wx.Panel, PDFPanel):
         self._focusedText = None
         self._selectedCells = []
 
-        self.lAtomConstraints = ['elem','basis vecs','prop. vecs','FF key']
+        self.lAtomConstraints = ['elem', 'basis vecs', 'prop. vecs', 'FF key']
 
         # ff keys in ffkey dictionary
         self.ffkeys = set(['None', 'Am2', 'Am3', 'Am4', 'Am5', 'Am6', 'Am7', 'Ce2', 'Co0',
-        'Co1','Co2', 'Co3', 'Co4', 'Cr0', 'Cr1', 'Cr2', 'Cr3', 'Cr4', 'Cu0', 'Cu1', 'Cu2',
-        'Cu3','Cu4', 'Dy2', 'Dy3', 'Er2', 'Er3', 'Eu2', 'Eu3', 'Fe0', 'Fe1', 'Fe2', 'Fe3',
-        'Fe4','Gd2', 'Gd3', 'Ho2', 'Ho3', 'Mn0', 'Mn1', 'Mn2', 'Mn3', 'Mn4', 'Mo0', 'Mo1',
-        'Nb0','Nb1', 'Nd2', 'Nd3', 'Ni0', 'Ni1', 'Ni2', 'Ni3', 'Ni4', 'Np3', 'Np4', 'Np5',
-        'Np6','Pd0', 'Pd1', 'Pr3', 'Pu3', 'Pu4', 'Pu5', 'Pu6', 'Rh0', 'Rh1', 'Ru0', 'Ru1',
-        'Sc0','Sc1', 'Sc2', 'Sm2', 'Sm3', 'Tb2', 'Tb3', 'Tc0', 'Tc1', 'Ti0', 'Ti1', 'Ti2',
-        'Ti3','Tm2', 'Tm3', 'U3', 'U4', 'U5', 'V0', 'V1', 'V2', 'V3', 'V4', 'Y0', 'Yb2',
-        'Yb3','Zr0', 'Zr1'])
+                           'Co1', 'Co2', 'Co3', 'Co4', 'Cr0', 'Cr1', 'Cr2', 'Cr3', 'Cr4', 'Cu0', 'Cu1', 'Cu2',
+                           'Cu3', 'Cu4', 'Dy2', 'Dy3', 'Er2', 'Er3', 'Eu2', 'Eu3', 'Fe0', 'Fe1', 'Fe2', 'Fe3',
+                           'Fe4', 'Gd2', 'Gd3', 'Ho2', 'Ho3', 'Mn0', 'Mn1', 'Mn2', 'Mn3', 'Mn4', 'Mo0', 'Mo1',
+                           'Nb0', 'Nb1', 'Nd2', 'Nd3', 'Ni0', 'Ni1', 'Ni2', 'Ni3', 'Ni4', 'Np3', 'Np4', 'Np5',
+                           'Np6', 'Pd0', 'Pd1', 'Pr3', 'Pu3', 'Pu4', 'Pu5', 'Pu6', 'Rh0', 'Rh1', 'Ru0', 'Ru1',
+                           'Sc0', 'Sc1', 'Sc2', 'Sm2', 'Sm3', 'Tb2', 'Tb3', 'Tc0', 'Tc1', 'Ti0', 'Ti1', 'Ti2',
+                           'Ti3', 'Tm2', 'Tm3', 'U3', 'U4', 'U5', 'V0', 'V1', 'V2', 'V3', 'V4', 'Y0', 'Yb2',
+                           'Yb3', 'Zr0', 'Zr1'])
 
         # pdffit internal naming
         self.lConstraintsMap = {
-                'textCtrlCorrLength'    : 'lat(1)',
-                'textCtrlOrdScale'      : 'lat(2)',
-                'textCtrlParaScale'     : 'lat(3)',
-                }
+            'textCtrlCorrLength': 'lat(1)',
+            'textCtrlOrdScale': 'lat(2)',
+            'textCtrlParaScale': 'lat(3)',
+        }
 
         # bind onSetFocus onKillFocus events to text controls
 
@@ -173,7 +200,8 @@ class MagConfigurePanel(wx.Panel, PDFPanel):
             self.__dict__[tname].Bind(wx.EVT_KEY_DOWN, self.onTextCtrlKey)
 
         self.textCtrlIncludedPairs.Bind(wx.EVT_SET_FOCUS, self.onSetFocus)
-        self.textCtrlIncludedPairs.Bind(wx.EVT_KILL_FOCUS, self.onSelectedPairs)
+        self.textCtrlIncludedPairs.Bind(
+            wx.EVT_KILL_FOCUS, self.onSelectedPairs)
         self.textCtrlIncludedPairs.Bind(wx.EVT_KEY_DOWN, self.onTextCtrlKey)
 
         # define tooltips
@@ -194,7 +222,6 @@ class MagConfigurePanel(wx.Panel, PDFPanel):
         # drop local reference to `attr` as it was constructed here.
         attr.DecRef()
 
-
         # catch key events and apply them to the grid
         self.Bind(wx.EVT_KEY_DOWN, self.onKey)
         return
@@ -213,8 +240,8 @@ class MagConfigurePanel(wx.Panel, PDFPanel):
         if arr is None or type(arr) != np.ndarray:
             return
         ret = str(arr.astype(float).tolist())[1:-1]
-        ret = ret.replace("[","(")
-        ret = ret.replace("]",")")
+        ret = ret.replace("[", "(")
+        ret = ret.replace("]", ")")
         return ret
 
     __this_is_first_refresh = True
@@ -287,7 +314,8 @@ class MagConfigurePanel(wx.Panel, PDFPanel):
         id      --  textctrl id
         value   --  new value
         """
-        if self.structure is None: return
+        if self.structure is None:
+            return
 
         try:
             value = float(value)
@@ -302,7 +330,6 @@ class MagConfigurePanel(wx.Panel, PDFPanel):
         except:
             return None
 
-
     def readCoordinates(self, text):
         """Returns a str of coordinates as a nested numpy array
 
@@ -311,34 +338,34 @@ class MagConfigurePanel(wx.Panel, PDFPanel):
         try:
             # check if string is valid
             text = text.replace(" ", "")
-            text = text.replace("[","(")
-            text = text.replace("{","(")
-            text = text.replace("]",")")
-            text = text.replace("}",")")
-            if text[-1] != ",": text = text + ","
+            text = text.replace("[", "(")
+            text = text.replace("{", "(")
+            text = text.replace("]", ")")
+            text = text.replace("}", ")")
+            if text[-1] != ",":
+                text = text + ","
             if not re.match("^(\(\d*\.?\d+\,\d*\.?\d+\,\d*\.?\d+\),)+$", text):
                 return
             text = text[:-1]
             ret = []
-            crds = text.split('),') # split coordinates
+            crds = text.split('),')  # split coordinates
             for i, crd in enumerate(crds):
-                if crd[0] != '(': # verify valid coordinate
+                if crd[0] != '(':  # verify valid coordinate
                     return
-                if i == len(crds) - 1: # remove end parenthesis not removed by split
+                if i == len(crds) - 1:  # remove end parenthesis not removed by split
                     crd = crd[:-1]
-                crd = crd[1:] # remove start parentheses
-                crd = crd.split(',') # split each coordinate
+                crd = crd[1:]  # remove start parentheses
+                crd = crd.split(',')  # split each coordinate
                 if len(crd) != 3:
                     return
                 arr = []
                 for val in crd:
-                    arr.append(float(val)) # add each value to an array
+                    arr.append(float(val))  # add each value to an array
                 ret.append(arr)
             return np.array(ret)
 
         except:
             return
-
 
     def applyCellChange(self, i, j, value):
         """Update an atom according to a change in a cell.
@@ -347,8 +374,10 @@ class MagConfigurePanel(wx.Panel, PDFPanel):
         j       --  cell position
         value   --  new value
         """
-        if not self.mainFrame or self.structure.magStructure is None: return
-        if j == 0: return
+        if not self.mainFrame or self.structure.magStructure is None:
+            return
+        if j == 0:
+            return
 
         # ignore the change if the value is not valid
         try:
@@ -356,15 +385,18 @@ class MagConfigurePanel(wx.Panel, PDFPanel):
             label = self.structure.magnetic_atoms[i][1]
             if j == 1:
                 value = self.readCoordinates(value)
-                self.structure.magStructure.species[label].basisvecs  = value # basis vecs
+                # basis vecs
+                self.structure.magStructure.species[label].basisvecs = value
                 value = self.arrayToStr(value)
             elif j == 2:
                 value = self.readCoordinates(value)
-                self.structure.magStructure.species[label].kvecs      = value  # prop. vecs
+                # prop. vecs
+                self.structure.magStructure.species[label].kvecs = value
                 value = self.arrayToStr(value)
             elif j == 3:
                 value = value if value in self.ffkeys else None
-                self.structure.magStructure.species[label].ffparamkey = value # FF key
+                # FF key
+                self.structure.magStructure.species[label].ffparamkey = value
 
             self.mainFrame.needsSave()
             return value
@@ -375,46 +407,108 @@ class MagConfigurePanel(wx.Panel, PDFPanel):
     ##########################################################################
     # Event Handlers
 
-
     def onAdvanced(self, event):
-        frame = AdvancedFrame(title = "Advanced", mags = self.structure.magnetic_atoms, struc = self.structure)
-
+        frame = AdvancedFrame(
+            title="Advanced", mags=self.structure.magnetic_atoms, struc=self.structure)
 
     def onPanel(self, event):
-        if True:
-            raise CustomError("An error occurred")
-        else:
-            def split_up_magnetics(cond, mags, struc, row_element):
-                X, orig_inx, nonmag, Xelem = [], [], [], []
+        '''
+        with open('data.npy', 'wb') as f:
+            np.save(f, X)
+            np.save(f, Xelem)
+            np.save(f, revdmap)
+            np.save(f, nonmag)
+            np.save(f, cif_name)
+            np.save(f, struc_ob.lattice.stdbase)
+        '''
+        def split_up_magnetics(cond, mags, struc, row_element):
+            X, orig_inx, nonmag, Xelem = [], [], [], []
 
-                for i in range(len(struc)):
-                    if str(cond[i]) in mags:
-                        X += [struc[i,:]]
-                        orig_inx += [i]
-                        Xelem += [row_element[i]]
-                    else:
-                        nonmag += [struc[i,:]]
-                return np.array(X), np.array(orig_inx), np.array(nonmag), np.array(Xelem)
+            for i in range(len(struc)):
+                if str(cond[i]) in mags:
+                    X += [struc[i, :]]
+                    orig_inx += [i]
+                    Xelem += [row_element[i]]
+                else:
+                    nonmag += [struc[i, :]]
+            return np.array(X), np.array(orig_inx), np.array(nonmag), np.array(Xelem)
 
-            mags = []
-            count = 1
-            for a in self.structure.magnetic_atoms:
-                if a[0] == 1:
-                    mags.append(str(count))
-                count += 1
+        mags = []
+        count = 1
+        for a in self.structure.magnetic_atoms:
+            if a[0] == 1:
+                mags.append(str(count))
+            count += 1
 
-            struc = self.structure.xyz_cartn
-            elems = list(set(self.structure.element))
-            elems.sort() 				# alphabetical list of elements
-            element_inx = np.arange(1,1+len(elems)) 		# 1 to n+1 indices for each element
-            dmap = dict(zip(elems, element_inx)) 		# element name to associated number
-            revdmap = dict(zip(element_inx, elems))
-            row_element = np.array([dmap[i] for i in self.structure.element])
+        struc = self.structure.xyz_cartn
+        elems = list(set(self.structure.element))
+        elems.sort() 				# alphabetical list of elements
+        # 1 to n+1 indices for each element
+        element_inx = np.arange(1, 1+len(elems))
+        # element name to associated number
+        dmap = dict(zip(elems, element_inx))
+        revdmap = dict(zip(element_inx, elems))
+        row_element = np.array([dmap[i] for i in self.structure.element])
 
-            X, orig_inx, nonmag, Xelem = split_up_magnetics(np.arange(1,1+len(struc)), mags, struc, row_element)
-            canvas = CanvasFrame(X, Xelem, revdmap, self, nonmag = nonmag, basis=self.structure.lattice.stdbase)
+        X, orig_inx, nonmag, Xelem = split_up_magnetics(
+            np.arange(1, 1+len(struc)), mags, struc, row_element)
+        canvas = CanvasFrame(X, Xelem, revdmap, nonmag=nonmag,
+                             basis=self.structure.lattice.stdbase)
+
+    def onMagViewer(self, event):
+        '''
+        with open('data.npy', 'wb') as f:
+            np.save(f, X)
+            np.save(f, Xelem)
+            np.save(f, revdmap)
+            np.save(f, nonmag)
+            np.save(f, cif_name)
+            np.save(f, struc_ob.lattice.stdbase)
+        '''
+        def split_up_magnetics(cond, mags, struc, row_element):
+            X, orig_inx, nonmag, Xelem = [], [], [], []
+
+            for i in range(len(struc)):
+                if str(cond[i]) in mags:
+                    X += [struc[i, :]]
+                    orig_inx += [i]
+                    Xelem += [row_element[i]]
+                else:
+                    nonmag += [struc[i, :]]
+            return np.array(X), np.array(orig_inx), np.array(nonmag), np.array(Xelem)
+
+        mags = []
+        count = 1
+        for a in self.structure.magnetic_atoms:
+            if a[0] == 1:
+                mags.append(str(count))
+            count += 1
+
+        struc = self.structure.xyz_cartn
+        elems = list(set(self.structure.element))
+        elems.sort() 				# alphabetical list of elements
+        # 1 to n+1 indices for each element
+        element_inx = np.arange(1, 1+len(elems))
+        # element name to associated number
+        dmap = dict(zip(elems, element_inx))
+        revdmap = dict(zip(element_inx, elems))
+        row_element = np.array([dmap[i] for i in self.structure.element])
+
+        print("np.arange(1,1+len(struc))", np.arange(1, 1+len(struc)))
+        print("mags", mags)
+        print("struc", struc)
+        print("row_element", row_element)
+        X, orig_inx, nonmag, Xelem = split_up_magnetics(
+            np.arange(1, 1+len(struc)), mags, struc, row_element)
+        print("X", X)
+        print("orig_inx", orig_inx)
+        print("Xelem", Xelem)
+        print("nonmag", nonmag)
+        MagView(X, Xelem, revdmap, nonmag=nonmag,
+                basis=self.structure.lattice.stdbase)
 
     # TextCtrl Events
+
     def onSetFocus(self, event):
         """Saves a TextCtrl value, to be compared in onKillFocus later."""
         self._focusedText = event.GetEventObject().GetValue()
@@ -423,7 +517,8 @@ class MagConfigurePanel(wx.Panel, PDFPanel):
 
     def onKillFocus(self, event):
         """Check value of TextCtrl and update structure if necessary."""
-        if not self.mainFrame: return
+        if not self.mainFrame:
+            return
         textctrl = event.GetEventObject()
         value = textctrl.GetValue()
         if value != self._focusedText:
@@ -436,7 +531,8 @@ class MagConfigurePanel(wx.Panel, PDFPanel):
 
     def onSelectedPairs(self, event):
         """Check to see if the value of the selected pairs is valid."""
-        if not self.mainFrame: return
+        if not self.mainFrame:
+            return
         value = self.textCtrlIncludedPairs.GetValue()
         self.structure.setSelectedPairs(value)
         value = self.structure.getSelectedPairs()
@@ -445,7 +541,7 @@ class MagConfigurePanel(wx.Panel, PDFPanel):
         return
 
     # Grid Events
-    def onLabelRightClick(self, event): # wxGlade: PhaseConfigurePanel.<event_handler>
+    def onLabelRightClick(self, event):  # wxGlade: PhaseConfigurePanel.<event_handler>
         """Bring up right-click menu."""
         if self.structure is not None:
             dx = dy = 0
@@ -457,11 +553,11 @@ class MagConfigurePanel(wx.Panel, PDFPanel):
             # do not popup menu if the whole grid is set to read only
             if len(self.structure) == 0:
                 self.popupMenu(self.gridAtoms, event.GetPosition().x-dx,
-                        event.GetPosition().y-dy)
+                               event.GetPosition().y-dy)
         event.Skip()
         return
 
-    def onCellRightClick(self, event): # wxGlade: PhaseConfigurePanel.<event_handler>
+    def onCellRightClick(self, event):  # wxGlade: PhaseConfigurePanel.<event_handler>
         """Bring up right-click menu."""
         self._row = event.GetRow()
         self._col = event.GetCol()
@@ -471,23 +567,24 @@ class MagConfigurePanel(wx.Panel, PDFPanel):
         append = False
         r = self._row
         c = self._col
-        if self.gridAtoms.IsInSelection(r,c):
+        if self.gridAtoms.IsInSelection(r, c):
             append = True
-        self.gridAtoms.SelectBlock(r,c,r,c,append)
+        self.gridAtoms.SelectBlock(r, c, r, c, append)
 
-        self.popupMenu(self.gridAtoms, event.GetPosition().x, event.GetPosition().y)
+        self.popupMenu(self.gridAtoms, event.GetPosition().x,
+                       event.GetPosition().y)
         event.Skip()
         return
 
-    def onEditorShown(self, event): # wxGlade: PhaseConfigurePanel.<event_handler>
+    def onEditorShown(self, event):  # wxGlade: PhaseConfigurePanel.<event_handler>
         """Capture the focused text when the grid editor is shown."""
         i = event.GetRow()
         j = event.GetCol()
-        self._focusedText = self.gridAtoms.GetCellValue(i,j)
+        self._focusedText = self.gridAtoms.GetCellValue(i, j)
         self._selectedCells = gridutils.getSelectedCells(self.gridAtoms)
         return
 
-    def onCellChange(self, event): # wxGlade: PhaseConfigurePanel.<event_handler>
+    def onCellChange(self, event):  # wxGlade: PhaseConfigurePanel.<event_handler>
         """Update focused and selected text when a cell changes."""
         # NOTE: be careful with refresh(). It calls Grid.AutoSizeColumns, which
         # creates a EVT_GRID_CMD_CELL_CHANGED event, which causes a recursion
@@ -495,11 +592,11 @@ class MagConfigurePanel(wx.Panel, PDFPanel):
         i = event.GetRow()
         j = event.GetCol()
 
-        value = self.gridAtoms.GetCellValue(i,j)
-        while (i,j) in self._selectedCells:
-            self._selectedCells.remove((i,j))
+        value = self.gridAtoms.GetCellValue(i, j)
+        while (i, j) in self._selectedCells:
+            self._selectedCells.remove((i, j))
         # We need the edited cell to be at the front of the list
-        self._selectedCells.insert(0,(i,j))
+        self._selectedCells.insert(0, (i, j))
         self.fillCells(value)
         self._focusedText = None
         return
@@ -512,16 +609,18 @@ class MagConfigurePanel(wx.Panel, PDFPanel):
         This uses the member variable _selectedCells, a list of (i,j) tuples for
         the selected cells.
         """
-        for (i,j) in self._selectedCells:
-            if not self.gridAtoms.IsReadOnly(i,j):
+        for (i, j) in self._selectedCells:
+            if not self.gridAtoms.IsReadOnly(i, j):
                 # Get the last valid text from the cell. For the cell that triggered
                 # this method, that is the _focusedText, for other cells it is the
                 # value returned by GetCellValue
-                oldvalue = self._focusedText or self.gridAtoms.GetCellValue(i,j)
+                oldvalue = self._focusedText or self.gridAtoms.GetCellValue(
+                    i, j)
                 self._focusedText = None
-                newvalue = self.applyCellChange(i,j, value)
-                if newvalue is None: newvalue = oldvalue
-                self.gridAtoms.SetCellValue(i,j,str(newvalue))
+                newvalue = self.applyCellChange(i, j, value)
+                if newvalue is None:
+                    newvalue = oldvalue
+                self.gridAtoms.SetCellValue(i, j, str(newvalue))
 
         gridutils.quickResizeColumns(self.gridAtoms, self._selectedCells)
         return
@@ -535,12 +634,12 @@ class MagConfigurePanel(wx.Panel, PDFPanel):
         if event.ControlDown() and key == 65:
             rows = self.gridAtoms.GetNumberRows()
             cols = self.gridAtoms.GetNumberCols()
-            self.gridAtoms.SelectBlock(0,0,rows,cols)
+            self.gridAtoms.SelectBlock(0, 0, rows, cols)
 
         # context menu key
         elif key == wx.WXK_MENU:
             self.popupMenu(self.gridAtoms,
-                    event.GetPosition().x, event.GetPosition().y)
+                           event.GetPosition().x, event.GetPosition().y)
 
         # Vim-like search for atom selection
         elif key == 47:
@@ -608,7 +707,8 @@ class MagConfigurePanel(wx.Panel, PDFPanel):
             self.Bind(wx.EVT_MENU, self.onPopupCopy, id=self.copyID)
             self.Bind(wx.EVT_MENU, self.onPopupPaste, id=self.pasteID)
             self.Bind(wx.EVT_MENU, self.onPopupSupercell, id=self.supercellID)
-            self.Bind(wx.EVT_MENU, self.onPopupSpaceGroup, id=self.spaceGroupID)
+            self.Bind(wx.EVT_MENU, self.onPopupSpaceGroup,
+                      id=self.spaceGroupID)
 
         # make a menu
         menu = wx.Menu()
@@ -627,14 +727,14 @@ class MagConfigurePanel(wx.Panel, PDFPanel):
         # Disable some items if there are no atoms selected
         indices = gridutils.getSelectionRows(self.gridAtoms)
         if not indices:
-            menu.Enable(self.deleteID, False);
-            menu.Enable(self.spaceGroupID, False);
+            menu.Enable(self.deleteID, False)
+            menu.Enable(self.spaceGroupID, False)
 
         # Disable some items if there is no structure
         if self.structure is None or len(self.structure) == 0:
-            menu.Enable(self.deleteID, False);
-            menu.Enable(self.supercellID, False);
-            menu.Enable(self.spaceGroupID, False);
+            menu.Enable(self.deleteID, False)
+            menu.Enable(self.supercellID, False)
+            menu.Enable(self.spaceGroupID, False)
 
         # Check for copy/paste
         if not magpanelutils.canCopySelectedCells(self):
@@ -644,7 +744,7 @@ class MagConfigurePanel(wx.Panel, PDFPanel):
 
         # Popup the menu.  If an item is selected then its handler
         # will be called before PopupMenu returns.
-        window.PopupMenu(menu, wx.Point(x,y))
+        window.PopupMenu(menu, wx.Point(x, y))
         menu.Destroy()
         return
 
@@ -657,7 +757,7 @@ class MagConfigurePanel(wx.Panel, PDFPanel):
 
                 if len(self.structure) == 0:
                     self._row = 0
-                elif (dlg.radio_box_where.GetSelection() == 1): # if selected "below"
+                elif (dlg.radio_box_where.GetSelection() == 1):  # if selected "below"
                     self._row += 1
 
                 # insert "rows" atoms into the structure
@@ -669,7 +769,8 @@ class MagConfigurePanel(wx.Panel, PDFPanel):
                 # Highlight the elements of the new rows so that they can be
                 # changed by the user.
                 self.gridAtoms.SetFocus()
-                self.gridAtoms.SelectBlock(self._row,0,self._row+len(atoms)-1,0)
+                self.gridAtoms.SelectBlock(
+                    self._row, 0, self._row+len(atoms)-1, 0)
                 self.gridAtoms.SetGridCursor(self._row, 0)
 
             dlg.Destroy()
@@ -735,6 +836,7 @@ class MagConfigurePanel(wx.Panel, PDFPanel):
 # end of class PhaseConfigurePanel
 
 # Local helpers --------------------------------------------------------------
+
 
 def _defaultNewAtom():
     """Create new atom instance with non-zero initial U.
