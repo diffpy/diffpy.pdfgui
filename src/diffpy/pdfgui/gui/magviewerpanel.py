@@ -155,15 +155,6 @@ class CanvasPanel(wx.Panel):
         sizerMain.Fit(self)
         self.Layout()
 
-    def setIsVisible(self, Boolean):
-        self.visible = Boolean
-
-    def update(self):
-        while self.visible is True:
-            plt.cla()
-            #self.redraw_scatter()
-            plt.pause(0.1)
-
     def connect(self):
         self.fig.canvas.mpl_connect(
             'close_event', self.on_close)  # D, escape, enter
@@ -177,6 +168,7 @@ class CanvasPanel(wx.Panel):
         self.on_close(event)
         frame = self.GetParent()
         frame.Close()
+        plt.close()
         self.Destroy()
 
     def onInstructions(self, event):
@@ -231,8 +223,10 @@ class CanvasPanel(wx.Panel):
         # set colors
         self.blue = np.array([0.12156863, 0.4666667, 0.70588235, 1.])
         self.red = np.array([1, 0, 0, 1])
-        self.fc = self.plot.get_facecolors()
-        #print(self.fc)
+        tmp = self.plot.get_facecolors()
+        #fcNextInd = len(self.fc) + 1
+        self.fc = np.vstack((tmp, [0.12156863, 0.4666667, 0.70588235, 1.]))
+        print(self.fc)
 
         # graph cosmetics
         title = "\n\n"+str(cif)
@@ -381,6 +375,8 @@ class CanvasPanel(wx.Panel):
             elif event.key == "up" and self.s < 1600:  # grow size of point
                 self.s = 10*self.s/9
                 self.redraw_scatter()
+            elif event.key == "i":  # show instructions
+                self.onInstructions(event)
             elif event.key == "ctrl+-" and self.zoom < 2.5:  # zoom out of structure
                 self.zoom = 10*self.zoom/9
                 self.axes_lim()
@@ -463,7 +459,7 @@ class CanvasPanel(wx.Panel):
             right click: remove
         """
         # indeces in X matrix that were clicked on
-        ind = event.ind
+        ind = event.ind[0]
         print(ind)
         #check if any are already assigned (fixed)
         fixed = True if np.sum(self.X[ind, 3]) > 0 else False
@@ -471,21 +467,19 @@ class CanvasPanel(wx.Panel):
 
         if str(event.mouseevent.button) == "MouseButton.LEFT" and not fixed:
 
-            for i in ind:
-
-                # add to clicked if not already in it and change color to red
-                if ind not in self.clicked:
-                    self.clicked += [i]
-                    self.fc[i, :] = self.red
-                    new_fc[i, :] = ([1, 0, 0, 1])
-                # otherwise remove it from clicked and change color to blue
-                else:
-                    self.clicked.remove(i)
-                    self.fc[i, :] = self.blue
-                    new_fc[i, :] = ([0.12156863, 0.4666667, 0.70588235, 1.])
-                # update plot colors
-                self.plot._facecolor3d = new_fc
-                self.plot._edgecolor3d = new_fc
+            # add to clicked if not already in it and change color to red
+            if ind not in self.clicked:
+                self.clicked += [ind]
+                self.fc[ind, :] = self.red
+                new_fc[ind, :] = ([1, 0, 0, 1])
+            # otherwise remove it from clicked and change color to blue
+            else:
+                self.clicked.remove(ind)
+                self.fc[ind, :] = self.blue
+                new_fc[ind, :] = ([0.12156863, 0.4666667, 0.70588235, 1.])
+            # update plot colors
+            self.plot._facecolor3d = new_fc
+            self.plot._edgecolor3d = new_fc
 
         elif str(event.mouseevent.button) == "MouseButton.RIGHT" and fixed:
 
@@ -503,11 +497,12 @@ class CanvasPanel(wx.Panel):
             # update plotted
             self.plotted = (self.X[:, 3] == 1).nonzero()
         self.fig.canvas.draw_idle()
+        self.redraw_scatter()
 
 
 # remove matplotlib toolbar for further plots
-mpl.rcParams['toolbar'] = 'None'
-mpl.rcParams['keymap.fullscreen'] = 'None'
-mpl.rcParams['keymap.quit'] = 'None'
-mpl.rcParams['keymap.xscale'] = 'None'
-mpl.rcParams['keymap.yscale'] = 'None'
+#mpl.rcParams['toolbar'] = 'None'
+#mpl.rcParams['keymap.fullscreen'] = 'None'
+#mpl.rcParams['keymap.quit'] = 'None'
+#mpl.rcParams['keymap.xscale'] = 'None'
+#mpl.rcParams['keymap.yscale'] = 'None'
