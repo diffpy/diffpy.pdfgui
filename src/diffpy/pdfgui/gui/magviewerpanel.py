@@ -418,6 +418,7 @@ class CanvasPanel(wx.Panel):
                     self.fixed = self.ax.scatter(self.nonmag[:, 0], self.nonmag[:, 1],
                                                  self.nonmag[:, 2], s=self.s/3,
                                                  facecolors="gray", edgecolors="gray")
+                self.redraw_scatter()
 
         if event.key in {"right", "b", "f", "c", "left", "n", "g", "t",
                          "down", "up", "ctrl+-", "ctrl+=", "enter"}:
@@ -501,8 +502,8 @@ class CanvasPanel(wx.Panel):
 
 
 # remove matplotlib toolbar for further plots
-#mpl.rcParams['toolbar'] = 'None'
-#mpl.rcParams['keymap.fullscreen'] = 'None'
-#mpl.rcParams['keymap.quit'] = 'None'
-#mpl.rcParams['keymap.xscale'] = 'None'
-#mpl.rcParams['keymap.yscale'] = 'None'
+mpl.rcParams['toolbar'] = 'None'
+mpl.rcParams['keymap.fullscreen'] = 'None'
+mpl.rcParams['keymap.quit'] = 'None'
+mpl.rcParams['keymap.xscale'] = 'None'
+mpl.rcParams['keymap.yscale'] = 'None'
