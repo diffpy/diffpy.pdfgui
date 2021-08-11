@@ -20,10 +20,20 @@ class CanvasFrame(wx.Frame):
         wx.Frame.__init__(self, parent=magconfigure, size=(900, 700))
         panel = CanvasPanel(self, X, elems, revdmap,
                             magconfigure, nonmag, cif, basis)
+        self.isFullscreen = False
         panel.connect()
-        #panel.setIsVisible(True)
         self.Show(True)
-        #panel.update()
+        self.Bind(wx.EVT_CHAR_HOOK, self.onFullscreen)
+        #self.ShowFullScreen(True)
+
+    def onFullscreen(self, event):
+        if event.GetKeyCode() == 70:
+            if self.isFullscreen is True:
+                self.ShowFullScreen(False)
+                self.isFullscreen = False
+            else:
+                self.ShowFullScreen(True)
+                self.isFullscreen = True
 
 
 class CanvasPanel(wx.Panel):
@@ -360,9 +370,6 @@ class CanvasPanel(wx.Panel):
             self.destroy(event)
 
         else:
-            if (event.key == "f"):
-                #self.window.showMaximized() if not self.isfull else self.window.showNormal()
-                self.isfull = bool(1 - self.isfull)
             if (event.key == "right") and (len(self.plotted) != 0) and (self.axscalefactor/self.l < self.arrowscale*3):  # grow arrow
                 self.l = 0.9*self.l
                 self.redraw_arrows()
