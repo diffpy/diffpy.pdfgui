@@ -7,6 +7,7 @@ from matplotlib.backends.backend_wxagg import FigureCanvasWxAgg as FigureCanvas
 import numpy.linalg as la
 import os
 from mpl_toolkits.mplot3d import Axes3D
+from mpl_toolkits.mplot3d import proj3d
 from matplotlib import pyplot as plt
 import numpy as np
 import matplotlib as mpl
@@ -460,14 +461,30 @@ class CanvasPanel(wx.Panel):
                                     picker=True, s=self.s, facecolors=self.fc,
                                     edgecolors=self.fc)
 
+    def distance(self, point, event):
+        assert point.shape == (3,)
+        x2, y2, _ = proj3d.proj_transform(
+            point[0], point[1], point[2], plt.gca().get_proj())
+        x3, y3 = self.ax.transData.transform((x2, y2))
+        return np.sqrt((x3 - event.mouseevent.x)**2 + (y3 - event.mouseevent.y)**2)
+
+    def getClosestPoint(self, event):
+        distances = [self.distance(self.X[i, 0:3], event)
+                     for i in range(self.X.shape[0])]
+        return np.argmin(distances)
+
     def on_click(self, event):
         """
         When artist (dot) is clicked, the appropriate action is taken:
             left click: selected
             right click: remove
         """
+        xx = event.mouseevent.x
+        yy = event.mouseevent.y
+
         # indeces in X matrix that were clicked on
-        ind = event.ind[0]
+        #ind = event.ind[0]
+        ind = self.getClosestPoint(event)
         print(ind)
         #check if any are already assigned (fixed)
         fixed = True if np.sum(self.X[ind, 3]) > 0 else False
@@ -512,5 +529,7 @@ class CanvasPanel(wx.Panel):
 mpl.rcParams['toolbar'] = 'None'
 mpl.rcParams['keymap.fullscreen'] = 'None'
 mpl.rcParams['keymap.quit'] = 'None'
+mpl.rcParams['keymap.xscale'] = 'None'
+mpl.rcParams['keymap.yscale'] = 'None'
 mpl.rcParams['keymap.xscale'] = 'None'
 mpl.rcParams['keymap.yscale'] = 'None'
