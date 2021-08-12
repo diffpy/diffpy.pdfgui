@@ -13,6 +13,7 @@ import numpy as np
 import matplotlib as mpl
 mpl.interactive(False)
 mpl.use('WXAgg')
+mpl.rcParams["toolbar"] = "toolmanager"
 
 
 class CanvasFrame(wx.Frame):
@@ -25,10 +26,9 @@ class CanvasFrame(wx.Frame):
         panel.connect()
         self.Show(True)
         self.Bind(wx.EVT_CHAR_HOOK, self.onFullscreen)
-        #self.ShowFullScreen(True)
 
     def onFullscreen(self, event):
-        if event.GetKeyCode() == 70:
+        if event.GetKeyCode() == 70:  # sets the letter "f" to toggle fullscreen
             if self.isFullscreen is True:
                 self.ShowFullScreen(False)
                 self.isFullscreen = False
@@ -152,7 +152,16 @@ class CanvasPanel(wx.Panel):
         self.__do_layout()
 
     def __do_layout(self):
+        self.toolbar = NavigationToolbar2Wx(self.canvas)
+        self.toolbar.Realize()
+        #self.deleteToolButtons()
+        self.toolbar.RemoveTool(0)
+        self.toolbar.RemoveTool(1)
+        self.toolbar.RemoveTool(2)
+        self.toolbar.RemoveTool(3)
+        self.toolbar.update()
         sizerMain = wx.BoxSizer(wx.VERTICAL)
+        sizerMain.Add(self.toolbar, 0, wx.LEFT | wx.TOP)
         #sizerCanvas = wx.StaticBoxSizer(wx.StaticBox(self, wx.ID_ANY, ""), wx.VERTICAL)
         sizerMain.Add(self.canvas, 1, wx.LEFT | wx.TOP | wx.GROW)
         sizer_4 = wx.StaticBoxSizer(wx.StaticBox(
@@ -165,6 +174,9 @@ class CanvasPanel(wx.Panel):
         self.SetSizer(sizerMain)
         sizerMain.Fit(self)
         self.Layout()
+
+    #def deleteToolButtons(self):
+        #self.toolbar.children['button4'].pack_forget()
 
     def connect(self):
         self.fig.canvas.mpl_connect(
@@ -180,6 +192,7 @@ class CanvasPanel(wx.Panel):
         frame = self.GetParent()
         frame.Close()
         plt.close()
+        self.toolbar.Destroy()
         self.Destroy()
 
     def onInstructions(self, event):
@@ -235,9 +248,7 @@ class CanvasPanel(wx.Panel):
         self.blue = np.array([0.12156863, 0.4666667, 0.70588235, 1.])
         self.red = np.array([1, 0, 0, 1])
         tmp = self.plot.get_facecolors()
-        #fcNextInd = len(self.fc) + 1
         self.fc = np.vstack((tmp, [0.12156863, 0.4666667, 0.70588235, 1.]))
-        print(self.fc)
 
         # graph cosmetics
         title = "\n\n"+str(cif)
@@ -479,13 +490,9 @@ class CanvasPanel(wx.Panel):
             left click: selected
             right click: remove
         """
-        xx = event.mouseevent.x
-        yy = event.mouseevent.y
-
         # indeces in X matrix that were clicked on
-        #ind = event.ind[0]
         ind = self.getClosestPoint(event)
-        print(ind)
+        #print(ind)
         #check if any are already assigned (fixed)
         fixed = True if np.sum(self.X[ind, 3]) > 0 else False
         new_fc = self.fc.copy()
@@ -525,6 +532,7 @@ class CanvasPanel(wx.Panel):
         self.redraw_scatter()
 
 
+"""
 # remove matplotlib toolbar for further plots
 mpl.rcParams['toolbar'] = 'None'
 mpl.rcParams['keymap.fullscreen'] = 'None'
@@ -533,3 +541,4 @@ mpl.rcParams['keymap.xscale'] = 'None'
 mpl.rcParams['keymap.yscale'] = 'None'
 mpl.rcParams['keymap.xscale'] = 'None'
 mpl.rcParams['keymap.yscale'] = 'None'
+"""
