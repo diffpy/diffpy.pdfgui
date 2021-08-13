@@ -154,11 +154,6 @@ class CanvasPanel(wx.Panel):
     def __do_layout(self):
         self.toolbar = NavigationToolbar2Wx(self.canvas)
         self.toolbar.Realize()
-        #self.deleteToolButtons()
-        self.toolbar.RemoveTool(0)
-        self.toolbar.RemoveTool(1)
-        self.toolbar.RemoveTool(2)
-        self.toolbar.RemoveTool(3)
         self.toolbar.update()
         sizerMain = wx.BoxSizer(wx.VERTICAL)
         sizerMain.Add(self.toolbar, 0, wx.LEFT | wx.TOP)
@@ -233,7 +228,7 @@ class CanvasPanel(wx.Panel):
         telling user how to access instructions """
 
         # text instructions on plot GUI
-        self.ax.text2D(0.5, -0.08, s="Press i to view control instructions", horizontalalignment='center',
+        self.ax.text2D(0.5, -0.05, s="Press i to view control instructions", horizontalalignment='center',
                        transform=self.ax.transAxes, fontweight='bold')
 
     def set_plot_params(self, cif):
