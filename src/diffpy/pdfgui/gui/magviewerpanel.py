@@ -20,12 +20,17 @@ class CanvasFrame(wx.Frame):
 
     def __init__(self, X, elems, revdmap, magconfigure, nonmag=None, cif="", basis=np.eye(3), size=(900, 700)):
         wx.Frame.__init__(self, parent=magconfigure, size=(900, 700))
-        panel = CanvasPanel(self, X, elems, revdmap,
-                            magconfigure, nonmag, cif, basis)
+        self.panel = CanvasPanel(self, X, elems, revdmap,
+                                 magconfigure, nonmag, cif, basis)
         self.isFullscreen = False
-        panel.connect()
+        self.panel.connect()
         self.Show(True)
         self.Bind(wx.EVT_CHAR_HOOK, self.onFullscreen)
+        self.Bind(wx.EVT_CLOSE, self.onClose)
+
+    def onClose(self, event):
+        self.panel.on_close(event)
+        self.Destroy()
 
     def onFullscreen(self, event):
         if event.GetKeyCode() == 70:  # sets the letter "f" to toggle fullscreen
