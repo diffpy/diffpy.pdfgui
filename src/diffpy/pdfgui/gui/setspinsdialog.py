@@ -98,10 +98,10 @@ class DialogSetSpins(wx.Dialog):
         sizer_main.Add(self.labelMultProps, 0, 0, 0)
 
         sizer_buttons = wx.BoxSizer(wx.HORIZONTAL)
-        sizer_buttons.Add((20, 20), 5, wx.EXPAND, 0)
+        sizer_buttons.Add((20, 20), 1, wx.EXPAND, 0)
         sizer_buttons.Add(self.buttonSetSpin, 0, wx.RIGHT, 10)
         sizer_buttons.Add(self.buttonBack, 0, wx.RIGHT, 10)
-        sizer_buttons.Add(2, 2, 1)
+        sizer_buttons.Add(20, 2, 1)
         sizer_main.Add(sizer_buttons, 0, wx.EXPAND, 0)
 
         self.SetSizer(sizer_main)
