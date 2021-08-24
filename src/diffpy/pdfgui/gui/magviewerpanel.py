@@ -175,9 +175,6 @@ class CanvasPanel(wx.Panel):
         sizerMain.Fit(self)
         self.Layout()
 
-    #def deleteToolButtons(self):
-        #self.toolbar.children['button4'].pack_forget()
-
     def connect(self):
         self.fig.canvas.mpl_connect(
             'close_event', self.on_close)  # D, escape, enter
@@ -362,6 +359,8 @@ class CanvasPanel(wx.Panel):
         self.clicked = []
         self.redraw_arrows()
         self.plotted = (self.X[:, 3] == 1).nonzero()
+        self.fig.canvas.draw_idle()
+        #self.redraw_scatter()
 
     def update_ticks(self):
         self.xticks = self.ax.get_xticks()
