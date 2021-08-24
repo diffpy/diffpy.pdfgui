@@ -117,7 +117,7 @@ class CanvasPanel(wx.Panel):
         self.plotted = []
         self.quiver = []
         self.showgrid = True
-        self.showticks = True
+        self.showticks = False
         self.isfull = False
         self.props = dict(
             zip(list(range(self.n)), [np.array([[0, 0, 0]]) for i in range(self.n)]))
@@ -155,6 +155,11 @@ class CanvasPanel(wx.Panel):
 
         self.canvas = FigureCanvas(self, -1, self.fig)
         self.__do_layout()
+
+        #sets the default grid scale
+        self.xtickDefault = self.ax.get_xticks()
+        self.ytickDefault = self.ax.get_yticks()
+        self.ztickDefault = self.ax.get_zticks()
 
     def __do_layout(self):
         self.toolbar = NavigationToolbar2Wx(self.canvas)
@@ -415,9 +420,9 @@ class CanvasPanel(wx.Panel):
                     self.ax.set_zticks(self.zticks)
                 else:
                     self.showticks = False
-                    self.ax.set_xticks([])
-                    self.ax.set_yticks([])
-                    self.ax.set_zticks([])
+                    self.ax.set_xticks(self.xtickDefault)
+                    self.ax.set_yticks(self.ytickDefault)
+                    self.ax.set_zticks(self.ztickDefault)
                 self.axes_lim()
             elif event.key == "b":
                 self.showbox = bool(1-self.showbox)

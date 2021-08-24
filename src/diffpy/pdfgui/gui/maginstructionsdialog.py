@@ -24,7 +24,7 @@ Enter: Assign Spins after selecting
 t: Toggle non-magnetic atoms
 b: Toggle bounding box
 g: Toggle plot grid
-n: Toggle ploted numbers on axes ticks
+n: Toggle plotted numbers on axes ticks
 f: Enter fullscreen mode
 Escape: Exit Program
 CTRL +/CTRL -: Zoom in or out
