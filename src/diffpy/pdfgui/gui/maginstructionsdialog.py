@@ -62,7 +62,7 @@ class DialogInstructions(wx.Dialog):
         sizer_button = wx.BoxSizer(wx.HORIZONTAL)
         sizer_instructions.Add(self.label_instructions, 0, wx.RIGHT, 10)
         sizer_main.Add(sizer_instructions, 0, wx.EXPAND, 0)
-        sizer_button.Add((20, 20), 5, wx.EXPAND, 0)
+        sizer_button.Add((20, 20), 1, wx.EXPAND, 0)
         sizer_button.Add(self.button_OK, 0, wx.RIGHT, 10)
         sizer_button.Add(0, 0, 1)
         sizer_main.Add(sizer_button, 0, wx.EXPAND, 0)
@@ -74,6 +74,7 @@ class DialogInstructions(wx.Dialog):
 # end of class DialogInstructions
 
 ##### testing code ###########################################################
+
 
 if __name__ == "__main__":
     app = wx.App()
