@@ -141,8 +141,9 @@ class MagConfigurePanel(wx.Panel, PDFPanel):
         grid_sizer_2 = wx.FlexGridSizer(2, 6, 0, 0)
         grid_sizer_2.Add(self.radio1, 0, wx.ALIGN_CENTER_VERTICAL |
                          wx.ALIGN_RIGHT | wx.ALL, 5)
-        grid_sizer_2.Add(5, 0, )
-        sizer_3.Add(grid_sizer_2, 1, wx.EXPAND, 0)
+        grid_sizer_2.Add(5, 0, 0)
+        sizer_3.Add(grid_sizer_2, 5, wx.ALIGN_CENTER_VERTICAL |
+                    wx.LEFT | wx.RIGHT, 5)
         sizer_3.Add(5, 0, 0)
         sizer_3.Add(self.buttonMagViewer, 1, wx.ALL |
                     wx.ALIGN_CENTER_VERTICAL | wx.ALIGN_RIGHT, 5)
@@ -252,6 +253,9 @@ class MagConfigurePanel(wx.Panel, PDFPanel):
         pairs = self.structure.getSelectedPairs()
         self.textCtrlIncludedPairs.SetValue(pairs)
         magpanelutils.refreshGrid(self)
+        self.gridAtoms.ForceRefresh()
+        self.Refresh()
+        self.Update()
         #self.restrictConstrainedParameters()
 
         # wxpython 3.0 on Windows 7 prevents textCtrlA from receiving

@@ -11,6 +11,7 @@ from mpl_toolkits.mplot3d import proj3d
 from matplotlib import pyplot as plt
 import numpy as np
 import matplotlib as mpl
+from diffpy.pdfgui.gui import magpanelutils
 mpl.interactive(False)
 mpl.use('WXAgg')
 mpl.rcParams["toolbar"] = "toolmanager"
@@ -22,6 +23,7 @@ class CanvasFrame(wx.Frame):
         wx.Frame.__init__(self, parent=magconfigure, size=(900, 700))
         self.panel = CanvasPanel(self, X, elems, revdmap,
                                  magconfigure, nonmag, cif, basis)
+        self.parent = magconfigure
         self.isFullscreen = False
         self.panel.connect()
         self.Show(True)
