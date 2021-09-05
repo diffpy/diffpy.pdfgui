@@ -109,7 +109,7 @@ class CanvasPanel(wx.Panel):
         self.revdmap = revdmap
         self.elems = elems
         self.X = np.zeros((len(X[:, 0]), 9))
-        self.X[:, :3] = X   # X matrix containing coordinates and vectors
+        self.X[:, :3] = X[:, :3]  # X matrix containing coordinates and vectors
         self.X[:, 7] = 1   # 7 is magnitudes
         self.n = len(self.X[:, 8])
         self.X[:, 8] = np.arange(self.n)
@@ -124,6 +124,7 @@ class CanvasPanel(wx.Panel):
         self.props = dict(
             zip(list(range(self.n)), [np.array([[0, 0, 0]]) for i in range(self.n)]))
         self.saves = {}
+        self.getProps()
 
         #scatter the structure data
         if len(self.X) == 0:  # check if there are any coordinates
@@ -162,6 +163,11 @@ class CanvasPanel(wx.Panel):
         self.xtickDefault = self.ax.get_xticks()
         self.ytickDefault = self.ax.get_yticks()
         self.ztickDefault = self.ax.get_zticks()
+
+        #Checks if this is the first time magviewer launches. If not, it will use imported X from magconfigure
+        if self.magconfigure.firstViewerLaunch is False:
+            self.X[:, 4:8] = X[:, 4:8]
+            self.redraw_arrows()
 
     def __do_layout(self):
         self.toolbar = NavigationToolbar2Wx(self.canvas)
@@ -307,6 +313,12 @@ class CanvasPanel(wx.Panel):
         self.ax.set_zlim3d(self.centroid[2] - self.zoom*self.axscalefactor,
                            self.centroid[2] + self.zoom*self.axscalefactor)
 
+    def getProps(self):
+        for i in range(len(self.magconfigure.structure.magnetic_atoms)):
+            if self.magconfigure.structure.magnetic_atoms[i][0] == 1:
+                label = self.magconfigure.structure.magnetic_atoms[i][1]
+                self.props[i - 1] = self.magconfigure.structure.magStructure.species[label].kvecs
+
     def on_close(self, event=[]):
         """save basis and prop vecs on close"""
 
@@ -319,7 +331,7 @@ class CanvasPanel(wx.Panel):
                 self.magconfigure.structure.magStructure.species[label].kvecs = np.array(
                     self.props[count])
                 count += 1
-
+        self.magconfigure.Xarr = self.X
         self.magconfigure.refresh()
         self.magconfigure.mainFrame.needsSave()
         plt.close()

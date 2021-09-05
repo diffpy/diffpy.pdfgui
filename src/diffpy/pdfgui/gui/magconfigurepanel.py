@@ -90,6 +90,8 @@ class MagConfigurePanel(wx.Panel, PDFPanel):
         self.buttonMagViewer.Bind(wx.EVT_BUTTON, self.onPanel)
         # end wxGlade
         self.__customProperties()
+        self.firstViewerLaunch = True
+        self.Xarr = []
 
     def __set_properties(self):
         self.SetFocus()
@@ -416,100 +418,45 @@ class MagConfigurePanel(wx.Panel, PDFPanel):
             title="Advanced", mags=self.structure.magnetic_atoms, struc=self.structure)
 
     def onPanel(self, event):
-        '''
-        with open('data.npy', 'wb') as f:
-            np.save(f, X)
-            np.save(f, Xelem)
-            np.save(f, revdmap)
-            np.save(f, nonmag)
-            np.save(f, cif_name)
-            np.save(f, struc_ob.lattice.stdbase)
-        '''
-        def split_up_magnetics(cond, mags, struc, row_element):
-            X, orig_inx, nonmag, Xelem = [], [], [], []
+        if False:
+            raise CustomError("An error occurred")
+        else:
+            def split_up_magnetics(cond, mags, struc, row_element):
+                X, orig_inx, nonmag, Xelem = [], [], [], []
 
-            for i in range(len(struc)):
-                if str(cond[i]) in mags:
-                    X += [struc[i, :]]
-                    orig_inx += [i]
-                    Xelem += [row_element[i]]
-                else:
-                    nonmag += [struc[i, :]]
-            return np.array(X), np.array(orig_inx), np.array(nonmag), np.array(Xelem)
+                for i in range(len(struc)):
+                    if str(cond[i]) in mags:
+                        X += [struc[i, :]]
+                        orig_inx += [i]
+                        Xelem += [row_element[i]]
+                    else:
+                        nonmag += [struc[i, :]]
+                return np.array(X), np.array(orig_inx), np.array(nonmag), np.array(Xelem)
+            mags = []
+            count = 1
+            for a in self.structure.magnetic_atoms:
+                if a[0] == 1:
+                    mags.append(str(count))
+                count += 1
 
-        mags = []
-        count = 1
-        for a in self.structure.magnetic_atoms:
-            if a[0] == 1:
-                mags.append(str(count))
-            count += 1
+            struc = self.structure.xyz_cartn
+            elems = list(set(self.structure.element))
+            elems.sort() 				# alphabetical list of elements
+            # 1 to n+1 indices for each element
+            element_inx = np.arange(1, 1+len(elems))
+            # element name to associated number
+            dmap = dict(zip(elems, element_inx))
+            revdmap = dict(zip(element_inx, elems))
+            row_element = np.array([dmap[i] for i in self.structure.element])
 
-        struc = self.structure.xyz_cartn
-        elems = list(set(self.structure.element))
-        elems.sort() 				# alphabetical list of elements
-        # 1 to n+1 indices for each element
-        element_inx = np.arange(1, 1+len(elems))
-        # element name to associated number
-        dmap = dict(zip(elems, element_inx))
-        revdmap = dict(zip(element_inx, elems))
-        row_element = np.array([dmap[i] for i in self.structure.element])
+            X, orig_inx, nonmag, Xelem = split_up_magnetics(
+                np.arange(1, 1+len(struc)), mags, struc, row_element)
 
-        X, orig_inx, nonmag, Xelem = split_up_magnetics(
-            np.arange(1, 1+len(struc)), mags, struc, row_element)
-        canvas = CanvasFrame(X, Xelem, revdmap, nonmag=nonmag,
-                             basis=self.structure.lattice.stdbase)
-
-    def onMagViewer(self, event):
-        '''
-        with open('data.npy', 'wb') as f:
-            np.save(f, X)
-            np.save(f, Xelem)
-            np.save(f, revdmap)
-            np.save(f, nonmag)
-            np.save(f, cif_name)
-            np.save(f, struc_ob.lattice.stdbase)
-        '''
-        def split_up_magnetics(cond, mags, struc, row_element):
-            X, orig_inx, nonmag, Xelem = [], [], [], []
-
-            for i in range(len(struc)):
-                if str(cond[i]) in mags:
-                    X += [struc[i, :]]
-                    orig_inx += [i]
-                    Xelem += [row_element[i]]
-                else:
-                    nonmag += [struc[i, :]]
-            return np.array(X), np.array(orig_inx), np.array(nonmag), np.array(Xelem)
-
-        mags = []
-        count = 1
-        for a in self.structure.magnetic_atoms:
-            if a[0] == 1:
-                mags.append(str(count))
-            count += 1
-
-        struc = self.structure.xyz_cartn
-        elems = list(set(self.structure.element))
-        elems.sort() 				# alphabetical list of elements
-        # 1 to n+1 indices for each element
-        element_inx = np.arange(1, 1+len(elems))
-        # element name to associated number
-        dmap = dict(zip(elems, element_inx))
-        revdmap = dict(zip(element_inx, elems))
-        row_element = np.array([dmap[i] for i in self.structure.element])
-
-        print("np.arange(1,1+len(struc))", np.arange(1, 1+len(struc)))
-        print("mags", mags)
-        print("struc", struc)
-        print("row_element", row_element)
-        X, orig_inx, nonmag, Xelem = split_up_magnetics(
-            np.arange(1, 1+len(struc)), mags, struc, row_element)
-        print("X", X)
-        print("orig_inx", orig_inx)
-        print("Xelem", Xelem)
-        print("nonmag", nonmag)
-        MagView(X, Xelem, revdmap, nonmag=nonmag,
-                basis=self.structure.lattice.stdbase)
+            if self.firstViewerLaunch is False:
+                X = self.Xarr
+            canvas = CanvasFrame(
+                X, Xelem, revdmap, self, nonmag=nonmag, basis=self.structure.lattice.stdbase)
+            self.firstViewerLaunch = False
 
     # TextCtrl Events
 
