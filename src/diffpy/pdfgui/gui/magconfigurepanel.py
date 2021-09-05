@@ -89,6 +89,8 @@ class MagConfigurePanel(wx.Panel, PDFPanel):
         self.buttonMagViewer.Bind(wx.EVT_BUTTON, self.onPanel)
         # end wxGlade
         self.__customProperties()
+        self.firstViewerLaunch = True
+        self.Xarr = []
 
     def __set_properties(self):
         self.SetFocus()
@@ -429,7 +431,6 @@ class MagConfigurePanel(wx.Panel, PDFPanel):
                     else:
                         nonmag += [struc[i, :]]
                 return np.array(X), np.array(orig_inx), np.array(nonmag), np.array(Xelem)
-
             mags = []
             count = 1
             for a in self.structure.magnetic_atoms:
@@ -449,8 +450,12 @@ class MagConfigurePanel(wx.Panel, PDFPanel):
 
             X, orig_inx, nonmag, Xelem = split_up_magnetics(
                 np.arange(1, 1+len(struc)), mags, struc, row_element)
+
+            if self.firstViewerLaunch is False:
+                X = self.Xarr
             canvas = CanvasFrame(
                 X, Xelem, revdmap, self, nonmag=nonmag, basis=self.structure.lattice.stdbase)
+            self.firstViewerLaunch = False
 
     # TextCtrl Events
     def onSetFocus(self, event):
