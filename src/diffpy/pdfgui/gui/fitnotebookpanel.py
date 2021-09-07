@@ -20,12 +20,17 @@ import wx
 from diffpy.pdfgui.gui.pdfpanel import PDFPanel
 from diffpy.pdfgui.gui.parameterspanel import ParametersPanel
 from diffpy.pdfgui.gui.resultspanel import ResultsPanel
+from diffpy.pdfgui.control.magstructure import MagStructure
 
 class FitNotebookPanel(wx.Panel, PDFPanel):
     def __init__(self, *args, **kwds):
         # begin wxGlade: FitNotebookPanel.__init__
         kwds["style"] = kwds.get("style", 0) | wx.TAB_TRAVERSAL
         wx.Panel.__init__(self, *args, **kwds)
+        self.labelPanelName = wx.StaticText(self, wx.ID_ANY, "Fitting Options")
+        self.enableMag = wx.CheckBox(self, wx.ID_ANY, "Enable Magnetic PDF")
+        self.mpdfType = wx.RadioBox(self, wx.ID_ANY, label="Magnetic Fitting Type", choices=["Normalized", "Unnormalized"], style=wx.RA_SPECIFY_ROWS)
+        self.fitProtocol = wx.RadioBox(self, wx.ID_ANY, label="Fitting Protocol", choices=["Syncronous", "Asyncronous"], style=wx.RA_SPECIFY_ROWS)
         self.fitnotebook = wx.Notebook(self, wx.ID_ANY, style=0)
         self.parametersPanel = ParametersPanel(self.fitnotebook, wx.ID_ANY)
         self.resultsPanel = ResultsPanel(self.fitnotebook, wx.ID_ANY)
@@ -35,22 +40,40 @@ class FitNotebookPanel(wx.Panel, PDFPanel):
 
         self.Bind(wx.EVT_NOTEBOOK_PAGE_CHANGED, self.onPageChanged, self.fitnotebook)
         self.Bind(wx.EVT_NOTEBOOK_PAGE_CHANGING, self.onPageChanging, self.fitnotebook)
+        self.Bind(wx.EVT_CHECKBOX, self.onCheck, self.enableMag)
         # end wxGlade
         self.__customProperties()
 
     def __set_properties(self):
         # begin wxGlade: FitNotebookPanel.__set_properties
+        self.labelPanelName.SetFont(wx.Font(18, wx.FONTFAMILY_DEFAULT, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_BOLD, 0, ""))
+        self.mpdfType.Disable()
+        self.fitProtocol.Disable()
         pass
         # end wxGlade
 
     def __do_layout(self):
         # begin wxGlade: FitNotebookPanel.__do_layout
-        sizer_1 = wx.BoxSizer(wx.HORIZONTAL)
+        sizerMain = wx.BoxSizer(wx.VERTICAL)
+        sizer_1 = wx.BoxSizer(wx.VERTICAL)
+        sizer_2 = wx.BoxSizer(wx.HORIZONTAL)
+        sizerPanelName = wx.StaticBoxSizer(wx.StaticBox(self, wx.ID_ANY, ""), wx.HORIZONTAL)
+        sizerPanelName.Add(self.labelPanelName, 0, wx.ALIGN_CENTER_VERTICAL | wx.LEFT | wx.RIGHT, 5)
+        sizerMain.Add(sizerPanelName, 0, wx.EXPAND | wx.LEFT | wx.RIGHT, 5)
+        magOptionSizer = wx.FlexGridSizer(2, 6, 0, 0)
+        magOptionSizer.Add(self.enableMag, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALIGN_RIGHT | wx.ALL, 15)
+        magOptionSizer.Add(self.mpdfType, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALIGN_RIGHT | wx.ALL, 15)
+        magOptionSizer.Add(self.fitProtocol, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALIGN_RIGHT | wx.ALL, 15)
+        #magOptionSizer.Add(50, 50, 0, 15)
+        #sizer_1.Add(sizer_2)
+        sizer_2.Add(magOptionSizer, wx.EXPAND, 0)
         self.fitnotebook.AddPage(self.parametersPanel, "Parameters")
         self.fitnotebook.AddPage(self.resultsPanel, "Results")
         sizer_1.Add(self.fitnotebook, 1, wx.EXPAND, 0)
-        self.SetSizer(sizer_1)
-        sizer_1.Fit(self)
+        sizerMain.Add(sizer_2, 0, wx.EXPAND, 0)
+        sizerMain.Add(sizer_1, 0, wx.EXPAND, 0)
+        self.SetSizer(sizerMain)
+        sizerMain.Fit(self)
         self.Layout()
         # end wxGlade
 
@@ -59,6 +82,33 @@ class FitNotebookPanel(wx.Panel, PDFPanel):
         self.fit = None
         self.mainFrame = None
         return
+
+    def onCheck(self, event):
+        """Toggles magnetic PDF in both fitting and phase options"""
+        print("Toggling magnetism")
+        for fit in (self.treeCtrlMain.control.fits):
+            fit.magnetism = self.enableMag.GetValue()
+            for struc in (fit.strucs):
+                struc.magnetism = self.enableMag.GetValue()
+                if struc.magStructure == None:
+                    struc.magStructure = MagStructure()
+                    struc.magStructure.corr = 0
+                    struc.magStructure.ord = 0
+                    struc.magStructure.para = 0
+                    struc.magnetic_atoms = [0]*len(struc)
+                    for i in range(len(struc.magnetic_atoms)):
+                        struc.magnetic_atoms[i] = [0,""]
+
+
+        if self.enableMag.GetValue():
+            self.mpdfType.Enable()
+            self.fitProtocol.Enable()
+        else:
+            self.mpdfType.Disable()
+            self.fitProtocol.Disable()
+
+
+
 
     def onPageChanged(self, event): # wxGlade: FitNotebookPanel.<event_handler>
         """Refresh the panel visible panel."""
