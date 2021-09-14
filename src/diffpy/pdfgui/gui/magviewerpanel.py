@@ -24,6 +24,7 @@ class CanvasFrame(wx.Frame):
         if len(X) == 0:
             wx.MessageBox("No atoms inside of structure are magnetic!",
                           "Error", wx.OK | wx.ICON_INFORMATION)
+            magconfigure.firstViewerLaunch = True
             return
         wx.Frame.__init__(self, parent=magconfigure, size=(900, 700))
         self.panel = CanvasPanel(self, X, elems, revdmap,
@@ -34,6 +35,7 @@ class CanvasFrame(wx.Frame):
         self.Show(True)
         self.Bind(wx.EVT_CHAR_HOOK, self.onFullscreen)
         self.Bind(wx.EVT_CLOSE, self.onClose)
+        magconfigure.firstViewerLaunch = False
 
     def onClose(self, event):
         self.panel.on_close(event)

@@ -483,7 +483,6 @@ class MagConfigurePanel(wx.Panel, PDFPanel):
                 print(X.shape)
             canvas = CanvasFrame(
                 X, Xelem, revdmap, self, nonmag=nonmag, basis=self.structure.lattice.stdbase)
-            self.firstViewerLaunch = False
 
     # TextCtrl Events
 
