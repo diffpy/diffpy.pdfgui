@@ -21,6 +21,10 @@ mpl.rcParams["toolbar"] = "toolmanager"
 class CanvasFrame(wx.Frame):
 
     def __init__(self, X, elems, revdmap, magconfigure, nonmag=None, cif="", basis=np.eye(3), size=(900, 700)):
+        if len(X) == 0:
+            wx.MessageBox("No atoms inside of structure are magnetic!",
+                          "Error", wx.OK | wx.ICON_INFORMATION)
+            return
         wx.Frame.__init__(self, parent=magconfigure, size=(900, 700))
         self.panel = CanvasPanel(self, X, elems, revdmap,
                                  magconfigure, nonmag, cif, basis)
