@@ -12,6 +12,7 @@ from matplotlib import pyplot as plt
 import numpy as np
 import matplotlib as mpl
 from diffpy.pdfgui.gui import magpanelutils
+from itertools import repeat
 mpl.interactive(False)
 mpl.use('WXAgg')
 mpl.rcParams["toolbar"] = "toolmanager"
@@ -258,7 +259,12 @@ class CanvasPanel(wx.Panel):
         self.blue = np.array([0.12156863, 0.4666667, 0.70588235, 1.])
         self.red = np.array([1, 0, 0, 1])
         tmp = self.plot.get_facecolors()
-        self.fc = np.vstack((tmp, [0.12156863, 0.4666667, 0.70588235, 1.]))
+        print("facecolors:")
+        if self.n > 1:
+            self.fc = np.vstack((tmp, [0.12156863, 0.4666667, 0.70588235, 1.]))
+        elif self.n == 1:
+            self.fc = tmp
+        print(self.fc)
 
         # graph cosmetics
         title = "\n\n"+str(cif)
@@ -486,6 +492,7 @@ class CanvasPanel(wx.Panel):
             self.fixed = self.ax.scatter(self.nonmag[:, 0], self.nonmag[:, 1], self.nonmag[:, 2],
                                          s=self.s/3, facecolors="gray", edgecolors="gray")
         # replot magnetics
+        print(self.fc)
         self.plot = self.ax.scatter(self.X[:, 0], self.X[:, 1], self.X[:, 2],
                                     picker=True, s=self.s, facecolors=self.fc,
                                     edgecolors=self.fc)
@@ -510,7 +517,8 @@ class CanvasPanel(wx.Panel):
         """
         # indeces in X matrix that were clicked on
         ind = self.getClosestPoint(event)
-        #print(ind)
+        print(ind)
+        print(len(self.fc))
         #check if any are already assigned (fixed)
         fixed = True if np.sum(self.X[ind, 3]) > 0 else False
         new_fc = self.fc.copy()

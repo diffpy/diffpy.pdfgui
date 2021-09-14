@@ -452,7 +452,26 @@ class MagConfigurePanel(wx.Panel, PDFPanel):
                 np.arange(1, 1+len(struc)), mags, struc, row_element)
 
             if self.firstViewerLaunch is False:
-                X = self.Xarr
+                XarrTmp = self.Xarr
+                if len(X) != len(self.Xarr):
+                    for i in range(len(X)):
+                        isInArr = False
+                        for j in range(len(self.Xarr)):
+                            print("hey")
+                            if X[i, 0] == self.Xarr[j, 0] and X[i, 1] == self.Xarr[j, 1] and X[i, 2] == self.Xarr[j, 2]:
+                                isInArr = True
+                                print("not added")
+                        if isInArr is False:
+                            Xtmp = np.array(
+                                [X[i, 0], X[i, 1], X[i, 2], 0, 0, 0, 0, 0, 0])
+                            index = len(XarrTmp) + 1
+                            self.Xarr = np.append(
+                                self.Xarr, [Xtmp], axis=0)
+                            print("added", XarrTmp.shape)
+
+                #X = self.Xarr
+                X = np.array(self.Xarr)
+                print(X.shape)
             canvas = CanvasFrame(
                 X, Xelem, revdmap, self, nonmag=nonmag, basis=self.structure.lattice.stdbase)
             self.firstViewerLaunch = False
