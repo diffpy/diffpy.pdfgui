@@ -455,7 +455,7 @@ class MagConfigurePanel(wx.Panel, PDFPanel):
                 XarrTmp = self.Xarr
                 if X != self.Xarr:
                     toDelete = []
-                    for i in range(len(X)): # Checks for added mag atoms
+                    for i in range(len(X)):  # Checks for added mag atoms
                         isInArr = False
                         for j in range(len(self.Xarr)):
                             if X[i, 0] == self.Xarr[j, 0] and X[i, 1] == self.Xarr[j, 1] and X[i, 2] == self.Xarr[j, 2]:
@@ -466,7 +466,7 @@ class MagConfigurePanel(wx.Panel, PDFPanel):
                             XarrTmp = np.append(
                                 XarrTmp, [Xtmp], axis=0)
                     self.Xarr = XarrTmp
-                    for i in range(len(self.Xarr)): # Checks for deleted mag atoms
+                    for i in range(len(self.Xarr)):  # Checks for deleted mag atoms
                         isInArr = False
                         for j in range(len(X)):
                             if self.Xarr[i, 0] == X[j, 0] and self.Xarr[i, 1] == X[j, 1] and self.Xarr[i, 2] == X[j, 2]:
@@ -475,7 +475,6 @@ class MagConfigurePanel(wx.Panel, PDFPanel):
                             toDelete.append(i)
                     self.Xarr = np.delete(self.Xarr, toDelete, axis=0)
                 X = np.array(self.Xarr)
-                print(X.shape)
             canvas = CanvasFrame(
                 X, Xelem, revdmap, self, nonmag=nonmag, basis=self.structure.lattice.stdbase)
 

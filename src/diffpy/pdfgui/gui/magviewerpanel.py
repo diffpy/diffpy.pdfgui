@@ -498,7 +498,6 @@ class CanvasPanel(wx.Panel):
             self.fixed = self.ax.scatter(self.nonmag[:, 0], self.nonmag[:, 1], self.nonmag[:, 2],
                                          s=self.s/3, facecolors="gray", edgecolors="gray")
         # replot magnetics
-        print(self.fc)
         self.plot = self.ax.scatter(self.X[:, 0], self.X[:, 1], self.X[:, 2],
                                     picker=True, s=self.s, facecolors=self.fc,
                                     edgecolors=self.fc)
@@ -523,8 +522,6 @@ class CanvasPanel(wx.Panel):
         """
         # indeces in X matrix that were clicked on
         ind = self.getClosestPoint(event)
-        print(ind)
-        print(len(self.fc))
         #check if any are already assigned (fixed)
         fixed = True if np.sum(self.X[ind, 3]) > 0 else False
         new_fc = self.fc.copy()
