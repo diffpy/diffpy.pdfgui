@@ -22,7 +22,7 @@ class CanvasFrame(wx.Frame):
 
     def __init__(self, X, elems, revdmap, magconfigure, nonmag=None, cif="", basis=np.eye(3), size=(900, 700)):
         if len(X) == 0:
-            wx.MessageBox("No atoms inside of structure are magnetic!",
+            wx.MessageBox("No atoms inside of the structure are magnetic!",
                           "Error", wx.OK | wx.ICON_INFORMATION)
             magconfigure.firstViewerLaunch = True
             return
@@ -132,6 +132,7 @@ class CanvasPanel(wx.Panel):
             zip(list(range(self.n)), [np.array([[0, 0, 0]]) for i in range(self.n)]))
         self.saves = {}
         self.getProps()
+        self.instructionsOpen = False
 
         #scatter the structure data
         if len(self.X) == 0:  # check if there are any coordinates
@@ -216,6 +217,7 @@ class CanvasPanel(wx.Panel):
         dlg = DialogInstructions(self)
         dlg.ShowModal()
         dlg.Destroy()
+        self.instructionsOpen = True
         return
 
     def setlegend(self):
@@ -425,7 +427,10 @@ class CanvasPanel(wx.Panel):
                 self.s = 10*self.s/9
                 self.redraw_scatter()
             elif event.key == "i":  # show instructions
-                self.onInstructions(event)
+                if self.instructionsOpen is True:
+                    self.instructionsOpen = False
+                else:
+                    self.onInstructions(event)
             elif event.key == "ctrl+-" and self.zoom < 2.5:  # zoom out of structure
                 self.zoom = 10*self.zoom/9
                 self.axes_lim()

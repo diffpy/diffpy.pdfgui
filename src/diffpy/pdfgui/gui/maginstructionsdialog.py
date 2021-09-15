@@ -42,6 +42,7 @@ class DialogInstructions(wx.Dialog):
         self.SetSize((600, 595))
         self.label_instructions = wx.StaticText(self, wx.ID_ANY, "")
         self.button_OK = wx.Button(self, wx.ID_OK, "OK")
+        self.Bind(wx.EVT_CHAR_HOOK, self.onPressI)
 
         self.__set_properties()
         self.__do_layout()
@@ -51,6 +52,11 @@ class DialogInstructions(wx.Dialog):
 
         self.Fit()
         return
+
+    def onPressI(self, event):
+        if event.GetKeyCode() == 73:  # Detects if "i" was pressed
+            self.Destroy()
+            return
 
     def __set_properties(self):
         self.SetTitle("Instructions")
