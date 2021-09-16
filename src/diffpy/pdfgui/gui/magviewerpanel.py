@@ -36,6 +36,7 @@ class CanvasFrame(wx.Frame):
         self.Bind(wx.EVT_CHAR_HOOK, self.onFullscreen)
         self.Bind(wx.EVT_CLOSE, self.onClose)
         magconfigure.firstViewerLaunch = False
+        self.SetFocus()
 
     def onClose(self, event):
         self.panel.on_close(event)
