@@ -37,8 +37,18 @@ class CanvasFrame(wx.Frame):
         self.Bind(wx.EVT_CLOSE, self.onClose)
         magconfigure.firstViewerLaunch = False
         self.SetFocus()
+        #self.MakeModal(True)
+        self.parent.phaseConfig.gridAtoms.EnableEditing(False)
+
+    def MakeModal(self, modal=True):
+        if modal and not hasattr(self, '_disabler'):
+            self._disabler = wx.WindowDisabler(self)
+        if not modal and hasattr(self, '_disabler'):
+            del self._disabler
 
     def onClose(self, event):
+        self.parent.phaseConfig.gridAtoms.EnableEditing(True)
+        self.MakeModal(False)
         self.panel.on_close(event)
         self.Destroy()
 

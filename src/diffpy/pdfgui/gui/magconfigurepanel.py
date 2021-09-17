@@ -47,9 +47,10 @@ class MagConfigurePanel(wx.Panel, PDFPanel):
         _col            -- column, where rightclick occured
     """
 
-    def __init__(self, *args, **kwds):
+    def __init__(self, phaseConfigurePanel, *args, **kwds):
         PDFPanel.__init__(self)
         # begin wxGlade: PhaseConfigurePanel.__init__
+        self.phaseConfig = phaseConfigurePanel
         kwds["style"] = kwds.get("style", 0) | wx.TAB_TRAVERSAL
         wx.Panel.__init__(self, *args, **kwds)
         self.labelCorrLength = wx.StaticText(self, wx.ID_ANY, "corr. length")
