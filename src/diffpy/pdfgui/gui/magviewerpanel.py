@@ -128,7 +128,7 @@ class CanvasPanel(wx.Panel):
         self.elems = elems
         self.X = np.zeros((len(X[:, 0]), 9))
         self.X[:, :3] = X[:, :3]  # X matrix containing coordinates and vectors
-        self.X[:, 7] = 1   # 7 is magnitudes
+        self.X[:, 7] = 0   # 7 is magnitudes
         self.n = len(self.X[:, 8])
         self.X[:, 8] = np.arange(self.n)
         self.fig = plt.figure(figsize=(8., 6.))  # set and save figure object
@@ -142,6 +142,7 @@ class CanvasPanel(wx.Panel):
         self.props = dict(
             zip(list(range(self.n)), [np.array([[0, 0, 0]]) for i in range(self.n)]))
         self.saves = {}
+        self.getBasisVec()
         self.getProps()
         self.instructionsOpen = False
 
@@ -183,9 +184,10 @@ class CanvasPanel(wx.Panel):
         self.ytickDefault = self.ax.get_yticks()
         self.ztickDefault = self.ax.get_zticks()
 
+        self.redraw_arrows()
         #Checks if this is the first time magviewer launches. If not, it will use imported X from magconfigure
         if self.magconfigure.firstViewerLaunch is False:
-            self.X[:, 4:8] = X[:, 4:8]
+            self.X[:, 7] = X[:, 7]
             self.redraw_arrows()
 
     def __do_layout(self):
@@ -278,12 +280,10 @@ class CanvasPanel(wx.Panel):
         self.blue = np.array([0.12156863, 0.4666667, 0.70588235, 1.])
         self.red = np.array([1, 0, 0, 1])
         tmp = self.plot.get_facecolors()
-        print("facecolors:")
         if self.n > 1:
             self.fc = np.vstack((tmp, [0.12156863, 0.4666667, 0.70588235, 1.]))
         elif self.n == 1:
             self.fc = tmp
-        print(self.fc)
 
         # graph cosmetics
         title = "\n\n"+str(cif)
@@ -344,6 +344,14 @@ class CanvasPanel(wx.Panel):
                 label = self.magconfigure.structure.magnetic_atoms[i][1]
                 self.props[i - 1] = self.magconfigure.structure.magStructure.species[label].kvecs
 
+    def getBasisVec(self):
+        count = 0
+        for i in range(len(self.magconfigure.structure.magnetic_atoms)):
+            if self.magconfigure.structure.magnetic_atoms[i][0] == 1:
+                label = self.magconfigure.structure.magnetic_atoms[i][1]
+                self.X[count, 4:7] = self.magconfigure.structure.magStructure.species[label].basisvecs
+                count += 1
+
     def on_close(self, event=[]):
         """save basis and prop vecs on close"""
 
@@ -352,7 +360,7 @@ class CanvasPanel(wx.Panel):
             if self.magconfigure.structure.magnetic_atoms[i][0] == 1:
                 label = self.magconfigure.structure.magnetic_atoms[i][1]
                 self.magconfigure.structure.magStructure.species[label].basisvecs = np.array([
-                                                                                             self.X[:, 4:7][count]])
+                                                                                             self.X[count, 4:7]])
                 self.magconfigure.structure.magStructure.species[label].kvecs = np.array(
                     self.props[count])
                 count += 1
