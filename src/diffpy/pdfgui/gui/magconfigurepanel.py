@@ -464,7 +464,7 @@ class MagConfigurePanel(wx.Panel, PDFPanel):
                                 isInArr = True
                         if isInArr is False:
                             Xtmp = np.array(
-                                [X[i, 0], X[i, 1], X[i, 2], 0, 0, 0, 0, 0, 0])
+                                [X[i, 0], X[i, 1], X[i, 2], 0, 0, 0, 0, 1, 0])
                             XarrTmp = np.append(
                                 XarrTmp, [Xtmp], axis=0)
                     self.Xarr = XarrTmp
