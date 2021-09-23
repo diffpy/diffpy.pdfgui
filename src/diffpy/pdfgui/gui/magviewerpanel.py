@@ -122,13 +122,13 @@ class CanvasPanel(wx.Panel):
         self.basis = np.array(basis)
         self.nonmag = nonmag
         self.clicked = []                      # to contain points receiving a vector
-        self.l = 4                            # default length of arrows
+        self.l = 2                            # default length of arrows
         self.s = 50                             # default size of point
         self.revdmap = revdmap
         self.elems = elems
         self.X = np.zeros((len(X[:, 0]), 9))
         self.X[:, :3] = X[:, :3]  # X matrix containing coordinates and vectors
-        self.X[:, 7] = 0   # 7 is magnitudes
+        self.X[:, 7] = 1   # 7 is magnitudes
         self.n = len(self.X[:, 8])
         self.X[:, 8] = np.arange(self.n)
         self.fig = plt.figure(figsize=(8., 6.))  # set and save figure object
@@ -324,7 +324,9 @@ class CanvasPanel(wx.Panel):
         if len(self.nonmag) != 0:
             self.centroid = np.mean(np.concatenate(
                 [self.X[:, :3], self.nonmag], axis=0), axis=0)
+        print(self.centroid)
         self.axscalefactor = np.max(np.abs(self.bbox - self.centroid))
+        #print(self.axscalefactor)
         self.zoom = 1.1
         self.ax.grid(b=self.showgrid)
         self.axes_lim()
@@ -424,7 +426,6 @@ class CanvasPanel(wx.Panel):
         Keyboard helper function that sends a keyboard touch to the
         appropriate action
         """
-        print("EVENT")
         # and (len(self.clicked) != 0): # proceed to save and continue to vector assignemnt
         if (event.key == "enter") and (len(self.clicked) != 0):
             self.enter()
@@ -433,17 +434,18 @@ class CanvasPanel(wx.Panel):
             self.destroy(event)
 
         else:
-            if (event.key == "right") and (len(self.plotted) != 0) and (self.axscalefactor/self.l < self.arrowscale*3):  # grow arrow
+            if (event.key == "right") and (self.axscalefactor/self.l) < self.arrowscale*4:  # grow arrow
                 self.l = 0.9*self.l
+                print("grow")
                 self.redraw_arrows()
-            elif (event.key == "left") and (len(self.plotted) != 0) and (self.axscalefactor/self.l) > self.arrowscale/3:  # shrink arrow
-                self.l = 10*self.l/9
+            elif (event.key == "left") and (self.axscalefactor/self.l) > self.arrowscale/3:  # shrink arrow
+                self.l = 1.1*self.l
                 self.redraw_arrows()
             elif event.key == "down" and self.s > 3:  # shrink size of point
-                self.s = 0.9*self.s
+                self.s = 0.8*self.s
                 self.redraw_scatter()
             elif event.key == "up" and self.s < 1600:  # grow size of point
-                self.s = 10*self.s/9
+                self.s = 10*self.s/8
                 self.redraw_scatter()
             elif event.key == "i":  # show instructions
                 if self.instructionsOpen is True:
@@ -508,8 +510,7 @@ class CanvasPanel(wx.Panel):
         self.quiver = []
         for count, row in enumerate(self.X):  # plot each arrow individually
             self.quiver += [self.ax.quiver(row[0], row[1], row[2], row[4], row[5], row[6],
-                                           length=2*self.axscalefactor /
-                                           self.l*self.X[count, 7],
+                                           length=self.axscalefactor / self.l,
                                            color="black", pivot="middle", arrow_length_ratio=0.3)]
 
     def redraw_scatter(self):
