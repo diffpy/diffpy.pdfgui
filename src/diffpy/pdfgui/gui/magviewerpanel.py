@@ -122,7 +122,7 @@ class CanvasPanel(wx.Panel):
         self.basis = np.array(basis)
         self.nonmag = nonmag
         self.clicked = []                      # to contain points receiving a vector
-        self.l = 2                            # default length of arrows
+        self.l = 2.5                            # default length of arrows
         self.s = 50                             # default size of point
         self.revdmap = revdmap
         self.elems = elems
@@ -324,9 +324,7 @@ class CanvasPanel(wx.Panel):
         if len(self.nonmag) != 0:
             self.centroid = np.mean(np.concatenate(
                 [self.X[:, :3], self.nonmag], axis=0), axis=0)
-        print(self.centroid)
         self.axscalefactor = np.max(np.abs(self.bbox - self.centroid))
-        #print(self.axscalefactor)
         self.zoom = 1.1
         self.ax.grid(b=self.showgrid)
         self.axes_lim()
@@ -436,7 +434,6 @@ class CanvasPanel(wx.Panel):
         else:
             if (event.key == "right") and (self.axscalefactor/self.l) < self.arrowscale*4:  # grow arrow
                 self.l = 0.9*self.l
-                print("grow")
                 self.redraw_arrows()
             elif (event.key == "left") and (self.axscalefactor/self.l) > self.arrowscale/3:  # shrink arrow
                 self.l = 1.1*self.l
@@ -444,7 +441,7 @@ class CanvasPanel(wx.Panel):
             elif event.key == "down" and self.s > 3:  # shrink size of point
                 self.s = 0.8*self.s
                 self.redraw_scatter()
-            elif event.key == "up" and self.s < 1600:  # grow size of point
+            elif event.key == "up" and self.s < 2000:  # grow size of point
                 self.s = 10*self.s/8
                 self.redraw_scatter()
             elif event.key == "i":  # show instructions
