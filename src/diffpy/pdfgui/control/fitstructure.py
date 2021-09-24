@@ -59,7 +59,7 @@ class FitStructure(PDFStructure):
     # evaluation of sorted_standard_space_groups deferred when necessary
     sorted_standard_space_groups = []
 
-    def __init__(self, name, *args, **kwargs):
+    def __init__(self, name, mag, *args, **kwargs):
         """Initialize FitDataSet.
 
         name         -- name of the data set.  The same name is used for
@@ -71,7 +71,7 @@ class FitStructure(PDFStructure):
         # self.initial deliberately not assigned,
         # it gets mapped to self by __getattr__
         self.refined = None
-        self.magnetism = False
+        self.magnetism = mag
         self.magnetic_atoms = []
         self.magStructure = None
         self.constraints = {}
@@ -750,7 +750,7 @@ class FitStructure(PDFStructure):
         """
         # check arguments
         if other is None:
-            other = FitStructure(self.name)
+            other = FitStructure(self.name, self.magnetism)
         elif not isinstance(other, PDFStructure):
             emsg = "other must be PDFStructure or FitStructure"
             raise ControlTypeError(emsg)
