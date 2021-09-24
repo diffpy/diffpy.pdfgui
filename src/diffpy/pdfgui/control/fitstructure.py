@@ -26,7 +26,6 @@ from diffpy.pdfgui.control.parameter import Parameter
 from diffpy.pdfgui.control.controlerrors import ControlTypeError, ControlValueError
 from diffpy.structure import Atom
 
-
 class FitStructure(PDFStructure):
     """FitStructure holds initial and refined structure and related fit
     parameters.  Inherited from PDFStructure.
@@ -80,6 +79,7 @@ class FitStructure(PDFStructure):
         self.custom_spacegroup = None
         return
 
+
     def _update_custom_spacegroup(self, parser):
         """Helper method for read() and readStr(), which takes care
         of setting custom_spacegroup after successful reading.
@@ -101,6 +101,7 @@ class FitStructure(PDFStructure):
             self.initial.pdffit['spcgr'] = sg.short_name
         return
 
+
     def read(self, filename, format='auto'):
         """Load structure from a file, raise ControlFileError for invalid
         or unknown structure format.  Overloads PDFStructure.read()
@@ -121,6 +122,7 @@ class FitStructure(PDFStructure):
         self.anisotropy = True
         return p
 
+
     def readStr(self, s, format='auto'):
         """Same as PDFStructure.readStr, but handle the
         custom_spacegroup data.
@@ -135,6 +137,7 @@ class FitStructure(PDFStructure):
         # values.  To be removed and handled by atom isotropy column.
         self.anisotropy = True
         return p
+
 
     def __getattr__(self, name):
         """Map self.initial to self.
@@ -200,7 +203,7 @@ class FitStructure(PDFStructure):
                       instance values.  Values may also be float type.
         """
         # convert values to floats
-        parvalues = {}
+        parvalues = { }
         for pidx, par in parameters.items():
             if isinstance(par, Parameter):
                 parvalues[pidx] = par.initialValue()
@@ -239,8 +242,7 @@ class FitStructure(PDFStructure):
         avpat = re.compile(r'^([xyz]|occ|u11|u22|u33|u12|u13|u23)\((\d+)\)')
         for var in list(self.constraints.keys()):
             m = avpat.match(var)
-            if not m:
-                continue
+            if not m:   continue
             barevar = m.group(1)
             atomidx = int(m.group(2)) - 1
             cnts = rv.setdefault(self.initial[atomidx], {})
@@ -255,8 +257,7 @@ class FitStructure(PDFStructure):
         acd -- dictionary obtained from _popAtomConstraints()
         """
         for i, a in enumerate(self.initial):
-            if not a in acd:
-                continue
+            if not a in acd: continue
             # there are some constraints for atom a
             siteindex = i + 1
             cnts = acd[a]
@@ -281,9 +282,8 @@ class FitStructure(PDFStructure):
         self.initial[index:index] = atomlist
         mag_insert = [0]*len(atomlist)
         for i in range(len(mag_insert)):
-            mag_insert[i] = [0, ""]
-        self.magnetic_atoms = self.magnetic_atoms[:index] + \
-            mag_insert + self.magnetic_atoms[index:]
+            mag_insert[i] = [0,""]
+        self.magnetic_atoms = self.magnetic_atoms[:index] + mag_insert + self.magnetic_atoms[index:]
         self._restoreAtomConstraints(acd)
         return
 
@@ -312,15 +312,14 @@ class FitStructure(PDFStructure):
         the a, b, c axis
         """
         # check argument
-        if tuple(mno) == (1, 1, 1):
-            return
+        if tuple(mno) == (1, 1, 1):     return
         if min(mno) < 1:
             raise ControlValueError("mno must contain 3 positive integers")
         # back to business
         acd = self._popAtomConstraints()
         mnofloats = numpy.array(mno[:3], dtype=float)
-        ijklist = [(i, j, k) for i in range(mno[0])
-                   for j in range(mno[1]) for k in range(mno[2])]
+        ijklist = [(i,j,k) for i in range(mno[0])
+                    for j in range(mno[1]) for k in range(mno[2])]
         # build a list of new atoms
         newatoms = []
         for a in self.initial:
@@ -329,8 +328,7 @@ class FitStructure(PDFStructure):
                 adup.xyz = (a.xyz + ijk)/mnofloats
                 newatoms.append(adup)
                 # does atom a have any constraint?
-                if a not in acd:
-                    continue
+                if a not in acd:    continue
                 # add empty constraint dictionary for duplicate atom
                 acd[adup] = {}
                 for barevar, con in acd[a].items():
@@ -354,11 +352,11 @@ class FitStructure(PDFStructure):
         self._restoreAtomConstraints(acd)
         # take care of lattice parameters
         self.initial.lattice.setLatPar(
-            a=mno[0]*self.initial.lattice.a,
-            b=mno[1]*self.initial.lattice.b,
-            c=mno[2]*self.initial.lattice.c)
+                a=mno[0]*self.initial.lattice.a,
+                b=mno[1]*self.initial.lattice.b,
+                c=mno[2]*self.initial.lattice.c )
         # adjust lattice constraints if present
-        latvars = ("lat(1)", "lat(2)", "lat(3)")
+        latvars = ( "lat(1)", "lat(2)", "lat(3)" )
         for var, multiplier in zip(latvars, mno):
             if var in self.constraints and multiplier > 1:
                 con = self.constraints[var]
@@ -376,6 +374,7 @@ class FitStructure(PDFStructure):
         """
         from diffpy.structure.symmetryutilities import isSpaceGroupLatPar
         return isSpaceGroupLatPar(spacegroup, *self.initial.lattice.abcABG())
+
 
     def getSpaceGroupList(self):
         """Return a list of SpaceGroup instances sorted by International
@@ -410,7 +409,7 @@ class FitStructure(PDFStructure):
         import diffpy.structure.spacegroups as SG
         # this should match the "CIF data" sgname
         sgmatch = [sg for sg in self.getSpaceGroupList()
-                   if sg.short_name == sgname]
+                if sg.short_name == sgname]
         # use standard lookup function when not matched by short_name
         if not sgmatch:
             sgmatch.append(SG.GetSpaceGroup(sgname))
@@ -420,7 +419,7 @@ class FitStructure(PDFStructure):
         sgfound = sgmatch[0]
         return sgfound
 
-    def expandAsymmetricUnit(self, spacegroup, indices, sgoffset=[0, 0, 0]):
+    def expandAsymmetricUnit(self, spacegroup, indices, sgoffset=[0,0,0]):
         """Perform symmetry expansion for atoms at given indices.
         Temperature factors may be corrected to reflect the symmetry.
         All constraints for expanded atoms are erased with the exception
@@ -439,7 +438,7 @@ class FitStructure(PDFStructure):
         corepos = [a.xyz for a in coreatoms]
         coreUijs = [a.U for a in coreatoms]
         eau = ExpandAsymmetricUnit(spacegroup, corepos, coreUijs,
-                                   sgoffset=sgoffset, eps=self.symposeps)
+                sgoffset=sgoffset, eps=self.symposeps)
         # build a nested list of new atoms:
         newatoms = []
         for i in range(len(coreatoms)):
@@ -453,10 +452,9 @@ class FitStructure(PDFStructure):
                 a.xyz = eau.expandedpos[i][j]
                 a.U = eau.expandedUijs[i][j]
                 eca.append(a)
-                if caocc_con is None:
-                    continue
+                if caocc_con is None:   continue
                 # make a copy of occupancy constraint
-                acd[a] = {"occ": copy.copy(caocc_con)}
+                acd[a] = {"occ" : copy.copy(caocc_con)}
             newatoms.append(eca)
         # insert new atoms where they belong
         for i, atomlist in zip(ruindices, newatoms):
@@ -469,7 +467,7 @@ class FitStructure(PDFStructure):
         return
 
     def applySymmetryConstraints(self, spacegroup, indices, posflag, Uijflag,
-                                 sgoffset=[0, 0, 0]):
+            sgoffset=[0,0,0]):
         """Generate symmetry constraints for positions and thermal factors.
         Both positions and thermal factors may get corrected to reflect
         space group symmetry.  Old positional and thermal constraints get
@@ -482,8 +480,7 @@ class FitStructure(PDFStructure):
         Uijflag     -- required bool flag for Uij constrainment
         sgoffset    -- optional offset of space group origin [0,0,0]
         """
-        if not posflag and not Uijflag:
-            return
+        if not posflag and not Uijflag:     return
         # need to do something
         from diffpy.structure.symmetryutilities import SymmetryConstraints
         # get unique sorted indices
@@ -509,12 +506,11 @@ class FitStructure(PDFStructure):
         selpos = [a.xyz for a in selatoms]
         selUijs = [a.U for a in selatoms]
         symcon = SymmetryConstraints(spacegroup, selpos, selUijs,
-                                     sgoffset=sgoffset, eps=self.symposeps)
+                sgoffset=sgoffset, eps=self.symposeps)
         # deal with positions
         if posflag:
             # fix positions:
-            for a, xyz in zip(selatoms, symcon.positions):
-                a.xyz = xyz
+            for a, xyz in zip(selatoms, symcon.positions):  a.xyz = xyz
             possymbols, parvalues = _makeParNames(symcon.pospars, parzeroidx)
             newparvalues.update(parvalues)
             eqns = symcon.positionFormulasPruned(possymbols)
@@ -526,8 +522,7 @@ class FitStructure(PDFStructure):
         # deal with temperature factors
         if Uijflag:
             # fix thermals
-            for a, Uij in zip(selatoms, symcon.Uijs):
-                a.U = Uij
+            for a, Uij in zip(selatoms, symcon.Uijs):  a.U = Uij
             Usymbols, parvalues = _makeParNames(symcon.Upars, parzeroidx)
             newparvalues.update(parvalues)
             eqns = symcon.UFormulasPruned(Usymbols)
@@ -591,8 +586,7 @@ class FitStructure(PDFStructure):
         secondflags -- list of selection flags for second indices
         fixed_pair_string -- argument corrected to standard syntax
         """
-        if s is None:
-            s = self.selected_pairs
+        if s is None:   s = self.selected_pairs
         Natoms = len(self.initial)
         # sets of first and second indices
         firstflags = Natoms * [False]
@@ -615,10 +609,10 @@ class FitStructure(PDFStructure):
             for idx, flg in sel1['flags'].items():
                 secondflags[idx] = flg
         # build returned dictionary
-        rv = {'firstflags': firstflags,
-              'secondflags': secondflags,
-              'fixed_pair_string': ", ".join(words_fixed),
-              }
+        rv = { 'firstflags' : firstflags,
+               'secondflags' : secondflags,
+               'fixed_pair_string' : ", ".join(words_fixed),
+        }
         return rv
 
     def applyPairSelection(self, server, phaseidx):
@@ -678,6 +672,7 @@ class FitStructure(PDFStructure):
         rv = sorted(indices)
         return rv
 
+
     # Regular expression object for matching atom selection strings.
     # Will be assign with the first call to _parseAtomSelectionString.
     _rxatomselection = None
@@ -704,12 +699,11 @@ class FitStructure(PDFStructure):
             )''', re.VERBOSE)
         assert self._rxatomselection
         Natoms = len(self.initial)
-        flags = {}
-        rv = {'fixedstring': '',  'flags': flags}
+        flags  = {}
+        rv = {'fixedstring' : '',  'flags' : flags}
         # allow empty string and return an empty flags dictionary
         s1 = s.replace(' ', '')
-        if not s1:
-            return rv
+        if not s1:  return rv
         mx = self._rxatomselection.match(s1)
         if not mx:
             emsg = "Invalid selection syntax in '%s'" % s
@@ -740,6 +734,7 @@ class FitStructure(PDFStructure):
             hi = min(hi, Natoms)
             flags.update(dict.fromkeys(range(lo, hi), flg))
         return rv
+
 
     def copy(self, other=None):
         """copy self to other. if other is None, create new instance
@@ -787,11 +782,10 @@ class FitStructure(PDFStructure):
             self.refined.readStr(refdata, 'pdffit')
         # constraints
         if 'constraints' in rootDict:
-            self.constraints = CtrlUnpickler.loads(
-                z.read(subpath+'constraints'))
-            translate = {'gamma': 'delta1',
-                         'delta': 'delta2',
-                         'srat': 'sratio'}
+            self.constraints = CtrlUnpickler.loads(z.read(subpath+'constraints'))
+            translate = { 'gamma' : 'delta1',
+                          'delta' : 'delta2',
+                          'srat'  : 'sratio' }
             for old, new in translate.items():
                 if old in self.constraints:
                     self.constraints[new] = self.constraints.pop(old)
@@ -847,7 +841,7 @@ class FitStructure(PDFStructure):
         # in fact nothing
         return []
 
-    def getData(self, name, step=-1):
+    def getData(self, name, step = -1 ):
         """get self's data member
 
         name -- data item name
@@ -870,7 +864,6 @@ class FitStructure(PDFStructure):
 
 # Local helper functions -----------------------------------------------------
 
-
 def _makeParNames(sympars, parzeroindex):
     '''Return a tuple of (symbols, parvalues), where symbols is a list of
     unique PDFFit parameter strings in "@%i" format and parvalues is a
@@ -888,9 +881,9 @@ def _makeParNames(sympars, parzeroindex):
     '''
     if parzeroindex % 10:
         raise ValueError('parzeroindex must be a multiple of 10.')
-    smbindex = {'x': 1,  'y': 2,  'z': 3,
-                'U11': 4,  'U22': 5,  'U33': 6,
-                'U12': 7,  'U13': 8,  'U23': 9}
+    smbindex = {'x' : 1,  'y' : 2,  'z' : 3,
+                'U11' : 4,  'U22' : 5,  'U33' : 6,
+                'U12' : 7,  'U13' : 8,  'U23' : 9}
     symbols = []
     parvalues = {}
     for smb, value in sympars:
