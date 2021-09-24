@@ -60,13 +60,11 @@ class MagConfigurePanel(wx.Panel, PDFPanel):
         self.textCtrlOrdScale = wx.TextCtrl(
             self, wx.ID_ANY, "", style=wx.TE_PROCESS_ENTER)
         self.labelParaScale = wx.StaticText(self, wx.ID_ANY, "para. scale")
-        self.textCtrlParaScale = wx.TextCtrl(
-            self, wx.ID_ANY, "", style=wx.TE_PROCESS_ENTER)
-        types = ["Unnormalized", "Normalized"]
-        self.labelPanelName = wx.StaticText(
-            self, wx.ID_ANY, "Magnetic Configuration")
-        self.radio1 = wx.RadioBox(
-            self, wx.ID_ANY, "mPDF Type ", choices=types, style=wx.RA_SPECIFY_ROWS)
+
+        
+        self.textCtrlParaScale = wx.TextCtrl(self, wx.ID_ANY, "", style=wx.TE_PROCESS_ENTER)
+        self.labelPanelName = wx.StaticText(self, wx.ID_ANY, "Magnetic Configuration")
+
         self.buttonAdvanced = wx.Button(self, wx.ID_ANY, "Advanced")
         self.buttonMagViewer = wx.Button(self, wx.ID_ANY, "Mag Viewer")
         self.labelIncludedPairs = wx.StaticText(
@@ -138,6 +136,7 @@ class MagConfigurePanel(wx.Panel, PDFPanel):
         sizerMain.Add(sizerLatticeParameters, 0,
                       wx.EXPAND | wx.LEFT | wx.RIGHT, 5)
 
+
         sizer_3 = wx.StaticBoxSizer(wx.StaticBox(
             self, wx.ID_ANY, ""), wx.HORIZONTAL)
         grid_sizer_2 = wx.FlexGridSizer(2, 6, 0, 0)
@@ -149,6 +148,7 @@ class MagConfigurePanel(wx.Panel, PDFPanel):
         sizer_3.Add(5, 0, 0)
         sizer_3.Add(self.buttonMagViewer, 1, wx.ALL |
                     wx.ALIGN_CENTER_VERTICAL | wx.ALIGN_RIGHT, 5)
+
         sizerMain.Add(sizer_3, 0, wx.EXPAND | wx.LEFT | wx.RIGHT, 5)
 
         sizer_1.Add(self.labelIncludedPairs, 0, wx.ALIGN_CENTER | wx.ALL, 5)
