@@ -52,6 +52,7 @@ class MagConfigurePanel(wx.Panel, PDFPanel):
         PDFPanel.__init__(self)
         # begin wxGlade: PhaseConfigurePanel.__init__
         self.phaseConfig = phaseConfigurePanel
+        self.magviewOpen = False
         kwds["style"] = kwds.get("style", 0) | wx.TAB_TRAVERSAL
         wx.Panel.__init__(self, *args, **kwds)
         self.labelCorrLength = wx.StaticText(self, wx.ID_ANY, "corr. length")
@@ -421,7 +422,7 @@ class MagConfigurePanel(wx.Panel, PDFPanel):
     def onPanel(self, event):
         if False:
             raise CustomError("An error occurred")
-        else:
+        if self.magviewOpen is False:
             def split_up_magnetics(cond, mags, struc, row_element):
                 X, orig_inx, nonmag, Xelem = [], [], [], []
 
@@ -479,6 +480,7 @@ class MagConfigurePanel(wx.Panel, PDFPanel):
                 X = np.array(self.Xarr)
             canvas = CanvasFrame(
                 X, Xelem, revdmap, self, nonmag, basis=self.structure.lattice.stdbase)
+            self.magviewOpen = True
 
     # TextCtrl Events
 

@@ -367,6 +367,7 @@ class CanvasPanel(wx.Panel):
         self.magconfigure.Xarr = self.X
         self.magconfigure.refresh()
         self.magconfigure.mainFrame.needsSave()
+        self.magconfigure.magviewOpen = False
         plt.close()
 
     def enter(self):
