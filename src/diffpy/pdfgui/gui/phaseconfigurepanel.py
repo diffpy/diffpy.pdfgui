@@ -75,6 +75,7 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
         self.textCtrlGamma = wx.TextCtrl(
             self, wx.ID_ANY, "", style=wx.TE_PROCESS_ENTER)
         self.enableMag = wx.CheckBox(self, wx.ID_ANY, "Enable Magnetic PDF")
+
         self.labelScaleFactor = wx.StaticText(self, wx.ID_ANY, "Scale Factor")
         self.textCtrlScaleFactor = wx.TextCtrl(
             self, wx.ID_ANY, "", style=wx.TE_PROCESS_ENTER)
@@ -113,6 +114,7 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
         self.Bind(wx.grid.EVT_GRID_CMD_LABEL_RIGHT_CLICK,
                   self.onLabelRightClick, self.gridAtoms)
         self.Bind(wx.EVT_CHECKBOX, self.onCheck, self.enableMag)
+
         # end wxGlade
         self.__customProperties()
 
@@ -182,6 +184,7 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
         grid_sizer_3.Add(self.textCtrlGamma, 0,
                          wx.ALIGN_CENTER_VERTICAL | wx.ALL, 0)
         sizer_2.Add(self.enableMag, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALL, 15)
+
         sizerLatticeParameters.Add(grid_sizer_3, 1, wx.EXPAND, 0)
         sizerLatticeParameters.Add(sizer_2, 2, wx.EXPAND, 0)
         sizerMain.Add(sizerLatticeParameters, 0,
@@ -299,9 +302,33 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
 
     def refresh(self):
         """Refreshes widgets on the panel."""
+        print("Test")
+        print("is it true?")
+        print(self.structure.magnetism)
+        if self.structure.magnetism and self.notebook_phase.GetPageCount() == 3:
+            if self.structure.magnetism and self.notebook_phase.GetPageCount() == 3:
+                if self.structure.magStructure == None:
+                    self.structure.magStructure = MagStructure()
+                    self.structure.magStructure.corr = 0
+                    self.structure.magStructure.ord = 0
+                    self.structure.magStructure.para = 0
+                    self.structure.magnetic_atoms = [0]*len(self.structure)
+                    for i in range(len(self.structure.magnetic_atoms)):
+                        self.structure.magnetic_atoms[i] = [0, ""]
+            magConf = MagConfigurePanel(self.notebook_phase)
+            magConst = MagConstraintsPanel(self.notebook_phase)
+            self.notebook_phase.InsertPage(
+                1, magConf, text="Magnetic Configure")
+            self.notebook_phase.InsertPage(
+                3, magConst, text="Magnetic Constraints")
+        elif not self.structure.magnetism and self.notebook_phase.GetPageCount() == 5:
+            self.notebook_phase.RemovePage(1)
+            self.notebook_phase.RemovePage(2)
+
         phasepanelutils.refreshTextCtrls(self)
         pairs = self.structure.getSelectedPairs()
         self.textCtrlIncludedPairs.SetValue(pairs)
+
         phasepanelutils.refreshGrid(self)
         self.restrictConstrainedParameters()
         """Currently, the CMI engine does not support Windows"""
@@ -484,7 +511,7 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
 
     # CheckBox Events
     def onCheck(self, event):
-        """Toggles magnetic setting visibility and creates magnetic structure"""
+        #Toggles magnetic setting visibility and creates magnetic structure
         self.structure.magnetism = self.enableMag.GetValue()
         if self.structure.magnetism and self.notebook_phase.GetPageCount() == 3:
             if self.structure.magStructure == None:
