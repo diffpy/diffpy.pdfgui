@@ -29,7 +29,7 @@ from diffpy.pdfgui.gui.wxextensions.textctrlutils import textCtrlAsGridCell
 from diffpy.pdfgui.gui.wxextensions import wx12
 from diffpy.pdfgui.gui import magpanelutils
 from diffpy.pdfgui.gui.advancedmagconfig import AdvancedFrame
-from diffpy.pdfgui.gui.test_panel import CanvasFrame
+from diffpy.pdfgui.gui.magviewerpanel import CanvasFrame
 from diffpy.utils.wx import gridutils
 
 import numpy as np
@@ -478,7 +478,7 @@ class MagConfigurePanel(wx.Panel, PDFPanel):
                     self.Xarr = np.delete(self.Xarr, toDelete, axis=0)
                 X = np.array(self.Xarr)
             canvas = CanvasFrame(
-                X, Xelem, revdmap, self, nonmag=nonmag, basis=self.structure.lattice.stdbase)
+                X, Xelem, revdmap, self, nonmag, basis=self.structure.lattice.stdbase)
 
     # TextCtrl Events
 
