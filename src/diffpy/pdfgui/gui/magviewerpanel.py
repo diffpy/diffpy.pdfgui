@@ -30,6 +30,7 @@ class CanvasFrame(wx.Frame):
         self.panel = CanvasPanel(self, X, elems, revdmap,
                                  magconfigure, nonmag, cif, basis)
         self.parent = magconfigure
+        self.parent.phaseGridAtoms.EnableEditing(False)
         self.isFullscreen = False
         self.panel.connect()
         self.Show(True)
@@ -38,7 +39,7 @@ class CanvasFrame(wx.Frame):
         magconfigure.firstViewerLaunch = False
         self.SetFocus()
         #self.MakeModal(True)
-        self.parent.phaseConfig.gridAtoms.EnableEditing(False)
+        #self.parent.phaseConfig.gridAtoms.EnableEditing(False)
 
     def MakeModal(self, modal=True):
         if modal and not hasattr(self, '_disabler'):
@@ -47,7 +48,8 @@ class CanvasFrame(wx.Frame):
             del self._disabler
 
     def onClose(self, event):
-        self.parent.phaseConfig.gridAtoms.EnableEditing(True)
+        self.parent.phaseGridAtoms.EnableEditing(True)
+        self.parent.editAtoms = True
         self.MakeModal(False)
         self.panel.on_close(event)
         self.Destroy()

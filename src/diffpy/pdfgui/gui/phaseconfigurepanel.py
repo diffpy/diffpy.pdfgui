@@ -101,6 +101,7 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
             self, wx.ID_ANY, "Included Pairs")
         self.textCtrlIncludedPairs = wx.TextCtrl(self, wx.ID_ANY, "all-all")
         self.gridAtoms = AutoWidthLabelsGrid(self, wx.ID_ANY, size=(1, 1))
+        self.editAtoms = True
 
         self.__set_properties()
         self.__do_layout()
@@ -316,6 +317,7 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
                     for i in range(len(self.structure.magnetic_atoms)):
                         self.structure.magnetic_atoms[i] = [0, ""]
             magConf = MagConfigurePanel(self.notebook_phase)
+            magConf.addPhaseGridRef(self.gridAtoms)
             magConst = MagConstraintsPanel(self.notebook_phase)
             self.notebook_phase.InsertPage(
                 1, magConf, text="Magnetic Configure")
@@ -522,7 +524,7 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
                 self.structure.magnetic_atoms = [0]*len(self.structure)
                 for i in range(len(self.structure.magnetic_atoms)):
                     self.structure.magnetic_atoms[i] = [0, ""]
-            magConf = MagConfigurePanel(self, self.notebook_phase)
+            magConf = MagConfigurePanel(self.notebook_phase, self.gridAtoms)
             magConst = MagConstraintsPanel(self.notebook_phase)
             self.notebook_phase.InsertPage(
                 1, magConf, text="Magnetic Configure")
@@ -616,6 +618,9 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
         # NOTE: be careful with refresh(). It calls Grid.AutoSizeColumns, which
         # creates a EVT_GRID_CMD_CELL_CHANGED event, which causes a recursion
         # loop.
+        #if self.editAtoms is False:
+            #print("Can't edit")
+            #return
         i = event.GetRow()
         j = event.GetCol()
 

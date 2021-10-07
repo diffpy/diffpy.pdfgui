@@ -48,10 +48,10 @@ class MagConfigurePanel(wx.Panel, PDFPanel):
         _col            -- column, where rightclick occured
     """
 
-    def __init__(self, phaseConfigurePanel, *args, **kwds):
+    def __init__(self, *args, **kwds):
         PDFPanel.__init__(self)
         # begin wxGlade: PhaseConfigurePanel.__init__
-        self.phaseConfig = phaseConfigurePanel
+        #self.phaseConfig = phaseConfigurePanel
         self.magviewOpen = False
         kwds["style"] = kwds.get("style", 0) | wx.TAB_TRAVERSAL
         wx.Panel.__init__(self, *args, **kwds)
@@ -94,6 +94,9 @@ class MagConfigurePanel(wx.Panel, PDFPanel):
         self.__customProperties()
         self.firstViewerLaunch = True
         self.Xarr = []
+
+    def addPhaseGridRef(self, phaseGridAtoms):
+        self.phaseGridAtoms = phaseGridAtoms
 
     def __set_properties(self):
         self.SetFocus()
