@@ -417,7 +417,7 @@ class CanvasPanel(wx.Panel):
         self.redraw_arrows()
         self.plotted = (self.X[:, 3] == 1).nonzero()
         self.fig.canvas.draw_idle()
-        #self.redraw_scatter()
+        self.redraw_scatter()
 
     def update_ticks(self):
         self.xticks = self.ax.get_xticks()
@@ -553,8 +553,7 @@ class CanvasPanel(wx.Panel):
         fixed = True if np.sum(self.X[ind, 3]) > 0 else False
         new_fc = self.fc.copy()
 
-        if str(event.mouseevent.button) == "MouseButton.LEFT" and not fixed:
-
+        if str(event.mouseevent.button) == "MouseButton.LEFT":
             # add to clicked if not already in it and change color to red
             if ind not in self.clicked:
                 self.clicked += [ind]
