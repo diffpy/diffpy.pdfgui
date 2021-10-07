@@ -74,7 +74,7 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
         self.labelGamma = wx.StaticText(self, wx.ID_ANY, "gamma")
         self.textCtrlGamma = wx.TextCtrl(
             self, wx.ID_ANY, "", style=wx.TE_PROCESS_ENTER)
-        self.enableMag = wx.CheckBox(self, wx.ID_ANY, "Enable Magnetic PDF")
+        #self.enableMag = wx.CheckBox(self, wx.ID_ANY, "Enable Magnetic PDF")
 
         self.labelScaleFactor = wx.StaticText(self, wx.ID_ANY, "Scale Factor")
         self.textCtrlScaleFactor = wx.TextCtrl(
@@ -114,7 +114,7 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
                   self.onEditorShown, self.gridAtoms)
         self.Bind(wx.grid.EVT_GRID_CMD_LABEL_RIGHT_CLICK,
                   self.onLabelRightClick, self.gridAtoms)
-        self.Bind(wx.EVT_CHECKBOX, self.onCheck, self.enableMag)
+        #self.Bind(wx.EVT_CHECKBOX, self.onCheck, self.enableMag)
 
         # end wxGlade
         self.__customProperties()
@@ -184,7 +184,7 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
                          wx.ALIGN_CENTER_VERTICAL | wx.ALIGN_RIGHT | wx.ALL, 5)
         grid_sizer_3.Add(self.textCtrlGamma, 0,
                          wx.ALIGN_CENTER_VERTICAL | wx.ALL, 0)
-        sizer_2.Add(self.enableMag, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALL, 15)
+        #sizer_2.Add(self.enableMag, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALL, 15)
 
         sizerLatticeParameters.Add(grid_sizer_3, 1, wx.EXPAND, 0)
         sizerLatticeParameters.Add(sizer_2, 2, wx.EXPAND, 0)
@@ -512,6 +512,7 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
     # Event Handlers
 
     # CheckBox Events
+    """
     def onCheck(self, event):
         #Toggles magnetic setting visibility and creates magnetic structure
         self.structure.magnetism = self.enableMag.GetValue()
@@ -535,7 +536,7 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
             self.notebook_phase.RemovePage(2)
         self.refresh()
         event.Skip()
-
+    """
     # TextCtrl Events
     def onSetFocus(self, event):
         """Saves a TextCtrl value, to be compared in onKillFocus later."""
