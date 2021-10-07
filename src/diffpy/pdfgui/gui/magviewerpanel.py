@@ -25,11 +25,13 @@ class CanvasFrame(wx.Frame):
             wx.MessageBox("No atoms inside of the structure are magnetic!",
                           "Error", wx.OK | wx.ICON_INFORMATION)
             magconfigure.firstViewerLaunch = True
+            magconfigure.magviewOpen = False
             return
         wx.Frame.__init__(self, parent=magconfigure, size=(900, 700))
         self.panel = CanvasPanel(self, X, elems, revdmap,
                                  magconfigure, nonmag, cif, basis)
         self.parent = magconfigure
+        self.parent.magviewOpen = True
         self.parent.phaseGridAtoms.EnableEditing(False)
         self.isFullscreen = False
         self.panel.connect()

@@ -481,9 +481,9 @@ class MagConfigurePanel(wx.Panel, PDFPanel):
                             toDelete.append(i)
                     self.Xarr = np.delete(self.Xarr, toDelete, axis=0)
                 X = np.array(self.Xarr)
-            canvas = CanvasFrame(
-                X, Xelem, revdmap, self, nonmag, basis=self.structure.lattice.stdbase)
-            self.magviewOpen = True
+
+            canvas = CanvasFrame(X, Xelem, revdmap, self, nonmag, basis=self.structure.lattice.stdbase)
+            #self.magviewOpen = True
 
     # TextCtrl Events
 
