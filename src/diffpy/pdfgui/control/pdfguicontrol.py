@@ -162,7 +162,7 @@ class PDFGuiControl:
         if self.queueManager.isAlive():
             self.queueManager.running = False
 
-    def newFitting(self, name, mag, position=None):
+    def newFitting(self, name, position=None):
         """insert a new instance of Fitting
 
         name      --  unique name for this Fitting
@@ -170,7 +170,7 @@ class PDFGuiControl:
 
         return: Fitting reference
         """
-        fitting = Fitting(name, mag)
+        fitting = Fitting(name)
         self.add(fitting, position)
         return fitting
 
@@ -188,24 +188,23 @@ class PDFGuiControl:
 
         return calculation
 
-    def newStructure(self, targetID, name, mag, position=None):
+    def newStructure(self, targetID, name, position=None):
         """add blank structure to a Fitting
 
         targetID  --  reference to Fitting
         name      --  name of the new Structure
         position  --  where the structure is to be inserted, default is last
-        mag       --  Whether magnetism is enabled
 
         return: Structure reference
         """
         self.__validateType(targetID)
 
         # insert to target
-        struct = FitStructure(name, mag)
+        struct = FitStructure(name)
         targetID.add(struct, position)
         return struct
 
-    def loadStructure(self, targetID, filename, mag, name = None, position=None):
+    def loadStructure(self, targetID, filename, name = None, position=None):
         """add blank structure to a Fitting
 
         targetID  --  reference to Fitting
@@ -218,7 +217,7 @@ class PDFGuiControl:
             name = os.path.basename(filename)
 
         # insert to target
-        struct = FitStructure(name, mag)
+        struct = FitStructure(name)
         struct.initial.read(filename)
         targetID.add(struct, position)
         return struct

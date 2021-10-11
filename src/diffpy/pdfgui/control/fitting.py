@@ -115,15 +115,12 @@ class Fitting(Organizer):
                 handleEngineException(error, gui)
             return
 
-    def __init__(self, name, mag):
+    def __init__(self, name):
         """initialize
 
         name -- name of this fitting
         """
         Organizer.__init__(self, name)
-
-        # Magnetism
-        self.magnetism = mag
 
         # Thread, status, and control variables
         self.thread = None
@@ -372,7 +369,6 @@ class Fitting(Organizer):
         self.cmicontribution = FitContribution("cmicontribution")
         self.cmicontribution.addProfileGenerator(self.cmipdfgen)
         self.cmicontribution.setProfile(self.cmiprofile, xname ="r")
-        #(scale * cmipdfgen) + (magScale * mpdfcalc?)
         self.cmicontribution.setEquation("scale * cmipdfgen")
 
         # add qmax, qdamp, qbroad into cmipdfgen

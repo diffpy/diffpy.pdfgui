@@ -157,8 +157,6 @@ class Calculation(PDFComponent):
         self.owner.updateParameters()
 
         # initialize the calculator
-
-        #Initialize the mag calc
         if self.pctype == 'PC': # use PDFCalculator
             pc = PDFCalculator()
         elif self.pctype == 'DPC': # use DebyePDFCalculator

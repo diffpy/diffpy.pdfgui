@@ -321,18 +321,13 @@ class FitTree(wx12.TreeCtrl):
                         then the control is asked to create new data.
         paste       --  Whether or not the cdata is being pasted from another
                         node (default False).
-        magnetism   --  Whether magnetism features are enabled or disabled.
 
         Returns the id of the new node.
         """
-
-        #Try having an option for adding a magnetic fit and adding a regular fit perhaps?
-
         # Name the fit, but check to not duplicate names.
         fits = self.GetChildren(self.root)
         names = [self.GetItemText(f) for f in fits]
         fitname = incrementName(fitname, names)
-        magnetism = False
 
         newfit = self.AppendItem(self.root, fitname)
         self.SetNodeType(newfit, 'fit')
@@ -342,7 +337,7 @@ class FitTree(wx12.TreeCtrl):
         try:
             # Set the node data for the new node
             if cdata is None:
-                cdata = self.control.newFitting(fitname, magnetism, pos)
+                cdata = self.control.newFitting(fitname, pos)
             elif paste:
                 cdata = self.control.paste(cdata, None, fitname, pos)
             self.SetControlData(newfit, cdata)
@@ -406,18 +401,17 @@ class FitTree(wx12.TreeCtrl):
         # Set the control data to the new phase
         pdata = self.GetControlData(node)
         pos = self.GetPositionInSubtree(newphase)
-        mag = pdata.magnetism
 
         # Try to get/make the node data from the control. If it doesn't work,
         # then delete the new node.
         try:
             if makedata:
                 if filename is None:
-                    self.control.newStructure(pdata, label, mag, pos)
+                    self.control.newStructure(pdata, label, pos)
                 else:
-                    self.control.loadStructure(pdata, filename, mag, label, pos)
+                    self.control.loadStructure(pdata, filename, label, pos)
+
             elif cdata is not None:
-                """QUESTION: what is the paste method used for?"""
                 self.control.paste(cdata, pdata, label, pos)
             return newphase
         except:
