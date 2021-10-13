@@ -395,7 +395,7 @@ class PDFGuiControl:
             for name in fitnames:
                 if not name: # empty string
                     continue
-                fit = Fitting(name)
+                fit = Fitting(name, False)
                 # fitting name stored in rootDict should be quoted
                 rdname = quote_plain(name)
                 # but let's also handle old project files

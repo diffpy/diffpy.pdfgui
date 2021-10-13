@@ -153,7 +153,7 @@ class Organizer(PDFComponent):
         rootDict = z.fileTree[subs[0]][subs[1]]
         if 'structure' in rootDict:
             for strucName in rootDict['structure'].keys():
-                struc = FitStructure(unquote_plain(strucName))
+                struc = FitStructure(unquote_plain(strucName), False)
                 struc.load(z, subpath + 'structure/' + strucName + '/')
                 self.add(struc)
 
