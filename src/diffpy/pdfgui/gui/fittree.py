@@ -558,7 +558,7 @@ class FitTree(wx12.TreeCtrl):
             cdata = cdata.stripped()
         cdata.type = nodetype
         cdatabytes = safeCPickleDumps(cdata)
-        cdatabytes = "pdfgui_cliboard=" + cdatabytes
+        cdatabytes = 'pdfgui_cliboard='.encode() + cdatabytes
         #wxpython only accepts str, use base64 to convert bytes to str
         cdatastring = base64.b64encode(cdatabytes)
         textdata = wx.TextDataObject(cdatastring)
@@ -593,9 +593,9 @@ class FitTree(wx12.TreeCtrl):
         try:
             cdatabytes = base64.b64decode(cdatastring.encode())
 
-            if cdatabytes[:16] == b'pdfgui_cliboard=':
+            if cdatabytes[:16] == 'pdfgui_cliboard='.encode():
                 cdatabytes = cdatabytes[16:]
-                cdata = pickle_loads(cdatastring)
+                cdata = pickle_loads(cdatabytes)
         except:
             pass
         return cdata
