@@ -48,6 +48,9 @@ installed using ::
 To install the remaining packages see the installation instructions
 at their respective web pages.
 
+Notice that due to the update from Python2 to Python3, the `.ddp` project
+file that was saved by Python2 PDFgui cannot be read by Python3 PDFgui at
+this moment.
 
 INSTALLATION
 ------------------------------------------------------------------------
