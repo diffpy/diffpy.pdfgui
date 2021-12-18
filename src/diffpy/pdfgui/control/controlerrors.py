@@ -72,4 +72,9 @@ class ControlSyntaxError(ControlError):
     """
     pass
 
+class TempControlSelectError(ControlError):
+    """Temporary define this error to identify the select-control error in python3
+    """
+    pass
+
 # End of file

@@ -31,6 +31,7 @@ from diffpy.pdfgui.gui.wxextensions import wx12
 from diffpy.pdfgui.gui import phasepanelutils
 from diffpy.utils.wx import gridutils
 
+from diffpy.pdfgui.control.controlerrors import TempControlSelectError
 
 class PhaseConfigurePanel(wx.Panel, PDFPanel):
     """Panel for configuring a phase.
@@ -451,7 +452,12 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
         i = event.GetRow()
         j = event.GetCol()
         self._focusedText = self.gridAtoms.GetCellValue(i,j)
-        self._selectedCells = gridutils.getSelectedCells(self.gridAtoms)
+        # self._selectedCells = gridutils.getSelectedCells(self.gridAtoms)
+        #TODO: temporary show the error message for control-select.
+        try:
+            self._selectedCells = gridutils.getSelectedCells(self.gridAtoms)
+        except TypeError:
+            raise TempControlSelectError("controlselecterror")
         return
 
     def onCellChange(self, event): # wxGlade: PhaseConfigurePanel.<event_handler>
