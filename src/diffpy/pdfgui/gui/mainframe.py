@@ -2122,7 +2122,7 @@ class MainFrame(wx.Frame):
             dir, filename = os.path.split(self.fullpath)
             if not dir:
                 dir = self.workpath
-            matchstring = "PDFgui project files (*.ddp)|*.ddp"
+            matchstring = "PDFgui project files (*.ddp)|*.ddp;*.ddp3"
             d = wx.FileDialog(None, "Choose a file", dir, "", matchstring)
             if d.ShowModal() == wx.ID_OK:
                 fullpath = d.GetPath()
@@ -2167,17 +2167,17 @@ class MainFrame(wx.Frame):
         # events of the other panels.
         self.treeCtrlMain.SetFocus()
 
-        matchstring = "PDFgui project files (*.ddp)|*.ddp|All Files|*"
+        matchstring = "PDFgui project files (*.ddp3)|*.ddp3|All Files|*"
         dir, filename = os.path.split(self.fullpath)
         if not dir:
             dir = self.workpath
-        d = wx.FileDialog(None, "Save as...", dir, filename or "project.ddp",
+        d = wx.FileDialog(None, "Save as...", dir, filename or "project.ddp3",
                 matchstring, wx.FD_SAVE|wx.FD_OVERWRITE_PROMPT)
         code = d.ShowModal()
         if code == wx.ID_OK:
             self.fullpath = d.GetPath()
-            if len(self.fullpath) < 4 or self.fullpath[-4:] != '.ddp':
-                self.fullpath += '.ddp'
+            if len(self.fullpath) < 5 or self.fullpath[-5:] != '.ddp3':
+                self.fullpath += '.ddp3'
             self.workpath = os.path.dirname(self.fullpath)
             self.fileHistory.AddFileToHistory(self.fullpath)
             # Save the file
