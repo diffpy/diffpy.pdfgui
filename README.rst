@@ -48,6 +48,10 @@ installed using ::
 To install the remaining packages see the installation instructions
 at their respective web pages.
 
+The Python3 PDFgui project filename extension has been changed to .ddp3.
+Please note that sometimes it may fail for .ddp project files that were
+saved by the Python2 PDFgui to be read by Python3 PDFgui. We are working
+on a solution that will be available in a future version.
 
 INSTALLATION
 ------------------------------------------------------------------------
