@@ -101,7 +101,7 @@ def processArguments(argv1):
 
 
 def main():
-    '''Main entry point to PDFgui.
+    '''Main entry point to  PDFgui.
     '''
     # process arguments
     proceed = False
