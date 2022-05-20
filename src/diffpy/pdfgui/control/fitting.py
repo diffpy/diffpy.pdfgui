@@ -410,9 +410,13 @@ class Fitting(Organizer):
             #
             # Pair selection applies only to the current dataset,
             # therefore it has to be done here.
-            nstrucs = len(self.strucs)
-            for phaseidx, struc in zip(range(1, nstrucs + 1), self.strucs):
-                struc.applyPairSelection(self.server, phaseidx)
+            # TODO the following comment lines
+            # nstrucs = len(self.strucs)
+            # for phaseidx, struc in zip(range(1, nstrucs + 1), self.strucs):
+            #     print(phaseidx)
+            #     print(struc)
+            #     struc.applyCMIPairSelection()
+            #   struc.applyPairSelection(self.server, phaseidx)
 
 
         # turn on printout fithook in each refinement step
@@ -974,9 +978,9 @@ class Fitting(Organizer):
             self.cmirecipe.constrain(atoms[key_arg - 1].occupancy, var_name)
 
         # data parameters
-        if key_ascii_ref == 'qdamp':
+        if key_ref == 'qdamp':
             self.cmirecipe.constrain(self.cmipdfgen.qdamp, var_name)
-        if key_ascii_ref == 'qbroad':
+        if key_ref == 'qbroad':
             self.cmirecipe.constrain(self.cmipdfgen.qbroad, var_name)
         # TODO how to deal with `dscale`. cmipdfgen don't have `dscale` parameter.
 
