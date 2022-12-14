@@ -57,15 +57,9 @@ INSTALLATION
 ------------------------------------------------------------------------
 
 The preferred method is to use Anaconda Python and install from the
-"conda-forge" channel of Anaconda packages. The `conda-forge` channel
-can be achieved by adding `conda-forge` to your channels with ::
+"conda-forge" channel of Anaconda packages. `pdfgui` can be installed with `conda` ::
 
-   conda config --add channels conda-forge
-   conda config --set channel_priority strict
-
-Once the `conda-forge` channel has been enabled, `diffpy.pdffit2` can be installed with `conda` ::
-
-   conda install diffpy.pdffit2
+   conda install -c conda-forge diffpy.pdfgui
 
 PDFgui can be then started from a terminal ("Anaconda Prompt" on
 Windows) by executing the "pdfgui" program.  An alternative
@@ -74,7 +68,10 @@ method on Windows is to start PDFgui through the DiffPy start menu.
 If you don't use Anaconda or prefer to install from sources, make
 sure the required software is all in place ::
 
-   pip install wxpython==4.0.7 diffpy.utils diffpy.pdffit2 matplotlib
+   pip install wxpython==4.0.7
+   conda install matplotlib
+   conda install -c conda-forge diffpy.utils
+   pip install diffpy.pdffit2
 
 Then you are ready to install diffpy.pdfgui ::
 
@@ -90,6 +87,15 @@ environment variables.  The installation integrity can be verified by
 changing to the HOME directory and running ::
 
    python -m diffpy.pdfgui.tests.rundeps
+
+To use PDFgui, you can simply type `pdfgui`, or run the following command ::
+
+   python diffpy.pdfgui/src/diffpy/pdfgui/application/pdfgui.py
+
+If it shows some error like "This program needs access to the screen.". For Mac, you could install `python.app` from conda
+(`conda install python.app`), then run as follows ::
+
+   python.app diffpy.pdfgui/src/diffpy/pdfgui/application/pdfgui.py
 
 With Anaconda PDFgui can be later upgraded to the latest released
 version using ::
