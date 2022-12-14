@@ -15,7 +15,7 @@ from setuptools import setup, find_packages
 
 # Use this version when git data are not available, like in git zip archive.
 # Update when tagging a new release.
-FALLBACK_VERSION = '1.2.0'
+FALLBACK_VERSION = '1.4.0'
 
 # determine if we run with Python 3.
 PY3 = (sys.version_info[0] == 3)
@@ -29,7 +29,7 @@ gitarchivecfgfile = os.path.join(MYDIR, '.gitarchive.cfg')
 def gitinfo():
     from subprocess import Popen, PIPE
     kw = dict(stdout=PIPE, cwd=MYDIR, universal_newlines=True)
-    proc = Popen(['git', 'describe', '--match=v[[:digit:]]*'], **kw)
+    proc = Popen(['git', 'describe', '--tags', '--match=v[[:digit:]]*'], **kw)
     desc = proc.stdout.read()
     proc = Popen(['git', 'log', '-1', '--format=%H %ct %ci'], **kw)
     glog = proc.stdout.read()

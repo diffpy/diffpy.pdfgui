@@ -57,17 +57,20 @@ INSTALLATION
 ------------------------------------------------------------------------
 
 The preferred method is to use Anaconda Python and install from the
-"diffpy" channel of Anaconda packages ::
+"conda-forge" channel of Anaconda packages ::
 
-   conda config --add channels diffpy
-   conda install diffpy.pdfgui
+   conda install -c conda-forge diffpy.pdfgui
 
 PDFgui can be then started from a terminal ("Anaconda Prompt" on
 Windows) by executing the "pdfgui" program.  An alternative
 method on Windows is to start PDFgui through the DiffPy start menu.
 
 If you don't use Anaconda or prefer to install from sources, make
-sure the required software is all in place and run ::
+sure the required software is all in place ::
+
+   pip install wxpython==4.0.7 diffpy.utils diffpy.pdffit2 matplotlib
+
+Then you are ready to install diffpy.pdfgui ::
 
    python setup.py install
 
@@ -91,7 +94,6 @@ With other Python distributions the program can be upgraded to
 the latest version as follows ::
 
    easy_install --upgrade diffpy.pdfgui
-
 
 Other software
 ````````````````````````````````````````````````````````````````````````
