@@ -57,9 +57,14 @@ INSTALLATION
 ------------------------------------------------------------------------
 
 The preferred method is to use Anaconda Python and install from the
-"conda-forge" channel of Anaconda packages ::
+"conda-forge" channel of Anaconda packages. The `conda-forge` channel can be achieved by adding `conda-forge` to your channels with ::
 
-   conda install -c conda-forge diffpy.pdfgui
+conda config --add channels conda-forge
+conda config --set channel_priority strict
+
+Once the `conda-forge` channel has been enabled, `diffpy.pdffit2` can be installed with `conda` ::
+
+conda install diffpy.pdffit2
 
 PDFgui can be then started from a terminal ("Anaconda Prompt" on
 Windows) by executing the "pdfgui" program.  An alternative
