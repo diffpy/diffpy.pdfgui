@@ -71,9 +71,9 @@ sure the required software is all in place ::
    pip install wxpython==4.0.7
    conda install matplotlib
    conda install -c conda-forge diffpy.utils
-   pip install diffpy.pdffit2
+   conda install -c conda-forge install diffpy.pdffit2
 
-Then you are ready to install diffpy.pdfgui ::
+Then you are ready to install diffpy.pdfgui from source codes::
 
    python setup.py install
 
@@ -115,6 +115,7 @@ structures.  We have tested with several structure viewers such as
 
 * AtomEye, http://li.mit.edu/A/Graphics/A/
 * PyMol, https://www.pymol.org
+* VESTA, http://jp-minerals.org/vesta/en/
 
 Other viewers should work as well, as long as they understand one of
 the output structure formats supported by PDFgui.
