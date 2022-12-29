@@ -20,7 +20,7 @@ is available in the doc/Farrow-jpcm-2007.pdf paper.
 REQUIREMENTS
 ------------------------------------------------------------------------
 
-PDFgui requires Python 3.7, 3.6, 3.5 or 2.7 and several third-party
+PDFgui requires Python 3.7 or later or 2.7 and several third-party
 libraries that are used by PDFgui and its components.
 
 * setuptools   - tools for installing Python packages
@@ -57,17 +57,23 @@ INSTALLATION
 ------------------------------------------------------------------------
 
 The preferred method is to use Anaconda Python and install from the
-"diffpy" channel of Anaconda packages ::
+"conda-forge" channel of Anaconda packages. `pdfgui` can be installed with `conda` ::
 
-   conda config --add channels diffpy
-   conda install diffpy.pdfgui
+   conda install -c conda-forge diffpy.pdfgui
 
 PDFgui can be then started from a terminal ("Anaconda Prompt" on
 Windows) by executing the "pdfgui" program.  An alternative
 method on Windows is to start PDFgui through the DiffPy start menu.
 
 If you don't use Anaconda or prefer to install from sources, make
-sure the required software is all in place and run ::
+sure the required software is all in place ::
+
+   pip install wxpython==4.0.7
+   conda install matplotlib
+   conda install -c conda-forge diffpy.utils
+   conda install -c conda-forge install diffpy.pdffit2
+
+Then you are ready to install diffpy.pdfgui from source codes::
 
    python setup.py install
 
@@ -82,6 +88,15 @@ changing to the HOME directory and running ::
 
    python -m diffpy.pdfgui.tests.rundeps
 
+To use PDFgui, you can simply type `pdfgui`, or run the following command ::
+
+   python diffpy.pdfgui/src/diffpy/pdfgui/application/pdfgui.py
+
+If it shows some error like "This program needs access to the screen.". For Mac, you could install `python.app` from conda
+(`conda install python.app`), then run as follows ::
+
+   python.app diffpy.pdfgui/src/diffpy/pdfgui/application/pdfgui.py
+
 With Anaconda PDFgui can be later upgraded to the latest released
 version using ::
 
@@ -92,7 +107,6 @@ the latest version as follows ::
 
    easy_install --upgrade diffpy.pdfgui
 
-
 Other software
 ````````````````````````````````````````````````````````````````````````
 
@@ -101,6 +115,7 @@ structures.  We have tested with several structure viewers such as
 
 * AtomEye, http://li.mit.edu/A/Graphics/A/
 * PyMol, https://www.pymol.org
+* VESTA, http://jp-minerals.org/vesta/en/
 
 Other viewers should work as well, as long as they understand one of
 the output structure formats supported by PDFgui.
