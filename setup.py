@@ -117,6 +117,10 @@ setup_args = dict(
         'diffpy.structure>=3',
         'diffpy.pdffit2',
         'diffpy.utils',
+        'matplotlib-base',
+        'wxpython',
+        'menuinst'
+
     ],
 
     author = 'Simon J.L. Billinge',
