@@ -20,4 +20,4 @@ exclude .coveragerc
 exclude .travis*
 prune conda-recipe
 prune devutils
-prune doc
+#prune doc
