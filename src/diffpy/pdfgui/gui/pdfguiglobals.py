@@ -37,8 +37,13 @@ _development_mode = (
 
 # Requirement must have egg-info.  Do not use in _development_mode.
 _req = Requirement.parse("diffpy.pdfgui")
-APPDATADIR = (os.path.dirname(_upbasedir) if _development_mode
-              else resource_filename(_req, ""))
+# APPDATADIR = (os.path.dirname(_upbasedir) if _development_mode
+#               else resource_filename(_req, ""))
+if _development_mode:
+    APPDATADIR = os.path.dirname(_upbasedir)
+else:
+    APPDATADIR = os.path.join(resource_filename(_req, ""), "diffpy/pdfgui")
+
 APPDATADIR = os.path.abspath(APPDATADIR)
 
 # Location of the HTML manual
@@ -59,11 +64,6 @@ def iconpath(iconfilename):
     Return string.
     """
     rv = os.path.join(APPDATADIR, 'icons', iconfilename)
-    print("APPDATADIR")
-    print(APPDATADIR)
-    print("rv")
-    print(rv)
-    print(os.path.isfile(rv))
     assert os.path.isfile(rv), "icon file does not exist"
     return rv
 
