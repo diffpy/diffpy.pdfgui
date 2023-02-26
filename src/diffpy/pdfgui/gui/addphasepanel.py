@@ -37,48 +37,50 @@ class AddPhasePanel(wx.Panel, PDFPanel):
         # begin wxGlade: AddPhasePanel.__init__
         kwds["style"] = kwds.get("style", 0) | wx.TAB_TRAVERSAL
         wx.Panel.__init__(self, *args, **kwds)
-        self.labelOpenPhase = wx.StaticText(self, wx.ID_ANY, "Load a structure from file.")
-        self.buttonOpen = wx.Button(self, wx.ID_OPEN, "Open")
-        self.static_line_5 = wx.StaticLine(self, wx.ID_ANY)
-        self.labelCreatePhase = wx.StaticText(self, wx.ID_ANY, "Create a structure from scratch.")
-        self.buttonNew = wx.Button(self, wx.ID_NEW, "New")
-        self.static_line_6 = wx.StaticLine(self, wx.ID_ANY)
-        self.buttonCancel = wx.Button(self, wx.ID_CANCEL, "Cancel")
 
-        self.__set_properties()
-        self.__do_layout()
+        sizer_1 = wx.BoxSizer(wx.VERTICAL)
+
+        sizer_4 = wx.BoxSizer(wx.HORIZONTAL)
+        sizer_1.Add(sizer_4, 0, wx.BOTTOM | wx.EXPAND | wx.TOP, 5)
+
+        self.labelOpenPhase = wx.StaticText(self, wx.ID_ANY, "Load a structure from file.")
+        self.labelOpenPhase.SetFont(wx.Font(12, wx.FONTFAMILY_DEFAULT, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_NORMAL, 0, "Sans"))
+        sizer_4.Add(self.labelOpenPhase, 1, wx.ALIGN_CENTER_VERTICAL | wx.ALL, 5)
+
+        self.buttonOpen = wx.Button(self, wx.ID_OPEN, "Open")
+        sizer_4.Add(self.buttonOpen, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALL, 5)
+
+        self.static_line_5 = wx.StaticLine(self, wx.ID_ANY)
+        sizer_1.Add(self.static_line_5, 0, wx.EXPAND, 0)
+
+        sizer_5 = wx.BoxSizer(wx.HORIZONTAL)
+        sizer_1.Add(sizer_5, 0, wx.BOTTOM | wx.EXPAND | wx.TOP, 5)
+
+        self.labelCreatePhase = wx.StaticText(self, wx.ID_ANY, "Create a structure from scratch.")
+        self.labelCreatePhase.SetFont(wx.Font(12, wx.FONTFAMILY_DEFAULT, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_NORMAL, 0, "Sans"))
+        sizer_5.Add(self.labelCreatePhase, 1, wx.ALIGN_CENTER_VERTICAL | wx.ALL, 5)
+
+        self.buttonNew = wx.Button(self, wx.ID_NEW, "New")
+        sizer_5.Add(self.buttonNew, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALL, 5)
+
+        self.static_line_6 = wx.StaticLine(self, wx.ID_ANY)
+        sizer_1.Add(self.static_line_6, 0, wx.BOTTOM | wx.EXPAND, 10)
+
+        self.buttonCancel = wx.Button(self, wx.ID_CANCEL, "Cancel")
+        sizer_1.Add(self.buttonCancel, 0, wx.ALIGN_RIGHT | wx.ALL, 5)
+
+        sizer_1.Add((450, 10), 0, 0, 0)
+
+        self.SetSizer(sizer_1)
+        sizer_1.Fit(self)
+
+        self.Layout()
 
         self.Bind(wx.EVT_BUTTON, self.onOpen, self.buttonOpen)
         self.Bind(wx.EVT_BUTTON, self.onNew, self.buttonNew)
         self.Bind(wx.EVT_BUTTON, self.onCancel, self.buttonCancel)
         # end wxGlade
         self.__customProperties()
-
-    def __set_properties(self):
-        # begin wxGlade: AddPhasePanel.__set_properties
-        self.labelOpenPhase.SetFont(wx.Font(12, wx.FONTFAMILY_DEFAULT, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_NORMAL, 0, "Sans"))
-        self.labelCreatePhase.SetFont(wx.Font(12, wx.FONTFAMILY_DEFAULT, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_NORMAL, 0, "Sans"))
-        # end wxGlade
-
-    def __do_layout(self):
-        # begin wxGlade: AddPhasePanel.__do_layout
-        sizer_1 = wx.BoxSizer(wx.VERTICAL)
-        sizer_5 = wx.BoxSizer(wx.HORIZONTAL)
-        sizer_4 = wx.BoxSizer(wx.HORIZONTAL)
-        sizer_4.Add(self.labelOpenPhase, 1, wx.ALIGN_CENTER_VERTICAL | wx.ALL, 5)
-        sizer_4.Add(self.buttonOpen, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALIGN_RIGHT | wx.ALL, 5)
-        sizer_1.Add(sizer_4, 0, wx.BOTTOM | wx.EXPAND | wx.TOP, 5)
-        sizer_1.Add(self.static_line_5, 0, wx.EXPAND, 0)
-        sizer_5.Add(self.labelCreatePhase, 1, wx.ALIGN_CENTER_VERTICAL | wx.ALL, 5)
-        sizer_5.Add(self.buttonNew, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALIGN_RIGHT | wx.ALL, 5)
-        sizer_1.Add(sizer_5, 0, wx.BOTTOM | wx.EXPAND | wx.TOP, 5)
-        sizer_1.Add(self.static_line_6, 0, wx.BOTTOM | wx.EXPAND, 10)
-        sizer_1.Add(self.buttonCancel, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALIGN_RIGHT | wx.ALL, 5)
-        sizer_1.Add((450, 10), 0, 0, 0)
-        self.SetSizer(sizer_1)
-        sizer_1.Fit(self)
-        self.Layout()
-        # end wxGlade
 
     # UTILITY FUNCTIONS ####
 

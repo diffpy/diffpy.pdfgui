@@ -28,47 +28,49 @@ class DataSetResultsPanel(wx.Panel, PDFPanel):
         # begin wxGlade: DataSetResultsPanel.__init__
         kwds["style"] = kwds.get("style", 0) | wx.TAB_TRAVERSAL
         wx.Panel.__init__(self, *args, **kwds)
-        self.panelNameLabel = wx.StaticText(self, wx.ID_ANY, "Data Set Results")
-        self.labelScaleFactor = wx.StaticText(self, wx.ID_ANY, "Scale Factor")
-        self.textCtrlScaleFactor = wx.TextCtrl(self, wx.ID_ANY, "", style=wx.TE_READONLY)
-        self.labelQdamp = wx.StaticText(self, wx.ID_ANY, "Qdamp")
-        self.textCtrlQdamp = wx.TextCtrl(self, wx.ID_ANY, "", style=wx.TE_READONLY)
-        self.labelQbroad = wx.StaticText(self, wx.ID_ANY, "Qbroad")
-        self.textCtrlQbroad = wx.TextCtrl(self, wx.ID_ANY, "", style=wx.TE_READONLY)
-        self.buttonExport = wx.Button(self, wx.ID_OPEN, "Export PDF")
 
-        self.__set_properties()
-        self.__do_layout()
+        sizer_7 = wx.BoxSizer(wx.VERTICAL)
+
+        sizer_panelname = wx.StaticBoxSizer(wx.StaticBox(self, wx.ID_ANY, ""), wx.HORIZONTAL)
+        sizer_7.Add(sizer_panelname, 0, wx.EXPAND | wx.LEFT | wx.RIGHT, 5)
+
+        self.panelNameLabel = wx.StaticText(self, wx.ID_ANY, "Data Set Results")
+        self.panelNameLabel.SetFont(wx.Font(18, wx.FONTFAMILY_DEFAULT, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_BOLD, 0, ""))
+        sizer_panelname.Add(self.panelNameLabel, 0, wx.ALIGN_CENTER_VERTICAL | wx.LEFT | wx.RIGHT, 5)
+
+        grid_sizer_1 = wx.FlexGridSizer(3, 2, 5, 10)
+        sizer_7.Add(grid_sizer_1, 0, wx.ALL | wx.EXPAND, 5)
+
+        self.labelScaleFactor = wx.StaticText(self, wx.ID_ANY, "Scale Factor")
+        grid_sizer_1.Add(self.labelScaleFactor, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALIGN_RIGHT | wx.LEFT, 5)
+
+        self.textCtrlScaleFactor = wx.TextCtrl(self, wx.ID_ANY, "", style=wx.TE_READONLY)
+        grid_sizer_1.Add(self.textCtrlScaleFactor, 0, wx.ALIGN_CENTER_VERTICAL, 20)
+
+        self.labelQdamp = wx.StaticText(self, wx.ID_ANY, "Qdamp")
+        grid_sizer_1.Add(self.labelQdamp, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALIGN_RIGHT | wx.LEFT, 5)
+
+        self.textCtrlQdamp = wx.TextCtrl(self, wx.ID_ANY, "", style=wx.TE_READONLY)
+        grid_sizer_1.Add(self.textCtrlQdamp, 0, wx.ALIGN_CENTER_VERTICAL, 20)
+
+        self.labelQbroad = wx.StaticText(self, wx.ID_ANY, "Qbroad")
+        grid_sizer_1.Add(self.labelQbroad, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALIGN_RIGHT | wx.LEFT, 5)
+
+        self.textCtrlQbroad = wx.TextCtrl(self, wx.ID_ANY, "", style=wx.TE_READONLY)
+        grid_sizer_1.Add(self.textCtrlQbroad, 0, wx.ALIGN_CENTER_VERTICAL, 20)
+
+        self.buttonExport = wx.Button(self, wx.ID_OPEN, "Export PDF")
+        self.buttonExport.Hide()
+        sizer_7.Add(self.buttonExport, 0, wx.ALIGN_RIGHT | wx.ALL, 5)
+
+        self.SetSizer(sizer_7)
+        sizer_7.Fit(self)
+
+        self.Layout()
 
         self.Bind(wx.EVT_BUTTON, self.onExport, self.buttonExport)
         # end wxGlade
         self.__customProperties()
-
-    def __set_properties(self):
-        # begin wxGlade: DataSetResultsPanel.__set_properties
-        self.panelNameLabel.SetFont(wx.Font(18, wx.FONTFAMILY_DEFAULT, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_BOLD, 0, ""))
-        self.buttonExport.Hide()
-        # end wxGlade
-
-    def __do_layout(self):
-        # begin wxGlade: DataSetResultsPanel.__do_layout
-        sizer_7 = wx.BoxSizer(wx.VERTICAL)
-        grid_sizer_1 = wx.FlexGridSizer(3, 2, 5, 10)
-        sizer_panelname = wx.StaticBoxSizer(wx.StaticBox(self, wx.ID_ANY, ""), wx.HORIZONTAL)
-        sizer_panelname.Add(self.panelNameLabel, 0, wx.ALIGN_CENTER_VERTICAL | wx.LEFT | wx.RIGHT, 5)
-        sizer_7.Add(sizer_panelname, 0, wx.EXPAND | wx.LEFT | wx.RIGHT, 5)
-        grid_sizer_1.Add(self.labelScaleFactor, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALIGN_RIGHT | wx.LEFT, 5)
-        grid_sizer_1.Add(self.textCtrlScaleFactor, 0, wx.ALIGN_CENTER_VERTICAL, 20)
-        grid_sizer_1.Add(self.labelQdamp, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALIGN_RIGHT | wx.LEFT, 5)
-        grid_sizer_1.Add(self.textCtrlQdamp, 0, wx.ALIGN_CENTER_VERTICAL, 20)
-        grid_sizer_1.Add(self.labelQbroad, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALIGN_RIGHT | wx.LEFT, 5)
-        grid_sizer_1.Add(self.textCtrlQbroad, 0, wx.ALIGN_CENTER_VERTICAL, 20)
-        sizer_7.Add(grid_sizer_1, 0, wx.ALL | wx.EXPAND, 5)
-        sizer_7.Add(self.buttonExport, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALIGN_RIGHT | wx.ALL, 5)
-        self.SetSizer(sizer_7)
-        sizer_7.Fit(self)
-        self.Layout()
-        # end wxGlade
 
     # USER CONFIGURATION CODE #################################################
 
