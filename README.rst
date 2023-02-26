@@ -20,7 +20,7 @@ is available in the doc/Farrow-jpcm-2007.pdf paper.
 REQUIREMENTS
 ------------------------------------------------------------------------
 
-PDFgui requires Python 3.7 or later or 2.7 and several third-party
+PDFgui requires Python 3.8, 3.9, or 2.7 and several third-party
 libraries that are used by PDFgui and its components.
 
 * setuptools   - tools for installing Python packages
@@ -68,10 +68,7 @@ method on Windows is to start PDFgui through the DiffPy start menu.
 If you don't use Anaconda or prefer to install from sources, make
 sure the required software is all in place ::
 
-   pip install wxpython==4.0.7
-   conda install matplotlib
-   conda install -c conda-forge diffpy.utils
-   conda install -c conda-forge install diffpy.pdffit2
+   conda install -c conda-forge diffpy.utils diffpy.pdffit2 matplotlib wxpython
 
 Then you are ready to install diffpy.pdfgui from source codes::
 
