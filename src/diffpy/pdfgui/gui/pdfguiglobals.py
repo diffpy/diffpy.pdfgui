@@ -37,10 +37,13 @@ _development_mode = (
 
 # Requirement must have egg-info.  Do not use in _development_mode.
 _req = Requirement.parse("diffpy.pdfgui")
+
+#pavol
 # APPDATADIR = (os.path.dirname(_upbasedir) if _development_mode
 #               else resource_filename(_req, ""))
+#long
 if _development_mode:
-    APPDATADIR = os.path.dirname(_upbasedir)
+    APPDATADIR = os.path.dirname(_mydir)
 else:
     APPDATADIR = os.path.join(resource_filename(_req, ""), "diffpy/pdfgui")
 
@@ -64,6 +67,10 @@ def iconpath(iconfilename):
     Return string.
     """
     rv = os.path.join(APPDATADIR, 'icons', iconfilename)
+    print("APPDATADIR")
+    print(APPDATADIR)
+    print("rv")
+    print(rv)
     assert os.path.isfile(rv), "icon file does not exist"
     return rv
 
