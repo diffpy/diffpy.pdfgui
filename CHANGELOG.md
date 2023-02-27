@@ -12,6 +12,7 @@ Notable differences from version 1.1.2.
 ### Changed
 
 - Update wxpython to 4.1.1, and remove incompatible align flags.
+
 ### Deprecated
 
 ### Removed
