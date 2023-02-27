@@ -553,7 +553,7 @@ class Fitting(Organizer):
 
         return: True if running, False otherwise
         """
-        return self.thread is not None and self.thread.isAlive()
+        return self.thread is not None and self.thread.is_alive()
 
     def join(self):
         """wait for current fitting to finish"""
