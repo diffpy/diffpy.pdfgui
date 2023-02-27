@@ -159,7 +159,7 @@ class PDFGuiControl:
         """exit when program finished
         """
         self.close()
-        if self.queueManager.isAlive():
+        if self.queueManager.is_alive():
             self.queueManager.running = False
 
     def newFitting(self, name, position=None):
