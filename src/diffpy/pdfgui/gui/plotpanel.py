@@ -32,16 +32,45 @@ class PlotPanel(wx.Panel, PDFPanel):
         kwds["style"] = kwds.get("style", 0) | wx.TAB_TRAVERSAL
         wx.Panel.__init__(self, *args, **kwds)
         self.SetSize((456, 659))
-        self.xDataCombo = wx.ComboBox(self, wx.ID_ANY, choices=[], style=wx.CB_READONLY)
-        self.yDataList = KeyEventsListCtrl(self, wx.ID_ANY, style=wx.BORDER_SUNKEN | wx.LC_NO_HEADER | wx.LC_REPORT)
-        self.offsetLabel = wx.StaticText(self, wx.ID_ANY, "offset", style=wx.ALIGN_RIGHT)
-        self.offsetTextCtrl = wx.TextCtrl(self, wx.ID_ANY, "-5", style=wx.TE_PROCESS_ENTER)
-        self.static_line_1 = wx.StaticLine(self, wx.ID_ANY)
-        self.plotButton = wx.Button(self, wx.ID_ANY, "Plot")
-        self.resetButton = wx.Button(self, wx.ID_ANY, "Reset")
 
-        self.__set_properties()
-        self.__do_layout()
+        sizer_1 = wx.BoxSizer(wx.VERTICAL)
+
+        sizer_3 = wx.StaticBoxSizer(wx.StaticBox(self, wx.ID_ANY, "X"), wx.HORIZONTAL)
+        sizer_1.Add(sizer_3, 0, wx.EXPAND, 0)
+
+        self.xDataCombo = wx.ComboBox(self, wx.ID_ANY, choices=[], style=wx.CB_READONLY)
+        sizer_3.Add(self.xDataCombo, 1, wx.ALL, 5)
+
+        sizer_4 = wx.StaticBoxSizer(wx.StaticBox(self, wx.ID_ANY, "Y"), wx.HORIZONTAL)
+        sizer_1.Add(sizer_4, 1, wx.EXPAND, 0)
+
+        self.yDataList = KeyEventsListCtrl(self, wx.ID_ANY, style=wx.BORDER_SUNKEN | wx.LC_NO_HEADER | wx.LC_REPORT)
+        sizer_4.Add(self.yDataList, 1, wx.ALL | wx.EXPAND, 5)
+
+        sizer_6 = wx.BoxSizer(wx.HORIZONTAL)
+        sizer_1.Add(sizer_6, 0, wx.EXPAND, 0)
+
+        self.offsetLabel = wx.StaticText(self, wx.ID_ANY, "offset", style=wx.ALIGN_RIGHT)
+        sizer_6.Add(self.offsetLabel, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALL, 5)
+
+        self.offsetTextCtrl = wx.TextCtrl(self, wx.ID_ANY, "-5", style=wx.TE_PROCESS_ENTER)
+        sizer_6.Add(self.offsetTextCtrl, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALL, 5)
+
+        self.static_line_1 = wx.StaticLine(self, wx.ID_ANY)
+        sizer_1.Add(self.static_line_1, 0, wx.BOTTOM | wx.EXPAND | wx.TOP, 5)
+
+        sizer_2 = wx.BoxSizer(wx.HORIZONTAL)
+        sizer_1.Add(sizer_2, 0, wx.EXPAND, 0)
+
+        self.plotButton = wx.Button(self, wx.ID_ANY, "Plot")
+        sizer_2.Add(self.plotButton, 0, wx.ALL, 5)
+
+        self.resetButton = wx.Button(self, wx.ID_ANY, "Reset")
+        sizer_2.Add(self.resetButton, 0, wx.ALL, 5)
+
+        self.SetSizer(sizer_1)
+
+        self.Layout()
 
         self.Bind(wx.EVT_TEXT_ENTER, self.onEnter, self.offsetTextCtrl)
         self.Bind(wx.EVT_BUTTON, self.onPlot, self.plotButton)
@@ -51,33 +80,6 @@ class PlotPanel(wx.Panel, PDFPanel):
         self.Bind(wx.EVT_LIST_ITEM_SELECTED, self._check,  self.yDataList)
         self.Bind(wx.EVT_LIST_ITEM_DESELECTED, self._check,  self.yDataList)
         self.__customProperties()
-
-    def __set_properties(self):
-        # begin wxGlade: PlotPanel.__set_properties
-        self.SetSize((456, 659))
-        # end wxGlade
-
-    def __do_layout(self):
-        # begin wxGlade: PlotPanel.__do_layout
-        sizer_1 = wx.BoxSizer(wx.VERTICAL)
-        sizer_2 = wx.BoxSizer(wx.HORIZONTAL)
-        sizer_6 = wx.BoxSizer(wx.HORIZONTAL)
-        sizer_4 = wx.StaticBoxSizer(wx.StaticBox(self, wx.ID_ANY, "Y"), wx.HORIZONTAL)
-        sizer_3 = wx.StaticBoxSizer(wx.StaticBox(self, wx.ID_ANY, "X"), wx.HORIZONTAL)
-        sizer_3.Add(self.xDataCombo, 1, wx.ALL, 5)
-        sizer_1.Add(sizer_3, 0, wx.EXPAND, 0)
-        sizer_4.Add(self.yDataList, 1, wx.ALL | wx.EXPAND, 5)
-        sizer_1.Add(sizer_4, 1, wx.EXPAND, 0)
-        sizer_6.Add(self.offsetLabel, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALL, 5)
-        sizer_6.Add(self.offsetTextCtrl, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALL, 5)
-        sizer_1.Add(sizer_6, 0, wx.EXPAND, 0)
-        sizer_1.Add(self.static_line_1, 0, wx.BOTTOM | wx.EXPAND | wx.TOP, 5)
-        sizer_2.Add(self.plotButton, 0, wx.ALL, 5)
-        sizer_2.Add(self.resetButton, 0, wx.ALL, 5)
-        sizer_1.Add(sizer_2, 0, wx.EXPAND, 0)
-        self.SetSizer(sizer_1)
-        self.Layout()
-        # end wxGlade
 
     # USER CONFIGURATION CODE #################################################
     def __customProperties(self):
@@ -196,7 +198,8 @@ class PlotPanel(wx.Panel, PDFPanel):
         # Fill the List
         self.yDataList.DeleteAllItems()
         for val in yvals:
-            self.yDataList.InsertItem(sys.maxsize, str(val))
+            # self.yDataList.InsertItem(sys.maxsize, str(val)) #doesn't work for windows
+            self.yDataList.InsertItem(100000, str(val))
         self.yDataList.makeIDM()
         self.yDataList.initializeSorter()
         if yvals:

@@ -23,7 +23,7 @@ name = "PDFgui"
 # Maximum number of files to be remembered
 MAXMRU = 5
 # The location of the configuration file
-configfilename = os.path.expanduser("~/.pdfgui.cfg")
+configfilename = os.path.expanduser("~/.pdfgui_py3.cfg")
 # Project modification flag
 isAltered = False
 
