@@ -2,7 +2,7 @@
 
 Notable differences from version 1.1.2.
 
-## Version 1.4.0 – 2022-12-29
+## Version 1.4.7 – 2023-04-22
 
 ### Added
 
@@ -12,6 +12,7 @@ Notable differences from version 1.1.2.
 ### Changed
 
 - Update wxpython to 4.1.1, and remove incompatible align flags.
+- Modify the InsertItem in `plotpanel.py` for Windows.
 
 ### Deprecated
 
