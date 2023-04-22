@@ -197,19 +197,8 @@ class PlotPanel(wx.Panel, PDFPanel):
 
         # Fill the List
         self.yDataList.DeleteAllItems()
-        print()
-        print("yDataList")
-        print(self.yDataList)
-        print("yvals")
-        print(yvals)
         for val in yvals:
-            print("val")
-            print(val)
-            print("sys.maxsize")
-            print(sys.maxsize)
-            print(str(val))
-            self.yDataList.InsertItem(sys.maxsize, str(val))
-            # self.yDataList.InsertItem(1000, str(val))
+            self.yDataList.InsertItem(1000, str(val))
         self.yDataList.makeIDM()
         self.yDataList.initializeSorter()
         if yvals:
