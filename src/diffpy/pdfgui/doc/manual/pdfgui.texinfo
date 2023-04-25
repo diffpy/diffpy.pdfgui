@@ -27,31 +27,33 @@
 @end macro
 
 @macro ReleaseDate{}
-March 2016
+May 2023
 @end macro
 
 @exampleindent 2
 
 @c start of header
 @setfilename pdfgui
-@settitle PDFgui user guide, release 1.0, @ReleaseDate{}
+@settitle PDFgui user guide, release 2.0, @ReleaseDate{}
 @c @setcontentsaftertitlepage
 @c end of header
 
 @c Part 1: copying
 @copying
-Copyright @copyright{} 2008-2017, Board of Trustees of Columbia University in
-the city of New York, all rights reserved.
-
-Copyright @copyright{} 2006, 2007, Board of Trustees of Michigan State
-University, all rights reserved.
+Up to the release 1.1.2 (February 2017) the copyright was held by
+the institutions that hosted the work as follows:
+Copyright 2006-2007, Board of Trustees of Michigan State University,
+Copyright 2008-2012, Board of Trustees of Columbia University in the
+city of New York.
+Copyright 2013, Brookhaven National Laboratory (Copyright holder
+indicated in each source file).
 @end copying
 
 @c Part 2: title
 @titlepage
 
 @title PDFgui user guide
-@subtitle 1.1 release
+@subtitle 2.0 release
 @subtitle @ReleaseDate{}
 @author C. L. Farrow, P. Juhás, J. W. Liu, D. Bryndin, E. S. Božin,
 @author J. Bloch, Th. Proffen, and S. J. L. Billinge
