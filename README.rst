@@ -20,12 +20,12 @@ is available in the doc/Farrow-jpcm-2007.pdf paper.
 REQUIREMENTS
 ------------------------------------------------------------------------
 
-PDFgui requires Python 3.8, 3.9, or 2.7 and several third-party
+PDFgui requires Python 3.7, 3.8, 3.9, or 2.7 and several third-party
 libraries that are used by PDFgui and its components.
 
 * setuptools   - tools for installing Python packages
 * wxpython     - graphical user interface toolkit for Python
-* NumPy        - library for scientific computing with Python
+* numpy        - library for scientific computing with Python
 * matplotlib   - Python 2D plotting library
 * diffpy.pdffit2 - computational engine for PDFgui,
   https://github.com/diffpy/diffpy.pdffit2
@@ -36,17 +36,7 @@ libraries that are used by PDFgui and its components.
 
 We recommend to use `Anaconda Python <https://www.anaconda.com/download>`_
 which allows to conveniently install PDFgui and all its software
-dependencies with a single command.  For other Python distributions
-it is necessary to install the required software separately.  As an
-example, on Ubuntu Linux some of the required software can be
-installed using ::
-
-   sudo apt-get install \
-      python-setuptools python-wxtools python-numpy \
-      python-matplotlib
-
-To install the remaining packages see the installation instructions
-at their respective web pages.
+dependencies with a single command.
 
 Please note that the Python3 PDFgui will read .ddp3 files. It is also
 possible for it to read .ddp files that were saved by the Python2 PDFgui
@@ -97,12 +87,24 @@ If it shows some error like "This program needs access to the screen.". For Mac,
 With Anaconda PDFgui can be later upgraded to the latest released
 version using ::
 
-   conda update diffpy.pdfgui
+   conda update -c conda-forge diffpy.pdfgui
 
 With other Python distributions the program can be upgraded to
 the latest version as follows ::
 
    easy_install --upgrade diffpy.pdfgui
+
+If you would like to use other Python distributions except Anaconda,
+it is necessary to install the required software separately. As an
+example, on Ubuntu Linux some of the required software can be
+installed using ::
+
+   sudo apt-get install \
+      python-setuptools python-wxtools python-numpy \
+      python-matplotlib
+
+To install the remaining packages see the installation instructions
+at their respective web pages.
 
 Other software
 ````````````````````````````````````````````````````````````````````````
