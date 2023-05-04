@@ -23,7 +23,7 @@ name = "PDFgui"
 # Maximum number of files to be remembered
 MAXMRU = 5
 # The location of the configuration file
-configfilename = os.path.expanduser("~/.pdfgui.cfg")
+configfilename = os.path.expanduser("~/.pdfgui_py3.cfg")
 # Project modification flag
 isAltered = False
 
@@ -37,8 +37,16 @@ _development_mode = (
 
 # Requirement must have egg-info.  Do not use in _development_mode.
 _req = Requirement.parse("diffpy.pdfgui")
-APPDATADIR = (os.path.dirname(_upbasedir) if _development_mode
-              else resource_filename(_req, ""))
+
+#pavol
+# APPDATADIR = (os.path.dirname(_upbasedir) if _development_mode
+#               else resource_filename(_req, ""))
+#long
+if _development_mode:
+    APPDATADIR = os.path.dirname(_mydir)
+else:
+    APPDATADIR = os.path.join(resource_filename(_req, ""), "diffpy/pdfgui")
+
 APPDATADIR = os.path.abspath(APPDATADIR)
 
 # Location of the HTML manual

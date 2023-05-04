@@ -32,6 +32,7 @@ Debugging options:
   --db-pdb        use Python debugger to handle error exceptions
 """
 
+from __future__ import print_function
 
 import sys
 import os
@@ -43,13 +44,13 @@ def usage():
     """
     myname = os.path.basename(sys.argv[0])
     msg = __doc__.replace("pdfgui", myname)
-    print msg
+    print(msg)
     return
 
 
 def version():
     from diffpy.pdfgui import __version__
-    print "PDFgui", __version__
+    print("PDFgui", __version__)
     return
 
 
@@ -107,8 +108,8 @@ def main():
     proceed = False
     try:
         proceed = processArguments(sys.argv[1:])
-    except (getopt.GetoptError, ValueError), err:
-        print >> sys.stderr, err
+    except (getopt.GetoptError, ValueError) as err:
+        print(err, file=sys.stderr)
         sys.exit(1)
     # bail out when no gui is needed
     if not proceed:     sys.exit()
@@ -119,8 +120,8 @@ def main():
     from diffpy.pdfgui.control.controlerrors import ControlError
     try:
         guimain.main()
-    except ControlError, err:
-        print >> sys.stderr, err
+    except ControlError as err:
+        print(err, file=sys.stderr)
         sys.exit(1)
     return
 

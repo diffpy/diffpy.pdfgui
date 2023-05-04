@@ -181,16 +181,14 @@ class Plotter(PDFComponent):
             bItemIsVector = False
             if self.xStr in ('r', 'rcalc', 'robs'):
                 if self.yStr not in ('Gobs', 'Gcalc', 'Gdiff', 'Gtrunc','crw'):
-                    raise  ControlConfigError, "x=%s, y=%s don't match"\
-                           %(self.xStr, self.yStr)
+                    emsg = "x={}, y={} don't match".format(self.xStr, self.yStr)
+                    raise ControlConfigError(emsg)
                 bItemIsVector = True
             elif self.xStr in ('Gobs', 'Gcalc', 'Gdiff', 'Gtrunc','crw'):
-                raise ControlConfigError, "%s can't be x axis"\
-                        %self.xStr
+                raise ControlConfigError("%s can't be x axis" % self.xStr)
             elif self.yStr in ('Gobs', 'Gcalc', 'Gdiff', 'Gtrunc','crw'):
                 # Get called when x is not r but y is not Gobs, Gtrunc Gdiff...
-                raise ControlConfigError, "%s can only be plotted against r"\
-                    %self.yStr
+                raise ControlConfigError("%s can only be plotted against r" % self.yStr)
 
             # There are three booleans
             # (1) bItemIsVector
@@ -199,17 +197,16 @@ class Plotter(PDFComponent):
             # The logic below make sure only one of them can be true.
             if bItemIsVector:
                 if  self.bMultiData or self.bMultiStep:
-                    raise ControlConfigError,\
-                "(%s, %s) can't be plotted with mulitple refinements/steps"%\
-                (self.xStr, self.yStr)
+                    emsg = ("({}, {}) can't be plotted with multiple "
+                            "refinements/steps").format(self.xStr, self.yStr)
+                    raise ControlConfigError(emsg)
             else:
                 if  not self.bMultiData and not self.bMultiStep:
-                    raise ControlConfigError,\
-                "(%s, %s) is a single point"%(self.xStr, self.yStr)
+                    raise ControlConfigError("(%s, %s) is a single point" % (self.xStr, self.yStr))
                 elif self.bMultiData and self.bMultiStep:
-                    raise ControlConfigError,\
-                "(%s, %s) can't be plotted with both multiple refinements and multiple steps"%\
-                (self.xStr, self.yStr)
+                    emsg = ("({}, {}) can't be plotted with both multiple "
+                            "refinements and multiple steps").format(self.xStr, self.yStr)
+                    raise ControlConfigError(emsg)
 
 
         def notify(self, changedIds=None, plotwnd=None):
@@ -250,7 +247,7 @@ class Plotter(PDFComponent):
                     i = self.ids.index(id)
                     self.yData[i] = id.getData(self.yStr, -1)
                     if xStr == 'step':
-                        raise AssertionError, "Can not plot against step"
+                        raise AssertionError("Can not plot against step")
                     elif xStr == 'index':
                         self.xData[i] = i
                     else:
@@ -269,7 +266,7 @@ class Plotter(PDFComponent):
                     if self.yData is None:
                         self.xData = None
                     else:
-                        self.xData = range(len(self.yData))
+                        self.xData = list(range(len(self.yData)))
                 else:
                     self.xData = affectedIds[0].getData(xStr, steps)
 
@@ -280,7 +277,7 @@ class Plotter(PDFComponent):
                     return y + self.offset
 
                 if self.yData and self.offset: # not zero
-                    self.yData = map (_shift, self.yData)
+                    self.yData = [_shift(yi) for yi in self.yData]
 
             if self.xData and self.yData: # not empty or None
                 return self.draw()
@@ -296,8 +293,7 @@ class Plotter(PDFComponent):
                 # used for plotting
                 xs = []
                 ys = []
-                plotData = zip(self.xData,self.yData)
-                plotData.sort()
+                plotData = sorted(zip(self.xData,self.yData))
                 for x, y in plotData:
                     if x is not None and y is not None:
                         xs.append(x)
@@ -431,7 +427,7 @@ class Plotter(PDFComponent):
         def _addCurve(dataIds):
             # Identify the plot type. This is used to automatically modify
             # 'Gdiff' and 'crw' in certain types of plots.
-            yset = dict.fromkeys(yNames).keys()
+            yset = set(yNames)
             if 'Gdiff' in yset: yset.remove('Gdiff')
             if 'crw' in yset: yset.remove('crw')
 
@@ -463,9 +459,9 @@ class Plotter(PDFComponent):
             return
 
         if not ids: # empty
-            raise ControlConfigError, "Plotter: No data is selected"
+            raise ControlConfigError("Plotter: No data is selected")
         if not yNames:
-            raise ControlConfigError, "Plotter: No y item is selected"
+            raise ControlConfigError("Plotter: No y item is selected")
 
         # bSeparateID indicates if we want data from different ID to be
         # plotted in different curve or not
@@ -544,7 +540,7 @@ class Plotter(PDFComponent):
         return value: current status of window
         """
         if self.window is None:
-            raise ControlStatusError, "Plot: %s has no window"%self.name
+            raise ControlStatusError("Plot: %s has no window" % self.name)
         if bShow is None:
             bShow = not self.isShown
         self.window.Show(bShow)

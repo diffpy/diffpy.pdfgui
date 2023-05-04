@@ -13,11 +13,14 @@
 #
 ##############################################################################
 
+from __future__ import print_function
 
 import sys
 import os
 import threading
 import time
+import six
+import six.moves.cPickle as pickle
 
 from diffpy.pdfgui.control.pdflist import PDFList
 from diffpy.pdfgui.control.fitting import Fitting
@@ -28,6 +31,7 @@ from diffpy.pdfgui.control.fitstructure import FitStructure
 from diffpy.pdfgui.control.controlerrors import ControlError
 from diffpy.pdfgui.control.controlerrors import ControlFileError
 from diffpy.pdfgui.control.controlerrors import ControlTypeError
+from diffpy.pdfgui.utils import asunicode, quote_plain
 
 
 class PDFGuiControl:
@@ -72,12 +76,12 @@ class PDFGuiControl:
             while self.running:
                 try:
                     self.control.checkQueue()
-                except ControlError, error:
+                except ControlError as error:
                     gui = self.control.gui
                     if gui:
                         gui.postEvent(gui.ERROR, "<Queue exception> %s"%error.info)
                     else:
-                        print "<Queue exception> %s"%error.info
+                        print("<Queue exception> %s"%error.info)
                 # another check before go to sleep
                 if not self.running: break
                 time.sleep(1)
@@ -155,7 +159,7 @@ class PDFGuiControl:
         """exit when program finished
         """
         self.close()
-        if self.queueManager.isAlive():
+        if self.queueManager.is_alive():
             self.queueManager.running = False
 
     def newFitting(self, name, position=None):
@@ -246,8 +250,7 @@ class PDFGuiControl:
         """
         if not isinstance(ID, Fitting) and \
            not isinstance(ID, Calculation):
-            raise ControlTypeError, "Can't add %s to list"%\
-                  self.__class__.__name__
+            raise ControlTypeError("Can't add %s to list" % self.__class__.__name__)
         if position is not None:
             self.fits.insert(position, ID)
         else:
@@ -268,8 +271,7 @@ class PDFGuiControl:
             try:
                 return ID.owner
             except AttributeError:
-                raise ControlTypeError, "Object %s doesn't exit in the list"\
-                                        %ID.name
+                raise ControlTypeError("Object %s doesn't exit in the list" % ID.name)
 
     def rename(self, ID, new_name):
         """rename Fitting, Calculation, Dataset or Structure
@@ -346,7 +348,7 @@ class PDFGuiControl:
                 pathDict = fileTree
                 for x in subs[:-1]:
                     # if no node has been created
-                    if not pathDict.has_key(x):
+                    if x not in pathDict:
                         pathDict[x] = {}
                     pathDict = pathDict[x]
 
@@ -358,8 +360,6 @@ class PDFGuiControl:
         self.projfile = projfile
         organizations = []
         import zipfile
-        from cPickle import PickleError
-        from diffpy.pdfgui.utils import quote_plain
 
         # IOError can be raised when reading invalid zipfile
         # check for file existence here.
@@ -376,17 +376,17 @@ class PDFGuiControl:
             if len(z.fileTree) == 0:
                 raise ControlFileError(emsg_invalid_file)
             # The first layer has only one folder
-            rootDict = z.fileTree.values()[0]
-            projName = z.fileTree.keys()[0]
+            rootDict = next(iter(z.fileTree.values()))
+            projName = next(iter(z.fileTree.keys()))
 
-            if rootDict.has_key('journal'):
-                self.journal = z.read(projName + '/journal').decode('utf8')
+            if 'journal' in rootDict:
+                self.journal = asunicode(z.read(projName + '/journal'))
 
             # all the fitting and calculations
             #NOTE: It doesn't hurt to keep backward compatibility
             # old test project may not have file 'fits'
-            if rootDict.has_key('fits'):
-                ftxt = z.read(projName + '/fits').decode('utf8')
+            if 'fits' in rootDict:
+                ftxt = asunicode(z.read(projName + '/fits'))
                 fitnames = ftxt.splitlines()
             else:
                 fitnames = [ x for x in rootDict.keys() if rootDict[x] is not None]
@@ -400,7 +400,7 @@ class PDFGuiControl:
                 # but let's also handle old project files
                 if rdname not in rootDict:
                     rdname = name
-                if rootDict.has_key(rdname):
+                if rdname in rootDict:
                     org = fit.load(z, projName + '/' + rdname + '/')
                 else:
                     # it's simply a blank fitting, has no info in proj file yet
@@ -408,7 +408,7 @@ class PDFGuiControl:
                 organizations.append(org)
                 self.add(fit)
 
-        except (IOError, zipfile.error, PickleError):
+        except (IOError, zipfile.error, pickle.PickleError):
             raise ControlFileError(emsg_invalid_file)
 
         # close input file if opened
@@ -436,9 +436,7 @@ class PDFGuiControl:
 
         import zipfile
         import shutil
-        from cPickle import PickleError
         import tempfile
-        from diffpy.pdfgui.utils import quote_plain
 
         projbase = os.path.basename(self.projfile)
         projName = os.path.splitext(projbase)[0]
@@ -456,13 +454,13 @@ class PDFGuiControl:
                 fit.save(z, projName + '/' + quote_plain(fit.name) + '/')
                 fitnames.append(name)
             if self.journal:
-                z.writestr(projName + '/journal', self.journal.encode('utf8'))
+                z.writestr(projName + '/journal', asunicode(self.journal))
             ftxt = '\n'.join(fitnames)
-            z.writestr(projName + '/fits', ftxt.encode('utf8'))
+            z.writestr(projName + '/fits', asunicode(ftxt))
             z.close()
             shutil.copyfile(tmpfilename, self.projfile)
 
-        except (IOError, PickleError):
+        except (IOError, pickle.PickleError):
             emsg = "Error when writing to %s" % self.projfile
             raise ControlFileError(emsg)
 
@@ -511,18 +509,16 @@ class PDFGuiControl:
     def __validateType(self, targetID):
         """check if targetID is a Fitting class"""
         if not isinstance(targetID, Organizer):
-            raise ControlTypeError, "Can't insert to %s"%\
-                  self.__class__.__name__
+            raise ControlTypeError("Can't insert to %s" % self.__class__.__name__)
 
     def redirectStdout(self):
         """Redirect standard out.
 
-        This redirect engine output to cStringIO if not done yet.
+        This redirect engine output to StringIO if not done yet.
         """
         from diffpy.pdffit2 import redirect_stdout, output
         if output.stdout is sys.stdout:
-            import cStringIO
-            redirect_stdout(cStringIO.StringIO())
+            redirect_stdout(six.StringIO())
         return
 
     def getEngineOutput(self):
@@ -530,8 +526,7 @@ class PDFGuiControl:
         from diffpy.pdffit2 import output, redirect_stdout
         txt = output.stdout.getvalue()
         output.stdout.close()
-        import cStringIO
-        redirect_stdout(cStringIO.StringIO())
+        redirect_stdout(six.StringIO())
         return txt
 
 _pdfguicontrol = None
@@ -555,9 +550,6 @@ def _find_global(moduleName, clsName):
     m = _importByName(moduleName,clsName)
     return m
 
-class _StaticMethod:
-    def __init__(self, func):
-        self.__call__ = func
 
 class CtrlUnpickler:
     '''Occasionally the project file may be generated on a platform where
@@ -566,23 +558,17 @@ class CtrlUnpickler:
     be safely loaded. Only constraints and parameters need this class to un-
     pickle.
     '''
+    @staticmethod
     def loads(s):
-        import cPickle
         try:
-            return cPickle.loads(s)
-        except ImportError,err:
+            return pickle.loads(s)
+        except ImportError as err:
             missedModule = str(err).split(' ')[-1]
             if missedModule.find('pdfgui.control') == -1:
                 raise err
-            try:
-                from cStringIO import StringIO
-            except ImportError:
-                from StringIO import StringIO
-            f = StringIO(s)
-            unpickler = cPickle.Unpickler(f)
+            f = six.StringIO(s)
+            unpickler = pickle.Unpickler(f)
             unpickler.find_global = _find_global
             return unpickler.load()
-    loads = _StaticMethod(loads)
-
 
 # End of file

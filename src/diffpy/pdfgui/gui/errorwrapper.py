@@ -27,6 +27,9 @@ from diffpy.pdfgui.gui import pdfguiglobals
 from diffpy.pdfgui.gui.errorreportdialog import ErrorReportDialog
 from diffpy.pdfgui.control.controlerrors import ControlError
 
+from diffpy.pdfgui.gui.errorreportdialog_control_fix import ErrorReportDialogControlFix
+from diffpy.pdfgui.control.controlerrors import TempControlSelectError
+
 # these methods will not be wrapped in catchFunctionErrors
 _EXCLUDED_METHODS = dict.fromkeys(dir(wx.Panel) + dir(wx.Dialog))
 
@@ -58,8 +61,14 @@ def catchFunctionErrors(obj, funcName):
         try:
             return func(*args, **kwargs)
 
+        #to be deleted. temporarily used for show the select-control error.
+        except TempControlSelectError:
+            dlg = ErrorReportDialogControlFix(obj.mainFrame)
+            dlg.ShowModal()
+            dlg.Destroy()
+
         # Display ControlError error messages in a dialog.
-        except ControlError, e:
+        except ControlError as e:
             if not hasmf:
                 raise
             message = str(e)

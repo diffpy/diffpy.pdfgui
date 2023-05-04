@@ -7,6 +7,10 @@ os:
 
 env:
   - MYUSEMC=true MYPYTHON_VERSION=2.7
+  - MYUSEMC=true MYPYTHON_VERSION=3.7
+  - MYUSEMC=true MYPYTHON_VERSION=3.8
+  - MYUSEMC=true MYPYTHON_VERSION=3.9
+  - MYUSEMC=true MYPYTHON_VERSION=3.10
   - MYUSEMC=false
 
 matrix:
@@ -59,9 +63,6 @@ before_install:
   - $NOMC || conda create --name=testenv --yes python=${MYPYTHON_VERSION} coverage
   - $NOMC || conda config --add channels diffpy
 
-  # TODO - remove after update to wxpython 4
-  - $NOMC || conda config --set restore_free_channel true
-
   - $NOAPT || test "${TRAVIS_OS_NAME}" = "linux" || exit $?
   - $NOAPT || PATH="$(echo "$PATH" | sed 's,:/opt/pyenv/[^:]*,,g')"
   - $NOAPT || test "$(which python)" = "/usr/bin/python" || (
@@ -73,6 +74,7 @@ before_install:
                   python-matplotlib
   - $NOAPT || devutils/makesdist
   - $NOAPT || MYTARBUNDLE="$(ls -t "${PWD}"/dist/*.tar.gz | head -1)"
+
 
 install:
   - $NOMC || conda build --python=${MYPYTHON_VERSION} --no-test conda-recipe
@@ -93,6 +95,7 @@ install:
         exit 1;
     fi
 
+
 before_script:
   # provide shell functions to execute coverage with GUI support
   - case ${TRAVIS_OS_NAME} in
@@ -102,8 +105,10 @@ before_script:
         guicoverage() { pythonw -m coverage "$@"; } ;;
     esac
 
+
 script:
   - guicoverage run --source ${MYNAME} -m ${MYNAME}.tests.rundeps
+
 
 after_success:
   - pip install $MYPIPFLAGS codecov

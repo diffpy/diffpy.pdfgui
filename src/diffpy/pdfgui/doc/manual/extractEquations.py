@@ -127,7 +127,8 @@ def getPageBoundingBox(psfilename):
     Return a list of bounding box coordinates.
     """
     import re
-    s = open(psfilename).read()
+    with open(psfilename) as fp:
+        s = fp.read()
     bbline = re.search('^%%BoundingBox: *(.*)$', s, re.M)
     pgbb = [ int(w) for w in bbline.group(1).split()[:4] ]
     return pgbb

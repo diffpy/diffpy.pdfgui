@@ -51,7 +51,7 @@ class PDFStructure(PDFComponent, PDFFitStructure):
         from diffpy.structure import StructureFormatError
         try:
             p = PDFFitStructure.read(self, filename, format)
-        except StructureFormatError, err:
+        except StructureFormatError as err:
             import os.path
             emsg = "Unable to read file '%s'\n%s." % (
                     os.path.basename(filename), err)

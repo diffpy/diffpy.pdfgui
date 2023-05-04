@@ -161,7 +161,7 @@ class TestFitStructure(unittest.TestCase):
         self.assertEqual(1, len(stru.constraints))
         self.assertTrue(cns is stru.constraints['x(3)'])
         stru.insertAtoms(5, [Atom('Cl', (0, 0, 0))])
-        self.assertTrue(['x(3)'] == stru.constraints.keys())
+        self.assertTrue(['x(3)'] == list(stru.constraints.keys()))
         return
 
 
@@ -173,11 +173,11 @@ class TestFitStructure(unittest.TestCase):
         cns = Constraint('@1')
         stru.constraints['x(2)'] = cns
         stru.deleteAtoms([3])
-        self.assertEqual(['x(2)'], stru.constraints.keys())
-        self.assertTrue(cns is stru.constraints.values()[0])
+        self.assertEqual(['x(2)'], list(stru.constraints.keys()))
+        self.assertTrue(cns is next(iter(stru.constraints.values())))
         stru.deleteAtoms([0])
-        self.assertEqual(['x(1)'], stru.constraints.keys())
-        self.assertTrue(cns is stru.constraints.values()[0])
+        self.assertEqual(['x(1)'], list(stru.constraints.keys()))
+        self.assertTrue(cns is next(iter(stru.constraints.values())))
         stru.deleteAtoms([0])
         self.assertEqual({}, stru.constraints)
         return

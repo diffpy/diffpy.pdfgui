@@ -15,7 +15,7 @@ from setuptools import setup, find_packages
 
 # Use this version when git data are not available, like in git zip archive.
 # Update when tagging a new release.
-FALLBACK_VERSION = '1.1.2.post0'
+FALLBACK_VERSION = '2.0.0'
 
 # determine if we run with Python 3.
 PY3 = (sys.version_info[0] == 3)
@@ -29,7 +29,7 @@ gitarchivecfgfile = os.path.join(MYDIR, '.gitarchive.cfg')
 def gitinfo():
     from subprocess import Popen, PIPE
     kw = dict(stdout=PIPE, cwd=MYDIR, universal_newlines=True)
-    proc = Popen(['git', 'describe', '--match=v[[:digit:]]*'], **kw)
+    proc = Popen(['git', 'describe', '--tags', '--match=v[[:digit:]]*'], **kw)
     desc = proc.stdout.read()
     proc = Popen(['git', 'log', '-1', '--format=%H %ct %ci'], **kw)
     glog = proc.stdout.read()
@@ -113,6 +113,7 @@ setup_args = dict(
     # manual and tutorial files should not be zipped
     zip_safe = False,
     install_requires = [
+        'six',
         'diffpy.structure>=3',
         'diffpy.pdffit2',
         'diffpy.utils',
@@ -141,6 +142,10 @@ setup_args = dict(
         'Operating System :: Microsoft :: Windows',
         'Operating System :: POSIX',
         'Programming Language :: Python :: 2.7',
+        'Programming Language :: Python :: 3.7',
+        'Programming Language :: Python :: 3.8',
+        'Programming Language :: Python :: 3.9',
+        'Programming Language :: Python :: 3.10',
         'Topic :: Scientific/Engineering :: Chemistry',
         'Topic :: Scientific/Engineering :: Physics',
     ],

@@ -30,49 +30,35 @@ ISSUESTRACKER = "https://github.com/diffpy/diffpy.pdfgui/issues"
 USERSMAILINGLIST = "https://groups.google.com/d/forum/diffpy-users"
 _WEBSEARCHURL = "https://www.google.com/search?q={query}"
 
-_MSG_TRAILER = """
-<p>
-You can view current bug reports and feature requests at
-<a href="{issues}">{issues}</a>.
-</p><p>
-Discuss PDFgui and learn about new developments and features at
-<a href="{mlist}">{mlist}</a>.
-</p>
-""".format(issues=ISSUESTRACKER, mlist=USERSMAILINGLIST)
-
-_MSG_FEATURE_REQUEST = """
-<p>
-Share you thoughts about PDFgui!
-</p>
-""" + _MSG_TRAILER
 
 _MSG_ERROR_REPORT = """
 <p>
-PDFgui has encountered a problem.  We are sorry for the inconvenience.
+Currently the control-select is not supported in Python3 PDFgui. We will fix this issue in a future version.
+Please use shift-select for multiple cells instead.
 </p><p>
-""" + _MSG_TRAILER
+"""
 
 # ----------------------------------------------------------------------------
 
-class ErrorReportDialog(wx.Dialog):
+class ErrorReportDialogControlFix(wx.Dialog):
     def __init__(self, *args, **kwds):
         # begin wxGlade: ErrorReportDialog.__init__
         kwds["style"] = kwds.get("style", 0) | wx.DEFAULT_DIALOG_STYLE | wx.MAXIMIZE_BOX | wx.MINIMIZE_BOX | wx.RESIZE_BORDER
         wx.Dialog.__init__(self, *args, **kwds)
-        self.SetSize((540, 600))
+        self.SetSize((540, 200))
         self.label_header = wx.html.HtmlWindow(self, wx.ID_ANY)
-        self.label_log = wx.StaticText(self, wx.ID_ANY, "Error Log:")
-        self.text_ctrl_log = wx.TextCtrl(self, wx.ID_ANY, "", style=wx.TE_MULTILINE | wx.TE_READONLY)
-        self.static_line_1 = wx.StaticLine(self, wx.ID_ANY)
-        self.button_google = wx.Button(self, wx.ID_ANY, "Google This Error")
-        self.button_copyErrorLog = wx.Button(self, wx.ID_ANY, "Copy Error Log")
+        # self.label_log = wx.StaticText(self, wx.ID_ANY, "Error Log:")
+        # self.text_ctrl_log = wx.TextCtrl(self, wx.ID_ANY, "", style=wx.TE_MULTILINE | wx.TE_READONLY)
+        # self.static_line_1 = wx.StaticLine(self, wx.ID_ANY)
+        # self.button_google = wx.Button(self, wx.ID_ANY, "Google This Error")
+        # self.button_copyErrorLog = wx.Button(self, wx.ID_ANY, "Copy Error Log")
         self.button_close = wx.Button(self, wx.ID_CANCEL, "Close")
 
         self.__set_properties()
         self.__do_layout()
 
-        self.Bind(wx.EVT_BUTTON, self.onGoogle, self.button_google)
-        self.Bind(wx.EVT_BUTTON, self.onCopyErrorLog, self.button_copyErrorLog)
+        # self.Bind(wx.EVT_BUTTON, self.onGoogle, self.button_google)
+        # self.Bind(wx.EVT_BUTTON, self.onCopyErrorLog, self.button_copyErrorLog)
         # end wxGlade
         self.__customProperties()
         return
@@ -80,7 +66,7 @@ class ErrorReportDialog(wx.Dialog):
     def __set_properties(self):
         # begin wxGlade: ErrorReportDialog.__set_properties
         self.SetTitle("Problem Report for PDFgui")
-        self.SetSize((540, 600))
+        self.SetSize((540, 200))
         # end wxGlade
 
     def __do_layout(self):
@@ -91,13 +77,13 @@ class ErrorReportDialog(wx.Dialog):
         sizer_label = wx.BoxSizer(wx.HORIZONTAL)
         sizer_label.Add(self.label_header, 1, wx.EXPAND, 5)
         sizer_main.Add(sizer_label, 1, wx.ALL | wx.EXPAND, 5)
-        sizer_log.Add(self.label_log, 0, wx.EXPAND | wx.LEFT | wx.RIGHT | wx.TOP, 5)
-        sizer_log.Add(self.text_ctrl_log, 1, wx.EXPAND | wx.LEFT | wx.RIGHT, 5)
-        sizer_main.Add(sizer_log, 3, wx.EXPAND | wx.LEFT | wx.RIGHT | wx.TOP, 10)
-        sizer_main.Add(self.static_line_1, 0, wx.EXPAND | wx.LEFT | wx.RIGHT | wx.TOP, 5)
-        sizer_buttons.Add((20, 20), 1, 0, 0)
-        sizer_buttons.Add(self.button_google, 0, wx.ALL, 5)
-        sizer_buttons.Add(self.button_copyErrorLog, 0, wx.ALL, 5)
+        # sizer_log.Add(self.label_log, 0, wx.EXPAND | wx.LEFT | wx.RIGHT | wx.TOP, 5)
+        # sizer_log.Add(self.text_ctrl_log, 1, wx.EXPAND | wx.LEFT | wx.RIGHT, 5)
+        # sizer_main.Add(sizer_log, 3, wx.EXPAND | wx.LEFT | wx.RIGHT | wx.TOP, 10)
+        # sizer_main.Add(self.static_line_1, 0, wx.EXPAND | wx.LEFT | wx.RIGHT | wx.TOP, 5)
+        # sizer_buttons.Add((20, 20), 1, 0, 0)
+        # sizer_buttons.Add(self.button_google, 0, wx.ALL, 5)
+        # sizer_buttons.Add(self.button_copyErrorLog, 0, wx.ALL, 5)
         sizer_buttons.Add(self.button_close, 0, wx.ALL, 5)
         sizer_main.Add(sizer_buttons, 0, wx.EXPAND, 0)
         self.SetSizer(sizer_main)
@@ -108,62 +94,20 @@ class ErrorReportDialog(wx.Dialog):
         """Set custom properties."""
         # Events
         self.errorReport = True
-        self.label_header.Bind(wx.html.EVT_HTML_LINK_CLICKED, self.onURL)
+        # self.label_header.Bind(wx.html.EVT_HTML_LINK_CLICKED, self.onURL)
         return
 
     def ShowModal(self):
         # there are 2 modes: error report and feature request
-        if self.text_ctrl_log.GetValue().strip() == "":
-            self.SetTitle("Feature Request / Bug Report")
-            self.label_header.SetPage(_MSG_FEATURE_REQUEST)
-            self.label_header.SetBackgroundColour('')
-            self.label_log.Hide()
-            self.text_ctrl_log.Hide()
-            self.button_google.Hide()
-            self.button_copyErrorLog.Hide()
-            self.SetSize((540, 200))
-            self.errorReport = False
-        else:
-            self.SetTitle("Problem Report for PDFgui")
-            self.label_header.SetPage(_MSG_ERROR_REPORT)
-            self.label_header.SetBackgroundColour('')
-            self.text_ctrl_log.Show()
-            self.errorReport = True
+
+        self.SetTitle("Problem Report for PDFgui")
+        self.label_header.SetPage(_MSG_ERROR_REPORT)
+        self.label_header.SetBackgroundColour('')
+        # self.text_ctrl_log.Show()
+        self.errorReport = True
 
         wx.Dialog.ShowModal(self)
 
-    def onGoogle(self, event):  # wxGlade: ErrorReportDialog.<event_handler>
-        """
-        Handle the "Google This Error" button.
-
-        Search for path-independent module and function names and for
-        error message extracted from exception traceback.
-        """
-        from six.moves.urllib.parse import quote_plus
-        traceback = self.text_ctrl_log.GetValue()
-        terms = _extractSearchTerms(traceback)
-        str_to_search = " ".join(terms) if terms else traceback.strip()
-        query = quote_plus(str_to_search)
-        url = _WEBSEARCHURL.format(query=query)
-        webbrowser.open(url)
-        event.Skip()
-        return
-
-    def onCopyErrorLog(self, event):  # wxGlade: ErrorReportDialog.<event_handler>
-        # copy the traceback enclosed in GitHub block quotations so it is easier to paste into GitHub issue.
-        traceback = self.text_ctrl_log.GetValue()
-        clipdata = wx.TextDataObject()
-        clipdata.SetText("```\n" + traceback.strip() + "\n```\n")
-        wx.TheClipboard.Open()
-        wx.TheClipboard.SetData(clipdata)
-        wx.TheClipboard.Close()
-        event.Skip()
-        return
-
-    def onURL(self, event):  # wxGlade: ErrorReportDialog.<event_handler>
-        # click on the URL link in dialog, it will open the URL in web browser.
-        link = event.GetLinkInfo()
-        webbrowser.open(link.GetHref())
 
 # end of class ErrorReportDialog
 
@@ -217,7 +161,7 @@ class MyApp(wx.App):
 
     def test(self):
         '''Testing code goes here.'''
-        self.dialog.text_ctrl_log.SetValue(_EXAMPLE_TRACEBACK)
+        # self.dialog.text_ctrl_log.SetValue(_EXAMPLE_TRACEBACK)
         return
 
 # end of class MyApp

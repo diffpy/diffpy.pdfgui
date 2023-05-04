@@ -68,7 +68,7 @@ class DebugOptions:
             longname = DebugOptions.short2long[name]
             value = getattr(self, longname)
         else:
-            raise AttributeError, 'A instance has no attribute %r' % name
+            raise AttributeError('An instance has no attribute %r' % name)
         return value
 
 # End of class DebugOptions

@@ -15,6 +15,8 @@
 
 """Methods for macros used in pdfgui."""
 
+from __future__ import print_function
+
 import os
 import copy
 
@@ -46,7 +48,7 @@ def makeRSeries(control, fit, maxfirst = None, maxlast = None, maxstep = None,
         message = "The first value of the minimum (%.2f)\
                  \nmust be less than the last value of the\
                  \nminimum (%.2f)" % (minfirst, minlast)
-        raise ControlValueError, message
+        raise ControlValueError(message)
 
     # MAX-MAX: FIRST < LAST
     if maxfirst is not None and maxlast is not None\
@@ -54,7 +56,7 @@ def makeRSeries(control, fit, maxfirst = None, maxlast = None, maxstep = None,
         message = "The first value of the maximum (%.2f)\
                  \nmust be less than the last value of the\
                  \nmaximum (%.2f)" % (maxfirst, maxlast)
-        raise ControlValueError, message
+        raise ControlValueError(message)
 
     # MAX > MIN: FIRST-FIRST
     if maxfirst is not None and minfirst is not None\
@@ -62,7 +64,7 @@ def makeRSeries(control, fit, maxfirst = None, maxlast = None, maxstep = None,
         message = "The first value of the fit maximum (%.2f)\
                  \nmust be greater than first value of the fit\
                  \nminimum (%.2f)." % (maxfirst, minfirst)
-        raise ControlValueError, message
+        raise ControlValueError(message)
 
     # MAX > MIN: LAST-LAST
     if maxlast is not None and minlast is not None\
@@ -70,22 +72,22 @@ def makeRSeries(control, fit, maxfirst = None, maxlast = None, maxstep = None,
         message = "The last value of the fit maximum (%.2f)\
                  \nmust be greater than last value of the fit\
                  \nminimum (%.2f)." % (maxlast, minlast)
-        raise ControlValueError, message
+        raise ControlValueError(message)
 
     # STEP > 0
     message = "Step size (%.2f) must be greater than 0."
     if maxstep is not None and not maxstep > 0:
-        raise ControlValueError, message % maxstep
+        raise ControlValueError(message % maxstep)
     if minstep is not None and not minstep > 0:
-        raise ControlValueError, message % minstep
+        raise ControlValueError(message % minstep)
 
     # Check to see that either max or min is fully specified
     maxlist = [maxfirst, maxlast]
     minlist = [minfirst, minlast]
     if maxlist.count(None) == 1 or minlist.count(None) == 1:
-        raise ControlValueError, "First and last values are partially specified"
+        raise ControlValueError("First and last values are partially specified")
     if maxstep is None and minstep is None:
-        raise ControlValueError, "Either minstep or maxstep must be specified."
+        raise ControlValueError("Either minstep or maxstep must be specified.")
 
     maxlist = []
     minlist = []
@@ -134,18 +136,18 @@ def makeRSeries(control, fit, maxfirst = None, maxlast = None, maxstep = None,
                            \n[%.2f, %.2f].\
                            \nAdjust the range of the series."\
                            % (fitrmin, ds.rmin, ds.rmax)
-                raise ControlValueError, message
+                raise ControlValueError(message)
             if fitrmax <= ds.rmin or fitrmax > ds.rmax:
                 message = "Fit maximum (%.2f) is outside the data range\
                            \n[%.2f, %.2f].\
                            \nAdjust the range of the series."\
                            % (fitrmax, ds.rmin, ds.rmax)
-                raise ControlValueError, message
+                raise ControlValueError(message)
             if fitrmin >= fitrmax:
                 message = "Fit minimum (%.2f) is greater than the\
                            \nmaximum (%.2f).\
                            \nIncrease maxstep or reduce minstep." % (fitrmin, fitrmax)
-                raise ControlValueError, message
+                raise ControlValueError(message)
 
 
             # Set the values if all is well
@@ -353,6 +355,6 @@ if __name__ == "__main__":
     control.load("../../tests/testdata/ni.ddp")
     fit = control.fits[0]
     olist = makeRSeries(control, fit, 5, 20, 5)
-    print '\n'.join([f[0].name for f in olist])
+    print('\n'.join(f[0].name for f in olist))
 
 # End of file

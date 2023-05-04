@@ -31,6 +31,7 @@ from diffpy.pdfgui.gui.wxextensions import wx12
 from diffpy.pdfgui.gui import phasepanelutils
 from diffpy.utils.wx import gridutils
 
+from diffpy.pdfgui.control.controlerrors import TempControlSelectError
 
 class PhaseConfigurePanel(wx.Panel, PDFPanel):
     """Panel for configuring a phase.
@@ -256,7 +257,7 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
         txtbg = self.textCtrlA.DefaultStyle.BackgroundColour
 
         # First the TextCtrls
-        for key, var in self.lConstraintsMap.iteritems():
+        for key, var in self.lConstraintsMap.items():
             textCtrl = getattr(self, key)
             if var in self.constraints:
                 textCtrl.SetEditable(False)
@@ -266,14 +267,15 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
                 tt.SetTip(self.constraints[var].formula)
             else:
                 textCtrl.SetEditable(True)
-                textCtrl.SetBackgroundColour(txtbg)
+                #textCtrl.SetBackgroundColour(txtbg)
+                textCtrl.SetBackgroundColour(wx.WHITE)
 
         # Now the grid
         rows = self.gridAtoms.GetNumberRows()
         cols = self.gridAtoms.GetNumberCols()
 
-        for i in xrange(rows):
-            for j in xrange(1, cols):
+        for i in range(rows):
+            for j in range(1, cols):
                 var = self.lAtomConstraints[j-1]
                 var += '(%i)'%(i+1)
                 if var in self.constraints:
@@ -450,7 +452,12 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
         i = event.GetRow()
         j = event.GetCol()
         self._focusedText = self.gridAtoms.GetCellValue(i,j)
-        self._selectedCells = gridutils.getSelectedCells(self.gridAtoms)
+        # self._selectedCells = gridutils.getSelectedCells(self.gridAtoms)
+        #TODO: temporary show the error message for control-select.
+        try:
+            self._selectedCells = gridutils.getSelectedCells(self.gridAtoms)
+        except TypeError:
+            raise TempControlSelectError("controlselecterror")
         return
 
     def onCellChange(self, event): # wxGlade: PhaseConfigurePanel.<event_handler>

@@ -20,12 +20,12 @@ is available in the doc/Farrow-jpcm-2007.pdf paper.
 REQUIREMENTS
 ------------------------------------------------------------------------
 
-PDFgui requires Python 2.7 and several third-party libraries
-that are used by PDFgui and its components.
+PDFgui requires Python 3.7, 3.8, 3.9, or 2.7 and several third-party
+libraries that are used by PDFgui and its components.
 
 * setuptools   - tools for installing Python packages
 * wxpython     - graphical user interface toolkit for Python
-* NumPy        - library for scientific computing with Python
+* numpy        - library for scientific computing with Python
 * matplotlib   - Python 2D plotting library
 * diffpy.pdffit2 - computational engine for PDFgui,
   https://github.com/diffpy/diffpy.pdffit2
@@ -36,34 +36,31 @@ that are used by PDFgui and its components.
 
 We recommend to use `Anaconda Python <https://www.anaconda.com/download>`_
 which allows to conveniently install PDFgui and all its software
-dependencies with a single command.  For other Python distributions
-it is necessary to install the required software separately.  As an
-example, on Ubuntu Linux some of the required software can be
-installed using ::
+dependencies with a single command.
 
-   sudo apt-get install \
-      python-setuptools python-wxtools python-numpy \
-      python-matplotlib
-
-To install the remaining packages see the installation instructions
-at their respective web pages.
-
+Please note that the Python3 PDFgui will read .ddp3 files. It is also
+possible for it to read .ddp files that were saved by the Python2 PDFgui
+but it will sometimes fail to read these. We are working on a solution
+that will be available in a future version.
 
 INSTALLATION
 ------------------------------------------------------------------------
 
 The preferred method is to use Anaconda Python and install from the
-"diffpy" channel of Anaconda packages ::
+"conda-forge" channel of Anaconda packages. `pdfgui` can be installed with `conda` ::
 
-   conda config --add channels diffpy
-   conda install diffpy.pdfgui
+   conda install -c conda-forge diffpy.pdfgui
 
 PDFgui can be then started from a terminal ("Anaconda Prompt" on
 Windows) by executing the "pdfgui" program.  An alternative
 method on Windows is to start PDFgui through the DiffPy start menu.
 
 If you don't use Anaconda or prefer to install from sources, make
-sure the required software is all in place and run ::
+sure the required software is all in place ::
+
+   conda install -c conda-forge diffpy.utils diffpy.pdffit2 matplotlib wxpython
+
+Then you are ready to install diffpy.pdfgui from source codes::
 
    python setup.py install
 
@@ -78,16 +75,36 @@ changing to the HOME directory and running ::
 
    python -m diffpy.pdfgui.tests.rundeps
 
+To use PDFgui, you can simply type `pdfgui`, or run the following command ::
+
+   python diffpy.pdfgui/src/diffpy/pdfgui/application/pdfgui.py
+
+If it shows some error like "This program needs access to the screen.". For Mac, you could install `python.app` from conda
+(`conda install python.app`), then run as follows ::
+
+   python.app diffpy.pdfgui/src/diffpy/pdfgui/application/pdfgui.py
+
 With Anaconda PDFgui can be later upgraded to the latest released
 version using ::
 
-   conda update diffpy.pdfgui
+   conda update -c conda-forge diffpy.pdfgui
 
 With other Python distributions the program can be upgraded to
 the latest version as follows ::
 
    easy_install --upgrade diffpy.pdfgui
 
+If you would like to use other Python distributions except Anaconda,
+it is necessary to install the required software separately. As an
+example, on Ubuntu Linux some of the required software can be
+installed using ::
+
+   sudo apt-get install \
+      python-setuptools python-wxtools python-numpy \
+      python-matplotlib
+
+To install the remaining packages see the installation instructions
+at their respective web pages.
 
 Other software
 ````````````````````````````````````````````````````````````````````````
@@ -97,6 +114,7 @@ structures.  We have tested with several structure viewers such as
 
 * AtomEye, http://li.mit.edu/A/Graphics/A/
 * PyMol, https://www.pymol.org
+* VESTA, http://jp-minerals.org/vesta/en/
 
 Other viewers should work as well, as long as they understand one of
 the output structure formats supported by PDFgui.

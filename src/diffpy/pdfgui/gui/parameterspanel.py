@@ -115,8 +115,7 @@ class ParametersPanel(wx.Panel, PDFPanel):
         #self.grid_parameters.SetColFormatBool(1)
 
         i = 0
-        keys = self.parameters.keys()
-        keys.sort()
+        keys = sorted(self.parameters.keys())
         for key in keys:
             # parameter index
             self.grid_parameters.SetRowLabelValue(i, str(self.parameters[key].idx))
@@ -305,8 +304,8 @@ class ParametersPanel(wx.Panel, PDFPanel):
                 rows = self.grid_parameters.GetNumberRows()
                 cols = self.grid_parameters.GetNumberCols()
 
-                for i in xrange(rows):
-                    for j in xrange(cols):
+                for i in range(rows):
+                    for j in range(cols):
                         inSelection  = self.grid_parameters.IsInSelection(i,j)
                         valueChanged = (value != self.grid_parameters.GetCellValue(i,j))
                         if inSelection and valueChanged:
@@ -331,7 +330,7 @@ class ParametersPanel(wx.Panel, PDFPanel):
                 seldict[row] = state
 
             # Find the majority state
-            nfixed = seldict.values().count(True)
+            nfixed = sum(1 for st in seldict.values() if st)
             nfree = len(seldict) - nfixed
             newstate = True # fixed
             if nfree < nfixed:
@@ -379,9 +378,9 @@ class ParametersPanel(wx.Panel, PDFPanel):
 
             selpars = []
             # Get the selected parameters
-            for i in xrange(rows):
+            for i in range(rows):
                 key = int(self.grid_parameters.GetRowLabelValue(i))
-                for j in xrange(cols):
+                for j in range(cols):
                     if self.grid_parameters.IsInSelection(i,j):
                         selpars.append(key)
                         break
@@ -414,8 +413,8 @@ class ParametersPanel(wx.Panel, PDFPanel):
         cols = self.grid_parameters.GetNumberCols()
         selection = []
 
-        for i in xrange(rows):
-            for j in xrange(cols):
+        for i in range(rows):
+            for j in range(cols):
                 if self.grid_parameters.IsInSelection(i,j):
                     selection.append(i)
                     break
