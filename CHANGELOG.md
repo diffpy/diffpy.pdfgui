@@ -2,7 +2,7 @@
 
 Notable differences from version 1.1.2.
 
-## Version 2.0.0 – 2023-05-03
+## Version 2.0.0 – 2023-05-04
 
 ### Added
 
