@@ -2,7 +2,7 @@
 
 Notable differences from version 1.1.2.
 
-## Version 2.0.0 – 2023-05-04
+## Version 2.0.1 – 2023-05-11
 
 ### Added
 
@@ -12,6 +12,7 @@ Notable differences from version 1.1.2.
 ### Changed
 
 - Update wxpython to 4.1.1 and remove incompatible align flags.
+- Update tutorial project files for py3.
 
 ### Deprecated
 
@@ -20,4 +21,3 @@ Notable differences from version 1.1.2.
 ### Fixed
 
 - Incompatible conversion between bytes and str from py2 to py3.
-- 
