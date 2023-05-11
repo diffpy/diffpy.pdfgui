@@ -7,10 +7,8 @@ their shortest Mn-O bond lengths using diffpy.pdffit2 library.  The results
 are plotted versus temperature and saved to "mno-bond-lengths.dat" file.
 '''
 
-from __future__ import print_function
-
 # PDFgui project file
-project_file = 'lmo-template.ddp'
+project_file = 'lmo-template.ddp3'
 output_file = 'mno-bond-lengths.dat'
 
 # Import tui (Text User Interface) functions from diffpy.pdfgui
@@ -28,9 +26,9 @@ pf = PdfFit()
 
 def shortestBond_MnO(stru):
     """extract the shortest MnO bond length in a structure.
-
+    
     stru -- initial or refined phase from a PDFgui project
-
+    
     Return the shortest bond length.
     """
     pf.reset()
@@ -54,15 +52,15 @@ for phase in prj.getPhases():
 
 # Save bond lengths to a file
 outfile = open(output_file, 'w')
-print("# Shortest Mn-O bond length extracted from", project_file, file=outfile)
-print("# temperature(K) bond_length(A)", file=outfile)
+print("# Shortest Mn-O bond length extracted from {}".format(project_file), file = outfile)
+print("# temperature(K) bond_length(A)", file = outfile)
 for t, b in zip(temperatures, MnO_bond_lengths):
-    print(t, b, file=outfile)
+    print("{}, {}".format(t, b), file = outfile)
 outfile.close()
 
 dashline = 78 * '-'
 print(dashline)
-print("Mn-O bond lengths saved to", output_file)
+print("Mn-O bond lengths saved to {}".format(output_file))
 print(dashline)
 
 # Plot results using matplotlib; pylab is a part of matplotlib that
