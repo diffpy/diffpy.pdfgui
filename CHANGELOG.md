@@ -6,7 +6,7 @@ Notable differences from version 1.1.2.
 
 ### Added
 
-- Support for Python 3.8, 3.9, 3.10.
+- Support for Python 3.8, 3.9.
 - Use `.ddp3` instead of `.ddp` to store project files.
 
 ### Changed
