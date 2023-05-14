@@ -27,19 +27,56 @@ class SGStructureDialog(wx.Dialog, PDFPanel):
         # begin wxGlade: SGStructureDialog.__init__
         kwds["style"] = kwds.get("style", 0) | wx.DEFAULT_DIALOG_STYLE
         wx.Dialog.__init__(self, *args, **kwds)
-        self.numConstrainedLabel = wx.StaticText(self, wx.ID_ANY, "")
-        self.sgLabel = wx.StaticText(self, wx.ID_ANY, "Space Group")
-        self.sgComboBox = wx.ComboBox(self, wx.ID_ANY, choices=["P1"], style=0)
-        self.offsetLabel = wx.StaticText(self, wx.ID_ANY, "Origin Offset")
-        self.offsetTextCtrlX = wx.TextCtrl(self, wx.ID_ANY, "0", style=wx.TE_PROCESS_ENTER)
-        self.offsetTextCtrlY = wx.TextCtrl(self, wx.ID_ANY, "0", style=wx.TE_PROCESS_ENTER)
-        self.offsetTextCtrlZ = wx.TextCtrl(self, wx.ID_ANY, "0", style=wx.TE_PROCESS_ENTER)
-        self.static_line_1 = wx.StaticLine(self, wx.ID_ANY)
-        self.cancelButton = wx.Button(self, wx.ID_CANCEL, "Cancel")
-        self.okButton = wx.Button(self, wx.ID_OK, "OK")
+        self.SetTitle("Space Group Expansion")
 
-        self.__set_properties()
-        self.__do_layout()
+        sizer_2 = wx.StaticBoxSizer(wx.StaticBox(self, wx.ID_ANY, "Space Group Expansion"), wx.VERTICAL)
+
+        self.numConstrainedLabel = wx.StaticText(self, wx.ID_ANY, "")
+        sizer_2.Add(self.numConstrainedLabel, 0, wx.ALL, 5)
+
+        sizer_3 = wx.BoxSizer(wx.HORIZONTAL)
+        sizer_2.Add(sizer_3, 0, wx.EXPAND, 0)
+
+        self.sgLabel = wx.StaticText(self, wx.ID_ANY, "Space Group")
+        sizer_3.Add(self.sgLabel, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALL, 5)
+
+        self.sgComboBox = wx.ComboBox(self, wx.ID_ANY, choices=["P1"], style=0)
+        self.sgComboBox.SetSelection(0)
+        sizer_3.Add(self.sgComboBox, 0, wx.ALL, 5)
+
+        sizer_4 = wx.BoxSizer(wx.HORIZONTAL)
+        sizer_2.Add(sizer_4, 0, wx.EXPAND, 0)
+
+        self.offsetLabel = wx.StaticText(self, wx.ID_ANY, "Origin Offset")
+        sizer_4.Add(self.offsetLabel, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALL, 5)
+
+        self.offsetTextCtrlX = wx.TextCtrl(self, wx.ID_ANY, "0", style=wx.TE_PROCESS_ENTER)
+        sizer_4.Add(self.offsetTextCtrlX, 0, wx.ALL, 5)
+
+        self.offsetTextCtrlY = wx.TextCtrl(self, wx.ID_ANY, "0", style=wx.TE_PROCESS_ENTER)
+        sizer_4.Add(self.offsetTextCtrlY, 0, wx.ALL, 5)
+
+        self.offsetTextCtrlZ = wx.TextCtrl(self, wx.ID_ANY, "0", style=wx.TE_PROCESS_ENTER)
+        sizer_4.Add(self.offsetTextCtrlZ, 0, wx.ALL, 5)
+
+        self.static_line_1 = wx.StaticLine(self, wx.ID_ANY)
+        sizer_2.Add(self.static_line_1, 0, wx.EXPAND, 0)
+
+        sizer_4_copy = wx.BoxSizer(wx.HORIZONTAL)
+        sizer_2.Add(sizer_4_copy, 0, wx.EXPAND, 0)
+
+        sizer_4_copy.Add((0, 0), 1, wx.EXPAND, 0)
+
+        self.cancelButton = wx.Button(self, wx.ID_CANCEL, "Cancel")
+        sizer_4_copy.Add(self.cancelButton, 0, wx.ALL, 5)
+
+        self.okButton = wx.Button(self, wx.ID_OK, "OK")
+        sizer_4_copy.Add(self.okButton, 0, wx.ALL, 5)
+
+        self.SetSizer(sizer_2)
+        sizer_2.Fit(self)
+
+        self.Layout()
 
         self.Bind(wx.EVT_COMBOBOX, self.onSGSelect, self.sgComboBox)
         self.Bind(wx.EVT_TEXT_ENTER, self.onSGTextEnter, self.sgComboBox)
@@ -50,38 +87,6 @@ class SGStructureDialog(wx.Dialog, PDFPanel):
         self.Bind(wx.EVT_BUTTON, self.onOk, self.okButton)
         # end wxGlade
         self.__customProperties()
-
-    def __set_properties(self):
-        # begin wxGlade: SGStructureDialog.__set_properties
-        self.SetTitle("Space Group Expansion")
-        self.sgComboBox.SetSelection(0)
-        # end wxGlade
-
-    def __do_layout(self):
-        # begin wxGlade: SGStructureDialog.__do_layout
-        sizer_2 = wx.StaticBoxSizer(wx.StaticBox(self, wx.ID_ANY, "Space Group Expansion"), wx.VERTICAL)
-        sizer_4_copy = wx.BoxSizer(wx.HORIZONTAL)
-        sizer_4 = wx.BoxSizer(wx.HORIZONTAL)
-        sizer_3 = wx.BoxSizer(wx.HORIZONTAL)
-        sizer_2.Add(self.numConstrainedLabel, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALL, 5)
-        sizer_3.Add(self.sgLabel, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALL, 5)
-        sizer_3.Add(self.sgComboBox, 0, wx.ALL, 5)
-        sizer_2.Add(sizer_3, 0, wx.EXPAND, 0)
-        sizer_4.Add(self.offsetLabel, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALL, 5)
-        sizer_4.Add(self.offsetTextCtrlX, 0, wx.ALL, 5)
-        sizer_4.Add(self.offsetTextCtrlY, 0, wx.ALL, 5)
-        sizer_4.Add(self.offsetTextCtrlZ, 0, wx.ALL, 5)
-        sizer_2.Add(sizer_4, 0, wx.EXPAND, 0)
-        sizer_2.Add(self.static_line_1, 0, wx.EXPAND, 0)
-        sizer_4_copy.Add((0, 0), 1, wx.EXPAND, 0)
-        sizer_4_copy.Add(self.cancelButton, 0, wx.ALL, 5)
-        sizer_4_copy.Add(self.okButton, 0, wx.ALL, 5)
-        sizer_2.Add(sizer_4_copy, 0, wx.EXPAND, 0)
-        self.SetSizer(sizer_2)
-        sizer_2.Fit(self)
-        self.Layout()
-        # end wxGlade
-
 
     ###########################################################################
 

@@ -298,7 +298,8 @@ class MainFrame(wx.Frame):
         self.runningDict = {}
 
         # The configuration parser for getting configuration data.
-        self.cP = QuotedConfigParser()
+        # self.cP = QuotedConfigParser()
+        self.cP = QuotedConfigParser(strict=False) #Long try this to avoid DuplicateSectionError
 
         # Set the program mode
         self.mode = "fitting"
