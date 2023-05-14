@@ -383,7 +383,7 @@ class FitStructure(PDFStructure):
                 existing_names[sg.short_name] = True
             # sort by International Tables number, stay compatible with 2.3
             n_sg = [(sg.number % 1000, sg) for sg in unique_named_list]
-            n_sg.sort()
+            n_sg = sorted(n_sg, key=lambda x: x[0]) #sort by the first element of tuple.
             FitStructure.sorted_standard_space_groups = [sg for n, sg in n_sg]
         sglist = list(FitStructure.sorted_standard_space_groups)
         if self.custom_spacegroup:
@@ -491,7 +491,7 @@ class FitStructure(PDFStructure):
         # find the largest used parameter index; pidxused must have an element
         pidxused = [i for i in self.owner.updateParameters()] + [0]
         # new parameters will start at the next decade
-        parzeroidx = 10*(max(pidxused)/10) + 10
+        parzeroidx = 10*(int(max(pidxused)/10)) + 10
         # dictionary of parameter indices and their values
         newparvalues = {}
         selatoms = [self.initial[i] for i in uindices]
