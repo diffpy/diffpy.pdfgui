@@ -15,7 +15,7 @@ from setuptools import setup, find_packages
 
 # Use this version when git data are not available, like in git zip archive.
 # Update when tagging a new release.
-FALLBACK_VERSION = '2.0.1'
+FALLBACK_VERSION = '2.0.2'
 
 # determine if we run with Python 3.
 PY3 = (sys.version_info[0] == 3)
