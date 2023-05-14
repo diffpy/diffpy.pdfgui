@@ -27,25 +27,82 @@ class BondLengthDialog(wx.Dialog):
         # begin wxGlade: BondLengthDialog.__init__
         kwds["style"] = kwds.get("style", 0) | wx.DEFAULT_DIALOG_STYLE
         wx.Dialog.__init__(self, *args, **kwds)
-        self.instructionsLabel = wx.StaticText(self, wx.ID_ANY, "Enter the indices of two atoms.")
-        self.indicesLabel = wx.StaticText(self, wx.ID_ANY, "Atom Indices")
-        self.aSpinCtrl = wx.SpinCtrl(self, wx.ID_ANY, "", min=0, max=100, style=0)
-        self.bSpinCtrl = wx.SpinCtrl(self, wx.ID_ANY, "", min=0, max=100, style=0)
-        self.static_line_2 = wx.StaticLine(self, wx.ID_ANY)
-        self.instructionsLabel2 = wx.StaticText(self, wx.ID_ANY, "Or enter the elemental symbols of two atoms and\nthe range over which to calculate the bond lengths.")
-        self.elementLabel = wx.StaticText(self, wx.ID_ANY, "Elements")
-        self.aComboBox = wx.ComboBox(self, wx.ID_ANY, choices=[], style=0)
-        self.bComboBox = wx.ComboBox(self, wx.ID_ANY, choices=[], style=0)
-        self.rangeLabel = wx.StaticText(self, wx.ID_ANY, "Range")
-        self.lbTextCtrl = wx.TextCtrl(self, wx.ID_ANY, "")
-        self.toLabel = wx.StaticText(self, wx.ID_ANY, "to")
-        self.ubTextCtrl = wx.TextCtrl(self, wx.ID_ANY, "")
-        self.static_line_1 = wx.StaticLine(self, wx.ID_ANY)
-        self.cancelButton = wx.Button(self, wx.ID_CANCEL, "Cancel")
-        self.okButton = wx.Button(self, wx.ID_OK, "OK")
+        self.SetTitle("Calculate Bond Lengths")
 
-        self.__set_properties()
-        self.__do_layout()
+        sizer_2 = wx.StaticBoxSizer(wx.StaticBox(self, wx.ID_ANY, ""), wx.VERTICAL)
+
+        self.instructionsLabel = wx.StaticText(self, wx.ID_ANY, "Enter the indices of two atoms.")
+        sizer_2.Add(self.instructionsLabel, 0, wx.ALL, 5)
+
+        sizer_3 = wx.BoxSizer(wx.HORIZONTAL)
+        sizer_2.Add(sizer_3, 0, wx.EXPAND, 0)
+
+        self.indicesLabel = wx.StaticText(self, wx.ID_ANY, "Atom Indices")
+        sizer_3.Add(self.indicesLabel, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALL, 5)
+
+        self.aSpinCtrl = wx.SpinCtrl(self, wx.ID_ANY, "", min=0, max=100, style=0)
+        self.aSpinCtrl.SetMinSize((80, 27))
+        sizer_3.Add(self.aSpinCtrl, 0, wx.ALL, 5)
+
+        self.bSpinCtrl = wx.SpinCtrl(self, wx.ID_ANY, "", min=0, max=100, style=0)
+        self.bSpinCtrl.SetMinSize((80, 27))
+        sizer_3.Add(self.bSpinCtrl, 0, wx.ALL, 5)
+
+        self.static_line_2 = wx.StaticLine(self, wx.ID_ANY)
+        sizer_2.Add(self.static_line_2, 0, wx.BOTTOM | wx.EXPAND, 5)
+
+        self.instructionsLabel2 = wx.StaticText(self, wx.ID_ANY, "Or enter the elemental symbols of two atoms and\nthe range over which to calculate the bond lengths.")
+        sizer_2.Add(self.instructionsLabel2, 0, wx.ALL, 5)
+
+        sizer_4 = wx.BoxSizer(wx.HORIZONTAL)
+        sizer_2.Add(sizer_4, 0, wx.EXPAND, 0)
+
+        self.elementLabel = wx.StaticText(self, wx.ID_ANY, "Elements")
+        sizer_4.Add(self.elementLabel, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALL, 5)
+
+        self.aComboBox = wx.ComboBox(self, wx.ID_ANY, choices=[], style=0)
+        self.aComboBox.SetMinSize((80, 27))
+        sizer_4.Add(self.aComboBox, 0, wx.ALL, 5)
+
+        self.bComboBox = wx.ComboBox(self, wx.ID_ANY, choices=[], style=0)
+        self.bComboBox.SetMinSize((80, 27))
+        sizer_4.Add(self.bComboBox, 0, wx.ALL, 5)
+
+        sizer_4_copy_1 = wx.BoxSizer(wx.HORIZONTAL)
+        sizer_2.Add(sizer_4_copy_1, 0, wx.EXPAND, 0)
+
+        self.rangeLabel = wx.StaticText(self, wx.ID_ANY, "Range")
+        sizer_4_copy_1.Add(self.rangeLabel, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALL, 5)
+
+        self.lbTextCtrl = wx.TextCtrl(self, wx.ID_ANY, "")
+        self.lbTextCtrl.SetMinSize((80, 27))
+        sizer_4_copy_1.Add(self.lbTextCtrl, 0, wx.ALL, 5)
+
+        self.toLabel = wx.StaticText(self, wx.ID_ANY, "to")
+        sizer_4_copy_1.Add(self.toLabel, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALL, 5)
+
+        self.ubTextCtrl = wx.TextCtrl(self, wx.ID_ANY, "")
+        self.ubTextCtrl.SetMinSize((80, 27))
+        sizer_4_copy_1.Add(self.ubTextCtrl, 0, wx.ALL, 5)
+
+        self.static_line_1 = wx.StaticLine(self, wx.ID_ANY)
+        sizer_2.Add(self.static_line_1, 0, wx.EXPAND, 0)
+
+        sizer_4_copy = wx.BoxSizer(wx.HORIZONTAL)
+        sizer_2.Add(sizer_4_copy, 0, wx.EXPAND, 0)
+
+        sizer_4_copy.Add((0, 0), 1, wx.EXPAND, 0)
+
+        self.cancelButton = wx.Button(self, wx.ID_CANCEL, "Cancel")
+        sizer_4_copy.Add(self.cancelButton, 0, wx.ALL, 5)
+
+        self.okButton = wx.Button(self, wx.ID_OK, "OK")
+        sizer_4_copy.Add(self.okButton, 0, wx.ALL, 5)
+
+        self.SetSizer(sizer_2)
+        sizer_2.Fit(self)
+
+        self.Layout()
 
         self.Bind(wx.EVT_SPINCTRL, self.onSpin, self.aSpinCtrl)
         self.Bind(wx.EVT_SPINCTRL, self.onSpin, self.bSpinCtrl)
@@ -53,50 +110,6 @@ class BondLengthDialog(wx.Dialog):
         self.Bind(wx.EVT_BUTTON, self.onOk, self.okButton)
         # end wxGlade
         self.__customProperties()
-
-    def __set_properties(self):
-        # begin wxGlade: BondLengthDialog.__set_properties
-        self.SetTitle("Calculate Bond Lengths")
-        self.aSpinCtrl.SetMinSize((80, 27))
-        self.bSpinCtrl.SetMinSize((80, 27))
-        self.aComboBox.SetMinSize((80, 27))
-        self.bComboBox.SetMinSize((80, 27))
-        self.lbTextCtrl.SetMinSize((80, 27))
-        self.ubTextCtrl.SetMinSize((80, 27))
-        # end wxGlade
-
-    def __do_layout(self):
-        # begin wxGlade: BondLengthDialog.__do_layout
-        sizer_2 = wx.StaticBoxSizer(wx.StaticBox(self, wx.ID_ANY, ""), wx.VERTICAL)
-        sizer_4_copy = wx.BoxSizer(wx.HORIZONTAL)
-        sizer_4_copy_1 = wx.BoxSizer(wx.HORIZONTAL)
-        sizer_4 = wx.BoxSizer(wx.HORIZONTAL)
-        sizer_3 = wx.BoxSizer(wx.HORIZONTAL)
-        sizer_2.Add(self.instructionsLabel, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALL, 5)
-        sizer_3.Add(self.indicesLabel, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALL, 5)
-        sizer_3.Add(self.aSpinCtrl, 0, wx.ALL, 5)
-        sizer_3.Add(self.bSpinCtrl, 0, wx.ALL, 5)
-        sizer_2.Add(sizer_3, 0, wx.EXPAND, 0)
-        sizer_2.Add(self.static_line_2, 0, wx.BOTTOM | wx.EXPAND, 5)
-        sizer_2.Add(self.instructionsLabel2, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALL, 5)
-        sizer_4.Add(self.elementLabel, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALL, 5)
-        sizer_4.Add(self.aComboBox, 0, wx.ALL, 5)
-        sizer_4.Add(self.bComboBox, 0, wx.ALL, 5)
-        sizer_2.Add(sizer_4, 0, wx.EXPAND, 0)
-        sizer_4_copy_1.Add(self.rangeLabel, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALL, 5)
-        sizer_4_copy_1.Add(self.lbTextCtrl, 0, wx.ALL, 5)
-        sizer_4_copy_1.Add(self.toLabel, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALL, 5)
-        sizer_4_copy_1.Add(self.ubTextCtrl, 0, wx.ALL, 5)
-        sizer_2.Add(sizer_4_copy_1, 0, wx.EXPAND, 0)
-        sizer_2.Add(self.static_line_1, 0, wx.EXPAND, 0)
-        sizer_4_copy.Add((0, 0), 1, wx.EXPAND, 0)
-        sizer_4_copy.Add(self.cancelButton, 0, wx.ALL, 5)
-        sizer_4_copy.Add(self.okButton, 0, wx.ALL, 5)
-        sizer_2.Add(sizer_4_copy, 0, wx.EXPAND, 0)
-        self.SetSizer(sizer_2)
-        sizer_2.Fit(self)
-        self.Layout()
-        # end wxGlade
 
     def __customProperties(self):
         """Set the custom properties."""
