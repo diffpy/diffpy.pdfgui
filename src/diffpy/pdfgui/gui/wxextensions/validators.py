@@ -82,7 +82,7 @@ class TextValidator(wx.Validator):
             event.Skip()
             return
 
-        if self.flag == ALPHA_ONLY and chr(key) in string.letters:
+        if self.flag == ALPHA_ONLY and chr(key) in string.ascii_letters:
             event.Skip()
             return
 
