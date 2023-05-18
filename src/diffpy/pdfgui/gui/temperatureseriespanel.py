@@ -32,18 +32,64 @@ class TemperatureSeriesPanel(wx.Panel, PDFPanel):
         # begin wxGlade: TemperatureSeriesPanel.__init__
         kwds["style"] = kwds.get("style", 0) | wx.TAB_TRAVERSAL
         wx.Panel.__init__(self, *args, **kwds)
-        self.instructionsLabel = wx.StaticText(self, wx.ID_ANY, "Select a fit from the tree on the left then add datasets and assign\ntemperatues below. If you have not set up a fit to be the template\nfor the series, hit cancel and rerun this macro once a fit has been\ncreated.")
-        self.listCtrlFiles = AutoWidthListCtrl(self, wx.ID_ANY, style=wx.BORDER_SUNKEN | wx.LC_EDIT_LABELS | wx.LC_REPORT)
-        self.buttonUp = wx.BitmapButton(self, wx.ID_ANY, wx.NullBitmap)
-        self.buttonDown = wx.BitmapButton(self, wx.ID_ANY, wx.NullBitmap)
-        self.buttonAdd = wx.Button(self, wx.ID_ADD, "Add")
-        self.buttonDelete = wx.Button(self, wx.ID_DELETE, "Delete")
-        self.static_line_1 = wx.StaticLine(self, wx.ID_ANY)
-        self.goButton = wx.Button(self, wx.ID_OK, "OK")
-        self.cancelButton = wx.Button(self, wx.ID_CANCEL, "Cancel")
 
-        self.__set_properties()
-        self.__do_layout()
+        sizer_1 = wx.BoxSizer(wx.VERTICAL)
+
+        self.instructionsLabel = wx.StaticText(self, wx.ID_ANY, "Select a fit from the tree on the left then add datasets and assign\ntemperatues below. If you have not set up a fit to be the template\nfor the series, hit cancel and rerun this macro once a fit has been\ncreated.")
+        self.instructionsLabel.SetFont(wx.Font(10, wx.FONTFAMILY_DEFAULT, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_NORMAL, 0, "Sans"))
+        sizer_1.Add(self.instructionsLabel, 0, wx.ALL | wx.EXPAND, 5)
+
+        sizer_2 = wx.BoxSizer(wx.VERTICAL)
+        sizer_1.Add(sizer_2, 1, wx.EXPAND, 0)
+
+        sizer_4 = wx.BoxSizer(wx.HORIZONTAL)
+        sizer_2.Add(sizer_4, 1, wx.EXPAND, 0)
+
+        self.listCtrlFiles = AutoWidthListCtrl(self, wx.ID_ANY, style=wx.BORDER_SUNKEN | wx.LC_EDIT_LABELS | wx.LC_REPORT)
+        sizer_4.Add(self.listCtrlFiles, 1, wx.ALL | wx.EXPAND, 5)
+
+        sizer_5 = wx.BoxSizer(wx.VERTICAL)
+        sizer_4.Add(sizer_5, 0, wx.EXPAND, 0)
+
+        sizer_5.Add((0, 0), 1, 0, 0)
+
+        self.buttonUp = wx.BitmapButton(self, wx.ID_ANY, wx.NullBitmap)
+        self.buttonUp.SetSize(self.buttonUp.GetBestSize())
+        sizer_5.Add(self.buttonUp, 0, wx.ALL, 5)
+
+        self.buttonDown = wx.BitmapButton(self, wx.ID_ANY, wx.NullBitmap)
+        self.buttonDown.SetSize(self.buttonDown.GetBestSize())
+        sizer_5.Add(self.buttonDown, 0, wx.ALL, 5)
+
+        sizer_5.Add((0, 0), 1, 0, 0)
+
+        grid_sizer_1 = wx.GridSizer(1, 2, 10, 10)
+        sizer_1.Add(grid_sizer_1, 0, wx.ALL, 5)
+
+        self.buttonAdd = wx.Button(self, wx.ID_ADD, "Add")
+        grid_sizer_1.Add(self.buttonAdd, 0, 0, 0)
+
+        self.buttonDelete = wx.Button(self, wx.ID_DELETE, "Delete")
+        grid_sizer_1.Add(self.buttonDelete, 0, 0, 0)
+
+        self.static_line_1 = wx.StaticLine(self, wx.ID_ANY)
+        sizer_1.Add(self.static_line_1, 0, wx.EXPAND, 0)
+
+        sizer_3 = wx.BoxSizer(wx.HORIZONTAL)
+        sizer_1.Add(sizer_3, 0, wx.EXPAND, 0)
+
+        sizer_3.Add((20, 20), 1, wx.EXPAND, 0)
+
+        self.goButton = wx.Button(self, wx.ID_OK, "OK")
+        sizer_3.Add(self.goButton, 0, wx.ALL, 5)
+
+        self.cancelButton = wx.Button(self, wx.ID_CANCEL, "Cancel")
+        sizer_3.Add(self.cancelButton, 0, wx.ALL, 5)
+
+        self.SetSizer(sizer_1)
+        sizer_1.Fit(self)
+
+        self.Layout()
 
         self.Bind(wx.EVT_LIST_COL_CLICK, self.onColClick, self.listCtrlFiles)
         self.Bind(wx.EVT_LIST_END_LABEL_EDIT, self.onEndLabelEdit, self.listCtrlFiles)
@@ -57,43 +103,6 @@ class TemperatureSeriesPanel(wx.Panel, PDFPanel):
         self.buttonUp.SetBitmapLabel(wx.ArtProvider.GetBitmap(wx.ART_GO_UP))
         self.buttonDown.SetBitmapLabel(wx.ArtProvider.GetBitmap(wx.ART_GO_DOWN))
         self.__customProperties()
-
-    def __set_properties(self):
-        # begin wxGlade: TemperatureSeriesPanel.__set_properties
-        self.instructionsLabel.SetFont(wx.Font(10, wx.FONTFAMILY_DEFAULT, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_NORMAL, 0, "Sans"))
-        self.buttonUp.SetSize(self.buttonUp.GetBestSize())
-        self.buttonDown.SetSize(self.buttonDown.GetBestSize())
-        # end wxGlade
-
-    def __do_layout(self):
-        # begin wxGlade: TemperatureSeriesPanel.__do_layout
-        sizer_1 = wx.BoxSizer(wx.VERTICAL)
-        sizer_3 = wx.BoxSizer(wx.HORIZONTAL)
-        grid_sizer_1 = wx.GridSizer(1, 2, 10, 10)
-        sizer_2 = wx.BoxSizer(wx.VERTICAL)
-        sizer_4 = wx.BoxSizer(wx.HORIZONTAL)
-        sizer_5 = wx.BoxSizer(wx.VERTICAL)
-        sizer_1.Add(self.instructionsLabel, 0, wx.ALL | wx.EXPAND, 5)
-        sizer_4.Add(self.listCtrlFiles, 1, wx.ALL | wx.EXPAND, 5)
-        sizer_5.Add((0, 0), 1, 0, 0)
-        sizer_5.Add(self.buttonUp, 0, wx.ALL, 5)
-        sizer_5.Add(self.buttonDown, 0, wx.ALL, 5)
-        sizer_5.Add((0, 0), 1, 0, 0)
-        sizer_4.Add(sizer_5, 0, wx.EXPAND, 0)
-        sizer_2.Add(sizer_4, 1, wx.EXPAND, 0)
-        sizer_1.Add(sizer_2, 1, wx.EXPAND, 0)
-        grid_sizer_1.Add(self.buttonAdd, 0, 0, 0)
-        grid_sizer_1.Add(self.buttonDelete, 0, 0, 0)
-        sizer_1.Add(grid_sizer_1, 0, wx.ALL, 5)
-        sizer_1.Add(self.static_line_1, 0, wx.EXPAND, 0)
-        sizer_3.Add((20, 20), 1, wx.EXPAND, 0)
-        sizer_3.Add(self.goButton, 0, wx.ALL, 5)
-        sizer_3.Add(self.cancelButton, 0, wx.ALL, 5)
-        sizer_1.Add(sizer_3, 0, wx.EXPAND, 0)
-        self.SetSizer(sizer_1)
-        sizer_1.Fit(self)
-        self.Layout()
-        # end wxGlade
 
     def __customProperties(self):
         """Set the custom properties."""
@@ -283,7 +292,8 @@ class TemperatureSeriesPanel(wx.Panel, PDFPanel):
         if idx == -1: idx = len(cp)
         for temperature, filename in self.datasets:
             shortname = "..." + filename[idx:]
-            index = self.listCtrlFiles.InsertItem(sys.maxsize, str(temperature))
+            # index = self.listCtrlFiles.InsertItem(sys.maxsize, str(temperature)) #doesn't work for windows
+            index = self.listCtrlFiles.InsertItem(100000, str(temperature))
             self.listCtrlFiles.SetItem(index, 1, shortname)
         return
 
