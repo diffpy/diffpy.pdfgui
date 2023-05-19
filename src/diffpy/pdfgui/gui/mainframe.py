@@ -299,7 +299,8 @@ class MainFrame(wx.Frame):
 
         # The configuration parser for getting configuration data.
         # self.cP = QuotedConfigParser()
-        self.cP = QuotedConfigParser(strict=False) #Long try this to avoid DuplicateSectionError
+        # Long try this to avoid DuplicateSectionError and ParsingError
+        self.cP = QuotedConfigParser(strict=False, allow_no_value=True)
 
         # Set the program mode
         self.mode = "fitting"

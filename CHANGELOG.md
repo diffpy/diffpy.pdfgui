@@ -2,7 +2,7 @@
 
 Notable differences from version 1.1.2.
 
-## Version 2.0.2 – 2023-05-14
+## Version 2.0.3 – 2023-05-18
 
 ### Added
 
@@ -22,3 +22,5 @@ Notable differences from version 1.1.2.
 ### Fixed
 
 - Incompatible conversion between bytes and str from py2 to py3.
+- The `listCtrlFiles.InsertItem` error in windows.
+- Make the string parser in doping series working.
