@@ -13,7 +13,7 @@
 #
 ##############################################################################
 
-"""This module contains gloabal parameters needed by PDFgui."""
+"""This module contains global parameters needed by PDFgui."""
 
 import os.path
 from pkg_resources import Requirement, resource_filename

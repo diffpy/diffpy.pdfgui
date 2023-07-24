@@ -20,6 +20,7 @@ lib
 lib64
 tags
 errors.err
+.idea
 
 # Installer logs
 pip-log.txt
