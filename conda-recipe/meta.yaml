@@ -37,7 +37,7 @@ requirements:
     - setuptools
     - six
     - matplotlib
-    - wxpython 4.*
+    - wxpython 4.2.*
     - menuinst                  [win]
     - diffpy.pdffit2
     - diffpy.structure >=3
