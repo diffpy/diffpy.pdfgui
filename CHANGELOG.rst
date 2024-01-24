@@ -4,6 +4,11 @@ Diffpy.pdfgui Change Log
 
 .. current developments
 
+v3.0.5
+====================
+
+
+
 
 Version 2.0.3 – 2023-05-18
 ==========================
