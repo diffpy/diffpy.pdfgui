@@ -93,7 +93,7 @@ with open(os.path.join(MYDIR, 'README.rst')) as fp:
 # define distribution
 setup_args = dict(
     name = 'diffpy.pdfgui',
-    version = versiondata.get('DEFAULT', 'version'),
+    version='3.0.5',
     packages = find_packages(os.path.join(MYDIR, 'src')),
     package_dir = {'' : 'src'},
     include_package_data = True,
