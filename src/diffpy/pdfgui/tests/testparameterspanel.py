@@ -27,16 +27,18 @@ from diffpy.pdfgui.tests.testutils import GUITestCase, clickcell
 
 # ----------------------------------------------------------------------------
 
-class TestParametersPanel(GUITestCase):
 
+class TestParametersPanel(GUITestCase):
     def setUp(self):
         self.app = wx.App()
         self.frame = wx.Frame(None)
         self.panel = ParametersPanel(self.frame, -1)
-        self.panel.parameters.update([
-            (1, Parameter(1, 0.1)),
-            (5, Parameter(5, 0.5)),
-        ])
+        self.panel.parameters.update(
+            [
+                (1, Parameter(1, 0.1)),
+                (5, Parameter(5, 0.5)),
+            ]
+        )
         self.panel.refresh()
         self.panel.mainFrame = self._mockUpMainFrame()
         self.frame.window = self.panel
@@ -46,7 +48,6 @@ class TestParametersPanel(GUITestCase):
         self.frame.Close()
         self.app.Destroy()
         return
-
 
     def test_onPopupFixFree(self):
         "Check ParametersPanel.onPopupFixFree"
@@ -69,7 +70,6 @@ class TestParametersPanel(GUITestCase):
         self.assertTrue(plist[1].fixed)
         return
 
-
     def test_applyCellChange(self):
         "Check ParametersPanel.applyCellChange"
         gp = self.panel.grid_parameters
@@ -83,7 +83,6 @@ class TestParametersPanel(GUITestCase):
         self.assertEqual("1.5", gp.GetCellValue(0, 0))
         self.assertEqual(1.5, panel.parameters[1].initialValue())
         return
-
 
     def test_onCellLeftClick(self):
         "Check click handling on the Parameters grid."
@@ -110,7 +109,6 @@ class TestParametersPanel(GUITestCase):
         self.assertEqual("1", gp.GetCellValue(0, 1))
         return
 
-
     def test_onCellRightClick(self):
         "Check right-click handling on the Parameters grid."
         # disable modal grid_parameters.PopupMenu
@@ -123,9 +121,10 @@ class TestParametersPanel(GUITestCase):
         self.assertTrue(self.panel.did_popupIDs)
         return
 
+
 # End of class TestParametersPanel
 
 # ----------------------------------------------------------------------------
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()
