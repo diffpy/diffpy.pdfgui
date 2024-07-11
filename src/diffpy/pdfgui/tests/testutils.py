@@ -28,8 +28,10 @@ from diffpy.pdfgui.gui import mainframe
 
 # helper functions
 
+
 def datafile(filename):
     from pkg_resources import resource_filename
+
     rv = resource_filename(__name__, "testdata/" + filename)
     return rv
 
@@ -38,11 +40,14 @@ def datafile(filename):
 def overridewebbrowser(fnc_open):
     "Temporarily replace `webbrowser.open` with given function."
     import webbrowser
+
     controller = webbrowser.get()
     save_open = controller.open
+
     def open_override(url, new=0, autoraise=True):
         fnc_open(url)
         return True
+
     controller.open = open_override
     try:
         yield save_open
@@ -56,14 +61,19 @@ def overridewebbrowser(fnc_open):
 def overridefiledialog(status, paths):
     "Temporarily replace wx.FileDialog with non-blocking ShowModal()."
     save_filedialog = wx.FileDialog
+
     class NBFileDialog(wx.FileDialog):
         def ShowModal(self):
             return status
+
         def GetPath(self):
-            return paths[-1] if paths else ''
+            return paths[-1] if paths else ""
+
         def GetPaths(self):
             return paths
+
         pass
+
     wx.FileDialog = NBFileDialog
     try:
         yield
@@ -76,10 +86,13 @@ def overridefiledialog(status, paths):
 def overrideclipboard():
     "Temporarily replace wx.TheClipboard with a dummy object."
     save_theclipboard = wx.TheClipboard
+
     class _TTheClipboard(object):
         def IsSupported(self, fmt):
             return False
+
         pass
+
     wx.TheClipboard = _TTheClipboard()
     try:
         yield wx.TheClipboard
@@ -110,20 +123,22 @@ def clickcell(grid, leftright, row, col, **kw):
         Keyword arguments for the wx.GridEvent constructor.
         Typically a keyboard modifier for the click.
     """
-    assert leftright in ('left', 'right')
+    assert leftright in ("left", "right")
     if leftright == "left":
         eventtype = wx.grid.EVT_GRID_CELL_LEFT_CLICK.typeId
     else:
         eventtype = wx.grid.EVT_GRID_CELL_RIGHT_CLICK.typeId
-    kbd = {'kbd': wx.KeyboardState(**kw)}
+    kbd = {"kbd": wx.KeyboardState(**kw)}
     # TODO: remove this after deprecations of wxpython 3
     if wx.VERSION[0] == 3:
-        kbd = {k.replace('Down', ''): v for k, v in kw.items()}
+        kbd = {k.replace("Down", ""): v for k, v in kw.items()}
     e = wx.grid.GridEvent(grid.Id, eventtype, grid, row, col, **kbd)
     grid.ProcessEvent(e)
     return
 
+
 # GUI-specialized TestCase ---------------------------------------------------
+
 
 class GUITestCase(TestCase):
     "Test GUI widgets without invoking ErrorReportDialog."
@@ -152,16 +167,16 @@ class GUITestCase(TestCase):
         pdfguiglobals.dbopts.noconfirm = cls._save_noconfirm
         pdfguiglobals.cmdargs[:] = cls._save_cmdargs
         pdfguiglobals.configfilename = cls._save_configfilename
-        pdfguicontrol.PDFGuiControl.QueueManager.run, = cls._save_qmrun
-        mainframe.pdfguicontrol, = cls._save_factory
-        pdfguicontrol.pdfguicontrol, = cls._save_factory
+        (pdfguicontrol.PDFGuiControl.QueueManager.run,) = cls._save_qmrun
+        (mainframe.pdfguicontrol,) = cls._save_factory
+        (pdfguicontrol.pdfguicontrol,) = cls._save_factory
         assert mainframe.pdfguicontrol is pdfguicontrol.pdfguicontrol
         cls.__pdfguicontrol = None
         return
 
     @classmethod
     def setCmdArgs(cls, args):
-        assert hasattr(cls, '_save_cmdargs')
+        assert hasattr(cls, "_save_cmdargs")
         pdfguiglobals.cmdargs[:] = args
         return
 
@@ -176,9 +191,11 @@ class GUITestCase(TestCase):
     def _mockUpMainFrame():
         return _TMainFrame()
 
+
 # end of class GUITestCase
 
 # Helper for GUITestCase -----------------------------------------------------
+
 
 class _TMainFrame(object):
     "Thin mockup of the used MainFrame methods."
@@ -188,6 +205,7 @@ class _TMainFrame(object):
     def needsSave(self):
         self.altered = True
         return
+
 
 # end of class _TMainFrame
 
