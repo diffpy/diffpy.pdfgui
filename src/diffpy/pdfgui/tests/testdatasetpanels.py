@@ -26,8 +26,8 @@ from diffpy.pdfgui.tests.testutils import GUITestCase, datafile, tooltiptext
 
 # ----------------------------------------------------------------------------
 
-class TestDataSetPanel(GUITestCase):
 
+class TestDataSetPanel(GUITestCase):
     @classmethod
     def setUpClass(cls):
         GUITestCase.setUpClass()
@@ -40,7 +40,6 @@ class TestDataSetPanel(GUITestCase):
         cls.frame.makeTreeSelection(dsids[0])
         return
 
-
     @classmethod
     def tearDownClass(cls):
         cls.frame.Close()
@@ -48,19 +47,16 @@ class TestDataSetPanel(GUITestCase):
         GUITestCase.tearDownClass()
         return
 
-
     def setUp(self):
         self.pconfigure = self.frame.rightPanel.configurePanel
         self.pconstraints = self.frame.rightPanel.constraintPanel
         self.presults = self.frame.rightPanel.resultsPanel
         return
 
-
     def _selectpage(self, page):
         nb = self.frame.rightPanel.dataSetNotebook
         nb.SetSelection(page)
         return
-
 
     def _selectsampling(self, selection):
         "select specified item in sampling radio box"
@@ -71,13 +67,11 @@ class TestDataSetPanel(GUITestCase):
         self.pconfigure.ProcessEvent(e)
         return
 
-
     def test_refreshSelectedPage(self):
         "check DataSetPanel.refreshSelectedPage method"
         # cover all if branches in refreshSelectedPage
         self._selectpage(2)
         return
-
 
     def test_restrictConstrainedParameters(self):
         "check DataSetConfigurePanel.restrictConstrainedParameters method"
@@ -85,9 +79,8 @@ class TestDataSetPanel(GUITestCase):
         panel = self.pconfigure
         self.assertFalse(panel.textCtrlScaleFactor.IsEditable())
         self.assertTrue(panel.textCtrlQbroad.IsEditable())
-        self.assertEqual('@100', tooltiptext(panel.textCtrlScaleFactor))
+        self.assertEqual("@100", tooltiptext(panel.textCtrlScaleFactor))
         return
-
 
     def test_onSampling(self):
         "check DataSetConfigurePanel.onSampling method"
@@ -105,19 +98,18 @@ class TestDataSetPanel(GUITestCase):
         self.assertEqual(27, panel.configuration.qmax)
         return
 
-
     def test_setConstraintsData(self):
         "check DataSetConstraintPanel.setConstraintsData method"
         self._selectpage(1)
         panel = self.pconstraints
-        self.assertEqual('@100', panel.textCtrlScaleFactor.GetValue())
-        self.assertEqual('Data scale factor',
-                         tooltiptext(panel.textCtrlScaleFactor))
+        self.assertEqual("@100", panel.textCtrlScaleFactor.GetValue())
+        self.assertEqual("Data scale factor", tooltiptext(panel.textCtrlScaleFactor))
         return
+
 
 # End of class TestDataSetPanel
 
 # ----------------------------------------------------------------------------
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

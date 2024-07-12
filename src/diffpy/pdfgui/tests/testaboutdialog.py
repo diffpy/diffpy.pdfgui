@@ -26,8 +26,8 @@ from diffpy.pdfgui.tests.testutils import overridewebbrowser
 
 # ----------------------------------------------------------------------------
 
-class TestDialogAbout(GUITestCase):
 
+class TestDialogAbout(GUITestCase):
     def setUp(self):
         self.app = wx.App()
         self.dialog = aboutdialog.DialogAbout(None)
@@ -38,31 +38,30 @@ class TestDialogAbout(GUITestCase):
         self.app.Destroy()
         return
 
-
     def _clickbutton(self, button):
         e = wx.CommandEvent(wx.EVT_BUTTON.typeId, button.Id)
         self.dialog.ProcessEvent(e)
         return
 
-
     def test_LogoClicks(self):
         "Check handling of clicks on various logos"
         d = self.dialog
-        stealurl = lambda u: setattr(self, 'url', u)
+        stealurl = lambda u: setattr(self, "url", u)
         with overridewebbrowser(stealurl):
             self._clickbutton(d.bitmap_button_nsf)
-            self.assertTrue(self.url.endswith('www.nsf.gov'))
+            self.assertTrue(self.url.endswith("www.nsf.gov"))
             self._clickbutton(d.bitmap_button_danse)
-            self.assertTrue(self.url.endswith('danse.us'))
+            self.assertTrue(self.url.endswith("danse.us"))
             self._clickbutton(d.bitmap_button_msu)
-            self.assertTrue(self.url.endswith('www.msu.edu'))
+            self.assertTrue(self.url.endswith("www.msu.edu"))
             self._clickbutton(d.bitmap_button_columbia)
-            self.assertTrue(self.url.endswith('www.columbia.edu'))
+            self.assertTrue(self.url.endswith("www.columbia.edu"))
         return
+
 
 # End of class TestDialogAbout
 
 # ----------------------------------------------------------------------------
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

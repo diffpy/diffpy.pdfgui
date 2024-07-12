@@ -27,14 +27,14 @@ from diffpy.pdfgui.tests.testutils import datafile
 
 # ----------------------------------------------------------------------------
 
-class TestDopingSeriesPanel(GUITestCase):
 
+class TestDopingSeriesPanel(GUITestCase):
     def setUp(self):
         self.app = wx.App()
         self.frame = wx.Frame(None)
         self.panel = DopingSeriesPanel(self.frame)
         self.panel.mainFrame = self._mockUpMainFrame()
-        self.panel.mainFrame.workpath = datafile('')
+        self.panel.mainFrame.workpath = datafile("")
         return
 
     def tearDown(self):
@@ -42,11 +42,10 @@ class TestDopingSeriesPanel(GUITestCase):
         self.app.Destroy()
         return
 
-
     def test_onAdd(self):
         "Check DopingSeriesPanel.onAdd"
         panel = self.panel
-        paths = ['x000.gr', 'x020.gr', 'lcmo_00.gr', 'lcmo_20.gr']
+        paths = ["x000.gr", "x020.gr", "lcmo_00.gr", "lcmo_20.gr"]
         paths = [datafile(p) for p in paths]
         with overridefiledialog(wx.ID_OK, paths):
             panel.onAdd(None)
@@ -54,9 +53,10 @@ class TestDopingSeriesPanel(GUITestCase):
         self.assertEqual([0, 20, 0, 0.2], [xf[0] for xf in panel.datasets])
         return
 
+
 # End of class TestDopingSeriesPanel
 
 # ----------------------------------------------------------------------------
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()
