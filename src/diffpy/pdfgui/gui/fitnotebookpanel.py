@@ -21,6 +21,7 @@ from diffpy.pdfgui.gui.pdfpanel import PDFPanel
 from diffpy.pdfgui.gui.parameterspanel import ParametersPanel
 from diffpy.pdfgui.gui.resultspanel import ResultsPanel
 
+
 class FitNotebookPanel(wx.Panel, PDFPanel):
     def __init__(self, *args, **kwds):
         # begin wxGlade: FitNotebookPanel.__init__
@@ -60,17 +61,18 @@ class FitNotebookPanel(wx.Panel, PDFPanel):
         self.mainFrame = None
         return
 
-    def onPageChanged(self, event): # wxGlade: FitNotebookPanel.<event_handler>
+    def onPageChanged(self, event):  # wxGlade: FitNotebookPanel.<event_handler>
         """Refresh the panel visible panel."""
         self.refresh()
         return
 
-    def onPageChanging(self, event): # wxGlade: FitNotebookPanel.<event_handler>
+    def onPageChanging(self, event):  # wxGlade: FitNotebookPanel.<event_handler>
         event.Skip()
 
     def refresh(self):
         """Refresh the panels."""
-        if not self.fit: return
+        if not self.fit:
+            return
         panel = self.fitnotebook.GetCurrentPage()
         panel.mainFrame = self.mainFrame
         panel.refresh()
@@ -79,12 +81,13 @@ class FitNotebookPanel(wx.Panel, PDFPanel):
         panel.refresh()
 
     # Overloaded from Panel.
-    def Enable(self, enable = True):
+    def Enable(self, enable=True):
         """Keep the notebook enabled, just not the panels.
 
         outputPanel is immune from this, since it needs to be interacted with.
         """
         self.parametersPanel.Enable(enable)
         return
+
 
 # end of class FitNotebookPanel

@@ -19,12 +19,15 @@
 import wx
 from diffpy.pdfgui.gui.pdfpanel import PDFPanel
 
-class OutputPanel(wx.Panel,PDFPanel):
+
+class OutputPanel(wx.Panel, PDFPanel):
     def __init__(self, *args, **kwds):
         # begin wxGlade: OutputPanel.__init__
         kwds["style"] = kwds.get("style", 0) | wx.TAB_TRAVERSAL
         wx.Panel.__init__(self, *args, **kwds)
-        self.outputTextCtrl = wx.TextCtrl(self, wx.ID_ANY, "", style=wx.HSCROLL | wx.TE_MULTILINE | wx.TE_READONLY)
+        self.outputTextCtrl = wx.TextCtrl(
+            self, wx.ID_ANY, "", style=wx.HSCROLL | wx.TE_MULTILINE | wx.TE_READONLY
+        )
 
         self.__set_properties()
         self.__do_layout()
@@ -50,8 +53,12 @@ class OutputPanel(wx.Panel,PDFPanel):
         """Set the custom properties."""
         # Set the font to monospace
         ftxt = self.outputTextCtrl.GetFont()
-        font = wx.Font(ftxt.GetPointSize(), wx.FONTFAMILY_TELETYPE,
-                       ftxt.GetStyle(), ftxt.GetWeight())
+        font = wx.Font(
+            ftxt.GetPointSize(),
+            wx.FONTFAMILY_TELETYPE,
+            ftxt.GetStyle(),
+            ftxt.GetWeight(),
+        )
         self.outputTextCtrl.SetFont(font)
         return
 
@@ -67,5 +74,6 @@ class OutputPanel(wx.Panel,PDFPanel):
 
     def refresh(self):
         pass
+
 
 # end of class OutputPanel
