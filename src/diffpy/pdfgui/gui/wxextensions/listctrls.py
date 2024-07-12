@@ -30,18 +30,27 @@ from diffpy.pdfgui.gui.wxextensions import wx12
 
 class AutoWidthListCtrl(wx12.ListCtrl, listmix.ListCtrlAutoWidthMixin):
     """wxListCtrl subclass that automatically adjusts its column width."""
-    def __init__(self, parent, ID, pos=wx.DefaultPosition,
-                 size=wx.DefaultSize, style=0, *args, **kwargs):
+
+    def __init__(
+        self,
+        parent,
+        ID,
+        pos=wx.DefaultPosition,
+        size=wx.DefaultSize,
+        style=0,
+        *args,
+        **kwargs
+    ):
         wx12.ListCtrl.__init__(self, parent, ID, pos, size, style, *args, **kwargs)
         listmix.ListCtrlAutoWidthMixin.__init__(self)
 
     def clearSelections(self):
         """Clear all selections in the list."""
-        for item in range( self.GetItemCount() ):
+        for item in range(self.GetItemCount()):
             self.Select(item, on=0)
         return
 
-    def setSelection(self, itemtext = None):
+    def setSelection(self, itemtext=None):
         """Convenience function for simple selection of a list item by label.
 
         itemtext    --  The label of the item to select. If itemtext is None
@@ -57,7 +66,10 @@ class AutoWidthListCtrl(wx12.ListCtrl, listmix.ListCtrlAutoWidthMixin):
             self.Select(item)
             self.Focus(item)
         return item
+
+
 # end AutoWidthListCtrl
+
 
 class ColumnSortListCtrl(AutoWidthListCtrl, listmix.ColumnSorterMixin):
     """AutoWidthListCtrl subclass that sorts its columns when the column header
@@ -71,10 +83,18 @@ class ColumnSortListCtrl(AutoWidthListCtrl, listmix.ColumnSorterMixin):
     columns. The sorting routine sorts the items in the ListCtrl by the entries
     in this tuple.
     """
-    def __init__(self, parent, ID, pos=wx.DefaultPosition,
-                 size=wx.DefaultSize, style=0, *args, **kwargs):
-        AutoWidthListCtrl.__init__(self, parent, ID, pos, size, style,
-                *args, **kwargs)
+
+    def __init__(
+        self,
+        parent,
+        ID,
+        pos=wx.DefaultPosition,
+        size=wx.DefaultSize,
+        style=0,
+        *args,
+        **kwargs
+    ):
+        AutoWidthListCtrl.__init__(self, parent, ID, pos, size, style, *args, **kwargs)
         listmix.ListCtrlAutoWidthMixin.__init__(self)
 
     def GetListCtrl(self):
@@ -104,12 +124,14 @@ class ColumnSortListCtrl(AutoWidthListCtrl, listmix.ColumnSorterMixin):
         for i in range(numrow):
             infolist = []
             for j in range(numcol):
-                infolist.append( self.GetItem(i,j).GetText() )
-            self.itemDataMap[i+1] = tuple(infolist)
-            self.SetItemData(i, i+1)
+                infolist.append(self.GetItem(i, j).GetText())
+            self.itemDataMap[i + 1] = tuple(infolist)
+            self.SetItemData(i, i + 1)
         return
 
+
 # end ColumnSortListCtrl
+
 
 class KeyEventsListCtrl(ColumnSortListCtrl):
     """ColumnSortListCtrl that catches key events and selects the item that
@@ -117,11 +139,19 @@ class KeyEventsListCtrl(ColumnSortListCtrl):
 
     It only searches for items in the first column.
     """
-    def __init__(self, parent, id, pos=wx.DefaultPosition, size=wx.DefaultSize,
-            style=0, *args, **kwargs):
-        ColumnSortListCtrl.__init__(self, parent, id, pos, size, style, *args,
-                **kwargs)
-        self.typedText = ''
+
+    def __init__(
+        self,
+        parent,
+        id,
+        pos=wx.DefaultPosition,
+        size=wx.DefaultSize,
+        style=0,
+        *args,
+        **kwargs
+    ):
+        ColumnSortListCtrl.__init__(self, parent, id, pos, size, style, *args, **kwargs)
+        self.typedText = ""
         self.Bind(wx.EVT_KEY_DOWN, self.OnKey)
 
     def findPrefix(self, prefix):
@@ -137,7 +167,6 @@ class KeyEventsListCtrl(ColumnSortListCtrl):
                     return x
 
         return -1
-
 
     def OnKey(self, evt):
         key = evt.GetKeyCode()
@@ -171,11 +200,12 @@ class KeyEventsListCtrl(ColumnSortListCtrl):
                     self.setSelection(itemtext)
 
         else:
-            self.typedText = ''
+            self.typedText = ""
             evt.Skip()
 
     def OnKeyDown(self, evt):
         pass
+
 
 # End of class KeyEventsListCtrl
 

@@ -20,6 +20,7 @@
 
 import wx
 
+
 def textCtrlAsGridCell(panel, event):
     """Process a textCtrl key event as if the textCtrl was a grid cell.
 
