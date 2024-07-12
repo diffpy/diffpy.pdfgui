@@ -25,6 +25,7 @@ from diffpy.pdfgui.tests.testutils import GUITestCase, datafile
 
 # ----------------------------------------------------------------------------
 
+
 class TestLoadProject(GUITestCase):
 
     prj_lcmo = None
@@ -34,10 +35,9 @@ class TestLoadProject(GUITestCase):
     def setUp(self):
         # load project files once
         if TestLoadProject.prj_lcmo is None:
-            TestLoadProject.prj_lcmo = LoadProject(datafile('lcmo.ddp'))
-            TestLoadProject.prj_lcmo_full = LoadProject(
-                    datafile('lcmo_full.ddp'))
-            TestLoadProject.prj_ni = LoadProject(datafile('ni.ddp'))
+            TestLoadProject.prj_lcmo = LoadProject(datafile("lcmo.ddp"))
+            TestLoadProject.prj_lcmo_full = LoadProject(datafile("lcmo_full.ddp"))
+            TestLoadProject.prj_ni = LoadProject(datafile("ni.ddp"))
         # assign them to this instance
         self.prj_lcmo = TestLoadProject.prj_lcmo
         self.prj_lcmo_full = TestLoadProject.prj_lcmo_full
@@ -48,15 +48,13 @@ class TestLoadProject(GUITestCase):
         return
 
     def test___init__(self):
-        """check LoadProject.__init__()
-        """
+        """check LoadProject.__init__()"""
         self.assertEqual(1, len(self.prj_ni.getFits()))
         self.assertRaises(ControlFileError, LoadProject, "does/not/exist.ddp")
         return
 
     def test_getFits(self):
-        """check LoadProject.getFits()
-        """
+        """check LoadProject.getFits()"""
         lcmofits = self.prj_lcmo.getFits()
         lcmofullfits = self.prj_lcmo_full.getFits()
         self.assertEqual(1, len(lcmofits))
@@ -67,8 +65,7 @@ class TestLoadProject(GUITestCase):
         return
 
     def test_getDataSets(self):
-        """check LoadProject.getDataSets()
-        """
+        """check LoadProject.getDataSets()"""
         lcmofullfits = self.prj_lcmo_full.getFits()
         datasets = self.prj_lcmo_full.getDataSets()
         self.assertEqual(10, len(datasets))
@@ -79,8 +76,7 @@ class TestLoadProject(GUITestCase):
         return
 
     def test_getPhases(self):
-        """check LoadProject.getPhases()
-        """
+        """check LoadProject.getPhases()"""
         lcmofullfits = self.prj_lcmo_full.getFits()
         phases = self.prj_lcmo_full.getPhases()
         self.assertAlmostEqual(5.53884, phases[0].refined.lattice.a, 4)
@@ -91,8 +87,7 @@ class TestLoadProject(GUITestCase):
         return
 
     def test_getTemperatures(self):
-        """check LoadProject.getTemperatures()
-        """
+        """check LoadProject.getTemperatures()"""
         temps = self.prj_lcmo_full.getTemperatures()
         self.assertEqual(10, len(temps))
         self.assertEqual(300, temps[0])
@@ -103,20 +98,20 @@ class TestLoadProject(GUITestCase):
         return
 
     def test_getDopings(self):
-        """check LoadProject.getDopings()
-        """
+        """check LoadProject.getDopings()"""
         dopings = self.prj_lcmo_full.getDopings()
-        self.assertEqual(10*[None], dopings)
+        self.assertEqual(10 * [None], dopings)
         datasets3 = self.prj_lcmo_full.getDataSets()[:3]
         dopings3 = self.prj_lcmo_full.getDopings(datasets3)
-        self.assertEqual(3*[None], dopings3)
+        self.assertEqual(3 * [None], dopings3)
         return
+
 
 # End of class TestLoadProject
 
 # ----------------------------------------------------------------------------
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()
 
 # End of file

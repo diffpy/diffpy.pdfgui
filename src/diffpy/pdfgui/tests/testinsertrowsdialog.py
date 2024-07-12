@@ -25,8 +25,8 @@ from diffpy.pdfgui.tests.testutils import GUITestCase
 
 # ----------------------------------------------------------------------------
 
-class TestInsertRowsDialog(GUITestCase):
 
+class TestInsertRowsDialog(GUITestCase):
     def setUp(self):
         self.app = wx.App()
         self.dialog = InsertRowsDialog(None)
@@ -37,16 +37,16 @@ class TestInsertRowsDialog(GUITestCase):
         self.app.Destroy()
         return
 
-
     def test_spin_ctrl_rows(self):
         "Check default number of rows to insert"
         d = self.dialog
         self.assertEqual(1, d.spin_ctrl_Rows.GetValue())
         return
 
+
 # End of class TestInsertRowsDialog
 
 # ----------------------------------------------------------------------------
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

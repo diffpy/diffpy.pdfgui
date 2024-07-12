@@ -29,8 +29,8 @@ from diffpy.pdfgui.tests.testutils import GUITestCase, datafile
 
 # ----------------------------------------------------------------------------
 
-class TestParameter(GUITestCase):
 
+class TestParameter(GUITestCase):
     @classmethod
     def setUpClass(cls):
         GUITestCase.setUpClass()
@@ -42,7 +42,6 @@ class TestParameter(GUITestCase):
         cls.frame.makeTreeSelection(fits[0])
         return
 
-
     @classmethod
     def tearDownClass(cls):
         cls.frame.Close()
@@ -50,11 +49,9 @@ class TestParameter(GUITestCase):
         GUITestCase.tearDownClass()
         return
 
-
     def setUp(self):
         self.fitting = self.frame.rightPanel.fit
         return
-
 
     def test___init__(self):
         "check Parameter.__init__"
@@ -69,7 +66,6 @@ class TestParameter(GUITestCase):
         self.assertRaises(ControlTypeError, Parameter, 1, None)
         return
 
-
     def test_initialValue(self):
         "check Parameter.initialValue"
         p1 = Parameter(1, 0.25)
@@ -80,9 +76,10 @@ class TestParameter(GUITestCase):
         self.assertEqual("=undefined:7", px.initialStr())
         return
 
+
 # End of class TestParameter
 
 # ----------------------------------------------------------------------------
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()
