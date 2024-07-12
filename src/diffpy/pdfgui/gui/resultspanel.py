@@ -19,13 +19,19 @@
 import wx
 from diffpy.pdfgui.gui.pdfpanel import PDFPanel
 
+
 class ResultsPanel(wx.Panel, PDFPanel):
     def __init__(self, *args, **kwds):
         # begin wxGlade: ResultsPanel.__init__
         kwds["style"] = kwds.get("style", 0) | wx.TAB_TRAVERSAL
         wx.Panel.__init__(self, *args, **kwds)
         self.fitResLabel = wx.StaticText(self, wx.ID_ANY, "Fit Summary")
-        self.resultsTextCtrl = wx.TextCtrl(self, wx.ID_ANY, "Fit results will display here once the fit is complete.", style=wx.HSCROLL | wx.TE_MULTILINE | wx.TE_READONLY)
+        self.resultsTextCtrl = wx.TextCtrl(
+            self,
+            wx.ID_ANY,
+            "Fit results will display here once the fit is complete.",
+            style=wx.HSCROLL | wx.TE_MULTILINE | wx.TE_READONLY,
+        )
 
         self.__set_properties()
         self.__do_layout()
@@ -34,7 +40,16 @@ class ResultsPanel(wx.Panel, PDFPanel):
 
     def __set_properties(self):
         # begin wxGlade: ResultsPanel.__set_properties
-        self.fitResLabel.SetFont(wx.Font(18, wx.FONTFAMILY_DEFAULT, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_BOLD, 0, ""))
+        self.fitResLabel.SetFont(
+            wx.Font(
+                18,
+                wx.FONTFAMILY_DEFAULT,
+                wx.FONTSTYLE_NORMAL,
+                wx.FONTWEIGHT_BOLD,
+                0,
+                "",
+            )
+        )
         # end wxGlade
 
     def __do_layout(self):
@@ -58,8 +73,12 @@ class ResultsPanel(wx.Panel, PDFPanel):
 
         # Set the font to monospace
         ftxt = self.resultsTextCtrl.GetFont()
-        font = wx.Font(ftxt.GetPointSize(), wx.FONTFAMILY_TELETYPE,
-                       ftxt.GetStyle(), ftxt.GetWeight())
+        font = wx.Font(
+            ftxt.GetPointSize(),
+            wx.FONTFAMILY_TELETYPE,
+            ftxt.GetStyle(),
+            ftxt.GetWeight(),
+        )
         self.resultsTextCtrl.SetFont(font)
         return
 
@@ -69,7 +88,7 @@ class ResultsPanel(wx.Panel, PDFPanel):
         if self.fit:
             self.results = self.fit.res
         else:
-            self.results = ''
+            self.results = ""
         if not self.results:
             self.results = self.defres
         displayed = self.resultsTextCtrl.GetValue()
@@ -77,5 +96,6 @@ class ResultsPanel(wx.Panel, PDFPanel):
             lastpos = self.resultsTextCtrl.GetLastPosition()
             self.resultsTextCtrl.Replace(0, lastpos, self.results)
         return
+
 
 # end of class ResultsPanel

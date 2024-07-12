@@ -22,14 +22,16 @@ from diffpy.utils.wx import gridutils
 clipcells = []
 
 # String describing what atoms should be selected.
-selected_atoms = ''
+selected_atoms = ""
+
 
 def float2str(x):
     """compact string representation of float"""
     s = "%g" % x
-    if s.find('.') == -1 and s.find('e') == -1:
+    if s.find(".") == -1 and s.find("e") == -1:
         s = s + ".0"
     return s
+
 
 def refreshTextCtrls(panel):
     """Refreshes the TextCtrls on the panel.
@@ -77,21 +79,17 @@ def refreshTextCtrls(panel):
         panel.textCtrlAlpha.SetValue(float2str(panel.structure.lattice.alpha))
         panel.textCtrlBeta.SetValue(float2str(panel.structure.lattice.beta))
         panel.textCtrlGamma.SetValue(float2str(panel.structure.lattice.gamma))
-        panel.textCtrlScaleFactor.SetValue(
-            float2str(panel.structure.pdffit['scale']))
-        panel.textCtrlDelta1.SetValue(
-            float2str(panel.structure.pdffit['delta1']))
-        panel.textCtrlDelta2.SetValue(
-            float2str(panel.structure.pdffit['delta2']))
-        panel.textCtrlSratio.SetValue(
-            float2str(panel.structure.pdffit['sratio']))
-        panel.textCtrlRcut.SetValue(
-            float2str(panel.structure.pdffit['rcut']))
-        panel.textCtrlStepcut.SetValue(
-            float2str(panel.structure.pdffit['stepcut']))
+        panel.textCtrlScaleFactor.SetValue(float2str(panel.structure.pdffit["scale"]))
+        panel.textCtrlDelta1.SetValue(float2str(panel.structure.pdffit["delta1"]))
+        panel.textCtrlDelta2.SetValue(float2str(panel.structure.pdffit["delta2"]))
+        panel.textCtrlSratio.SetValue(float2str(panel.structure.pdffit["sratio"]))
+        panel.textCtrlRcut.SetValue(float2str(panel.structure.pdffit["rcut"]))
+        panel.textCtrlStepcut.SetValue(float2str(panel.structure.pdffit["stepcut"]))
         panel.textCtrlSpdiameter.SetValue(
-            float2str(panel.structure.pdffit['spdiameter']))
+            float2str(panel.structure.pdffit["spdiameter"])
+        )
     return
+
 
 def refreshGrid(panel):
     """Refreshes grid on the panel.
@@ -105,7 +103,7 @@ def refreshGrid(panel):
         # remove all rows from grid
         panel.gridAtoms.BeginBatch()
         if panel.gridAtoms.GetNumberRows() != 0:
-            panel.gridAtoms.DeleteRows( numRows = panel.gridAtoms.GetNumberRows() )
+            panel.gridAtoms.DeleteRows(numRows=panel.gridAtoms.GetNumberRows())
         panel.gridAtoms.EndBatch()
 
     else:
@@ -129,22 +127,22 @@ def refreshGrid(panel):
         natoms = len(panel.structure)
         nrows = panel.gridAtoms.GetNumberRows()
         if natoms > nrows:
-            panel.gridAtoms.InsertRows(numRows = natoms - nrows)
+            panel.gridAtoms.InsertRows(numRows=natoms - nrows)
         elif natoms < nrows:
-            panel.gridAtoms.DeleteRows(numRows = nrows - natoms)
+            panel.gridAtoms.DeleteRows(numRows=nrows - natoms)
         panel.gridAtoms.ClearGrid()
         for i, atom in enumerate(panel.structure):
-            panel.gridAtoms.SetCellValue(i,0, str(atom.element)) # element
-            panel.gridAtoms.SetCellValue(i,1, float2str(atom.xyz[0])) # x
-            panel.gridAtoms.SetCellValue(i,2, float2str(atom.xyz[1])) # y
-            panel.gridAtoms.SetCellValue(i,3, float2str(atom.xyz[2])) # z
-            panel.gridAtoms.SetCellValue(i,4, float2str(atom.U[0,0])) # U(1,1)
-            panel.gridAtoms.SetCellValue(i,5, float2str(atom.U[1,1])) # U(2,2)
-            panel.gridAtoms.SetCellValue(i,6, float2str(atom.U[2,2])) # U(3,3)
-            panel.gridAtoms.SetCellValue(i,7, float2str(atom.U[0,1])) # U(1,2)
-            panel.gridAtoms.SetCellValue(i,8, float2str(atom.U[0,2])) # U(1,3)
-            panel.gridAtoms.SetCellValue(i,9, float2str(atom.U[1,2])) # U(2,3)
-            panel.gridAtoms.SetCellValue(i,10,float2str(atom.occupancy)) # occupancy
+            panel.gridAtoms.SetCellValue(i, 0, str(atom.element))  # element
+            panel.gridAtoms.SetCellValue(i, 1, float2str(atom.xyz[0]))  # x
+            panel.gridAtoms.SetCellValue(i, 2, float2str(atom.xyz[1]))  # y
+            panel.gridAtoms.SetCellValue(i, 3, float2str(atom.xyz[2]))  # z
+            panel.gridAtoms.SetCellValue(i, 4, float2str(atom.U[0, 0]))  # U(1,1)
+            panel.gridAtoms.SetCellValue(i, 5, float2str(atom.U[1, 1]))  # U(2,2)
+            panel.gridAtoms.SetCellValue(i, 6, float2str(atom.U[2, 2]))  # U(3,3)
+            panel.gridAtoms.SetCellValue(i, 7, float2str(atom.U[0, 1]))  # U(1,2)
+            panel.gridAtoms.SetCellValue(i, 8, float2str(atom.U[0, 2]))  # U(1,3)
+            panel.gridAtoms.SetCellValue(i, 9, float2str(atom.U[1, 2]))  # U(2,3)
+            panel.gridAtoms.SetCellValue(i, 10, float2str(atom.occupancy))  # occupancy
 
     panel.gridAtoms.AutosizeLabels()
     panel.gridAtoms.AutoSizeColumns()
@@ -153,7 +151,9 @@ def refreshGrid(panel):
     panel.gridAtoms.AdjustScrollbars()
     return
 
+
 # Utility functions
+
 
 def showSelectAtomsDialog(panel):
     """Extend or limit selection to a string atom selection.
@@ -163,11 +163,14 @@ def showSelectAtomsDialog(panel):
     No return value.
     """
     # do nothing for non-existant or empty structure
-    if not panel.structure:  return
-    msg = '\n'.join([
-        'Specify index, symbol or "all", use "!" to subtract selection.',
-        'Examples: "Na", "1:4, 6, 9:10", "all, !Na".',
-    ])
+    if not panel.structure:
+        return
+    msg = "\n".join(
+        [
+            'Specify index, symbol or "all", use "!" to subtract selection.',
+            'Examples: "Na", "1:4, 6, 9:10", "all, !Na".',
+        ]
+    )
     global selected_atoms
     dlg = wx.TextEntryDialog(panel, msg, "Select Atoms", selected_atoms)
     if dlg.ShowModal() == wx.ID_OK:
@@ -178,6 +181,7 @@ def showSelectAtomsDialog(panel):
             gridutils.limitSelectionToRows(panel.gridAtoms, rows)
     dlg.Destroy()
     return
+
 
 def canCopySelectedCells(panel):
     """Check to see if we can copy selected cells.
@@ -194,6 +198,7 @@ def canCopySelectedCells(panel):
     numsel = len(topleft) + len(individuals)
     return numsel == 1
 
+
 def canPasteIntoCells(panel):
     """Check if clipboard contents are formatted for grid insertion.
 
@@ -203,7 +208,8 @@ def canPasteIntoCells(panel):
 
     individuals = grid.GetSelectedCells()
     topleft = grid.GetSelectionBlockTopLeft()
-    if len(individuals) + len(topleft) != 1: return False
+    if len(individuals) + len(topleft) != 1:
+        return False
 
     # Get the text
     if not wx.TheClipboard.IsSupported(wx.DataFormat(wx.DF_TEXT)):
@@ -212,21 +218,23 @@ def canPasteIntoCells(panel):
     textdata = wx.TextDataObject()
     if not wx.TheClipboard.IsOpened():
         opened = wx.TheClipboard.Open()
-        if not opened: return False
+        if not opened:
+            return False
     success = wx.TheClipboard.GetData(textdata)
     wx.TheClipboard.Close()
-    if not success: return False
+    if not success:
+        return False
     copytext = textdata.GetText()
 
     # Remove any trailing newline
-    copytext = copytext.rstrip('\n')
+    copytext = copytext.rstrip("\n")
 
     # Make sure it is of the appropriate format
     try:
-        rowlist = copytext.split('\n')
+        rowlist = copytext.split("\n")
         # Strip any trailing tabs
-        rowlist = [r.rstrip('\t') for r in rowlist]
-        celllist = [r.split('\t') for r in rowlist]
+        rowlist = [r.rstrip("\t") for r in rowlist]
+        celllist = [r.split("\t") for r in rowlist]
     except:
         return False
 
@@ -234,12 +242,15 @@ def canPasteIntoCells(panel):
         return False
     ncol = len(celllist[0])
     for row in celllist:
-        if len(row) != ncol: return False
-    if ncol == 0: return False
+        if len(row) != ncol:
+            return False
+    if ncol == 0:
+        return False
 
     global clipcells
     clipcells = celllist
     return True
+
 
 def copySelectedCells(panel):
     """Copy block of selected cells or individual cell into clipboard.
@@ -267,20 +278,22 @@ def copySelectedCells(panel):
         rbr = bottomright[0][0]
         cbr = bottomright[0][1]
 
-        for row in range(rtl, rbr+1):
-            for col in range(ctl, cbr+1):
-                copytext += str(grid.GetCellValue(row,col))
-                copytext += '\t'
-            copytext += '\n'
+        for row in range(rtl, rbr + 1):
+            for col in range(ctl, cbr + 1):
+                copytext += str(grid.GetCellValue(row, col))
+                copytext += "\t"
+            copytext += "\n"
 
     # Place the copytext into the clipboard
     if not wx.TheClipboard.IsOpened():
         opened = wx.TheClipboard.Open()
-        if not opened: raise IOError("Cannot open the clipboard.")
+        if not opened:
+            raise IOError("Cannot open the clipboard.")
         textdata = wx.TextDataObject(copytext)
     wx.TheClipboard.SetData(textdata)
     wx.TheClipboard.Close()
     return
+
 
 def pasteIntoCells(panel):
     """Paste clipboard contents into cells.
@@ -289,8 +302,10 @@ def pasteIntoCells(panel):
     clipboard text for pasting.
     """
     # Double check the clipcells
-    if len(clipcells) == 0: return
-    if len(clipcells[0]) == 0: return
+    if len(clipcells) == 0:
+        return
+    if len(clipcells[0]) == 0:
+        return
 
     grid = panel.gridAtoms
     individuals = grid.GetSelectedCells()
@@ -311,24 +326,28 @@ def pasteIntoCells(panel):
     cbr = min(ncols, ctl + len(clipcells[0])) - 1
 
     selections = []
-    for row in range(rtl, rbr+1):
-        for col in range(ctl, cbr+1):
+    for row in range(rtl, rbr + 1):
+        for col in range(ctl, cbr + 1):
             if not grid.IsReadOnly(row, col):
                 oldvalue = panel.gridAtoms.GetCellValue(row, col)
-                newvalue = panel.applyCellChange(row, col, clipcells[row-rtl][col-ctl])
-                if newvalue is None: newvalue = oldvalue
-                panel.gridAtoms.SetCellValue(row,col,str(newvalue))
-                selections.append((row,col))
+                newvalue = panel.applyCellChange(
+                    row, col, clipcells[row - rtl][col - ctl]
+                )
+                if newvalue is None:
+                    newvalue = oldvalue
+                panel.gridAtoms.SetCellValue(row, col, str(newvalue))
+                selections.append((row, col))
 
     gridutils.quickResizeColumns(panel.gridAtoms, selections)
 
     # Clear the grid and select the inserted entries
     grid.ClearSelection()
-    #panel.refresh()
-    for row in range(rtl, rbr+1):
-        for col in range(ctl, cbr+1):
+    # panel.refresh()
+    for row in range(rtl, rbr + 1):
+        for col in range(ctl, cbr + 1):
             if not grid.IsReadOnly(row, col):
-                grid.SelectBlock(row,col,row,col,True)
+                grid.SelectBlock(row, col, row, col, True)
     return
+
 
 # End of file
