@@ -39,6 +39,7 @@ class PDFGuiControl:
     It has a container of Calculation and Fitting instances.
     Each Calculation and Fitting has a unique name.
     """
+
     def __init__(self, gui=None):
         """initialize
 
@@ -60,10 +61,10 @@ class PDFGuiControl:
         """clean up for a new project"""
         self.fits = PDFList()
         self.plots = PDFList()
-        self.journal = ''
+        self.journal = ""
 
         self.projfile = None
-        #self.saved = False
+        # self.saved = False
 
     # a simple thread to handle fitting queue
     class QueueManager(threading.Thread):
@@ -79,11 +80,12 @@ class PDFGuiControl:
                 except ControlError as error:
                     gui = self.control.gui
                     if gui:
-                        gui.postEvent(gui.ERROR, "<Queue exception> %s"%error.info)
+                        gui.postEvent(gui.ERROR, "<Queue exception> %s" % error.info)
                     else:
-                        print("<Queue exception> %s"%error.info)
+                        print("<Queue exception> %s" % error.info)
                 # another check before go to sleep
-                if not self.running: break
+                if not self.running:
+                    break
                 time.sleep(1)
 
     def startQueue(self):
@@ -100,7 +102,7 @@ class PDFGuiControl:
         # No fitting in the queue is running.
         try:
             self.lock.acquire()
-            if len(self.fittingQueue) > 0 :
+            if len(self.fittingQueue) > 0:
                 self.currentFitting = self.fittingQueue.pop(0)
             else:
                 self.currentFitting = None
@@ -110,7 +112,7 @@ class PDFGuiControl:
 
         self.currentFitting.start()
 
-    def enqueue(self, fits, enter = True):
+    def enqueue(self, fits, enter=True):
         """enqueue or dequeue fittings
 
         fits -- list of fittings to be queued/dequeued
@@ -142,7 +144,7 @@ class PDFGuiControl:
         finally:
             self.lock.release()
 
-    def close(self, force = True):
+    def close(self, force=True):
         """close a project
 
         force -- if exit forciably
@@ -156,8 +158,7 @@ class PDFGuiControl:
         self.reset()
 
     def exit(self):
-        """exit when program finished
-        """
+        """exit when program finished"""
         self.close()
         if self.queueManager.is_alive():
             self.queueManager.running = False
@@ -204,7 +205,7 @@ class PDFGuiControl:
         targetID.add(struct, position)
         return struct
 
-    def loadStructure(self, targetID, filename, name = None, position=None):
+    def loadStructure(self, targetID, filename, name=None, position=None):
         """add blank structure to a Fitting
 
         targetID  --  reference to Fitting
@@ -222,7 +223,7 @@ class PDFGuiControl:
         targetID.add(struct, position)
         return struct
 
-    def loadDataset(self, targetID, filename, name = None, position=None):
+    def loadDataset(self, targetID, filename, name=None, position=None):
         """load Dataset from a file to a Fitting
 
         targetID  --  reference to Fitting
@@ -236,20 +237,19 @@ class PDFGuiControl:
         if name is None:
             name = os.path.basename(filename)
 
-        #insert to target
+        # insert to target
         dataset = FitDataSet(name)
         dataset.readObs(filename)
         targetID.add(dataset, position)
         return dataset
 
-    def add(self, ID, position = None):
+    def add(self, ID, position=None):
         """add fitting/calculation to internal list
 
         Id -- reference to the object to be inserted
         position  --  where the object is to be inserted, default is last
         """
-        if not isinstance(ID, Fitting) and \
-           not isinstance(ID, Calculation):
+        if not isinstance(ID, Fitting) and not isinstance(ID, Calculation):
             raise ControlTypeError("Can't add %s to list" % self.__class__.__name__)
         if position is not None:
             self.fits.insert(position, ID)
@@ -334,17 +334,17 @@ class PDFGuiControl:
         target.add(o, position)
         return o
 
-
     def load(self, projfile):
         """load project from projfile.
 
         projfile -- a zip file of everything
         """
+
         def _nameParser(namelist):
             """parse the zipfile name list to get a file tree"""
             fileTree = {}
             for name in namelist:
-                subs = name.split('/')
+                subs = name.split("/")
                 pathDict = fileTree
                 for x in subs[:-1]:
                     # if no node has been created
@@ -353,7 +353,7 @@ class PDFGuiControl:
                     pathDict = pathDict[x]
 
                 # check if the entry is a leaf(file, not folder)
-                if subs[-1] != '':
+                if subs[-1] != "":
                     pathDict[subs[-1]] = None
             return fileTree
 
@@ -370,7 +370,7 @@ class PDFGuiControl:
         emsg_invalid_file = "Invalid or corrupted project %s." % projfile
         z = None
         try:
-            z = zipfile.ZipFile(projfile, 'r')
+            z = zipfile.ZipFile(projfile, "r")
             z.fileTree = _nameParser(z.namelist())
 
             if len(z.fileTree) == 0:
@@ -379,20 +379,20 @@ class PDFGuiControl:
             rootDict = next(iter(z.fileTree.values()))
             projName = next(iter(z.fileTree.keys()))
 
-            if 'journal' in rootDict:
-                self.journal = asunicode(z.read(projName + '/journal'))
+            if "journal" in rootDict:
+                self.journal = asunicode(z.read(projName + "/journal"))
 
             # all the fitting and calculations
-            #NOTE: It doesn't hurt to keep backward compatibility
+            # NOTE: It doesn't hurt to keep backward compatibility
             # old test project may not have file 'fits'
-            if 'fits' in rootDict:
-                ftxt = asunicode(z.read(projName + '/fits'))
+            if "fits" in rootDict:
+                ftxt = asunicode(z.read(projName + "/fits"))
                 fitnames = ftxt.splitlines()
             else:
-                fitnames = [ x for x in rootDict.keys() if rootDict[x] is not None]
+                fitnames = [x for x in rootDict.keys() if rootDict[x] is not None]
 
             for name in fitnames:
-                if not name: # empty string
+                if not name:  # empty string
                     continue
                 fit = Fitting(name)
                 # fitting name stored in rootDict should be quoted
@@ -401,7 +401,7 @@ class PDFGuiControl:
                 if rdname not in rootDict:
                     rdname = name
                 if rdname in rootDict:
-                    org = fit.load(z, projName + '/' + rdname + '/')
+                    org = fit.load(z, projName + "/" + rdname + "/")
                 else:
                     # it's simply a blank fitting, has no info in proj file yet
                     org = fit.organization()
@@ -413,10 +413,10 @@ class PDFGuiControl:
 
         # close input file if opened
         finally:
-            if z:  z.close()
+            if z:
+                z.close()
 
         return organizations
-
 
     def save(self, projfile=None):
         """Save project to projfile, default projfile is self.projfile
@@ -444,19 +444,19 @@ class PDFGuiControl:
         fitnames = []
         z = None
         tmpfilename = None
-        try :
+        try:
             tmpfd, tmpfilename = tempfile.mkstemp()
             os.close(tmpfd)
-            z = zipfile.ZipFile(tmpfilename, 'w', zipfile.ZIP_DEFLATED)
+            z = zipfile.ZipFile(tmpfilename, "w", zipfile.ZIP_DEFLATED)
             # fits also contain calculations
             for fit in self.fits:
                 name = fit.name
-                fit.save(z, projName + '/' + quote_plain(fit.name) + '/')
+                fit.save(z, projName + "/" + quote_plain(fit.name) + "/")
                 fitnames.append(name)
             if self.journal:
-                z.writestr(projName + '/journal', asunicode(self.journal))
-            ftxt = '\n'.join(fitnames)
-            z.writestr(projName + '/fits', asunicode(ftxt))
+                z.writestr(projName + "/journal", asunicode(self.journal))
+            ftxt = "\n".join(fitnames)
+            z.writestr(projName + "/fits", asunicode(ftxt))
             z.close()
             shutil.copyfile(tmpfilename, self.projfile)
 
@@ -472,8 +472,7 @@ class PDFGuiControl:
 
         return
 
-
-    def plot (self, xItem, yItems, Ids, shift = 1.0, dry=False):
+    def plot(self, xItem, yItems, Ids, shift=1.0, dry=False):
         """Make a 2D plot
 
         xItem --  x data item name
@@ -483,24 +482,25 @@ class PDFGuiControl:
         dry -- not a real plot, only check if plot is valid
         """
         from diffpy.pdfgui.control.plotter import Plotter
+
         plotter = Plotter()
         plotter.plot(xItem, yItems, Ids, shift, dry)
         self.plots.append(plotter)
 
     def start(self, IDlist):
-        """execute Calculations and Fittings in IDlist.
-        """
+        """execute Calculations and Fittings in IDlist."""
         self.redirectStdout()
-        fits = [ ID for ID in IDlist if isinstance(ID, Fitting) ]
+        fits = [ID for ID in IDlist if isinstance(ID, Fitting)]
         # only add calcs which is not in fits, because fits will automatically run calcs under it anyway
-        calcs = [ ID for ID in IDlist if isinstance(ID, Calculation) and ID.owner not in fits]
+        calcs = [
+            ID for ID in IDlist if isinstance(ID, Calculation) and ID.owner not in fits
+        ]
         for calc in calcs:
             calc.start()
         self.enqueue(fits)
 
     def stop(self):
-        """stop all Fittings
-        """
+        """stop all Fittings"""
         self.enqueue(self.fits, False)
         for id in self.fits:
             if isinstance(id, Fitting):
@@ -517,6 +517,7 @@ class PDFGuiControl:
         This redirect engine output to StringIO if not done yet.
         """
         from diffpy.pdffit2 import redirect_stdout, output
+
         if output.stdout is sys.stdout:
             redirect_stdout(six.StringIO())
         return
@@ -524,18 +525,23 @@ class PDFGuiControl:
     def getEngineOutput(self):
         """Get the output from the engine."""
         from diffpy.pdffit2 import output, redirect_stdout
+
         txt = output.stdout.getvalue()
         output.stdout.close()
         redirect_stdout(six.StringIO())
         return txt
 
+
 _pdfguicontrol = None
+
+
 def pdfguicontrol(*args, **kwargs):
     """This function will return the single instance of class PDFGuiControl"""
     global _pdfguicontrol
     if _pdfguicontrol is None:
         _pdfguicontrol = PDFGuiControl(*args, **kwargs)
     return _pdfguicontrol
+
 
 def _importByName(mname, name):
     try:
@@ -544,31 +550,34 @@ def _importByName(mname, name):
         return None
     return getattr(module, name)
 
+
 def _find_global(moduleName, clsName):
-    #from diffpy.pdfgui.control.parameter import Parameter
-    moduleName = 'diffpy.pdfgui.control.' + moduleName.split('.')[-1]
-    m = _importByName(moduleName,clsName)
+    # from diffpy.pdfgui.control.parameter import Parameter
+    moduleName = "diffpy.pdfgui.control." + moduleName.split(".")[-1]
+    m = _importByName(moduleName, clsName)
     return m
 
 
 class CtrlUnpickler:
-    '''Occasionally the project file may be generated on a platform where
+    """Occasionally the project file may be generated on a platform where
     PYTHONPATH is not correctly set up. CtrlUnpickler will transform the
     module path in the project file to be relative to diffpy so that it can
     be safely loaded. Only constraints and parameters need this class to un-
     pickle.
-    '''
+    """
+
     @staticmethod
     def loads(s):
         try:
             return pickle.loads(s)
         except ImportError as err:
-            missedModule = str(err).split(' ')[-1]
-            if missedModule.find('pdfgui.control') == -1:
+            missedModule = str(err).split(" ")[-1]
+            if missedModule.find("pdfgui.control") == -1:
                 raise err
             f = six.StringIO(s)
             unpickler = pickle.Unpickler(f)
             unpickler.find_global = _find_global
             return unpickler.load()
+
 
 # End of file

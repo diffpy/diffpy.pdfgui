@@ -13,8 +13,10 @@
 #
 ##############################################################################
 
+
 class PDFComponent(object):
     """Common base class."""
+
     def __init__(self, name):
         """initialize
 
@@ -22,11 +24,12 @@ class PDFComponent(object):
         """
         self.name = name
 
-    def close ( self, force = False ):
+    def close(self, force=False):
         """close myself
 
         force -- if forcibly (no wait)
         """
         pass
+
 
 # End of file
