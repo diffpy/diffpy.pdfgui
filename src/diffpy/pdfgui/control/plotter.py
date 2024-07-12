@@ -19,43 +19,69 @@ from diffpy.pdfgui.control.controlerrors import ControlStatusError
 from diffpy.pdfgui.gui.extendedplotframe import ExtendedPlotFrame
 
 # Preset plotting style
-colors = ("red","blue","magenta","cyan","green","yellow", #"black",
-  "darkRed", "darkBlue","darkMagenta", "darkCyan", "darkGreen","darkYellow")
-lines = ('solid','dash','dot','dashDot')
-symbols = ("circle","square","triangle","diamond")#,"cross","xCross")
+colors = (
+    "red",
+    "blue",
+    "magenta",
+    "cyan",
+    "green",
+    "yellow",  # "black",
+    "darkRed",
+    "darkBlue",
+    "darkMagenta",
+    "darkCyan",
+    "darkGreen",
+    "darkYellow",
+)
+lines = ("solid", "dash", "dot", "dashDot")
+symbols = ("circle", "square", "triangle", "diamond")  # ,"cross","xCross")
 
 # this is to map 'r' to what it is supposed to be. For example, when user asks
 # for plotting 'Gobs' against 'r', the real data objects are 'Gobs' and 'robs'
-transdict = { 'Gobs':'robs',
-        'Gcalc':'rcalc','Gdiff':'rcalc','Gtrunc':'rcalc','crw':'rcalc'}
-baselineStyle = {'with':'lines','line':'solid','color':'black','width':1, 'legend':'_nolegend_'}
+transdict = {
+    "Gobs": "robs",
+    "Gcalc": "rcalc",
+    "Gdiff": "rcalc",
+    "Gtrunc": "rcalc",
+    "crw": "rcalc",
+}
+baselineStyle = {
+    "with": "lines",
+    "line": "solid",
+    "color": "black",
+    "width": 1,
+    "legend": "_nolegend_",
+}
+
 
 def _transName(name):
-    '''translate name of y object
+    """translate name of y object
 
     This is mainly for plotting of parameters. GUI will pass in a integer to
     indicate which parameter to be plotted. However, in data storage the
     parameter is denoted as '@n'
 
     name -- name of data item
-    '''
+    """
     if isinstance(name, int):
-        rv = '@' + str(name)
+        rv = "@" + str(name)
     else:
         rv = str(name)
     return rv
 
 
 def _fullName(dataId):
-    '''construct full name'''
+    """construct full name"""
     from diffpy.pdfgui.control.fitting import Fitting
-    if hasattr(dataId, 'owner') and isinstance(dataId.owner, Fitting):
+
+    if hasattr(dataId, "owner") and isinstance(dataId.owner, Fitting):
         return _fullName(dataId.owner) + "/" + dataId.name
     else:
         return dataId.name
 
+
 def _buildStyle(plotter, name, group, yNames):
-    '''trying to figure out a good style
+    """trying to figure out a good style
 
     1. generally we want line style for Gcalc, Gdiff, crw, symbol style for Gobs,
     and line-symbol style for the rest
@@ -66,45 +92,47 @@ def _buildStyle(plotter, name, group, yNames):
     group -- which group the curve is in (group = -1 means it is the only group)
     yNames -- all y to be plotted
     return: style dictionay
-    '''
-    if name in ('Gcalc', 'Gdiff', 'crw'):
+    """
+    if name in ("Gcalc", "Gdiff", "crw"):
         style = plotter.buildLineStyle()
-        style['line']  = 'solid'
-    elif name in ('Gobs', 'Gtrunc'):
+        style["line"] = "solid"
+    elif name in ("Gobs", "Gtrunc"):
         style = plotter.buildSymbolStyle()
 
         # Use open circle always
-        style['symbolColor'] = 'white'
-        style['symbol'] = 'circle'
-        style['symbolSize'] = 6
+        style["symbolColor"] = "white"
+        style["symbol"] = "circle"
+        style["symbolSize"] = 6
     else:
         style = plotter.buildLineSymbolStyle()
-        style['line'] = 'dash'
-        style['symbol'] = 'circle'
-        style['symbolSize'] = 8
+        style["line"] = "dash"
+        style["symbol"] = "circle"
+        style["symbolSize"] = 8
 
     # We only care about how to arrange Gdiff Gobs Gcalc Gtrunc crw nicely
     if group < 0:
         # use fixed style for single PDFFit picture
-        if name == 'Gcalc':
-            style['color'] = 'red'
-        elif name in ('Gobs', 'Gtrunc'):
-            style['color'] = 'blue'
-        elif name in ('Gdiff', 'crw'):
-            style['color'] = 'green'
+        if name == "Gcalc":
+            style["color"] = "red"
+        elif name in ("Gobs", "Gtrunc"):
+            style["color"] = "blue"
+        elif name in ("Gdiff", "crw"):
+            style["color"] = "green"
     else:
         # make sure Gdiff, Gtrunc, Gobs, crw are having same color
-        if name in ('Gobs', 'Gtrunc', 'Gdiff', 'Gcalc', 'crw'):
-            style['color'] = colors[group%len(colors)]
-        if name == 'Gcalc':
+        if name in ("Gobs", "Gtrunc", "Gdiff", "Gcalc", "crw"):
+            style["color"] = colors[group % len(colors)]
+        if name == "Gcalc":
             # for visual effect, change Gcalc to black if it's going to be plotted against Gobs/Gtrunc
-            if 'Gobs' in yNames or 'Gtrunc' in yNames:
-                style['color'] = 'black'
+            if "Gobs" in yNames or "Gtrunc" in yNames:
+                style["color"] = "black"
 
     return style
 
+
 class Plotter(PDFComponent):
-    """Plots a single graph. It can have multiple curves. """
+    """Plots a single graph. It can have multiple curves."""
+
     __plotWindowNumber = 1
 
     class Curve:
@@ -133,6 +161,7 @@ class Plotter(PDFComponent):
         initialized -- if curve has been inserted
         dataChanged -- if curve data has changed
         """
+
         def __init__(self, name, plotwnd, xStr, yStr, steps, ids, offset, style):
             """initialize
 
@@ -169,24 +198,24 @@ class Plotter(PDFComponent):
             self.initialized = False
             self.dataChanged = False
 
-            #validate user's choice
+            # validate user's choice
             self.validate()
 
         def validate(self):
-            """ validate(self) --> check if  the curve is valid. Validity
+            """validate(self) --> check if  the curve is valid. Validity
             is broken:
             (1) when xStr or yStr doesn't refer to a legal vector
             (2) when sizes of xStr and yStr don't match
             """
             bItemIsVector = False
-            if self.xStr in ('r', 'rcalc', 'robs'):
-                if self.yStr not in ('Gobs', 'Gcalc', 'Gdiff', 'Gtrunc','crw'):
+            if self.xStr in ("r", "rcalc", "robs"):
+                if self.yStr not in ("Gobs", "Gcalc", "Gdiff", "Gtrunc", "crw"):
                     emsg = "x={}, y={} don't match".format(self.xStr, self.yStr)
                     raise ControlConfigError(emsg)
                 bItemIsVector = True
-            elif self.xStr in ('Gobs', 'Gcalc', 'Gdiff', 'Gtrunc','crw'):
+            elif self.xStr in ("Gobs", "Gcalc", "Gdiff", "Gtrunc", "crw"):
                 raise ControlConfigError("%s can't be x axis" % self.xStr)
-            elif self.yStr in ('Gobs', 'Gcalc', 'Gdiff', 'Gtrunc','crw'):
+            elif self.yStr in ("Gobs", "Gcalc", "Gdiff", "Gtrunc", "crw"):
                 # Get called when x is not r but y is not Gobs, Gtrunc Gdiff...
                 raise ControlConfigError("%s can only be plotted against r" % self.yStr)
 
@@ -196,18 +225,22 @@ class Plotter(PDFComponent):
             # (3) self.allSteps
             # The logic below make sure only one of them can be true.
             if bItemIsVector:
-                if  self.bMultiData or self.bMultiStep:
-                    emsg = ("({}, {}) can't be plotted with multiple "
-                            "refinements/steps").format(self.xStr, self.yStr)
+                if self.bMultiData or self.bMultiStep:
+                    emsg = (
+                        "({}, {}) can't be plotted with multiple " "refinements/steps"
+                    ).format(self.xStr, self.yStr)
                     raise ControlConfigError(emsg)
             else:
-                if  not self.bMultiData and not self.bMultiStep:
-                    raise ControlConfigError("(%s, %s) is a single point" % (self.xStr, self.yStr))
+                if not self.bMultiData and not self.bMultiStep:
+                    raise ControlConfigError(
+                        "(%s, %s) is a single point" % (self.xStr, self.yStr)
+                    )
                 elif self.bMultiData and self.bMultiStep:
-                    emsg = ("({}, {}) can't be plotted with both multiple "
-                            "refinements and multiple steps").format(self.xStr, self.yStr)
+                    emsg = (
+                        "({}, {}) can't be plotted with both multiple "
+                        "refinements and multiple steps"
+                    ).format(self.xStr, self.yStr)
                     raise ControlConfigError(emsg)
-
 
         def notify(self, changedIds=None, plotwnd=None):
             """notify Curve object certain data is updated
@@ -226,7 +259,7 @@ class Plotter(PDFComponent):
                             affectedIds.append(id)
                             break
 
-                #If the change doesn't affect any id, do nothing
+                # If the change doesn't affect any id, do nothing
                 if not affectedIds:
                     return False
             else:
@@ -234,11 +267,11 @@ class Plotter(PDFComponent):
 
             # translation may be required
             xStr = self.xStr
-            if xStr == 'r':
+            if xStr == "r":
                 xStr = transdict.get(self.yStr, xStr)
 
             if self.bMultiData:
-                #Local list is maintained here
+                # Local list is maintained here
                 if self.xData is None:
                     self.xData = [None] * len(self.ids)
                 if self.yData is None:
@@ -246,23 +279,23 @@ class Plotter(PDFComponent):
                 for id in affectedIds:
                     i = self.ids.index(id)
                     self.yData[i] = id.getData(self.yStr, -1)
-                    if xStr == 'step':
+                    if xStr == "step":
                         raise AssertionError("Can not plot against step")
-                    elif xStr == 'index':
+                    elif xStr == "index":
                         self.xData[i] = i
                     else:
                         self.xData[i] = id.getData(xStr, -1)
             else:
                 # affectedIds has only one member
-                if  self.bMultiStep:
-                    steps = None # None to get the whole steps
+                if self.bMultiStep:
+                    steps = None  # None to get the whole steps
                 else:
-                    steps = -1 #
+                    steps = -1  #
 
                 # plot multiple refinement steps for a single dataId
                 # in deed, the reference is not gonna change
                 self.yData = affectedIds[0].getData(self.yStr, steps)
-                if xStr == 'step':
+                if xStr == "step":
                     if self.yData is None:
                         self.xData = None
                     else:
@@ -276,10 +309,10 @@ class Plotter(PDFComponent):
                 def _shift(y):
                     return y + self.offset
 
-                if self.yData and self.offset: # not zero
+                if self.yData and self.offset:  # not zero
                     self.yData = [_shift(yi) for yi in self.yData]
 
-            if self.xData and self.yData: # not empty or None
+            if self.xData and self.yData:  # not empty or None
                 return self.draw()
             else:
                 return False
@@ -293,7 +326,7 @@ class Plotter(PDFComponent):
                 # used for plotting
                 xs = []
                 ys = []
-                plotData = sorted(zip(self.xData,self.yData))
+                plotData = sorted(zip(self.xData, self.yData))
                 for x, y in plotData:
                     if x is not None and y is not None:
                         xs.append(x)
@@ -310,7 +343,7 @@ class Plotter(PDFComponent):
             # If it can get here, data is ready now.
             if self.ref is None:
                 self.ref = self.plotwnd.insertCurve(xs, ys, self.style)
-                if self.yStr == 'Gdiff':
+                if self.yStr == "Gdiff":
                     # add a baseline for any Gdiff
                     rs = self.ids[0].rcalc
                     if not rs:
@@ -318,7 +351,9 @@ class Plotter(PDFComponent):
                     hMin = min(rs)
                     hMax = max(rs)
 
-                    self.plotwnd.insertCurve([hMin, hMax], [self.offset, self.offset], baselineStyle)
+                    self.plotwnd.insertCurve(
+                        [hMin, hMax], [self.offset, self.offset], baselineStyle
+                    )
             else:
                 # update only
                 self.plotwnd.updateData(self.ref, xs, ys)
@@ -331,21 +366,24 @@ class Plotter(PDFComponent):
         name -- name of plot
         """
         if name is None:
-            name = 'Plot [%i]' % Plotter.__plotWindowNumber
+            name = "Plot [%i]" % Plotter.__plotWindowNumber
 
         PDFComponent.__init__(self, name)
         import threading
+
         self.lock = threading.RLock()
         self.curves = []
         self.window = None
         self.isShown = False
         from diffpy.pdfgui.control.pdfguicontrol import pdfguicontrol
+
         self.controlCenter = pdfguicontrol()
 
         # add some flavor by starting with random style
         import random
-        self.symbolStyleIndex = random.randint(0,100)
-        self.lineStyleIndex = random.randint(0,100)
+
+        self.symbolStyleIndex = random.randint(0, 100)
+        self.lineStyleIndex = random.randint(0, 100)
         return
 
     def close(self, force=True):
@@ -354,13 +392,12 @@ class Plotter(PDFComponent):
         force -- if True, close forcibly
         """
         if self.window is not None:
-            #self.window.Close(True)
+            # self.window.Close(True)
             self.window.Destroy()
             self.window = None
 
     def onWindowClose(self):
-        """get called when self.window is closed by user
-        """
+        """get called when self.window is closed by user"""
         self.window = None
         try:
             self.controlCenter.plots.remove(self)
@@ -381,11 +418,13 @@ class Plotter(PDFComponent):
 
         symbolIndex = i % len(symbols)
         colorIndex = i % len(colors)
-        return {'with':'points',
-               'color':colors[colorIndex],
-               'symbolColor':colors[colorIndex],
-               'symbol':symbols[symbolIndex],
-               'symbolSize':3}
+        return {
+            "with": "points",
+            "color": colors[colorIndex],
+            "symbolColor": colors[colorIndex],
+            "symbol": symbols[symbolIndex],
+            "symbolSize": 3,
+        }
 
     def buildLineStyle(self, index=-1):
         """generate a line style
@@ -400,10 +439,12 @@ class Plotter(PDFComponent):
 
         lineIndex = i % len(lines)
         colorIndex = i % len(colors)
-        return {'with':'lines',
-               'color':colors[colorIndex],
-               'line':lines[lineIndex],
-               'width':2}
+        return {
+            "with": "lines",
+            "color": colors[colorIndex],
+            "line": lines[lineIndex],
+            "width": 2,
+        }
 
     def buildLineSymbolStyle(self, index=-1):
         """generate a linesymbol style
@@ -412,10 +453,10 @@ class Plotter(PDFComponent):
         """
         style = self.buildLineStyle(index)
         style.update(self.buildSymbolStyle(index))
-        style['with'] = 'linespoints'
+        style["with"] = "linespoints"
         return style
 
-    def plot(self, xName, yNames, ids,  shift, dry):
+    def plot(self, xName, yNames, ids, shift, dry):
         """Make a 2D plot
 
         xName --  x data item name
@@ -424,12 +465,15 @@ class Plotter(PDFComponent):
         shift -- y spacing for different ids
         dry -- dry run
         """
+
         def _addCurve(dataIds):
             # Identify the plot type. This is used to automatically modify
             # 'Gdiff' and 'crw' in certain types of plots.
             yset = set(yNames)
-            if 'Gdiff' in yset: yset.remove('Gdiff')
-            if 'crw' in yset: yset.remove('crw')
+            if "Gdiff" in yset:
+                yset.remove("Gdiff")
+            if "crw" in yset:
+                yset.remove("crw")
 
             # add yNames one by one for given dataIds
             for y in yNames:
@@ -438,7 +482,7 @@ class Plotter(PDFComponent):
                 style = None
                 if not dry:
                     if len(dataIds) == 1 and group != -1:
-                        #legend = dataIds[0].name  + ": " + _transName(y)
+                        # legend = dataIds[0].name  + ": " + _transName(y)
                         legend = _fullName(dataIds[0]) + ": " + _transName(y)
                     else:
                         # 1.Group = -1, multiple ids give a single curve
@@ -446,19 +490,20 @@ class Plotter(PDFComponent):
                         legend = _transName(y)
 
                     style = _buildStyle(self, y, group, yNames)
-                    style['legend'] = legend
+                    style["legend"] = legend
 
                     # automatically apply offset if we're plotting more than
                     # just 'Gdiff' and 'crw'
-                    if y in ('Gdiff','crw') and group == -1 and len(yset) > 0:
+                    if y in ("Gdiff", "crw") and group == -1 and len(yset) > 0:
                         _offset = shift
-                #Create curve, get data for it and update it in the plot
-                curve = Plotter.Curve(legend, self.window, xName, y,
-                                      step, dataIds, _offset, style)
+                # Create curve, get data for it and update it in the plot
+                curve = Plotter.Curve(
+                    legend, self.window, xName, y, step, dataIds, _offset, style
+                )
                 self.curves.append(curve)
             return
 
-        if not ids: # empty
+        if not ids:  # empty
             raise ControlConfigError("Plotter: No data is selected")
         if not yNames:
             raise ControlConfigError("Plotter: No y item is selected")
@@ -466,22 +511,22 @@ class Plotter(PDFComponent):
         # bSeparateID indicates if we want data from different ID to be
         # plotted in different curve or not
         bSeparateID = False
-        if len(ids) > 1 and xName in ('r', 'rcalc', 'step'):
+        if len(ids) > 1 and xName in ("r", "rcalc", "step"):
             # multi ID and within each ID we wants a vector, so curve can
             # only be plotted separately.
             bSeparateID = True
 
         # set up the step
-        if xName == 'step':
+        if xName == "step":
             step = None
         else:
             step = -1
 
         self.curves = []
 
-        if 'Gcalc' in yNames:
-            yNames.remove('Gcalc')
-            yNames.append('Gcalc')
+        if "Gcalc" in yNames:
+            yNames.remove("Gcalc")
+            yNames.append("Gcalc")
 
         # default is no shift, single group.
         offset = 0.0
@@ -489,7 +534,11 @@ class Plotter(PDFComponent):
         if bSeparateID:
             for id in ids:
                 group += 1
-                _addCurve([id,])
+                _addCurve(
+                    [
+                        id,
+                    ]
+                )
                 offset += shift
         else:
             _addCurve(ids)
@@ -509,22 +558,22 @@ class Plotter(PDFComponent):
             self.window.clear()
 
         for curve in self.curves:
-            #Initial notification, don't plot immediately, wait for last line to be added
-            #This is to optimize plotting multiple curves.
+            # Initial notification, don't plot immediately, wait for last line to be added
+            # This is to optimize plotting multiple curves.
             curve.notify(plotwnd=self.window)
 
         # make the graph title, x, y label
         yStrs = [_transName(yName) for yName in yNames]
-        if yStrs[0].startswith('G'):
-            #then all are Gs
-            yLabel = 'G'
+        if yStrs[0].startswith("G"):
+            # then all are Gs
+            yLabel = "G"
         else:
-            yLabel = ','.join(yStrs)
-        title = ''
+            yLabel = ",".join(yStrs)
+        title = ""
         if len(ids) == 1:
-            title = ids[0].name + ': '
+            title = ids[0].name + ": "
         title += yLabel
-        self.window.setTitle(self.name+' '+title, title)
+        self.window.setTitle(self.name + " " + title, title)
         self.window.setXLabel(_transName(xName))
         self.window.setYLabel(yLabel)
 
@@ -532,8 +581,7 @@ class Plotter(PDFComponent):
         self.window.replot()
         self.show(True)
 
-
-    def show(self, bShow=None) :
+    def show(self, bShow=None):
         """show the plot on screen
 
         bShow -- True to show, False to Hide. None to toggle
@@ -544,51 +592,56 @@ class Plotter(PDFComponent):
         if bShow is None:
             bShow = not self.isShown
         self.window.Show(bShow)
-        if bShow: # True
+        if bShow:  # True
             # further bring it to top
             self.window.Raise()
         self.isShown = bShow
         return self.isShown
 
     def notify(self, data):
-        '''change of the data is notified
+        """change of the data is notified
 
         data -- data object that has changed
-        '''
+        """
         if not self.curves or self.window is None:
             return
         ret = False
         for curve in self.curves:
-            ret |= (curve.notify(changedIds=[data,]))
+            ret |= curve.notify(
+                changedIds=[
+                    data,
+                ]
+            )
         if ret:
             self.window.replot()
 
     def export(self, filename):
-        '''export current data to external file
+        """export current data to external file
 
         filename -- the name of the file to save data
-        '''
+        """
         # Check if any curve
         if len(self.curves) == 0:
             return
         import time, getpass
-        outfile = open(filename, 'w')
+
+        outfile = open(filename, "w")
         header = "# Generated on %s by %s.\n" % (time.ctime(), getpass.getuser())
         header += "# This file was created by PDFgui.\n"
         outfile.write(header)
-        deblank = lambda s: ''.join(s.split())
+        deblank = lambda s: "".join(s.split())
         xylist = [(c.x, c.y) for c in self.curves]
-        xynames = [(_transName(c.xStr), deblank(c.name))
-                for c in self.curves]
+        xynames = [(_transName(c.xStr), deblank(c.name)) for c in self.curves]
         _exportCompactData(outfile, xylist, xynames)
         outfile.close()
         return
+
 
 # End of class Plotter
 
 
 def _exportCompactData(fp, xylist, xynames=None):
-    '''Write the xylist data in a text format to the file object fp.
+    """Write the xylist data in a text format to the file object fp.
     The curves with the same x are groupped in the same datasets.
     The datasets are marked with "#S 1", "#S 2", etc. labels according
     to the spec format http://www.certif.com/cplot_manual/ch0c_C_11_3.html
@@ -600,17 +653,19 @@ def _exportCompactData(fp, xylist, xynames=None):
                 used as a header in the dataset blocks.
 
     No return value.
-    '''
-    dataformat = '%g'
+    """
+    dataformat = "%g"
     # build the default xynames:
     if xynames is None:
-        xynames = [('x%i' % i, 'y%i' % i) for i in range(len(xylist))]
+        xynames = [("x%i" % i, "y%i" % i) for i in range(len(xylist))]
     datasets = []
     datanames = []
     xt2idx = {}
     for ((x, y), (xn, yn)) in zip(xylist, xynames):
-        if x is None or not len(x):  continue
-        if y is None or not len(y):  continue
+        if x is None or not len(x):
+            continue
+        if y is None or not len(y):
+            continue
         xt = tuple(x)
         i = xt2idx.setdefault(xt, len(xt2idx))
         if not i < len(datasets):
@@ -626,14 +681,15 @@ def _exportCompactData(fp, xylist, xynames=None):
     for i, (ds, dn) in enumerate(zip(datasets, datanames)):
         # separate datasets with a blank line:
         if i > 0:
-            fp.write('\n')
-        fp.write('#S %i\n' % (i + 1))
-        fp.write('#L %s\n' % ('  '.join(dn)))
+            fp.write("\n")
+        fp.write("#S %i\n" % (i + 1))
+        fp.write("#L %s\n" % ("  ".join(dn)))
         ncols = len(ds)
-        fmt = ' '.join(ncols * [dataformat]) + '\n'
+        fmt = " ".join(ncols * [dataformat]) + "\n"
         for cols in zip(*ds):
             line = fmt % cols
             fp.write(line)
     return
+
 
 # End of file

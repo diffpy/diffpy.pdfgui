@@ -15,10 +15,12 @@
 
 from diffpy.pdfgui.control.controlerrors import ControlKeyError
 
+
 class PDFList(list):
     """list class of PDFComponent, which can be accessed through index or a
     name string
     """
+
     def __init__(self, *args):
         """Initialize
 
@@ -93,7 +95,7 @@ class PDFList(list):
 
         return: list of names
         """
-        return [ x.name for x in self ]
+        return [x.name for x in self]
 
     def values(self):
         """Get all held objects
@@ -107,6 +109,7 @@ class PDFList(list):
 
         return: a list of tuple ( name, object)
         """
-        return [ (x.name, x) for x in self ]
+        return [(x.name, x) for x in self]
+
 
 # End of file

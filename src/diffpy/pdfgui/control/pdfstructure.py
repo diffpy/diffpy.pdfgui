@@ -18,8 +18,7 @@ import re
 
 from diffpy.structure import PDFFitStructure
 from diffpy.pdfgui.control.pdfcomponent import PDFComponent
-from diffpy.pdfgui.control.controlerrors import \
-        ControlKeyError, ControlFileError
+from diffpy.pdfgui.control.controlerrors import ControlKeyError, ControlFileError
 
 
 class PDFStructure(PDFComponent, PDFFitStructure):
@@ -36,8 +35,7 @@ class PDFStructure(PDFComponent, PDFFitStructure):
         PDFFitStructure.__init__(self, *args, **kwargs)
         return
 
-
-    def read(self, filename, format='auto'):
+    def read(self, filename, format="auto"):
         """Load structure from a file, raise ControlFileError for invalid
         or unknown structure format.
 
@@ -49,15 +47,15 @@ class PDFStructure(PDFComponent, PDFFitStructure):
         See Structure.read() for more info.
         """
         from diffpy.structure import StructureFormatError
+
         try:
             p = PDFFitStructure.read(self, filename, format)
         except StructureFormatError as err:
             import os.path
-            emsg = "Unable to read file '%s'\n%s." % (
-                    os.path.basename(filename), err)
+
+            emsg = "Unable to read file '%s'\n%s." % (os.path.basename(filename), err)
             raise ControlFileError(emsg)
         return p
-
 
     def copy(self, other=None):
         """copy self to other. if other is None, create an instance
@@ -73,12 +71,11 @@ class PDFStructure(PDFComponent, PDFFitStructure):
         other[:] = copy.deepcopy(self[:])
         return other
 
-
     # dictionary of allowed keys from self.pdffit dictionary,
     # that can be used in setvar and getvar methods.
-    _allowed_pdffit_vars = dict.fromkeys(('spdiameter', 'stepcut',
-            'delta1', 'delta2', 'sratio', 'rcut'))
-
+    _allowed_pdffit_vars = dict.fromkeys(
+        ("spdiameter", "stepcut", "delta1", "delta2", "sratio", "rcut")
+    )
 
     def setvar(self, var, value):
         """assign to data member using PdfFit-style variable
@@ -93,29 +90,29 @@ class PDFStructure(PDFComponent, PDFFitStructure):
         """
         barevar = var.strip()
         fvalue = float(value)
-        parenthesis = re.match(r'^(\w+)\((\d+)\)$', barevar)
+        parenthesis = re.match(r"^(\w+)\((\d+)\)$", barevar)
         # common error message
         emsg = "Invalid PdfFit phase variable %r" % barevar
-        if barevar in ('pscale'):
-            self.pdffit['scale'] = fvalue
+        if barevar in ("pscale"):
+            self.pdffit["scale"] = fvalue
         elif barevar in PDFStructure._allowed_pdffit_vars:
             self.pdffit[barevar] = fvalue
-        elif barevar == 'lat(1)':
+        elif barevar == "lat(1)":
             self.lattice.setLatPar(a=fvalue)
-        elif barevar == 'lat(2)':
+        elif barevar == "lat(2)":
             self.lattice.setLatPar(b=fvalue)
-        elif barevar == 'lat(3)':
+        elif barevar == "lat(3)":
             self.lattice.setLatPar(c=fvalue)
-        elif barevar == 'lat(4)':
+        elif barevar == "lat(4)":
             self.lattice.setLatPar(alpha=fvalue)
-        elif barevar == 'lat(5)':
+        elif barevar == "lat(5)":
             self.lattice.setLatPar(beta=fvalue)
-        elif barevar == 'lat(6)':
+        elif barevar == "lat(6)":
             self.lattice.setLatPar(gamma=fvalue)
         elif parenthesis:
             pvar = parenthesis.group(1)
             idx = int(parenthesis.group(2))
-            atom = self[idx-1]
+            atom = self[idx - 1]
             if pvar == "x":
                 atom.xyz[0] = fvalue
             elif pvar == "y":
@@ -125,14 +122,13 @@ class PDFStructure(PDFComponent, PDFFitStructure):
             elif pvar == "occ":
                 atom.occupancy = fvalue
             elif pvar in ("u11", "u22", "u33", "u12", "u13", "u23"):
-                i, j = int(pvar[1]) - 1,  int(pvar[2]) - 1
-                atom.U[i,j], atom.U[j,i] = fvalue, fvalue
+                i, j = int(pvar[1]) - 1, int(pvar[2]) - 1
+                atom.U[i, j], atom.U[j, i] = fvalue, fvalue
             else:
                 raise ControlKeyError(emsg)
         else:
             raise ControlKeyError(emsg)
         return
-
 
     def getvar(self, var):
         """obtain value corresponding to PdfFit phase variable var
@@ -147,29 +143,29 @@ class PDFStructure(PDFComponent, PDFFitStructure):
         returns value of var
         """
         barevar = var.strip()
-        parenthesis = re.match(r'^(\w+)\((\d+)\)$', barevar)
+        parenthesis = re.match(r"^(\w+)\((\d+)\)$", barevar)
         # common error message
         emsg = "Invalid PdfFit phase variable %r" % barevar
-        if barevar in ('pscale'):
-            value = self.pdffit['scale']
+        if barevar in ("pscale"):
+            value = self.pdffit["scale"]
         elif barevar in PDFStructure._allowed_pdffit_vars:
             value = self.pdffit[barevar]
-        elif barevar == 'lat(1)':
+        elif barevar == "lat(1)":
             value = self.lattice.a
-        elif barevar == 'lat(2)':
+        elif barevar == "lat(2)":
             value = self.lattice.b
-        elif barevar == 'lat(3)':
+        elif barevar == "lat(3)":
             value = self.lattice.c
-        elif barevar == 'lat(4)':
+        elif barevar == "lat(4)":
             value = self.lattice.alpha
-        elif barevar == 'lat(5)':
+        elif barevar == "lat(5)":
             value = self.lattice.beta
-        elif barevar == 'lat(6)':
+        elif barevar == "lat(6)":
             value = self.lattice.gamma
         elif parenthesis:
             pvar = parenthesis.group(1)
             idx = int(parenthesis.group(2))
-            atom = self[idx-1]
+            atom = self[idx - 1]
             if pvar == "x":
                 value = atom.xyz[0]
             elif pvar == "y":
@@ -179,8 +175,8 @@ class PDFStructure(PDFComponent, PDFFitStructure):
             elif pvar == "occ":
                 value = atom.occupancy
             elif pvar in ("u11", "u22", "u33", "u12", "u13", "u23"):
-                i, j = int(pvar[1]) - 1,  int(pvar[2]) - 1
-                value = atom.U[i,j]
+                i, j = int(pvar[1]) - 1, int(pvar[2]) - 1
+                value = atom.U[i, j]
             else:
                 raise ControlKeyError(emsg)
         else:
@@ -188,6 +184,7 @@ class PDFStructure(PDFComponent, PDFFitStructure):
         # all should be fine here, but value may be NumPy.float64scalar type
         value = float(value)
         return value
+
 
 # End of class PDFStructure
 
