@@ -17,6 +17,7 @@ import wx
 
 from diffpy.pdfgui.gui.errorwrapper import catchObjectErrors
 
+
 class PDFPanel(object):
     """Mix-in class for all PDF gui panels.
 
@@ -24,6 +25,7 @@ class PDFPanel(object):
     wx.Panel. It defines methods and member variables necessary to all panels in
     the PDFgui.
     """
+
     def __init__(self, *args, **kwds):
         self.mainFrame = None
         self.treeCtrlMain = None
@@ -42,17 +44,17 @@ class PDFPanel(object):
         This method must be overloaded in the derived class or else a
         NotImplementedError will be raised when this method is called.
         """
-        raise NotImplementedError('refresh() must be implemented in subclass')
+        raise NotImplementedError("refresh() must be implemented in subclass")
 
     def setToolTips(self, toolTips):
-        '''Sets tooltips for controls
+        """Sets tooltips for controls
 
         @param toolTips: dictionary of the form {'controlname' : 'tooltip'}
-        '''
+        """
         for (controlName, tooltip) in toolTips.items():
             control = getattr(self, controlName)
             if control.GetToolTip() is None:
-                control.SetToolTip(wx.ToolTip(''))
+                control.SetToolTip(wx.ToolTip(""))
             tt = control.GetToolTip()
             tt.SetTip(tooltip)
         return

@@ -28,20 +28,19 @@ configfilename = os.path.expanduser("~/.pdfgui_py3.cfg")
 isAltered = False
 
 # Resolve APPDATADIR base path to application data files.
-_mydir = os.path.abspath(resource_filename(__name__, ''))
-_upbasedir = os.path.normpath(_mydir + '/../../..')
-_development_mode = (
-    os.path.basename(_upbasedir) == "src" and
-    os.path.isfile(os.path.join(_upbasedir, "../setup.py"))
+_mydir = os.path.abspath(resource_filename(__name__, ""))
+_upbasedir = os.path.normpath(_mydir + "/../../..")
+_development_mode = os.path.basename(_upbasedir) == "src" and os.path.isfile(
+    os.path.join(_upbasedir, "../setup.py")
 )
 
 # Requirement must have egg-info.  Do not use in _development_mode.
 _req = Requirement.parse("diffpy.pdfgui")
 
-#pavol
+# pavol
 # APPDATADIR = (os.path.dirname(_upbasedir) if _development_mode
 #               else resource_filename(_req, ""))
-#long
+# long
 if _development_mode:
     APPDATADIR = os.path.dirname(_mydir)
 else:
@@ -50,7 +49,7 @@ else:
 APPDATADIR = os.path.abspath(APPDATADIR)
 
 # Location of the HTML manual
-docMainFile = os.path.join(APPDATADIR, 'doc/manual/pdfgui.html')
+docMainFile = os.path.join(APPDATADIR, "doc/manual/pdfgui.html")
 
 del _upbasedir
 del _development_mode
@@ -66,7 +65,7 @@ def iconpath(iconfilename):
 
     Return string.
     """
-    rv = os.path.join(APPDATADIR, 'icons', iconfilename)
+    rv = os.path.join(APPDATADIR, "icons", iconfilename)
     assert os.path.isfile(rv), "icon file does not exist"
     return rv
 
@@ -77,6 +76,7 @@ cmdargs = []
 
 # debugging options:
 from diffpy.pdfgui.gui import debugoptions
+
 dbopts = debugoptions.DebugOptions()
 
 # End of file

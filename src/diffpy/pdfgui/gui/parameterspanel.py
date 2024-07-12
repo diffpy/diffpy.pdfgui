@@ -24,18 +24,18 @@
 import wx.grid
 from diffpy.pdfgui.gui.pdfpanel import PDFPanel
 from diffpy.pdfgui.gui.wxextensions import wx12
-from diffpy.pdfgui.gui.wxextensions.autowidthlabelsgrid import \
-        AutoWidthLabelsGrid
+from diffpy.pdfgui.gui.wxextensions.autowidthlabelsgrid import AutoWidthLabelsGrid
 from diffpy.utils.wx import gridutils
 
 
 class ParametersPanel(wx.Panel, PDFPanel):
-    '''GUI Panel, parameters viewer/editor
+    """GUI Panel, parameters viewer/editor
 
     Data members:
         parameters      -- parameters dictionary
         _focusedText    -- value of a cell before it changes
-    '''
+    """
+
     def __init__(self, *args, **kwds):
         PDFPanel.__init__(self)
         # begin wxGlade: ParametersPanel.__init__
@@ -47,16 +47,31 @@ class ParametersPanel(wx.Panel, PDFPanel):
         self.__set_properties()
         self.__do_layout()
 
-        self.Bind(wx.grid.EVT_GRID_CMD_CELL_CHANGED, self.onCellChange, self.grid_parameters)
-        self.Bind(wx.grid.EVT_GRID_CMD_CELL_LEFT_CLICK, self.onCellLeftClick, self.grid_parameters)
-        self.Bind(wx.grid.EVT_GRID_CMD_CELL_RIGHT_CLICK, self.onCellRightClick, self.grid_parameters)
-        self.Bind(wx.grid.EVT_GRID_CMD_EDITOR_SHOWN, self.onEditorShown, self.grid_parameters)
-        self.Bind(wx.grid.EVT_GRID_CMD_RANGE_SELECT, self.onGridRangeSelect, self.grid_parameters)
+        self.Bind(
+            wx.grid.EVT_GRID_CMD_CELL_CHANGED, self.onCellChange, self.grid_parameters
+        )
+        self.Bind(
+            wx.grid.EVT_GRID_CMD_CELL_LEFT_CLICK,
+            self.onCellLeftClick,
+            self.grid_parameters,
+        )
+        self.Bind(
+            wx.grid.EVT_GRID_CMD_CELL_RIGHT_CLICK,
+            self.onCellRightClick,
+            self.grid_parameters,
+        )
+        self.Bind(
+            wx.grid.EVT_GRID_CMD_EDITOR_SHOWN, self.onEditorShown, self.grid_parameters
+        )
+        self.Bind(
+            wx.grid.EVT_GRID_CMD_RANGE_SELECT,
+            self.onGridRangeSelect,
+            self.grid_parameters,
+        )
         self.Bind(wx.EVT_BUTTON, self.onApplyParameters, self.button_applyparameters)
         # end wxGlade
         self.__customProperties()
         return
-
 
     def __set_properties(self):
         # begin wxGlade: ParametersPanel.__set_properties
@@ -72,7 +87,6 @@ class ParametersPanel(wx.Panel, PDFPanel):
         attr.SetEditor(wx.grid.GridCellBoolEditor())
         attr.SetRenderer(wx.grid.GridCellBoolRenderer())
         self.grid_parameters.SetColAttr(1, attr)
-
 
     def __do_layout(self):
         # begin wxGlade: ParametersPanel.__do_layout
@@ -99,20 +113,20 @@ class ParametersPanel(wx.Panel, PDFPanel):
         return
 
     def refresh(self):
-        ''' Refreshes wigets on the panel'''
-#        # Update the parameters dictionary
-#        self.fitting.updateParameters()
+        """Refreshes wigets on the panel"""
+        #        # Update the parameters dictionary
+        #        self.fitting.updateParameters()
 
         nRows = len(self.parameters)
 
         ### update the grid
-        #remove all rows and create new ones
+        # remove all rows and create new ones
         self.grid_parameters.BeginBatch()
         gridrows = self.grid_parameters.GetNumberRows()
         if gridrows != 0:
-            self.grid_parameters.DeleteRows( numRows = gridrows )
-        self.grid_parameters.InsertRows( numRows = nRows )
-        #self.grid_parameters.SetColFormatBool(1)
+            self.grid_parameters.DeleteRows(numRows=gridrows)
+        self.grid_parameters.InsertRows(numRows=nRows)
+        # self.grid_parameters.SetColFormatBool(1)
 
         i = 0
         keys = sorted(self.parameters.keys())
@@ -120,31 +134,40 @@ class ParametersPanel(wx.Panel, PDFPanel):
             # parameter index
             self.grid_parameters.SetRowLabelValue(i, str(self.parameters[key].idx))
             # initial value
-            self.grid_parameters.SetCellValue(i,0, str(self.parameters[key].initialStr()) )
+            self.grid_parameters.SetCellValue(
+                i, 0, str(self.parameters[key].initialStr())
+            )
             # flag "fixed"
-            #NOTE: for bool type of cells use '0' or '1' as False and True
-            self.grid_parameters.SetCellValue(i,1, str(int(self.parameters[key].fixed))   )
+            # NOTE: for bool type of cells use '0' or '1' as False and True
+            self.grid_parameters.SetCellValue(
+                i, 1, str(int(self.parameters[key].fixed))
+            )
             # refined value
-            self.grid_parameters.SetReadOnly(i,2)
+            self.grid_parameters.SetReadOnly(i, 2)
             if self.parameters[key].refined is None:
-                self.grid_parameters.SetCellValue(i,2, "" )
+                self.grid_parameters.SetCellValue(i, 2, "")
             else:
-                self.grid_parameters.SetCellValue(i,2, str(self.parameters[key].refined)  )
+                self.grid_parameters.SetCellValue(
+                    i, 2, str(self.parameters[key].refined)
+                )
             i += 1
 
         self.grid_parameters.AutosizeLabels()
         self.grid_parameters.AutoSizeColumns()
         self.grid_parameters.EndBatch()
 
-
-    def onCellLeftClick(self, event): # wxGlade: ParametersPanel.<event_handler>
+    def onCellLeftClick(self, event):  # wxGlade: ParametersPanel.<event_handler>
         """Toggle a fix/free cell when clicked."""
         r = event.GetRow()
         c = event.GetCol()
         # Only proceed if there is no selection and
         # this click has no keyboard modifiers.
-        ignorethis = (c != 1 or self.grid_parameters.IsSelection() or
-                      event.ShiftDown() or event.ControlDown())
+        ignorethis = (
+            c != 1
+            or self.grid_parameters.IsSelection()
+            or event.ShiftDown()
+            or event.ControlDown()
+        )
         if ignorethis:
             # do standard click event handling
             event.Skip()
@@ -155,8 +178,7 @@ class ParametersPanel(wx.Panel, PDFPanel):
         self.applyCellChange(r, c, not state)
         return
 
-
-    def onGridRangeSelect(self, event): # wxGlade: ParametersPanel.<event_handler>
+    def onGridRangeSelect(self, event):  # wxGlade: ParametersPanel.<event_handler>
         """Handle range selections.
 
         This is needed to properly handle simple left-clicking of fix/free
@@ -165,7 +187,7 @@ class ParametersPanel(wx.Panel, PDFPanel):
         event.Skip()
         return
 
-    def onCellRightClick(self, event): # wxGlade: ParametersPanel.<event_handler>
+    def onCellRightClick(self, event):  # wxGlade: ParametersPanel.<event_handler>
         # Popup the menu.  If an item is selected then its handler
         # will be called before PopupMenu returns.
         r = event.GetRow()
@@ -173,23 +195,24 @@ class ParametersPanel(wx.Panel, PDFPanel):
         # If the right-clicked node is not part of a group, then make sure that
         # it is the only selected cell.
         append = False
-        if self.grid_parameters.IsInSelection(r,c):
+        if self.grid_parameters.IsInSelection(r, c):
             append = True
-        self.grid_parameters.SelectBlock(r,c,r,c,append)
-        self.popupMenu(self.grid_parameters, event.GetPosition().x,
-                event.GetPosition().y)
+        self.grid_parameters.SelectBlock(r, c, r, c, append)
+        self.popupMenu(
+            self.grid_parameters, event.GetPosition().x, event.GetPosition().y
+        )
         event.Skip()
         return
 
-    def onEditorShown(self, event): # wxGlade: ParametersPanel.<event_handler>
+    def onEditorShown(self, event):  # wxGlade: ParametersPanel.<event_handler>
         i = event.GetRow()
         j = event.GetCol()
-        self._focusedText = self.grid_parameters.GetCellValue(i,j)
+        self._focusedText = self.grid_parameters.GetCellValue(i, j)
         self._selectedCells = gridutils.getSelectedCells(self.grid_parameters)
         event.Skip()
         return
 
-    def onCellChange(self, event): # wxGlade: ParametersPanel.<event_handler>
+    def onCellChange(self, event):  # wxGlade: ParametersPanel.<event_handler>
         # NOTE: be careful with refresh() => recursion! operations on grid will
         # call onCellChange
         # Note that this method does not get called when a fix/free cell is
@@ -197,10 +220,11 @@ class ParametersPanel(wx.Panel, PDFPanel):
         i = event.GetRow()
         j = event.GetCol()
 
-        if self._focusedText is None: return
+        if self._focusedText is None:
+            return
         self._focusedText = None
 
-        value = self.grid_parameters.GetCellValue(i,j)
+        value = self.grid_parameters.GetCellValue(i, j)
         # Verify the value. This is done here since if it is allowed to be done
         # in fillCells, then an error dialog will be thrown for each point
         # in the loop.
@@ -222,7 +246,7 @@ class ParametersPanel(wx.Panel, PDFPanel):
             self.fillCells(self._selectedCells, value)
             self.grid_parameters.AutoSizeColumns(0)
         finally:
-            #self.refresh()
+            # self.refresh()
             event.Skip()
 
         return
@@ -244,7 +268,7 @@ class ParametersPanel(wx.Panel, PDFPanel):
             temp = self.parameters[key].initialValue()
             if temp != value:
                 self.parameters[key].setInitial(value)
-                self.grid_parameters.SetCellValue(row,0,str(float(value)))
+                self.grid_parameters.SetCellValue(row, 0, str(float(value)))
                 self.mainFrame.needsSave()
 
         elif col == 1:  # flag "fixed"
@@ -252,11 +276,10 @@ class ParametersPanel(wx.Panel, PDFPanel):
             value = bool(int(value))
             if temp is not value:
                 self.parameters[key].fixed = value
-                self.grid_parameters.SetCellValue(row,1,str(int(value)))
+                self.grid_parameters.SetCellValue(row, 1, str(int(value)))
                 self.mainFrame.needsSave()
 
         return
-
 
     def popupMenu(self, window, x, y):
         """Opens a popup menu
@@ -272,9 +295,9 @@ class ParametersPanel(wx.Panel, PDFPanel):
             self.popupID2 = wx12.NewIdRef()
             self.popupID3 = wx12.NewIdRef()
 
-            self.Bind(wx.EVT_MENU, self.onPopupFixFree,  id=self.popupID1)
-            self.Bind(wx.EVT_MENU, self.onPopupCopyRefinedToInitial,  id=self.popupID2)
-            self.Bind(wx.EVT_MENU, self.onPopupRenameParameters,  id=self.popupID3)
+            self.Bind(wx.EVT_MENU, self.onPopupFixFree, id=self.popupID1)
+            self.Bind(wx.EVT_MENU, self.onPopupCopyRefinedToInitial, id=self.popupID2)
+            self.Bind(wx.EVT_MENU, self.onPopupRenameParameters, id=self.popupID3)
 
         # make a menu
         menu = wx.Menu()
@@ -286,17 +309,17 @@ class ParametersPanel(wx.Panel, PDFPanel):
 
         # Popup the menu.  If an item is selected then its handler
         # will be called before PopupMenu returns.
-        window.PopupMenu(menu, wx.Point(x,y))
+        window.PopupMenu(menu, wx.Point(x, y))
         menu.Destroy()
         return
 
     ##### Popup menu events  ##################################################
     def onPopupFill(self, event):
-        '''Fills cells selected in the grid with a new value'''
+        """Fills cells selected in the grid with a new value"""
 
         # NOTE: GetSelectedCells returns only SINGLE selected cells, not blocks or row/columns !
         if self.grid_parameters.IsSelection():
-            dlg = wx.TextEntryDialog(self, 'New value:','Fill Selected Cells', '')
+            dlg = wx.TextEntryDialog(self, "New value:", "Fill Selected Cells", "")
 
             if dlg.ShowModal() == wx.ID_OK:
                 value = dlg.GetValue()
@@ -306,18 +329,18 @@ class ParametersPanel(wx.Panel, PDFPanel):
 
                 for i in range(rows):
                     for j in range(cols):
-                        inSelection  = self.grid_parameters.IsInSelection(i,j)
-                        valueChanged = (value != self.grid_parameters.GetCellValue(i,j))
+                        inSelection = self.grid_parameters.IsInSelection(i, j)
+                        valueChanged = value != self.grid_parameters.GetCellValue(i, j)
                         if inSelection and valueChanged:
                             self.applyCellChange(i, j, value)
 
-                #self.refresh()
+                # self.refresh()
 
             dlg.Destroy()
         event.Skip()
 
     def onPopupFixFree(self, event):
-        '''Fixes parameters with selected cells'''
+        """Fixes parameters with selected cells"""
         # NOTE: GetSelectedCells returns only SINGLE selected cells, not blocks
         # or row/columns !
         seldict = {}
@@ -325,14 +348,14 @@ class ParametersPanel(wx.Panel, PDFPanel):
 
             indices = self.getSelectedParameters()
             for row in indices:
-                state = self.grid_parameters.GetCellValue(row,1)
+                state = self.grid_parameters.GetCellValue(row, 1)
                 state = bool(int(state.strip() or "0"))
                 seldict[row] = state
 
             # Find the majority state
             nfixed = sum(1 for st in seldict.values() if st)
             nfree = len(seldict) - nfixed
-            newstate = True # fixed
+            newstate = True  # fixed
             if nfree < nfixed:
                 # free all parameters
                 newstate = False
@@ -343,14 +366,14 @@ class ParametersPanel(wx.Panel, PDFPanel):
         return
 
     def onPopupCopyRefinedToInitial(self, event):
-        """Copy refined parameter to initial value.
-        """
+        """Copy refined parameter to initial value."""
         if not self.grid_parameters.IsSelection():
             event.Skip()
             return
         for row in self.getSelectedParameters():
             refined = self.grid_parameters.GetCellValue(row, 2)
-            if refined == "": continue
+            if refined == "":
+                continue
             self.applyCellChange(row, 0, refined)
         # Resize the first column
         self.grid_parameters.AutoSizeColumn(0)
@@ -361,8 +384,9 @@ class ParametersPanel(wx.Panel, PDFPanel):
         """Rename parameters."""
 
         if self.grid_parameters.IsSelection():
-            dlg = wx.TextEntryDialog(self, 'New index:',
-                    'Rename Selected Parameters', '')
+            dlg = wx.TextEntryDialog(
+                self, "New index:", "Rename Selected Parameters", ""
+            )
 
             value = None
             if dlg.ShowModal() == wx.ID_OK:
@@ -381,10 +405,9 @@ class ParametersPanel(wx.Panel, PDFPanel):
             for i in range(rows):
                 key = int(self.grid_parameters.GetRowLabelValue(i))
                 for j in range(cols):
-                    if self.grid_parameters.IsInSelection(i,j):
+                    if self.grid_parameters.IsInSelection(i, j):
                         selpars.append(key)
                         break
-
 
             for key in selpars:
                 if key != value:
@@ -397,10 +420,9 @@ class ParametersPanel(wx.Panel, PDFPanel):
         event.Skip()
         return
 
-
     ##### end of Popup menu events  ###########################################
 
-    def onApplyParameters(self, event): # wxGlade: ParametersPanel.<event_handler>
+    def onApplyParameters(self, event):  # wxGlade: ParametersPanel.<event_handler>
         self.fit.applyParameters()
         self.mainFrame.needsSave()
         event.Skip()
@@ -415,7 +437,7 @@ class ParametersPanel(wx.Panel, PDFPanel):
 
         for i in range(rows):
             for j in range(cols):
-                if self.grid_parameters.IsInSelection(i,j):
+                if self.grid_parameters.IsInSelection(i, j):
                     selection.append(i)
                     break
 
@@ -432,10 +454,12 @@ class ParametersPanel(wx.Panel, PDFPanel):
                 self.applyCellChange(i, j, value)
         return
 
+
 # end of class ParametersPanel
 
 ##### testing code ############################################################
 if __name__ == "__main__":
+
     class MyFrame(wx.Frame):
         def __init__(self, *args, **kwds):
             kwds["style"] = wx.DEFAULT_FRAME_STYLE
@@ -452,16 +476,19 @@ if __name__ == "__main__":
             pass
 
         def test(self):
-            '''Testing code goes here'''
+            """Testing code goes here"""
             from diffpy.pdfgui.control.parameter import Parameter
 
-            self.window.parameters = {3:Parameter(3), 17:Parameter(17), 11:Parameter(11)}
+            self.window.parameters = {
+                3: Parameter(3),
+                17: Parameter(17),
+                11: Parameter(11),
+            }
             self.window.parameters[3].setInitial(1)
             self.window.parameters[17].setInitial(0.55)
             self.window.parameters[11].setInitial(5.532)
 
             self.window.refresh()
-
 
     class MyApp(wx.App):
         def onInit(self):
