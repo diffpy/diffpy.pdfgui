@@ -18,6 +18,7 @@
 
 import wx
 
+
 class SupercellDialog(wx.Dialog):
     def __init__(self, *args, **kwds):
         # begin wxGlade: SupercellDialog.__init__
@@ -48,7 +49,9 @@ class SupercellDialog(wx.Dialog):
 
     def __do_layout(self):
         # begin wxGlade: SupercellDialog.__do_layout
-        sizer_1 = wx.StaticBoxSizer(wx.StaticBox(self, wx.ID_ANY, "Supercell Expansion"), wx.VERTICAL)
+        sizer_1 = wx.StaticBoxSizer(
+            wx.StaticBox(self, wx.ID_ANY, "Supercell Expansion"), wx.VERTICAL
+        )
         sizer_4 = wx.BoxSizer(wx.HORIZONTAL)
         sizer_3 = wx.BoxSizer(wx.HORIZONTAL)
         sizer_2_copy_1 = wx.BoxSizer(wx.HORIZONTAL)
@@ -73,7 +76,7 @@ class SupercellDialog(wx.Dialog):
         self.Layout()
         # end wxGlade
 
-   ############################################################################
+    ############################################################################
 
     def __customProperties(self):
         """Set custom properties."""
@@ -87,7 +90,7 @@ class SupercellDialog(wx.Dialog):
         """Get the [m, n, o] expansion parameters from the dialog."""
         return [self.m, self.n, self.o]
 
-    def onOk(self, event): # wxGlade: SupercellDialog.<event_handler>
+    def onOk(self, event):  # wxGlade: SupercellDialog.<event_handler>
         """Accept the expansion."""
         self.m = self.aSpinCtrl.GetValue()
         self.n = self.bSpinCtrl.GetValue()
@@ -95,9 +98,10 @@ class SupercellDialog(wx.Dialog):
         event.Skip()
         return
 
-    def onCancel(self, event): # wxGlade: SupercellDialog.<event_handler>
+    def onCancel(self, event):  # wxGlade: SupercellDialog.<event_handler>
         """Get out of here."""
         event.Skip()
         return
+
 
 # end of class SupercellDialog

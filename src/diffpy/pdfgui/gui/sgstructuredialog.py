@@ -21,6 +21,7 @@ import wx
 from diffpy.pdfgui.control.controlerrors import ControlValueError
 from diffpy.pdfgui.gui.pdfpanel import PDFPanel
 
+
 class SGStructureDialog(wx.Dialog, PDFPanel):
     def __init__(self, *args, **kwds):
         PDFPanel.__init__(self)
@@ -29,7 +30,9 @@ class SGStructureDialog(wx.Dialog, PDFPanel):
         wx.Dialog.__init__(self, *args, **kwds)
         self.SetTitle("Space Group Expansion")
 
-        sizer_2 = wx.StaticBoxSizer(wx.StaticBox(self, wx.ID_ANY, "Space Group Expansion"), wx.VERTICAL)
+        sizer_2 = wx.StaticBoxSizer(
+            wx.StaticBox(self, wx.ID_ANY, "Space Group Expansion"), wx.VERTICAL
+        )
 
         self.numConstrainedLabel = wx.StaticText(self, wx.ID_ANY, "")
         sizer_2.Add(self.numConstrainedLabel, 0, wx.ALL, 5)
@@ -50,13 +53,19 @@ class SGStructureDialog(wx.Dialog, PDFPanel):
         self.offsetLabel = wx.StaticText(self, wx.ID_ANY, "Origin Offset")
         sizer_4.Add(self.offsetLabel, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALL, 5)
 
-        self.offsetTextCtrlX = wx.TextCtrl(self, wx.ID_ANY, "0", style=wx.TE_PROCESS_ENTER)
+        self.offsetTextCtrlX = wx.TextCtrl(
+            self, wx.ID_ANY, "0", style=wx.TE_PROCESS_ENTER
+        )
         sizer_4.Add(self.offsetTextCtrlX, 0, wx.ALL, 5)
 
-        self.offsetTextCtrlY = wx.TextCtrl(self, wx.ID_ANY, "0", style=wx.TE_PROCESS_ENTER)
+        self.offsetTextCtrlY = wx.TextCtrl(
+            self, wx.ID_ANY, "0", style=wx.TE_PROCESS_ENTER
+        )
         sizer_4.Add(self.offsetTextCtrlY, 0, wx.ALL, 5)
 
-        self.offsetTextCtrlZ = wx.TextCtrl(self, wx.ID_ANY, "0", style=wx.TE_PROCESS_ENTER)
+        self.offsetTextCtrlZ = wx.TextCtrl(
+            self, wx.ID_ANY, "0", style=wx.TE_PROCESS_ENTER
+        )
         sizer_4.Add(self.offsetTextCtrlZ, 0, wx.ALL, 5)
 
         self.static_line_1 = wx.StaticLine(self, wx.ID_ANY)
@@ -94,12 +103,15 @@ class SGStructureDialog(wx.Dialog, PDFPanel):
         """Set the custom properties."""
         # setting of combo box items was deferred to updateSpaceGroupList()
         self.spacegroup = None
-        self.offset = [0.0,0.0,0.0]
+        self.offset = [0.0, 0.0, 0.0]
         self.structure = None
         self.indices = []
 
-        self.textCtrls = [self.offsetTextCtrlX, self.offsetTextCtrlY,
-                self.offsetTextCtrlZ]
+        self.textCtrls = [
+            self.offsetTextCtrlX,
+            self.offsetTextCtrlY,
+            self.offsetTextCtrlZ,
+        ]
 
         # Set the focus events.
         for textctrl in self.textCtrls:
@@ -114,7 +126,7 @@ class SGStructureDialog(wx.Dialog, PDFPanel):
         """
         self.sgComboBox.Clear()
         sglist = self.structure.getSpaceGroupList()
-        self.spacegroup = self.structure.getSpaceGroup('P1')
+        self.spacegroup = self.structure.getSpaceGroup("P1")
         for sg in sglist:
             self.sgComboBox.Append(sg.short_name)
         return
@@ -161,29 +173,34 @@ class SGStructureDialog(wx.Dialog, PDFPanel):
             val = textctrl.GetValue()
             # make sure the value is meaningful
             try:
-                val = float(eval("1.0*"+val, dict(math.__dict__)))
+                val = float(eval("1.0*" + val, dict(math.__dict__)))
             except (NameError, TypeError, SyntaxError):
                 val = 0.0
-            textctrl.SetValue("%s"%val)
+            textctrl.SetValue("%s" % val)
             self.offset[i] = val
 
         # find how many new atoms would be generated
         from diffpy.structure.symmetryutilities import ExpandAsymmetricUnit
-        corepos = [ self.structure[i].xyz for i in self.indices ]
+
+        corepos = [self.structure[i].xyz for i in self.indices]
         symposeps = self.structure.symposeps
-        eau = ExpandAsymmetricUnit(self.spacegroup, corepos,
-                sgoffset=self.offset, eps=symposeps)
+        eau = ExpandAsymmetricUnit(
+            self.spacegroup, corepos, sgoffset=self.offset, eps=symposeps
+        )
         newsize = sum(eau.multiplicity)
         s = ""
         if len(self.indices) != 1:
             s = "s"
-        message = "%i atom%s selected.  Expanding to %i positions." %\
-                (len(self.indices), s, newsize)
+        message = "%i atom%s selected.  Expanding to %i positions." % (
+            len(self.indices),
+            s,
+            newsize,
+        )
         self.numConstrainedLabel.SetLabel(message)
 
         # Raise an error if we had to change the space group
         if error:
-            raise ControlValueError(error);
+            raise ControlValueError(error)
         return
 
     ### Events
@@ -193,38 +210,37 @@ class SGStructureDialog(wx.Dialog, PDFPanel):
         event.Skip()
         return
 
-    def onSGTextEnter(self, event): # wxGlade: SGStructureDialog.<event_handler>
+    def onSGTextEnter(self, event):  # wxGlade: SGStructureDialog.<event_handler>
         self.updateWidgets()
         self.onOk(None)
         return
 
-    def onSGSelect(self, event): # wxGlade: SGStructureDialog.<event_handler>
+    def onSGSelect(self, event):  # wxGlade: SGStructureDialog.<event_handler>
         self.updateWidgets()
         return
 
-    def onOXTextEnter(self, event): # wxGlade: SGStructureDialog.<event_handler>
-        self.updateWidgets()
-        self.onOk(None)
-        return
-
-    def onOYTextEnter(self, event): # wxGlade: SGStructureDialog.<event_handler>
+    def onOXTextEnter(self, event):  # wxGlade: SGStructureDialog.<event_handler>
         self.updateWidgets()
         self.onOk(None)
         return
 
-    def onOZTextEnter(self, event): # wxGlade: SGStructureDialog.<event_handler>
+    def onOYTextEnter(self, event):  # wxGlade: SGStructureDialog.<event_handler>
         self.updateWidgets()
         self.onOk(None)
         return
 
-    def onOk(self, event): # wxGlade: SGStructureDialog.<event_handler>
+    def onOZTextEnter(self, event):  # wxGlade: SGStructureDialog.<event_handler>
+        self.updateWidgets()
+        self.onOk(None)
+        return
+
+    def onOk(self, event):  # wxGlade: SGStructureDialog.<event_handler>
         # check to see if the space group is consistant
         if not self.structure.isSpaceGroupPossible(self.spacegroup):
-            message =  "The chosen space group is not consistent\n"
+            message = "The chosen space group is not consistent\n"
             message += "with the lattice parameters.\n"
             message += "Would you like to proceed anyways?"
-            d = wx.MessageDialog( self, message,
-                    "Inconsistent space group", wx.YES_NO)
+            d = wx.MessageDialog(self, message, "Inconsistent space group", wx.YES_NO)
             code = d.ShowModal()
             if code == wx.ID_YES:
                 self.EndModal(wx.ID_OK)
@@ -232,8 +248,9 @@ class SGStructureDialog(wx.Dialog, PDFPanel):
             self.EndModal(wx.ID_OK)
         return
 
-    def onCancel(self, event): # wxGlade: SGStructureDialog.<event_handler>
+    def onCancel(self, event):  # wxGlade: SGStructureDialog.<event_handler>
         event.Skip()
         return
+
 
 # end of class SGStructureDialog

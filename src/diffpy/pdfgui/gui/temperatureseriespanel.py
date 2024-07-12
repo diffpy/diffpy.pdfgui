@@ -26,6 +26,7 @@ from diffpy.pdfgui.gui import tooltips
 from diffpy.pdfgui.gui.wxextensions.listctrls import AutoWidthListCtrl
 from diffpy.pdfgui.utils import numericStringSort
 
+
 class TemperatureSeriesPanel(wx.Panel, PDFPanel):
     def __init__(self, *args, **kwds):
         PDFPanel.__init__(self)
@@ -35,8 +36,21 @@ class TemperatureSeriesPanel(wx.Panel, PDFPanel):
 
         sizer_1 = wx.BoxSizer(wx.VERTICAL)
 
-        self.instructionsLabel = wx.StaticText(self, wx.ID_ANY, "Select a fit from the tree on the left then add datasets and assign\ntemperatues below. If you have not set up a fit to be the template\nfor the series, hit cancel and rerun this macro once a fit has been\ncreated.")
-        self.instructionsLabel.SetFont(wx.Font(10, wx.FONTFAMILY_DEFAULT, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_NORMAL, 0, "Sans"))
+        self.instructionsLabel = wx.StaticText(
+            self,
+            wx.ID_ANY,
+            "Select a fit from the tree on the left then add datasets and assign\ntemperatues below. If you have not set up a fit to be the template\nfor the series, hit cancel and rerun this macro once a fit has been\ncreated.",
+        )
+        self.instructionsLabel.SetFont(
+            wx.Font(
+                10,
+                wx.FONTFAMILY_DEFAULT,
+                wx.FONTSTYLE_NORMAL,
+                wx.FONTWEIGHT_NORMAL,
+                0,
+                "Sans",
+            )
+        )
         sizer_1.Add(self.instructionsLabel, 0, wx.ALL | wx.EXPAND, 5)
 
         sizer_2 = wx.BoxSizer(wx.VERTICAL)
@@ -45,7 +59,9 @@ class TemperatureSeriesPanel(wx.Panel, PDFPanel):
         sizer_4 = wx.BoxSizer(wx.HORIZONTAL)
         sizer_2.Add(sizer_4, 1, wx.EXPAND, 0)
 
-        self.listCtrlFiles = AutoWidthListCtrl(self, wx.ID_ANY, style=wx.BORDER_SUNKEN | wx.LC_EDIT_LABELS | wx.LC_REPORT)
+        self.listCtrlFiles = AutoWidthListCtrl(
+            self, wx.ID_ANY, style=wx.BORDER_SUNKEN | wx.LC_EDIT_LABELS | wx.LC_REPORT
+        )
         sizer_4.Add(self.listCtrlFiles, 1, wx.ALL | wx.EXPAND, 5)
 
         sizer_5 = wx.BoxSizer(wx.VERTICAL)
@@ -107,20 +123,20 @@ class TemperatureSeriesPanel(wx.Panel, PDFPanel):
     def __customProperties(self):
         """Set the custom properties."""
         self.fit = None
-        self.reverse = False # Reverse the sort?
-        self.fullpath = '.'
-        self.datasets = [] # Contains (temperature, filename) tuples
-                           # temperature is a float and comes first for easy sorting
+        self.reverse = False  # Reverse the sort?
+        self.fullpath = "."
+        self.datasets = []  # Contains (temperature, filename) tuples
+        # temperature is a float and comes first for easy sorting
 
         self.listCtrlFiles.InsertColumn(0, "Temperature")
         self.listCtrlFiles.InsertColumn(1, "Data Set")
-        self.listCtrlFiles.SetColumnWidth(0,-2)
+        self.listCtrlFiles.SetColumnWidth(0, -2)
 
         # Define tooltips.
         self.setToolTips(tooltips.temperatureseriespanel)
         return
 
-    def onEndLabelEdit(self, event): # wxGlade: TemperatureSeriesPanel.<event_handler>
+    def onEndLabelEdit(self, event):  # wxGlade: TemperatureSeriesPanel.<event_handler>
         """Update the temperature in the datasets."""
         index = event.GetIndex()
         text = event.GetText()
@@ -138,55 +154,62 @@ class TemperatureSeriesPanel(wx.Panel, PDFPanel):
         self.reverse = False
         return
 
-    def onOK(self, event): # wxGlade: TemperatureSeriesPanel.<event_handler>
+    def onOK(self, event):  # wxGlade: TemperatureSeriesPanel.<event_handler>
         """Let's go!"""
         paths = [tp[1] for tp in self.datasets]
         temperatures = [tp[0] for tp in self.datasets]
-        org = makeTemperatureSeries(self.mainFrame.control, self.fit,
-                paths, temperatures)
+        org = makeTemperatureSeries(
+            self.mainFrame.control, self.fit, paths, temperatures
+        )
         self.treeCtrlMain.ExtendProjectTree(org, clear=False)
         self.mainFrame.needsSave()
         self.onCancel(event)
         return
 
-    def onCancel(self, event): # wxGlade: TemperatureSeriesPanel.<event_handler>
+    def onCancel(self, event):  # wxGlade: TemperatureSeriesPanel.<event_handler>
         """Let's go, but not actually do anything."""
         self.mainFrame.setMode("fitting")
         self.treeCtrlMain.UnselectAll()
         self.mainFrame.switchRightPanel("blank")
         return
 
-    def onUp(self, event): # wxGlade: TemperatureSeriesPanel.<event_handler>
+    def onUp(self, event):  # wxGlade: TemperatureSeriesPanel.<event_handler>
         """Move an item in the list up."""
         index = self.listCtrlFiles.GetFirstSelected()
         if index > 0:
             temp = self.datasets[index]
-            self.datasets[index] = self.datasets[index-1]
-            self.datasets[index-1] = temp
+            self.datasets[index] = self.datasets[index - 1]
+            self.datasets[index - 1] = temp
             self.fillList()
-            self.listCtrlFiles.Select(index-1)
+            self.listCtrlFiles.Select(index - 1)
         return
 
-    def onDown(self, event): # wxGlade: TemperatureSeriesPanel.<event_handler>
+    def onDown(self, event):  # wxGlade: TemperatureSeriesPanel.<event_handler>
         """Move an item in the list down."""
         index = self.listCtrlFiles.GetFirstSelected()
-        if index > -1 and index != len(self.datasets)-1:
+        if index > -1 and index != len(self.datasets) - 1:
             temp = self.datasets[index]
-            self.datasets[index] = self.datasets[index+1]
-            self.datasets[index+1] = temp
+            self.datasets[index] = self.datasets[index + 1]
+            self.datasets[index + 1] = temp
             self.fillList()
-            self.listCtrlFiles.Select(index+1)
+            self.listCtrlFiles.Select(index + 1)
         return
 
-    def onAdd(self, event): # wxGlade: TemperatureSeriesPanel.<event_handler>
+    def onAdd(self, event):  # wxGlade: TemperatureSeriesPanel.<event_handler>
         """Append files to the list."""
         dir, filename = os.path.split(self.fullpath)
         if not dir:
             dir = self.mainFrame.workpath
 
         matchstring = "PDF data files (*.gr)|*.gr|PDF fit files (*.fgr)|*.fgr|PDF fit files (*.fit)|*.fit|PDF calculation files (*.cgr)|*.cgr|PDF calculation files (*.calc)|*.calc|All Files|*"
-        d = wx.FileDialog(None, "Choose files", dir, "", matchstring,
-                          wx.FD_OPEN|wx.FD_FILE_MUST_EXIST|wx.FD_MULTIPLE)
+        d = wx.FileDialog(
+            None,
+            "Choose files",
+            dir,
+            "",
+            matchstring,
+            wx.FD_OPEN | wx.FD_FILE_MUST_EXIST | wx.FD_MULTIPLE,
+        )
         paths = []
         if d.ShowModal() == wx.ID_OK:
             paths = d.GetPaths()
@@ -200,14 +223,17 @@ class TemperatureSeriesPanel(wx.Panel, PDFPanel):
 
             # Look for the temperature in the filename
             temperature = 300.0
-            rx = {'f' : r'(?:\d+(?:\.\d*)?|\d*\.\d+)' }
+            rx = {"f": r"(?:\d+(?:\.\d*)?|\d*\.\d+)"}
             # Search for T123, t123, Temp123, temp123, 123k, 123K.
             # Some filenames fool this, e.g. "test1.dat" will match '1' since it
             # is preceeded by a 't'.
             # Is there a better regexp? Probably...
-            regexp = r"""(?:[Tt](?:emp(?:erature)?)?(%(f)s))|
+            regexp = (
+                r"""(?:[Tt](?:emp(?:erature)?)?(%(f)s))|
                          (?:(?<![a-zA-Z0-9])(%(f)s)[Kk])
-                """ % rx
+                """
+                % rx
+            )
             res = re.search(regexp, os.path.basename(path), re.VERBOSE)
             if res:
                 groups = res.groups()
@@ -217,16 +243,16 @@ class TemperatureSeriesPanel(wx.Panel, PDFPanel):
                     temperature = float(res.groups()[1])
             else:
                 # Look in the file
-                infile = open(path, 'r')
+                infile = open(path, "r")
                 datastring = infile.read()
                 infile.close()
                 # Look for it first in the file
-                res = re.search(r'^#+ start data\s*(?:#.*\s+)*', datastring, re.M)
+                res = re.search(r"^#+ start data\s*(?:#.*\s+)*", datastring, re.M)
                 # start_data is position where the first data line starts
                 if res:
                     start_data = res.end()
                 else:
-                    res = re.search(r'^[^#]', datastring, re.M)
+                    res = re.search(r"^[^#]", datastring, re.M)
                     if res:
                         start_data = res.start()
                     else:
@@ -238,16 +264,17 @@ class TemperatureSeriesPanel(wx.Panel, PDFPanel):
                 if res:
                     temperature = float(res.groups()[0])
             # Add the new path
-            if temperature <= 0: temperature = 300.0
+            if temperature <= 0:
+                temperature = 300.0
             newdatasets.append([temperature, path])
 
         # DONT Sort the new paths according to temperature
-        #newdatasets.sort()
+        # newdatasets.sort()
         self.datasets.extend(newdatasets)
         self.fillList()
         return
 
-    def onDelete(self, event): # wxGlade: TemperatureSeriesPanel.<event_handler>
+    def onDelete(self, event):  # wxGlade: TemperatureSeriesPanel.<event_handler>
         """Delete selected files from the list."""
         idxlist = []
         item = self.listCtrlFiles.GetFirstSelected()
@@ -261,18 +288,18 @@ class TemperatureSeriesPanel(wx.Panel, PDFPanel):
         self.fillList()
         return
 
-    def onColClick(self, event): # wxGlade: TemperatureSeriesPanel.<event_handler>
+    def onColClick(self, event):  # wxGlade: TemperatureSeriesPanel.<event_handler>
         """Sort by temperature."""
         column = event.GetColumn()
         # sort by temperature
         if column == 0:
-            sortkey = lambda tf : float(tf[0])
+            sortkey = lambda tf: float(tf[0])
         # sort by filename with numerical comparison of digits
         elif column == 1:
             filenames = [f for t, f in self.datasets]
             numericStringSort(filenames)
             order = dict(zip(filenames, range(len(filenames))))
-            sortkey = lambda tf : order[tf[1]]
+            sortkey = lambda tf: order[tf[1]]
         # ignore unhandled columns
         else:
             return
@@ -289,7 +316,8 @@ class TemperatureSeriesPanel(wx.Panel, PDFPanel):
         cp = os.path.commonprefix(names)
         # We want to break at the last path/separator in the common prefix
         idx = cp.rfind(os.path.sep)
-        if idx == -1: idx = len(cp)
+        if idx == -1:
+            idx = len(cp)
         for temperature, filename in self.datasets:
             shortname = "..." + filename[idx:]
             # index = self.listCtrlFiles.InsertItem(sys.maxsize, str(temperature)) #doesn't work for windows
@@ -301,7 +329,7 @@ class TemperatureSeriesPanel(wx.Panel, PDFPanel):
     def treeSelectionUpdate(self, node):
         """Set the current fit when the tree selection changes."""
         nodetype = self.treeCtrlMain.GetNodeType(node)
-        if nodetype == 'fit':
+        if nodetype == "fit":
             self.fit = self.treeCtrlMain.GetControlData(node)
         self.refresh()
         return
@@ -321,12 +349,17 @@ class TemperatureSeriesPanel(wx.Panel, PDFPanel):
             node = selections[0]
             nodetype = self.treeCtrlMain.GetNodeType(node)
 
-        if node and nodetype == "fit" \
-                and self.fit and self.fit.hasDataSets() \
-                and self.fit.hasStructures():
+        if (
+            node
+            and nodetype == "fit"
+            and self.fit
+            and self.fit.hasDataSets()
+            and self.fit.hasStructures()
+        ):
             self.goButton.Enable()
         else:
             self.goButton.Enable(False)
         return
+
 
 # end of class TemperatureSeriesPanel

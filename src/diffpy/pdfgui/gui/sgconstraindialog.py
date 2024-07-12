@@ -21,6 +21,7 @@ import wx
 from diffpy.pdfgui.control.controlerrors import ControlValueError
 from diffpy.pdfgui.gui.pdfpanel import PDFPanel
 
+
 class SGConstrainDialog(wx.Dialog, PDFPanel):
     def __init__(self, *args, **kwds):
         PDFPanel.__init__(self)
@@ -29,7 +30,9 @@ class SGConstrainDialog(wx.Dialog, PDFPanel):
         wx.Dialog.__init__(self, *args, **kwds)
         self.SetTitle("Space Group Constraints")
 
-        sizer_2 = wx.StaticBoxSizer(wx.StaticBox(self, wx.ID_ANY, "Space Group Constraints"), wx.VERTICAL)
+        sizer_2 = wx.StaticBoxSizer(
+            wx.StaticBox(self, wx.ID_ANY, "Space Group Constraints"), wx.VERTICAL
+        )
 
         self.numConstrainedLabel = wx.StaticText(self, wx.ID_ANY, "")
         sizer_2.Add(self.numConstrainedLabel, 0, wx.ALIGN_CENTER_HORIZONTAL | wx.ALL, 5)
@@ -104,14 +107,17 @@ class SGConstrainDialog(wx.Dialog, PDFPanel):
         """Set the custom properties."""
         # setting of combo box items was deferred to updateSpaceGroupList()
         self.spacegroup = None
-        self.offset = [0.0,0.0,0.0]
+        self.offset = [0.0, 0.0, 0.0]
         self.posflag = True
         self.tempflag = True
         self.structure = None
         self.indices = []
 
-        self.textCtrls = [self.offsetTextCtrlX, self.offsetTextCtrlY,
-                self.offsetTextCtrlZ]
+        self.textCtrls = [
+            self.offsetTextCtrlX,
+            self.offsetTextCtrlY,
+            self.offsetTextCtrlZ,
+        ]
 
         # Set the focus events.
         for textctrl in self.textCtrls:
@@ -126,7 +132,7 @@ class SGConstrainDialog(wx.Dialog, PDFPanel):
         """
         self.sgComboBox.Clear()
         sglist = self.structure.getSpaceGroupList()
-        self.spacegroup = self.structure.getSpaceGroup('P1')
+        self.spacegroup = self.structure.getSpaceGroup("P1")
         for sg in sglist:
             self.sgComboBox.Append(sg.short_name)
         return
@@ -180,23 +186,22 @@ class SGConstrainDialog(wx.Dialog, PDFPanel):
             val = textctrl.GetValue()
             # make sure the value is meaningful
             try:
-                val = float(eval("1.0*"+val, dict(math.__dict__)))
+                val = float(eval("1.0*" + val, dict(math.__dict__)))
             except (NameError, TypeError, SyntaxError):
                 val = 0
-            textctrl.SetValue("%s"%val)
+            textctrl.SetValue("%s" % val)
             self.offset[i] = val
 
-        #newatoms = len(stemp) - len(self.structure)
+        # newatoms = len(stemp) - len(self.structure)
         s = ""
         if len(self.indices) != 1:
             s = "s"
-        message = "%i atom%s selected." %\
-                (len(self.indices), s)
+        message = "%i atom%s selected." % (len(self.indices), s)
         self.numConstrainedLabel.SetLabel(message)
 
         # Raise an error if we had to change the space group
         if error:
-            raise ControlValueError(error);
+            raise ControlValueError(error)
         return
 
     ### Events
@@ -207,34 +212,33 @@ class SGConstrainDialog(wx.Dialog, PDFPanel):
         event.Skip()
         return
 
-    def onSGTextEnter(self, event): # wxGlade: SGConstrainDialog.<event_handler>
+    def onSGTextEnter(self, event):  # wxGlade: SGConstrainDialog.<event_handler>
         self.updateWidgets()
         return
 
-    def onOXTextEnter(self, event): # wxGlade: SGConstrainDialog.<event_handler>
+    def onOXTextEnter(self, event):  # wxGlade: SGConstrainDialog.<event_handler>
         self.updateWidgets()
         return
 
-    def onOYTextEnter(self, event): # wxGlade: SGConstrainDialog.<event_handler>
+    def onOYTextEnter(self, event):  # wxGlade: SGConstrainDialog.<event_handler>
         self.updateWidgets()
         return
 
-    def onOZTextEnter(self, event): # wxGlade: SGConstrainDialog.<event_handler>
+    def onOZTextEnter(self, event):  # wxGlade: SGConstrainDialog.<event_handler>
         self.updateWidgets()
         return
 
-    def onSGSelect(self, event): # wxGlade: SGConstrainDialog.<event_handler>
+    def onSGSelect(self, event):  # wxGlade: SGConstrainDialog.<event_handler>
         self.updateWidgets()
         return
 
-    def onOk(self, event): # wxGlade: SGConstrainDialog.<event_handler>
+    def onOk(self, event):  # wxGlade: SGConstrainDialog.<event_handler>
         # check to see if the space group is consistant
         if not self.structure.isSpaceGroupPossible(self.spacegroup):
-            message =  "The chosen space group is not consistent\n"
+            message = "The chosen space group is not consistent\n"
             message += "with the lattice parameters.\n"
             message += "Would you like to proceed anyways?"
-            d = wx.MessageDialog( self, message,
-                    "Inconsistent space group", wx.YES_NO)
+            d = wx.MessageDialog(self, message, "Inconsistent space group", wx.YES_NO)
             code = d.ShowModal()
             if code == wx.ID_YES:
                 self.EndModal(wx.ID_OK)
@@ -242,16 +246,17 @@ class SGConstrainDialog(wx.Dialog, PDFPanel):
             self.EndModal(wx.ID_OK)
         return
 
-    def onCancel(self, event): # wxGlade: SGConstrainDialog.<event_handler>
+    def onCancel(self, event):  # wxGlade: SGConstrainDialog.<event_handler>
         event.Skip()
         return
 
-    def onPosFlag(self, event): # wxGlade: SGConstrainDialog.<event_handler>
+    def onPosFlag(self, event):  # wxGlade: SGConstrainDialog.<event_handler>
         self.posflag = self.positionCheckBox.GetValue()
         return
 
-    def onTempFlag(self, event): # wxGlade: SGConstrainDialog.<event_handler>
+    def onTempFlag(self, event):  # wxGlade: SGConstrainDialog.<event_handler>
         self.tempflag = self.tfCheckBox.GetValue()
         return
+
 
 # end of class SGConstrainDialog
