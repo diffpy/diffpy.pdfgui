@@ -20,7 +20,7 @@ from diffpy.pdfgui.gui.pdfguiglobals import iconpath
 from diffpy.pdfgui.version import __version__, __date__
 
 
-_acknowledgement =  '''\
+_acknowledgement = """\
 This software was developed by the Billinge-group as part of the Distributed
 Data Analysis of Neutron Scattering Experiments (DANSE) project funded by the US
 National Science Foundation under grant DMR-0520547.  Developments of PDFfit2
@@ -37,36 +37,43 @@ following paper in your publication:
     C. L. Farrow, P. Juhas, J. W. Liu, D. Bryndin, E. S. Bozin,
     J. Bloch, Th. Proffen and S. J. L. Billinge, PDFfit2 and PDFgui:
     computer programs for studying nanostructure in crystals,
-    J. Phys.: Condens. Matter 19, 335219 (2007).'''
+    J. Phys.: Condens. Matter 19, 335219 (2007)."""
 
-_copyright = "(c) 2005-{year},".format(year= __date__[:4])
+_copyright = "(c) 2005-{year},".format(year=__date__[:4])
 
 _homepage = "https://www.diffpy.org"
 
 # authors list is shuffled randomly every time
-_authors = ["S. J. L. Billinge", "E. S. Bozin", "D. Bryndin",
-                "C. L. Farrow", "P. Juhas", "J. W. Liu"]
+_authors = [
+    "S. J. L. Billinge",
+    "E. S. Bozin",
+    "D. Bryndin",
+    "C. L. Farrow",
+    "P. Juhas",
+    "J. W. Liu",
+]
 _paper = "https://stacks.iop.org/0953-8984/19/335219"
 _license = ""
 
 
 def launchBrowser(url):
-    '''Launches browser and opens specified url
+    """Launches browser and opens specified url
 
     In some cases may require BROWSER environment variable to be set up.
 
     @param url: URL to open
-    '''
+    """
     import webbrowser
+
     webbrowser.open(url)
 
 
 class DialogAbout(wx.Dialog):
-    '''"About" Dialog
+    """ "About" Dialog
 
     Shows product name, current version, authors, and link to the product page.
     Current version is taken from version.py
-    '''
+    """
 
     def __init__(self, *args, **kwds):
 
@@ -74,23 +81,39 @@ class DialogAbout(wx.Dialog):
         kwds["style"] = kwds.get("style", 0) | wx.DEFAULT_DIALOG_STYLE
         wx.Dialog.__init__(self, *args, **kwds)
         self.SetSize((600, 595))
-        self.bitmap_logo = wx.StaticBitmap(self, wx.ID_ANY, wx.Bitmap(iconpath("logo.png")))
+        self.bitmap_logo = wx.StaticBitmap(
+            self, wx.ID_ANY, wx.Bitmap(iconpath("logo.png"))
+        )
         self.label_title = wx.StaticText(self, wx.ID_ANY, "PDFgui")
         self.label_version = wx.StaticText(self, wx.ID_ANY, "")
         self.label_build = wx.StaticText(self, wx.ID_ANY, "Build:")
         self.label_svnrevision = wx.StaticText(self, wx.ID_ANY, "")
         self.label_copyright = wx.StaticText(self, wx.ID_ANY, "")
         self.label_author = wx.StaticText(self, wx.ID_ANY, "author")
-        self.hyperlink = wx.lib.agw.hyperlink.HyperLinkCtrl(self, wx.ID_ANY, _homepage, URL=_homepage)
-        self.hyperlink_license = wx.lib.agw.hyperlink.HyperLinkCtrl(self, wx.ID_ANY, _license, URL=_license)
+        self.hyperlink = wx.lib.agw.hyperlink.HyperLinkCtrl(
+            self, wx.ID_ANY, _homepage, URL=_homepage
+        )
+        self.hyperlink_license = wx.lib.agw.hyperlink.HyperLinkCtrl(
+            self, wx.ID_ANY, _license, URL=_license
+        )
         self.static_line_1 = wx.StaticLine(self, wx.ID_ANY)
         self.label_acknowledgement = wx.StaticText(self, wx.ID_ANY, "")
-        self.hyperlink_paper = wx.lib.agw.hyperlink.HyperLinkCtrl(self, wx.ID_ANY, _paper, URL=_paper)
+        self.hyperlink_paper = wx.lib.agw.hyperlink.HyperLinkCtrl(
+            self, wx.ID_ANY, _paper, URL=_paper
+        )
         self.static_line_2 = wx.StaticLine(self, wx.ID_ANY)
-        self.bitmap_button_nsf = wx.BitmapButton(self, wx.ID_ANY, wx.NullBitmap, style=wx.BU_AUTODRAW)
-        self.bitmap_button_danse = wx.BitmapButton(self, wx.ID_ANY, wx.NullBitmap, style=wx.BU_AUTODRAW)
-        self.bitmap_button_msu = wx.BitmapButton(self, wx.ID_ANY, wx.NullBitmap, style=wx.BU_AUTODRAW)
-        self.bitmap_button_columbia = wx.BitmapButton(self, wx.ID_ANY, wx.NullBitmap, style=wx.BU_AUTODRAW)
+        self.bitmap_button_nsf = wx.BitmapButton(
+            self, wx.ID_ANY, wx.NullBitmap, style=wx.BU_AUTODRAW
+        )
+        self.bitmap_button_danse = wx.BitmapButton(
+            self, wx.ID_ANY, wx.NullBitmap, style=wx.BU_AUTODRAW
+        )
+        self.bitmap_button_msu = wx.BitmapButton(
+            self, wx.ID_ANY, wx.NullBitmap, style=wx.BU_AUTODRAW
+        )
+        self.bitmap_button_columbia = wx.BitmapButton(
+            self, wx.ID_ANY, wx.NullBitmap, style=wx.BU_AUTODRAW
+        )
         self.static_line_3 = wx.StaticLine(self, wx.ID_ANY)
         self.button_OK = wx.Button(self, wx.ID_OK, "OK")
 
@@ -111,9 +134,9 @@ class DialogAbout(wx.Dialog):
         self.label_acknowledgement.SetLabel(_acknowledgement)
         self.label_copyright.SetLabel(_copyright)
         # display version and svn revison numbers
-        verwords = __version__.split('.post', 1)
+        verwords = __version__.split(".post", 1)
         version = verwords[0]
-        revision = '0' if len(verwords) == 1 else verwords[1]
+        revision = "0" if len(verwords) == 1 else verwords[1]
         self.label_version.SetLabel(version)
         self.label_svnrevision.SetLabel(revision)
 
@@ -131,13 +154,30 @@ class DialogAbout(wx.Dialog):
         self.Fit()
         return
 
-
     def __set_properties(self):
         # begin wxGlade: DialogAbout.__set_properties
         self.SetTitle("About")
         self.SetSize((600, 595))
-        self.label_title.SetFont(wx.Font(26, wx.FONTFAMILY_DEFAULT, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_BOLD, 0, ""))
-        self.label_version.SetFont(wx.Font(26, wx.FONTFAMILY_DEFAULT, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_NORMAL, 0, ""))
+        self.label_title.SetFont(
+            wx.Font(
+                26,
+                wx.FONTFAMILY_DEFAULT,
+                wx.FONTSTYLE_NORMAL,
+                wx.FONTWEIGHT_BOLD,
+                0,
+                "",
+            )
+        )
+        self.label_version.SetFont(
+            wx.Font(
+                26,
+                wx.FONTFAMILY_DEFAULT,
+                wx.FONTSTYLE_NORMAL,
+                wx.FONTWEIGHT_NORMAL,
+                0,
+                "",
+            )
+        )
         self.hyperlink_license.Enable(False)
         self.hyperlink_license.Hide()
         self.bitmap_button_nsf.SetSize(self.bitmap_button_nsf.GetBestSize())
@@ -189,21 +229,22 @@ class DialogAbout(wx.Dialog):
         self.Centre()
         # end wxGlade
 
-    def onNsfLogo(self, event): # wxGlade: DialogAbout.<event_handler>
+    def onNsfLogo(self, event):  # wxGlade: DialogAbout.<event_handler>
         launchBrowser("https://www.nsf.gov")
         event.Skip()
 
-    def onDanseLogo(self, event): # wxGlade: DialogAbout.<event_handler>
+    def onDanseLogo(self, event):  # wxGlade: DialogAbout.<event_handler>
         launchBrowser("http://danse.us")
         event.Skip()
 
-    def onMsuLogo(self, event): # wxGlade: DialogAbout.<event_handler>
+    def onMsuLogo(self, event):  # wxGlade: DialogAbout.<event_handler>
         launchBrowser("https://www.msu.edu")
         event.Skip()
 
-    def onColumbiaLogo(self, event): # wxGlade: DialogAbout.<event_handler>
+    def onColumbiaLogo(self, event):  # wxGlade: DialogAbout.<event_handler>
         launchBrowser("https://www.columbia.edu")
         event.Skip()
+
 
 # end of class DialogAbout
 
