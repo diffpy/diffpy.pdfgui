@@ -24,44 +24,38 @@ from diffpy.pdfgui.control.calculation import Calculation
 
 ##############################################################################
 class TestCalculation(unittest.TestCase):
-
     def setUp(self):
-        self.calc = Calculation('calc')
+        self.calc = Calculation("calc")
         return
 
     def tearDown(self):
         return
 
-#   def test___init__(self):
-#       """check Calculation.__init__()
-#       """
-#       return
-#
-#   def test__getStrId(self):
-#       """check Calculation._getStrId()
-#       """
-#       return
+    #   def test___init__(self):
+    #       """check Calculation.__init__()
+    #       """
+    #       return
+    #
+    #   def test__getStrId(self):
+    #       """check Calculation._getStrId()
+    #       """
+    #       return
 
     def test_setRGrid(self):
-        """check Calculation.setRGrid()
-        """
+        """check Calculation.setRGrid()"""
         # helper function
         def rgriddata(calc):
             rv = (calc.rmin, calc.rstep, calc.rmax, calc.rlen)
             return rv
+
         # original data:
         rgd0 = rgriddata(self.calc)
         # test input argument checks
-        self.assertRaises(ControlValueError,
-                self.calc.setRGrid, rmin=-1)
-        self.assertRaises(ControlValueError,
-                self.calc.setRGrid, rmin=0)
-        self.assertRaises(ControlValueError,
-                self.calc.setRGrid, rmin=500)
-        self.assertRaises(ControlValueError,
-                self.calc.setRGrid, rstep=0)
-        self.assertRaises(ControlValueError,
-                self.calc.setRGrid, rmax=1e-10)
+        self.assertRaises(ControlValueError, self.calc.setRGrid, rmin=-1)
+        self.assertRaises(ControlValueError, self.calc.setRGrid, rmin=0)
+        self.assertRaises(ControlValueError, self.calc.setRGrid, rmin=500)
+        self.assertRaises(ControlValueError, self.calc.setRGrid, rstep=0)
+        self.assertRaises(ControlValueError, self.calc.setRGrid, rmax=1e-10)
         # data should be the same
         self.assertEqual(rgd0, rgriddata(self.calc))
         # check round-offs for very close values
@@ -76,6 +70,7 @@ class TestCalculation(unittest.TestCase):
         self.assertTrue(10 < self.calc.rmax)
         self.assertEqual(0.7, self.calc.rstep)
         return
+
 
 #   def test_start(self):
 #       """check Calculation.start()
@@ -145,7 +140,7 @@ class TestCalculation(unittest.TestCase):
 # End of class TestCalculation
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()
 
 # End of file

@@ -19,9 +19,10 @@ python -m diffpy.pdfgui.tests.rundeps
 """
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     import sys
     from diffpy.pdfgui.tests import testdeps
+
     # produce zero exit code for a successful test
     sys.exit(not testdeps().wasSuccessful())
 

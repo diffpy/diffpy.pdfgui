@@ -20,6 +20,7 @@ import wx
 from diffpy.pdfgui.gui.fittree import incrementName
 from diffpy.pdfgui.gui.pdfpanel import PDFPanel
 
+
 class AddPhasePanel(wx.Panel, PDFPanel):
     """Panel for adding a phase
 
@@ -32,6 +33,7 @@ class AddPhasePanel(wx.Panel, PDFPanel):
                     None, which means the new phase is appended to the end of
                     the phase section of the entryfit.
     """
+
     def __init__(self, *args, **kwds):
         PDFPanel.__init__(self)
         # begin wxGlade: AddPhasePanel.__init__
@@ -43,8 +45,19 @@ class AddPhasePanel(wx.Panel, PDFPanel):
         sizer_4 = wx.BoxSizer(wx.HORIZONTAL)
         sizer_1.Add(sizer_4, 0, wx.BOTTOM | wx.EXPAND | wx.TOP, 5)
 
-        self.labelOpenPhase = wx.StaticText(self, wx.ID_ANY, "Load a structure from file.")
-        self.labelOpenPhase.SetFont(wx.Font(12, wx.FONTFAMILY_DEFAULT, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_NORMAL, 0, "Sans"))
+        self.labelOpenPhase = wx.StaticText(
+            self, wx.ID_ANY, "Load a structure from file."
+        )
+        self.labelOpenPhase.SetFont(
+            wx.Font(
+                12,
+                wx.FONTFAMILY_DEFAULT,
+                wx.FONTSTYLE_NORMAL,
+                wx.FONTWEIGHT_NORMAL,
+                0,
+                "Sans",
+            )
+        )
         sizer_4.Add(self.labelOpenPhase, 1, wx.ALIGN_CENTER_VERTICAL | wx.ALL, 5)
 
         self.buttonOpen = wx.Button(self, wx.ID_OPEN, "Open")
@@ -56,8 +69,19 @@ class AddPhasePanel(wx.Panel, PDFPanel):
         sizer_5 = wx.BoxSizer(wx.HORIZONTAL)
         sizer_1.Add(sizer_5, 0, wx.BOTTOM | wx.EXPAND | wx.TOP, 5)
 
-        self.labelCreatePhase = wx.StaticText(self, wx.ID_ANY, "Create a structure from scratch.")
-        self.labelCreatePhase.SetFont(wx.Font(12, wx.FONTFAMILY_DEFAULT, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_NORMAL, 0, "Sans"))
+        self.labelCreatePhase = wx.StaticText(
+            self, wx.ID_ANY, "Create a structure from scratch."
+        )
+        self.labelCreatePhase.SetFont(
+            wx.Font(
+                12,
+                wx.FONTFAMILY_DEFAULT,
+                wx.FONTSTYLE_NORMAL,
+                wx.FONTWEIGHT_NORMAL,
+                0,
+                "Sans",
+            )
+        )
         sizer_5.Add(self.labelCreatePhase, 1, wx.ALIGN_CENTER_VERTICAL | wx.ALL, 5)
 
         self.buttonNew = wx.Button(self, wx.ID_NEW, "New")
@@ -86,10 +110,10 @@ class AddPhasePanel(wx.Panel, PDFPanel):
 
     def __customProperties(self):
         """Custom Properties go here."""
-        self.entrypoint = None # The entrypoint on the tree
-        self.entryfit = None   # The fit in which to insert an item
-        self.entryphase = None # The phase under which to insert an item
-        self.fullpath = ""     # The last loaded structure
+        self.entrypoint = None  # The entrypoint on the tree
+        self.entryfit = None  # The fit in which to insert an item
+        self.entryphase = None  # The phase under which to insert an item
+        self.fullpath = ""  # The last loaded structure
         return
 
     def readConfiguration(self):
@@ -109,10 +133,11 @@ class AddPhasePanel(wx.Panel, PDFPanel):
             if self.cP.has_option("PHASE", "last"):
                 self.fullpath = self.cP.getquoted("PHASE", "last")
                 import os.path
+
                 if not os.path.exists(self.fullpath):
-                    self.fullpath = ''
+                    self.fullpath = ""
             else:
-                self.fullpath = ''
+                self.fullpath = ""
         return
 
     def updateConfiguration(self):
@@ -124,7 +149,7 @@ class AddPhasePanel(wx.Panel, PDFPanel):
 
     # EVENT CODE ####
 
-    def onOpen(self, event): # wxGlade: AddPhasePanel.<event_handler>
+    def onOpen(self, event):  # wxGlade: AddPhasePanel.<event_handler>
         """Add a the new phase to the tree.
 
         The phase is added as a child of entryfit, right after the
@@ -132,19 +157,27 @@ class AddPhasePanel(wx.Panel, PDFPanel):
         appended to the end of the children of entryfit.
         """
         import os.path
+
         newnode = None
         dir, filename = os.path.split(self.fullpath)
         if not dir:
             dir = self.mainFrame.workpath
-        matchstring = "|".join((
-            "Structure file",
-            "*.cif;*CIF;*.stru;*.STRU;*.pdb;*.PDB;*.xyz;*.XYZ",
-            "Crystallographic Information File (*.cif)", "*.cif;*.CIF",
-            "PDFfit structure files (*.stru)", "*.stru;*.STRU",
-            "Protein Data Bank files (*.pdb)", "*.pdb;*.PDB",
-            "Coordinate files (*.xyz)", "*.xyz;*.XYZ",
-            "All Files", "*",
-            ))
+        matchstring = "|".join(
+            (
+                "Structure file",
+                "*.cif;*CIF;*.stru;*.STRU;*.pdb;*.PDB;*.xyz;*.XYZ",
+                "Crystallographic Information File (*.cif)",
+                "*.cif;*.CIF",
+                "PDFfit structure files (*.stru)",
+                "*.stru;*.STRU",
+                "Protein Data Bank files (*.pdb)",
+                "*.pdb;*.PDB",
+                "Coordinate files (*.xyz)",
+                "*.xyz;*.XYZ",
+                "All Files",
+                "*",
+            )
+        )
         d = wx.FileDialog(None, "Choose a file", dir, "", matchstring)
         if d.ShowModal() == wx.ID_OK:
             self.fullpath = d.GetPath()
@@ -161,8 +194,9 @@ class AddPhasePanel(wx.Panel, PDFPanel):
             names = [self.treeCtrlMain.GetItemText(i) for i in siblings]
             name = incrementName(name, names)
 
-            newnode = self.treeCtrlMain.AddPhase(self.entryfit, name,
-                    insertafter=self.entryphase, filename=self.fullpath)
+            newnode = self.treeCtrlMain.AddPhase(
+                self.entryfit, name, insertafter=self.entryphase, filename=self.fullpath
+            )
 
             self.mainFrame.setMode("fitting")
             self.treeCtrlMain.SetItemBold(self.entrypoint, False)
@@ -172,7 +206,7 @@ class AddPhasePanel(wx.Panel, PDFPanel):
         d.Destroy()
         return
 
-    def onNew(self, event): # wxGlade: AddPhasePanel.<event_handler>
+    def onNew(self, event):  # wxGlade: AddPhasePanel.<event_handler>
         """Add a new item to be created from scratch."""
         # Set the name of the new phase
         siblings = self.treeCtrlMain.GetChildren(self.entryfit)
@@ -181,8 +215,9 @@ class AddPhasePanel(wx.Panel, PDFPanel):
         label = incrementName(label, names)
 
         # Create the phase
-        newnode = self.treeCtrlMain.AddPhase(self.entryfit, label,
-                insertafter=self.entryphase)
+        newnode = self.treeCtrlMain.AddPhase(
+            self.entryfit, label, insertafter=self.entryphase
+        )
 
         # Go to the new node
         self.mainFrame.setMode("fitting")
@@ -192,7 +227,7 @@ class AddPhasePanel(wx.Panel, PDFPanel):
         self.treeCtrlMain.EditLabel(newnode)
         return
 
-    def onCancel(self, event): # wxGlade: AddPhasePanel.<event_handler>
+    def onCancel(self, event):  # wxGlade: AddPhasePanel.<event_handler>
         """Cancel this addition. Go back to the last panel."""
         self.mainFrame.setMode("fitting")
         self.treeCtrlMain.SetItemBold(self.entrypoint, False)
@@ -203,6 +238,7 @@ class AddPhasePanel(wx.Panel, PDFPanel):
     def validateStructure(self, node):
         """Make sure that the structure is valid."""
         from diffpy.pdfgui.control.controlerrors import ControlError
+
         dataobject = self.treeCtrlMain.GetControlData(node)
         stru = dataobject.initial
         for a in stru:
@@ -223,7 +259,7 @@ class AddPhasePanel(wx.Panel, PDFPanel):
 
         selections = self.treeCtrlMain.GetSelections()
         entrypoint = selections[0]
-        entryphase =  entrypoint
+        entryphase = entrypoint
         entryfit = self.treeCtrlMain.GetFitRoot(entrypoint)
 
         entrytype = self.treeCtrlMain.GetNodeType(entryphase)
@@ -239,5 +275,6 @@ class AddPhasePanel(wx.Panel, PDFPanel):
         self.treeCtrlMain.SetItemBold(self.entrypoint)
         self.treeCtrlMain.UnselectAll()
         return
+
 
 # end of class AddPhasePanel

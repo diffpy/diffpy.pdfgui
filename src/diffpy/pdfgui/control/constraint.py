@@ -22,6 +22,7 @@ import math
 
 from diffpy.pdfgui.control.controlerrors import ControlSyntaxError
 
+
 class Constraint:
     """Constraint --> storage and check of a single constraint equation
 
@@ -47,9 +48,9 @@ class Constraint:
         """
         # initialize private members firsts
         self.__lhs = None
-        self.parguess = { }
+        self.parguess = {}
         # initialize formula member avoid __setattr__
-        self.__dict__['formula'] = 'None'
+        self.__dict__["formula"] = "None"
         # formula should be assigned as a last one
         self.formula = formula
         if value is not None:
@@ -73,8 +74,8 @@ class Constraint:
 
         returns lambda function
         """
-        expr = re.sub(r'@(\d*)', r'p[\1]', self.formula)
-        f = eval('lambda p:' + expr, vars(math))
+        expr = re.sub(r"@(\d*)", r"p[\1]", self.formula)
+        f = eval("lambda p:" + expr, vars(math))
         return f
 
     def guess(self, value):
@@ -97,29 +98,28 @@ class Constraint:
             # check if fncp is linear with eps precision
             try:
                 eps = 1.0e-8
-                lo, hi = 1.0 - eps ,  1.0 + eps
-                k, = self.parguess.keys()
-                y = [ fncp({k : 0.25}), fncp({k : 0.5}), fncp({k : 0.75}) ]
-                dy = [ y[1] - y[0],  y[2] - y[1] ]
-                ady = [ abs(z) for z in dy ]
-                if lo*ady[0] <= ady[1] <= hi*ady[0] and dy[0]!=0.0:
-                    a = 4*dy[0]
-                    b = y[1] - 0.5*a
-                    self.parguess[k] = (value-b)/a
+                lo, hi = 1.0 - eps, 1.0 + eps
+                (k,) = self.parguess.keys()
+                y = [fncp({k: 0.25}), fncp({k: 0.5}), fncp({k: 0.75})]
+                dy = [y[1] - y[0], y[2] - y[1]]
+                ady = [abs(z) for z in dy]
+                if lo * ady[0] <= ady[1] <= hi * ady[0] and dy[0] != 0.0:
+                    a = 4 * dy[0]
+                    b = y[1] - 0.5 * a
+                    self.parguess[k] = (value - b) / a
             except (ValueError, ZeroDivisionError):
                 pass
         return dict(self.parguess)
 
     def __setattr__(self, name, value):
-        """check math and update parguess when formula is assigned
-        """
+        """check math and update parguess when formula is assigned"""
         if name != "formula":
             self.__dict__[name] = value
             return
         # here we are assigning to formula
         # first we need to check it it is valid
         newformula = value
-        pars = re.findall(r'@\d+', newformula)
+        pars = re.findall(r"@\d+", newformula)
         # require at least one parameter in the formula
         if len(pars) == 0:
             message = "No parameter in formula '%s'" % newformula
@@ -127,24 +127,25 @@ class Constraint:
         try:
             # this raises ControlSyntaxError if newformula is invalid
             # define fncx in math module namespace
-            fncx = eval('lambda x:' +
-                        re.sub(r'@\d+', 'x', newformula), vars(math))
+            fncx = eval("lambda x:" + re.sub(r"@\d+", "x", newformula), vars(math))
             # check if fncx(0.25) is float
             fncx(0.25) + 0.0
         except (ValueError, SyntaxError, TypeError, NameError):
             message = "invalid constraint formula '%s'" % newformula
             raise ControlSyntaxError(message)
         # few more checks of the formula:
-        if newformula.find('**') != -1:
-            emsg = ("invalid constraint formula '{}', "
-                    "operator '**' not supported.").format(newformula)
+        if newformula.find("**") != -1:
+            emsg = (
+                "invalid constraint formula '{}', " "operator '**' not supported."
+            ).format(newformula)
             raise ControlSyntaxError(emsg)
         # checks checked
-        self.__dict__['formula'] = newformula
-        self.parguess = dict.fromkeys([ int(p[1:]) for p in pars ])
+        self.__dict__["formula"] = newformula
+        self.parguess = dict.fromkeys([int(p[1:]) for p in pars])
         if self.__lhs is not None:
             self.guess(self.__lhs)
         return
+
 
 # End of class Constraint
 

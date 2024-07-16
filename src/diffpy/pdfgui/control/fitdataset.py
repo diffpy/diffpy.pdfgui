@@ -23,6 +23,7 @@ from diffpy.pdfgui.control.pdfdataset import PDFDataSet
 from diffpy.pdfgui.control.parameter import Parameter
 from diffpy.pdfgui.control.controlerrors import ControlStatusError
 
+
 class FitDataSet(PDFDataSet):
     """FitDataSet stores experimental and calculated PDF data and related
     fitting parameters.  Inherited from PDFDataSet.
@@ -58,9 +59,16 @@ class FitDataSet(PDFDataSet):
     persistentItems -- list of attributes saved in project file
     """
 
-    persistentItems = [ 'rcalc', 'Gcalc', 'dGcalc',
-                        'fitrmin', 'fitrmax', 'fitrstep',
-                        'initial', 'refined' ]
+    persistentItems = [
+        "rcalc",
+        "Gcalc",
+        "dGcalc",
+        "fitrmin",
+        "fitrmax",
+        "fitrstep",
+        "initial",
+        "refined",
+    ]
 
     def __init__(self, name):
         """Initialize FitDataSet.
@@ -74,8 +82,7 @@ class FitDataSet(PDFDataSet):
         return
 
     def __setattr__(self, name, value):
-        """Assign refinable variables to self.initial.
-        """
+        """Assign refinable variables to self.initial."""
         if name in PDFDataSet.refinableVars:
             self.initial[name] = value
         else:
@@ -105,8 +112,9 @@ class FitDataSet(PDFDataSet):
 
         returns list of strings
         """
-        ynames = [ 'Gobs', 'Gcalc', 'Gdiff', 'Gtrunc', 'dGcalc', 'crw' ] + \
-                 list(self.constraints.keys())
+        ynames = ["Gobs", "Gcalc", "Gdiff", "Gtrunc", "dGcalc", "crw"] + list(
+            self.constraints.keys()
+        )
         return ynames
 
     def getXNames(self):
@@ -114,9 +122,11 @@ class FitDataSet(PDFDataSet):
 
         returns list of strings
         """
-        return ['r',]
+        return [
+            "r",
+        ]
 
-    def getData(self, name, step = -1 ):
+    def getData(self, name, step=-1):
         """get self's data member
 
         name -- data item name
@@ -132,25 +142,24 @@ class FitDataSet(PDFDataSet):
         # data in below
         if name in self.metadata:
             return self.metadata[name]
-        elif name in ( 'Gobs', 'Gcalc', 'Gtrunc', 'Gdiff', 'crw', 'robs', 'rcalc'):
+        elif name in ("Gobs", "Gcalc", "Gtrunc", "Gdiff", "crw", "robs", "rcalc"):
             d = getattr(self, name)
 
             # for Gtrunc and rcalc, we can use Gobs and robs instead when they
             # are not ready.
-            if not d :
-                if name == 'Gtrunc':
-                    return getattr(self, 'Gobs')
-                if name == 'rcalc':
-                    return getattr(self, 'robs')
+            if not d:
+                if name == "Gtrunc":
+                    return getattr(self, "Gobs")
+                if name == "rcalc":
+                    return getattr(self, "robs")
 
             return d
 
         # otherwise fitting's repository is preferred
-        return  self.owner._getData(self, name, step)
+        return self.owner._getData(self, name, step)
 
     def clear(self):
-        """Reset all data members to initial empty values.
-        """
+        """Reset all data members to initial empty values."""
         PDFDataSet.clear(self)
         self._rcalc_changed = True
         self._rcalc = []
@@ -167,8 +176,7 @@ class FitDataSet(PDFDataSet):
         return
 
     def clearRefined(self):
-        """Clear all refinement results.
-        """
+        """Clear all refinement results."""
         self.Gcalc = []
         self.dGcalc = []
         self.crw = []
@@ -192,8 +200,7 @@ class FitDataSet(PDFDataSet):
         return
 
     def read(self, filename):
-        """Same as readObs().
-        """
+        """Same as readObs()."""
         return self.readObs(filename)
 
     def _updateRcalcRange(self):
@@ -221,8 +228,7 @@ class FitDataSet(PDFDataSet):
         return self
 
     def readStr(self, datastring):
-        """Same as readObsStr().
-        """
+        """Same as readObsStr()."""
         return self.readObsStr(datastring)
 
     def readObsStr(self, datastring):
@@ -254,7 +260,7 @@ class FitDataSet(PDFDataSet):
         No return value.
         """
         txt = self.writeCalcStr()
-        f = open(filename, 'w')
+        f = open(filename, "w")
         f.write(txt)
         f.close()
         return
@@ -275,44 +281,50 @@ class FitDataSet(PDFDataSet):
             raise ControlStatusError("Gcalc not available")
         import time
         from getpass import getuser
+
         lines = []
         # write metadata
-        lines.extend([
-            'History written: ' + time.ctime(),
-            'produced by ' + getuser(),
-            '##### PDFgui fit' ])
+        lines.extend(
+            [
+                "History written: " + time.ctime(),
+                "produced by " + getuser(),
+                "##### PDFgui fit",
+            ]
+        )
         # stype
-        if self.stype == 'X':
-            lines.append('stype=X  x-ray scattering')
-        elif self.stype == 'N':
-            lines.append('stype=N  neutron scattering')
+        if self.stype == "X":
+            lines.append("stype=X  x-ray scattering")
+        elif self.stype == "N":
+            lines.append("stype=N  neutron scattering")
         # qmax
         if self.qmax:
-            lines.append('qmax=%.2f' % self.qmax)
+            lines.append("qmax=%.2f" % self.qmax)
         # qdamp
-        lines.append('qdamp=%g' % self.refined['qdamp'])
+        lines.append("qdamp=%g" % self.refined["qdamp"])
         # qbroad
-        lines.append('qbroad=%g' % self.refined['qbroad'])
+        lines.append("qbroad=%g" % self.refined["qbroad"])
         # dscale
-        lines.append('dscale=%g' % self.refined['dscale'])
+        lines.append("dscale=%g" % self.refined["dscale"])
         # fitrmin, fitrmax
         if self.fitrmin is not None and self.fitrmax is not None:
-            lines.append('fitrmin=%g' % self.fitrmin)
-            lines.append('fitrmax=%g' % self.fitrmax)
+            lines.append("fitrmin=%g" % self.fitrmin)
+            lines.append("fitrmax=%g" % self.fitrmax)
         # metadata
         if len(self.metadata) > 0:
-            lines.append('# metadata')
+            lines.append("# metadata")
             for k, v in self.metadata.items():
-                lines.append( "%s=%s" % (k,v) )
+                lines.append("%s=%s" % (k, v))
         # write data:
-        lines.append('##### start data')
-        lines.append('#L r(A) G(r) d_r d_Gr Gdiff')
+        lines.append("##### start data")
+        lines.append("#L r(A) G(r) d_r d_Gr Gdiff")
         # cache Gdiff here so it is not calculated many times
         Gdiff = self.Gdiff
         drcalc = 0.0
         for i in range(len(self.rcalc)):
-            lines.append( '%g %g %.1f %g %g' % (self.rcalc[i],
-                          self.Gcalc[i], drcalc, self.dGcalc[i], Gdiff[i]) )
+            lines.append(
+                "%g %g %.1f %g %g"
+                % (self.rcalc[i], self.Gcalc[i], drcalc, self.dGcalc[i], Gdiff[i])
+            )
         # lines are ready here
         datastring = "\n".join(lines) + "\n"
         return datastring
@@ -394,7 +406,7 @@ class FitDataSet(PDFDataSet):
                       Dictionary may also have float-type values.
         """
         # convert values to floats
-        parvalues = { }
+        parvalues = {}
         for pidx, par in parameters.items():
             if isinstance(par, Parameter):
                 parvalues[pidx] = par.initialValue()
@@ -413,6 +425,7 @@ class FitDataSet(PDFDataSet):
         this fit.
         """
         import re
+
         for var in self.constraints:
             formula = self.constraints[var].formula
             pat = r"@%i\b" % oldidx
@@ -453,33 +466,36 @@ class FitDataSet(PDFDataSet):
         subpath -- path to its own storage within project file
         """
         from diffpy.pdfgui.utils import asunicode, pickle_loads
+
         self.clear()
-        subs = subpath.split('/')
+        subs = subpath.split("/")
         rootDict = z.fileTree[subs[0]][subs[1]][subs[2]][subs[3]]
         # raw data
-        obsdata = asunicode(z.read(subpath + 'obs'))
+        obsdata = asunicode(z.read(subpath + "obs"))
         self.readObsStr(obsdata)
 
         # data from calculation
-        content = pickle_loads(z.read(subpath + 'calc'))
+        content = pickle_loads(z.read(subpath + "calc"))
         for item in FitDataSet.persistentItems:
             # skip items which are not in the project file
-            if item not in content: continue
+            if item not in content:
+                continue
             # update dictionaries so that old project files load fine
-            if item == 'initial':
+            if item == "initial":
                 self.initial.update(content[item])
-            elif item == 'refined':
+            elif item == "refined":
                 self.refined.update(content[item])
             else:
                 setattr(self, item, content[item])
         self._updateRcalcRange()
 
         # constraints
-        if 'constraints' in rootDict:
+        if "constraints" in rootDict:
             from diffpy.pdfgui.control.pdfguicontrol import CtrlUnpickler
-            self.constraints = CtrlUnpickler.loads(z.read(subpath+'constraints'))
+
+            self.constraints = CtrlUnpickler.loads(z.read(subpath + "constraints"))
             # handle renamed variable from old project files
-            translate = {'qsig' : 'qdamp',  'qalp' : 'qbroad'}
+            translate = {"qsig": "qdamp", "qalp": "qbroad"}
             for old, new in translate.items():
                 if old in self.constraints:
                     self.constraints[new] = self.constraints.pop(old)
@@ -493,18 +509,19 @@ class FitDataSet(PDFDataSet):
         subpath -- path to its own storage within project file
         """
         from diffpy.pdfgui.utils import safeCPickleDumps
+
         # write raw data
-        z.writestr(subpath + 'obs', self.writeObsStr())
+        z.writestr(subpath + "obs", self.writeObsStr())
         content = {}
         for item in FitDataSet.persistentItems:
             content[item] = getattr(self, item, None)
         spkl = safeCPickleDumps(content)
-        z.writestr(subpath+'calc', spkl)
+        z.writestr(subpath + "calc", spkl)
 
         # make a picklable dictionary of constraints
         if self.constraints:
             spkl = safeCPickleDumps(self.constraints)
-            z.writestr(subpath + 'constraints', spkl)
+            z.writestr(subpath + "constraints", spkl)
         return
 
     # interface for data sampling
@@ -550,11 +567,12 @@ class FitDataSet(PDFDataSet):
         return
 
     def getObsSampling(self):
-        """Return the average r-step used in robs or zero when not defined.
-        """
+        """Return the average r-step used in robs or zero when not defined."""
         n = len(self.robs)
-        if n > 1:   rv = (self.robs[-1] - self.robs[0])/(n - 1.0)
-        else:       rv = 0.0
+        if n > 1:
+            rv = (self.robs[-1] - self.robs[0]) / (n - 1.0)
+        else:
+            rv = 0.0
         return rv
 
     def getNyquistSampling(self):
@@ -576,7 +594,8 @@ class FitDataSet(PDFDataSet):
 
         No return value.
         """
-        if not self._rcalc_changed:     return
+        if not self._rcalc_changed:
+            return
         frmin, frmax = self.fitrmin, self.fitrmax
         frstep = float(self.fitrstep)
         # new rcalc must cover the whole [fitrmin, fitrmax] interval
@@ -586,7 +605,7 @@ class FitDataSet(PDFDataSet):
             rcalcfirst = robs_below[-1]
         else:
             rcalcfirst = self.robs[0]
-        nrcalc = numpy.round(1.0*(frmax - rcalcfirst)/frstep)
+        nrcalc = numpy.round(1.0 * (frmax - rcalcfirst) / frstep)
         if frmax - (rcalcfirst + nrcalc * frstep) > frstep * 1e-8:
             nrcalc += 1
         newrcalc = rcalcfirst + frstep * numpy.arange(nrcalc + 1)
@@ -617,8 +636,9 @@ class FitDataSet(PDFDataSet):
         self._fitrmin = float(value)
         return
 
-    fitrmin = property(_get_fitrmin, _set_fitrmin, doc =
-            "Lower boundary for simulated PDF curve.")
+    fitrmin = property(
+        _get_fitrmin, _set_fitrmin, doc="Lower boundary for simulated PDF curve."
+    )
 
     # fitrmax
 
@@ -630,8 +650,9 @@ class FitDataSet(PDFDataSet):
         self._fitrmax = float(value)
         return
 
-    fitrmax = property(_get_fitrmax, _set_fitrmax, doc =
-            "Upper boundary for simulated PDF curve.")
+    fitrmax = property(
+        _get_fitrmax, _set_fitrmax, doc="Upper boundary for simulated PDF curve."
+    )
 
     # fitrstep
 
@@ -643,8 +664,9 @@ class FitDataSet(PDFDataSet):
         self._fitrstep = float(value)
         return
 
-    fitrstep = property(_get_fitrstep, _set_fitrstep, doc =
-            "R-step used for simulated PDF curve.")
+    fitrstep = property(
+        _get_fitrstep, _set_fitrstep, doc="R-step used for simulated PDF curve."
+    )
 
     # rcalc
 
@@ -656,9 +678,12 @@ class FitDataSet(PDFDataSet):
         self._rcalc = value
         return
 
-    rcalc = property(_get_rcalc, _set_rcalc, doc =
-        """R-grid for refined data, read-only.
-        Use fitrmin, fitrmax, fitrstep to change it""")
+    rcalc = property(
+        _get_rcalc,
+        _set_rcalc,
+        doc="""R-grid for refined data, read-only.
+        Use fitrmin, fitrmax, fitrstep to change it""",
+    )
 
     # Gcalc
 
@@ -670,8 +695,7 @@ class FitDataSet(PDFDataSet):
         self._Gcalc = value
         return
 
-    Gcalc = property(_get_Gcalc, _set_Gcalc, doc =
-        "List of calculate G values.")
+    Gcalc = property(_get_Gcalc, _set_Gcalc, doc="List of calculate G values.")
 
     # dGcalc
 
@@ -683,8 +707,9 @@ class FitDataSet(PDFDataSet):
         self._dGcalc = value
         return
 
-    dGcalc = property(_get_dGcalc, _set_dGcalc, doc =
-        "List of standard deviations of Gcalc.")
+    dGcalc = property(
+        _get_dGcalc, _set_dGcalc, doc="List of standard deviations of Gcalc."
+    )
 
     # Gtrunc
 
@@ -699,8 +724,7 @@ class FitDataSet(PDFDataSet):
         self._Gtrunc = value
         return
 
-    Gtrunc = property(_get_Gtrunc, _set_Gtrunc, doc =
-        "Gobs resampled to rcalc grid.")
+    Gtrunc = property(_get_Gtrunc, _set_Gtrunc, doc="Gobs resampled to rcalc grid.")
 
     # dGtrunc
 
@@ -708,9 +732,13 @@ class FitDataSet(PDFDataSet):
         self._updateRcalcSampling()
         if not self._dGtrunc:
             # use sum to avoid index error for empty arrays
-            newdGtrunc = grid_interpolation(self.robs, self.dGobs, self.rcalc,
-                    youtleft=sum(self.dGobs[:1]),
-                    youtright=sum(self.dGobs[-1:]))
+            newdGtrunc = grid_interpolation(
+                self.robs,
+                self.dGobs,
+                self.rcalc,
+                youtleft=sum(self.dGobs[:1]),
+                youtright=sum(self.dGobs[-1:]),
+            )
             self._dGtrunc = list(newdGtrunc)
         return self._dGtrunc
 
@@ -718,8 +746,7 @@ class FitDataSet(PDFDataSet):
         self._dGtrunc = value
         return
 
-    dGtrunc = property(_get_dGtrunc, _set_dGtrunc, doc =
-        "dGobs resampled to rcalc grid.")
+    dGtrunc = property(_get_dGtrunc, _set_dGtrunc, doc="dGobs resampled to rcalc grid.")
 
     # Gdiff
 
@@ -730,8 +757,9 @@ class FitDataSet(PDFDataSet):
             rv = []
         return rv
 
-    Gdiff = property(_get_Gdiff, doc =
-            "Difference between observed and calculated PDF on rcalc grid.")
+    Gdiff = property(
+        _get_Gdiff, doc="Difference between observed and calculated PDF on rcalc grid."
+    )
 
     # crw
     def _get_crw(self):
@@ -745,8 +773,7 @@ class FitDataSet(PDFDataSet):
             self._crw = value[:]
         return
 
-    crw = property(_get_crw, _set_crw, doc =
-            "cumulative rw on rcalc grid")
+    crw = property(_get_crw, _set_crw, doc="cumulative rw on rcalc grid")
 
     # End of Property Attributes
 
@@ -757,6 +784,7 @@ class FitDataSet(PDFDataSet):
 ##############################################################################
 # helper functions
 ##############################################################################
+
 
 def grid_interpolation(x0, y0, x1, youtleft=0.0, youtright=0.0):
     """Linear interpolation of x0, y0 values to a new grid x1.
@@ -787,8 +815,8 @@ def grid_interpolation(x0, y0, x1, youtleft=0.0, youtright=0.0):
     dx0 = (x0[-1] - x0[0]) / (n0 - 1.0)
     epsx = dx0 * 1e-8
     # find covered values in x1
-    m1, = numpy.where(numpy.logical_and(x0[0] - epsx < x1, x1 < x0[-1] + epsx))
-    ilo0 = numpy.floor((x1[m1] - x0[0])/dx0)
+    (m1,) = numpy.where(numpy.logical_and(x0[0] - epsx < x1, x1 < x0[-1] + epsx))
+    ilo0 = numpy.floor((x1[m1] - x0[0]) / dx0)
     ilo0 = numpy.array(ilo0, dtype=int)
     # ilo0 may be out of bounds for x1 close to the edge
     ilo0[ilo0 < 0] = 0
@@ -797,11 +825,12 @@ def grid_interpolation(x0, y0, x1, youtleft=0.0, youtright=0.0):
     # make sure hi indices remain valid
     w0hi = (x1[m1] - x0[ilo0]) / dx0
     w0lo = 1.0 - w0hi
-    y1[m1] = w0lo*y0[ilo0] + w0hi*y0[ihi0]
+    y1[m1] = w0lo * y0[ilo0] + w0hi * y0[ihi0]
     return y1
+
 
 # simple test code
 if __name__ == "__main__":
-    FitDataSet('name')
+    FitDataSet("name")
 
 # End of file

@@ -22,6 +22,7 @@ from diffpy.pdfgui.gui import tooltips
 from diffpy.pdfgui.control.constraint import Constraint
 from diffpy.pdfgui.gui.wxextensions.textctrlutils import textCtrlAsGridCell
 
+
 class DataSetConstraintPanel(wx.Panel, PDFPanel):
     def __init__(self, *args, **kwds):
         PDFPanel.__init__(self)
@@ -43,21 +44,45 @@ class DataSetConstraintPanel(wx.Panel, PDFPanel):
 
     def __set_properties(self):
         # begin wxGlade: DataSetConstraintPanel.__set_properties
-        self.panelNameLabel.SetFont(wx.Font(18, wx.FONTFAMILY_DEFAULT, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_BOLD, 0, ""))
+        self.panelNameLabel.SetFont(
+            wx.Font(
+                18,
+                wx.FONTFAMILY_DEFAULT,
+                wx.FONTSTYLE_NORMAL,
+                wx.FONTWEIGHT_BOLD,
+                0,
+                "",
+            )
+        )
         # end wxGlade
 
     def __do_layout(self):
         # begin wxGlade: DataSetConstraintPanel.__do_layout
         sizer_1 = wx.BoxSizer(wx.VERTICAL)
         grid_sizer_1 = wx.FlexGridSizer(3, 2, 5, 10)
-        sizer_panelname = wx.StaticBoxSizer(wx.StaticBox(self, wx.ID_ANY, ""), wx.HORIZONTAL)
-        sizer_panelname.Add(self.panelNameLabel, 0, wx.ALIGN_CENTER_VERTICAL | wx.LEFT | wx.RIGHT, 5)
+        sizer_panelname = wx.StaticBoxSizer(
+            wx.StaticBox(self, wx.ID_ANY, ""), wx.HORIZONTAL
+        )
+        sizer_panelname.Add(
+            self.panelNameLabel, 0, wx.ALIGN_CENTER_VERTICAL | wx.LEFT | wx.RIGHT, 5
+        )
         sizer_1.Add(sizer_panelname, 0, wx.EXPAND | wx.LEFT | wx.RIGHT, 5)
-        grid_sizer_1.Add(self.labelScaleFactor, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALIGN_RIGHT | wx.LEFT, 5)
-        grid_sizer_1.Add(self.textCtrlScaleFactor, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALL, 0)
-        grid_sizer_1.Add(self.labelQdamp, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALIGN_RIGHT | wx.LEFT, 5)
+        grid_sizer_1.Add(
+            self.labelScaleFactor,
+            0,
+            wx.ALIGN_CENTER_VERTICAL | wx.ALIGN_RIGHT | wx.LEFT,
+            5,
+        )
+        grid_sizer_1.Add(
+            self.textCtrlScaleFactor, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALL, 0
+        )
+        grid_sizer_1.Add(
+            self.labelQdamp, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALIGN_RIGHT | wx.LEFT, 5
+        )
         grid_sizer_1.Add(self.textCtrlQdamp, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALL, 0)
-        grid_sizer_1.Add(self.labelQbroad, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALIGN_RIGHT | wx.LEFT, 5)
+        grid_sizer_1.Add(
+            self.labelQbroad, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALIGN_RIGHT | wx.LEFT, 5
+        )
         grid_sizer_1.Add(self.textCtrlQbroad, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALL, 0)
         sizer_1.Add(grid_sizer_1, 0, wx.ALL | wx.EXPAND, 5)
         self.SetSizer(sizer_1)
@@ -71,10 +96,10 @@ class DataSetConstraintPanel(wx.Panel, PDFPanel):
         self._focusedText = None
         self.constraints = {}
         self.ctrlMap = {
-                        'dscale'        :   'textCtrlScaleFactor',
-                        'qdamp'         :   'textCtrlQdamp',
-                        'qbroad'        :   'textCtrlQbroad',
-                        }
+            "dscale": "textCtrlScaleFactor",
+            "qdamp": "textCtrlQdamp",
+            "qbroad": "textCtrlQbroad",
+        }
 
         # Give each textCtrl a name that can be referenced
         for (key, value) in self.ctrlMap.items():
@@ -110,7 +135,7 @@ class DataSetConstraintPanel(wx.Panel, PDFPanel):
                 val = self.constraints[par].formula
                 textCtrl.SetValue(val)
             else:
-                textCtrl.SetValue('')
+                textCtrl.SetValue("")
         return
 
     def processFormula(self, value, parname):
@@ -146,7 +171,7 @@ class DataSetConstraintPanel(wx.Panel, PDFPanel):
             val = self.constraints[par].formula
             textCtrl.SetValue(val)
         else:
-            textCtrl.SetValue('')
+            textCtrl.SetValue("")
         event.Skip()
         return
 
@@ -156,5 +181,6 @@ class DataSetConstraintPanel(wx.Panel, PDFPanel):
         # Set the constraints data
         self.setConstraintsData()
         return
+
 
 # end of class DataSetConstraintPanel

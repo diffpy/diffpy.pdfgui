@@ -18,6 +18,7 @@
 
 import wx
 
+
 class InsertRowsDialog(wx.Dialog):
     def __init__(self, *args, **kwds):
         # begin wxGlade: InsertRowsDialog.__init__
@@ -25,7 +26,14 @@ class InsertRowsDialog(wx.Dialog):
         wx.Dialog.__init__(self, *args, **kwds)
         self.Rows = wx.StaticText(self, wx.ID_ANY, "Rows:")
         self.spin_ctrl_Rows = wx.SpinCtrl(self, wx.ID_ANY, "1", min=0, max=100, style=0)
-        self.radio_box_where = wx.RadioBox(self, wx.ID_ANY, "", choices=["Above", "Below"], majorDimension=2, style=wx.RA_SPECIFY_ROWS)
+        self.radio_box_where = wx.RadioBox(
+            self,
+            wx.ID_ANY,
+            "",
+            choices=["Above", "Below"],
+            majorDimension=2,
+            style=wx.RA_SPECIFY_ROWS,
+        )
         self.button_OK = wx.Button(self, wx.ID_OK, "OK")
         self.button_Cancel = wx.Button(self, wx.ID_CANCEL, "Cancel")
 
@@ -57,5 +65,6 @@ class InsertRowsDialog(wx.Dialog):
         sizer_horiz.Fit(self)
         self.Layout()
         # end wxGlade
+
 
 # end of class InsertRowsDialog

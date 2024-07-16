@@ -21,13 +21,18 @@ from diffpy.pdfgui.control.pdfguimacros import makeRSeries
 from diffpy.pdfgui.gui.pdfpanel import PDFPanel
 from diffpy.pdfgui.gui.wxextensions.validators import TextValidator, FLOAT_ONLY
 
+
 class RSeriesPanel(wx.Panel, PDFPanel):
     def __init__(self, *args, **kwds):
         PDFPanel.__init__(self)
         # begin wxGlade: RSeriesPanel.__init__
         kwds["style"] = kwds.get("style", 0) | wx.TAB_TRAVERSAL
         wx.Panel.__init__(self, *args, **kwds)
-        self.instructionsLabel = wx.StaticText(self, wx.ID_ANY, "Select a fit from the tree on the left and set the first value, last value, \nand the step size of the maximum and/or minimum of the fit range\nbelow. If you have not set up a fit to be the template for the series, hit\ncancel and rerun this macro once a fit has been created.")
+        self.instructionsLabel = wx.StaticText(
+            self,
+            wx.ID_ANY,
+            "Select a fit from the tree on the left and set the first value, last value, \nand the step size of the maximum and/or minimum of the fit range\nbelow. If you have not set up a fit to be the template for the series, hit\ncancel and rerun this macro once a fit has been created.",
+        )
         self.maxFirstLabel = wx.StaticText(self, wx.ID_ANY, "first")
         self.maxFirstTextCtrl = wx.TextCtrl(self, wx.ID_ANY, "")
         self.maxLastLabel = wx.StaticText(self, wx.ID_ANY, "last")
@@ -53,15 +58,28 @@ class RSeriesPanel(wx.Panel, PDFPanel):
 
     def __set_properties(self):
         # begin wxGlade: RSeriesPanel.__set_properties
-        self.instructionsLabel.SetFont(wx.Font(10, wx.FONTFAMILY_DEFAULT, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_NORMAL, 0, "Sans"))
+        self.instructionsLabel.SetFont(
+            wx.Font(
+                10,
+                wx.FONTFAMILY_DEFAULT,
+                wx.FONTSTYLE_NORMAL,
+                wx.FONTWEIGHT_NORMAL,
+                0,
+                "Sans",
+            )
+        )
         # end wxGlade
 
     def __do_layout(self):
         # begin wxGlade: RSeriesPanel.__do_layout
         sizer_1 = wx.BoxSizer(wx.VERTICAL)
         sizer_3 = wx.BoxSizer(wx.HORIZONTAL)
-        sizer_4_copy = wx.StaticBoxSizer(wx.StaticBox(self, wx.ID_ANY, "fit minimum"), wx.HORIZONTAL)
-        sizer_4 = wx.StaticBoxSizer(wx.StaticBox(self, wx.ID_ANY, "fit maximum"), wx.HORIZONTAL)
+        sizer_4_copy = wx.StaticBoxSizer(
+            wx.StaticBox(self, wx.ID_ANY, "fit minimum"), wx.HORIZONTAL
+        )
+        sizer_4 = wx.StaticBoxSizer(
+            wx.StaticBox(self, wx.ID_ANY, "fit maximum"), wx.HORIZONTAL
+        )
         sizer_1.Add(self.instructionsLabel, 0, wx.ALL | wx.EXPAND, 5)
         sizer_4.Add(self.maxFirstLabel, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALL, 5)
         sizer_4.Add(self.maxFirstTextCtrl, 0, wx.ALL, 5)
@@ -90,13 +108,14 @@ class RSeriesPanel(wx.Panel, PDFPanel):
     def __customProperties(self):
         """Set the custom properties of this panel."""
         self.fit = None
-        self.ctrlMap = {'maxfirst'  :   'maxFirstTextCtrl',
-                        'maxlast'   :   'maxLastTextCtrl',
-                        'maxstep'   :   'maxStepTextCtrl',
-                        'minfirst'  :   'minFirstTextCtrl',
-                        'minlast'   :   'minLastTextCtrl',
-                        'minstep'   :   'minStepTextCtrl',
-                        }
+        self.ctrlMap = {
+            "maxfirst": "maxFirstTextCtrl",
+            "maxlast": "maxLastTextCtrl",
+            "maxstep": "maxStepTextCtrl",
+            "minfirst": "minFirstTextCtrl",
+            "minlast": "minLastTextCtrl",
+            "minstep": "minStepTextCtrl",
+        }
 
         for var in self.ctrlMap:
             setattr(self, var, None)
@@ -106,26 +125,33 @@ class RSeriesPanel(wx.Panel, PDFPanel):
             textCtrl.SetValidator(TextValidator(FLOAT_ONLY))
         return
 
-    def onOK(self, event): # wxGlade: RSeriesPanel.<event_handler>
+    def onOK(self, event):  # wxGlade: RSeriesPanel.<event_handler>
         """Add make a temperature series and add it to the project."""
         for (varname, ctrlname) in self.ctrlMap.items():
             textCtrl = getattr(self, ctrlname)
             value = textCtrl.GetValue()
-            if value == '':
+            if value == "":
                 value = None
             else:
                 value = float(value)
             setattr(self, varname, value)
 
-        org = makeRSeries(self.mainFrame.control, self.fit,
-                self.maxfirst, self.maxlast, self.maxstep,
-                self.minfirst, self.minlast, self.minstep)
+        org = makeRSeries(
+            self.mainFrame.control,
+            self.fit,
+            self.maxfirst,
+            self.maxlast,
+            self.maxstep,
+            self.minfirst,
+            self.minlast,
+            self.minstep,
+        )
         self.treeCtrlMain.ExtendProjectTree(org, clear=False)
         self.mainFrame.needsSave()
         self.onCancel(event)
         return
 
-    def onCancel(self, event): # wxGlade: RSeriesPanel.<event_handler>
+    def onCancel(self, event):  # wxGlade: RSeriesPanel.<event_handler>
         """Return to the main panel."""
         self.mainFrame.setMode("fitting")
         self.treeCtrlMain.UnselectAll()
@@ -135,7 +161,7 @@ class RSeriesPanel(wx.Panel, PDFPanel):
     def treeSelectionUpdate(self, node):
         """Set the current fit when the tree selection changes."""
         nodetype = self.treeCtrlMain.GetNodeType(node)
-        if nodetype == 'fit':
+        if nodetype == "fit":
             self.fit = self.treeCtrlMain.GetControlData(node)
         self.refresh()
         return
@@ -154,12 +180,17 @@ class RSeriesPanel(wx.Panel, PDFPanel):
             node = selections[0]
             nodetype = self.treeCtrlMain.GetNodeType(node)
 
-        if node and nodetype == "fit" \
-                and self.fit and self.fit.hasDataSets() \
-                and self.fit.hasStructures():
+        if (
+            node
+            and nodetype == "fit"
+            and self.fit
+            and self.fit.hasDataSets()
+            and self.fit.hasStructures()
+        ):
             self.goButton.Enable()
         else:
             self.goButton.Enable(False)
         return
+
 
 # end of class RSeriesPanel

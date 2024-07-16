@@ -22,11 +22,13 @@ panel into a dialog.
 
 import wx
 
+
 class PanelDialog(wx.Dialog):
     """This class will turn any panel into a dialog.  Using this makes for
     quicker development and encourages the developer to design a gui as a
     collection of panels, instead of a monolithic mega-panel.
     """
+
     def __init__(self, *args, **kwds):
         """Initialize the PanelDialog.
 
@@ -43,10 +45,9 @@ class PanelDialog(wx.Dialog):
            the argument.
         """
         if not hasattr(kwds, "style"):
-            kwds["style"] = wx.DEFAULT_DIALOG_STYLE|wx.RESIZE_BORDER
+            kwds["style"] = wx.DEFAULT_DIALOG_STYLE | wx.RESIZE_BORDER
         wx.Dialog.__init__(self, *args, **kwds)
         return
-
 
     def setPanel(self, panel):
         """Call this method to add the panel to the dialog."""
@@ -67,5 +68,6 @@ class PanelDialog(wx.Dialog):
         sizer_1.SetSizeHints(self)
         self.Layout()
         return
+
 
 # End of class PanelDialog

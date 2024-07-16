@@ -22,6 +22,7 @@ from diffpy.pdfgui.gui.pdfpanel import PDFPanel
 from diffpy.pdfgui.gui import tooltips
 from diffpy.pdfgui.control import structureviewer
 
+
 class PreferencesPanel(wx.Panel, PDFPanel):
     def __init__(self, *args, **kwds):
         PDFPanel.__init__(self)
@@ -31,18 +32,31 @@ class PreferencesPanel(wx.Panel, PDFPanel):
 
         sizer_1 = wx.BoxSizer(wx.VERTICAL)
 
-        sizerPanelName = wx.StaticBoxSizer(wx.StaticBox(self, wx.ID_ANY, ""), wx.HORIZONTAL)
+        sizerPanelName = wx.StaticBoxSizer(
+            wx.StaticBox(self, wx.ID_ANY, ""), wx.HORIZONTAL
+        )
         sizer_1.Add(sizerPanelName, 0, wx.EXPAND | wx.LEFT | wx.RIGHT, 5)
 
         self.labelPanelName = wx.StaticText(self, wx.ID_ANY, "Preferences")
-        self.labelPanelName.SetFont(wx.Font(18, wx.FONTFAMILY_DEFAULT, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_BOLD, 0, "Bitstream Vera Sans"))
+        self.labelPanelName.SetFont(
+            wx.Font(
+                18,
+                wx.FONTFAMILY_DEFAULT,
+                wx.FONTSTYLE_NORMAL,
+                wx.FONTWEIGHT_BOLD,
+                0,
+                "Bitstream Vera Sans",
+            )
+        )
         sizerPanelName.Add(self.labelPanelName, 1, wx.EXPAND | wx.LEFT | wx.RIGHT, 5)
 
         grid_sizer_1 = wx.GridSizer(3, 3, 10, 10)
         sizer_1.Add(grid_sizer_1, 0, wx.ALL, 5)
 
         self.labelViewer = wx.StaticText(self, wx.ID_ANY, "Structure viewer executable")
-        grid_sizer_1.Add(self.labelViewer, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALIGN_RIGHT, 0)
+        grid_sizer_1.Add(
+            self.labelViewer, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALIGN_RIGHT, 0
+        )
 
         self.textCtrlViewer = wx.TextCtrl(self, wx.ID_ANY, "")
         grid_sizer_1.Add(self.textCtrlViewer, 0, wx.EXPAND, 0)
@@ -51,7 +65,9 @@ class PreferencesPanel(wx.Panel, PDFPanel):
         grid_sizer_1.Add(self.buttonViewerBrowse, 0, 0, 0)
 
         self.labelArgStr = wx.StaticText(self, wx.ID_ANY, "Argument string")
-        grid_sizer_1.Add(self.labelArgStr, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALIGN_RIGHT, 0)
+        grid_sizer_1.Add(
+            self.labelArgStr, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALIGN_RIGHT, 0
+        )
 
         self.textCtrlArgument = wx.TextCtrl(self, wx.ID_ANY, "")
         grid_sizer_1.Add(self.textCtrlArgument, 0, wx.EXPAND, 0)
@@ -59,17 +75,23 @@ class PreferencesPanel(wx.Panel, PDFPanel):
         grid_sizer_1.Add((20, 20), 0, 0, 0)
 
         self.labelFormat = wx.StaticText(self, wx.ID_ANY, "Structure format")
-        grid_sizer_1.Add(self.labelFormat, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALIGN_RIGHT, 0)
+        grid_sizer_1.Add(
+            self.labelFormat, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALIGN_RIGHT, 0
+        )
 
         self.choiceFormat = wx.Choice(self, wx.ID_ANY, choices=[])
         grid_sizer_1.Add(self.choiceFormat, 0, wx.EXPAND, 0)
 
         grid_sizer_1.Add((20, 20), 0, 0, 0)
 
-        self.structureDirCheckBox = wx.CheckBox(self, wx.ID_ANY, "Remember path to structure files")
+        self.structureDirCheckBox = wx.CheckBox(
+            self, wx.ID_ANY, "Remember path to structure files"
+        )
         sizer_1.Add(self.structureDirCheckBox, 0, wx.ALL, 5)
 
-        self.dataDirCheckBox = wx.CheckBox(self, wx.ID_ANY, "Remember path to data sets")
+        self.dataDirCheckBox = wx.CheckBox(
+            self, wx.ID_ANY, "Remember path to data sets"
+        )
         sizer_1.Add(self.dataDirCheckBox, 0, wx.ALL, 5)
 
         sizer_1.Add((0, 0), 1, wx.EXPAND, 0)
@@ -112,8 +134,7 @@ class PreferencesPanel(wx.Panel, PDFPanel):
         self.setToolTips(tooltips.preferencespanel)
         return
 
-
-    def onCancel(self, event): # wxGlade: PreferencesPanel.<event_handler>
+    def onCancel(self, event):  # wxGlade: PreferencesPanel.<event_handler>
         """Cancel the changes. Go back to the last panel."""
         selections = self.treeCtrlMain.GetSelections()
         if selections:
@@ -125,7 +146,7 @@ class PreferencesPanel(wx.Panel, PDFPanel):
         self.mainFrame.switchRightPanel(entrytype)
         return
 
-    def onOK(self, event): # wxGlade: PreferencesPanel.<event_handler>
+    def onOK(self, event):  # wxGlade: PreferencesPanel.<event_handler>
         """Record all of the preferences and return to fitting mode."""
 
         # Record structure viewer stuff
@@ -133,10 +154,10 @@ class PreferencesPanel(wx.Panel, PDFPanel):
         argstr = str(self.textCtrlArgument.GetValue()).strip()
         fileformat = str(self.choiceFormat.GetStringSelection())
         config = {
-                "executable" : executable,
-                "argstr"     : argstr,
-                "fileformat" : fileformat,
-                }
+            "executable": executable,
+            "argstr": argstr,
+            "fileformat": fileformat,
+        }
 
         viewer = structureviewer.getStructureViewer()
         viewer.setConfig(config)
@@ -178,12 +199,19 @@ class PreferencesPanel(wx.Panel, PDFPanel):
         self.structureDirCheckBox.SetValue(remember)
         return
 
-    def onBrowse(self, event): # wxGlade: PreferencesPanel.<event_handler>
-        d = wx.FileDialog(None, "Choose structure viewer", ".", "",
-                          "All Files|*", wx.FD_OPEN|wx.FD_FILE_MUST_EXIST)
+    def onBrowse(self, event):  # wxGlade: PreferencesPanel.<event_handler>
+        d = wx.FileDialog(
+            None,
+            "Choose structure viewer",
+            ".",
+            "",
+            "All Files|*",
+            wx.FD_OPEN | wx.FD_FILE_MUST_EXIST,
+        )
         if d.ShowModal() == wx.ID_OK:
             fullpath = d.GetPath()
             self.textCtrlViewer.SetValue(fullpath)
         return
+
 
 # end of class PreferencesPanel

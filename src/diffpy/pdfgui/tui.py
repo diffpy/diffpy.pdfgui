@@ -33,12 +33,12 @@ class LoadProject:
         filename -- path to PDFgui project file.
         """
         from diffpy.pdfgui.control.pdfguicontrol import PDFGuiControl
+
         self._project = PDFGuiControl()
         # business
         if filename is not None:
             self.load(filename)
         return
-
 
     def load(self, filename):
         """Load a project.
@@ -50,7 +50,6 @@ class LoadProject:
         self._project.load(filename)
         return
 
-
     def save(self, filename):
         """Save the project.
 
@@ -61,7 +60,6 @@ class LoadProject:
         self._project.save(filename)
         return
 
-
     def getFits(self):
         """Get all fits defined in the project file.
 
@@ -69,7 +67,6 @@ class LoadProject:
         """
         rv = self._project.fits[:]
         return rv
-
 
     def getDataSets(self, fits=None):
         """Return a list of all datasets contained in specified fits.
@@ -87,7 +84,6 @@ class LoadProject:
         rv = sum([fit.datasets for fit in fitlist], [])
         return rv
 
-
     def getCalculations(self, fits=None):
         """Return list of all calculations contained in specified fits.
 
@@ -103,7 +99,6 @@ class LoadProject:
             fitlist = fits
         rv = sum([fit.calcs for fit in fitlist], [])
         return rv
-
 
     def getPhases(self, fits=None):
         """Collect all phases contained in specified fits.
@@ -121,7 +116,6 @@ class LoadProject:
         rv = sum([fit.strucs for fit in fitlist], [])
         return rv
 
-
     def getTemperatures(self, datasets=None):
         """Extract temperatures from a list of datasets.
 
@@ -136,9 +130,8 @@ class LoadProject:
             dslist = self.getDataSets()
         else:
             dslist = datasets
-        temperatures = [ds.metadata.get('temperature') for ds in dslist]
+        temperatures = [ds.metadata.get("temperature") for ds in dslist]
         return temperatures
-
 
     def getDopings(self, datasets=None):
         """Extract doping values from a list of datasets.
@@ -154,7 +147,7 @@ class LoadProject:
             dslist = self.getDataSets()
         else:
             dslist = datasets
-        dopings = [ds.metadata.get('doping') for ds in dslist]
+        dopings = [ds.metadata.get("doping") for ds in dslist]
         return dopings
 
 

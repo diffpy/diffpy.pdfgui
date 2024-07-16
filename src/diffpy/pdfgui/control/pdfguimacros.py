@@ -23,8 +23,17 @@ import copy
 from diffpy.pdfgui.control.controlerrors import ControlValueError
 from diffpy.pdfgui.control.fitdataset import FitDataSet
 
-def makeRSeries(control, fit, maxfirst = None, maxlast = None, maxstep = None,
-        minfirst = None, minlast = None, minstep = None):
+
+def makeRSeries(
+    control,
+    fit,
+    maxfirst=None,
+    maxlast=None,
+    maxstep=None,
+    minfirst=None,
+    minlast=None,
+    minstep=None,
+):
     """Make an series of fits with an increasing r-range.
 
     The new fits are appended to the end of any current fits in the control.
@@ -43,35 +52,43 @@ def makeRSeries(control, fit, maxfirst = None, maxlast = None, maxstep = None,
     # Check to see if the input values are correct.
 
     # MIN-MIN: FIRST < LAST
-    if minfirst is not None and minlast is not None\
-            and not minfirst < minlast:
-        message = "The first value of the minimum (%.2f)\
+    if minfirst is not None and minlast is not None and not minfirst < minlast:
+        message = (
+            "The first value of the minimum (%.2f)\
                  \nmust be less than the last value of the\
-                 \nminimum (%.2f)" % (minfirst, minlast)
+                 \nminimum (%.2f)"
+            % (minfirst, minlast)
+        )
         raise ControlValueError(message)
 
     # MAX-MAX: FIRST < LAST
-    if maxfirst is not None and maxlast is not None\
-            and not maxfirst < maxlast:
-        message = "The first value of the maximum (%.2f)\
+    if maxfirst is not None and maxlast is not None and not maxfirst < maxlast:
+        message = (
+            "The first value of the maximum (%.2f)\
                  \nmust be less than the last value of the\
-                 \nmaximum (%.2f)" % (maxfirst, maxlast)
+                 \nmaximum (%.2f)"
+            % (maxfirst, maxlast)
+        )
         raise ControlValueError(message)
 
     # MAX > MIN: FIRST-FIRST
-    if maxfirst is not None and minfirst is not None\
-            and not maxfirst > minfirst:
-        message = "The first value of the fit maximum (%.2f)\
+    if maxfirst is not None and minfirst is not None and not maxfirst > minfirst:
+        message = (
+            "The first value of the fit maximum (%.2f)\
                  \nmust be greater than first value of the fit\
-                 \nminimum (%.2f)." % (maxfirst, minfirst)
+                 \nminimum (%.2f)."
+            % (maxfirst, minfirst)
+        )
         raise ControlValueError(message)
 
     # MAX > MIN: LAST-LAST
-    if maxlast is not None and minlast is not None\
-            and not maxlast > minlast:
-        message = "The last value of the fit maximum (%.2f)\
+    if maxlast is not None and minlast is not None and not maxlast > minlast:
+        message = (
+            "The last value of the fit maximum (%.2f)\
                  \nmust be greater than last value of the fit\
-                 \nminimum (%.2f)." % (maxlast, minlast)
+                 \nminimum (%.2f)."
+            % (maxlast, minlast)
+        )
         raise ControlValueError(message)
 
     # STEP > 0
@@ -92,13 +109,15 @@ def makeRSeries(control, fit, maxfirst = None, maxlast = None, maxstep = None,
     maxlist = []
     minlist = []
     if maxfirst is not None:
-        if maxstep is None: maxstep = minstep
-        maxrange = int((maxlast-maxfirst)/(1.0*maxstep)+1)
-        maxlist = [maxfirst + i*maxstep for i in range(maxrange)]
+        if maxstep is None:
+            maxstep = minstep
+        maxrange = int((maxlast - maxfirst) / (1.0 * maxstep) + 1)
+        maxlist = [maxfirst + i * maxstep for i in range(maxrange)]
     if minfirst is not None:
-        if minstep is None: minstep = maxstep
-        minrange = int((minlast-minfirst)/(1.0*minstep)+1)
-        minlist = [minfirst + i*minstep for i in range(minrange)]
+        if minstep is None:
+            minstep = maxstep
+        minrange = int((minlast - minfirst) / (1.0 * minstep) + 1)
+        minlist = [minfirst + i * minstep for i in range(minrange)]
 
     # Resize the lists to the length of the shortest
     serieslen = min(len(maxlist), len(minlist))
@@ -106,13 +125,13 @@ def makeRSeries(control, fit, maxfirst = None, maxlast = None, maxstep = None,
         maxlist = maxlist[:serieslen]
         minlist = minlist[:serieslen]
     else:
-        serieslen =  max(len(maxlist), len(minlist))
+        serieslen = max(len(maxlist), len(minlist))
 
     basename = fit.name
     fits = []
 
-    newname = ''
-    lastname = ''
+    newname = ""
+    lastname = ""
     fitcopy = control.copy(fit)
     # Duplicate the original fit and change the appropriate parameters.
     for i in range(serieslen):
@@ -132,23 +151,29 @@ def makeRSeries(control, fit, maxfirst = None, maxlast = None, maxstep = None,
 
             # Check to see that the values are in bounds and sensical
             if fitrmin < ds.rmin or fitrmin >= ds.rmax:
-                message = "Fit minimum (%.2f) is outside the data range\
+                message = (
+                    "Fit minimum (%.2f) is outside the data range\
                            \n[%.2f, %.2f].\
-                           \nAdjust the range of the series."\
-                           % (fitrmin, ds.rmin, ds.rmax)
+                           \nAdjust the range of the series."
+                    % (fitrmin, ds.rmin, ds.rmax)
+                )
                 raise ControlValueError(message)
             if fitrmax <= ds.rmin or fitrmax > ds.rmax:
-                message = "Fit maximum (%.2f) is outside the data range\
+                message = (
+                    "Fit maximum (%.2f) is outside the data range\
                            \n[%.2f, %.2f].\
-                           \nAdjust the range of the series."\
-                           % (fitrmax, ds.rmin, ds.rmax)
+                           \nAdjust the range of the series."
+                    % (fitrmax, ds.rmin, ds.rmax)
+                )
                 raise ControlValueError(message)
             if fitrmin >= fitrmax:
-                message = "Fit minimum (%.2f) is greater than the\
+                message = (
+                    "Fit minimum (%.2f) is greater than the\
                            \nmaximum (%.2f).\
-                           \nIncrease maxstep or reduce minstep." % (fitrmin, fitrmax)
+                           \nIncrease maxstep or reduce minstep."
+                    % (fitrmin, fitrmax)
+                )
                 raise ControlValueError(message)
-
 
             # Set the values if all is well
             if minlist:
@@ -164,7 +189,7 @@ def makeRSeries(control, fit, maxfirst = None, maxlast = None, maxstep = None,
 
         # Now paste the copy into the control.
         newname = "%s-(%.2f,%.2f)" % (basename, fitrmin, fitrmax)
-        o = control.paste(fitcopy, new_name = newname)
+        o = control.paste(fitcopy, new_name=newname)
         fits.append(o)
 
     return [f.organization() for f in fits]
@@ -216,7 +241,8 @@ def makeTemperatureSeries(control, fit, paths, temperatures):
         st = dataset.getFitSamplingType()
         newdataset.setFitSamplingType(st, rstep)
         doping = dataset.metadata.get("doping")
-        if doping is None: doping = 0.0
+        if doping is None:
+            doping = 0.0
         newdataset.metadata["doping"] = doping
         newdataset.constraints = copy.deepcopy(dataset.constraints)
 
@@ -234,10 +260,11 @@ def makeTemperatureSeries(control, fit, paths, temperatures):
 
         # Now paste the copy into the control.
         fitnewname = "%s-T%i=%g" % (fitbasename, i + 1, temperatures[i])
-        o = control.paste(fitcopy, new_name = fitnewname)
+        o = control.paste(fitcopy, new_name=fitnewname)
         fits.append(o)
 
     return [f.organization() for f in fits]
+
 
 # Doping Series
 def makeDopingSeries(control, fit, base, dopant, paths, doping):
@@ -258,9 +285,9 @@ def makeDopingSeries(control, fit, base, dopant, paths, doping):
     base = base.title()
     dopant = dopant.title()
     if not is_element(base):
-        raise ControlValueError("'%s' is not an element!"%base)
+        raise ControlValueError("'%s' is not an element!" % base)
     if not is_element(dopant):
-        raise ControlValueError("'%s' is not an element!"%dopant)
+        raise ControlValueError("'%s' is not an element!" % dopant)
 
     # Make sure that base and dopant are in the structure file(s)
     hasBase = False
@@ -271,7 +298,8 @@ def makeDopingSeries(control, fit, base, dopant, paths, doping):
                 hasBase = True
             if atom.element == dopant:
                 hasDopant = True
-        if hasBase and hasDopant: break
+        if hasBase and hasDopant:
+            break
 
     if not hasBase:
         message = "The template structure does not contain the base atom."
@@ -285,7 +313,6 @@ def makeDopingSeries(control, fit, base, dopant, paths, doping):
     if len(fit.datasets) != 1:
         message = "Can't apply macro to fits with multiple datasets."
         raise ControlValueError(message)
-
 
     fits = []
     # holds all of the other information about the dataset
@@ -317,7 +344,8 @@ def makeDopingSeries(control, fit, base, dopant, paths, doping):
         st = dataset.getFitSamplingType()
         newdataset.setFitSamplingType(st, rstep)
         temperature = dataset.metadata.get("temperature")
-        if temperature is None: temperature = 300.0
+        if temperature is None:
+            temperature = 300.0
         newdataset.metadata["temperature"] = temperature
         newdataset.constraints = copy.deepcopy(dataset.constraints)
 
@@ -333,8 +361,7 @@ def makeDopingSeries(control, fit, base, dopant, paths, doping):
                 if A.element == dopant:
                     A.occupancy = doping[i]
                 if A.element == base:
-                    A.occupancy = 1-doping[i]
-
+                    A.occupancy = 1 - doping[i]
 
         # Set the parameters to the previous fit's name, if one exists.
         if fitlastname:
@@ -344,17 +371,19 @@ def makeDopingSeries(control, fit, base, dopant, paths, doping):
 
         # Now paste the copy into the control.
         fitnewname = "%s-%1.4f" % (fitbasename, doping[i])
-        o = control.paste(fitcopy, new_name = fitnewname)
+        o = control.paste(fitcopy, new_name=fitnewname)
         fits.append(o)
 
     return [f.organization() for f in fits]
 
+
 if __name__ == "__main__":
     from diffpy.pdfgui.control.pdfguicontrol import PDFGuiControl
+
     control = PDFGuiControl()
     control.load("../../tests/testdata/ni.ddp")
     fit = control.fits[0]
     olist = makeRSeries(control, fit, 5, 20, 5)
-    print('\n'.join(f[0].name for f in olist))
+    print("\n".join(f[0].name for f in olist))
 
 # End of file

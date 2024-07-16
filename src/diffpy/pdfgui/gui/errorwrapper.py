@@ -33,6 +33,7 @@ from diffpy.pdfgui.control.controlerrors import TempControlSelectError
 # these methods will not be wrapped in catchFunctionErrors
 _EXCLUDED_METHODS = dict.fromkeys(dir(wx.Panel) + dir(wx.Dialog))
 
+
 def catchFunctionErrors(obj, funcName):
     """Wrap a function so its errors get transferred to a dialog.
 
@@ -61,7 +62,7 @@ def catchFunctionErrors(obj, funcName):
         try:
             return func(*args, **kwargs)
 
-        #to be deleted. temporarily used for show the select-control error.
+        # to be deleted. temporarily used for show the select-control error.
         except TempControlSelectError:
             dlg = ErrorReportDialogControlFix(obj.mainFrame)
             dlg.ShowModal()
@@ -72,13 +73,14 @@ def catchFunctionErrors(obj, funcName):
             if not hasmf:
                 raise
             message = str(e)
-            obj.mainFrame.showMessage(message, 'Oops!')
+            obj.mainFrame.showMessage(message, "Oops!")
             return rvpass
 
         # Everything else
         except:
             if pdfguiglobals.dbopts.pythondebugger:
                 import pdb
+
                 tb = sys.exc_info()[2]
                 pdb.post_mortem(tb)
                 return rvpass
@@ -88,7 +90,7 @@ def catchFunctionErrors(obj, funcName):
             message = "".join(msglines)
             if obj.mainFrame.quitting:
                 sys.stderr.write(message)
-                sys.stderr.write('\n')
+                sys.stderr.write("\n")
             else:
                 dlg = ErrorReportDialog(obj.mainFrame)
                 dlg.text_ctrl_log.SetValue(message)
@@ -119,11 +121,16 @@ def catchObjectErrors(obj, exclude=None):
     else:
         extra_excludes = {}
 
-    funcNames = [item for item in dir(obj) if not item.startswith('_')
-            and item not in _EXCLUDED_METHODS and item not in extra_excludes]
+    funcNames = [
+        item
+        for item in dir(obj)
+        if not item.startswith("_")
+        and item not in _EXCLUDED_METHODS
+        and item not in extra_excludes
+    ]
 
     for name in funcNames:
-        if hasattr( getattr(obj, name), '__call__'):
+        if hasattr(getattr(obj, name), "__call__"):
             setattr(obj, name, catchFunctionErrors(obj, name))
 
     return

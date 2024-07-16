@@ -8,10 +8,10 @@ Also fix any accented characters texinfo does not get right.
 # constants
 
 rc = {
-        'directory' : 'images',     # directory with equation images
+    "directory": "images",  # directory with equation images
 }
 
-eqmark = '<!-- EquationMark -->'
+eqmark = "<!-- EquationMark -->"
 
 ##############################################################################
 # business
@@ -21,6 +21,8 @@ import os
 import re
 
 eqcnt = 0
+
+
 def eqreplace(mx):
     """helper function to replace equation marks.
 
@@ -31,9 +33,10 @@ def eqreplace(mx):
     global eqcnt
     eqcnt += 1
     imgfile = "eq-%02i.png" % eqcnt
-    imgurl = os.path.join(rc['directory'], imgfile)
+    imgurl = os.path.join(rc["directory"], imgfile)
     s = '</p><p align="center"><img src="%s" alt="%s">' % (imgurl, imgurl)
     return s
+
 
 def replaceEquationMarks(s):
     """Replace equation marks in given string.
@@ -42,13 +45,14 @@ def replaceEquationMarks(s):
     s1 = re.sub(eqmark, eqreplace, s)
     return s1
 
+
 def main():
     for f in sys.argv[1:]:
         with open(f) as fp:
             s = fp.read()
         s1 = replaceEquationMarks(s)
         if s1 != s:
-            with open(f, 'w') as fpout:
+            with open(f, "w") as fpout:
                 fpout.write(s1)
 
 

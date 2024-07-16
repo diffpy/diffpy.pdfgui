@@ -19,8 +19,13 @@ To be stored in Fitting.parameters { idx : parameter } dictionary
 
 import six
 
-from diffpy.pdfgui.control.controlerrors import \
-        ControlTypeError, ControlKeyError, ControlRuntimeError, ControlError
+from diffpy.pdfgui.control.controlerrors import (
+    ControlTypeError,
+    ControlKeyError,
+    ControlRuntimeError,
+    ControlError,
+)
+
 
 class Parameter:
     """Parameter is class for value and properties of refined parameter.
@@ -37,6 +42,7 @@ class Parameter:
         __initial -- stores the initial value, float, or "=fitname:idx" string
         __fitrepr -- None or string representation of Fitting instance
     """
+
     # fits should reference PDFGuiControl.fits
 
     def __init__(self, idx, initial=0.0):
@@ -47,7 +53,7 @@ class Parameter:
                    It can be float, Fitting, "=fitname" or "=fitname:idx" string.
         """
         self.idx = idx
-        self.name = ''
+        self.name = ""
         self.refined = None
         self.fixed = False
         self.__initial = None
@@ -64,6 +70,7 @@ class Parameter:
         """
         self.__fitrepr = None
         from diffpy.pdfgui.control.fitting import Fitting
+
         try:
             self.__initial = float(initial)
             return
@@ -72,7 +79,7 @@ class Parameter:
         if isinstance(initial, Fitting):
             self.__initial = "=" + initial.name
             self.__fitrepr = repr(initial)
-        elif isinstance(initial, six.string_types) and initial[:1] == '=':
+        elif isinstance(initial, six.string_types) and initial[:1] == "=":
             self.__initial = initial
             self.__findLinkedFitting()
         else:
@@ -115,10 +122,9 @@ class Parameter:
         return float(value)
 
     def __getLinkedValue(self):
-        """Private retrieval of parameter value from linked Fitting.
-        """
+        """Private retrieval of parameter value from linked Fitting."""
         # Check to see if the fit name has a ':' in it
-        isplit = self.__initial.split(':')
+        isplit = self.__initial.split(":")
         # Who needs regular expressions?
         try:
             if len(isplit) == 1:
@@ -126,7 +132,7 @@ class Parameter:
                 fitname = self.__initial[1:]
             else:
                 srcidx = int(isplit[-1])
-                fitname = (':'.join(isplit[:-1]))[1:]
+                fitname = (":".join(isplit[:-1]))[1:]
         except ValueError:
             # __initial should be in the form "=fitname[:srcidx]"
             raise ControlError("Malformed linked parameter %s" % self.__initial)
@@ -137,7 +143,9 @@ class Parameter:
         try:
             srcpar = srcfit.parameters[srcidx]
         except KeyError:
-            raise ControlKeyError("Fitting '%s' has no parameter %s" % (fitname, srcidx))
+            raise ControlKeyError(
+                "Fitting '%s' has no parameter %s" % (fitname, srcidx)
+            )
 
         if srcpar.refined is not None:
             value = srcpar.refined
@@ -155,18 +163,19 @@ class Parameter:
         returns reference to Fitting when found or None
         """
         # Check to see if the fit name has a ':' in it
-        isplit = self.__initial.split(':')
+        isplit = self.__initial.split(":")
         try:
             srcidx = int(isplit[-1])
-            fitname = (':'.join(isplit[:-1]))[1:]
+            fitname = (":".join(isplit[:-1]))[1:]
         except ValueError:
             fitname = self.__initial[1:]
             srcidx = self.idx
             self.__initial += ":%i" % srcidx
         from diffpy.pdfgui.control.pdfguicontrol import pdfguicontrol
+
         fits = pdfguicontrol().fits
-        fitnames = [ f.name for f in fits ]
-        fitrepres = [ repr(f) for f in fits ]
+        fitnames = [f.name for f in fits]
+        fitrepres = [repr(f) for f in fits]
         # first find linked fitting by name
         if fitname in fitnames:
             idx = fitnames.index(fitname)
@@ -183,5 +192,6 @@ class Parameter:
             self.__fitrepr = None
             ref = None
         return ref
+
 
 # End of class Parameter

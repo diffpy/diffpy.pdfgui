@@ -25,6 +25,7 @@ from diffpy.pdfgui.gui.wxextensions.validators import TextValidator, FLOAT_ONLY
 from diffpy.pdfgui.gui.pdfpanel import PDFPanel
 from diffpy.pdfgui.control.controlerrors import ControlConfigError
 
+
 class PlotPanel(wx.Panel, PDFPanel):
     def __init__(self, *args, **kwds):
         PDFPanel.__init__(self)
@@ -44,16 +45,22 @@ class PlotPanel(wx.Panel, PDFPanel):
         sizer_4 = wx.StaticBoxSizer(wx.StaticBox(self, wx.ID_ANY, "Y"), wx.HORIZONTAL)
         sizer_1.Add(sizer_4, 1, wx.EXPAND, 0)
 
-        self.yDataList = KeyEventsListCtrl(self, wx.ID_ANY, style=wx.BORDER_SUNKEN | wx.LC_NO_HEADER | wx.LC_REPORT)
+        self.yDataList = KeyEventsListCtrl(
+            self, wx.ID_ANY, style=wx.BORDER_SUNKEN | wx.LC_NO_HEADER | wx.LC_REPORT
+        )
         sizer_4.Add(self.yDataList, 1, wx.ALL | wx.EXPAND, 5)
 
         sizer_6 = wx.BoxSizer(wx.HORIZONTAL)
         sizer_1.Add(sizer_6, 0, wx.EXPAND, 0)
 
-        self.offsetLabel = wx.StaticText(self, wx.ID_ANY, "offset", style=wx.ALIGN_RIGHT)
+        self.offsetLabel = wx.StaticText(
+            self, wx.ID_ANY, "offset", style=wx.ALIGN_RIGHT
+        )
         sizer_6.Add(self.offsetLabel, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALL, 5)
 
-        self.offsetTextCtrl = wx.TextCtrl(self, wx.ID_ANY, "-5", style=wx.TE_PROCESS_ENTER)
+        self.offsetTextCtrl = wx.TextCtrl(
+            self, wx.ID_ANY, "-5", style=wx.TE_PROCESS_ENTER
+        )
         sizer_6.Add(self.offsetTextCtrl, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALL, 5)
 
         self.static_line_1 = wx.StaticLine(self, wx.ID_ANY)
@@ -77,28 +84,28 @@ class PlotPanel(wx.Panel, PDFPanel):
         self.Bind(wx.EVT_BUTTON, self.onReset, self.resetButton)
         # end wxGlade
         self.Bind(wx.EVT_COMBOBOX, self._check, self.xDataCombo)
-        self.Bind(wx.EVT_LIST_ITEM_SELECTED, self._check,  self.yDataList)
-        self.Bind(wx.EVT_LIST_ITEM_DESELECTED, self._check,  self.yDataList)
+        self.Bind(wx.EVT_LIST_ITEM_SELECTED, self._check, self.yDataList)
+        self.Bind(wx.EVT_LIST_ITEM_DESELECTED, self._check, self.yDataList)
         self.__customProperties()
 
     # USER CONFIGURATION CODE #################################################
     def __customProperties(self):
         """Custom Properties go here."""
         self.yDataList.InsertColumn(0, "Y data")
-        self.offsetTextCtrl.SetValidator(TextValidator(FLOAT_ONLY,allowNeg=True))
+        self.offsetTextCtrl.SetValidator(TextValidator(FLOAT_ONLY, allowNeg=True))
 
         # Define tooltips.
         self.setToolTips(tooltips.plotpanel)
 
         # Testing Code. Comment or delete this block when finished.
-        #self.yDataList.InsertStringItem(sys.maxint, "y1")
-        #self.yDataList.InsertStringItem(sys.maxint, "y2")
-        #self.yDataList.InsertStringItem(sys.maxint, "y3")
-        #self.yDataList.InsertStringItem(sys.maxint, "y4")
-        #self.yDataList.InsertStringItem(sys.maxint, "y5")
+        # self.yDataList.InsertStringItem(sys.maxint, "y1")
+        # self.yDataList.InsertStringItem(sys.maxint, "y2")
+        # self.yDataList.InsertStringItem(sys.maxint, "y3")
+        # self.yDataList.InsertStringItem(sys.maxint, "y4")
+        # self.yDataList.InsertStringItem(sys.maxint, "y5")
         # Initialize the sorter.
-        #self.yDataList.makeIDM()
-        #self.yDataList.initializeSorter()
+        # self.yDataList.makeIDM()
+        # self.yDataList.initializeSorter()
 
         return
 
@@ -124,20 +131,24 @@ class PlotPanel(wx.Panel, PDFPanel):
             self.enableWidgets(False)
             return
         self.enableWidgets(True)
-        fits = dict.fromkeys([self.treeCtrlMain.GetControlData(self.treeCtrlMain.GetFitRoot(sel))
-                              for sel in selections])
+        fits = dict.fromkeys(
+            [
+                self.treeCtrlMain.GetControlData(self.treeCtrlMain.GetFitRoot(sel))
+                for sel in selections
+            ]
+        )
         refs = [self.treeCtrlMain.GetControlData(sel) for sel in selections]
 
         xdata = []
         # step is added if selections include type other than calculation
-        for type in [ self.treeCtrlMain.GetNodeType(sel) for sel in selections ]:
-            if type != 'calculation':
-                xdata.append('step')
+        for type in [self.treeCtrlMain.GetNodeType(sel) for sel in selections]:
+            if type != "calculation":
+                xdata.append("step")
                 break
 
         # index is added if mutiple selections are chosen from different fits
         if len(fits) > 1:
-            xdata.append('index')
+            xdata.append("index")
 
         for ref in refs:
             xdata.extend(ref.getXNames())
@@ -152,15 +163,15 @@ class PlotPanel(wx.Panel, PDFPanel):
 
         # Make the parameter entries a bit more presentable.
         def _represent(mixedNames):
-            vals = ["@%i"%item for item in mixedNames if isinstance(item, int)]
-            others  = [item for item in mixedNames if not isinstance(item, int)]
+            vals = ["@%i" % item for item in mixedNames if isinstance(item, int)]
+            others = [item for item in mixedNames if not isinstance(item, int)]
             vals.extend(others)
             numericStringSort(vals)
             return vals
 
         xvals = _represent(xdata)
         try:
-            xvals.remove('rw')
+            xvals.remove("rw")
         except:
             pass
         numericStringSort(xvals)
@@ -177,7 +188,7 @@ class PlotPanel(wx.Panel, PDFPanel):
         # Set default value for xDataCombo
         # Either keep the current plot value selected, select 'r', or the
         # first in the list.
-        defaultOrders = [ 'r', 'step', 'index']
+        defaultOrders = ["r", "step", "index"]
         if current:
             defaultOrders.insert(0, current)
         for item in defaultOrders:
@@ -191,7 +202,8 @@ class PlotPanel(wx.Panel, PDFPanel):
         ydata = refs[0].getYNames()
         for ref in refs[1:]:
             for name in ydata[:]:
-                if name not in ref.getYNames(): ydata.remove(name)
+                if name not in ref.getYNames():
+                    ydata.remove(name)
 
         yvals = _represent(ydata)
 
@@ -205,7 +217,7 @@ class PlotPanel(wx.Panel, PDFPanel):
         if yvals:
             self.yDataList.Select(0)
 
-        #self.prevSelectionType = selectiontype
+        # self.prevSelectionType = selectiontype
         self._check(None)
 
         return
@@ -220,30 +232,32 @@ class PlotPanel(wx.Panel, PDFPanel):
             item = self.yDataList.GetNextSelected(item)
         return yvals
 
-
     # EVENT CODE #############################################################
-    def onPlot(self, event): # wxGlade: PlotPanel.<event_handler>
+    def onPlot(self, event):  # wxGlade: PlotPanel.<event_handler>
         """Plot some stuff."""
         self._plot(event)
         return
 
-    def _plot (self,event):
+    def _plot(self, event):
         """This function is not wrapped"""
         selections = self.treeCtrlMain.GetSelections()
         refs = [self.treeCtrlMain.GetControlData(node) for node in selections]
         xval = self.xDataCombo.GetValue()
-        if xval[0] == '@': xval = int(xval[1:])
+        if xval[0] == "@":
+            xval = int(xval[1:])
         temp = self.getSelectedYVals()
         # Clean up some formatting so the control can understand this.
-        yvals = [ int(par[1:]) for par in temp if par[0] == '@']
-        yvals.extend([val for val in temp if val[0] != '@'])
+        yvals = [int(par[1:]) for par in temp if par[0] == "@"]
+        yvals.extend([val for val in temp if val[0] != "@"])
         offset = self.offsetTextCtrl.GetValue()
         try:
             offset = float(offset)
-        except ValueError: # offset can be empty string
+        except ValueError:  # offset can be empty string
             offset = 0.0
 
-        self.mainFrame.control.plot(xval, yvals, refs, shift=offset, dry=(event is None))
+        self.mainFrame.control.plot(
+            xval, yvals, refs, shift=offset, dry=(event is None)
+        )
         return
 
     def onEnter(self, event):
@@ -251,8 +265,7 @@ class PlotPanel(wx.Panel, PDFPanel):
         self.onPlot(event)
         return
 
-
-    def onReset(self, event): # wxGlade: PlotPanel.<event_handler>
+    def onReset(self, event):  # wxGlade: PlotPanel.<event_handler>
         """Reset everything."""
         self.offsetTextCtrl.SetValue("-5")
         self.refresh()

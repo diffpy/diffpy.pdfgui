@@ -40,8 +40,7 @@ import getopt
 
 
 def usage():
-    """Show usage info.
-    """
+    """Show usage info."""
     myname = os.path.basename(sys.argv[0])
     msg = __doc__.replace("pdfgui", myname)
     print(msg)
@@ -50,12 +49,13 @@ def usage():
 
 def version():
     from diffpy.pdfgui import __version__
+
     print("PDFgui", __version__)
     return
 
 
 def processArguments(argv1):
-    '''Process command line arguments and store results in pdfguiglobals.
+    """Process command line arguments and store results in pdfguiglobals.
     This method updates cmdopts, cmdargs and dbopts attributes in the
     pdfguiglobals module.
 
@@ -66,13 +66,13 @@ def processArguments(argv1):
     Raises GetoptError for invalid options.
     Raises ValueError for more than one project file arguments or
     when project is not a valid file.
-    '''
+    """
     from diffpy.pdfgui.gui import pdfguiglobals
+
     dbopts = pdfguiglobals.dbopts
-    dboptions = [('db-' + o[0]) for o in dbopts.alldebugoptions]
+    dboptions = [("db-" + o[0]) for o in dbopts.alldebugoptions]
     # default parameters
-    opts, args = getopt.gnu_getopt(sys.argv[1:], "hV",
-                ["help", "version"] + dboptions)
+    opts, args = getopt.gnu_getopt(sys.argv[1:], "hV", ["help", "version"] + dboptions)
     # process options
     proceed = True
     for o, a in opts:
@@ -82,13 +82,14 @@ def processArguments(argv1):
         elif o in ("-V", "--version"):
             version()
             proceed = False
-        elif o.startswith('--') and o[2:] in dboptions:
+        elif o.startswith("--") and o[2:] in dboptions:
             # strip "--db-"
             dbo = o[5:]
             setattr(dbopts, dbo, True)
     pdfguiglobals.cmdopts = opts
     # bail-out here if options contain --help or --version
-    if not proceed:     return False
+    if not proceed:
+        return False
     # otherwise continue checking arguments
     if len(args) == 1 and not os.path.isfile(args[0]):
         emsg = "Project file %s does not exist." % args[0]
@@ -102,8 +103,7 @@ def processArguments(argv1):
 
 
 def main():
-    '''Main entry point to  PDFgui.
-    '''
+    """Main entry point to  PDFgui."""
     # process arguments
     proceed = False
     try:
@@ -112,12 +112,15 @@ def main():
         print(err, file=sys.stderr)
         sys.exit(1)
     # bail out when no gui is needed
-    if not proceed:     sys.exit()
+    if not proceed:
+        sys.exit()
     # initialize gui
     import diffpy.pdfgui.gui.main as guimain
+
     # Catch control errors, that may happen during project
     # loading, before the GUI gets running
     from diffpy.pdfgui.control.controlerrors import ControlError
+
     try:
         guimain.main()
     except ControlError as err:

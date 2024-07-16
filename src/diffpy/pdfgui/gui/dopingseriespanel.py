@@ -27,7 +27,8 @@ from diffpy.pdfgui.control.pdfguimacros import makeDopingSeries
 from diffpy.pdfgui.gui.wxextensions.listctrls import AutoWidthListCtrl
 from diffpy.pdfgui.gui.wxextensions.validators import TextValidator, ALPHA_ONLY
 
-class DopingSeriesPanel(wx.Panel,PDFPanel):
+
+class DopingSeriesPanel(wx.Panel, PDFPanel):
     def __init__(self, *args, **kwds):
         PDFPanel.__init__(self)
         # begin wxGlade: DopingSeriesPanel.__init__
@@ -36,8 +37,21 @@ class DopingSeriesPanel(wx.Panel,PDFPanel):
 
         sizer_1 = wx.BoxSizer(wx.VERTICAL)
 
-        self.instructionsLabel = wx.StaticText(self, wx.ID_ANY, "Select a fit from the tree on the left then add datasets and assign\ndoping elements and values below. If you have not set up a fit to be\nthe template for the series, hit cancel and rerun this macro once a\nfit has been created.")
-        self.instructionsLabel.SetFont(wx.Font(10, wx.FONTFAMILY_DEFAULT, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_NORMAL, 0, "Sans"))
+        self.instructionsLabel = wx.StaticText(
+            self,
+            wx.ID_ANY,
+            "Select a fit from the tree on the left then add datasets and assign\ndoping elements and values below. If you have not set up a fit to be\nthe template for the series, hit cancel and rerun this macro once a\nfit has been created.",
+        )
+        self.instructionsLabel.SetFont(
+            wx.Font(
+                10,
+                wx.FONTFAMILY_DEFAULT,
+                wx.FONTSTYLE_NORMAL,
+                wx.FONTWEIGHT_NORMAL,
+                0,
+                "Sans",
+            )
+        )
         sizer_1.Add(self.instructionsLabel, 0, wx.ALL | wx.EXPAND, 5)
 
         sizer_6 = wx.BoxSizer(wx.HORIZONTAL)
@@ -61,7 +75,9 @@ class DopingSeriesPanel(wx.Panel,PDFPanel):
         sizer_4 = wx.BoxSizer(wx.HORIZONTAL)
         sizer_2.Add(sizer_4, 1, wx.EXPAND, 0)
 
-        self.listCtrlFiles = AutoWidthListCtrl(self, wx.ID_ANY, style=wx.BORDER_SUNKEN | wx.LC_EDIT_LABELS | wx.LC_REPORT)
+        self.listCtrlFiles = AutoWidthListCtrl(
+            self, wx.ID_ANY, style=wx.BORDER_SUNKEN | wx.LC_EDIT_LABELS | wx.LC_REPORT
+        )
         sizer_4.Add(self.listCtrlFiles, 1, wx.ALL | wx.EXPAND, 5)
 
         sizer_5 = wx.BoxSizer(wx.VERTICAL)
@@ -121,14 +137,14 @@ class DopingSeriesPanel(wx.Panel,PDFPanel):
     def __customProperties(self):
         """Set the custom properties."""
         self.fit = None
-        self.reverse = False # Reverse the sort?
+        self.reverse = False  # Reverse the sort?
         self.fullpath = ""
-        self.datasets = [] # Contains (doping, filename) tuples
-                           # doping comes first for easy sorting
+        self.datasets = []  # Contains (doping, filename) tuples
+        # doping comes first for easy sorting
 
         self.listCtrlFiles.InsertColumn(0, "Doping")
         self.listCtrlFiles.InsertColumn(1, "Data Set")
-        self.listCtrlFiles.SetColumnWidth(0,-2)
+        self.listCtrlFiles.SetColumnWidth(0, -2)
 
         # Set the validators
         self.textCtrlBaseElement.SetValidator(TextValidator(ALPHA_ONLY))
@@ -138,7 +154,7 @@ class DopingSeriesPanel(wx.Panel,PDFPanel):
         self.setToolTips(tooltips.dopingseriespanel)
         return
 
-    def onColClick(self, event): # wxGlade: DopingSeriesPanel.<event_handler>
+    def onColClick(self, event):  # wxGlade: DopingSeriesPanel.<event_handler>
         """Sort by doping."""
         self.datasets.sort()
         if self.reverse:
@@ -147,7 +163,7 @@ class DopingSeriesPanel(wx.Panel,PDFPanel):
         self.fillList()
         return
 
-    def onEndLabelEdit(self, event): # wxGlade: DopingSeriesPanel.<event_handler>
+    def onEndLabelEdit(self, event):  # wxGlade: DopingSeriesPanel.<event_handler>
         """Update the doping in the datasets."""
         index = event.GetIndex()
         text = event.GetText()
@@ -165,37 +181,43 @@ class DopingSeriesPanel(wx.Panel,PDFPanel):
         self.reverse = False
         return
 
-    def onUp(self, event): # wxGlade: DopingSeriesPanel.<event_handler>
+    def onUp(self, event):  # wxGlade: DopingSeriesPanel.<event_handler>
         """Move an item in the list up."""
         index = self.listCtrlFiles.GetFirstSelected()
         if index > 0:
             temp = self.datasets[index]
-            self.datasets[index] = self.datasets[index-1]
-            self.datasets[index-1] = temp
+            self.datasets[index] = self.datasets[index - 1]
+            self.datasets[index - 1] = temp
             self.fillList()
-            self.listCtrlFiles.Select(index-1)
+            self.listCtrlFiles.Select(index - 1)
         return
 
-    def onDown(self, event): # wxGlade: DopingSeriesPanel.<event_handler>
+    def onDown(self, event):  # wxGlade: DopingSeriesPanel.<event_handler>
         """Move an item in the list down."""
         index = self.listCtrlFiles.GetFirstSelected()
-        if index > -1 and index != len(self.datasets)-1:
+        if index > -1 and index != len(self.datasets) - 1:
             temp = self.datasets[index]
-            self.datasets[index] = self.datasets[index+1]
-            self.datasets[index+1] = temp
+            self.datasets[index] = self.datasets[index + 1]
+            self.datasets[index + 1] = temp
             self.fillList()
-            self.listCtrlFiles.Select(index+1)
+            self.listCtrlFiles.Select(index + 1)
         return
 
-    def onAdd(self, event): # wxGlade: DopingSeriesPanel.<event_handler>
+    def onAdd(self, event):  # wxGlade: DopingSeriesPanel.<event_handler>
         """Append files to the list."""
         dir, filename = os.path.split(self.fullpath)
         if not dir:
             dir = self.mainFrame.workpath
 
         matchstring = "PDF data files (*.gr)|*.gr|PDF fit files (*.fgr)|*.fgr|PDF fit files (*.fit)|*.fit|PDF calculation files (*.cgr)|*.cgr|PDF calculation files (*.calc)|*.calc|All Files|*"
-        d = wx.FileDialog(None, "Choose files", dir, "", matchstring,
-                          wx.FD_OPEN|wx.FD_FILE_MUST_EXIST|wx.FD_MULTIPLE)
+        d = wx.FileDialog(
+            None,
+            "Choose files",
+            dir,
+            "",
+            matchstring,
+            wx.FD_OPEN | wx.FD_FILE_MUST_EXIST | wx.FD_MULTIPLE,
+        )
         paths = []
         if d.ShowModal() == wx.ID_OK:
             paths = d.GetPaths()
@@ -209,7 +231,7 @@ class DopingSeriesPanel(wx.Panel,PDFPanel):
 
             # Look for the doping in the filename
             doping = 0.0
-            rx = {'f' : r'(?:\d+(?:\.\d*)?|\d*\.\d+)' }
+            rx = {"f": r"(?:\d+(?:\.\d*)?|\d*\.\d+)"}
             # Search for x123, X123, doping123, Doping123.
             # Is there a better regexp? Probably...
             regexp = r"(?:X|x|Doping|doping)(%(f)s)" % rx
@@ -218,16 +240,16 @@ class DopingSeriesPanel(wx.Panel,PDFPanel):
                 doping = float(res.groups()[0])
             else:
                 # Look in the file
-                infile = open(path, 'r')
+                infile = open(path, "r")
                 datastring = infile.read()
                 infile.close()
                 # Look for it first in the file
-                res = re.search(r'^#+ start data\s*(?:#.*\s+)*', datastring, re.M)
+                res = re.search(r"^#+ start data\s*(?:#.*\s+)*", datastring, re.M)
                 # start_data is position where the first data line starts
                 if res:
                     start_data = res.end()
                 else:
-                    res = re.search(r'^[^#]', datastring, re.M)
+                    res = re.search(r"^[^#]", datastring, re.M)
                     if res:
                         start_data = res.start()
                     else:
@@ -239,14 +261,15 @@ class DopingSeriesPanel(wx.Panel,PDFPanel):
                 if res:
                     doping = float(res.groups()[0])
             # Add the new path
-            if doping < 0: doping = 0.0
+            if doping < 0:
+                doping = 0.0
             newdatasets.append([doping, path])
 
         self.datasets.extend(newdatasets)
         self.fillList()
         return
 
-    def onDelete(self, event): # wxGlade: DopingSeriesPanel.<event_handler>
+    def onDelete(self, event):  # wxGlade: DopingSeriesPanel.<event_handler>
         """Delete selected files from the list."""
         idxlist = []
         item = self.listCtrlFiles.GetFirstSelected()
@@ -260,21 +283,22 @@ class DopingSeriesPanel(wx.Panel,PDFPanel):
         self.fillList()
         return
 
-    def onOK(self, event): # wxGlade: DopingSeriesPanel.<event_handler>
+    def onOK(self, event):  # wxGlade: DopingSeriesPanel.<event_handler>
         """Let's go!"""
         dvals = [tp[0] for tp in self.datasets]
         paths = [tp[1] for tp in self.datasets]
         base = self.textCtrlBaseElement.GetValue()
         dopant = self.textCtrlDopant.GetValue()
         # Value checks will take place in makeDopingSeries
-        org = makeDopingSeries(self.mainFrame.control, self.fit, base, dopant,
-                paths, dvals)
+        org = makeDopingSeries(
+            self.mainFrame.control, self.fit, base, dopant, paths, dvals
+        )
         self.treeCtrlMain.ExtendProjectTree(org, clear=False)
         self.mainFrame.needsSave()
         self.onCancel(event)
         return
 
-    def onCancel(self, event): # wxGlade: DopingSeriesPanel.<event_handler>
+    def onCancel(self, event):  # wxGlade: DopingSeriesPanel.<event_handler>
         """Let's go, but not actually do anything."""
         self.mainFrame.setMode("fitting")
         self.treeCtrlMain.UnselectAll()
@@ -289,15 +313,16 @@ class DopingSeriesPanel(wx.Panel,PDFPanel):
         """
         from diffpy.pdfgui.control.controlerrors import ControlValueError
         from diffpy.pdffit2 import is_element
+
         base = self.textCtrlBaseElement.GetValue()
         dopant = self.textCtrlDopant.GetValue()
         # Make sure that the base and dopant are actual elements
         base = base.title()
         dopant = dopant.title()
         if not is_element(base):
-            raise ControlValueError("'%s' is not an element!"%base)
+            raise ControlValueError("'%s' is not an element!" % base)
         if not is_element(dopant):
-            raise ControlValueError("'%s' is not an element!"%dopant)
+            raise ControlValueError("'%s' is not an element!" % dopant)
         return
 
     def fillList(self):
@@ -307,11 +332,14 @@ class DopingSeriesPanel(wx.Panel,PDFPanel):
         cp = os.path.commonprefix(names)
         # We want to break at the last path/separator in the common prefix
         idx = cp.rfind(os.path.sep)
-        if idx == -1: idx = len(cp)
+        if idx == -1:
+            idx = len(cp)
         for doping, filename in self.datasets:
             shortname = "..." + filename[idx:]
             # index = self.listCtrlFiles.InsertItem(sys.maxsize, str(doping))  #doesn't work for windows
-            index = self.listCtrlFiles.InsertItem(100000, str(doping))  #doesn't work for windows
+            index = self.listCtrlFiles.InsertItem(
+                100000, str(doping)
+            )  # doesn't work for windows
             self.listCtrlFiles.SetItem(index, 1, shortname)
         return
 
@@ -319,7 +347,7 @@ class DopingSeriesPanel(wx.Panel,PDFPanel):
     def treeSelectionUpdate(self, node):
         """Set the current fit when the tree selection changes."""
         nodetype = self.treeCtrlMain.GetNodeType(node)
-        if nodetype == 'fit':
+        if nodetype == "fit":
             self.fit = self.treeCtrlMain.GetControlData(node)
         self.refresh()
         return
@@ -339,12 +367,17 @@ class DopingSeriesPanel(wx.Panel,PDFPanel):
             node = selections[0]
             nodetype = self.treeCtrlMain.GetNodeType(node)
 
-        if node and nodetype == "fit" \
-                and self.fit and self.fit.hasDataSets() \
-                and self.fit.hasStructures():
+        if (
+            node
+            and nodetype == "fit"
+            and self.fit
+            and self.fit.hasDataSets()
+            and self.fit.hasStructures()
+        ):
             self.goButton.Enable()
         else:
             self.goButton.Enable(False)
         return
+
 
 # end of class DopingSeriesPanel

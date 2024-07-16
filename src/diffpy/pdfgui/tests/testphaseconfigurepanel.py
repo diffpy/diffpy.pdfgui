@@ -28,8 +28,8 @@ from diffpy.pdfgui.tests.testutils import clickcell, overrideclipboard
 
 # ----------------------------------------------------------------------------
 
-class TestPhaseConfigurePanel(GUITestCase):
 
+class TestPhaseConfigurePanel(GUITestCase):
     @classmethod
     def setUpClass(cls):
         GUITestCase.setUpClass()
@@ -42,7 +42,6 @@ class TestPhaseConfigurePanel(GUITestCase):
         cls.frame.makeTreeSelection(phases[0])
         return
 
-
     @classmethod
     def tearDownClass(cls):
         cls.frame.Close()
@@ -50,12 +49,10 @@ class TestPhaseConfigurePanel(GUITestCase):
         GUITestCase.tearDownClass()
         return
 
-
     def setUp(self):
         self.panel = self.frame.rightPanel.notebook_phase.GetPage(0)
         assert isinstance(self.panel, PhaseConfigurePanel)
         return
-
 
     def test_restrictConstrainedParameters(self):
         "check restrictConstrainedParameters function"
@@ -65,9 +62,8 @@ class TestPhaseConfigurePanel(GUITestCase):
         self.assertFalse(panel.textCtrlDelta1.IsEditable())
         self.assertTrue(grid.IsReadOnly(0, 1))
         self.assertFalse(grid.IsReadOnly(0, 3))
-        self.assertEqual('@1', tooltiptext(panel.textCtrlA))
+        self.assertEqual("@1", tooltiptext(panel.textCtrlA))
         return
-
 
     def test_onCellRightClick(self):
         "check right-click handling over the atoms grid."
@@ -82,9 +78,10 @@ class TestPhaseConfigurePanel(GUITestCase):
         self.assertIsNotNone(self.panel.insertID)
         return
 
+
 # End of class TestPhaseConfigurePanel
 
 # ----------------------------------------------------------------------------
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

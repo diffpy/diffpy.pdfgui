@@ -37,12 +37,15 @@ def numericStringSort(lst):
     No return value to highlight inplace sorting.
     """
     import re
-    rx = re.compile(r'(\d+)')
-    keys = [ rx.split(s) for s in lst ]
-    for k in keys:  k[1::2] = [ int(i) for i in k[1::2] ]
+
+    rx = re.compile(r"(\d+)")
+    keys = [rx.split(s) for s in lst]
+    for k in keys:
+        k[1::2] = [int(i) for i in k[1::2]]
     newlst = sorted(zip(keys, lst))
     lst[:] = [kv[1] for kv in newlst]
     return
+
 
 def pickle_loads(sdata, encoding="latin1"):
     """Mimic interface of Python 3 pickle.loads.
@@ -52,8 +55,7 @@ def pickle_loads(sdata, encoding="latin1"):
 
     Return the reconstructed object hierarchy.
     """
-    rv = (pickle.loads(sdata, encoding=encoding) if six.PY3
-          else pickle.loads(sdata))
+    rv = pickle.loads(sdata, encoding=encoding) if six.PY3 else pickle.loads(sdata)
     return rv
 
 
@@ -77,17 +79,16 @@ def safeCPickleDumps(obj):
 # This should be unnecessary in Python 3
 # TODO - replace getquoted/setquoted with get/set after dropping Python 2
 
-class QuotedConfigParser(RawConfigParser):
 
+class QuotedConfigParser(RawConfigParser):
     def getquoted(self, section, option):
         """Retrieve option value previously set with setquoted.
 
         This allows to work with unicode strings.
         """
         vq = self.get(section, option)
-        rv = vq.decode('utf-8') if six.PY2 else vq
+        rv = vq.decode("utf-8") if six.PY2 else vq
         return rv
-
 
     def setquoted(self, section, option, value):
         """Set option to a value encoded with urllib.quote.
@@ -95,10 +96,12 @@ class QuotedConfigParser(RawConfigParser):
         This allows to store and write out unicode strings.
         Use getquoted to recover the decoded value.
         """
-        vq = value.encode('utf-8') if six.PY2 else value
+        vq = value.encode("utf-8") if six.PY2 else value
         return self.set(section, option, vq)
 
+
 # class QuotedConfigParser
+
 
 def quote_plain(s):
     """Return a possibly Unicode string quoted as plain ASCII.
@@ -107,27 +110,29 @@ def quote_plain(s):
     project file format.
     """
     from six.moves.urllib.parse import quote_plus
-    rv = quote_plus(asunicode(s).encode('utf-8'))
+
+    rv = quote_plus(asunicode(s).encode("utf-8"))
     return rv
 
 
 def unquote_plain(s):
-    """Unquote string previously encoded with quote_plain.
-    """
+    """Unquote string previously encoded with quote_plain."""
     from six.moves.urllib.parse import unquote_plus
+
     u = unquote_plus(s)
     rv = asunicode(u)
     return rv
 
 
 def asunicode(s):
-    '''Convert string or bytes object to a text type.
+    """Convert string or bytes object to a text type.
 
     This is `unicode` in Python 2 and `str` in Python 3.
-    '''
+    """
     rv = s
     if not isinstance(s, six.text_type):
-        rv = s.decode('utf-8')
+        rv = s.decode("utf-8")
     return rv
+
 
 # End of file

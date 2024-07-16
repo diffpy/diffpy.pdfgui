@@ -20,6 +20,7 @@ import os.path
 import wx
 from diffpy.pdfgui.gui.pdfpanel import PDFPanel
 
+
 class JournalPanel(wx.Panel, PDFPanel):
     def __init__(self, *args, **kwds):
         PDFPanel.__init__(self)
@@ -66,7 +67,7 @@ class JournalPanel(wx.Panel, PDFPanel):
         self.textCtrlJournal.Bind(wx.EVT_KEY_DOWN, self.onKey)
         return
 
-    def onText(self, event): # wxGlade: JournalPanel.<event_handler>
+    def onText(self, event):  # wxGlade: JournalPanel.<event_handler>
         """Record anything that is written into the journal."""
         text = self.textCtrlJournal.GetValue()
         if text != self.mainFrame.control.journal:
@@ -74,25 +75,31 @@ class JournalPanel(wx.Panel, PDFPanel):
             self.mainFrame.needsSave()
         return
 
-    def onExport(self, event): # wxGlade: JournalPanel.<event_handler>
+    def onExport(self, event):  # wxGlade: JournalPanel.<event_handler>
         """Export the journal to an external file."""
         matchstring = "Text files (*.txt)|*.txt|All Files|*"
         dir, filename = os.path.split(self.fullpath)
-        if not dir: dir = self.mainFrame.workpath
-        d = wx.FileDialog(None, "Export to...",
-                dir, filename, matchstring,
-                wx.FD_SAVE|wx.FD_OVERWRITE_PROMPT)
+        if not dir:
+            dir = self.mainFrame.workpath
+        d = wx.FileDialog(
+            None,
+            "Export to...",
+            dir,
+            filename,
+            matchstring,
+            wx.FD_SAVE | wx.FD_OVERWRITE_PROMPT,
+        )
 
         if d.ShowModal() == wx.ID_OK:
             self.fullpath = d.GetPath()
             self.mainFrame.workpath = os.path.dirname(self.fullpath)
-            outfile = open(self.fullpath, 'w')
+            outfile = open(self.fullpath, "w")
             outfile.write(self.mainFrame.control.journal)
             outfile.close()
         d.Destroy()
         return
 
-    def onClose(self, event): # wxGlade: JournalPanel.<event_handler>
+    def onClose(self, event):  # wxGlade: JournalPanel.<event_handler>
         self._close()
         return
 
