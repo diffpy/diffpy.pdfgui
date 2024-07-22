@@ -35,6 +35,7 @@ eqmark = "@EquationMark"
 ##############################################################################
 # business
 
+
 def loadEquations():
     """Search for equation codes preceded by @EquationMark macro.
     Store equation codes in rc['eqns'].

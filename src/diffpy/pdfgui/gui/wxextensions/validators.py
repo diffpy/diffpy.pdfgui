@@ -13,6 +13,9 @@
 #
 ##############################################################################
 
+import wx
+import string
+
 """This module contains TextValidator, which is an input validator for the
 wxTextCtrl. See the wxPython documentation for wxTextCtrl for more about text
 validators. Three constants are defined for use in TextValidator: ALPHA_ONLY,
@@ -22,9 +25,6 @@ DIGIT_ONLY, and FLOAT_ONLY. See the TextValidator class for how these are used.
 ALPHA_ONLY = 1
 DIGIT_ONLY = 2
 FLOAT_ONLY = 3
-
-import wx
-import string
 
 
 class TextValidator(wx.Validator):
