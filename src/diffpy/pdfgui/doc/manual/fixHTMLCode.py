@@ -1,5 +1,9 @@
 #!/usr/bin/python
 
+import sys
+import os
+import re
+
 """Replace all equation marks in HTML file with <img> tag to display
 corresponding PNG file.  This assumes PNG files are in correct sequence.
 Also fix any accented characters texinfo does not get right.
@@ -15,10 +19,6 @@ eqmark = "<!-- EquationMark -->"
 
 ##############################################################################
 # business
-
-import sys
-import os
-import re
 
 eqcnt = 0
 
