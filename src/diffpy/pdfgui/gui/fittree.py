@@ -32,6 +32,7 @@ from diffpy.pdfgui.control.controlerrors import ControlError
 from diffpy.pdfgui.utils import safeCPickleDumps, pickle_loads
 from diffpy.pdfgui.gui.wxextensions import wx12
 
+
 class FitTree(wx12.TreeCtrl):
     """TreeCtrl designed to organize pdffit fits.
 
@@ -60,10 +61,16 @@ class FitTree(wx12.TreeCtrl):
 
     """
 
-    def __init__(self, parent, id=-1, pos=wx.DefaultPosition,
-            size=wx.DefaultSize,
-            style=wx.TR_HAS_BUTTONS|wx.TR_HIDE_ROOT|wx.TR_MULTIPLE,
-            validator=wx.DefaultValidator, name="FitTree"):
+    def __init__(
+        self,
+        parent,
+        id=-1,
+        pos=wx.DefaultPosition,
+        size=wx.DefaultSize,
+        style=wx.TR_HAS_BUTTONS | wx.TR_HIDE_ROOT | wx.TR_MULTIPLE,
+        validator=wx.DefaultValidator,
+        name="FitTree",
+    ):
         wx.TreeCtrl.__init__(self, parent, id, pos, size, style)
 
         # Define the control
@@ -75,7 +82,7 @@ class FitTree(wx12.TreeCtrl):
         phasebmp = wx.Bitmap(iconpath("phaseitem.png"))
         fitbmp = wx.Bitmap(iconpath("fititem.png"))
         calcbmp = wx.Bitmap(iconpath("calculationitem.png"))
-        isz = (16,16)
+        isz = (16, 16)
         il = wx.ImageList(isz[0], isz[1])
         self.fitbmid = il.Add(fitbmp)
         self.dtsbmid = il.Add(datasetbmp)
@@ -84,7 +91,6 @@ class FitTree(wx12.TreeCtrl):
         self.SetImageList(il)
         self.treeImageList = il
 
-
         return
 
     def InitializeTree(self):
@@ -92,12 +98,12 @@ class FitTree(wx12.TreeCtrl):
         self.root = self.AddRoot("The Root Item")
         self.SetNodeType(self.root, "root")
         # Testing code
-        #fit1 = self.AddFit()
-        #self.AddPhase(fit1, "Phase 1")
-        #self.AddPhase(fit1, "Phase 2")
-        #self.AddDataSet(fit1, "Data 1")
-        #self.AddCalc(fit1, "Calc 1")
-        #self.Expand(fit1)
+        # fit1 = self.AddFit()
+        # self.AddPhase(fit1, "Phase 1")
+        # self.AddPhase(fit1, "Phase 2")
+        # self.AddDataSet(fit1, "Data 1")
+        # self.AddCalc(fit1, "Calc 1")
+        # self.Expand(fit1)
         return
 
     def GetTreeItemDict(self, node):
@@ -106,7 +112,8 @@ class FitTree(wx12.TreeCtrl):
 
     def GetFitRoot(self, node):
         """Return the id of the fit in which the passed node resides."""
-        if not node: return
+        if not node:
+            return
         fitId = node
         nextId = self.GetItemParent(node)
         while nextId != self.root:
@@ -136,14 +143,15 @@ class FitTree(wx12.TreeCtrl):
         """Get the id of each item in the tree of the same type as node."""
         nodetype = self.GetNodeType(node)
         fits = self.GetChildren(self.root)
-        if nodetype == 'fit':
+        if nodetype == "fit":
             return fits
         else:
             sametype = []
             for fit in fits:
                 children = self.GetChildren(fit)
-                sametype.extend( [child for child in children if
-                    self.GetNodeType(child) == nodetype] )
+                sametype.extend(
+                    [child for child in children if self.GetNodeType(child) == nodetype]
+                )
             return sametype
 
     def GetPhases(self, node):
@@ -152,7 +160,7 @@ class FitTree(wx12.TreeCtrl):
         node is either the fit-root or a node in the fit-branch of interest.
         """
         nodes = self.GetChildren(self.GetFitRoot(node))
-        ids = [id for id in nodes if self.GetNodeType(id) == 'phase']
+        ids = [id for id in nodes if self.GetNodeType(id) == "phase"]
         return ids
 
     def GetDataSets(self, node):
@@ -161,7 +169,7 @@ class FitTree(wx12.TreeCtrl):
         node is either the fit-root or a node in the fit-branch of interest.
         """
         nodes = self.GetChildren(self.GetFitRoot(node))
-        ids = [id for id in nodes if self.GetNodeType(id) == 'dataset']
+        ids = [id for id in nodes if self.GetNodeType(id) == "dataset"]
         return ids
 
     def GetCalculations(self, node):
@@ -170,7 +178,7 @@ class FitTree(wx12.TreeCtrl):
         node is either the fit-root or a node in the fit-branch of interest.
         """
         nodes = self.GetChildren(self.GetFitRoot(node))
-        ids = [id for id in nodes if self.GetNodeType(id) == 'calculation']
+        ids = [id for id in nodes if self.GetNodeType(id) == "calculation"]
         return ids
 
     def GetNodeType(self, node):
@@ -183,16 +191,17 @@ class FitTree(wx12.TreeCtrl):
         datadict = self.GetTreeItemDict(node)
         if datadict is None:
             return None
-        return datadict['type']
+        return datadict["type"]
 
     def SetNodeType(self, node, tp):
         """Set the node type of a node."""
-        if not node: return
+        if not node:
+            return
         datadict = self.GetTreeItemDict(node)
         if datadict is None:
             datadict = {}
             self.SetItemData(node, datadict)
-        datadict['type'] = tp
+        datadict["type"] = tp
         return
 
     def GetBranchName(self, node):
@@ -210,9 +219,12 @@ class FitTree(wx12.TreeCtrl):
         siblings = self.GetChildren(node)
         lastphase = None
         for sib in siblings:
-            if self.GetNodeType(sib) == "dataset": break
-            elif self.GetNodeType(sib) == "calculation": break
-            else: lastphase = sib
+            if self.GetNodeType(sib) == "dataset":
+                break
+            elif self.GetNodeType(sib) == "calculation":
+                break
+            else:
+                lastphase = sib
         return lastphase
 
     def GetLastDataSet(self, node):
@@ -225,8 +237,10 @@ class FitTree(wx12.TreeCtrl):
         siblings = self.GetChildren(node)
         lastdata = None
         for sib in siblings:
-            if self.GetNodeType(sib) == "calculation": break
-            else: lastdata = sib
+            if self.GetNodeType(sib) == "calculation":
+                break
+            else:
+                lastdata = sib
         return lastdata
 
     def GetNumPhases(self, node):
@@ -236,7 +250,7 @@ class FitTree(wx12.TreeCtrl):
         """
         parent = self.GetFitRoot(node)
         family = self.GetChildren(parent)
-        phases = [item for item in family if self.GetNodeType(item) == 'phase']
+        phases = [item for item in family if self.GetNodeType(item) == "phase"]
         return len(phases)
 
     def GetNumDataSets(self, node):
@@ -246,7 +260,7 @@ class FitTree(wx12.TreeCtrl):
         """
         parent = self.GetFitRoot(node)
         family = self.GetChildren(parent)
-        phases = [item for item in family if self.GetNodeType(item) == 'dataset']
+        phases = [item for item in family if self.GetNodeType(item) == "dataset"]
         return len(phases)
 
     def GetPositionInSubtree(self, node):
@@ -263,11 +277,12 @@ class FitTree(wx12.TreeCtrl):
         for sib in brood:
             if sib == node:
                 break
-            else: pos += 1
+            else:
+                pos += 1
         nodetype = self.GetNodeType(node)
-        if nodetype == 'dataset':
+        if nodetype == "dataset":
             pos -= self.GetNumPhases(node)
-        if nodetype == 'calculation':
+        if nodetype == "calculation":
             pos -= self.GetNumPhases(node) + self.GetNumDataSets(node)
         return pos
 
@@ -280,11 +295,11 @@ class FitTree(wx12.TreeCtrl):
         example, for a 'phase' node, it contains a Structure object.
         """
         nodetype = self.GetNodeType(node)
-        if nodetype != 'fit':
-            message = 'Node type %s does not hold its own data' % nodetype
+        if nodetype != "fit":
+            message = "Node type %s does not hold its own data" % nodetype
             raise FitTreeError(message)
 
-        self.GetTreeItemDict(node)['cdata'] = data
+        self.GetTreeItemDict(node)["cdata"] = data
         return
 
     def GetControlData(self, node):
@@ -295,16 +310,16 @@ class FitTree(wx12.TreeCtrl):
         """
         nodetype = self.GetNodeType(node)
         parent = self.GetFitRoot(node)
-        pdata = self.GetTreeItemDict(parent)['cdata']
-        if nodetype == 'fit':
+        pdata = self.GetTreeItemDict(parent)["cdata"]
+        if nodetype == "fit":
             return pdata
-        elif nodetype == 'phase':
+        elif nodetype == "phase":
             pos = self.GetPositionInSubtree(node)
             return pdata.getStructure(pos)
-        elif nodetype == 'dataset':
+        elif nodetype == "dataset":
             pos = self.GetPositionInSubtree(node)
             return pdata.getDataSet(pos)
-        elif nodetype == 'calculation':
+        elif nodetype == "calculation":
             pos = self.GetPositionInSubtree(node)
             return pdata.getCalculation(pos)
         else:
@@ -312,7 +327,7 @@ class FitTree(wx12.TreeCtrl):
             raise FitTreeError(message)
         return
 
-    def AddFit(self, fitname = "Fit 1", cdata = None, paste = False):
+    def AddFit(self, fitname="Fit 1", cdata=None, paste=False):
         """Append a new fit tree to the end of the current fits.
 
         fitname     --  The name of the fit. This is incremented if it already
@@ -330,7 +345,7 @@ class FitTree(wx12.TreeCtrl):
         fitname = incrementName(fitname, names)
 
         newfit = self.AppendItem(self.root, fitname)
-        self.SetNodeType(newfit, 'fit')
+        self.SetNodeType(newfit, "fit")
         self.SetItemImage(newfit, self.fitbmid, wx.TreeItemIcon_Normal)
         pos = self.GetPositionInSubtree(newfit)
 
@@ -347,8 +362,9 @@ class FitTree(wx12.TreeCtrl):
             raise
         return
 
-    def AddPhase(self, node, label, insertafter=None, filename=None,
-            makedata = True, cdata=None):
+    def AddPhase(
+        self, node, label, insertafter=None, filename=None, makedata=True, cdata=None
+    ):
         """Add a new blank Phase to the tree as a child of node.
 
         node        --  The parent 'fit' node.
@@ -419,8 +435,9 @@ class FitTree(wx12.TreeCtrl):
             raise
         return
 
-    def AddDataSet(self, node, label, insertafter=None, filename=None,
-            makedata=True, cdata=None):
+    def AddDataSet(
+        self, node, label, insertafter=None, filename=None, makedata=True, cdata=None
+    ):
         """Add a new DataSet to the tree as a child of fit.
 
         node        --  The parent node of the dataset. Must be 'fit' type.
@@ -558,13 +575,14 @@ class FitTree(wx12.TreeCtrl):
             cdata = cdata.stripped()
         cdata.type = nodetype
         cdatabytes = safeCPickleDumps(cdata)
-        cdatabytes = 'pdfgui_cliboard='.encode() + cdatabytes
-        #wxpython only accepts str, use base64 to convert bytes to str
+        cdatabytes = "pdfgui_cliboard=".encode() + cdatabytes
+        # wxpython only accepts str, use base64 to convert bytes to str
         cdatastring = base64.b64encode(cdatabytes)
         textdata = wx.TextDataObject(cdatastring)
         if not wx.TheClipboard.IsOpened():
             opened = wx.TheClipboard.Open()
-            if not opened: raise FitTreeError("Cannot open the clipboard.")
+            if not opened:
+                raise FitTreeError("Cannot open the clipboard.")
         wx.TheClipboard.SetData(textdata)
         wx.TheClipboard.Close()
         return
@@ -582,10 +600,12 @@ class FitTree(wx12.TreeCtrl):
         textdata = wx.TextDataObject()
         if not wx.TheClipboard.IsOpened():
             opened = wx.TheClipboard.Open()
-            if not opened: return None
+            if not opened:
+                return None
         success = wx.TheClipboard.GetData(textdata)
         wx.TheClipboard.Close()
-        if not success: return None
+        if not success:
+            return None
         cdatastring = textdata.GetText()
 
         cdata = None
@@ -593,14 +613,14 @@ class FitTree(wx12.TreeCtrl):
         try:
             cdatabytes = base64.b64decode(cdatastring.encode())
 
-            if cdatabytes[:16] == 'pdfgui_cliboard='.encode():
+            if cdatabytes[:16] == "pdfgui_cliboard=".encode():
                 cdatabytes = cdatabytes[16:]
                 cdata = pickle_loads(cdatabytes)
         except:
             pass
         return cdata
 
-    def PasteBranch(self, entrypoint = None):
+    def PasteBranch(self, entrypoint=None):
         """Paste the branch from the clipboard into tree at the given node.
 
         A certain type of branch can only be copied to specific places.
@@ -657,7 +677,7 @@ class FitTree(wx12.TreeCtrl):
             elif entrytype == "fit":
                 insertafter = entrypoint
                 entrypoint = self.root
-            else: # Just in case
+            else:  # Just in case
                 raise FitTreeError("Cannot paste a fit branch here.")
 
         if branchtype == "phase":
@@ -682,7 +702,7 @@ class FitTree(wx12.TreeCtrl):
                 if not insertafter:
                     # Put the branch at the beginning of the phases
                     prepend = True
-            else: # Just in case
+            else:  # Just in case
                 raise FitTreeError("Cannot paste a phase branch here.")
 
         if branchtype == "dataset":
@@ -720,16 +740,14 @@ class FitTree(wx12.TreeCtrl):
                 insertafter = self.GetLastDataSet(entrypoint)
             elif entrytype == "fit":
                 insertafter = self.GetLastDataSet(entrypoint)
-            else: # Just in case
+            else:  # Just in case
                 raise FitTreeError("Cannot paste a calculation branch here.")
-
 
         # Now set the name of the item to be inserted.
         label = self.__copyLabel(cdata.name, entrypoint)
 
         # Now we have a label. We must insert the item into the tree.
-        newnode = self.__InsertBranch(cdata, entrypoint, label, insertafter,
-                prepend)
+        newnode = self.__InsertBranch(cdata, entrypoint, label, insertafter, prepend)
 
         return newnode
 
@@ -740,13 +758,12 @@ class FitTree(wx12.TreeCtrl):
         siblings = self.GetChildren(entrypoint)
         labels = [self.GetItemText(sb) for sb in siblings]
         match = r"_copy\d*$"
-        label = re.sub(match, '', oldlabel)
+        label = re.sub(match, "", oldlabel)
         label += "_copy"
         label = incrementName(label, labels)
         return label
 
-    def __InsertBranch(self, cdata, entrypoint, label, insertafter = None,
-            prepend = False):
+    def __InsertBranch(self, cdata, entrypoint, label, insertafter=None, prepend=False):
         """Instert control data into the tree.
 
         cdata       --  The control data that goes with the branch
@@ -765,20 +782,24 @@ class FitTree(wx12.TreeCtrl):
             raise FitTreeError(message)
 
         branchtype = cdata.type
-        #cdata.name = label
-        if branchtype == 'fit':
+        # cdata.name = label
+        if branchtype == "fit":
             cdata.name = label
-            newnode = self.ExtendProjectTree([cdata.organization()],
-                    clear=False, paste=True)
-        elif branchtype == 'phase':
-            newnode = self.AddPhase(entrypoint, label, insertafter=insertafter,
-                    makedata=False, cdata=cdata)
-        elif branchtype == 'dataset':
-            newnode = self.AddDataSet(entrypoint, label, insertafter=insertafter,
-                    makedata=False, cdata=cdata)
-        elif branchtype == 'calculation':
-            newnode = self.AddCalc(entrypoint, label, insertafter=insertafter,
-                    makedata=False, cdata=cdata)
+            newnode = self.ExtendProjectTree(
+                [cdata.organization()], clear=False, paste=True
+            )
+        elif branchtype == "phase":
+            newnode = self.AddPhase(
+                entrypoint, label, insertafter=insertafter, makedata=False, cdata=cdata
+            )
+        elif branchtype == "dataset":
+            newnode = self.AddDataSet(
+                entrypoint, label, insertafter=insertafter, makedata=False, cdata=cdata
+            )
+        elif branchtype == "calculation":
+            newnode = self.AddCalc(
+                entrypoint, label, insertafter=insertafter, makedata=False, cdata=cdata
+            )
         else:
             raise FitTreeError("Unrecognized node type: %s" % branchtype)
 
@@ -787,8 +808,7 @@ class FitTree(wx12.TreeCtrl):
     def DeleteBranches(self, selections):
         """Remove the subtree starting from the selected node(s)."""
         # Get a list of branch heads
-        branchset = [node for node in selections if self.GetNodeType(node) ==\
-        "fit"]
+        branchset = [node for node in selections if self.GetNodeType(node) == "fit"]
 
         # Get their children
         childset = []
@@ -815,7 +835,7 @@ class FitTree(wx12.TreeCtrl):
                 self.SelectItem(child)
         return
 
-    def SelectAllType(self, node = None):
+    def SelectAllType(self, node=None):
         """Select all nodes of same type as passed node.
 
         node    --  Node whose type to select. If node is None (default), then
@@ -825,7 +845,8 @@ class FitTree(wx12.TreeCtrl):
         if node is None:
             # Get the first fit node
             fits = self.GetChildren(self.root)
-            if not fits: return
+            if not fits:
+                return
             node = fits[0]
         typelist = self.GetAllType(node)
         for item in typelist:
@@ -859,13 +880,14 @@ class FitTree(wx12.TreeCtrl):
         roots = []
 
         # Return if the treelist is empty
-        if not treelist: return
+        if not treelist:
+            return
 
         # Build the tree
         for item in treelist:
             broot = item[0]
             name = broot.name
-            node = self.AddFit(name, cdata = broot, paste = paste)
+            node = self.AddFit(name, cdata=broot, paste=paste)
 
             if node is None:
                 message = "Cannot insert data. Malformed tree list."
@@ -877,17 +899,18 @@ class FitTree(wx12.TreeCtrl):
             # the fit root.
             phases = item[2]
             for (name, phase) in phases:
-                self.AddPhase(node, name, makedata = False)
+                self.AddPhase(node, name, makedata=False)
             dsets = item[1]
             for (name, set) in dsets:
-                self.AddDataSet(node, name, makedata = False)
+                self.AddDataSet(node, name, makedata=False)
             calcs = item[3]
             for (name, calc) in calcs:
-                self.AddCalc(node, name, makedata = False)
+                self.AddCalc(node, name, makedata=False)
 
         for item in roots:
             self.Expand(item)
         return node
+
 
 # End class FitTree
 
@@ -897,11 +920,13 @@ class FitTreeError(ControlError):
     def __init__(self, *args):
         ControlError.__init__(self, *args)
         return
+
+
 # End class FitTreeError
 
 
 # Utility functions
-def incrementName(name, namelist, start = 1):
+def incrementName(name, namelist, start=1):
     """Increment the name by assigning the lowest number to the end such
     that the name does not appear in the namelist.
     """
@@ -909,7 +934,7 @@ def incrementName(name, namelist, start = 1):
     match = r"\d+$"
     counter = start
     while newname in namelist:
-        newname = re.sub(match, '', name)
+        newname = re.sub(match, "", name)
         counter += 1
         newname = "%s%i" % (newname, counter)
     return newname

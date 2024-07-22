@@ -18,15 +18,19 @@
 
 import wx
 
+
 class PDFGuiApp(wx.App):
     def OnInit(self):
         from diffpy.pdfgui.gui.mainframe import MainFrame
+
         self.frame = MainFrame(None, -1, "")
         self.SetTopWindow(self.frame)
         self.frame.Show()
         return True
 
+
 # end of class PDFGuiApp
+
 
 def main():
     """Kick starter for the PDFgui graphical user interface.
@@ -38,6 +42,7 @@ def main():
     app = PDFGuiApp(0)
     app.MainLoop()
     return
+
 
 if __name__ == "__main__":
     main()

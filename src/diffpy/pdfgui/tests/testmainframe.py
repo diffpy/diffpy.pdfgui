@@ -26,8 +26,8 @@ from diffpy.pdfgui.tests.testutils import GUITestCase
 
 # ----------------------------------------------------------------------------
 
-class TestMainFrame(GUITestCase):
 
+class TestMainFrame(GUITestCase):
     @classmethod
     def setUpClass(cls):
         GUITestCase.setUpClass()
@@ -35,14 +35,12 @@ class TestMainFrame(GUITestCase):
         cls.frame = MainFrame(None, -1, "")
         return
 
-
     @classmethod
     def tearDownClass(cls):
         cls.frame.Close()
         cls.app.Destroy()
         GUITestCase.tearDownClass()
         return
-
 
     def test_onRightClick(self):
         "check MainFrame.onRightClick method for context menu"
@@ -57,15 +55,15 @@ class TestMainFrame(GUITestCase):
         self.assertIsNotNone(self.frame.PopupMenu)
         return
 
-
     def test_disableMainMenuItems(self):
         "cover MainFrame.disableMainMenuItems method."
         self.frame.disableMainMenuItems()
         return
 
+
 # End of class TestMainFrame
 
 # ----------------------------------------------------------------------------
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

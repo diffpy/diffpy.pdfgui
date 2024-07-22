@@ -18,6 +18,7 @@
 There should be exactly one instance of DebugOptions in pdfguiglobals module.
 """
 
+
 class DebugOptions:
     """DebugOptions is a place to store various debugging options.
     There should be just one instance defined in pdfguiglobals module.
@@ -31,26 +32,25 @@ class DebugOptions:
         pdb, pythondebugger  -- use python debugger to handle error exceptions
                                 instead of ErrorReportDialog
     """
+
     # global list of all options
     alldebugoptions = (
-            ('noed', 'noerrordialog'),
-            ('nocf', 'noconfirm'),
-            ('pdb', 'pythondebugger'),
+        ("noed", "noerrordialog"),
+        ("nocf", "noconfirm"),
+        ("pdb", "pythondebugger"),
     )
     # global dictionary for converting long options to short
     short2long = dict(alldebugoptions)
 
     def __init__(self):
-        """Initialize DebugOptions, by default all of them are off.
-        """
+        """Initialize DebugOptions, by default all of them are off."""
         self.noerrordialog = False
         self.noconfirm = False
         self.pythondebugger = False
         return
 
     def __setattr__(self, name, value):
-        """Map short options to their long equivalents.
-        """
+        """Map short options to their long equivalents."""
         if name in DebugOptions.short2long:
             longname = DebugOptions.short2long[name]
         else:
@@ -68,8 +68,9 @@ class DebugOptions:
             longname = DebugOptions.short2long[name]
             value = getattr(self, longname)
         else:
-            raise AttributeError('An instance has no attribute %r' % name)
+            raise AttributeError("An instance has no attribute %r" % name)
         return value
+
 
 # End of class DebugOptions
 

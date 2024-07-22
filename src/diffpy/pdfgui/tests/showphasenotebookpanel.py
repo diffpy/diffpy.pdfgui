@@ -37,10 +37,9 @@ class MyFrame(wx.Frame):
         # choke, treeCtrlMain.GetSelections() emulation
         self.window.treeCtrlMain = self.window
         self.window.treeCtrlMain.GetSelections = self.dummy_dict
-        #self.window.treeCtrlMain.GetBranchType = self.dummy_true
+        # self.window.treeCtrlMain.GetBranchType = self.dummy_true
         self.window.quitting = False
         self.test()
-
 
     def dummy(self, *args, **kwds):
         pass
@@ -51,10 +50,9 @@ class MyFrame(wx.Frame):
     def dummy_true(self, *args, **kwds):
         return True
 
-
     def test(self):
-        '''Testing code goes here'''
-        project = LoadProject(datafile('lcmo.ddp'))
+        """Testing code goes here"""
+        project = LoadProject(datafile("lcmo.ddp"))
         fstru = project.getPhases()[0]
         self.window.configuration = fstru
         self.window.results = fstru.refined
@@ -70,7 +68,7 @@ class MyApp(wx.App):
         return True
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     app = MyApp(0)
     app.MainLoop()
 

@@ -13,9 +13,9 @@
 #
 ##############################################################################
 
-'''Constants:
+"""Constants:
     __version__ -- full version of this PDFgui release
-'''
+"""
 
 
 from diffpy.pdfgui.version import __version__

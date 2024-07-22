@@ -23,6 +23,7 @@ from diffpy.pdfgui.control.pdfguicontrol import PDFGuiControl
 
 # ----------------------------------------------------------------------------
 
+
 class TestPDFGuiControl(unittest.TestCase):
     """test methods of PDFGuiControl"""
 
@@ -34,18 +35,18 @@ class TestPDFGuiControl(unittest.TestCase):
         del self.control
         return
 
-
     def test___init__(self):
         "check PDFGuiControl.__init__"
-        self.assertEqual('', self.control.journal)
+        self.assertEqual("", self.control.journal)
         self.assertIsNone(self.control.projfile)
         return
+
 
 # End of class TestPDFGuiControl
 
 # ----------------------------------------------------------------------------
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()
 
 # End of file

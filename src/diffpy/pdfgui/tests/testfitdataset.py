@@ -26,8 +26,8 @@ from diffpy.pdfgui.tests.testutils import datafile
 
 # ----------------------------------------------------------------------------
 
-class TestRoutines(unittest.TestCase):
 
+class TestRoutines(unittest.TestCase):
     def setUp(self):
         return
 
@@ -35,8 +35,7 @@ class TestRoutines(unittest.TestCase):
         return
 
     def test_grid_interpolation(self):
-        """check grid_interpolation()
-        """
+        """check grid_interpolation()"""
         x0 = numpy.arange(-5, 5, 0.25)
         y0 = numpy.sin(x0)
         x1 = [-6, x0[0], -0.2, x0[-1], 37]
@@ -69,128 +68,129 @@ class TestRoutines(unittest.TestCase):
         self.assertEqual(0, y4[2])
         return
 
+
 # End of class TestRoutines
 
 # ----------------------------------------------------------------------------
 
+
 class TestFitDataSet(unittest.TestCase):
 
-#   def setUp(self):
-#       return
-#
-#   def tearDown(self):
-#       return
-#
-#   def test___init__(self):
-#       """check FitDataSet.__init__()
-#       """
-#       return
-#
-#   def test___setattr__(self):
-#       """check FitDataSet.__setattr__()
-#       """
-#       return
-#
-#   def test___getattr__(self):
-#       """check FitDataSet.__getattr__()
-#       """
-#       return
-#
-#   def test__getStrId(self):
-#       """check FitDataSet._getStrId()
-#       """
-#       return
-#
-#   def test_getYNames(self):
-#       """check FitDataSet.getYNames()
-#       """
-#       return
-#
-#   def test_getXNames(self):
-#       """check FitDataSet.getXNames()
-#       """
-#       return
-#
-#   def test_getData(self):
-#       """check FitDataSet.getData()
-#       """
-#       return
-#
-#   def test_clear(self):
-#       """check FitDataSet.clear()
-#       """
-#       return
-#
-#   def test_clearRefined(self):
-#       """check FitDataSet.clearRefined()
-#       """
-#       return
-#
-#   def test_obtainRefined(self):
-#       """check FitDataSet.obtainRefined()
-#       """
-#       return
-#
-#   def test_read(self):
-#       """check FitDataSet.read()
-#       """
-#       return
-#
-#   def test__updateRcalcRange(self):
-#       """check FitDataSet._updateRcalcRange()
-#       """
-#       return
-#
-#   def test_readObs(self):
-#       """check FitDataSet.readObs()
-#       """
-#       return
-#
-#   def test_readStr(self):
-#       """check FitDataSet.readStr()
-#       """
-#       return
-#
-#   def test_readObsStr(self):
-#       """check FitDataSet.readObsStr()
-#       """
-#       return
-#
-#   def test_write(self):
-#       """check FitDataSet.write()
-#       """
-#       return
-#
-#   def test_writeCalc(self):
-#       """check FitDataSet.writeCalc()
-#       """
-#       return
-#
-#   def test_writeStr(self):
-#       """check FitDataSet.writeStr()
-#       """
-#       return
-#
-#   def test_writeCalcStr(self):
-#       """check FitDataSet.writeCalcStr()
-#       """
-#       return
-#
-#   def test_writeObs(self):
-#       """check FitDataSet.writeObs()
-#       """
-#       return
-#
-#   def test_writeObsStr(self):
-#       """check FitDataSet.writeObsStr()
-#       """
-#       return
+    #   def setUp(self):
+    #       return
+    #
+    #   def tearDown(self):
+    #       return
+    #
+    #   def test___init__(self):
+    #       """check FitDataSet.__init__()
+    #       """
+    #       return
+    #
+    #   def test___setattr__(self):
+    #       """check FitDataSet.__setattr__()
+    #       """
+    #       return
+    #
+    #   def test___getattr__(self):
+    #       """check FitDataSet.__getattr__()
+    #       """
+    #       return
+    #
+    #   def test__getStrId(self):
+    #       """check FitDataSet._getStrId()
+    #       """
+    #       return
+    #
+    #   def test_getYNames(self):
+    #       """check FitDataSet.getYNames()
+    #       """
+    #       return
+    #
+    #   def test_getXNames(self):
+    #       """check FitDataSet.getXNames()
+    #       """
+    #       return
+    #
+    #   def test_getData(self):
+    #       """check FitDataSet.getData()
+    #       """
+    #       return
+    #
+    #   def test_clear(self):
+    #       """check FitDataSet.clear()
+    #       """
+    #       return
+    #
+    #   def test_clearRefined(self):
+    #       """check FitDataSet.clearRefined()
+    #       """
+    #       return
+    #
+    #   def test_obtainRefined(self):
+    #       """check FitDataSet.obtainRefined()
+    #       """
+    #       return
+    #
+    #   def test_read(self):
+    #       """check FitDataSet.read()
+    #       """
+    #       return
+    #
+    #   def test__updateRcalcRange(self):
+    #       """check FitDataSet._updateRcalcRange()
+    #       """
+    #       return
+    #
+    #   def test_readObs(self):
+    #       """check FitDataSet.readObs()
+    #       """
+    #       return
+    #
+    #   def test_readStr(self):
+    #       """check FitDataSet.readStr()
+    #       """
+    #       return
+    #
+    #   def test_readObsStr(self):
+    #       """check FitDataSet.readObsStr()
+    #       """
+    #       return
+    #
+    #   def test_write(self):
+    #       """check FitDataSet.write()
+    #       """
+    #       return
+    #
+    #   def test_writeCalc(self):
+    #       """check FitDataSet.writeCalc()
+    #       """
+    #       return
+    #
+    #   def test_writeStr(self):
+    #       """check FitDataSet.writeStr()
+    #       """
+    #       return
+    #
+    #   def test_writeCalcStr(self):
+    #       """check FitDataSet.writeCalcStr()
+    #       """
+    #       return
+    #
+    #   def test_writeObs(self):
+    #       """check FitDataSet.writeObs()
+    #       """
+    #       return
+    #
+    #   def test_writeObsStr(self):
+    #       """check FitDataSet.writeObsStr()
+    #       """
+    #       return
 
     def test__resampledPDFDataSet(self):
-        """check FitDataSet._resampledPDFDataSet()
-        """
+        """check FitDataSet._resampledPDFDataSet()"""
         fNi_data = datafile("Ni_2-8.chi.gr")
-        fds = FitDataSet('Ni')
+        fds = FitDataSet("Ni")
         fds.read(fNi_data)
         npts = len(fds.rcalc)
         rds = fds._resampledPDFDataSet()
@@ -208,6 +208,7 @@ class TestFitDataSet(unittest.TestCase):
         self.assertEqual(npts1, len(rds1.Gobs))
         self.assertEqual(npts1, len(rds1.dGobs))
         return
+
 
 #   def test_writeResampledObs(self):
 #       """check FitDataSet.writeResampledObs()
@@ -378,7 +379,7 @@ class TestFitDataSet(unittest.TestCase):
 
 # ----------------------------------------------------------------------------
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()
 
 # End of file

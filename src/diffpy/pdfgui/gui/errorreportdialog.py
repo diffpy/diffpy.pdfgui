@@ -38,31 +38,48 @@ You can view current bug reports and feature requests at
 Discuss PDFgui and learn about new developments and features at
 <a href="{mlist}">{mlist}</a>.
 </p>
-""".format(issues=ISSUESTRACKER, mlist=USERSMAILINGLIST)
+""".format(
+    issues=ISSUESTRACKER, mlist=USERSMAILINGLIST
+)
 
-_MSG_FEATURE_REQUEST = """
+_MSG_FEATURE_REQUEST = (
+    """
 <p>
 Share you thoughts about PDFgui!
 </p>
-""" + _MSG_TRAILER
+"""
+    + _MSG_TRAILER
+)
 
-_MSG_ERROR_REPORT = """
+_MSG_ERROR_REPORT = (
+    """
 <p>
 PDFgui has encountered a problem.  We are sorry for the inconvenience.
 </p><p>
-""" + _MSG_TRAILER
+"""
+    + _MSG_TRAILER
+)
 
 # ----------------------------------------------------------------------------
+
 
 class ErrorReportDialog(wx.Dialog):
     def __init__(self, *args, **kwds):
         # begin wxGlade: ErrorReportDialog.__init__
-        kwds["style"] = kwds.get("style", 0) | wx.DEFAULT_DIALOG_STYLE | wx.MAXIMIZE_BOX | wx.MINIMIZE_BOX | wx.RESIZE_BORDER
+        kwds["style"] = (
+            kwds.get("style", 0)
+            | wx.DEFAULT_DIALOG_STYLE
+            | wx.MAXIMIZE_BOX
+            | wx.MINIMIZE_BOX
+            | wx.RESIZE_BORDER
+        )
         wx.Dialog.__init__(self, *args, **kwds)
         self.SetSize((540, 600))
         self.label_header = wx.html.HtmlWindow(self, wx.ID_ANY)
         self.label_log = wx.StaticText(self, wx.ID_ANY, "Error Log:")
-        self.text_ctrl_log = wx.TextCtrl(self, wx.ID_ANY, "", style=wx.TE_MULTILINE | wx.TE_READONLY)
+        self.text_ctrl_log = wx.TextCtrl(
+            self, wx.ID_ANY, "", style=wx.TE_MULTILINE | wx.TE_READONLY
+        )
         self.static_line_1 = wx.StaticLine(self, wx.ID_ANY)
         self.button_google = wx.Button(self, wx.ID_ANY, "Google This Error")
         self.button_copyErrorLog = wx.Button(self, wx.ID_ANY, "Copy Error Log")
@@ -94,7 +111,9 @@ class ErrorReportDialog(wx.Dialog):
         sizer_log.Add(self.label_log, 0, wx.EXPAND | wx.LEFT | wx.RIGHT | wx.TOP, 5)
         sizer_log.Add(self.text_ctrl_log, 1, wx.EXPAND | wx.LEFT | wx.RIGHT, 5)
         sizer_main.Add(sizer_log, 3, wx.EXPAND | wx.LEFT | wx.RIGHT | wx.TOP, 10)
-        sizer_main.Add(self.static_line_1, 0, wx.EXPAND | wx.LEFT | wx.RIGHT | wx.TOP, 5)
+        sizer_main.Add(
+            self.static_line_1, 0, wx.EXPAND | wx.LEFT | wx.RIGHT | wx.TOP, 5
+        )
         sizer_buttons.Add((20, 20), 1, 0, 0)
         sizer_buttons.Add(self.button_google, 0, wx.ALL, 5)
         sizer_buttons.Add(self.button_copyErrorLog, 0, wx.ALL, 5)
@@ -116,7 +135,7 @@ class ErrorReportDialog(wx.Dialog):
         if self.text_ctrl_log.GetValue().strip() == "":
             self.SetTitle("Feature Request / Bug Report")
             self.label_header.SetPage(_MSG_FEATURE_REQUEST)
-            self.label_header.SetBackgroundColour('')
+            self.label_header.SetBackgroundColour("")
             self.label_log.Hide()
             self.text_ctrl_log.Hide()
             self.button_google.Hide()
@@ -126,7 +145,7 @@ class ErrorReportDialog(wx.Dialog):
         else:
             self.SetTitle("Problem Report for PDFgui")
             self.label_header.SetPage(_MSG_ERROR_REPORT)
-            self.label_header.SetBackgroundColour('')
+            self.label_header.SetBackgroundColour("")
             self.text_ctrl_log.Show()
             self.errorReport = True
 
@@ -140,6 +159,7 @@ class ErrorReportDialog(wx.Dialog):
         error message extracted from exception traceback.
         """
         from six.moves.urllib.parse import quote_plus
+
         traceback = self.text_ctrl_log.GetValue()
         terms = _extractSearchTerms(traceback)
         str_to_search = " ".join(terms) if terms else traceback.strip()
@@ -165,9 +185,11 @@ class ErrorReportDialog(wx.Dialog):
         link = event.GetLinkInfo()
         webbrowser.open(link.GetHref())
 
+
 # end of class ErrorReportDialog
 
 # Helper functions -----------------------------------------------------------
+
 
 def _extractSearchTerms(tbtext):
     """
@@ -185,13 +207,14 @@ def _extractSearchTerms(tbtext):
     """
     # extract module names and function names from a traceback
     modfncpairs = re.findall(
-        r'File.*?([^/\\]*[.]py).*?, line \d+, in (\w+)',
-        tbtext, re.MULTILINE)
+        r"File.*?([^/\\]*[.]py).*?, line \d+, in (\w+)", tbtext, re.MULTILINE
+    )
     modfnc = list(sum(modfncpairs, ()))
     # find the last line starting with "SomeError: ...".
-    lasterr = re.findall(r'^\w+Error:.*', tbtext, re.MULTILINE)
+    lasterr = re.findall(r"^\w+Error:.*", tbtext, re.MULTILINE)
     rv = modfnc + lasterr[-1:]
     return rv
+
 
 ##### testing code ############################################################
 
@@ -206,6 +229,7 @@ Traceback (most recent call last):
 UnicodeDecodeError: 'ascii' codec can't decode byte 0xb0 in position 115: ordinal not in range(128)
 """.strip()
 
+
 class MyApp(wx.App):
     def OnInit(self):
         self.dialog = ErrorReportDialog(None, -1, "")
@@ -216,9 +240,10 @@ class MyApp(wx.App):
         return True
 
     def test(self):
-        '''Testing code goes here.'''
+        """Testing code goes here."""
         self.dialog.text_ctrl_log.SetValue(_EXAMPLE_TRACEBACK)
         return
+
 
 # end of class MyApp
 

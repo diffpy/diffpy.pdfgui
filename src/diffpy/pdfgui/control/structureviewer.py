@@ -27,15 +27,14 @@ from diffpy.pdfgui.control.controlerrors import ControlConfigError
 
 
 def getStructureViewer():
-    """Factory returning singleton instance of the StructureViewer class.
-    """
+    """Factory returning singleton instance of the StructureViewer class."""
     global _struviewer
     if _struviewer is None:
         _struviewer = StructureViewer()
     return _struviewer
 
-_struviewer = None
 
+_struviewer = None
 
 
 class StructureViewer(object):
@@ -62,7 +61,6 @@ class StructureViewer(object):
     _plotcount -- Number of plots created by this viewer.
     """
 
-
     def __init__(self, executable=None, argstr=None, fileformat=None):
         """Create StructureViewer instance.  All arguments are optional,
         they override defaults described in class docstring.  The
@@ -76,9 +74,9 @@ class StructureViewer(object):
         fileformat -- structure format supported by diffpy.structure package.
         """
         # declare instance data
-        self.executable = ''
-        self.argstr = '%s'
-        self.fileformat = 'pdb'
+        self.executable = ""
+        self.argstr = "%s"
+        self.fileformat = "pdb"
         self._tmpdir = None
         self._plotcount = 0
         # process arguments:
@@ -91,18 +89,16 @@ class StructureViewer(object):
         # finish every method with return
         return
 
-
     def getConfig(self):
         """Return current configuration of StructureViewer instance.
 
         Returns new dictionary with the following keys:
         ('executable', 'argstr', 'fileformat')
         """
-        cfgkeys = ('executable', 'argstr', 'fileformat')
+        cfgkeys = ("executable", "argstr", "fileformat")
         kv = [(k, getattr(self, k)) for k in cfgkeys]
         rv = dict(kv)
         return rv
-
 
     def setConfig(self, cfg):
         """Configure StructureViewer instance using values in a dictionary.
@@ -114,17 +110,17 @@ class StructureViewer(object):
         """
         # iterate over keys from getConfig dictionary
         for k in self.getConfig():
-            if k in cfg:  setattr(self, k, cfg[k])
+            if k in cfg:
+                setattr(self, k, cfg[k])
         return
 
-
     def getFileFormats():
-        """Return list of valid values for the fileformat attribute.
-        """
+        """Return list of valid values for the fileformat attribute."""
         from diffpy.structure.parsers import outputFormats
-        return outputFormats()
-    getFileFormats = staticmethod(getFileFormats)
 
+        return outputFormats()
+
+    getFileFormats = staticmethod(getFileFormats)
 
     def plot(self, stru):
         """Launch new structure viewer and open a temporary copy of stru.
@@ -135,6 +131,7 @@ class StructureViewer(object):
         Raise ControlConfigError if structure viewer could not be launched.
         """
         import subprocess
+
         # check if executable has been set
         if not self.executable:
             emsg = "StructureViewer program has not been set."
@@ -145,24 +142,23 @@ class StructureViewer(object):
         try:
             subprocess.Popen(args)
         except OSError as err:
-            emsg = ('Error executing StructureViewer %s: %s' %
-                    (self.executable, err))
+            emsg = "Error executing StructureViewer %s: %s" % (self.executable, err)
             raise ControlConfigError(emsg)
         return
 
-
     def __del__(self):
-        """Remove temporary files created by this instance of StructureViewer.
-        """
+        """Remove temporary files created by this instance of StructureViewer."""
         # short circuit if nothing has been created
-        if self._tmpdir is None:    return
+        if self._tmpdir is None:
+            return
         # Function for showing unremovable files
         def onerror(fnc, path, error):
-            print(('Cannot remove %s - %s' % (path, error)), file=sys.stderr)
+            print(("Cannot remove %s - %s" % (path, error)), file=sys.stderr)
             return
+
         # For safety remove _tmpdir subdirectories by their names
         for i in range(self._plotcount):
-            di = os.path.join(self._tmpdir, '%04i' % i)
+            di = os.path.join(self._tmpdir, "%04i" % i)
             shutil.rmtree(di, True, onerror)
         # finally remove _tmpdir, which should now be empty
         try:
@@ -171,7 +167,6 @@ class StructureViewer(object):
             onerror(None, self._tmpdir, err)
             pass
         return
-
 
     def _getArgumentList(self, strupath):
         """Convert self.argstr to a list of string arguments.
@@ -183,19 +178,19 @@ class StructureViewer(object):
         """
         import shlex
         import re
+
         # make sure shlex.split is not called with None, because
         # it would read standard input
-        s = self.argstr and self.argstr or ''
+        s = self.argstr and self.argstr or ""
         args = shlex.split(s)
         # substitute strupath in args using % operator
-        pat = re.compile(r'(?<!%)(%%)*%s')
+        pat = re.compile(r"(?<!%)(%%)*%s")
         for i, a in enumerate(args):
             # count instances of '%s' in argument a
             cnt = len(pat.findall(a))
             tpl = cnt * (strupath,)
             args[i] = a % tpl
         return args
-
 
     def _writeTemporaryStructure(self, stru):
         """Create new temporary structure file in specified fileformat.
@@ -206,19 +201,19 @@ class StructureViewer(object):
         """
         # get extension preferred by fileformat
         from diffpy.structure.parsers import parser_index
-        ffext = parser_index[self.fileformat]['file_extension']
+
+        ffext = parser_index[self.fileformat]["file_extension"]
         d = self._createTemporaryDirectory()
         # Use a simple file name to avoid naming errors. It is common to put
         # the space group name, such as "C2\m" in the structure title. This
         # may lead to invalid posix file names.
-        strutail = 'structure' + os.path.basename(d)
+        strutail = "structure" + os.path.basename(d)
         struext = os.path.splitext(strutail)[-1]
         if struext.lower() != ffext.lower():
             strutail += ffext
         strupath = os.path.join(d, strutail)
         stru.write(strupath, format=self.fileformat)
         return strupath
-
 
     def _createTemporaryDirectory(self):
         """Create new numbered temporary directory below self._tmpdir.

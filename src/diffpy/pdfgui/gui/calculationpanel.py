@@ -21,6 +21,7 @@ from diffpy.pdfgui.gui.wxextensions.validators import TextValidator, FLOAT_ONLY
 from diffpy.pdfgui.gui.wxextensions.textctrlutils import textCtrlAsGridCell
 from diffpy.pdfgui.gui.pdfpanel import PDFPanel
 
+
 class CalculationPanel(wx.Panel, PDFPanel):
     def __init__(self, *args, **kwds):
         PDFPanel.__init__(self)
@@ -33,16 +34,38 @@ class CalculationPanel(wx.Panel, PDFPanel):
         outerSizer = wx.BoxSizer(wx.VERTICAL)
         sizer_1.Add(outerSizer, 1, wx.EXPAND, 0)
 
-        sizer_panelname = wx.StaticBoxSizer(wx.StaticBox(self, wx.ID_ANY, ""), wx.HORIZONTAL)
+        sizer_panelname = wx.StaticBoxSizer(
+            wx.StaticBox(self, wx.ID_ANY, ""), wx.HORIZONTAL
+        )
         outerSizer.Add(sizer_panelname, 0, wx.EXPAND | wx.LEFT | wx.RIGHT, 5)
 
-        self.panelNameLabel = wx.StaticText(self, wx.ID_ANY, "Calculation Configuration")
-        self.panelNameLabel.SetFont(wx.Font(18, wx.FONTFAMILY_DEFAULT, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_BOLD, 0, ""))
-        sizer_panelname.Add(self.panelNameLabel, 0, wx.ALIGN_CENTER_VERTICAL | wx.LEFT | wx.RIGHT, 5)
+        self.panelNameLabel = wx.StaticText(
+            self, wx.ID_ANY, "Calculation Configuration"
+        )
+        self.panelNameLabel.SetFont(
+            wx.Font(
+                18,
+                wx.FONTFAMILY_DEFAULT,
+                wx.FONTSTYLE_NORMAL,
+                wx.FONTWEIGHT_BOLD,
+                0,
+                "",
+            )
+        )
+        sizer_panelname.Add(
+            self.panelNameLabel, 0, wx.ALIGN_CENTER_VERTICAL | wx.LEFT | wx.RIGHT, 5
+        )
 
         outerSizer.Add((450, 5), 0, 0, 0)
 
-        self.radioBoxStype = wx.RadioBox(self, wx.ID_ANY, "Scatterer Type", choices=["Neutron", "X-ray"], majorDimension=2, style=wx.RA_SPECIFY_COLS)
+        self.radioBoxStype = wx.RadioBox(
+            self,
+            wx.ID_ANY,
+            "Scatterer Type",
+            choices=["Neutron", "X-ray"],
+            majorDimension=2,
+            style=wx.RA_SPECIFY_COLS,
+        )
         self.radioBoxStype.SetMinSize((330, 43))
         self.radioBoxStype.SetSelection(0)
         outerSizer.Add(self.radioBoxStype, 0, wx.ALL, 5)
@@ -50,32 +73,54 @@ class CalculationPanel(wx.Panel, PDFPanel):
         grid_sizer_1 = wx.FlexGridSizer(4, 6, 5, 10)
         outerSizer.Add(grid_sizer_1, 0, wx.ALL | wx.EXPAND, 5)
 
-        self.labelCalcRange = wx.StaticText(self, wx.ID_ANY, "Range", style=wx.ALIGN_RIGHT)
-        grid_sizer_1.Add(self.labelCalcRange, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALIGN_RIGHT | wx.LEFT, 5)
+        self.labelCalcRange = wx.StaticText(
+            self, wx.ID_ANY, "Range", style=wx.ALIGN_RIGHT
+        )
+        grid_sizer_1.Add(
+            self.labelCalcRange,
+            0,
+            wx.ALIGN_CENTER_VERTICAL | wx.ALIGN_RIGHT | wx.LEFT,
+            5,
+        )
 
         self.textCtrlCalcFrom = wx.TextCtrl(self, wx.ID_ANY, "1.0")
         grid_sizer_1.Add(self.textCtrlCalcFrom, 0, wx.ALIGN_CENTER_VERTICAL, 0)
 
         self.labelTo = wx.StaticText(self, wx.ID_ANY, "to", style=wx.ALIGN_RIGHT)
-        grid_sizer_1.Add(self.labelTo, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALIGN_RIGHT | wx.LEFT, 20)
+        grid_sizer_1.Add(
+            self.labelTo, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALIGN_RIGHT | wx.LEFT, 20
+        )
 
         self.textCtrlCalcTo = wx.TextCtrl(self, wx.ID_ANY, "10.0")
         grid_sizer_1.Add(self.textCtrlCalcTo, 0, wx.ALIGN_CENTER_VERTICAL, 0)
 
-        self.labelRStep = wx.StaticText(self, wx.ID_ANY, "spacing", style=wx.ALIGN_RIGHT)
-        grid_sizer_1.Add(self.labelRStep, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALIGN_RIGHT | wx.LEFT, 5)
+        self.labelRStep = wx.StaticText(
+            self, wx.ID_ANY, "spacing", style=wx.ALIGN_RIGHT
+        )
+        grid_sizer_1.Add(
+            self.labelRStep, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALIGN_RIGHT | wx.LEFT, 5
+        )
 
         self.textCtrlRStep = wx.TextCtrl(self, wx.ID_ANY, "0.01")
         grid_sizer_1.Add(self.textCtrlRStep, 0, wx.ALIGN_CENTER_VERTICAL, 0)
 
-        self.labelScaleFactor = wx.StaticText(self, wx.ID_ANY, "Scale Factor", style=wx.ALIGN_RIGHT)
-        grid_sizer_1.Add(self.labelScaleFactor, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALIGN_RIGHT | wx.LEFT, 5)
+        self.labelScaleFactor = wx.StaticText(
+            self, wx.ID_ANY, "Scale Factor", style=wx.ALIGN_RIGHT
+        )
+        grid_sizer_1.Add(
+            self.labelScaleFactor,
+            0,
+            wx.ALIGN_CENTER_VERTICAL | wx.ALIGN_RIGHT | wx.LEFT,
+            5,
+        )
 
         self.textCtrlScaleFactor = wx.TextCtrl(self, wx.ID_ANY, "1.0")
         grid_sizer_1.Add(self.textCtrlScaleFactor, 0, wx.ALIGN_CENTER_VERTICAL, 0)
 
         self.labelQmax = wx.StaticText(self, wx.ID_ANY, "Qmax", style=wx.ALIGN_RIGHT)
-        grid_sizer_1.Add(self.labelQmax, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALIGN_RIGHT | wx.LEFT, 20)
+        grid_sizer_1.Add(
+            self.labelQmax, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALIGN_RIGHT | wx.LEFT, 20
+        )
 
         self.textCtrlQmax = wx.TextCtrl(self, wx.ID_ANY, "25.0")
         grid_sizer_1.Add(self.textCtrlQmax, 0, wx.ALIGN_CENTER_VERTICAL, 0)
@@ -87,13 +132,19 @@ class CalculationPanel(wx.Panel, PDFPanel):
         grid_sizer_1.Add(self.label_1_copy, 0, 0, 0)
 
         self.labelQdamp = wx.StaticText(self, wx.ID_ANY, "Qdamp", style=wx.ALIGN_RIGHT)
-        grid_sizer_1.Add(self.labelQdamp, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALIGN_RIGHT | wx.LEFT, 5)
+        grid_sizer_1.Add(
+            self.labelQdamp, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALIGN_RIGHT | wx.LEFT, 5
+        )
 
         self.textCtrlQdamp = wx.TextCtrl(self, wx.ID_ANY, "0.0")
         grid_sizer_1.Add(self.textCtrlQdamp, 0, wx.ALIGN_CENTER_VERTICAL, 0)
 
-        self.labelQbroad = wx.StaticText(self, wx.ID_ANY, "Qbroad", style=wx.ALIGN_RIGHT)
-        grid_sizer_1.Add(self.labelQbroad, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALIGN_RIGHT | wx.LEFT, 5)
+        self.labelQbroad = wx.StaticText(
+            self, wx.ID_ANY, "Qbroad", style=wx.ALIGN_RIGHT
+        )
+        grid_sizer_1.Add(
+            self.labelQbroad, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALIGN_RIGHT | wx.LEFT, 5
+        )
 
         self.textCtrlQbroad = wx.TextCtrl(self, wx.ID_ANY, "0.0")
         grid_sizer_1.Add(self.textCtrlQbroad, 0, wx.ALIGN_CENTER_VERTICAL, 0)
@@ -131,16 +182,17 @@ class CalculationPanel(wx.Panel, PDFPanel):
         """Set up the custom properites."""
         self._focusedText = None
         self.calculation = None
-        self.stypeMap = {0: 'N', 1: 'X'}
+        self.stypeMap = {0: "N", 1: "X"}
 
-        self.ctrlMap = {'rmin'       :   'textCtrlCalcFrom',
-                        'rmax'       :   'textCtrlCalcTo',
-                        'qmax'       :   'textCtrlQmax',
-                        'qdamp'      :   'textCtrlQdamp',
-                        'qbroad'     :   'textCtrlQbroad',
-                        'rstep'      :   'textCtrlRStep',
-                        'dscale'     :   'textCtrlScaleFactor',
-                        }
+        self.ctrlMap = {
+            "rmin": "textCtrlCalcFrom",
+            "rmax": "textCtrlCalcTo",
+            "qmax": "textCtrlQmax",
+            "qdamp": "textCtrlQdamp",
+            "qbroad": "textCtrlQbroad",
+            "rstep": "textCtrlRStep",
+            "dscale": "textCtrlScaleFactor",
+        }
 
         # Give each textCtrl a name that can be referenced and setup the
         # validator
@@ -175,9 +227,9 @@ class CalculationPanel(wx.Panel, PDFPanel):
         if self.calculation:
             stype = self.calculation.stype
 
-            if stype == 'N':
+            if stype == "N":
                 self.radioBoxStype.SetSelection(0)
-            elif stype == 'X':
+            elif stype == "X":
                 self.radioBoxStype.SetSelection(1)
 
         for (key, value) in self.ctrlMap.items():
@@ -188,27 +240,30 @@ class CalculationPanel(wx.Panel, PDFPanel):
             if value is not None:
                 textCtrl.SetValue(str(value))
             else:
-                textCtrl.SetValue('0.0')
+                textCtrl.SetValue("0.0")
         return
 
     def __coerseText(self, value):
         if not value:
-            value = '0'
-        if value[-1].lower() in ('-', 'e'):
-            value += '0'
+            value = "0"
+        if value[-1].lower() in ("-", "e"):
+            value += "0"
         return float(value)
+
     # EVENT CODE #############################################################
 
-    def onStype(self, event): # wxGlade: CalculationPanel.<event_handler>
+    def onStype(self, event):  # wxGlade: CalculationPanel.<event_handler>
         value = event.GetInt()
         self.calculation.stype = self.stypeMap[value]
         self.mainFrame.needsSave()
         return
 
-    def onCalcRange(self, event): # wxGlade: CalculationPanel.<event_handler>
+    def onCalcRange(self, event):  # wxGlade: CalculationPanel.<event_handler>
         event.Skip()
-        if self.calculation is None: return
+        if self.calculation is None:
+            return
         from diffpy.pdfgui.control.controlerrors import ControlValueError
+
         # Since calculation.rmax gets adjusted by setRGrid,
         # always obtain all range parameters.
         rminvalue = self.textCtrlCalcFrom.GetValue()
@@ -252,7 +307,7 @@ class CalculationPanel(wx.Panel, PDFPanel):
         event.Skip()
         return
 
-    def onExport(self, event): # wxGlade: CalculationPanel.<event_handler>
+    def onExport(self, event):  # wxGlade: CalculationPanel.<event_handler>
         event.Skip()
 
     # Methods overloaded from PDFPanel
@@ -260,5 +315,6 @@ class CalculationPanel(wx.Panel, PDFPanel):
         """Refresh the panel."""
         self.setConfigurationData()
         return
+
 
 # end of class CalculationPanel

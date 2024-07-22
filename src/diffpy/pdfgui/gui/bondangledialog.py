@@ -18,13 +18,16 @@
 import wx
 from diffpy.pdfgui.gui.pdfpanel import PDFPanel
 
+
 class BondAngleDialog(wx.Dialog, PDFPanel):
     def __init__(self, *args, **kwds):
         PDFPanel.__init__(self)
         kwds["style"] = wx.DEFAULT_DIALOG_STYLE
         wx.Dialog.__init__(self, *args, **kwds)
         self.sizer_2_staticbox = wx.StaticBox(self, -1, "Bond Angle Calculation")
-        self.instructionsLabel = wx.StaticText(self, -1, "Calculate the angle defined by three atoms.")
+        self.instructionsLabel = wx.StaticText(
+            self, -1, "Calculate the angle defined by three atoms."
+        )
         self.atomsLabel = wx.StaticText(self, -1, "Atom Indices")
         self.aSpinCtrl = wx.SpinCtrl(self, -1, "1", min=1, max=1)
         self.bSpinCtrl = wx.SpinCtrl(self, -1, "1", min=1, max=1)
@@ -53,17 +56,24 @@ class BondAngleDialog(wx.Dialog, PDFPanel):
         sizer_4_copy = wx.BoxSizer(wx.HORIZONTAL)
         sizer_4 = wx.BoxSizer(wx.HORIZONTAL)
         sizer_3 = wx.BoxSizer(wx.HORIZONTAL)
-        sizer_2.Add(self.instructionsLabel, 0, wx.ALL|wx.ALIGN_CENTER_VERTICAL|wx.ADJUST_MINSIZE, 5)
+        sizer_2.Add(
+            self.instructionsLabel,
+            0,
+            wx.ALL | wx.ALIGN_CENTER_VERTICAL | wx.ADJUST_MINSIZE,
+            5,
+        )
         sizer_2.Add(sizer_3, 0, wx.EXPAND, 0)
-        sizer_4.Add(self.atomsLabel, 0, wx.ALL|wx.ALIGN_CENTER_VERTICAL|wx.ADJUST_MINSIZE, 5)
-        sizer_4.Add(self.aSpinCtrl, 0, wx.ALL|wx.ADJUST_MINSIZE, 5)
-        sizer_4.Add(self.bSpinCtrl, 0, wx.ALL|wx.ADJUST_MINSIZE, 5)
-        sizer_4.Add(self.cSpinCtrl, 0, wx.ALL|wx.ADJUST_MINSIZE, 5)
+        sizer_4.Add(
+            self.atomsLabel, 0, wx.ALL | wx.ALIGN_CENTER_VERTICAL | wx.ADJUST_MINSIZE, 5
+        )
+        sizer_4.Add(self.aSpinCtrl, 0, wx.ALL | wx.ADJUST_MINSIZE, 5)
+        sizer_4.Add(self.bSpinCtrl, 0, wx.ALL | wx.ADJUST_MINSIZE, 5)
+        sizer_4.Add(self.cSpinCtrl, 0, wx.ALL | wx.ADJUST_MINSIZE, 5)
         sizer_2.Add(sizer_4, 0, wx.EXPAND, 0)
         sizer_2.Add(self.static_line_1, 0, wx.EXPAND, 0)
-        sizer_4_copy.Add((0, 0), 1, wx.EXPAND|wx.ADJUST_MINSIZE, 0)
-        sizer_4_copy.Add(self.cancelButton, 0, wx.ALL|wx.ADJUST_MINSIZE, 5)
-        sizer_4_copy.Add(self.okButton, 0, wx.ALL|wx.ADJUST_MINSIZE, 5)
+        sizer_4_copy.Add((0, 0), 1, wx.EXPAND | wx.ADJUST_MINSIZE, 0)
+        sizer_4_copy.Add(self.cancelButton, 0, wx.ALL | wx.ADJUST_MINSIZE, 5)
+        sizer_4_copy.Add(self.okButton, 0, wx.ALL | wx.ADJUST_MINSIZE, 5)
         sizer_2.Add(sizer_4_copy, 0, wx.EXPAND, 0)
         self.SetAutoLayout(True)
         self.SetSizer(sizer_2)
@@ -71,7 +81,6 @@ class BondAngleDialog(wx.Dialog, PDFPanel):
         sizer_2.SetSizeHints(self)
         self.Layout()
         # end wxGlade
-
 
     ###########################################################################
 
@@ -92,9 +101,9 @@ class BondAngleDialog(wx.Dialog, PDFPanel):
         self.aSpinCtrl.SetRange(1, natoms)
         self.bSpinCtrl.SetRange(1, natoms)
         self.cSpinCtrl.SetRange(1, natoms)
-        self.aSpinCtrl.SetValue(min(1,natoms))
-        self.bSpinCtrl.SetValue(min(2,natoms))
-        self.cSpinCtrl.SetValue(min(3,natoms))
+        self.aSpinCtrl.SetValue(min(1, natoms))
+        self.bSpinCtrl.SetValue(min(2, natoms))
+        self.cSpinCtrl.SetValue(min(3, natoms))
         self.okButton.Enable(True)
         if natoms < 3:
             self.okButton.Enable(False)
@@ -102,8 +111,10 @@ class BondAngleDialog(wx.Dialog, PDFPanel):
 
     def getCtrlLetter(self, ctrl):
         """Get the letter associated with the control."""
-        if ctrl is self.aSpinCtrl: return "a"
-        if ctrl is self.bSpinCtrl: return "b"
+        if ctrl is self.aSpinCtrl:
+            return "a"
+        if ctrl is self.bSpinCtrl:
+            return "b"
         return "c"
 
     def onSpin(self, event):
@@ -120,7 +131,8 @@ class BondAngleDialog(wx.Dialog, PDFPanel):
         # Check to see if the value is increasing or decreasing
         increasing = True
         oldval = getattr(self, atomLetter)
-        if val < oldval: increasing = False
+        if val < oldval:
+            increasing = False
 
         # Check to see if the value is equal to another. If so, move it along in
         # the direction it was going.
@@ -146,13 +158,13 @@ class BondAngleDialog(wx.Dialog, PDFPanel):
             wx.CallAfter(ctrl.SetValue, oldval)
         return
 
-
     def onOk(self, event):
         event.Skip()
         return
 
-    def onCancel(self, event): # wxGlade: SGStructureDialog.<event_handler>
+    def onCancel(self, event):  # wxGlade: SGStructureDialog.<event_handler>
         event.Skip()
         return
+
 
 # end of class SGStructureDialog

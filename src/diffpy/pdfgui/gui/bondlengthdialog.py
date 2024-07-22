@@ -22,6 +22,7 @@ from diffpy.pdfgui.gui.wxextensions.validators import TextValidator, FLOAT_ONLY
 # begin wxGlade: extracode
 # end wxGlade
 
+
 class BondLengthDialog(wx.Dialog):
     def __init__(self, *args, **kwds):
         # begin wxGlade: BondLengthDialog.__init__
@@ -31,7 +32,9 @@ class BondLengthDialog(wx.Dialog):
 
         sizer_2 = wx.StaticBoxSizer(wx.StaticBox(self, wx.ID_ANY, ""), wx.VERTICAL)
 
-        self.instructionsLabel = wx.StaticText(self, wx.ID_ANY, "Enter the indices of two atoms.")
+        self.instructionsLabel = wx.StaticText(
+            self, wx.ID_ANY, "Enter the indices of two atoms."
+        )
         sizer_2.Add(self.instructionsLabel, 0, wx.ALL, 5)
 
         sizer_3 = wx.BoxSizer(wx.HORIZONTAL)
@@ -51,7 +54,11 @@ class BondLengthDialog(wx.Dialog):
         self.static_line_2 = wx.StaticLine(self, wx.ID_ANY)
         sizer_2.Add(self.static_line_2, 0, wx.BOTTOM | wx.EXPAND, 5)
 
-        self.instructionsLabel2 = wx.StaticText(self, wx.ID_ANY, "Or enter the elemental symbols of two atoms and\nthe range over which to calculate the bond lengths.")
+        self.instructionsLabel2 = wx.StaticText(
+            self,
+            wx.ID_ANY,
+            "Or enter the elemental symbols of two atoms and\nthe range over which to calculate the bond lengths.",
+        )
         sizer_2.Add(self.instructionsLabel2, 0, wx.ALL, 5)
 
         sizer_4 = wx.BoxSizer(wx.HORIZONTAL)
@@ -148,8 +155,8 @@ class BondLengthDialog(wx.Dialog):
         # Fill the spin controls
         self.aSpinCtrl.SetRange(1, natoms)
         self.bSpinCtrl.SetRange(1, natoms)
-        self.aSpinCtrl.SetValue(min(1,natoms))
-        self.bSpinCtrl.SetValue(min(2,natoms))
+        self.aSpinCtrl.SetValue(min(1, natoms))
+        self.bSpinCtrl.SetValue(min(2, natoms))
 
         # Fill the combo boxes
         self.eList = sorted(set(a.element for a in structure))
@@ -189,10 +196,11 @@ class BondLengthDialog(wx.Dialog):
 
     def getCtrlLetter(self, ctrl):
         """Get the letter associated with the control."""
-        if ctrl is self.aSpinCtrl: return "a"
+        if ctrl is self.aSpinCtrl:
+            return "a"
         return "b"
 
-    def onSpin(self, event): # wxGlade: BondLengthDialog.<event_handler>
+    def onSpin(self, event):  # wxGlade: BondLengthDialog.<event_handler>
         letters = ["a", "b"]
         ctrl = event.GetEventObject()
         val = event.GetSelection()
@@ -202,7 +210,8 @@ class BondLengthDialog(wx.Dialog):
         # Check to see if the value is increasing or decreasing
         increasing = True
         oldval = getattr(self, atomLetter)
-        if val < oldval: increasing = False
+        if val < oldval:
+            increasing = False
 
         # Check to see if the value is equal to another. If so, move it along in
         # the direction it was going.
@@ -228,10 +237,10 @@ class BondLengthDialog(wx.Dialog):
             wx.CallAfter(ctrl.SetValue, oldval)
         return
 
-    def onCancel(self, event): # wxGlade: BondLengthDialog.<event_handler>
+    def onCancel(self, event):  # wxGlade: BondLengthDialog.<event_handler>
         event.Skip()
 
-    def onOk(self, event): # wxGlade: BondLengthDialog.<event_handler>
+    def onOk(self, event):  # wxGlade: BondLengthDialog.<event_handler>
         self.onTextKillFocus(event)
         self.onComboKillFocus(event)
         event.Skip()

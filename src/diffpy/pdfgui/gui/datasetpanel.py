@@ -22,6 +22,7 @@ from diffpy.pdfgui.gui.datasetconstraintpanel import DataSetConstraintPanel
 from diffpy.pdfgui.gui.datasetresultspanel import DataSetResultsPanel
 from diffpy.pdfgui.gui.pdfpanel import PDFPanel
 
+
 class DataSetPanel(wx.Panel, PDFPanel):
     def __init__(self, *args, **kwds):
         PDFPanel.__init__(self)
@@ -39,7 +40,9 @@ class DataSetPanel(wx.Panel, PDFPanel):
         self.__set_properties()
         self.__do_layout()
 
-        self.Bind(wx.EVT_NOTEBOOK_PAGE_CHANGED, self.onNotebookChanged, self.dataSetNotebook)
+        self.Bind(
+            wx.EVT_NOTEBOOK_PAGE_CHANGED, self.onNotebookChanged, self.dataSetNotebook
+        )
         # end wxGlade
         self.__customProperties()
 
@@ -95,9 +98,9 @@ class DataSetPanel(wx.Panel, PDFPanel):
 
     def refreshSelectedPage(self):
         """Refresh the panel corresponding to the currently selected page."""
-        #self.configurePanel.refresh()
-        #self.constraintPanel.refresh()
-        #self.resultsPanel.refresh()
+        # self.configurePanel.refresh()
+        # self.constraintPanel.refresh()
+        # self.resultsPanel.refresh()
         id = self.dataSetNotebook.GetCurrentPage().GetId()
         if id == self.configurePage.GetId():
             self.configurePanel.refresh()
@@ -109,13 +112,13 @@ class DataSetPanel(wx.Panel, PDFPanel):
 
     # EVENT CODE #############################################################
 
-    def onNotebookChanged(self, event): # wxGlade: DataSetPanel.<event_handler>
+    def onNotebookChanged(self, event):  # wxGlade: DataSetPanel.<event_handler>
         """Refresh the selected panel."""
         self.refreshSelectedPage()
         return
 
     # Overloaded from Panel.
-    def Enable(self, enable = True):
+    def Enable(self, enable=True):
         """Keep the notebook enabled, just not the panels."""
         self.configurePanel.Enable(enable)
         self.constraintPanel.Enable(enable)

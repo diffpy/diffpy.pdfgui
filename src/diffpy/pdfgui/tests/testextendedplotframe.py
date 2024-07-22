@@ -29,8 +29,8 @@ from diffpy.pdfgui.tests.testutils import GUITestCase, overridefiledialog
 
 # ----------------------------------------------------------------------------
 
-class TestExtendedPlotFrame(GUITestCase):
 
+class TestExtendedPlotFrame(GUITestCase):
     def setUp(self):
         self.app = wx.App()
         self.frame = ExtendedPlotFrame(None)
@@ -46,35 +46,33 @@ class TestExtendedPlotFrame(GUITestCase):
         self.frame.toolbar.ProcessEvent(e)
         return
 
-
     def test_insertCurve(self):
         "Check ExtendedPlotFrame.insertCurve"
         x = numpy.linspace(-5, 5)
         ys = numpy.sin(x)
-        style = {'with': 'lines', 'color': 'blue',
-                 'line': 'solid', 'width': 2.3}
+        style = {"with": "lines", "color": "blue", "line": "solid", "width": 2.3}
         line = self.frame.insertCurve(x, ys, style)
         self.assertEqual(2.3, line.get_linewidth())
         return
 
-
     def test_savePlotData(self):
         self.frame.plotter = Plotter()
         # intercept plotter.export to avoid plot setup and temporary files
-        self.frame.plotter.export = lambda fn: setattr(self, 'spd', fn)
-        self.spd = ''
-        with overridefiledialog(wx.ID_OK, ['testfile.dat']):
+        self.frame.plotter.export = lambda fn: setattr(self, "spd", fn)
+        self.spd = ""
+        with overridefiledialog(wx.ID_OK, ["testfile.dat"]):
             self._clicktoolbar(epf.DATA_SAVE_ID)
-        self.assertEqual('testfile.dat', self.spd)
-        self.spd = ''
-        with overridefiledialog(wx.ID_CANCEL, ['testfile2.dat']):
+        self.assertEqual("testfile.dat", self.spd)
+        self.spd = ""
+        with overridefiledialog(wx.ID_CANCEL, ["testfile2.dat"]):
             self._clicktoolbar(epf.DATA_SAVE_ID)
-        self.assertEqual('', self.spd)
+        self.assertEqual("", self.spd)
         return
+
 
 # End of class TestExtendedPlotFrame
 
 # ----------------------------------------------------------------------------
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

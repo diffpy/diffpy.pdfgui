@@ -26,6 +26,7 @@ FLOAT_ONLY = 3
 import wx
 import string
 
+
 class TextValidator(wx.Validator):
     """This validator is designed to check text input for wxTextCtrls. (It might
     have uses in other widgets.) It can validate for letters only, digits only,
@@ -60,7 +61,7 @@ class TextValidator(wx.Validator):
 
         elif self.flag == DIGIT_ONLY:
             if self.allowNeg:
-                val1 = val[:1].lstrip('-') + val[1:]
+                val1 = val[:1].lstrip("-") + val[1:]
             else:
                 val1 = val
             return val1.isdigit()
@@ -99,14 +100,14 @@ class TextValidator(wx.Validator):
         if self.flag == DIGIT_ONLY:
             newval1 = newval
             if self.allowNeg:
-                newval1 = newval[:1].lstrip('-') + newval[1:]
+                newval1 = newval[:1].lstrip("-") + newval[1:]
             if newval1.isdigit():
                 event.Skip()
                 return
 
         if self.flag == FLOAT_ONLY:
             try:
-                x = float(newval+"1") # Catches "1e", a float to be
+                x = float(newval + "1")  # Catches "1e", a float to be
                 if x >= 0 or self.allowNeg:
                     event.Skip()
                     return
@@ -127,5 +128,6 @@ class TextValidator(wx.Validator):
 
     def TransferFromWindow(self):
         return True
+
 
 # End of class TextValidator
