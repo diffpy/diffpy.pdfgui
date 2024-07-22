@@ -1,0 +1,20 @@
+[tool.black]
+line-length = 115
+include = '\.pyi?$'
+exclude = '''
+/(
+    \.git\
+  | \.mypy_cache
+  | \.tox
+  | \.venv
+  | _build/
+  | buck-out
+  | build
+  | dist
+  | blib2to3
+  | tests/data/
+  | hooks/post_gen_project.py$
+  | .*\.py$
+  | .*\.toml$
+)/
+'''
