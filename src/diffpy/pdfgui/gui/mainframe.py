@@ -2448,7 +2448,14 @@ class MainFrame(wx.Frame):
         # branchname = self.treeCtrlMain.GetBranchName(node)
         name = self.treeCtrlMain.GetItemText(node)
         basename = ".".join(name.split(".")[:-1]) or name
-        matchstring = "PDFfit structure file (*.stru)|*.stru|Crystallographic Information File (*.cif)|*.cif|Protein Data Bank file (*.pdb)|*.pdb|Labeled coordinate file (*.xyz)|*.xyz|Raw corrdinate file (*.xyz)|*.xyz|AtomEye configuration file|*"
+        matchstring = (
+            "PDFfit structure file (*.stru)|*.stru|"
+            "Crystallographic Information File (*.cif)|*.cif|"
+            "Protein Data Bank file (*.pdb)|*.pdb|"
+            "Labeled coordinate file (*.xyz)|*.xyz|"
+            "Raw coordinate file (*.xyz)|*.xyz|"
+            "AtomEye configuration file|*"
+        )        
         d = wx.FileDialog(
             None,
             "Save as...",
@@ -2487,7 +2494,14 @@ class MainFrame(wx.Frame):
         # branchname = self.treeCtrlMain.GetBranchName(node)
         name = self.treeCtrlMain.GetItemText(node)
         basename = ".".join(name.split(".")[:-1]) or name
-        matchstring = "PDFfit structure file (*.stru)|*.stru|Crystallographic Information File (*.cif)|*.cif|Protein Data Bank file (*.pdb)|*.pdb|Labeled coordinate file (*.xyz)|*.xyz|Raw corrdinate file (*.xyz)|*.xyz|AtomEye configuration file|*"
+        matchstring = (
+            "PDFfit structure file (*.stru)|*.stru|"
+            "Crystallographic Information File (*.cif)|*.cif|"
+            "Protein Data Bank file (*.pdb)|*.pdb|"
+            "Labeled coordinate file (*.xyz)|*.xyz|"
+            "Raw coordinate file (*.xyz)|*.xyz|"
+            "AtomEye configuration file|*"
+        )
         d = wx.FileDialog(
             None,
             "Save as...",
