@@ -20,10 +20,10 @@ To be stored in Fitting.parameters { idx : parameter } dictionary
 import six
 
 from diffpy.pdfgui.control.controlerrors import (
-    ControlTypeError,
+    ControlError,
     ControlKeyError,
     ControlRuntimeError,
-    ControlError,
+    ControlTypeError,
 )
 
 

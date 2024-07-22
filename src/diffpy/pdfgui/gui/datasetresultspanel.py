@@ -19,8 +19,9 @@
 from __future__ import print_function
 
 import wx
-from diffpy.pdfgui.gui.pdfpanel import PDFPanel
+
 from diffpy.pdfgui.gui import tooltips
+from diffpy.pdfgui.gui.pdfpanel import PDFPanel
 
 
 class DataSetResultsPanel(wx.Panel, PDFPanel):

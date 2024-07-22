@@ -8,8 +8,7 @@ import os
 import unittest
 
 from diffpy.pdfgui.control.controlerrors import ControlConfigError
-from diffpy.pdfgui.control.structureviewer import getStructureViewer
-from diffpy.pdfgui.control.structureviewer import StructureViewer
+from diffpy.pdfgui.control.structureviewer import StructureViewer, getStructureViewer
 from diffpy.pdfgui.tests.testutils import datafile
 
 
@@ -83,6 +82,7 @@ class TestStructureViewer(unittest.TestCase):
     def test___del__(self):
         """check StructureViewer.__del__()"""
         import gc
+
         from diffpy.pdfgui.control.fitstructure import FitStructure
 
         sv = StructureViewer()

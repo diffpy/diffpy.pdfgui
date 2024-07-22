@@ -16,14 +16,14 @@
 """class PDFDataSet for experimental PDF data.
 """
 
+import copy
 import os.path
 import re
-import copy
 import time
 from getpass import getuser
 
+from diffpy.pdfgui.control.controlerrors import ControlFileError, ControlKeyError
 from diffpy.pdfgui.control.pdfcomponent import PDFComponent
-from diffpy.pdfgui.control.controlerrors import ControlKeyError, ControlFileError
 
 
 class PDFDataSet(PDFComponent):

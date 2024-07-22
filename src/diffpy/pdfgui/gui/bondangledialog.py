@@ -16,6 +16,7 @@
 
 
 import wx
+
 from diffpy.pdfgui.gui.pdfpanel import PDFPanel
 
 

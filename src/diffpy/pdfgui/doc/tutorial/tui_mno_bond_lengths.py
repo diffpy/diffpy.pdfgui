@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 import pylab
+
 from diffpy.pdffit2 import PdfFit
 
 # Import tui (Text User Interface) functions from diffpy.pdfgui

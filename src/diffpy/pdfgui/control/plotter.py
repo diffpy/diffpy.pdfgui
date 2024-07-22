@@ -13,9 +13,8 @@
 #
 ##############################################################################
 
+from diffpy.pdfgui.control.controlerrors import ControlConfigError, ControlStatusError
 from diffpy.pdfgui.control.pdfcomponent import PDFComponent
-from diffpy.pdfgui.control.controlerrors import ControlConfigError
-from diffpy.pdfgui.control.controlerrors import ControlStatusError
 from diffpy.pdfgui.gui.extendedplotframe import ExtendedPlotFrame
 
 # Preset plotting style
@@ -623,8 +622,8 @@ class Plotter(PDFComponent):
         # Check if any curve
         if len(self.curves) == 0:
             return
-        import time
         import getpass
+        import time
 
         outfile = open(filename, "w")
         header = "# Generated on %s by %s.\n" % (time.ctime(), getpass.getuser())
@@ -662,7 +661,7 @@ def _exportCompactData(fp, xylist, xynames=None):
     datasets = []
     datanames = []
     xt2idx = {}
-    for ((x, y), (xn, yn)) in zip(xylist, xynames):
+    for (x, y), (xn, yn) in zip(xylist, xynames):
         if x is None or not len(x):
             continue
         if y is None or not len(y):

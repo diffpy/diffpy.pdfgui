@@ -28,7 +28,6 @@ import os.path
 
 from pkg_resources import resource_filename
 
-
 # obtain version information from the version.cfg file
 cp = dict(version="", date="", commit="", timestamp="0")
 fcfg = resource_filename(__name__, "version.cfg")

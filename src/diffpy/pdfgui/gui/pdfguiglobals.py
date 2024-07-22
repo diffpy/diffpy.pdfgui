@@ -16,6 +16,7 @@
 """This module contains global parameters needed by PDFgui."""
 
 import os.path
+
 from pkg_resources import Requirement, resource_filename
 
 # Name of the program

@@ -16,6 +16,7 @@
 """Common methods used in the phase panels."""
 
 import wx
+
 from diffpy.utils.wx import gridutils
 
 # List of row entries taken from the clipboard

@@ -13,8 +13,9 @@
 #
 ##############################################################################
 
-import wx
 import string
+
+import wx
 
 """This module contains TextValidator, which is an input validator for the
 wxTextCtrl. See the wxPython documentation for wxTextCtrl for more about text

@@ -1,8 +1,8 @@
 #!/usr/bin/python
 
-import sys
 import os
 import re
+import sys
 
 """Replace all equation marks in HTML file with <img> tag to display
 corresponding PNG file.  This assumes PNG files are in correct sequence.

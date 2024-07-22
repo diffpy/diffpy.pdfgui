@@ -18,10 +18,10 @@
 
 from __future__ import print_function
 
-import sys
 import os.path
-import tempfile
 import shutil
+import sys
+import tempfile
 
 from diffpy.pdfgui.control.controlerrors import ControlConfigError
 
@@ -177,8 +177,8 @@ class StructureViewer(object):
 
         Return list of arguments (not including the viewer executable).
         """
-        import shlex
         import re
+        import shlex
 
         # make sure shlex.split is not called with None, because
         # it would read standard input

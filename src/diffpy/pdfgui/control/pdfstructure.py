@@ -16,9 +16,9 @@
 import copy
 import re
 
-from diffpy.structure import PDFFitStructure
+from diffpy.pdfgui.control.controlerrors import ControlFileError, ControlKeyError
 from diffpy.pdfgui.control.pdfcomponent import PDFComponent
-from diffpy.pdfgui.control.controlerrors import ControlKeyError, ControlFileError
+from diffpy.structure import PDFFitStructure
 
 
 class PDFStructure(PDFComponent, PDFFitStructure):

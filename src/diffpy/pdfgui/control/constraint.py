@@ -17,8 +17,8 @@
 constraints will be stored in { variable : constraint } dictionary
 """
 
-import re
 import math
+import re
 
 from diffpy.pdfgui.control.controlerrors import ControlSyntaxError
 

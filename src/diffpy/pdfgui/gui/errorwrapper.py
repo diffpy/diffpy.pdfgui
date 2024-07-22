@@ -18,17 +18,15 @@ control errors and shows them in an error report dialog. This is used by
 PDFPanel and MainFrame.
 """
 
-import traceback
 import sys
+import traceback
 
 import wx
 
+from diffpy.pdfgui.control.controlerrors import ControlError, TempControlSelectError
 from diffpy.pdfgui.gui import pdfguiglobals
 from diffpy.pdfgui.gui.errorreportdialog import ErrorReportDialog
-from diffpy.pdfgui.control.controlerrors import ControlError
-
 from diffpy.pdfgui.gui.errorreportdialog_control_fix import ErrorReportDialogControlFix
-from diffpy.pdfgui.control.controlerrors import TempControlSelectError
 
 # these methods will not be wrapped in catchFunctionErrors
 _EXCLUDED_METHODS = dict.fromkeys(dir(wx.Panel) + dir(wx.Dialog))

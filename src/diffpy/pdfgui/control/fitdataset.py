@@ -17,11 +17,12 @@
 """
 
 import copy
+
 import numpy
 
-from diffpy.pdfgui.control.pdfdataset import PDFDataSet
-from diffpy.pdfgui.control.parameter import Parameter
 from diffpy.pdfgui.control.controlerrors import ControlStatusError
+from diffpy.pdfgui.control.parameter import Parameter
+from diffpy.pdfgui.control.pdfdataset import PDFDataSet
 
 
 class FitDataSet(PDFDataSet):

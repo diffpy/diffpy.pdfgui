@@ -22,15 +22,16 @@ Exceptions:
     FitTreeError    --  Exception for errors with FitTree operations.
 """
 
-import wx
-import re
 import base64
+import re
 
-from diffpy.pdfgui.gui.pdfguiglobals import iconpath
-from diffpy.pdfgui.control.fitting import Fitting
+import wx
+
 from diffpy.pdfgui.control.controlerrors import ControlError
-from diffpy.pdfgui.utils import safeCPickleDumps, pickle_loads
+from diffpy.pdfgui.control.fitting import Fitting
+from diffpy.pdfgui.gui.pdfguiglobals import iconpath
 from diffpy.pdfgui.gui.wxextensions import wx12
+from diffpy.pdfgui.utils import pickle_loads, safeCPickleDumps
 
 
 class FitTree(wx12.TreeCtrl):
@@ -898,13 +899,13 @@ class FitTree(wx12.TreeCtrl):
             # data, but we don't pass the cdata since it is already included in
             # the fit root.
             phases = item[2]
-            for (name, phase) in phases:
+            for name, phase in phases:
                 self.AddPhase(node, name, makedata=False)
             dsets = item[1]
-            for (name, set) in dsets:
+            for name, set in dsets:
                 self.AddDataSet(node, name, makedata=False)
             calcs = item[3]
-            for (name, calc) in calcs:
+            for name, calc in calcs:
                 self.AddCalc(node, name, makedata=False)
 
         for item in roots:

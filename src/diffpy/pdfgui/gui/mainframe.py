@@ -20,41 +20,35 @@
 import os.path
 
 import wx
-import wx.lib.newevent
 import wx.aui
-
-from diffpy.pdfgui.utils import QuotedConfigParser
-from diffpy.pdfgui.gui.fittree import FitTree, FitTreeError
-from diffpy.pdfgui.control.pdfguicontrol import pdfguicontrol
-from diffpy.pdfgui.control.controlerrors import ControlError, ControlFileError
-
-from diffpy.pdfgui.gui.adddatapanel import AddDataPanel
-from diffpy.pdfgui.gui.addphasepanel import AddPhasePanel
-from diffpy.pdfgui.gui.calculationpanel import CalculationPanel
-from diffpy.pdfgui.gui.datasetpanel import DataSetPanel
-from diffpy.pdfgui.gui.fitnotebookpanel import FitNotebookPanel
-from diffpy.pdfgui.gui.journalpanel import JournalPanel
-from diffpy.pdfgui.gui.phasenotebookpanel import PhaseNotebookPanel
-from diffpy.pdfgui.gui.plotpanel import PlotPanel
-from diffpy.pdfgui.gui.rseriespanel import RSeriesPanel
-from diffpy.pdfgui.gui.temperatureseriespanel import TemperatureSeriesPanel
-from diffpy.pdfgui.gui.dopingseriespanel import DopingSeriesPanel
-from diffpy.pdfgui.gui.preferencespanel import PreferencesPanel
-from diffpy.pdfgui.gui.welcomepanel import WelcomePanel
-from diffpy.pdfgui.gui.outputpanel import OutputPanel
-from diffpy.pdfgui.gui.blankpanel import BlankPanel
-
-from diffpy.pdfgui.gui.aboutdialog import DialogAbout
-from diffpy.pdfgui.gui.errorreportdialog import ErrorReportDialog
-from diffpy.pdfgui.gui.errorreportdialog import USERSMAILINGLIST
+import wx.lib.newevent
 
 from diffpy.pdfgui.control import structureviewer
-
+from diffpy.pdfgui.control.controlerrors import ControlError, ControlFileError
+from diffpy.pdfgui.control.pdfguicontrol import pdfguicontrol
 from diffpy.pdfgui.gui import pdfguiglobals
-from diffpy.pdfgui.gui.pdfguiglobals import iconpath, docMainFile
+from diffpy.pdfgui.gui.aboutdialog import DialogAbout
+from diffpy.pdfgui.gui.adddatapanel import AddDataPanel
+from diffpy.pdfgui.gui.addphasepanel import AddPhasePanel
+from diffpy.pdfgui.gui.blankpanel import BlankPanel
+from diffpy.pdfgui.gui.calculationpanel import CalculationPanel
+from diffpy.pdfgui.gui.datasetpanel import DataSetPanel
+from diffpy.pdfgui.gui.dopingseriespanel import DopingSeriesPanel
+from diffpy.pdfgui.gui.errorreportdialog import USERSMAILINGLIST, ErrorReportDialog
 from diffpy.pdfgui.gui.errorwrapper import catchObjectErrors
-
+from diffpy.pdfgui.gui.fitnotebookpanel import FitNotebookPanel
+from diffpy.pdfgui.gui.fittree import FitTree, FitTreeError
+from diffpy.pdfgui.gui.journalpanel import JournalPanel
+from diffpy.pdfgui.gui.outputpanel import OutputPanel
+from diffpy.pdfgui.gui.pdfguiglobals import docMainFile, iconpath
+from diffpy.pdfgui.gui.phasenotebookpanel import PhaseNotebookPanel
+from diffpy.pdfgui.gui.plotpanel import PlotPanel
+from diffpy.pdfgui.gui.preferencespanel import PreferencesPanel
+from diffpy.pdfgui.gui.rseriespanel import RSeriesPanel
+from diffpy.pdfgui.gui.temperatureseriespanel import TemperatureSeriesPanel
+from diffpy.pdfgui.gui.welcomepanel import WelcomePanel
 from diffpy.pdfgui.gui.wxextensions import wx12
+from diffpy.pdfgui.utils import QuotedConfigParser
 
 (PDFCustomEvent, EVT_PDFCUSTOM) = wx.lib.newevent.NewEvent()
 
@@ -1882,7 +1876,7 @@ class MainFrame(wx.Frame):
         # Now link the fit
         newfit = self.treeCtrlMain.GetControlData(newnode)
         oldparnames = set(cdata.parameters.keys())
-        for (parname, par) in newfit.parameters.items():
+        for parname, par in newfit.parameters.items():
             if parname in oldparnames:
                 parval = "=%s:%s" % (fitname, parname)
                 par.setInitial(parval)
@@ -2593,6 +2587,7 @@ class MainFrame(wx.Frame):
     def onDocumentation(self, event):
         """Show information about the documentation."""
         import webbrowser
+
         from six.moves.urllib.request import pathname2url
 
         url = "file://" + pathname2url(docMainFile)

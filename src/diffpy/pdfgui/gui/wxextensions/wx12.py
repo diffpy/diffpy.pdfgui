@@ -23,6 +23,7 @@ Replace instances of its use with plain ``wx``.
 """
 
 import types
+
 import wx
 
 WX3 = wx.VERSION[0] == 3

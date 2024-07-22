@@ -25,6 +25,7 @@ name.
 
 import wx
 import wx.lib.mixins.listctrl as listmix
+
 from diffpy.pdfgui.gui.wxextensions import wx12
 
 

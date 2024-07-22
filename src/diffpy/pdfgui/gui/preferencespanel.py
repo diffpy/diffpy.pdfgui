@@ -18,9 +18,10 @@
 
 import wx
 import wx.lib.filebrowsebutton
-from diffpy.pdfgui.gui.pdfpanel import PDFPanel
-from diffpy.pdfgui.gui import tooltips
+
 from diffpy.pdfgui.control import structureviewer
+from diffpy.pdfgui.gui import tooltips
+from diffpy.pdfgui.gui.pdfpanel import PDFPanel
 
 
 class PreferencesPanel(wx.Panel, PDFPanel):

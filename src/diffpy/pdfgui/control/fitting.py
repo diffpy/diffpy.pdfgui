@@ -18,11 +18,13 @@ from __future__ import print_function
 import threading
 import time
 
+from diffpy.pdfgui.control.controlerrors import (
+    ControlError,
+    ControlStatusError,
+    ControlValueError,
+)
 from diffpy.pdfgui.control.organizer import Organizer
-from diffpy.pdfgui.control.controlerrors import ControlError
-from diffpy.pdfgui.control.controlerrors import ControlStatusError
-from diffpy.pdfgui.control.controlerrors import ControlValueError
-from diffpy.pdfgui.utils import safeCPickleDumps, pickle_loads
+from diffpy.pdfgui.utils import pickle_loads, safeCPickleDumps
 
 # helper routines to deal with PDFfit2 exceptions
 
@@ -30,11 +32,11 @@ from diffpy.pdfgui.utils import safeCPickleDumps, pickle_loads
 def getEngineExceptions():
     """Return a tuple of possible exceptions from diffpy.pdffit2.pdffit2."""
     from diffpy.pdffit2.pdffit2 import (
-        dataError,
-        unassignedError,
-        constraintError,
-        structureError,
         calculationError,
+        constraintError,
+        dataError,
+        structureError,
+        unassignedError,
     )
 
     engine_exceptions = (

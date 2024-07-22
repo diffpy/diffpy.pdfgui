@@ -330,7 +330,7 @@ channel permanent.  The same effect can be accomplished by adding the
 After installation is complete PDFgui can be started from a terminal by
 entering @command{pdfgui} command or on Windows by using the DiffPy
 start menu.  PDFgui can be also started from the ``Launcher'' program
-that is included with Anaconda.  
+that is included with Anaconda.
 
 @node Configuration of structure viewer
 @subsection Configuration of structure viewer

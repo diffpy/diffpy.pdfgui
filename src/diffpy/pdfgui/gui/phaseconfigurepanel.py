@@ -18,19 +18,18 @@
 
 import wx
 import wx.grid
-from diffpy.structure import Atom
+
 from diffpy.pdffit2 import is_element
+from diffpy.pdfgui.control.controlerrors import TempControlSelectError
+from diffpy.pdfgui.gui import phasepanelutils, tooltips
 from diffpy.pdfgui.gui.insertrowsdialog import InsertRowsDialog
 from diffpy.pdfgui.gui.pdfpanel import PDFPanel
-from diffpy.pdfgui.gui import tooltips
-from diffpy.pdfgui.gui.wxextensions.autowidthlabelsgrid import AutoWidthLabelsGrid
-from diffpy.pdfgui.gui.wxextensions.validators import TextValidator, FLOAT_ONLY
-from diffpy.pdfgui.gui.wxextensions.textctrlutils import textCtrlAsGridCell
 from diffpy.pdfgui.gui.wxextensions import wx12
-from diffpy.pdfgui.gui import phasepanelutils
+from diffpy.pdfgui.gui.wxextensions.autowidthlabelsgrid import AutoWidthLabelsGrid
+from diffpy.pdfgui.gui.wxextensions.textctrlutils import textCtrlAsGridCell
+from diffpy.pdfgui.gui.wxextensions.validators import FLOAT_ONLY, TextValidator
+from diffpy.structure import Atom
 from diffpy.utils.wx import gridutils
-
-from diffpy.pdfgui.control.controlerrors import TempControlSelectError
 
 
 class PhaseConfigurePanel(wx.Panel, PDFPanel):
@@ -609,7 +608,7 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
         This uses the member variable _selectedCells, a list of (i,j) tuples for
         the selected cells.
         """
-        for (i, j) in self._selectedCells:
+        for i, j in self._selectedCells:
             if not self.gridAtoms.IsReadOnly(i, j):
                 # Get the last valid text from the cell. For the cell that triggered
                 # this method, that is the _focusedText, for other cells it is the
