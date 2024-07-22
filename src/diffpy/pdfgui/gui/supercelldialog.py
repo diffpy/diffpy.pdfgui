@@ -49,9 +49,7 @@ class SupercellDialog(wx.Dialog):
 
     def __do_layout(self):
         # begin wxGlade: SupercellDialog.__do_layout
-        sizer_1 = wx.StaticBoxSizer(
-            wx.StaticBox(self, wx.ID_ANY, "Supercell Expansion"), wx.VERTICAL
-        )
+        sizer_1 = wx.StaticBoxSizer(wx.StaticBox(self, wx.ID_ANY, "Supercell Expansion"), wx.VERTICAL)
         sizer_4 = wx.BoxSizer(wx.HORIZONTAL)
         sizer_3 = wx.BoxSizer(wx.HORIZONTAL)
         sizer_2_copy_1 = wx.BoxSizer(wx.HORIZONTAL)

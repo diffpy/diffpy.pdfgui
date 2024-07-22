@@ -16,9 +16,9 @@ eqmark = "<!-- EquationMark -->"
 ##############################################################################
 # business
 
-import sys
 import os
 import re
+import sys
 
 eqcnt = 0
 

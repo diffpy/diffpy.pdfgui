@@ -16,6 +16,7 @@
 """Common methods used in the phase panels."""
 
 import wx
+
 from diffpy.utils.wx import gridutils
 
 # List of row entries taken from the clipboard
@@ -85,9 +86,7 @@ def refreshTextCtrls(panel):
         panel.textCtrlSratio.SetValue(float2str(panel.structure.pdffit["sratio"]))
         panel.textCtrlRcut.SetValue(float2str(panel.structure.pdffit["rcut"]))
         panel.textCtrlStepcut.SetValue(float2str(panel.structure.pdffit["stepcut"]))
-        panel.textCtrlSpdiameter.SetValue(
-            float2str(panel.structure.pdffit["spdiameter"])
-        )
+        panel.textCtrlSpdiameter.SetValue(float2str(panel.structure.pdffit["spdiameter"]))
     return
 
 
@@ -330,9 +329,7 @@ def pasteIntoCells(panel):
         for col in range(ctl, cbr + 1):
             if not grid.IsReadOnly(row, col):
                 oldvalue = panel.gridAtoms.GetCellValue(row, col)
-                newvalue = panel.applyCellChange(
-                    row, col, clipcells[row - rtl][col - ctl]
-                )
+                newvalue = panel.applyCellChange(row, col, clipcells[row - rtl][col - ctl])
                 if newvalue is None:
                     newvalue = oldvalue
                 panel.gridAtoms.SetCellValue(row, col, str(newvalue))

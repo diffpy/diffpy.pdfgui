@@ -24,7 +24,8 @@ if __name__ == "__main__":
 
     # show warnings by default
     if not sys.warnoptions:
-        import os, warnings
+        import os
+        import warnings
 
         warnings.simplefilter("default")
         # also affect subprocesses

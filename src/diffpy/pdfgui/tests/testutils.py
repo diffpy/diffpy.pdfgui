@@ -17,14 +17,13 @@
 """
 
 import os
-from unittest import TestCase
 from contextlib import contextmanager
+from unittest import TestCase
 
 import wx
 
-from diffpy.pdfgui.gui import pdfguiglobals
 from diffpy.pdfgui.control import pdfguicontrol
-from diffpy.pdfgui.gui import mainframe
+from diffpy.pdfgui.gui import mainframe, pdfguiglobals
 
 # helper functions
 

@@ -20,10 +20,10 @@ To be stored in Fitting.parameters { idx : parameter } dictionary
 import six
 
 from diffpy.pdfgui.control.controlerrors import (
-    ControlTypeError,
+    ControlError,
     ControlKeyError,
     ControlRuntimeError,
-    ControlError,
+    ControlTypeError,
 )
 
 
@@ -143,9 +143,7 @@ class Parameter:
         try:
             srcpar = srcfit.parameters[srcidx]
         except KeyError:
-            raise ControlKeyError(
-                "Fitting '%s' has no parameter %s" % (fitname, srcidx)
-            )
+            raise ControlKeyError("Fitting '%s' has no parameter %s" % (fitname, srcidx))
 
         if srcpar.refined is not None:
             value = srcpar.refined

@@ -23,8 +23,9 @@ ALPHA_ONLY = 1
 DIGIT_ONLY = 2
 FLOAT_ONLY = 3
 
-import wx
 import string
+
+import wx
 
 
 class TextValidator(wx.Validator):

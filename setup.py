@@ -11,7 +11,8 @@ Scripts:    pdfgui
 import os
 import re
 import sys
-from setuptools import setup, find_packages
+
+from setuptools import find_packages, setup
 
 # Use this version when git data are not available, like in git zip archive.
 # Update when tagging a new release.
@@ -28,7 +29,7 @@ gitarchivecfgfile = os.path.join(MYDIR, ".gitarchive.cfg")
 
 
 def gitinfo():
-    from subprocess import Popen, PIPE
+    from subprocess import PIPE, Popen
 
     kw = dict(stdout=PIPE, cwd=MYDIR, universal_newlines=True)
     proc = Popen(["git", "describe", "--tags", "--match=v[[:digit:]]*"], **kw)
@@ -67,10 +68,7 @@ def getversioncfg():
     cp = RawConfigParser()
     cp.read(versioncfgfile)
     d = cp.defaults()
-    rewrite = not d or (
-        g["commit"]
-        and (g["version"] != d.get("version") or g["commit"] != d.get("commit"))
-    )
+    rewrite = not d or (g["commit"] and (g["version"] != d.get("version") or g["commit"] != d.get("commit")))
     if rewrite:
         cp.set("DEFAULT", "version", g["version"])
         cp.set("DEFAULT", "commit", g["commit"])

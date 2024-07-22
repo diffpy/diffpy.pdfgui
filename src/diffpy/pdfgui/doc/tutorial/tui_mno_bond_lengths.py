@@ -55,9 +55,7 @@ for phase in prj.getPhases():
 
 # Save bond lengths to a file
 outfile = open(output_file, "w")
-print(
-    "# Shortest Mn-O bond length extracted from {}".format(project_file), file=outfile
-)
+print("# Shortest Mn-O bond length extracted from {}".format(project_file), file=outfile)
 print("# temperature(K) bond_length(A)", file=outfile)
 for t, b in zip(temperatures, MnO_bond_lengths):
     print("{}, {}".format(t, b), file=outfile)
