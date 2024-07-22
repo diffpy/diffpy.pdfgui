@@ -46,9 +46,7 @@ class AddPhasePanel(wx.Panel, PDFPanel):
         sizer_4 = wx.BoxSizer(wx.HORIZONTAL)
         sizer_1.Add(sizer_4, 0, wx.BOTTOM | wx.EXPAND | wx.TOP, 5)
 
-        self.labelOpenPhase = wx.StaticText(
-            self, wx.ID_ANY, "Load a structure from file."
-        )
+        self.labelOpenPhase = wx.StaticText(self, wx.ID_ANY, "Load a structure from file.")
         self.labelOpenPhase.SetFont(
             wx.Font(
                 12,
@@ -70,9 +68,7 @@ class AddPhasePanel(wx.Panel, PDFPanel):
         sizer_5 = wx.BoxSizer(wx.HORIZONTAL)
         sizer_1.Add(sizer_5, 0, wx.BOTTOM | wx.EXPAND | wx.TOP, 5)
 
-        self.labelCreatePhase = wx.StaticText(
-            self, wx.ID_ANY, "Create a structure from scratch."
-        )
+        self.labelCreatePhase = wx.StaticText(self, wx.ID_ANY, "Create a structure from scratch.")
         self.labelCreatePhase.SetFont(
             wx.Font(
                 12,
@@ -216,9 +212,7 @@ class AddPhasePanel(wx.Panel, PDFPanel):
         label = incrementName(label, names)
 
         # Create the phase
-        newnode = self.treeCtrlMain.AddPhase(
-            self.entryfit, label, insertafter=self.entryphase
-        )
+        newnode = self.treeCtrlMain.AddPhase(self.entryfit, label, insertafter=self.entryphase)
 
         # Go to the new node
         self.mainFrame.setMode("fitting")

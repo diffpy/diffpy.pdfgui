@@ -82,39 +82,23 @@ class DialogAbout(wx.Dialog):
         kwds["style"] = kwds.get("style", 0) | wx.DEFAULT_DIALOG_STYLE
         wx.Dialog.__init__(self, *args, **kwds)
         self.SetSize((600, 595))
-        self.bitmap_logo = wx.StaticBitmap(
-            self, wx.ID_ANY, wx.Bitmap(iconpath("logo.png"))
-        )
+        self.bitmap_logo = wx.StaticBitmap(self, wx.ID_ANY, wx.Bitmap(iconpath("logo.png")))
         self.label_title = wx.StaticText(self, wx.ID_ANY, "PDFgui")
         self.label_version = wx.StaticText(self, wx.ID_ANY, "")
         self.label_build = wx.StaticText(self, wx.ID_ANY, "Build:")
         self.label_svnrevision = wx.StaticText(self, wx.ID_ANY, "")
         self.label_copyright = wx.StaticText(self, wx.ID_ANY, "")
         self.label_author = wx.StaticText(self, wx.ID_ANY, "author")
-        self.hyperlink = wx.lib.agw.hyperlink.HyperLinkCtrl(
-            self, wx.ID_ANY, _homepage, URL=_homepage
-        )
-        self.hyperlink_license = wx.lib.agw.hyperlink.HyperLinkCtrl(
-            self, wx.ID_ANY, _license, URL=_license
-        )
+        self.hyperlink = wx.lib.agw.hyperlink.HyperLinkCtrl(self, wx.ID_ANY, _homepage, URL=_homepage)
+        self.hyperlink_license = wx.lib.agw.hyperlink.HyperLinkCtrl(self, wx.ID_ANY, _license, URL=_license)
         self.static_line_1 = wx.StaticLine(self, wx.ID_ANY)
         self.label_acknowledgement = wx.StaticText(self, wx.ID_ANY, "")
-        self.hyperlink_paper = wx.lib.agw.hyperlink.HyperLinkCtrl(
-            self, wx.ID_ANY, _paper, URL=_paper
-        )
+        self.hyperlink_paper = wx.lib.agw.hyperlink.HyperLinkCtrl(self, wx.ID_ANY, _paper, URL=_paper)
         self.static_line_2 = wx.StaticLine(self, wx.ID_ANY)
-        self.bitmap_button_nsf = wx.BitmapButton(
-            self, wx.ID_ANY, wx.NullBitmap, style=wx.BU_AUTODRAW
-        )
-        self.bitmap_button_danse = wx.BitmapButton(
-            self, wx.ID_ANY, wx.NullBitmap, style=wx.BU_AUTODRAW
-        )
-        self.bitmap_button_msu = wx.BitmapButton(
-            self, wx.ID_ANY, wx.NullBitmap, style=wx.BU_AUTODRAW
-        )
-        self.bitmap_button_columbia = wx.BitmapButton(
-            self, wx.ID_ANY, wx.NullBitmap, style=wx.BU_AUTODRAW
-        )
+        self.bitmap_button_nsf = wx.BitmapButton(self, wx.ID_ANY, wx.NullBitmap, style=wx.BU_AUTODRAW)
+        self.bitmap_button_danse = wx.BitmapButton(self, wx.ID_ANY, wx.NullBitmap, style=wx.BU_AUTODRAW)
+        self.bitmap_button_msu = wx.BitmapButton(self, wx.ID_ANY, wx.NullBitmap, style=wx.BU_AUTODRAW)
+        self.bitmap_button_columbia = wx.BitmapButton(self, wx.ID_ANY, wx.NullBitmap, style=wx.BU_AUTODRAW)
         self.static_line_3 = wx.StaticLine(self, wx.ID_ANY)
         self.button_OK = wx.Button(self, wx.ID_OK, "OK")
 

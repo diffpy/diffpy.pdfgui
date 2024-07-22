@@ -61,12 +61,8 @@ class DataSetConstraintPanel(wx.Panel, PDFPanel):
         # begin wxGlade: DataSetConstraintPanel.__do_layout
         sizer_1 = wx.BoxSizer(wx.VERTICAL)
         grid_sizer_1 = wx.FlexGridSizer(3, 2, 5, 10)
-        sizer_panelname = wx.StaticBoxSizer(
-            wx.StaticBox(self, wx.ID_ANY, ""), wx.HORIZONTAL
-        )
-        sizer_panelname.Add(
-            self.panelNameLabel, 0, wx.ALIGN_CENTER_VERTICAL | wx.LEFT | wx.RIGHT, 5
-        )
+        sizer_panelname = wx.StaticBoxSizer(wx.StaticBox(self, wx.ID_ANY, ""), wx.HORIZONTAL)
+        sizer_panelname.Add(self.panelNameLabel, 0, wx.ALIGN_CENTER_VERTICAL | wx.LEFT | wx.RIGHT, 5)
         sizer_1.Add(sizer_panelname, 0, wx.EXPAND | wx.LEFT | wx.RIGHT, 5)
         grid_sizer_1.Add(
             self.labelScaleFactor,
@@ -74,16 +70,10 @@ class DataSetConstraintPanel(wx.Panel, PDFPanel):
             wx.ALIGN_CENTER_VERTICAL | wx.ALIGN_RIGHT | wx.LEFT,
             5,
         )
-        grid_sizer_1.Add(
-            self.textCtrlScaleFactor, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALL, 0
-        )
-        grid_sizer_1.Add(
-            self.labelQdamp, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALIGN_RIGHT | wx.LEFT, 5
-        )
+        grid_sizer_1.Add(self.textCtrlScaleFactor, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALL, 0)
+        grid_sizer_1.Add(self.labelQdamp, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALIGN_RIGHT | wx.LEFT, 5)
         grid_sizer_1.Add(self.textCtrlQdamp, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALL, 0)
-        grid_sizer_1.Add(
-            self.labelQbroad, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALIGN_RIGHT | wx.LEFT, 5
-        )
+        grid_sizer_1.Add(self.labelQbroad, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALIGN_RIGHT | wx.LEFT, 5)
         grid_sizer_1.Add(self.textCtrlQbroad, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALL, 0)
         sizer_1.Add(grid_sizer_1, 0, wx.ALL | wx.EXPAND, 5)
         self.SetSizer(sizer_1)

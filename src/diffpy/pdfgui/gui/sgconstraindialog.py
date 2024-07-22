@@ -32,9 +32,7 @@ class SGConstrainDialog(wx.Dialog, PDFPanel):
         wx.Dialog.__init__(self, *args, **kwds)
         self.SetTitle("Space Group Constraints")
 
-        sizer_2 = wx.StaticBoxSizer(
-            wx.StaticBox(self, wx.ID_ANY, "Space Group Constraints"), wx.VERTICAL
-        )
+        sizer_2 = wx.StaticBoxSizer(wx.StaticBox(self, wx.ID_ANY, "Space Group Constraints"), wx.VERTICAL)
 
         self.numConstrainedLabel = wx.StaticText(self, wx.ID_ANY, "")
         sizer_2.Add(self.numConstrainedLabel, 0, wx.ALIGN_CENTER_HORIZONTAL | wx.ALL, 5)

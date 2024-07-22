@@ -40,12 +40,8 @@ class WelcomePanel(wx.Panel, PDFPanel):
     def __do_layout(self):
         sizer_1 = wx.BoxSizer(wx.HORIZONTAL)
         sizer_2 = wx.BoxSizer(wx.VERTICAL)
-        sizer_2.Add(
-            self.bitmap_1, 0, wx.ALIGN_CENTER_HORIZONTAL | wx.ALIGN_CENTER_VERTICAL, 0
-        )
-        sizer_1.Add(
-            sizer_2, 1, wx.ALIGN_CENTER_HORIZONTAL | wx.ALIGN_CENTER_VERTICAL, 0
-        )
+        sizer_2.Add(self.bitmap_1, 0, wx.ALIGN_CENTER_HORIZONTAL | wx.ALIGN_CENTER_VERTICAL, 0)
+        sizer_1.Add(sizer_2, 1, wx.ALIGN_CENTER_HORIZONTAL | wx.ALIGN_CENTER_VERTICAL, 0)
         self.SetSizer(sizer_1)
         sizer_1.Fit(self)
         return

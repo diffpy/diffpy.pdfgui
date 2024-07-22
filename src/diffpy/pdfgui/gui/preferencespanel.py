@@ -33,9 +33,7 @@ class PreferencesPanel(wx.Panel, PDFPanel):
 
         sizer_1 = wx.BoxSizer(wx.VERTICAL)
 
-        sizerPanelName = wx.StaticBoxSizer(
-            wx.StaticBox(self, wx.ID_ANY, ""), wx.HORIZONTAL
-        )
+        sizerPanelName = wx.StaticBoxSizer(wx.StaticBox(self, wx.ID_ANY, ""), wx.HORIZONTAL)
         sizer_1.Add(sizerPanelName, 0, wx.EXPAND | wx.LEFT | wx.RIGHT, 5)
 
         self.labelPanelName = wx.StaticText(self, wx.ID_ANY, "Preferences")
@@ -55,9 +53,7 @@ class PreferencesPanel(wx.Panel, PDFPanel):
         sizer_1.Add(grid_sizer_1, 0, wx.ALL, 5)
 
         self.labelViewer = wx.StaticText(self, wx.ID_ANY, "Structure viewer executable")
-        grid_sizer_1.Add(
-            self.labelViewer, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALIGN_RIGHT, 0
-        )
+        grid_sizer_1.Add(self.labelViewer, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALIGN_RIGHT, 0)
 
         self.textCtrlViewer = wx.TextCtrl(self, wx.ID_ANY, "")
         grid_sizer_1.Add(self.textCtrlViewer, 0, wx.EXPAND, 0)
@@ -66,9 +62,7 @@ class PreferencesPanel(wx.Panel, PDFPanel):
         grid_sizer_1.Add(self.buttonViewerBrowse, 0, 0, 0)
 
         self.labelArgStr = wx.StaticText(self, wx.ID_ANY, "Argument string")
-        grid_sizer_1.Add(
-            self.labelArgStr, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALIGN_RIGHT, 0
-        )
+        grid_sizer_1.Add(self.labelArgStr, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALIGN_RIGHT, 0)
 
         self.textCtrlArgument = wx.TextCtrl(self, wx.ID_ANY, "")
         grid_sizer_1.Add(self.textCtrlArgument, 0, wx.EXPAND, 0)
@@ -76,23 +70,17 @@ class PreferencesPanel(wx.Panel, PDFPanel):
         grid_sizer_1.Add((20, 20), 0, 0, 0)
 
         self.labelFormat = wx.StaticText(self, wx.ID_ANY, "Structure format")
-        grid_sizer_1.Add(
-            self.labelFormat, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALIGN_RIGHT, 0
-        )
+        grid_sizer_1.Add(self.labelFormat, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALIGN_RIGHT, 0)
 
         self.choiceFormat = wx.Choice(self, wx.ID_ANY, choices=[])
         grid_sizer_1.Add(self.choiceFormat, 0, wx.EXPAND, 0)
 
         grid_sizer_1.Add((20, 20), 0, 0, 0)
 
-        self.structureDirCheckBox = wx.CheckBox(
-            self, wx.ID_ANY, "Remember path to structure files"
-        )
+        self.structureDirCheckBox = wx.CheckBox(self, wx.ID_ANY, "Remember path to structure files")
         sizer_1.Add(self.structureDirCheckBox, 0, wx.ALL, 5)
 
-        self.dataDirCheckBox = wx.CheckBox(
-            self, wx.ID_ANY, "Remember path to data sets"
-        )
+        self.dataDirCheckBox = wx.CheckBox(self, wx.ID_ANY, "Remember path to data sets")
         sizer_1.Add(self.dataDirCheckBox, 0, wx.ALL, 5)
 
         sizer_1.Add((0, 0), 1, wx.EXPAND, 0)

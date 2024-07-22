@@ -33,9 +33,7 @@ class BondLengthDialog(wx.Dialog):
 
         sizer_2 = wx.StaticBoxSizer(wx.StaticBox(self, wx.ID_ANY, ""), wx.VERTICAL)
 
-        self.instructionsLabel = wx.StaticText(
-            self, wx.ID_ANY, "Enter the indices of two atoms."
-        )
+        self.instructionsLabel = wx.StaticText(self, wx.ID_ANY, "Enter the indices of two atoms.")
         sizer_2.Add(self.instructionsLabel, 0, wx.ALL, 5)
 
         sizer_3 = wx.BoxSizer(wx.HORIZONTAL)

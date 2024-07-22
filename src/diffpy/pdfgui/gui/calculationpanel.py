@@ -35,14 +35,10 @@ class CalculationPanel(wx.Panel, PDFPanel):
         outerSizer = wx.BoxSizer(wx.VERTICAL)
         sizer_1.Add(outerSizer, 1, wx.EXPAND, 0)
 
-        sizer_panelname = wx.StaticBoxSizer(
-            wx.StaticBox(self, wx.ID_ANY, ""), wx.HORIZONTAL
-        )
+        sizer_panelname = wx.StaticBoxSizer(wx.StaticBox(self, wx.ID_ANY, ""), wx.HORIZONTAL)
         outerSizer.Add(sizer_panelname, 0, wx.EXPAND | wx.LEFT | wx.RIGHT, 5)
 
-        self.panelNameLabel = wx.StaticText(
-            self, wx.ID_ANY, "Calculation Configuration"
-        )
+        self.panelNameLabel = wx.StaticText(self, wx.ID_ANY, "Calculation Configuration")
         self.panelNameLabel.SetFont(
             wx.Font(
                 18,
@@ -53,9 +49,7 @@ class CalculationPanel(wx.Panel, PDFPanel):
                 "",
             )
         )
-        sizer_panelname.Add(
-            self.panelNameLabel, 0, wx.ALIGN_CENTER_VERTICAL | wx.LEFT | wx.RIGHT, 5
-        )
+        sizer_panelname.Add(self.panelNameLabel, 0, wx.ALIGN_CENTER_VERTICAL | wx.LEFT | wx.RIGHT, 5)
 
         outerSizer.Add((450, 5), 0, 0, 0)
 
@@ -74,9 +68,7 @@ class CalculationPanel(wx.Panel, PDFPanel):
         grid_sizer_1 = wx.FlexGridSizer(4, 6, 5, 10)
         outerSizer.Add(grid_sizer_1, 0, wx.ALL | wx.EXPAND, 5)
 
-        self.labelCalcRange = wx.StaticText(
-            self, wx.ID_ANY, "Range", style=wx.ALIGN_RIGHT
-        )
+        self.labelCalcRange = wx.StaticText(self, wx.ID_ANY, "Range", style=wx.ALIGN_RIGHT)
         grid_sizer_1.Add(
             self.labelCalcRange,
             0,
@@ -88,26 +80,18 @@ class CalculationPanel(wx.Panel, PDFPanel):
         grid_sizer_1.Add(self.textCtrlCalcFrom, 0, wx.ALIGN_CENTER_VERTICAL, 0)
 
         self.labelTo = wx.StaticText(self, wx.ID_ANY, "to", style=wx.ALIGN_RIGHT)
-        grid_sizer_1.Add(
-            self.labelTo, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALIGN_RIGHT | wx.LEFT, 20
-        )
+        grid_sizer_1.Add(self.labelTo, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALIGN_RIGHT | wx.LEFT, 20)
 
         self.textCtrlCalcTo = wx.TextCtrl(self, wx.ID_ANY, "10.0")
         grid_sizer_1.Add(self.textCtrlCalcTo, 0, wx.ALIGN_CENTER_VERTICAL, 0)
 
-        self.labelRStep = wx.StaticText(
-            self, wx.ID_ANY, "spacing", style=wx.ALIGN_RIGHT
-        )
-        grid_sizer_1.Add(
-            self.labelRStep, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALIGN_RIGHT | wx.LEFT, 5
-        )
+        self.labelRStep = wx.StaticText(self, wx.ID_ANY, "spacing", style=wx.ALIGN_RIGHT)
+        grid_sizer_1.Add(self.labelRStep, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALIGN_RIGHT | wx.LEFT, 5)
 
         self.textCtrlRStep = wx.TextCtrl(self, wx.ID_ANY, "0.01")
         grid_sizer_1.Add(self.textCtrlRStep, 0, wx.ALIGN_CENTER_VERTICAL, 0)
 
-        self.labelScaleFactor = wx.StaticText(
-            self, wx.ID_ANY, "Scale Factor", style=wx.ALIGN_RIGHT
-        )
+        self.labelScaleFactor = wx.StaticText(self, wx.ID_ANY, "Scale Factor", style=wx.ALIGN_RIGHT)
         grid_sizer_1.Add(
             self.labelScaleFactor,
             0,
@@ -119,9 +103,7 @@ class CalculationPanel(wx.Panel, PDFPanel):
         grid_sizer_1.Add(self.textCtrlScaleFactor, 0, wx.ALIGN_CENTER_VERTICAL, 0)
 
         self.labelQmax = wx.StaticText(self, wx.ID_ANY, "Qmax", style=wx.ALIGN_RIGHT)
-        grid_sizer_1.Add(
-            self.labelQmax, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALIGN_RIGHT | wx.LEFT, 20
-        )
+        grid_sizer_1.Add(self.labelQmax, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALIGN_RIGHT | wx.LEFT, 20)
 
         self.textCtrlQmax = wx.TextCtrl(self, wx.ID_ANY, "25.0")
         grid_sizer_1.Add(self.textCtrlQmax, 0, wx.ALIGN_CENTER_VERTICAL, 0)
@@ -133,19 +115,13 @@ class CalculationPanel(wx.Panel, PDFPanel):
         grid_sizer_1.Add(self.label_1_copy, 0, 0, 0)
 
         self.labelQdamp = wx.StaticText(self, wx.ID_ANY, "Qdamp", style=wx.ALIGN_RIGHT)
-        grid_sizer_1.Add(
-            self.labelQdamp, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALIGN_RIGHT | wx.LEFT, 5
-        )
+        grid_sizer_1.Add(self.labelQdamp, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALIGN_RIGHT | wx.LEFT, 5)
 
         self.textCtrlQdamp = wx.TextCtrl(self, wx.ID_ANY, "0.0")
         grid_sizer_1.Add(self.textCtrlQdamp, 0, wx.ALIGN_CENTER_VERTICAL, 0)
 
-        self.labelQbroad = wx.StaticText(
-            self, wx.ID_ANY, "Qbroad", style=wx.ALIGN_RIGHT
-        )
-        grid_sizer_1.Add(
-            self.labelQbroad, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALIGN_RIGHT | wx.LEFT, 5
-        )
+        self.labelQbroad = wx.StaticText(self, wx.ID_ANY, "Qbroad", style=wx.ALIGN_RIGHT)
+        grid_sizer_1.Add(self.labelQbroad, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALIGN_RIGHT | wx.LEFT, 5)
 
         self.textCtrlQbroad = wx.TextCtrl(self, wx.ID_ANY, "0.0")
         grid_sizer_1.Add(self.textCtrlQbroad, 0, wx.ALIGN_CENTER_VERTICAL, 0)

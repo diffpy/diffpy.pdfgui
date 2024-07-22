@@ -310,12 +310,7 @@ class FitStructure(PDFStructure):
         # back to business
         acd = self._popAtomConstraints()
         mnofloats = numpy.array(mno[:3], dtype=float)
-        ijklist = [
-            (i, j, k)
-            for i in range(mno[0])
-            for j in range(mno[1])
-            for k in range(mno[2])
-        ]
+        ijklist = [(i, j, k) for i in range(mno[0]) for j in range(mno[1]) for k in range(mno[2])]
         # build a list of new atoms
         newatoms = []
         for a in self.initial:
@@ -390,9 +385,7 @@ class FitStructure(PDFStructure):
                 existing_names[sg.short_name] = True
             # sort by International Tables number, stay compatible with 2.3
             n_sg = [(sg.number % 1000, sg) for sg in unique_named_list]
-            n_sg = sorted(
-                n_sg, key=lambda x: x[0]
-            )  # sort by the first element of tuple.
+            n_sg = sorted(n_sg, key=lambda x: x[0])  # sort by the first element of tuple.
             FitStructure.sorted_standard_space_groups = [sg for n, sg in n_sg]
         sglist = list(FitStructure.sorted_standard_space_groups)
         if self.custom_spacegroup:
@@ -439,9 +432,7 @@ class FitStructure(PDFStructure):
         coreatoms = [self.initial[i] for i in ruindices]
         corepos = [a.xyz for a in coreatoms]
         coreUijs = [a.U for a in coreatoms]
-        eau = ExpandAsymmetricUnit(
-            spacegroup, corepos, coreUijs, sgoffset=sgoffset, eps=self.symposeps
-        )
+        eau = ExpandAsymmetricUnit(spacegroup, corepos, coreUijs, sgoffset=sgoffset, eps=self.symposeps)
         # build a nested list of new atoms:
         newatoms = []
         for i in range(len(coreatoms)):
@@ -470,9 +461,7 @@ class FitStructure(PDFStructure):
         self._restoreAtomConstraints(acd)
         return
 
-    def applySymmetryConstraints(
-        self, spacegroup, indices, posflag, Uijflag, sgoffset=[0, 0, 0]
-    ):
+    def applySymmetryConstraints(self, spacegroup, indices, posflag, Uijflag, sgoffset=[0, 0, 0]):
         """Generate symmetry constraints for positions and thermal factors.
         Both positions and thermal factors may get corrected to reflect
         space group symmetry.  Old positional and thermal constraints get
@@ -512,9 +501,7 @@ class FitStructure(PDFStructure):
         selatoms = [self.initial[i] for i in uindices]
         selpos = [a.xyz for a in selatoms]
         selUijs = [a.U for a in selatoms]
-        symcon = SymmetryConstraints(
-            spacegroup, selpos, selUijs, sgoffset=sgoffset, eps=self.symposeps
-        )
+        symcon = SymmetryConstraints(spacegroup, selpos, selUijs, sgoffset=sgoffset, eps=self.symposeps)
         # deal with positions
         if posflag:
             # fix positions:

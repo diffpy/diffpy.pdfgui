@@ -73,9 +73,7 @@ class PDFStructure(PDFComponent, PDFFitStructure):
 
     # dictionary of allowed keys from self.pdffit dictionary,
     # that can be used in setvar and getvar methods.
-    _allowed_pdffit_vars = dict.fromkeys(
-        ("spdiameter", "stepcut", "delta1", "delta2", "sratio", "rcut")
-    )
+    _allowed_pdffit_vars = dict.fromkeys(("spdiameter", "stepcut", "delta1", "delta2", "sratio", "rcut"))
 
     def setvar(self, var, value):
         """assign to data member using PdfFit-style variable

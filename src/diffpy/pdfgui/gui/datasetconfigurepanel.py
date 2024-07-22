@@ -36,9 +36,7 @@ class DataSetConfigurePanel(wx.Panel, PDFPanel):
         outerSizer = wx.BoxSizer(wx.VERTICAL)
         sizer_1.Add(outerSizer, 1, wx.EXPAND, 0)
 
-        sizer_panelname = wx.StaticBoxSizer(
-            wx.StaticBox(self, wx.ID_ANY, ""), wx.HORIZONTAL
-        )
+        sizer_panelname = wx.StaticBoxSizer(wx.StaticBox(self, wx.ID_ANY, ""), wx.HORIZONTAL)
         outerSizer.Add(sizer_panelname, 0, wx.EXPAND | wx.LEFT | wx.RIGHT, 5)
 
         self.panelNameLabel = wx.StaticText(self, wx.ID_ANY, "Data Set Configuration")
@@ -52,9 +50,7 @@ class DataSetConfigurePanel(wx.Panel, PDFPanel):
                 "",
             )
         )
-        sizer_panelname.Add(
-            self.panelNameLabel, 0, wx.ALIGN_CENTER_VERTICAL | wx.LEFT | wx.RIGHT, 5
-        )
+        sizer_panelname.Add(self.panelNameLabel, 0, wx.ALIGN_CENTER_VERTICAL | wx.LEFT | wx.RIGHT, 5)
 
         outerSizer.Add((450, 5), 0, 0, 0)
 
@@ -94,20 +90,14 @@ class DataSetConfigurePanel(wx.Panel, PDFPanel):
         )
 
         self.textCtrlDataFrom = wx.TextCtrl(self, wx.ID_ANY, "", style=wx.TE_READONLY)
-        self.textCtrlDataFrom.SetBackgroundColour(
-            wx.SystemSettings.GetColour(wx.SYS_COLOUR_GRAYTEXT)
-        )
+        self.textCtrlDataFrom.SetBackgroundColour(wx.SystemSettings.GetColour(wx.SYS_COLOUR_GRAYTEXT))
         grid_sizer_1.Add(self.textCtrlDataFrom, 0, 0, 0)
 
         self.labelDataTo = wx.StaticText(self, wx.ID_ANY, "to")
-        grid_sizer_1.Add(
-            self.labelDataTo, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALIGN_RIGHT | wx.LEFT, 20
-        )
+        grid_sizer_1.Add(self.labelDataTo, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALIGN_RIGHT | wx.LEFT, 20)
 
         self.textCtrlDataTo = wx.TextCtrl(self, wx.ID_ANY, "", style=wx.TE_READONLY)
-        self.textCtrlDataTo.SetBackgroundColour(
-            wx.SystemSettings.GetColour(wx.SYS_COLOUR_GRAYTEXT)
-        )
+        self.textCtrlDataTo.SetBackgroundColour(wx.SystemSettings.GetColour(wx.SYS_COLOUR_GRAYTEXT))
         grid_sizer_1.Add(self.textCtrlDataTo, 0, 0, 0)
 
         self.labelDataStep = wx.StaticText(self, wx.ID_ANY, "spacing")
@@ -119,14 +109,10 @@ class DataSetConfigurePanel(wx.Panel, PDFPanel):
         )
 
         self.textCtrlDataStep = wx.TextCtrl(self, wx.ID_ANY, "", style=wx.TE_READONLY)
-        self.textCtrlDataStep.SetBackgroundColour(
-            wx.SystemSettings.GetColour(wx.SYS_COLOUR_GRAYTEXT)
-        )
+        self.textCtrlDataStep.SetBackgroundColour(wx.SystemSettings.GetColour(wx.SYS_COLOUR_GRAYTEXT))
         grid_sizer_1.Add(self.textCtrlDataStep, 0, 0, 0)
 
-        self.labelFitRange = wx.StaticText(
-            self, wx.ID_ANY, "Fit Range", style=wx.ALIGN_RIGHT
-        )
+        self.labelFitRange = wx.StaticText(self, wx.ID_ANY, "Fit Range", style=wx.ALIGN_RIGHT)
         grid_sizer_1.Add(
             self.labelFitRange,
             0,
@@ -138,9 +124,7 @@ class DataSetConfigurePanel(wx.Panel, PDFPanel):
         grid_sizer_1.Add(self.textCtrlFitFrom, 0, wx.ALIGN_CENTER_VERTICAL, 0)
 
         self.labelFitTo = wx.StaticText(self, wx.ID_ANY, "to", style=wx.ALIGN_RIGHT)
-        grid_sizer_1.Add(
-            self.labelFitTo, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALIGN_RIGHT | wx.LEFT, 20
-        )
+        grid_sizer_1.Add(self.labelFitTo, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALIGN_RIGHT | wx.LEFT, 20)
 
         self.textCtrlFitTo = wx.TextCtrl(self, wx.ID_ANY, "10.0")
         grid_sizer_1.Add(self.textCtrlFitTo, 0, wx.ALIGN_CENTER_VERTICAL, 0)
@@ -156,9 +140,7 @@ class DataSetConfigurePanel(wx.Panel, PDFPanel):
         self.textCtrlFitStep = wx.TextCtrl(self, wx.ID_ANY, "0")
         grid_sizer_1.Add(self.textCtrlFitStep, 0, wx.ALIGN_CENTER_VERTICAL, 0)
 
-        self.labelScaleFactor = wx.StaticText(
-            self, wx.ID_ANY, "Scale Factor", style=wx.ALIGN_RIGHT
-        )
+        self.labelScaleFactor = wx.StaticText(self, wx.ID_ANY, "Scale Factor", style=wx.ALIGN_RIGHT)
         grid_sizer_1.Add(
             self.labelScaleFactor,
             0,
@@ -170,9 +152,7 @@ class DataSetConfigurePanel(wx.Panel, PDFPanel):
         grid_sizer_1.Add(self.textCtrlScaleFactor, 0, wx.ALIGN_CENTER_VERTICAL, 0)
 
         self.labelQmax = wx.StaticText(self, wx.ID_ANY, "Qmax", style=wx.ALIGN_RIGHT)
-        grid_sizer_1.Add(
-            self.labelQmax, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALIGN_RIGHT | wx.LEFT, 20
-        )
+        grid_sizer_1.Add(self.labelQmax, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALIGN_RIGHT | wx.LEFT, 20)
 
         self.textCtrlQmax = wx.TextCtrl(self, wx.ID_ANY, "25.0")
         grid_sizer_1.Add(self.textCtrlQmax, 0, wx.ALIGN_CENTER_VERTICAL, 0)
@@ -184,19 +164,13 @@ class DataSetConfigurePanel(wx.Panel, PDFPanel):
         grid_sizer_1.Add(self.blank1_copy_4, 0, 0, 0)
 
         self.labelQdamp = wx.StaticText(self, wx.ID_ANY, "Qdamp", style=wx.ALIGN_RIGHT)
-        grid_sizer_1.Add(
-            self.labelQdamp, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALIGN_RIGHT | wx.LEFT, 5
-        )
+        grid_sizer_1.Add(self.labelQdamp, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALIGN_RIGHT | wx.LEFT, 5)
 
         self.textCtrlQdamp = wx.TextCtrl(self, wx.ID_ANY, "0.0")
         grid_sizer_1.Add(self.textCtrlQdamp, 0, wx.ALIGN_CENTER_VERTICAL, 0)
 
-        self.labelQbroad = wx.StaticText(
-            self, wx.ID_ANY, "Qbroad", style=wx.ALIGN_RIGHT
-        )
-        grid_sizer_1.Add(
-            self.labelQbroad, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALIGN_RIGHT | wx.LEFT, 20
-        )
+        self.labelQbroad = wx.StaticText(self, wx.ID_ANY, "Qbroad", style=wx.ALIGN_RIGHT)
+        grid_sizer_1.Add(self.labelQbroad, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALIGN_RIGHT | wx.LEFT, 20)
 
         self.textCtrlQbroad = wx.TextCtrl(self, wx.ID_ANY, "0.0")
         grid_sizer_1.Add(self.textCtrlQbroad, 0, wx.ALIGN_CENTER_VERTICAL, 0)
@@ -207,9 +181,7 @@ class DataSetConfigurePanel(wx.Panel, PDFPanel):
         self.blank1_copy_5 = wx.StaticText(self, wx.ID_ANY, "")
         grid_sizer_1.Add(self.blank1_copy_5, 0, 0, 0)
 
-        self.labelTemperature = wx.StaticText(
-            self, wx.ID_ANY, "Temperature", style=wx.ALIGN_RIGHT
-        )
+        self.labelTemperature = wx.StaticText(self, wx.ID_ANY, "Temperature", style=wx.ALIGN_RIGHT)
         grid_sizer_1.Add(
             self.labelTemperature,
             0,
@@ -220,12 +192,8 @@ class DataSetConfigurePanel(wx.Panel, PDFPanel):
         self.textCtrlTemperature = wx.TextCtrl(self, wx.ID_ANY, "300.0")
         grid_sizer_1.Add(self.textCtrlTemperature, 0, wx.ALIGN_CENTER_VERTICAL, 0)
 
-        self.labelDoping = wx.StaticText(
-            self, wx.ID_ANY, "Doping", style=wx.ALIGN_RIGHT
-        )
-        grid_sizer_1.Add(
-            self.labelDoping, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALIGN_RIGHT | wx.LEFT, 20
-        )
+        self.labelDoping = wx.StaticText(self, wx.ID_ANY, "Doping", style=wx.ALIGN_RIGHT)
+        grid_sizer_1.Add(self.labelDoping, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALIGN_RIGHT | wx.LEFT, 20)
 
         self.textCtrlDoping = wx.TextCtrl(self, wx.ID_ANY, "1.0")
         grid_sizer_1.Add(self.textCtrlDoping, 0, wx.ALIGN_CENTER_VERTICAL, 0)
@@ -381,9 +349,7 @@ class DataSetConfigurePanel(wx.Panel, PDFPanel):
             textCtrl = getattr(self, value)
             if key in self.constraints:
                 textCtrl.SetEditable(False)
-                textCtrl.SetBackgroundColour(
-                    wx.SystemSettings.GetColour(wx.SYS_COLOUR_GRAYTEXT)
-                )
+                textCtrl.SetBackgroundColour(wx.SystemSettings.GetColour(wx.SYS_COLOUR_GRAYTEXT))
                 tt = textCtrl.GetToolTip()
                 tt.SetTip(self.constraints[key].formula)
             else:
@@ -444,9 +410,7 @@ class DataSetConfigurePanel(wx.Panel, PDFPanel):
         else:
             step = None
             self.textCtrlFitStep.SetEditable(False)
-            self.textCtrlFitStep.SetBackgroundColour(
-                wx.SystemSettings.GetColour(wx.SYS_COLOUR_GRAYTEXT)
-            )
+            self.textCtrlFitStep.SetBackgroundColour(wx.SystemSettings.GetColour(wx.SYS_COLOUR_GRAYTEXT))
 
         # Set the value of qmax
         val = self.__coerseText(self.textCtrlQmax.GetValue())

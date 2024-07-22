@@ -55,14 +55,10 @@ class PlotPanel(wx.Panel, PDFPanel):
         sizer_6 = wx.BoxSizer(wx.HORIZONTAL)
         sizer_1.Add(sizer_6, 0, wx.EXPAND, 0)
 
-        self.offsetLabel = wx.StaticText(
-            self, wx.ID_ANY, "offset", style=wx.ALIGN_RIGHT
-        )
+        self.offsetLabel = wx.StaticText(self, wx.ID_ANY, "offset", style=wx.ALIGN_RIGHT)
         sizer_6.Add(self.offsetLabel, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALL, 5)
 
-        self.offsetTextCtrl = wx.TextCtrl(
-            self, wx.ID_ANY, "-5", style=wx.TE_PROCESS_ENTER
-        )
+        self.offsetTextCtrl = wx.TextCtrl(self, wx.ID_ANY, "-5", style=wx.TE_PROCESS_ENTER)
         sizer_6.Add(self.offsetTextCtrl, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALL, 5)
 
         self.static_line_1 = wx.StaticLine(self, wx.ID_ANY)
@@ -134,10 +130,7 @@ class PlotPanel(wx.Panel, PDFPanel):
             return
         self.enableWidgets(True)
         fits = dict.fromkeys(
-            [
-                self.treeCtrlMain.GetControlData(self.treeCtrlMain.GetFitRoot(sel))
-                for sel in selections
-            ]
+            [self.treeCtrlMain.GetControlData(self.treeCtrlMain.GetFitRoot(sel)) for sel in selections]
         )
         refs = [self.treeCtrlMain.GetControlData(sel) for sel in selections]
 
@@ -257,9 +250,7 @@ class PlotPanel(wx.Panel, PDFPanel):
         except ValueError:  # offset can be empty string
             offset = 0.0
 
-        self.mainFrame.control.plot(
-            xval, yvals, refs, shift=offset, dry=(event is None)
-        )
+        self.mainFrame.control.plot(xval, yvals, refs, shift=offset, dry=(event is None))
         return
 
     def onEnter(self, event):

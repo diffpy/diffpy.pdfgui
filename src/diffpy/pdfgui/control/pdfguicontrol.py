@@ -495,9 +495,7 @@ class PDFGuiControl:
         self.redirectStdout()
         fits = [ID for ID in IDlist if isinstance(ID, Fitting)]
         # only add calcs which is not in fits, because fits will automatically run calcs under it anyway
-        calcs = [
-            ID for ID in IDlist if isinstance(ID, Calculation) and ID.owner not in fits
-        ]
+        calcs = [ID for ID in IDlist if isinstance(ID, Calculation) and ID.owner not in fits]
         for calc in calcs:
             calc.start()
         self.enqueue(fits)

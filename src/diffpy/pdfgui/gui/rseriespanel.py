@@ -75,12 +75,8 @@ class RSeriesPanel(wx.Panel, PDFPanel):
         # begin wxGlade: RSeriesPanel.__do_layout
         sizer_1 = wx.BoxSizer(wx.VERTICAL)
         sizer_3 = wx.BoxSizer(wx.HORIZONTAL)
-        sizer_4_copy = wx.StaticBoxSizer(
-            wx.StaticBox(self, wx.ID_ANY, "fit minimum"), wx.HORIZONTAL
-        )
-        sizer_4 = wx.StaticBoxSizer(
-            wx.StaticBox(self, wx.ID_ANY, "fit maximum"), wx.HORIZONTAL
-        )
+        sizer_4_copy = wx.StaticBoxSizer(wx.StaticBox(self, wx.ID_ANY, "fit minimum"), wx.HORIZONTAL)
+        sizer_4 = wx.StaticBoxSizer(wx.StaticBox(self, wx.ID_ANY, "fit maximum"), wx.HORIZONTAL)
         sizer_1.Add(self.instructionsLabel, 0, wx.ALL | wx.EXPAND, 5)
         sizer_4.Add(self.maxFirstLabel, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALL, 5)
         sizer_4.Add(self.maxFirstTextCtrl, 0, wx.ALL, 5)
@@ -181,13 +177,7 @@ class RSeriesPanel(wx.Panel, PDFPanel):
             node = selections[0]
             nodetype = self.treeCtrlMain.GetNodeType(node)
 
-        if (
-            node
-            and nodetype == "fit"
-            and self.fit
-            and self.fit.hasDataSets()
-            and self.fit.hasStructures()
-        ):
+        if node and nodetype == "fit" and self.fit and self.fit.hasDataSets() and self.fit.hasStructures():
             self.goButton.Enable()
         else:
             self.goButton.Enable(False)

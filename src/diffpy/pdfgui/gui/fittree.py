@@ -150,9 +150,7 @@ class FitTree(wx12.TreeCtrl):
             sametype = []
             for fit in fits:
                 children = self.GetChildren(fit)
-                sametype.extend(
-                    [child for child in children if self.GetNodeType(child) == nodetype]
-                )
+                sametype.extend([child for child in children if self.GetNodeType(child) == nodetype])
             return sametype
 
     def GetPhases(self, node):
@@ -363,9 +361,7 @@ class FitTree(wx12.TreeCtrl):
             raise
         return
 
-    def AddPhase(
-        self, node, label, insertafter=None, filename=None, makedata=True, cdata=None
-    ):
+    def AddPhase(self, node, label, insertafter=None, filename=None, makedata=True, cdata=None):
         """Add a new blank Phase to the tree as a child of node.
 
         node        --  The parent 'fit' node.
@@ -436,9 +432,7 @@ class FitTree(wx12.TreeCtrl):
             raise
         return
 
-    def AddDataSet(
-        self, node, label, insertafter=None, filename=None, makedata=True, cdata=None
-    ):
+    def AddDataSet(self, node, label, insertafter=None, filename=None, makedata=True, cdata=None):
         """Add a new DataSet to the tree as a child of fit.
 
         node        --  The parent node of the dataset. Must be 'fit' type.
@@ -786,21 +780,13 @@ class FitTree(wx12.TreeCtrl):
         # cdata.name = label
         if branchtype == "fit":
             cdata.name = label
-            newnode = self.ExtendProjectTree(
-                [cdata.organization()], clear=False, paste=True
-            )
+            newnode = self.ExtendProjectTree([cdata.organization()], clear=False, paste=True)
         elif branchtype == "phase":
-            newnode = self.AddPhase(
-                entrypoint, label, insertafter=insertafter, makedata=False, cdata=cdata
-            )
+            newnode = self.AddPhase(entrypoint, label, insertafter=insertafter, makedata=False, cdata=cdata)
         elif branchtype == "dataset":
-            newnode = self.AddDataSet(
-                entrypoint, label, insertafter=insertafter, makedata=False, cdata=cdata
-            )
+            newnode = self.AddDataSet(entrypoint, label, insertafter=insertafter, makedata=False, cdata=cdata)
         elif branchtype == "calculation":
-            newnode = self.AddCalc(
-                entrypoint, label, insertafter=insertafter, makedata=False, cdata=cdata
-            )
+            newnode = self.AddCalc(entrypoint, label, insertafter=insertafter, makedata=False, cdata=cdata)
         else:
             raise FitTreeError("Unrecognized node type: %s" % branchtype)
 

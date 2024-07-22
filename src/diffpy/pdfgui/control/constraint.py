@@ -135,9 +135,7 @@ class Constraint:
             raise ControlSyntaxError(message)
         # few more checks of the formula:
         if newformula.find("**") != -1:
-            emsg = (
-                "invalid constraint formula '{}', " "operator '**' not supported."
-            ).format(newformula)
+            emsg = ("invalid constraint formula '{}', " "operator '**' not supported.").format(newformula)
             raise ControlSyntaxError(emsg)
         # checks checked
         self.__dict__["formula"] = newformula

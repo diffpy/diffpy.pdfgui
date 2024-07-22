@@ -68,10 +68,7 @@ def getversioncfg():
     cp = RawConfigParser()
     cp.read(versioncfgfile)
     d = cp.defaults()
-    rewrite = not d or (
-        g["commit"]
-        and (g["version"] != d.get("version") or g["commit"] != d.get("commit"))
-    )
+    rewrite = not d or (g["commit"] and (g["version"] != d.get("version") or g["commit"] != d.get("commit")))
     if rewrite:
         cp.set("DEFAULT", "version", g["version"])
         cp.set("DEFAULT", "commit", g["commit"])

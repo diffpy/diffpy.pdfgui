@@ -122,9 +122,7 @@ def catchObjectErrors(obj, exclude=None):
     funcNames = [
         item
         for item in dir(obj)
-        if not item.startswith("_")
-        and item not in _EXCLUDED_METHODS
-        and item not in extra_excludes
+        if not item.startswith("_") and item not in _EXCLUDED_METHODS and item not in extra_excludes
     ]
 
     for name in funcNames:

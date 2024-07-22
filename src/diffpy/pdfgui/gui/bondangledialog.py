@@ -26,9 +26,7 @@ class BondAngleDialog(wx.Dialog, PDFPanel):
         kwds["style"] = wx.DEFAULT_DIALOG_STYLE
         wx.Dialog.__init__(self, *args, **kwds)
         self.sizer_2_staticbox = wx.StaticBox(self, -1, "Bond Angle Calculation")
-        self.instructionsLabel = wx.StaticText(
-            self, -1, "Calculate the angle defined by three atoms."
-        )
+        self.instructionsLabel = wx.StaticText(self, -1, "Calculate the angle defined by three atoms.")
         self.atomsLabel = wx.StaticText(self, -1, "Atom Indices")
         self.aSpinCtrl = wx.SpinCtrl(self, -1, "1", min=1, max=1)
         self.bSpinCtrl = wx.SpinCtrl(self, -1, "1", min=1, max=1)
@@ -64,9 +62,7 @@ class BondAngleDialog(wx.Dialog, PDFPanel):
             5,
         )
         sizer_2.Add(sizer_3, 0, wx.EXPAND, 0)
-        sizer_4.Add(
-            self.atomsLabel, 0, wx.ALL | wx.ALIGN_CENTER_VERTICAL | wx.ADJUST_MINSIZE, 5
-        )
+        sizer_4.Add(self.atomsLabel, 0, wx.ALL | wx.ALIGN_CENTER_VERTICAL | wx.ADJUST_MINSIZE, 5)
         sizer_4.Add(self.aSpinCtrl, 0, wx.ALL | wx.ADJUST_MINSIZE, 5)
         sizer_4.Add(self.bSpinCtrl, 0, wx.ALL | wx.ADJUST_MINSIZE, 5)
         sizer_4.Add(self.cSpinCtrl, 0, wx.ALL | wx.ADJUST_MINSIZE, 5)

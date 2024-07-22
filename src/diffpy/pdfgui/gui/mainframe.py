@@ -196,9 +196,7 @@ class MainFrame(wx.Frame):
         self.Bind(wx.EVT_TREE_SEL_CHANGING, self.onTreeSelChanging, self.treeCtrlMain)
         self.Bind(wx.EVT_TREE_SEL_CHANGED, self.onTreeSelChanged, self.treeCtrlMain)
         self.Bind(wx.EVT_TREE_END_LABEL_EDIT, self.onEndLabelEdit, self.treeCtrlMain)
-        self.Bind(
-            wx.EVT_TREE_BEGIN_LABEL_EDIT, self.onBeginLabelEdit, self.treeCtrlMain
-        )
+        self.Bind(wx.EVT_TREE_BEGIN_LABEL_EDIT, self.onBeginLabelEdit, self.treeCtrlMain)
         self.__customBindings()
         self.__cmdLineLoad()
         self.updateTitle()
@@ -440,21 +438,15 @@ class MainFrame(wx.Frame):
 
         # File Menu
         self.fileMenu = wx12.Menu()
-        self.newItem = wx.MenuItem(
-            self.fileMenu, self.newId, "&New Project\tCtrl+n", "", wx.ITEM_NORMAL
-        )
+        self.newItem = wx.MenuItem(self.fileMenu, self.newId, "&New Project\tCtrl+n", "", wx.ITEM_NORMAL)
         self.fileMenu.Append(self.newItem)
-        self.openItem = wx.MenuItem(
-            self.fileMenu, self.openId, "&Open Project\tCtrl+o", "", wx.ITEM_NORMAL
-        )
+        self.openItem = wx.MenuItem(self.fileMenu, self.openId, "&Open Project\tCtrl+o", "", wx.ITEM_NORMAL)
         self.fileMenu.Append(self.openItem)
         self.recentMenu = wx12.Menu()
         msub = self.fileMenu.AppendSubMenu(self.recentMenu, "&Recent Files")
         self.recentId = msub.Id
         self.fileMenu.AppendSeparator()
-        self.saveItem = wx.MenuItem(
-            self.fileMenu, self.saveId, "&Save Project\tCtrl+s", "", wx.ITEM_NORMAL
-        )
+        self.saveItem = wx.MenuItem(self.fileMenu, self.saveId, "&Save Project\tCtrl+s", "", wx.ITEM_NORMAL)
         self.fileMenu.Append(self.saveItem)
         self.saveAsItem = wx.MenuItem(
             self.fileMenu,
@@ -465,35 +457,23 @@ class MainFrame(wx.Frame):
         )
         self.fileMenu.Append(self.saveAsItem)
         self.fileMenu.AppendSeparator()
-        self.quitItem = wx.MenuItem(
-            self.fileMenu, self.quitId, "&Quit\tCtrl+q", "", wx.ITEM_NORMAL
-        )
+        self.quitItem = wx.MenuItem(self.fileMenu, self.quitId, "&Quit\tCtrl+q", "", wx.ITEM_NORMAL)
         self.fileMenu.Append(self.quitItem)
         self.menuBar.Append(self.fileMenu, "&File")
         # End File Menu
 
         # Edit Menu
         self.editMenu = wx12.Menu()
-        self.delItem = wx.MenuItem(
-            self.editMenu, self.deleteId, "&Delete Item(s)\tCtrl+X", "", wx.ITEM_NORMAL
-        )
+        self.delItem = wx.MenuItem(self.editMenu, self.deleteId, "&Delete Item(s)\tCtrl+X", "", wx.ITEM_NORMAL)
         self.editMenu.Append(self.delItem)
-        self.copyItem = wx.MenuItem(
-            self.editMenu, self.copyId, "&Copy Item\tCtrl+C", "", wx.ITEM_NORMAL
-        )
+        self.copyItem = wx.MenuItem(self.editMenu, self.copyId, "&Copy Item\tCtrl+C", "", wx.ITEM_NORMAL)
         self.editMenu.Append(self.copyItem)
-        self.pasteItem = wx.MenuItem(
-            self.editMenu, self.pasteId, "&Paste Item\tCtrl+V", "", wx.ITEM_NORMAL
-        )
+        self.pasteItem = wx.MenuItem(self.editMenu, self.pasteId, "&Paste Item\tCtrl+V", "", wx.ITEM_NORMAL)
         self.editMenu.Append(self.pasteItem)
-        self.pasteLinkItem = wx.MenuItem(
-            self.editMenu, self.pasteLinkId, "Paste &Linked Fit", "", wx.ITEM_NORMAL
-        )
+        self.pasteLinkItem = wx.MenuItem(self.editMenu, self.pasteLinkId, "Paste &Linked Fit", "", wx.ITEM_NORMAL)
         self.editMenu.Append(self.pasteLinkItem)
         self.editMenu.AppendSeparator()
-        self.prefItem = wx.MenuItem(
-            self.editMenu, wx12.NewIdRef(), "&Preferences", "", wx.ITEM_NORMAL
-        )
+        self.prefItem = wx.MenuItem(self.editMenu, wx12.NewIdRef(), "&Preferences", "", wx.ITEM_NORMAL)
         self.editMenu.Append(self.prefItem)
         self.menuBar.Append(self.editMenu, "&Edit")
         # End Edit Menu
@@ -506,17 +486,11 @@ class MainFrame(wx.Frame):
         self.viewMenu.Append(self.defaultLayoutItem)
         self.viewMenu.AppendSeparator()
         # These items are context sensitive.
-        self.showFitItem = wx.MenuItem(
-            self.viewMenu, wx12.NewIdRef(), "Show Fit Tree", "", wx.ITEM_NORMAL
-        )
+        self.showFitItem = wx.MenuItem(self.viewMenu, wx12.NewIdRef(), "Show Fit Tree", "", wx.ITEM_NORMAL)
         self.viewMenu.Append(self.showFitItem)
-        self.showPlotItem = wx.MenuItem(
-            self.viewMenu, wx12.NewIdRef(), "Show Plot Control", "", wx.ITEM_NORMAL
-        )
+        self.showPlotItem = wx.MenuItem(self.viewMenu, wx12.NewIdRef(), "Show Plot Control", "", wx.ITEM_NORMAL)
         self.viewMenu.Append(self.showPlotItem)
-        self.showOutputItem = wx.MenuItem(
-            self.viewMenu, wx12.NewIdRef(), "Show Output", "", wx.ITEM_NORMAL
-        )
+        self.showOutputItem = wx.MenuItem(self.viewMenu, wx12.NewIdRef(), "Show Output", "", wx.ITEM_NORMAL)
         self.viewMenu.Append(self.showOutputItem)
         self.showJournalItem = wx.MenuItem(
             self.viewMenu, wx12.NewIdRef(), "Show Journal\tCtrl+j", "", wx.ITEM_NORMAL
@@ -526,38 +500,24 @@ class MainFrame(wx.Frame):
 
         # Fits Menu
         self.fitsMenu = wx12.Menu()
-        self.newFitItem = wx.MenuItem(
-            self.fitsMenu, self.newFitId, "&New Fit\tCtrl+t", "", wx.ITEM_NORMAL
-        )
+        self.newFitItem = wx.MenuItem(self.fitsMenu, self.newFitId, "&New Fit\tCtrl+t", "", wx.ITEM_NORMAL)
         self.fitsMenu.Append(self.newFitItem)
         self.fitsMenu.AppendSeparator()
-        self.runFitItem = wx.MenuItem(
-            self.fitsMenu, self.runFitId, "&Run Selected Fits", "", wx.ITEM_NORMAL
-        )
+        self.runFitItem = wx.MenuItem(self.fitsMenu, self.runFitId, "&Run Selected Fits", "", wx.ITEM_NORMAL)
         self.fitsMenu.Append(self.runFitItem)
-        self.stopFitItem = wx.MenuItem(
-            self.fitsMenu, self.stopFitId, "&Stop Fitting", "", wx.ITEM_NORMAL
-        )
+        self.stopFitItem = wx.MenuItem(self.fitsMenu, self.stopFitId, "&Stop Fitting", "", wx.ITEM_NORMAL)
         self.fitsMenu.Append(self.stopFitItem)
         self.fitsMenu.AppendSeparator()
-        self.expResItem = wx.MenuItem(
-            self.fitsMenu, self.exportResId, "Export Resu&lts File", "", wx.ITEM_NORMAL
-        )
+        self.expResItem = wx.MenuItem(self.fitsMenu, self.exportResId, "Export Resu&lts File", "", wx.ITEM_NORMAL)
         self.fitsMenu.Append(self.expResItem)
         self.fitsMenu.AppendSeparator()
         # Macros sub-menu
         self.macrosMenu = wx12.Menu()
-        self.rseriesItem = wx.MenuItem(
-            self.macrosMenu, wx12.NewIdRef(), "r-Series", "", wx.ITEM_NORMAL
-        )
+        self.rseriesItem = wx.MenuItem(self.macrosMenu, wx12.NewIdRef(), "r-Series", "", wx.ITEM_NORMAL)
         self.macrosMenu.Append(self.rseriesItem)
-        self.tseriesItem = wx.MenuItem(
-            self.macrosMenu, wx12.NewIdRef(), "Temperature Series", "", wx.ITEM_NORMAL
-        )
+        self.tseriesItem = wx.MenuItem(self.macrosMenu, wx12.NewIdRef(), "Temperature Series", "", wx.ITEM_NORMAL)
         self.macrosMenu.Append(self.tseriesItem)
-        self.dseriesItem = wx.MenuItem(
-            self.macrosMenu, wx12.NewIdRef(), "Doping Series", "", wx.ITEM_NORMAL
-        )
+        self.dseriesItem = wx.MenuItem(self.macrosMenu, wx12.NewIdRef(), "Doping Series", "", wx.ITEM_NORMAL)
         self.macrosMenu.Append(self.dseriesItem)
         self.fitsMenu.AppendSubMenu(self.macrosMenu, "Macros")
         self.menuBar.Append(self.fitsMenu, "Fi&ts")
@@ -565,9 +525,7 @@ class MainFrame(wx.Frame):
 
         # Phases Menu
         self.phasesMenu = wx12.Menu()
-        self.newPhaseItem = wx.MenuItem(
-            self.phasesMenu, self.newPhaseId, "&New Phase\tCtrl+p", "", wx.ITEM_NORMAL
-        )
+        self.newPhaseItem = wx.MenuItem(self.phasesMenu, self.newPhaseId, "&New Phase\tCtrl+p", "", wx.ITEM_NORMAL)
         self.phasesMenu.Append(self.newPhaseItem)
         self.phasesMenu.AppendSeparator()
         self.printBLItem = wx.MenuItem(
@@ -622,14 +580,10 @@ class MainFrame(wx.Frame):
 
         # Data Menu
         self.dataMenu = wx12.Menu()
-        self.newDataItem = wx.MenuItem(
-            self.dataMenu, self.newDataId, "&New Data Set\tCtrl+d", "", wx.ITEM_NORMAL
-        )
+        self.newDataItem = wx.MenuItem(self.dataMenu, self.newDataId, "&New Data Set\tCtrl+d", "", wx.ITEM_NORMAL)
         self.dataMenu.Append(self.newDataItem)
         self.dataMenu.AppendSeparator()
-        self.expFitPDFItem = wx.MenuItem(
-            self.fitsMenu, self.exportFitPDFId, "&Export Fit PDF", "", wx.ITEM_NORMAL
-        )
+        self.expFitPDFItem = wx.MenuItem(self.fitsMenu, self.exportFitPDFId, "&Export Fit PDF", "", wx.ITEM_NORMAL)
         self.dataMenu.Append(self.expFitPDFItem)
         self.menuBar.Append(self.dataMenu, "&Data")
         # End Data Menu
@@ -667,9 +621,7 @@ class MainFrame(wx.Frame):
 
         # Help Menu
         self.helpMenu = wx12.Menu()
-        self.docItem = wx.MenuItem(
-            self.helpMenu, wx12.NewIdRef(), "&Documentation\tF1", "", wx.ITEM_NORMAL
-        )
+        self.docItem = wx.MenuItem(self.helpMenu, wx12.NewIdRef(), "&Documentation\tF1", "", wx.ITEM_NORMAL)
         self.helpMenu.Append(self.docItem)
         self.requestItem = wx.MenuItem(
             self.helpMenu,
@@ -679,13 +631,9 @@ class MainFrame(wx.Frame):
             wx.ITEM_NORMAL,
         )
         self.helpMenu.Append(self.requestItem)
-        self.communityItem = wx.MenuItem(
-            self.helpMenu, wx12.NewIdRef(), "PDFgui Community", "", wx.ITEM_NORMAL
-        )
+        self.communityItem = wx.MenuItem(self.helpMenu, wx12.NewIdRef(), "PDFgui Community", "", wx.ITEM_NORMAL)
         self.helpMenu.Append(self.communityItem)
-        self.aboutItem = wx.MenuItem(
-            self.helpMenu, wx12.NewIdRef(), "&About", "", wx.ITEM_NORMAL
-        )
+        self.aboutItem = wx.MenuItem(self.helpMenu, wx12.NewIdRef(), "&About", "", wx.ITEM_NORMAL)
         self.helpMenu.Append(self.aboutItem)
         self.menuBar.Append(self.helpMenu, "&Help")
         # End Help Menu
@@ -1311,10 +1259,7 @@ class MainFrame(wx.Frame):
 
         # No sibling's sharing the same name. (Sorry, George Foreman.)
         node = event.GetItem()
-        siblings = [
-            self.treeCtrlMain.GetItemText(id)
-            for id in self.treeCtrlMain.GetSiblings(node)
-        ]
+        siblings = [self.treeCtrlMain.GetItemText(id) for id in self.treeCtrlMain.GetSiblings(node)]
         if label in siblings:
             event.Veto()
             return
@@ -1500,9 +1445,7 @@ class MainFrame(wx.Frame):
 
     def updateToolbar(self):
         """Update the toolbar based upon the status of the program."""
-        self.toolBar.EnableTool(
-            self.saveId, (pdfguiglobals.isAltered and self.runningDict == {})
-        )
+        self.toolBar.EnableTool(self.saveId, (pdfguiglobals.isAltered and self.runningDict == {}))
 
         itemtype = None
         selections = self.treeCtrlMain.GetSelections()
@@ -1925,9 +1868,7 @@ class MainFrame(wx.Frame):
         if len(selections) == 1:
             node = selections[0]
             fitroot = self.treeCtrlMain.GetFitRoot(node)
-            newcalc = self.treeCtrlMain.AddCalc(
-                fitroot, "Calculation 1", insertafter=node
-            )
+            newcalc = self.treeCtrlMain.AddCalc(fitroot, "Calculation 1", insertafter=node)
             # Select the calculation item so that the name can be edited
             self.treeCtrlMain.UnselectAll()
             self.treeCtrlMain.EditLabel(newcalc)
@@ -1988,13 +1929,7 @@ class MainFrame(wx.Frame):
             for sel in selections
             if self.treeCtrlMain.GetNodeType(sel) != "calculation"
         ]
-        nodes.extend(
-            [
-                sel
-                for sel in selections
-                if self.treeCtrlMain.GetNodeType(sel) == "calculation"
-            ]
-        )
+        nodes.extend([sel for sel in selections if self.treeCtrlMain.GetNodeType(sel) == "calculation"])
 
         # Add calculation nodes that are children of fit nodes, and order them
         # as if walking down the fit tree

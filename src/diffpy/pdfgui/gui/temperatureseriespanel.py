@@ -160,9 +160,7 @@ class TemperatureSeriesPanel(wx.Panel, PDFPanel):
         """Let's go!"""
         paths = [tp[1] for tp in self.datasets]
         temperatures = [tp[0] for tp in self.datasets]
-        org = makeTemperatureSeries(
-            self.mainFrame.control, self.fit, paths, temperatures
-        )
+        org = makeTemperatureSeries(self.mainFrame.control, self.fit, paths, temperatures)
         self.treeCtrlMain.ExtendProjectTree(org, clear=False)
         self.mainFrame.needsSave()
         self.onCancel(event)
@@ -351,13 +349,7 @@ class TemperatureSeriesPanel(wx.Panel, PDFPanel):
             node = selections[0]
             nodetype = self.treeCtrlMain.GetNodeType(node)
 
-        if (
-            node
-            and nodetype == "fit"
-            and self.fit
-            and self.fit.hasDataSets()
-            and self.fit.hasStructures()
-        ):
+        if node and nodetype == "fit" and self.fit and self.fit.hasDataSets() and self.fit.hasStructures():
             self.goButton.Enable()
         else:
             self.goButton.Enable(False)

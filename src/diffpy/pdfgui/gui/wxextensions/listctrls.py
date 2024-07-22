@@ -32,16 +32,7 @@ from diffpy.pdfgui.gui.wxextensions import wx12
 class AutoWidthListCtrl(wx12.ListCtrl, listmix.ListCtrlAutoWidthMixin):
     """wxListCtrl subclass that automatically adjusts its column width."""
 
-    def __init__(
-        self,
-        parent,
-        ID,
-        pos=wx.DefaultPosition,
-        size=wx.DefaultSize,
-        style=0,
-        *args,
-        **kwargs
-    ):
+    def __init__(self, parent, ID, pos=wx.DefaultPosition, size=wx.DefaultSize, style=0, *args, **kwargs):
         wx12.ListCtrl.__init__(self, parent, ID, pos, size, style, *args, **kwargs)
         listmix.ListCtrlAutoWidthMixin.__init__(self)
 
@@ -85,16 +76,7 @@ class ColumnSortListCtrl(AutoWidthListCtrl, listmix.ColumnSorterMixin):
     in this tuple.
     """
 
-    def __init__(
-        self,
-        parent,
-        ID,
-        pos=wx.DefaultPosition,
-        size=wx.DefaultSize,
-        style=0,
-        *args,
-        **kwargs
-    ):
+    def __init__(self, parent, ID, pos=wx.DefaultPosition, size=wx.DefaultSize, style=0, *args, **kwargs):
         AutoWidthListCtrl.__init__(self, parent, ID, pos, size, style, *args, **kwargs)
         listmix.ListCtrlAutoWidthMixin.__init__(self)
 
@@ -141,16 +123,7 @@ class KeyEventsListCtrl(ColumnSortListCtrl):
     It only searches for items in the first column.
     """
 
-    def __init__(
-        self,
-        parent,
-        id,
-        pos=wx.DefaultPosition,
-        size=wx.DefaultSize,
-        style=0,
-        *args,
-        **kwargs
-    ):
+    def __init__(self, parent, id, pos=wx.DefaultPosition, size=wx.DefaultSize, style=0, *args, **kwargs):
         ColumnSortListCtrl.__init__(self, parent, id, pos, size, style, *args, **kwargs)
         self.typedText = ""
         self.Bind(wx.EVT_KEY_DOWN, self.OnKey)

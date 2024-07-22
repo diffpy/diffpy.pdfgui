@@ -41,9 +41,7 @@ class DataSetPanel(wx.Panel, PDFPanel):
         self.__set_properties()
         self.__do_layout()
 
-        self.Bind(
-            wx.EVT_NOTEBOOK_PAGE_CHANGED, self.onNotebookChanged, self.dataSetNotebook
-        )
+        self.Bind(wx.EVT_NOTEBOOK_PAGE_CHANGED, self.onNotebookChanged, self.dataSetNotebook)
         # end wxGlade
         self.__customProperties()
 

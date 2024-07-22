@@ -214,9 +214,7 @@ class Fitting(Organizer):
 
             self.parameters = CtrlUnpickler.loads(z.read(subpath + "parameters"))
         if "steps" in rootDict:
-            self.itemIndex, self.dataNameDict, self.snapshots = pickle_loads(
-                z.read(subpath + "steps")
-            )
+            self.itemIndex, self.dataNameDict, self.snapshots = pickle_loads(z.read(subpath + "steps"))
         if "result" in rootDict:
             self.rw, self.res = pickle_loads(z.read(subpath + "result"))
 
@@ -584,9 +582,7 @@ class Fitting(Organizer):
                 #      way while user choose to stop forcefully
         else:
             if self.isThreadRunning():
-                raise ControlStatusError(
-                    "Fitting: Fitting %s is still running" % self.name
-                )
+                raise ControlStatusError("Fitting: Fitting %s is still running" % self.name)
             if self.thread is not None:
                 self.thread.join()
 

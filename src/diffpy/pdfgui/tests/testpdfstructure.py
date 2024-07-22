@@ -30,9 +30,7 @@ class TestPDFStructure(unittest.TestCase):
         """check PDFStructure.read()"""
         stru = self.stru
         notastructurefile = datafile("300K.gr")
-        self.assertRaises(
-            ControlFileError, stru.read, notastructurefile, format="pdffit"
-        )
+        self.assertRaises(ControlFileError, stru.read, notastructurefile, format="pdffit")
         return
 
     def test_copy(self):

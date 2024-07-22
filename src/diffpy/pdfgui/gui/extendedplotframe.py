@@ -48,9 +48,7 @@ class ExtendedToolbar(NavToolbar):
         save_icon_fp = iconpath("exportplotdata.png")
         save_icon = wx.Bitmap(save_icon_fp)
         # Add new buttons
-        self.AddTool(
-            DATA_SAVE_ID, "Export data", save_icon, shortHelp="Export plot data to file"
-        )
+        self.AddTool(DATA_SAVE_ID, "Export data", save_icon, shortHelp="Export plot data to file")
         return
 
 
@@ -317,9 +315,7 @@ class ExtendedPlotFrame(wx.Frame):
             lineStyle = lineStyleDict.get(style["line"], "-")  # prefer solid
             lineWidth = style["width"]
             stylestr += lineStyle
-            properties.update(
-                {"color": color, "linestyle": lineStyle, "linewidth": lineWidth}
-            )
+            properties.update({"color": color, "linestyle": lineStyle, "linewidth": lineWidth})
 
         if "legend" in style:
             properties["label"] = style["legend"]

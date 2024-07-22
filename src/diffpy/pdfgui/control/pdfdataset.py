@@ -146,10 +146,10 @@ class PDFDataSet(PDFComponent):
                 self.readStr(fp.read())
         except PDFDataFormatError as err:
             basename = os.path.basename(filename)
-            emsg = (
-                "Could not open '%s' due to unsupported file format "
-                + "or corrupted data. [%s]"
-            ) % (basename, err)
+            emsg = ("Could not open '%s' due to unsupported file format " + "or corrupted data. [%s]") % (
+                basename,
+                err,
+            )
             raise ControlFileError(emsg)
         self.filename = os.path.abspath(filename)
         return self
@@ -330,10 +330,7 @@ class PDFDataSet(PDFComponent):
         lines.append("##### start data")
         lines.append("#L r(A) G(r) d_r d_Gr")
         for i in range(len(self.robs)):
-            lines.append(
-                "%g %g %g %g"
-                % (self.robs[i], self.Gobs[i], self.drobs[i], self.dGobs[i])
-            )
+            lines.append("%g %g %g %g" % (self.robs[i], self.Gobs[i], self.drobs[i], self.dGobs[i]))
         # that should be it
         datastring = "\n".join(lines) + "\n"
         return datastring

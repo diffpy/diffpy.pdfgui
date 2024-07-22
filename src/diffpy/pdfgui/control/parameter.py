@@ -143,9 +143,7 @@ class Parameter:
         try:
             srcpar = srcfit.parameters[srcidx]
         except KeyError:
-            raise ControlKeyError(
-                "Fitting '%s' has no parameter %s" % (fitname, srcidx)
-            )
+            raise ControlKeyError("Fitting '%s' has no parameter %s" % (fitname, srcidx))
 
         if srcpar.refined is not None:
             value = srcpar.refined

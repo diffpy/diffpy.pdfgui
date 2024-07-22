@@ -291,9 +291,7 @@ class DopingSeriesPanel(wx.Panel, PDFPanel):
         base = self.textCtrlBaseElement.GetValue()
         dopant = self.textCtrlDopant.GetValue()
         # Value checks will take place in makeDopingSeries
-        org = makeDopingSeries(
-            self.mainFrame.control, self.fit, base, dopant, paths, dvals
-        )
+        org = makeDopingSeries(self.mainFrame.control, self.fit, base, dopant, paths, dvals)
         self.treeCtrlMain.ExtendProjectTree(org, clear=False)
         self.mainFrame.needsSave()
         self.onCancel(event)
@@ -338,9 +336,7 @@ class DopingSeriesPanel(wx.Panel, PDFPanel):
         for doping, filename in self.datasets:
             shortname = "..." + filename[idx:]
             # index = self.listCtrlFiles.InsertItem(sys.maxsize, str(doping))  #doesn't work for windows
-            index = self.listCtrlFiles.InsertItem(
-                100000, str(doping)
-            )  # doesn't work for windows
+            index = self.listCtrlFiles.InsertItem(100000, str(doping))  # doesn't work for windows
             self.listCtrlFiles.SetItem(index, 1, shortname)
         return
 
@@ -368,13 +364,7 @@ class DopingSeriesPanel(wx.Panel, PDFPanel):
             node = selections[0]
             nodetype = self.treeCtrlMain.GetNodeType(node)
 
-        if (
-            node
-            and nodetype == "fit"
-            and self.fit
-            and self.fit.hasDataSets()
-            and self.fit.hasStructures()
-        ):
+        if node and nodetype == "fit" and self.fit and self.fit.hasDataSets() and self.fit.hasStructures():
             self.goButton.Enable()
         else:
             self.goButton.Enable(False)

@@ -225,19 +225,16 @@ class Plotter(PDFComponent):
             # The logic below make sure only one of them can be true.
             if bItemIsVector:
                 if self.bMultiData or self.bMultiStep:
-                    emsg = (
-                        "({}, {}) can't be plotted with multiple " "refinements/steps"
-                    ).format(self.xStr, self.yStr)
+                    emsg = ("({}, {}) can't be plotted with multiple " "refinements/steps").format(
+                        self.xStr, self.yStr
+                    )
                     raise ControlConfigError(emsg)
             else:
                 if not self.bMultiData and not self.bMultiStep:
-                    raise ControlConfigError(
-                        "(%s, %s) is a single point" % (self.xStr, self.yStr)
-                    )
+                    raise ControlConfigError("(%s, %s) is a single point" % (self.xStr, self.yStr))
                 elif self.bMultiData and self.bMultiStep:
                     emsg = (
-                        "({}, {}) can't be plotted with both multiple "
-                        "refinements and multiple steps"
+                        "({}, {}) can't be plotted with both multiple " "refinements and multiple steps"
                     ).format(self.xStr, self.yStr)
                     raise ControlConfigError(emsg)
 
@@ -350,9 +347,7 @@ class Plotter(PDFComponent):
                     hMin = min(rs)
                     hMax = max(rs)
 
-                    self.plotwnd.insertCurve(
-                        [hMin, hMax], [self.offset, self.offset], baselineStyle
-                    )
+                    self.plotwnd.insertCurve([hMin, hMax], [self.offset, self.offset], baselineStyle)
             else:
                 # update only
                 self.plotwnd.updateData(self.ref, xs, ys)
@@ -496,9 +491,7 @@ class Plotter(PDFComponent):
                     if y in ("Gdiff", "crw") and group == -1 and len(yset) > 0:
                         _offset = shift
                 # Create curve, get data for it and update it in the plot
-                curve = Plotter.Curve(
-                    legend, self.window, xName, y, step, dataIds, _offset, style
-                )
+                curve = Plotter.Curve(legend, self.window, xName, y, step, dataIds, _offset, style)
                 self.curves.append(curve)
             return
 
