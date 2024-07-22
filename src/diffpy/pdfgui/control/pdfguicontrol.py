@@ -55,7 +55,7 @@ class PDFGuiControl:
         self.fittingQueue = []
         self.currentFitting = None
         self.queueManager = PDFGuiControl.QueueManager(self)
-        ##self.startQueue()
+        # self.startQueue()
 
     def reset(self):
         """clean up for a new project"""

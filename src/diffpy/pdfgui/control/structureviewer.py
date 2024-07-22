@@ -151,6 +151,7 @@ class StructureViewer(object):
         # short circuit if nothing has been created
         if self._tmpdir is None:
             return
+
         # Function for showing unremovable files
         def onerror(fnc, path, error):
             print(("Cannot remove %s - %s" % (path, error)), file=sys.stderr)
