@@ -13,9 +13,8 @@
 #
 ##############################################################################
 
+from diffpy.pdfgui.control.controlerrors import ControlConfigError, ControlStatusError
 from diffpy.pdfgui.control.pdfcomponent import PDFComponent
-from diffpy.pdfgui.control.controlerrors import ControlConfigError
-from diffpy.pdfgui.control.controlerrors import ControlStatusError
 from diffpy.pdfgui.gui.extendedplotframe import ExtendedPlotFrame
 
 # Preset plotting style
@@ -226,19 +225,16 @@ class Plotter(PDFComponent):
             # The logic below make sure only one of them can be true.
             if bItemIsVector:
                 if self.bMultiData or self.bMultiStep:
-                    emsg = (
-                        "({}, {}) can't be plotted with multiple " "refinements/steps"
-                    ).format(self.xStr, self.yStr)
+                    emsg = ("({}, {}) can't be plotted with multiple " "refinements/steps").format(
+                        self.xStr, self.yStr
+                    )
                     raise ControlConfigError(emsg)
             else:
                 if not self.bMultiData and not self.bMultiStep:
-                    raise ControlConfigError(
-                        "(%s, %s) is a single point" % (self.xStr, self.yStr)
-                    )
+                    raise ControlConfigError("(%s, %s) is a single point" % (self.xStr, self.yStr))
                 elif self.bMultiData and self.bMultiStep:
                     emsg = (
-                        "({}, {}) can't be plotted with both multiple "
-                        "refinements and multiple steps"
+                        "({}, {}) can't be plotted with both multiple " "refinements and multiple steps"
                     ).format(self.xStr, self.yStr)
                     raise ControlConfigError(emsg)
 
@@ -351,9 +347,7 @@ class Plotter(PDFComponent):
                     hMin = min(rs)
                     hMax = max(rs)
 
-                    self.plotwnd.insertCurve(
-                        [hMin, hMax], [self.offset, self.offset], baselineStyle
-                    )
+                    self.plotwnd.insertCurve([hMin, hMax], [self.offset, self.offset], baselineStyle)
             else:
                 # update only
                 self.plotwnd.updateData(self.ref, xs, ys)
@@ -497,9 +491,7 @@ class Plotter(PDFComponent):
                     if y in ("Gdiff", "crw") and group == -1 and len(yset) > 0:
                         _offset = shift
                 # Create curve, get data for it and update it in the plot
-                curve = Plotter.Curve(
-                    legend, self.window, xName, y, step, dataIds, _offset, style
-                )
+                curve = Plotter.Curve(legend, self.window, xName, y, step, dataIds, _offset, style)
                 self.curves.append(curve)
             return
 
@@ -623,7 +615,8 @@ class Plotter(PDFComponent):
         # Check if any curve
         if len(self.curves) == 0:
             return
-        import time, getpass
+        import getpass
+        import time
 
         outfile = open(filename, "w")
         header = "# Generated on %s by %s.\n" % (time.ctime(), getpass.getuser())
@@ -661,7 +654,7 @@ def _exportCompactData(fp, xylist, xynames=None):
     datasets = []
     datanames = []
     xt2idx = {}
-    for ((x, y), (xn, yn)) in zip(xylist, xynames):
+    for (x, y), (xn, yn) in zip(xylist, xynames):
         if x is None or not len(x):
             continue
         if y is None or not len(y):

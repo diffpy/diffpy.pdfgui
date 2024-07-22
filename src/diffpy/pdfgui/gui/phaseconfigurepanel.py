@@ -18,19 +18,18 @@
 
 import wx
 import wx.grid
-from diffpy.structure import Atom
+
 from diffpy.pdffit2 import is_element
+from diffpy.pdfgui.control.controlerrors import TempControlSelectError
+from diffpy.pdfgui.gui import phasepanelutils, tooltips
 from diffpy.pdfgui.gui.insertrowsdialog import InsertRowsDialog
 from diffpy.pdfgui.gui.pdfpanel import PDFPanel
-from diffpy.pdfgui.gui import tooltips
-from diffpy.pdfgui.gui.wxextensions.autowidthlabelsgrid import AutoWidthLabelsGrid
-from diffpy.pdfgui.gui.wxextensions.validators import TextValidator, FLOAT_ONLY
-from diffpy.pdfgui.gui.wxextensions.textctrlutils import textCtrlAsGridCell
 from diffpy.pdfgui.gui.wxextensions import wx12
-from diffpy.pdfgui.gui import phasepanelutils
+from diffpy.pdfgui.gui.wxextensions.autowidthlabelsgrid import AutoWidthLabelsGrid
+from diffpy.pdfgui.gui.wxextensions.textctrlutils import textCtrlAsGridCell
+from diffpy.pdfgui.gui.wxextensions.validators import FLOAT_ONLY, TextValidator
+from diffpy.structure import Atom
 from diffpy.utils.wx import gridutils
-
-from diffpy.pdfgui.control.controlerrors import TempControlSelectError
 
 
 class PhaseConfigurePanel(wx.Panel, PDFPanel):
@@ -53,9 +52,7 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
 
         sizerMain = wx.BoxSizer(wx.VERTICAL)
 
-        sizerPanelName = wx.StaticBoxSizer(
-            wx.StaticBox(self, wx.ID_ANY, ""), wx.HORIZONTAL
-        )
+        sizerPanelName = wx.StaticBoxSizer(wx.StaticBox(self, wx.ID_ANY, ""), wx.HORIZONTAL)
         sizerMain.Add(sizerPanelName, 0, wx.EXPAND | wx.LEFT | wx.RIGHT, 5)
 
         self.labelPanelName = wx.StaticText(self, wx.ID_ANY, "Phase Configuration")
@@ -69,69 +66,51 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
                 "",
             )
         )
-        sizerPanelName.Add(
-            self.labelPanelName, 0, wx.ALIGN_CENTER_VERTICAL | wx.LEFT | wx.RIGHT, 5
-        )
+        sizerPanelName.Add(self.labelPanelName, 0, wx.ALIGN_CENTER_VERTICAL | wx.LEFT | wx.RIGHT, 5)
 
-        sizerLatticeParameters = wx.StaticBoxSizer(
-            wx.StaticBox(self, wx.ID_ANY, ""), wx.HORIZONTAL
-        )
+        sizerLatticeParameters = wx.StaticBoxSizer(wx.StaticBox(self, wx.ID_ANY, ""), wx.HORIZONTAL)
         sizerMain.Add(sizerLatticeParameters, 0, wx.EXPAND | wx.LEFT | wx.RIGHT, 5)
 
         grid_sizer_3 = wx.FlexGridSizer(2, 6, 0, 0)
         sizerLatticeParameters.Add(grid_sizer_3, 1, wx.EXPAND, 0)
 
         self.labelA = wx.StaticText(self, wx.ID_ANY, "a")
-        grid_sizer_3.Add(
-            self.labelA, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALIGN_RIGHT | wx.ALL, 5
-        )
+        grid_sizer_3.Add(self.labelA, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALIGN_RIGHT | wx.ALL, 5)
 
         self.textCtrlA = wx.TextCtrl(self, wx.ID_ANY, "", style=wx.TE_PROCESS_ENTER)
         grid_sizer_3.Add(self.textCtrlA, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALL, 0)
 
         self.labelB = wx.StaticText(self, wx.ID_ANY, "b")
-        grid_sizer_3.Add(
-            self.labelB, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALIGN_RIGHT | wx.ALL, 5
-        )
+        grid_sizer_3.Add(self.labelB, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALIGN_RIGHT | wx.ALL, 5)
 
         self.textCtrlB = wx.TextCtrl(self, wx.ID_ANY, "", style=wx.TE_PROCESS_ENTER)
         grid_sizer_3.Add(self.textCtrlB, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALL, 0)
 
         self.labelC = wx.StaticText(self, wx.ID_ANY, "c")
-        grid_sizer_3.Add(
-            self.labelC, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALIGN_RIGHT | wx.ALL, 5
-        )
+        grid_sizer_3.Add(self.labelC, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALIGN_RIGHT | wx.ALL, 5)
 
         self.textCtrlC = wx.TextCtrl(self, wx.ID_ANY, "", style=wx.TE_PROCESS_ENTER)
         grid_sizer_3.Add(self.textCtrlC, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALL, 0)
 
         self.labelAlpha = wx.StaticText(self, wx.ID_ANY, "alpha")
-        grid_sizer_3.Add(
-            self.labelAlpha, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALIGN_RIGHT | wx.ALL, 5
-        )
+        grid_sizer_3.Add(self.labelAlpha, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALIGN_RIGHT | wx.ALL, 5)
 
         self.textCtrlAlpha = wx.TextCtrl(self, wx.ID_ANY, "", style=wx.TE_PROCESS_ENTER)
         grid_sizer_3.Add(self.textCtrlAlpha, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALL, 0)
 
         self.labelBeta = wx.StaticText(self, wx.ID_ANY, "beta")
-        grid_sizer_3.Add(
-            self.labelBeta, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALIGN_RIGHT | wx.ALL, 5
-        )
+        grid_sizer_3.Add(self.labelBeta, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALIGN_RIGHT | wx.ALL, 5)
 
         self.textCtrlBeta = wx.TextCtrl(self, wx.ID_ANY, "", style=wx.TE_PROCESS_ENTER)
         grid_sizer_3.Add(self.textCtrlBeta, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALL, 0)
 
         self.labelGamma = wx.StaticText(self, wx.ID_ANY, "gamma")
-        grid_sizer_3.Add(
-            self.labelGamma, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALIGN_RIGHT | wx.ALL, 5
-        )
+        grid_sizer_3.Add(self.labelGamma, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALIGN_RIGHT | wx.ALL, 5)
 
         self.textCtrlGamma = wx.TextCtrl(self, wx.ID_ANY, "", style=wx.TE_PROCESS_ENTER)
         grid_sizer_3.Add(self.textCtrlGamma, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALL, 0)
 
-        sizerAdditionalParameters = wx.StaticBoxSizer(
-            wx.StaticBox(self, wx.ID_ANY, ""), wx.HORIZONTAL
-        )
+        sizerAdditionalParameters = wx.StaticBoxSizer(wx.StaticBox(self, wx.ID_ANY, ""), wx.HORIZONTAL)
         sizerMain.Add(sizerAdditionalParameters, 0, wx.EXPAND | wx.LEFT | wx.RIGHT, 5)
 
         grid_sizer_4 = wx.FlexGridSizer(3, 6, 0, 0)
@@ -145,12 +124,8 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
             5,
         )
 
-        self.textCtrlScaleFactor = wx.TextCtrl(
-            self, wx.ID_ANY, "", style=wx.TE_PROCESS_ENTER
-        )
-        grid_sizer_4.Add(
-            self.textCtrlScaleFactor, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALL, 0
-        )
+        self.textCtrlScaleFactor = wx.TextCtrl(self, wx.ID_ANY, "", style=wx.TE_PROCESS_ENTER)
+        grid_sizer_4.Add(self.textCtrlScaleFactor, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALL, 0)
 
         grid_sizer_4.Add((20, 10), 0, 0, 0)
 
@@ -161,23 +136,15 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
         grid_sizer_4.Add((20, 10), 0, 0, 0)
 
         self.labelDelta1 = wx.StaticText(self, wx.ID_ANY, "delta1")
-        grid_sizer_4.Add(
-            self.labelDelta1, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALIGN_RIGHT | wx.ALL, 5
-        )
+        grid_sizer_4.Add(self.labelDelta1, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALIGN_RIGHT | wx.ALL, 5)
 
-        self.textCtrlDelta1 = wx.TextCtrl(
-            self, wx.ID_ANY, "", style=wx.TE_PROCESS_ENTER
-        )
+        self.textCtrlDelta1 = wx.TextCtrl(self, wx.ID_ANY, "", style=wx.TE_PROCESS_ENTER)
         grid_sizer_4.Add(self.textCtrlDelta1, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALL, 0)
 
         self.labelDelta2 = wx.StaticText(self, wx.ID_ANY, "delta2")
-        grid_sizer_4.Add(
-            self.labelDelta2, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALIGN_RIGHT | wx.ALL, 5
-        )
+        grid_sizer_4.Add(self.labelDelta2, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALIGN_RIGHT | wx.ALL, 5)
 
-        self.textCtrlDelta2 = wx.TextCtrl(
-            self, wx.ID_ANY, "", style=wx.TE_PROCESS_ENTER
-        )
+        self.textCtrlDelta2 = wx.TextCtrl(self, wx.ID_ANY, "", style=wx.TE_PROCESS_ENTER)
         grid_sizer_4.Add(self.textCtrlDelta2, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALL, 0)
 
         self.labelSpdiameter = wx.StaticText(self, wx.ID_ANY, "spdiameter")
@@ -188,39 +155,25 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
             5,
         )
 
-        self.textCtrlSpdiameter = wx.TextCtrl(
-            self, wx.ID_ANY, "", style=wx.TE_PROCESS_ENTER
-        )
-        grid_sizer_4.Add(
-            self.textCtrlSpdiameter, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALL, 0
-        )
+        self.textCtrlSpdiameter = wx.TextCtrl(self, wx.ID_ANY, "", style=wx.TE_PROCESS_ENTER)
+        grid_sizer_4.Add(self.textCtrlSpdiameter, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALL, 0)
 
         self.labelSratio = wx.StaticText(self, wx.ID_ANY, "sratio")
-        grid_sizer_4.Add(
-            self.labelSratio, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALIGN_RIGHT | wx.ALL, 5
-        )
+        grid_sizer_4.Add(self.labelSratio, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALIGN_RIGHT | wx.ALL, 5)
 
-        self.textCtrlSratio = wx.TextCtrl(
-            self, wx.ID_ANY, "", style=wx.TE_PROCESS_ENTER
-        )
+        self.textCtrlSratio = wx.TextCtrl(self, wx.ID_ANY, "", style=wx.TE_PROCESS_ENTER)
         grid_sizer_4.Add(self.textCtrlSratio, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALL, 0)
 
         self.labelRcut = wx.StaticText(self, wx.ID_ANY, "rcut")
-        grid_sizer_4.Add(
-            self.labelRcut, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALIGN_RIGHT | wx.ALL, 5
-        )
+        grid_sizer_4.Add(self.labelRcut, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALIGN_RIGHT | wx.ALL, 5)
 
         self.textCtrlRcut = wx.TextCtrl(self, wx.ID_ANY, "", style=wx.TE_PROCESS_ENTER)
         grid_sizer_4.Add(self.textCtrlRcut, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALL, 0)
 
         self.labelStepcut = wx.StaticText(self, wx.ID_ANY, "stepcut")
-        grid_sizer_4.Add(
-            self.labelStepcut, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALIGN_RIGHT | wx.ALL, 5
-        )
+        grid_sizer_4.Add(self.labelStepcut, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALIGN_RIGHT | wx.ALL, 5)
 
-        self.textCtrlStepcut = wx.TextCtrl(
-            self, wx.ID_ANY, "", style=wx.TE_PROCESS_ENTER
-        )
+        self.textCtrlStepcut = wx.TextCtrl(self, wx.ID_ANY, "", style=wx.TE_PROCESS_ENTER)
         grid_sizer_4.Add(self.textCtrlStepcut, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALL, 0)
 
         sizerAtoms = wx.StaticBoxSizer(wx.StaticBox(self, wx.ID_ANY, ""), wx.VERTICAL)
@@ -258,9 +211,7 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
         self.Layout()
 
         self.Bind(wx.grid.EVT_GRID_CMD_CELL_CHANGED, self.onCellChange, self.gridAtoms)
-        self.Bind(
-            wx.grid.EVT_GRID_CMD_CELL_RIGHT_CLICK, self.onCellRightClick, self.gridAtoms
-        )
+        self.Bind(wx.grid.EVT_GRID_CMD_CELL_RIGHT_CLICK, self.onCellRightClick, self.gridAtoms)
         self.Bind(wx.grid.EVT_GRID_CMD_EDITOR_SHOWN, self.onEditorShown, self.gridAtoms)
         self.Bind(
             wx.grid.EVT_GRID_CMD_LABEL_RIGHT_CLICK,
@@ -375,9 +326,7 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
             textCtrl = getattr(self, key)
             if var in self.constraints:
                 textCtrl.SetEditable(False)
-                textCtrl.SetBackgroundColour(
-                    wx.SystemSettings.GetColour(wx.SYS_COLOUR_GRAYTEXT)
-                )
+                textCtrl.SetBackgroundColour(wx.SystemSettings.GetColour(wx.SYS_COLOUR_GRAYTEXT))
                 tt = textCtrl.GetToolTip()
                 tt.SetTip(self.constraints[var].formula)
             else:
@@ -609,7 +558,7 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
         This uses the member variable _selectedCells, a list of (i,j) tuples for
         the selected cells.
         """
-        for (i, j) in self._selectedCells:
+        for i, j in self._selectedCells:
             if not self.gridAtoms.IsReadOnly(i, j):
                 # Get the last valid text from the cell. For the cell that triggered
                 # this method, that is the _focusedText, for other cells it is the

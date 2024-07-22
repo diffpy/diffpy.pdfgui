@@ -21,8 +21,8 @@ import unittest
 
 import wx.grid
 
-from diffpy.pdfgui.gui.parameterspanel import ParametersPanel
 from diffpy.pdfgui.control.parameter import Parameter
+from diffpy.pdfgui.gui.parameterspanel import ParametersPanel
 from diffpy.pdfgui.tests.testutils import GUITestCase, clickcell
 
 # ----------------------------------------------------------------------------

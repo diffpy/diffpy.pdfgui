@@ -17,11 +17,12 @@
 """
 
 import copy
+
 import numpy
 
-from diffpy.pdfgui.control.pdfdataset import PDFDataSet
-from diffpy.pdfgui.control.parameter import Parameter
 from diffpy.pdfgui.control.controlerrors import ControlStatusError
+from diffpy.pdfgui.control.parameter import Parameter
+from diffpy.pdfgui.control.pdfdataset import PDFDataSet
 
 
 class FitDataSet(PDFDataSet):
@@ -112,9 +113,7 @@ class FitDataSet(PDFDataSet):
 
         returns list of strings
         """
-        ynames = ["Gobs", "Gcalc", "Gdiff", "Gtrunc", "dGcalc", "crw"] + list(
-            self.constraints.keys()
-        )
+        ynames = ["Gobs", "Gcalc", "Gdiff", "Gtrunc", "dGcalc", "crw"] + list(self.constraints.keys())
         return ynames
 
     def getXNames(self):
@@ -321,10 +320,7 @@ class FitDataSet(PDFDataSet):
         Gdiff = self.Gdiff
         drcalc = 0.0
         for i in range(len(self.rcalc)):
-            lines.append(
-                "%g %g %.1f %g %g"
-                % (self.rcalc[i], self.Gcalc[i], drcalc, self.dGcalc[i], Gdiff[i])
-            )
+            lines.append("%g %g %.1f %g %g" % (self.rcalc[i], self.Gcalc[i], drcalc, self.dGcalc[i], Gdiff[i]))
         # lines are ready here
         datastring = "\n".join(lines) + "\n"
         return datastring
@@ -636,9 +632,7 @@ class FitDataSet(PDFDataSet):
         self._fitrmin = float(value)
         return
 
-    fitrmin = property(
-        _get_fitrmin, _set_fitrmin, doc="Lower boundary for simulated PDF curve."
-    )
+    fitrmin = property(_get_fitrmin, _set_fitrmin, doc="Lower boundary for simulated PDF curve.")
 
     # fitrmax
 
@@ -650,9 +644,7 @@ class FitDataSet(PDFDataSet):
         self._fitrmax = float(value)
         return
 
-    fitrmax = property(
-        _get_fitrmax, _set_fitrmax, doc="Upper boundary for simulated PDF curve."
-    )
+    fitrmax = property(_get_fitrmax, _set_fitrmax, doc="Upper boundary for simulated PDF curve.")
 
     # fitrstep
 
@@ -664,9 +656,7 @@ class FitDataSet(PDFDataSet):
         self._fitrstep = float(value)
         return
 
-    fitrstep = property(
-        _get_fitrstep, _set_fitrstep, doc="R-step used for simulated PDF curve."
-    )
+    fitrstep = property(_get_fitrstep, _set_fitrstep, doc="R-step used for simulated PDF curve.")
 
     # rcalc
 
@@ -707,9 +697,7 @@ class FitDataSet(PDFDataSet):
         self._dGcalc = value
         return
 
-    dGcalc = property(
-        _get_dGcalc, _set_dGcalc, doc="List of standard deviations of Gcalc."
-    )
+    dGcalc = property(_get_dGcalc, _set_dGcalc, doc="List of standard deviations of Gcalc.")
 
     # Gtrunc
 
@@ -757,9 +745,7 @@ class FitDataSet(PDFDataSet):
             rv = []
         return rv
 
-    Gdiff = property(
-        _get_Gdiff, doc="Difference between observed and calculated PDF on rcalc grid."
-    )
+    Gdiff = property(_get_Gdiff, doc="Difference between observed and calculated PDF on rcalc grid.")
 
     # crw
     def _get_crw(self):

@@ -38,9 +38,7 @@ class AutoWidthLabelsGrid(wx.grid.Grid):
             maxWidth = 0
             curRow = self.GetNumberRows() - 1
             while curRow >= 0:
-                curWidth = devContext.GetTextExtent(
-                    "M%s" % (self.GetRowLabelValue(curRow))
-                )[0]
+                curWidth = devContext.GetTextExtent("M%s" % (self.GetRowLabelValue(curRow)))[0]
                 if curWidth > maxWidth:
                     maxWidth = curWidth
                 curRow = curRow - 1
@@ -51,9 +49,7 @@ class AutoWidthLabelsGrid(wx.grid.Grid):
             maxHeight = 0
             curCol = self.GetNumberCols() - 1
             while curCol >= 0:
-                (w, h, d, l) = devContext.GetFullTextExtent(
-                    self.GetColLabelValue(curCol)
-                )
+                (w, h, d, l) = devContext.GetFullTextExtent(self.GetColLabelValue(curCol))
                 curHeight = h + d + l + 4
                 if curHeight > maxHeight:
                     maxHeight = curHeight

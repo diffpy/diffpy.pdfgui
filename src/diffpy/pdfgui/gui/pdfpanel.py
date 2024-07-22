@@ -51,7 +51,7 @@ class PDFPanel(object):
 
         @param toolTips: dictionary of the form {'controlname' : 'tooltip'}
         """
-        for (controlName, tooltip) in toolTips.items():
+        for controlName, tooltip in toolTips.items():
             control = getattr(self, controlName)
             if control.GetToolTip() is None:
                 control.SetToolTip(wx.ToolTip(""))

@@ -28,7 +28,6 @@ import os.path
 
 from pkg_resources import resource_filename
 
-
 # obtain version information from the version.cfg file
 cp = dict(version="", date="", commit="", timestamp="0")
 fcfg = resource_filename(__name__, "version.cfg")
@@ -38,11 +37,7 @@ if not os.path.isfile(fcfg):  # pragma: no cover
     warn('Package metadata not found, execute "./setup.py egg_info".')
     fcfg = os.devnull
 with open(fcfg) as fp:
-    kwords = [
-        [w.strip() for w in line.split(" = ", 1)]
-        for line in fp
-        if line[:1].isalpha() and " = " in line
-    ]
+    kwords = [[w.strip() for w in line.split(" = ", 1)] for line in fp if line[:1].isalpha() and " = " in line]
 assert all(w[0] in cp for w in kwords), "received unrecognized keyword"
 cp.update(kwords)
 

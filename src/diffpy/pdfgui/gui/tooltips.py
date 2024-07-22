@@ -19,9 +19,7 @@
 
 def _expand_tooltip_aliases(ttps):
     "Replace aliased equivalent values {other} in tooltip strings."
-    isalias = lambda s: (
-        s[1:-1] and s[:: len(s) - 1] == "{}" and s[1:-1].replace("_", "").isalnum()
-    )
+    isalias = lambda s: (s[1:-1] and s[:: len(s) - 1] == "{}" and s[1:-1].replace("_", "").isalnum())
     for n, t in list(ttps.items()):
         if not isalias(t):
             continue
@@ -165,9 +163,7 @@ preferencespanel = {
         "If unchecked, the initial data set directory will "
         "default to the current path."
     ),
-    "textCtrlViewer": (
-        "The name of the structure viewer executable, " "e.g., 'atomeye' or 'pymol'."
-    ),
+    "textCtrlViewer": ("The name of the structure viewer executable, " "e.g., 'atomeye' or 'pymol'."),
     "textCtrlArgument": """\
 The command-line arguments to the structure viewer.
 '%s' represents the file name that will be passed to the viewer.

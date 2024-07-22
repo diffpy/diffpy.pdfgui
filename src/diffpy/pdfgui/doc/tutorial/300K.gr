@@ -1,5 +1,5 @@
 History written: Fri Apr 30 13:05:36 2004
-produced by 
+produced by
 ##### Run Information     runCorrection=T
 prep=gsas     machine=npdf
 run=300K     background=npdf_00907
@@ -27,12 +27,12 @@ density=     effDensity=3.4138
 
 ##### Banks=6  deltaQ=0.01  matchRef=0  matchScal=T  matchOffset=T
 bank   angle   blendQmin   blendQmax       (0.0 means no info)
-  1     90.0        1.62    29.42   
-  2    -90.0        1.62    29.42   
-  3    119.0        1.97    35.85   
-  4    -119.0        1.97    35.85   
-  5    148.0        2.20    40.00   
-  6    -148.0        2.20    40.00   
+  1     90.0        1.62    29.42
+  2    -90.0        1.62    29.42
+  3    119.0        1.97    35.85
+  4    -119.0        1.97    35.85
+  5    148.0        2.20    40.00
+  6    -148.0        2.20    40.00
 
 ##### Program Specific Information
 ## Ft     calcError=1     (1 for true, 0 for false)

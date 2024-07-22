@@ -18,6 +18,7 @@
 
 
 import unittest
+
 import numpy
 
 import diffpy.pdfgui.control.fitdataset as fds
