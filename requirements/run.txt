@@ -1,4 +1,4 @@
-numpy
+numpy=1
 wxpython
 diffpy.pdffit2
 diffpy.utils
