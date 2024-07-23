@@ -622,7 +622,11 @@ class Plotter(PDFComponent):
         header = "# Generated on %s by %s.\n" % (time.ctime(), getpass.getuser())
         header += "# This file was created by PDFgui.\n"
         outfile.write(header)
-        deblank = lambda s: "".join(s.split())
+
+        def deblank(s):
+            """Removes all whitespace from string s"""
+            return "".join(s.split())
+
         xylist = [(c.x, c.y) for c in self.curves]
         xynames = [(_transName(c.xStr), deblank(c.name)) for c in self.curves]
         _exportCompactData(outfile, xylist, xynames)
