@@ -43,24 +43,22 @@ class TestDialogAbout(GUITestCase):
         self.dialog.ProcessEvent(e)
         return
 
+    def set_url(self, u):
+        setattr(self, "url", u)
 
-def set_url(self, u):
-    setattr(self, "url", u)
-
-
-def test_LogoClicks(self):
-    "Check handling of clicks on various logos"
-    d = self.dialog
-    with overridewebbrowser(self.set_url):
-        self._clickbutton(d.bitmap_button_nsf)
-        self.assertTrue(self.url.endswith("www.nsf.gov"))
-        self._clickbutton(d.bitmap_button_danse)
-        self.assertTrue(self.url.endswith("danse.us"))
-        self._clickbutton(d.bitmap_button_msu)
-        self.assertTrue(self.url.endswith("www.msu.edu"))
-        self._clickbutton(d.bitmap_button_columbia)
-        self.assertTrue(self.url.endswith("www.columbia.edu"))
-    return
+    def test_LogoClicks(self):
+        "Check handling of clicks on various logos"
+        d = self.dialog
+        with overridewebbrowser(self.set_url):
+            self._clickbutton(d.bitmap_button_nsf)
+            self.assertTrue(self.url.endswith("www.nsf.gov"))
+            self._clickbutton(d.bitmap_button_danse)
+            self.assertTrue(self.url.endswith("danse.us"))
+            self._clickbutton(d.bitmap_button_msu)
+            self.assertTrue(self.url.endswith("www.msu.edu"))
+            self._clickbutton(d.bitmap_button_columbia)
+            self.assertTrue(self.url.endswith("www.columbia.edu"))
+        return
 
 
 # End of class TestDialogAbout
