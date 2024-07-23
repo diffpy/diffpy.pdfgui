@@ -1,4 +1,9 @@
 #!/usr/bin/env python
+
+import string
+
+import wx
+
 ##############################################################################
 #
 # wxextensions      by DANSE Diffraction group
@@ -22,10 +27,6 @@ DIGIT_ONLY, and FLOAT_ONLY. See the TextValidator class for how these are used.
 ALPHA_ONLY = 1
 DIGIT_ONLY = 2
 FLOAT_ONLY = 3
-
-import string
-
-import wx
 
 
 class TextValidator(wx.Validator):
