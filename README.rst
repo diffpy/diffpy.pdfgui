@@ -11,7 +11,7 @@ PDFgui
 Graphical user interface program for structure refinements to atomic
 pair distribution function.
 
-PDFgui is a friendly interface to PDFfit2 refinement engine, with many
+PDFgui is a friendly interface to the PDFfit2 refinement engine, with many
 powerful extensions.  To get started, please open the manual from the
 help menu and follow the tutorial instructions.  A detailed description
 is available in the doc/Farrow-jpcm-2007.pdf paper.
