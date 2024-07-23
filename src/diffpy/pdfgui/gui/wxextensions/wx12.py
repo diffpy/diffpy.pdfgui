@@ -46,7 +46,9 @@ class Menu(wx.Menu):
 
 
 if WX4:
-    Menu = wx.Menu
+    RealMenu = wx.Menu
+else:
+    RealMenu = Menu
 
 # ----------------------------------------------------------------------------
 
@@ -58,7 +60,9 @@ class ListCtrl(wx.ListCtrl):
 
 
 if WX4:
-    ListCtrl = wx.ListCtrl
+    RealListCtrl = wx.ListCtrl
+else:
+    RealListCtrl = ListCtrl
 
 # ----------------------------------------------------------------------------
 
@@ -70,7 +74,9 @@ class TreeCtrl(wx.TreeCtrl):
 
 
 if WX4:
-    TreeCtrl = wx.TreeCtrl
+    RealTreeCtrl = wx.TreeCtrl
+else:
+    RealTreeCtrl = TreeCtrl
 
 # wx.ToolBar -----------------------------------------------------------------
 
@@ -92,6 +98,6 @@ NewIdRef = wx.NewIdRef if WX4 else wx.NewId
 
 # Final checks ---------------------------------------------------------------
 
-assert WX3 ^ (Menu is wx.Menu)
-assert WX3 ^ (TreeCtrl is wx.TreeCtrl)
-assert WX3 ^ (ListCtrl is wx.ListCtrl)
+assert WX3 ^ (RealMenu is wx.Menu)
+assert WX3 ^ (RealTreeCtrl is wx.TreeCtrl)
+assert WX3 ^ (RealListCtrl is wx.ListCtrl)
