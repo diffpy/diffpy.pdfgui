@@ -204,7 +204,7 @@ class SGConstrainDialog(wx.Dialog, PDFPanel):
             raise ControlValueError(error)
         return
 
-    ### Events
+    # Events
 
     def onKillFocus(self, event):
         """Check value of widgets and update the dialog message."""
