@@ -19,11 +19,13 @@
 import copy
 import math
 
-from diffpy.pdfgui.control.controlerrors import ControlConfigError
-from diffpy.pdfgui.control.controlerrors import ControlKeyError
-from diffpy.pdfgui.control.controlerrors import ControlValueError
+from diffpy.pdfgui.control.controlerrors import (
+    ControlConfigError,
+    ControlKeyError,
+    ControlValueError,
+)
 from diffpy.pdfgui.control.pdfcomponent import PDFComponent
-from diffpy.pdfgui.utils import safeCPickleDumps, pickle_loads
+from diffpy.pdfgui.utils import pickle_loads, safeCPickleDumps
 
 
 class Calculation(PDFComponent):

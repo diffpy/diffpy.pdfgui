@@ -22,9 +22,9 @@ import unittest
 import numpy
 import wx
 
+from diffpy.pdfgui.control.plotter import Plotter
 from diffpy.pdfgui.gui import extendedplotframe as epf
 from diffpy.pdfgui.gui.extendedplotframe import ExtendedPlotFrame
-from diffpy.pdfgui.control.plotter import Plotter
 from diffpy.pdfgui.tests.testutils import GUITestCase, overridefiledialog
 
 # ----------------------------------------------------------------------------

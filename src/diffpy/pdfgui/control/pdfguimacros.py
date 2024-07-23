@@ -17,8 +17,8 @@
 
 from __future__ import print_function
 
-import os
 import copy
+import os
 
 from diffpy.pdfgui.control.controlerrors import ControlValueError
 from diffpy.pdfgui.control.fitdataset import FitDataSet

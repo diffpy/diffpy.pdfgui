@@ -35,8 +35,9 @@ def testsuite(pattern=""):
         The TestSuite object containing the matching tests.
     """
     import re
-    from os.path import dirname
     from itertools import chain
+    from os.path import dirname
+
     from pkg_resources import resource_filename
 
     loader = unittest.defaultTestLoader

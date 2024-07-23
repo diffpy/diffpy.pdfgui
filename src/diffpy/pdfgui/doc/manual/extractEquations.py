@@ -31,9 +31,9 @@ eqmark = "@EquationMark"
 ##############################################################################
 # business
 
-import sys
 import os
 import shutil
+import sys
 
 
 def loadEquations():

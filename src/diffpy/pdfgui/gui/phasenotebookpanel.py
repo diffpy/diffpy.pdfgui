@@ -24,7 +24,6 @@
 import wx
 
 from diffpy.pdfgui.gui.pdfpanel import PDFPanel
-
 from diffpy.pdfgui.gui.phaseconfigurepanel import PhaseConfigurePanel
 from diffpy.pdfgui.gui.phaseconstraintspanel import PhaseConstraintsPanel
 from diffpy.pdfgui.gui.phaseresultspanel import PhaseResultsPanel
@@ -36,23 +35,15 @@ class PhaseNotebookPanel(wx.Panel, PDFPanel):
         kwds["style"] = wx.TAB_TRAVERSAL
         wx.Panel.__init__(self, *args, **kwds)
         self.notebook_phase = wx.Notebook(self, -1, style=0)
-        self.notebook_phase_pane_Configure = PhaseConfigurePanel(
-            self.notebook_phase, -1
-        )
-        self.notebook_phase_pane_Constraints = PhaseConstraintsPanel(
-            self.notebook_phase, -1
-        )
+        self.notebook_phase_pane_Configure = PhaseConfigurePanel(self.notebook_phase, -1)
+        self.notebook_phase_pane_Constraints = PhaseConstraintsPanel(self.notebook_phase, -1)
         self.notebook_phase_pane_Results = PhaseResultsPanel(self.notebook_phase, -1)
 
         self.__set_properties()
         self.__do_layout()
 
-        self.notebook_phase.Bind(
-            wx.EVT_NOTEBOOK_PAGE_CHANGED, self.onNotebookPageChanged
-        )
-        self.notebook_phase.Bind(
-            wx.EVT_NOTEBOOK_PAGE_CHANGING, self.onNotebookPageChanging
-        )
+        self.notebook_phase.Bind(wx.EVT_NOTEBOOK_PAGE_CHANGED, self.onNotebookPageChanged)
+        self.notebook_phase.Bind(wx.EVT_NOTEBOOK_PAGE_CHANGING, self.onNotebookPageChanging)
 
         self.configuration = None
         self.constraints = {}

@@ -21,10 +21,15 @@ import unittest
 
 import wx
 
-from diffpy.pdfgui.gui.phaseconfigurepanel import PhaseConfigurePanel
 from diffpy.pdfgui.gui.mainframe import MainFrame
-from diffpy.pdfgui.tests.testutils import GUITestCase, datafile, tooltiptext
-from diffpy.pdfgui.tests.testutils import clickcell, overrideclipboard
+from diffpy.pdfgui.gui.phaseconfigurepanel import PhaseConfigurePanel
+from diffpy.pdfgui.tests.testutils import (
+    GUITestCase,
+    clickcell,
+    datafile,
+    overrideclipboard,
+    tooltiptext,
+)
 
 # ----------------------------------------------------------------------------
 

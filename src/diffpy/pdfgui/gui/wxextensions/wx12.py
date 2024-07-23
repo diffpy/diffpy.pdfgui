@@ -23,6 +23,7 @@ Replace instances of its use with plain ``wx``.
 """
 
 import types
+
 import wx
 
 WX3 = wx.VERSION[0] == 3
@@ -38,9 +39,7 @@ class Menu(wx.Menu):
             return super(Menu, self).AppendItem(*args, **kwargs)
         if na > 2 and isinstance(args[2], wx.Menu):
             return super(Menu, self).AppendMenu(*args, **kwargs)
-        plain_append = isinstance(args[0], int) and (
-            na > 1 and isinstance(args[1], str) or "item" in kwargs
-        )
+        plain_append = isinstance(args[0], int) and (na > 1 and isinstance(args[1], str) or "item" in kwargs)
         if plain_append:
             return super(Menu, self).Append(*args, **kwargs)
         assert False, "unexpected argument types"

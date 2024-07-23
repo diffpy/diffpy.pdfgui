@@ -19,8 +19,9 @@
 
 import unittest
 
-from diffpy.pdfgui.control.controlerrors import ControlValueError
 from diffpy.pdfgui.control.calculation import Calculation
+from diffpy.pdfgui.control.controlerrors import ControlValueError
+
 
 ##############################################################################
 class TestCalculation(unittest.TestCase):
@@ -43,6 +44,7 @@ class TestCalculation(unittest.TestCase):
 
     def test_setRGrid(self):
         """check Calculation.setRGrid()"""
+
         # helper function
         def rgriddata(calc):
             rv = (calc.rmin, calc.rstep, calc.rmax, calc.rlen)
