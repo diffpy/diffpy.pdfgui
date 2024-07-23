@@ -207,15 +207,15 @@ def _extractSearchTerms(tbtext):
     return rv
 
 
-##### testing code ############################################################
+# testing code ############################################################
 
 _EXAMPLE_TRACEBACK = r"""
 Traceback (most recent call last):
-  File "C:\DiffPy\Python25\lib\site-packages\diffpy.pdfgui-1.0_r3067_20090410-py2.5.egg\diffpy\pdfgui\gui\errorwrapper.py", line 60, in _f
+  File "...errorwrapper.py", line 60, in _f
     return func(*args, **kwargs)
-  File "C:\DiffPy\Python25\lib\site-packages\diffpy.pdfgui-1.0_r3067_20090410-py2.5.egg\diffpy\pdfgui\gui\mainframe.py", line 2176, in onSave
+  File "...mainframe.py", line 2176, in onSave
     self.control.save(self.fullpath)
-  File "C:\DiffPy\Python25\lib\site-packages\diffpy.pdfgui-1.0_r3067_20090410-py2.5.egg\diffpy\pdfgui\control\pdfguicontrol.py", line 507, in save
+  File "...pdfguicontrol.py", line 507, in save
     self.projfile = projfile.encode('ascii')
 UnicodeDecodeError: 'ascii' codec can't decode byte 0xb0 in position 115: ordinal not in range(128)
 """.strip()
@@ -242,4 +242,4 @@ if __name__ == "__main__":
     app = MyApp(0)
     app.MainLoop()
 
-##### end of testing code #####################################################
+# end of testing code #####################################################
