@@ -230,28 +230,31 @@ class Organizer(PDFComponent):
 
         return org
 
-    def __forward_spdiameter(self):
+    def __forward_spdiameter(strucs, datasets, calcs):
         """Copy spdiameter value loaded from fit or calculation to phase.
 
-        This method takes care of loading old PDFgui projects where
+        This function handles loading old PDFgui projects where
         spdiameter belonged to FitDataSet or Calculation classes.
-        It should be called only from the Organizer.load method.
         """
         # Jump out if any of structures has spdiameter set
-        for stru in self.strucs:
+        for stru in strucs:
             if stru.getvar("spdiameter"):
                 return
-        # Search datasets for spdiameter and its constraints
-        spd_assigned = lambda ds: bool(ds.spdiameter)
-        spd_constrained = lambda ds: "spdiameter" in ds.constraints
+
+        # Helper function to check if spdiameter is assigned
+        def spd_assigned(ds):
+            return bool(ds.spdiameter)
+
+        # Helper function to check if spdiameter is constrained
+        def spd_constrained(ds):
+            return "spdiameter" in ds.constraints
+
         # Figure out the value and constraint for spdiameter.
-        # The highest priority is for a dataset with constrained spdiameter,
-        # then for dataset with assigned spdiameter and finally from
-        # a calculation.
         spd_val = spd_cns = None
-        constrained_datas = list(filter(spd_constrained, self.datasets))
-        assigned_datas = list(filter(spd_assigned, self.datasets))
-        assigned_calcs = list(filter(spd_assigned, self.calcs))
+        constrained_datas = list(filter(spd_constrained, datasets))
+        assigned_datas = list(filter(spd_assigned, datasets))
+        assigned_calcs = list(filter(spd_assigned, calcs))
+
         if constrained_datas:
             spd_val = constrained_datas[0].spdiameter
             spd_cns = constrained_datas[0].constraints["spdiameter"]
@@ -259,15 +262,18 @@ class Organizer(PDFComponent):
             spd_val = assigned_datas[0].spdiameter
         elif assigned_calcs:
             spd_val = assigned_calcs[0].spdiameter
-        # assign spd_val to all structures that don't have it set
-        for stru in self.strucs:
+
+        # Assign spd_val to all structures that don't have it set
+        for stru in strucs:
             if spd_val and not stru.getvar("spdiameter"):
                 stru.setvar("spdiameter", spd_val)
             if spd_cns:
                 stru.constraints.setdefault("spdiameter", spd_cns)
-        # finally remove any spdiameter constraints from all datasets
-        for ds in self.datasets:
+
+        # Finally remove any spdiameter constraints from all datasets
+        for ds in datasets:
             ds.constraints.pop("spdiameter", None)
+
         return
 
 
