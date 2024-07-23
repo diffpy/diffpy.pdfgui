@@ -319,7 +319,7 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
         """Set 'read-only' boxes that correspond to constrained parameters."""
 
         self.setToolTips(tooltips.phasepanel)
-        txtbg = self.textCtrlA.DefaultStyle.BackgroundColour
+        # txtbg = self.textCtrlA.DefaultStyle.BackgroundColour
 
         # First the TextCtrls
         for key, var in self.lConstraintsMap.items():
@@ -393,7 +393,7 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
 
             return value
 
-        except:
+        except ValueError:
             return None
 
     def applyCellChange(self, i, j, value):
