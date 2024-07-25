@@ -22,15 +22,15 @@ import os.path
 import matplotlib
 
 matplotlib.use("WXAgg")
+import wx
+from matplotlib.artist import setp
 from matplotlib.backends.backend_wxagg import FigureCanvasWxAgg as FigureCanvas
 from matplotlib.backends.backend_wxagg import NavigationToolbar2WxAgg as NavToolbar
 from matplotlib.figure import Figure
-from matplotlib.artist import setp
 from matplotlib.font_manager import FontProperties
-import wx
 
-from diffpy.pdfgui.gui.wxextensions import wx12
 from diffpy.pdfgui.gui.pdfguiglobals import iconpath
+from diffpy.pdfgui.gui.wxextensions import wx12
 
 DATA_SAVE_ID = wx12.NewIdRef()
 
@@ -48,9 +48,7 @@ class ExtendedToolbar(NavToolbar):
         save_icon_fp = iconpath("exportplotdata.png")
         save_icon = wx.Bitmap(save_icon_fp)
         # Add new buttons
-        self.AddTool(
-            DATA_SAVE_ID, "Export data", save_icon, shortHelp="Export plot data to file"
-        )
+        self.AddTool(DATA_SAVE_ID, "Export data", save_icon, shortHelp="Export plot data to file")
         return
 
 
@@ -317,9 +315,7 @@ class ExtendedPlotFrame(wx.Frame):
             lineStyle = lineStyleDict.get(style["line"], "-")  # prefer solid
             lineWidth = style["width"]
             stylestr += lineStyle
-            properties.update(
-                {"color": color, "linestyle": lineStyle, "linewidth": lineWidth}
-            )
+            properties.update({"color": color, "linestyle": lineStyle, "linewidth": lineWidth})
 
         if "legend" in style:
             properties["label"] = style["legend"]
@@ -371,8 +367,8 @@ def legendBoxProperties():
     if len(_lbp) > 0:
         return _lbp
     #  figure out matplotlib version and appropriate names
-    from pkg_resources import parse_version
     from matplotlib import __version__ as mplver
+    from pkg_resources import parse_version
 
     if parse_version(mplver) >= parse_version("0.98.5"):
         _lbp = {
@@ -406,7 +402,7 @@ if __name__ == "__main__":
 
     class MyApp(wx.App):
         def OnInit(self):
-            from numpy import arange, sin, pi, cos
+            from numpy import arange, cos, pi, sin
 
             "Create the main window and insert the custom frame"
             x = arange(0.0, 3.0, 0.01)

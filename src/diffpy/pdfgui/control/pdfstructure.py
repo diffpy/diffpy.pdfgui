@@ -16,9 +16,9 @@
 import copy
 import re
 
-from diffpy.structure import PDFFitStructure
+from diffpy.pdfgui.control.controlerrors import ControlFileError, ControlKeyError
 from diffpy.pdfgui.control.pdfcomponent import PDFComponent
-from diffpy.pdfgui.control.controlerrors import ControlKeyError, ControlFileError
+from diffpy.structure import PDFFitStructure
 
 
 class PDFStructure(PDFComponent, PDFFitStructure):
@@ -73,9 +73,7 @@ class PDFStructure(PDFComponent, PDFFitStructure):
 
     # dictionary of allowed keys from self.pdffit dictionary,
     # that can be used in setvar and getvar methods.
-    _allowed_pdffit_vars = dict.fromkeys(
-        ("spdiameter", "stepcut", "delta1", "delta2", "sratio", "rcut")
-    )
+    _allowed_pdffit_vars = dict.fromkeys(("spdiameter", "stepcut", "delta1", "delta2", "sratio", "rcut"))
 
     def setvar(self, var, value):
         """assign to data member using PdfFit-style variable

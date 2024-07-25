@@ -19,8 +19,9 @@
 from __future__ import print_function
 
 import wx
-from diffpy.pdfgui.gui.pdfpanel import PDFPanel
+
 from diffpy.pdfgui.gui import tooltips
+from diffpy.pdfgui.gui.pdfpanel import PDFPanel
 
 
 class DataSetResultsPanel(wx.Panel, PDFPanel):
@@ -31,9 +32,7 @@ class DataSetResultsPanel(wx.Panel, PDFPanel):
 
         sizer_7 = wx.BoxSizer(wx.VERTICAL)
 
-        sizer_panelname = wx.StaticBoxSizer(
-            wx.StaticBox(self, wx.ID_ANY, ""), wx.HORIZONTAL
-        )
+        sizer_panelname = wx.StaticBoxSizer(wx.StaticBox(self, wx.ID_ANY, ""), wx.HORIZONTAL)
         sizer_7.Add(sizer_panelname, 0, wx.EXPAND | wx.LEFT | wx.RIGHT, 5)
 
         self.panelNameLabel = wx.StaticText(self, wx.ID_ANY, "Data Set Results")
@@ -47,9 +46,7 @@ class DataSetResultsPanel(wx.Panel, PDFPanel):
                 "",
             )
         )
-        sizer_panelname.Add(
-            self.panelNameLabel, 0, wx.ALIGN_CENTER_VERTICAL | wx.LEFT | wx.RIGHT, 5
-        )
+        sizer_panelname.Add(self.panelNameLabel, 0, wx.ALIGN_CENTER_VERTICAL | wx.LEFT | wx.RIGHT, 5)
 
         grid_sizer_1 = wx.FlexGridSizer(3, 2, 5, 10)
         sizer_7.Add(grid_sizer_1, 0, wx.ALL | wx.EXPAND, 5)
@@ -62,23 +59,17 @@ class DataSetResultsPanel(wx.Panel, PDFPanel):
             5,
         )
 
-        self.textCtrlScaleFactor = wx.TextCtrl(
-            self, wx.ID_ANY, "", style=wx.TE_READONLY
-        )
+        self.textCtrlScaleFactor = wx.TextCtrl(self, wx.ID_ANY, "", style=wx.TE_READONLY)
         grid_sizer_1.Add(self.textCtrlScaleFactor, 0, wx.ALIGN_CENTER_VERTICAL, 20)
 
         self.labelQdamp = wx.StaticText(self, wx.ID_ANY, "Qdamp")
-        grid_sizer_1.Add(
-            self.labelQdamp, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALIGN_RIGHT | wx.LEFT, 5
-        )
+        grid_sizer_1.Add(self.labelQdamp, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALIGN_RIGHT | wx.LEFT, 5)
 
         self.textCtrlQdamp = wx.TextCtrl(self, wx.ID_ANY, "", style=wx.TE_READONLY)
         grid_sizer_1.Add(self.textCtrlQdamp, 0, wx.ALIGN_CENTER_VERTICAL, 20)
 
         self.labelQbroad = wx.StaticText(self, wx.ID_ANY, "Qbroad")
-        grid_sizer_1.Add(
-            self.labelQbroad, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALIGN_RIGHT | wx.LEFT, 5
-        )
+        grid_sizer_1.Add(self.labelQbroad, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALIGN_RIGHT | wx.LEFT, 5)
 
         self.textCtrlQbroad = wx.TextCtrl(self, wx.ID_ANY, "", style=wx.TE_READONLY)
         grid_sizer_1.Add(self.textCtrlQbroad, 0, wx.ALIGN_CENTER_VERTICAL, 20)

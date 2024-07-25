@@ -6,9 +6,8 @@
 
 import unittest
 
+from diffpy.pdfgui.control.controlerrors import ControlFileError, ControlKeyError
 from diffpy.pdfgui.control.pdfstructure import PDFStructure
-from diffpy.pdfgui.control.controlerrors import ControlFileError
-from diffpy.pdfgui.control.controlerrors import ControlKeyError
 from diffpy.pdfgui.tests.testutils import datafile
 
 # ----------------------------------------------------------------------------
@@ -31,9 +30,7 @@ class TestPDFStructure(unittest.TestCase):
         """check PDFStructure.read()"""
         stru = self.stru
         notastructurefile = datafile("300K.gr")
-        self.assertRaises(
-            ControlFileError, stru.read, notastructurefile, format="pdffit"
-        )
+        self.assertRaises(ControlFileError, stru.read, notastructurefile, format="pdffit")
         return
 
     def test_copy(self):

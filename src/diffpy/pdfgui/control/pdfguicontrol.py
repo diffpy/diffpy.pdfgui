@@ -15,22 +15,25 @@
 
 from __future__ import print_function
 
-import sys
 import os
+import sys
 import threading
 import time
+
 import six
 import six.moves.cPickle as pickle
 
-from diffpy.pdfgui.control.pdflist import PDFList
-from diffpy.pdfgui.control.fitting import Fitting
 from diffpy.pdfgui.control.calculation import Calculation
+from diffpy.pdfgui.control.controlerrors import (
+    ControlError,
+    ControlFileError,
+    ControlTypeError,
+)
 from diffpy.pdfgui.control.fitdataset import FitDataSet
-from diffpy.pdfgui.control.organizer import Organizer
 from diffpy.pdfgui.control.fitstructure import FitStructure
-from diffpy.pdfgui.control.controlerrors import ControlError
-from diffpy.pdfgui.control.controlerrors import ControlFileError
-from diffpy.pdfgui.control.controlerrors import ControlTypeError
+from diffpy.pdfgui.control.fitting import Fitting
+from diffpy.pdfgui.control.organizer import Organizer
+from diffpy.pdfgui.control.pdflist import PDFList
 from diffpy.pdfgui.utils import asunicode, quote_plain
 
 
@@ -434,9 +437,9 @@ class PDFGuiControl:
         # self.projfile is unset here only due to a bug.
         assert self.projfile is not None
 
-        import zipfile
         import shutil
         import tempfile
+        import zipfile
 
         projbase = os.path.basename(self.projfile)
         projName = os.path.splitext(projbase)[0]
@@ -492,9 +495,7 @@ class PDFGuiControl:
         self.redirectStdout()
         fits = [ID for ID in IDlist if isinstance(ID, Fitting)]
         # only add calcs which is not in fits, because fits will automatically run calcs under it anyway
-        calcs = [
-            ID for ID in IDlist if isinstance(ID, Calculation) and ID.owner not in fits
-        ]
+        calcs = [ID for ID in IDlist if isinstance(ID, Calculation) and ID.owner not in fits]
         for calc in calcs:
             calc.start()
         self.enqueue(fits)
@@ -516,7 +517,7 @@ class PDFGuiControl:
 
         This redirect engine output to StringIO if not done yet.
         """
-        from diffpy.pdffit2 import redirect_stdout, output
+        from diffpy.pdffit2 import output, redirect_stdout
 
         if output.stdout is sys.stdout:
             redirect_stdout(six.StringIO())

@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 import sys
+
 from pkg_resources import Requirement, resource_filename
 
 pkg = Requirement.parse("diffpy.pdfgui")

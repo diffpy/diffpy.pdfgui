@@ -20,8 +20,8 @@
 import unittest
 
 from diffpy.pdfgui.control.controlerrors import ControlFileError
-from diffpy.pdfgui.tui import LoadProject
 from diffpy.pdfgui.tests.testutils import GUITestCase, datafile
+from diffpy.pdfgui.tui import LoadProject
 
 # ----------------------------------------------------------------------------
 

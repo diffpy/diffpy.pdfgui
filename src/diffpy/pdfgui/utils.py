@@ -20,8 +20,8 @@
 
 
 import six
-from six.moves.configparser import RawConfigParser
 import six.moves.cPickle as pickle
+from six.moves.configparser import RawConfigParser
 
 # protocol=2 keep project files compatible with Python 2
 # PDFGUI_PICKLE_PROTOCOL = 2

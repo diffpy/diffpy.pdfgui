@@ -20,8 +20,8 @@
 import wx
 
 from diffpy.pdfgui.gui.phasenotebookpanel import PhaseNotebookPanel
-from diffpy.pdfgui.tui import LoadProject
 from diffpy.pdfgui.tests.testutils import datafile
+from diffpy.pdfgui.tui import LoadProject
 
 
 class MyFrame(wx.Frame):

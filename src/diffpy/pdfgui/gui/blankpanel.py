@@ -16,6 +16,7 @@
 """This module contains the BlankPanel class."""
 
 import wx
+
 from diffpy.pdfgui.gui.pdfpanel import PDFPanel
 
 

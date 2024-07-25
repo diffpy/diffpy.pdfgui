@@ -18,11 +18,13 @@ from __future__ import print_function
 import threading
 import time
 
+from diffpy.pdfgui.control.controlerrors import (
+    ControlError,
+    ControlStatusError,
+    ControlValueError,
+)
 from diffpy.pdfgui.control.organizer import Organizer
-from diffpy.pdfgui.control.controlerrors import ControlError
-from diffpy.pdfgui.control.controlerrors import ControlStatusError
-from diffpy.pdfgui.control.controlerrors import ControlValueError
-from diffpy.pdfgui.utils import safeCPickleDumps, pickle_loads
+from diffpy.pdfgui.utils import pickle_loads, safeCPickleDumps
 
 # helper routines to deal with PDFfit2 exceptions
 
@@ -30,11 +32,11 @@ from diffpy.pdfgui.utils import safeCPickleDumps, pickle_loads
 def getEngineExceptions():
     """Return a tuple of possible exceptions from diffpy.pdffit2.pdffit2."""
     from diffpy.pdffit2.pdffit2 import (
-        dataError,
-        unassignedError,
-        constraintError,
-        structureError,
         calculationError,
+        constraintError,
+        dataError,
+        structureError,
+        unassignedError,
     )
 
     engine_exceptions = (
@@ -212,9 +214,7 @@ class Fitting(Organizer):
 
             self.parameters = CtrlUnpickler.loads(z.read(subpath + "parameters"))
         if "steps" in rootDict:
-            self.itemIndex, self.dataNameDict, self.snapshots = pickle_loads(
-                z.read(subpath + "steps")
-            )
+            self.itemIndex, self.dataNameDict, self.snapshots = pickle_loads(z.read(subpath + "steps"))
         if "result" in rootDict:
             self.rw, self.res = pickle_loads(z.read(subpath + "result"))
 
@@ -582,9 +582,7 @@ class Fitting(Organizer):
                 #      way while user choose to stop forcefully
         else:
             if self.isThreadRunning():
-                raise ControlStatusError(
-                    "Fitting: Fitting %s is still running" % self.name
-                )
+                raise ControlStatusError("Fitting: Fitting %s is still running" % self.name)
             if self.thread is not None:
                 self.thread.join()
 
