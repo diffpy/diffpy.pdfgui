@@ -2,7 +2,7 @@
 ##############################################################################
 #
 # diffpy.pdfgui     Complex Modeling Initiative
-#                   (c) 2019 Brookhaven Science Associates,
+#                   (c) 2019-2024 Brookhaven Science Associates,
 #                   Brookhaven National Laboratory.
 #                   All rights reserved.
 #

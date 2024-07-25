@@ -3,7 +3,7 @@
 #
 # PDFgui            by DANSE Diffraction group
 #                   Simon J. L. Billinge
-#                   (c) 2007 trustees of the Michigan State University.
+#                   (c) 2007-2024 trustees of the Michigan State University.
 #                   All rights reserved.
 #
 # File coded by:    Chris Farrow

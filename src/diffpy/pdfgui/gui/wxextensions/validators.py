@@ -8,7 +8,7 @@ import wx
 #
 # wxextensions      by DANSE Diffraction group
 #                   Simon J. L. Billinge
-#                   (c) 2006 trustees of the Michigan State University.
+#                   (c) 2006-2024 trustees of the Michigan State University.
 #                   All rights reserved.
 #
 # File coded by:    Chris Farrow
