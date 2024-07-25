@@ -51,6 +51,7 @@ jobs:
         with:
           shell: bash -l {0}
           run: |
+            conda init
             conda activate test
             coverage run -m pytest -vv -s
             coverage report -m
