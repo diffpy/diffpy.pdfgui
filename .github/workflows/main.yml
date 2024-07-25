@@ -16,10 +16,10 @@ jobs:
         matrix:
             os: ["ubuntu-latest"]
     steps:
-      - name: check out diffpy.pdfmorph
+      - name: check out diffpy.pdfgui
         uses: actions/checkout@v3
         with:
-          repository: diffpy/diffpy.pdfmorph
+          repository: diffpy/diffpy.pdfgui
           path: .
           fetch-depth: 0  # avoid shallow clone with no tags
 
@@ -36,7 +36,7 @@ jobs:
           python-version: 3
           auto-activate-base: false
 
-      - name: install diffpy.pdfmorph requirements
+      - name: install diffpy.pdfgui requirements
         shell: bash -l {0}
         run: |
           conda config --set always_yes yes --set changeps1 no
@@ -45,7 +45,7 @@ jobs:
           conda install --file requirements/run.txt
           conda install --file requirements/test.txt
           pip install .
-      - name: Validate diffpy.pdfmorph
+      - name: Validate diffpy.pdfgui
         shell: bash -l {0}
         run: |
           conda activate test
