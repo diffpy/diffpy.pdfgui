@@ -1,0 +1,6 @@
+name: diffpy.pdfgui
+channels:
+  - conda-forge
+dependencies:
+  - python=3
+  - pip
