@@ -50,7 +50,7 @@ jobs:
         uses: GabrielBB/xvfb-action@v1
         with:
           run: |
-            conda activate test
+            source activate test
             coverage run -m pytest -vv -s
             coverage report -m
             codecov
