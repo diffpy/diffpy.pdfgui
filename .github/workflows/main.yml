@@ -46,11 +46,10 @@ jobs:
           conda install --file requirements/test.txt
           pip install .
 
-      - name: Use Xvfb Action and run tests
-        uses: GabrielBB/xvfb-action@v1
-        with:
-          run: |
-            source activate test
-            coverage run -m pytest -vv -s
-            coverage report -m
-            codecov
+      - name: Validate diffpy.pdfgui
+        shell: bash -l {0}
+        run: |
+          conda activate test
+          coverage run -m pytest -vv -s
+          coverage report -m
+          codecov
