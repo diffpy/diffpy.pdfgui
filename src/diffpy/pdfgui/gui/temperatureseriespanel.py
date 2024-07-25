@@ -28,6 +28,10 @@ from diffpy.pdfgui.gui.wxextensions.listctrls import AutoWidthListCtrl
 from diffpy.pdfgui.utils import numericStringSort
 
 
+def temperature_sortkey(tf):
+    return float(tf[0])
+
+
 class TemperatureSeriesPanel(wx.Panel, PDFPanel):
     def __init__(self, *args, **kwds):
         PDFPanel.__init__(self)
@@ -296,23 +300,25 @@ class TemperatureSeriesPanel(wx.Panel, PDFPanel):
         self.fillList()
         return
 
+    def create_filename_order(self):
+        filenames = [f for t, f in self.datasets]
+        numericStringSort(filenames)
+        self.filename_order = dict(zip(filenames, range(len(filenames))))
+        return
+
+    def filename_sortkey(self, tf):
+        return self.filename_order[tf[1]]
+
     def onColClick(self, event):  # wxGlade: TemperatureSeriesPanel.<event_handler>
         """Sort by temperature."""
         column = event.GetColumn()
         # sort by temperature
         if column == 0:
-
-            def sortkey(tf):
-                return float(tf[0])
-
+            sortkey = temperature_sortkey()
         # sort by filename with numerical comparison of digits
         elif column == 1:
-            filenames = [f for t, f in self.datasets]
-            numericStringSort(filenames)
-            order = dict(zip(filenames, range(len(filenames))))
-
-            def sortkey(tf):
-                return order[tf[1]]
+            self.create_filename_order()
+            sortkey = self.filename_sortkey()
 
         # ignore unhandled columns
         else:
