@@ -4,7 +4,7 @@
 #
 # wxextensions      by DANSE Diffraction group
 #                   Simon J. L. Billinge
-#                   (c) 2009 trustees of Columbia University in the City of
+#                   (c) 2009-2024 trustees of Columbia University in the City of
 #                   New York.
 #                   All rights reserved.
 #
