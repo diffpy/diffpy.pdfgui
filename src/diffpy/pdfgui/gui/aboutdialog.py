@@ -42,7 +42,7 @@ following paper in your publication:
     computer programs for studying nanostructure in crystals,
     J. Phys.: Condens. Matter 19, 335219 (2007)."""
 
-_copyright = "(c) 2005-{year},".format(year=__date__[:4])
+_copyright = "(c) 2005-2024-{year},".format(year=__date__[:4])
 
 _homepage = "https://www.diffpy.org"
 
@@ -235,7 +235,7 @@ class DialogAbout(wx.Dialog):
 
 # end of class DialogAbout
 
-# #### testing code ###########################################################
+# testing code ###########################################################
 
 if __name__ == "__main__":
     app = wx.App()
