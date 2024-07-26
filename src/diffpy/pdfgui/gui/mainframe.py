@@ -758,21 +758,21 @@ class MainFrame(wx.Frame):
         # For recent items
         self.Bind(wx.EVT_MENU_RANGE, self.onMRUFile, id=wx.ID_FILE1, id2=wx.ID_FILE5)
 
-        ## Edit Menu
+        # Edit Menu
         self.Bind(wx.EVT_MENU, self.onDelete, id=self.deleteId)
         self.Bind(wx.EVT_MENU, self.onCopy, id=self.copyId)
         self.Bind(wx.EVT_MENU, self.onPaste, id=self.pasteId)
         self.Bind(wx.EVT_MENU, self.onPasteLink, id=self.pasteLinkId)
         self.Bind(wx.EVT_MENU, self.onPreferences, self.prefItem)
 
-        ## View menu
+        # View menu
         self.Bind(wx.EVT_MENU, self.onDefaultLayout, self.defaultLayoutItem)
         self.Bind(wx.EVT_MENU, self.onShowFit, self.showFitItem)
         self.Bind(wx.EVT_MENU, self.onShowPlot, self.showPlotItem)
         self.Bind(wx.EVT_MENU, self.onShowOutput, self.showOutputItem)
         self.Bind(wx.EVT_MENU, self.onShowJournal, self.showJournalItem)
 
-        ## Fits Menu
+        # Fits Menu
         self.Bind(wx.EVT_MENU, self.onNewFit, id=self.newFitId)
         self.Bind(wx.EVT_MENU, self.onRun, id=self.runFitId)
         self.Bind(wx.EVT_MENU, self.onStop, id=self.stopFitId)
@@ -780,9 +780,9 @@ class MainFrame(wx.Frame):
         self.Bind(wx.EVT_MENU, self.onRSeries, self.rseriesItem)
         self.Bind(wx.EVT_MENU, self.onTSeries, self.tseriesItem)
         self.Bind(wx.EVT_MENU, self.onDSeries, self.dseriesItem)
-        ## Macros are inserted individually
+        # Macros are inserted individually
 
-        ## Phases Menu
+        # Phases Menu
         self.Bind(wx.EVT_MENU, self.onInsPhase, id=self.newPhaseId)
         self.Bind(wx.EVT_MENU, self.onPrintBL, id=self.printBLId)
         self.Bind(wx.EVT_MENU, self.onPrintBA, id=self.printBAId)
@@ -791,16 +791,16 @@ class MainFrame(wx.Frame):
         self.Bind(wx.EVT_MENU, self.onPlotIStruct, id=self.plotIStructId)
         self.Bind(wx.EVT_MENU, self.onPlotFStruct, id=self.plotFStructId)
 
-        ## Data Menu
+        # Data Menu
         self.Bind(wx.EVT_MENU, self.onInsData, id=self.newDataId)
         self.Bind(wx.EVT_MENU, self.onExportPDF, id=self.exportFitPDFId)
 
-        ## Calculations Menu
+        # Calculations Menu
         self.Bind(wx.EVT_MENU, self.onInsCalc, id=self.newCalcId)
         self.Bind(wx.EVT_MENU, self.onRun, id=self.runCalcId)
         self.Bind(wx.EVT_MENU, self.onSaveCalc, id=self.exportCalcPDFId)
 
-        ## Help Menu
+        # Help Menu
         self.Bind(wx.EVT_MENU, self.onDocumentation, self.docItem)
         self.Bind(wx.EVT_MENU, self.onAbout, self.aboutItem)
         self.Bind(wx.EVT_MENU, self.onRequest, self.requestItem)
@@ -1529,11 +1529,11 @@ class MainFrame(wx.Frame):
         noPhases = False
         if node:
             phases = self.treeCtrlMain.GetPhases(node)
-            ## No insert calculation if there are no phases
+            # No insert calculation if there are no phases
             if len(phases) == 0:
                 noPhases = True
 
-        ## No insert calculation if there are no phases
+        # No insert calculation if there are no phases
         if noPhases:
             menu.Enable(self.newCalcId, False)
 
@@ -1544,7 +1544,7 @@ class MainFrame(wx.Frame):
         clipbranchtype = None
         cdata = self.treeCtrlMain.GetClipboard()
 
-        ## No paste if nothing in the clipboard
+        # No paste if nothing in the clipboard
         if cdata is None:
             menu.Enable(self.pasteId, False)
             menu.Enable(self.pasteLinkId, False)
@@ -1573,7 +1573,7 @@ class MainFrame(wx.Frame):
             menu.SetLabel(self.pasteId, pastetext)
 
         # Disable certain entries based upon where we clicked.
-        ## No copy, paste, or insert on multiple items.
+        # No copy, paste, or insert on multiple items.
         if len(selections) > 1:
             menu.Enable(self.copyId, False)
             menu.Enable(self.pasteId, False)
@@ -1581,7 +1581,7 @@ class MainFrame(wx.Frame):
             menu.Enable(self.newDataId, False)
             menu.Enable(self.newPhaseId, False)
             menu.Enable(self.newCalcId, False)
-        ## Disallow paste of fit if no items selected
+        # Disallow paste of fit if no items selected
         elif not selections:
             menu.Enable(self.copyId, False)
             menu.Enable(self.deleteId, False)
@@ -1708,7 +1708,7 @@ class MainFrame(wx.Frame):
             if not cdata.Gcalc:
                 menu.Enable(self.exportFitPDFId, False)
 
-        ## Check the run/stop status.
+        # Check the run/stop status.
         if self.runningDict:
             menu.Enable(self.newId, False)
             menu.Enable(self.runCalcId, False)
@@ -1756,7 +1756,7 @@ class MainFrame(wx.Frame):
         return
 
     # Shared menu items
-    ## The bulk of the code for these methods is in the FitTree class.
+    # The bulk of the code for these methods is in the FitTree class.
     def onNewFit(self, event):
         """Start a new fit tree.
 
@@ -2377,7 +2377,14 @@ class MainFrame(wx.Frame):
         # branchname = self.treeCtrlMain.GetBranchName(node)
         name = self.treeCtrlMain.GetItemText(node)
         basename = ".".join(name.split(".")[:-1]) or name
-        matchstring = "PDFfit structure file (*.stru)|*.stru|Crystallographic Information File (*.cif)|*.cif|Protein Data Bank file (*.pdb)|*.pdb|Labeled coordinate file (*.xyz)|*.xyz|Raw corrdinate file (*.xyz)|*.xyz|AtomEye configuration file|*"
+        matchstring = (
+            "PDFfit structure file (*.stru)|*.stru|"
+            "Crystallographic Information File (*.cif)|*.cif|"
+            "Protein Data Bank file (*.pdb)|*.pdb|"
+            "Labeled coordinate file (*.xyz)|*.xyz|"
+            "Raw coordinate file (*.xyz)|*.xyz|"
+            "AtomEye configuration file|*"
+        )
         d = wx.FileDialog(
             None,
             "Save as...",
@@ -2416,7 +2423,14 @@ class MainFrame(wx.Frame):
         # branchname = self.treeCtrlMain.GetBranchName(node)
         name = self.treeCtrlMain.GetItemText(node)
         basename = ".".join(name.split(".")[:-1]) or name
-        matchstring = "PDFfit structure file (*.stru)|*.stru|Crystallographic Information File (*.cif)|*.cif|Protein Data Bank file (*.pdb)|*.pdb|Labeled coordinate file (*.xyz)|*.xyz|Raw corrdinate file (*.xyz)|*.xyz|AtomEye configuration file|*"
+        matchstring = (
+            "PDFfit structure file (*.stru)|*.stru|"
+            "Crystallographic Information File (*.cif)|*.cif|"
+            "Protein Data Bank file (*.pdb)|*.pdb|"
+            "Labeled coordinate file (*.xyz)|*.xyz|"
+            "Raw coordinate file (*.xyz)|*.xyz|"
+            "AtomEye configuration file|*"
+        )
         d = wx.FileDialog(
             None,
             "Save as...",
