@@ -235,7 +235,7 @@ class DialogAbout(wx.Dialog):
 
 # end of class DialogAbout
 
-# #### testing code ###########################################################
+# testing code ###########################################################
 
 if __name__ == "__main__":
     app = wx.App()
