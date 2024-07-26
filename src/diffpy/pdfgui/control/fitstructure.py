@@ -252,7 +252,7 @@ class FitStructure(PDFStructure):
         acd -- dictionary obtained from _popAtomConstraints()
         """
         for i, a in enumerate(self.initial):
-            if not a in acd:
+            if a not in acd:
                 continue
             # there are some constraints for atom a
             siteindex = i + 1
