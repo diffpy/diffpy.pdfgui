@@ -17,9 +17,12 @@
 """
 
 
+def isalias(s):
+    return s[1:-1] and s[:: len(s) - 1] == "{}" and s[1:-1].replace("_", "").isalnum()
+
+
 def _expand_tooltip_aliases(ttps):
     "Replace aliased equivalent values {other} in tooltip strings."
-    isalias = lambda s: (s[1:-1] and s[:: len(s) - 1] == "{}" and s[1:-1].replace("_", "").isalnum())
     for n, t in list(ttps.items()):
         if not isalias(t):
             continue
@@ -79,7 +82,10 @@ datasetresultspanel = {
 
 
 dopingseriespanel = {
-    #    'instructionsLabel' : '', # StaticText "Select a fit from the tree on the left then add datasets and assign\ndoping elements and values below. If you have not set up a fit to be\nthe template for the series, hit cancel and rerun this macro once a\nfit has been created."
+    #    'instructionsLabel' : '', # StaticText "Select a fit from the tree on the left then add
+    #                              datasets and assign\ndoping elements and values below. If you
+    #                              have not set up a fit to be\nthe template for the series, hit
+    #                              cancel and rerun this macro once a\nfit has been created."
     #    'labelBaseElement' : '', # StaticText "Base element"
     #    'textCtrlBaseElement' : '', # TextCtrl
     #    'labelDopant' : '', # StaticText "Dopant"
@@ -175,7 +181,9 @@ E. g. '%s' or '-c %s' (for pymol).\
 
 
 temperatureseriespanel = {
-    #    'instructionsLabel' : '', # StaticText "Select a fit from the tree on the left then add datasets and assign\ntemperatues below. If you have not set up a fit to be the template\nfor the series, hit cancel and rerun this macro once a fit has been\ncreated."
+    #    'instructionsLabel' : '', # StaticText "Select a fit from the tree on the left
+    #     then add datasets and assign\ntemperatues below. If you have not set up a fit to
+    #     be the template\nfor the series, hit cancel and rerun this macro once a fit has been\ncreated."
     "listCtrlFiles": "Click header to sort by temperature",  # AutoWidthListCtrl
     #    'buttonUp' : '', # BitmapButton
     #    'buttonDown' : '', # BitmapButton
