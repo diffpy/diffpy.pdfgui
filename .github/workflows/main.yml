@@ -23,13 +23,10 @@ jobs:
           path: .
           fetch-depth: 0  # avoid shallow clone with no tags
 
-      - name: Install Mamba
-        run: |
-          wget "https://github.com/conda-forge/miniforge/releases/latest/download/Mambaforge-Linux-x86_64.sh" -O mambaforge.sh
-          bash mambaforge.sh -b -p $HOME/mambaforge
-          echo "$HOME/mambaforge/bin" >> $GITHUB_PATH
-          source $HOME/mambaforge/etc/profile.d/conda.sh
-          conda init bash
+      - name: Initialize Miniconda
+        uses: conda-incubator/setup-miniconda@v2
+        with:
+          activate-environment: test
 
       - name: Create conda environment
         run: |
