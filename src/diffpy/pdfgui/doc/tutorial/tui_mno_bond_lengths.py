@@ -7,12 +7,17 @@ their shortest Mn-O bond lengths using diffpy.pdffit2 library.  The results
 are plotted versus temperature and saved to "mno-bond-lengths.dat" file.
 """
 
+import pylab
+
+from diffpy.pdffit2 import PdfFit
+
+# Import tui (Text User Interface) functions from diffpy.pdfgui
+from diffpy.pdfgui import tui
+
 # PDFgui project file
 project_file = "lmo-template.ddp3"
 output_file = "mno-bond-lengths.dat"
 
-# Import tui (Text User Interface) functions from diffpy.pdfgui
-from diffpy.pdfgui import tui
 
 # load project file
 prj = tui.LoadProject(project_file)
@@ -21,7 +26,7 @@ prj = tui.LoadProject(project_file)
 # using diffpy.pdffit2
 
 # Create a PDF calculator object that will be used in that function.
-from diffpy.pdffit2 import PdfFit
+
 
 pf = PdfFit()
 
@@ -69,7 +74,6 @@ print(dashline)
 # Plot results using matplotlib; pylab is a part of matplotlib that
 # provides MATLAB-like plotting functions.
 
-import pylab
 
 pylab.plot(temperatures, MnO_bond_lengths, "o--")
 pylab.title("Data from refined phases in PDFgui project %s" % project_file)
