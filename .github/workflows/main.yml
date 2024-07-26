@@ -44,6 +44,7 @@ jobs:
           conda activate test_env
           mamba install --file requirements/run.txt
           mamba install --file requirements/test.txt
+          pip install -e .
 
       - name: Use Xvfb Action
         uses: GabrielBB/xvfb-action@v1
