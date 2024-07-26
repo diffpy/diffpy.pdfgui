@@ -50,4 +50,4 @@ jobs:
         uses: GabrielBB/xvfb-action@v1
         with:
           run: |
-            bash -c "source $HOME/mambaforge/etc/profile.d/conda.sh && conda activate test_env && python -m run_tests.py"
+            bash -c "source $HOME/mambaforge/etc/profile.d/conda.sh && conda activate test_env && python run_tests.py"
