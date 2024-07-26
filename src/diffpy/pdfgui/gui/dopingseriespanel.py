@@ -18,7 +18,6 @@
 
 import os.path
 import re
-import sys
 
 import wx
 
@@ -41,7 +40,10 @@ class DopingSeriesPanel(wx.Panel, PDFPanel):
         self.instructionsLabel = wx.StaticText(
             self,
             wx.ID_ANY,
-            "Select a fit from the tree on the left then add datasets and assign\ndoping elements and values below. If you have not set up a fit to be\nthe template for the series, hit cancel and rerun this macro once a\nfit has been created.",
+            "Select a fit from the tree on the left then add datasets and "
+            + "assign\ndoping elements and values below. "
+            + "If you have not set up a fit to be\nthe template for the series, "
+            + "hit cancel and rerun this macro once a\nfit has been created.",
         )
         self.instructionsLabel.SetFont(
             wx.Font(
@@ -210,7 +212,11 @@ class DopingSeriesPanel(wx.Panel, PDFPanel):
         if not dir:
             dir = self.mainFrame.workpath
 
-        matchstring = "PDF data files (*.gr)|*.gr|PDF fit files (*.fgr)|*.fgr|PDF fit files (*.fit)|*.fit|PDF calculation files (*.cgr)|*.cgr|PDF calculation files (*.calc)|*.calc|All Files|*"
+        matchstring = (
+            "PDF data files (*.gr)|*.gr|PDF fit files (*.fgr)|*.fgr|PDF fit files (*.fit)|"
+            "*.fit|PDF calculation files (*.cgr)|*.cgr|PDF calculation files (*.calc)|*.calc|"
+            "All Files|*"
+        )
         d = wx.FileDialog(
             None,
             "Choose files",
@@ -304,7 +310,7 @@ class DopingSeriesPanel(wx.Panel, PDFPanel):
         self.mainFrame.switchRightPanel("blank")
         return
 
-    ## Utility functions
+    # Utility functions
     def checkConfiguration(self):
         """Verify that the dopant and base are elements.
 
@@ -340,7 +346,7 @@ class DopingSeriesPanel(wx.Panel, PDFPanel):
             self.listCtrlFiles.SetItem(index, 1, shortname)
         return
 
-    ## Needed by mainframe
+    # Needed by mainframe
     def treeSelectionUpdate(self, node):
         """Set the current fit when the tree selection changes."""
         nodetype = self.treeCtrlMain.GetNodeType(node)
@@ -349,7 +355,7 @@ class DopingSeriesPanel(wx.Panel, PDFPanel):
         self.refresh()
         return
 
-    ## Required by PDFPanel
+    # Required by PDFPanel
     def refresh(self):
         """Block out OK button if there is no fit.
 
