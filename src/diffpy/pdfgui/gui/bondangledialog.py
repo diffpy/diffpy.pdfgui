@@ -138,8 +138,8 @@ class BondAngleDialog(wx.Dialog, PDFPanel):
         loop = True
         while loop:
             loop = False
-            for l in letters:
-                if newval == getattr(self, l):
+            for letter in letters:
+                if newval == getattr(self, letter):
                     loop = True
                     if increasing:
                         newval += 1
