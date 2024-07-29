@@ -18,7 +18,6 @@
 
 import os.path
 import re
-import sys
 
 import wx
 
@@ -27,6 +26,10 @@ from diffpy.pdfgui.gui import tooltips
 from diffpy.pdfgui.gui.pdfpanel import PDFPanel
 from diffpy.pdfgui.gui.wxextensions.listctrls import AutoWidthListCtrl
 from diffpy.pdfgui.utils import numericStringSort
+
+
+def temperature_sortkey(tf):
+    return float(tf[0])
 
 
 class TemperatureSeriesPanel(wx.Panel, PDFPanel):
@@ -41,7 +44,9 @@ class TemperatureSeriesPanel(wx.Panel, PDFPanel):
         self.instructionsLabel = wx.StaticText(
             self,
             wx.ID_ANY,
-            "Select a fit from the tree on the left then add datasets and assign\ntemperatues below. If you have not set up a fit to be the template\nfor the series, hit cancel and rerun this macro once a fit has been\ncreated.",
+            "Select a fit from the tree on the left then add datasets and assign\ntemperatues below. "
+            + "If you have not set up a fit to be the template\nfor the series, hit cancel and rerun this "
+            + "macro once a fit has been\ncreated.",
         )
         self.instructionsLabel.SetFont(
             wx.Font(
@@ -201,7 +206,14 @@ class TemperatureSeriesPanel(wx.Panel, PDFPanel):
         if not dir:
             dir = self.mainFrame.workpath
 
-        matchstring = "PDF data files (*.gr)|*.gr|PDF fit files (*.fgr)|*.fgr|PDF fit files (*.fit)|*.fit|PDF calculation files (*.cgr)|*.cgr|PDF calculation files (*.calc)|*.calc|All Files|*"
+        matchstring = (
+            "PDF data files (*.gr)|*.gr|"
+            "PDF fit files (*.fgr)|*.fgr|"
+            "PDF fit files (*.fit)|*.fit|"
+            "PDF calculation files (*.cgr)|*.cgr|"
+            "PDF calculation files (*.calc)|*.calc|"
+            "All Files|*"
+        )
         d = wx.FileDialog(
             None,
             "Choose files",
@@ -288,18 +300,26 @@ class TemperatureSeriesPanel(wx.Panel, PDFPanel):
         self.fillList()
         return
 
+    def create_filename_order(self):
+        filenames = [f for t, f in self.datasets]
+        numericStringSort(filenames)
+        self.filename_order = dict(zip(filenames, range(len(filenames))))
+        return
+
+    def filename_sortkey(self, tf):
+        return self.filename_order[tf[1]]
+
     def onColClick(self, event):  # wxGlade: TemperatureSeriesPanel.<event_handler>
         """Sort by temperature."""
         column = event.GetColumn()
         # sort by temperature
         if column == 0:
-            sortkey = lambda tf: float(tf[0])
+            sortkey = temperature_sortkey()
         # sort by filename with numerical comparison of digits
         elif column == 1:
-            filenames = [f for t, f in self.datasets]
-            numericStringSort(filenames)
-            order = dict(zip(filenames, range(len(filenames))))
-            sortkey = lambda tf: order[tf[1]]
+            self.create_filename_order()
+            sortkey = self.filename_sortkey()
+
         # ignore unhandled columns
         else:
             return
@@ -308,7 +328,7 @@ class TemperatureSeriesPanel(wx.Panel, PDFPanel):
         self.fillList()
         return
 
-    ## Utility functions
+    # Utility functions
     def fillList(self):
         """Fill the list with the datasets."""
         self.listCtrlFiles.DeleteAllItems()
@@ -325,7 +345,7 @@ class TemperatureSeriesPanel(wx.Panel, PDFPanel):
             self.listCtrlFiles.SetItem(index, 1, shortname)
         return
 
-    ## Needed by mainframe
+    # Needed by mainframe
     def treeSelectionUpdate(self, node):
         """Set the current fit when the tree selection changes."""
         nodetype = self.treeCtrlMain.GetNodeType(node)
@@ -334,7 +354,7 @@ class TemperatureSeriesPanel(wx.Panel, PDFPanel):
         self.refresh()
         return
 
-    ## Required by PDFPanel
+    # Required by PDFPanel
     def refresh(self):
         """Block out OK button if there is no fit.
 
