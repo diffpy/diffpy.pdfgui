@@ -167,7 +167,7 @@ class PlotPanel(wx.Panel, PDFPanel):
         xvals = _represent(xdata)
         try:
             xvals.remove("rw")
-        except:
+        except ValueError:
             pass
         numericStringSort(xvals)
 

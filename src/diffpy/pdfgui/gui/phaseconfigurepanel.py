@@ -393,7 +393,7 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
 
             return value
 
-        except:
+        except Exception:
             return None
 
     def applyCellChange(self, i, j, value):
