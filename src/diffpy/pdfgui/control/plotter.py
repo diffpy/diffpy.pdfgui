@@ -129,6 +129,11 @@ def _buildStyle(plotter, name, group, yNames):
     return style
 
 
+def deblank(s):
+    """Remove all whitespace from the given string."""
+    return "".join(s.split())
+
+
 class Plotter(PDFComponent):
     """Plots a single graph. It can have multiple curves."""
 
@@ -622,7 +627,6 @@ class Plotter(PDFComponent):
         header = "# Generated on %s by %s.\n" % (time.ctime(), getpass.getuser())
         header += "# This file was created by PDFgui.\n"
         outfile.write(header)
-        deblank = lambda s: "".join(s.split())
         xylist = [(c.x, c.y) for c in self.curves]
         xynames = [(_transName(c.xStr), deblank(c.name)) for c in self.curves]
         _exportCompactData(outfile, xylist, xynames)

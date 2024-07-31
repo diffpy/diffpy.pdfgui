@@ -1,4 +1,7 @@
 #!/usr/bin/python
+import os
+import shutil
+import sys
 
 """Read one or more texinfo files and extract any equations marked
 in the code with '@EquationMark' macro as PNG files to the images
@@ -30,10 +33,6 @@ eqmark = "@EquationMark"
 
 ##############################################################################
 # business
-
-import os
-import shutil
-import sys
 
 
 def loadEquations():
