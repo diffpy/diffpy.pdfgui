@@ -1,0 +1,89 @@
+Menus for PDFgui
+
+File
+    _____________________________
+    Open Project          Ctrl-o
+    Recent Files               >    -- Contains list of recent projects
+    -----------------------------
+    Save Project          Ctrl-s
+    Save Project as
+    -----------------------------
+    Close Project         Ctrl-x
+    Quit                  Ctrl-q
+    _____________________________
+
+
+Edit
+    _____________________________
+    Journal               Ctrl-j
+    -----------------------------
+    Preferences                     -- Contains structure viewer configuration
+    _____________________________
+
+
+Fits
+    _____________________________
+    New Fit
+    Delete Fit                      -- Only when fit is selected
+    Duplicate Fit                   -- Only when fit is selected
+    Move Fit                        -- Only when fit is selected
+    -----------------------------
+    Run Selected Fits               -- Only when fit is selected
+    Stop Fitting
+    -----------------------------
+    Save Fit PDF(s)                 -- Brings up selection dialog
+    Save Fit Structure(s)           -- Brings up selection dialog
+    Save Results
+    -----------------------------
+    Paste Copied Data
+    -----------------------------
+    Macros                     >    -- Temperature and doping series macros
+    _____________________________
+
+
+Calculations
+    _____________________________
+    New Calculation
+    Delete Calculation              -- Only when calculation is selected
+    Duplicate Calculation           -- Only when calculation is selected
+    Move Calculation                -- Only when calculation is selected
+    -----------------------------
+    Run Selected Calculations       -- Only when fit is selected
+    -----------------------------
+    Save Calculated PDF
+    -----------------------------
+    Paste Copied Structure
+    _____________________________
+
+
+Data
+    _____________________________
+    Import PDF Data
+    Export PDF Data                 -- Only when data is selected
+    -----------------------------
+    Copy PDF Data                   -- Only when data is selected
+    Delete PDF Data                 -- Only when data is selected
+    -----------------------------
+    Select Duplicate Data           -- Only when data is selected
+    -----------------------------
+    Paste Copied Phase
+    _____________________________
+
+
+Structures
+    _____________________________
+    Import Structure
+    Export Structure
+    -----------------------------
+    Select Duplicate Phases         -- Only when structure is selected
+    -----------------------------
+    Copy Phase                      -- Only when structure is selected
+    Delete Phase                    -- Only when structure is selected
+    _____________________________
+
+
+Help
+    _____________________________
+    Documentation
+    About
+    _____________________________

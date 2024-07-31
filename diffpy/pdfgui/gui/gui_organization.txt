@@ -1,0 +1,62 @@
+This document explains the basic organization and control of the PDFgui gui.
+
+The control panel of the gui is MainPanel in mainwindow.py. Among other things,
+MainPanel contains a FitTree object (from fittree.py) and a dynamic panel.  The
+dynamic panel changes to depending upon the need of the user.  (The data set and
+structure panels are both be dynamic panels.) The current dynamic panel visible
+in the gui is referred to the rightPanel (so named because the dynamic panel
+appears to the right of the main window).
+
+Each dynamic panel must be derived from both wx.Panel and PDFPanel (from
+pdfpanel.py). PDFPanel is a 'mix-in' class that contains variables and methods
+needed by dynamic panels. The most important of these is the refresh() method.
+The dynamic panel's refresh() method is called by MainPanel whenever a given
+dynamic panel is made visible (it becomes the rightPanel). refresh() must be
+redefined in a sublass of PDFPanel otherwise a NotImplementedError will be
+thrown whenever refresh() is called. MainPanel only calls refresh() for the
+rightPanel, not any of its children. It is up to a dynamic panel to take care of
+its children.
+
+All dynamic panels, with the exception of informational ones, need access to
+data and other information. A dynamic panel is provided with this information
+when it becomes the rightPanel.
+
+All dynamic panels are assigned the member variables:
+mainPanel    -  A reference to the MainPanel object. This can be used to change
+                some property of the MainPanel, such as its mode or to assign a
+                different rightPanel. Read the documentation in mainpanel.py to
+                get a better understanding of how MainPanel works. See
+                adddatapanel.py for an example for how these references are
+                used.
+treeCtrlMain -  A reference to the TreeCtrl of the gui. Panels may call upon
+                treeCtrlMain in order to change some property of the tree. Most
+                panels will not need this reference. See the wx.TreeCtrl API and
+                the documentation in fittree.py for more on this. See
+                adddatapanel.py for an example for how these references are
+                used.
+
+It is important to note again, if the children of a dynamic panel needs to know
+what the mainPanel or treeCtrlMain are, it is the responsibility of the parent
+to tell them. A dynamic panel knows what mainPanel and treeCtrlMain right after
+it is initialized.
+
+Some dynamic panels may need to get or set data from PDFGuiControl. In most
+circumstances, a reference to this information will be provided by the
+MainPanel when the dynamic panel becomes the rightPanel. This allows, for
+example, the phase set-up panel to display the information for the currently
+selected phase in the FitTree. The information must be shared with the
+children by rightPanel (perhaps as part of the refresh() method.)
+
+Objects given to the rightPanel in these cases is as follows.
+_configuration  -   The configuation data for the panel. This is either a
+                    dictionary or other object that tells how to set up the
+                    configuration window.
+_constraints    -   The constraints data for the panel.
+_results        -   The fitting results to be displayed in the panel.
+
+Panels that need this information should initialize it to None. Future panels
+may need to get bits of information from PDFGuiControl. Most cases will be
+handled in the same way; data will be provided by the MainPanel to the dynamic
+panel when it is needed. This allows these panels to be developed
+independently from the MainPanel and allow them to be converged later. This,
+hopefully, leads to easier and more rapid development.

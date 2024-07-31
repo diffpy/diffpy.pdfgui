@@ -1,0 +1,31 @@
+2/22/06
+
+Copying and Pasting:
+The project is going to allow copying and pasting on all levels of the fit
+tree. By default, when changing the metadata or constraints of a copied
+data set or structure, the change will be local. The same is true of chaning a
+structure. If, however, many identical copies are selected simultaneously,
+changes will take place to all of them. If many items are highlighted, but are
+not identical, the display only shows information for the first item. If the
+item is altered, the tree will indicate that only the first item is being
+changed by highlighting only the first selected item.
+
+Popups:
+Popups are annoying. The right panel is there to serve any need of the user.
+Instead of popping up dialogs, change the panel on the right hand side. This
+looks cooler anyway.
+
+Saving:
+Must save the last step of a fitting with the project, even if the fitting was
+not completed.
+
+Results:
+Display the results in an adendum notebook panel on the pertinent levels of
+the tree.
+
+Future Options:
+* Highlight many items, copy from one to all others from right click.
+* Remember history of constraints.
+* Hava a "Link to results" copy option in the right click menu.
+* Be able to describe a parameter. Hovering over the parameter in the windows
+  where it appears will show user's description as a tool tip
