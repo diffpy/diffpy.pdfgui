@@ -24,11 +24,7 @@ import six
 import six.moves.cPickle as pickle
 
 from diffpy.pdfgui.control.calculation import Calculation
-from diffpy.pdfgui.control.controlerrors import (
-    ControlError,
-    ControlFileError,
-    ControlTypeError,
-)
+from diffpy.pdfgui.control.controlerrors import ControlError, ControlFileError, ControlTypeError
 from diffpy.pdfgui.control.fitdataset import FitDataSet
 from diffpy.pdfgui.control.fitstructure import FitStructure
 from diffpy.pdfgui.control.fitting import Fitting
