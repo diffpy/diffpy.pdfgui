@@ -3,14 +3,14 @@
 [report]
 # RE patterns for lines to be excluded from consideration.
 exclude_lines =
-    ## Have to re-enable the standard pragma
+    #  Have to re-enable the standard pragma
     pragma: no cover
-    ## Don't complain if tests don't hit defensive assertion code:
+    #  Don't complain if tests don't hit defensive assertion code:
     raise AssertionError
     raise NotImplementedError
     ^[ ]*assert False
 
-    ## Don't complain if non-runnable code isn't run:
+    #  Don't complain if non-runnable code isn't run:
     ^[ ]*@unittest.skip\b
     ^[ ]{4}unittest.main()
     if __name__ == .__main__.:
@@ -18,5 +18,5 @@ exclude_lines =
 
 [run]
 omit =
-    ## exclude debug.py from codecov report
+    #  exclude debug.py from codecov report
     */tests/debug.py

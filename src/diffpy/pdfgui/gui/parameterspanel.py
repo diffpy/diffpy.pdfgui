@@ -98,7 +98,7 @@ class ParametersPanel(wx.Panel, PDFPanel):
         self.Layout()
         # end wxGlade
 
-    ##########################################################################
+    # ########################################################################
     # Misc Methods
 
     def __customProperties(self):

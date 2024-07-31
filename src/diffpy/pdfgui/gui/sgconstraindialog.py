@@ -101,7 +101,7 @@ class SGConstrainDialog(wx.Dialog, PDFPanel):
         # end wxGlade
         self.__customProperties()
 
-    ###########################################################################
+    # #########################################################################
 
     def __customProperties(self):
         """Set the custom properties."""
@@ -204,7 +204,7 @@ class SGConstrainDialog(wx.Dialog, PDFPanel):
             raise ControlValueError(error)
         return
 
-    ### Events
+    # # Events
 
     def onKillFocus(self, event):
         """Check value of widgets and update the dialog message."""
