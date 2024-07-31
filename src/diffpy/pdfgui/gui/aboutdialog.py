@@ -3,8 +3,8 @@
 #
 # PDFgui            by DANSE Diffraction group
 #                   Simon J. L. Billinge
-#                   (c) 2006 trustees of the Michigan State University.
-#                   (c) 2024 trustees of the Columbia University in the City
+#                   (c) 2006 Trustees of the Michigan State University.
+#                   (c) 2024 Trustees of the Columbia University in the City
 #                   of New York
 #                   All rights reserved.
 #

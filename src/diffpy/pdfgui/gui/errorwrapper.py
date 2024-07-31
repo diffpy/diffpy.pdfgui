@@ -75,7 +75,7 @@ def catchFunctionErrors(obj, funcName):
             return rvpass
 
         # Everything else
-        except:
+        except Exception:
             if pdfguiglobals.dbopts.pythondebugger:
                 import pdb
 
