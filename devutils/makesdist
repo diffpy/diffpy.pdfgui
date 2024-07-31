@@ -11,10 +11,10 @@ import subprocess
 import sys
 import tarfile
 
+from setup import FALLBACK_VERSION, versiondata
+
 BASEDIR = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
 sys.path.insert(0, BASEDIR)
-
-from setup import FALLBACK_VERSION, versiondata
 
 timestamp = versiondata.getint("DEFAULT", "timestamp")
 
