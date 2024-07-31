@@ -1,0 +1,51 @@
+This software was originally developed by the Billinge group as part
+of the Distributed Data Analysis of Neutron Scattering Experiments
+(DANSE) project funded by the US National Science Foundation under
+grant DMR-0520547. Developments of PDFfit2 were funded by NSF grant
+DMR-0304391 in the Billinge group, and with support from Michigan State
+University and Columbia University. Any opinions, findings, and conclusions
+or recommendations expressed in this material are those of the author(s)
+and do not necessarily reflect the views of the respective funding bodies.
+Subsequent development was done in the Billinge group at Columbia University
+and then in collaboration between the Billinge group at Columbia and Pavol
+Juhas at Brookhaven National Laboratory. Moving forward, PDFgui will be
+maintained as a community project with contributions welcomed from many people.
+
+Several of the examples in the tutorial part were made possible and benefited from samples
+synthesized by J. F.  Mitchell, and from data collected and processed by M.
+Schmidt, P. G. Radaelli, and X. Qiu.
+
+@bigskip{}
+If you use this program to do productive scientific research that leads
+to publication, we ask that you acknowledge use of the program by citing
+the following paper in your publication:
+@bigskip{}
+
+@quotation
+C. L. Farrow, P. Juhás, J. W. Liu, D. Bryndin, E. S. Božin,
+J. Bloch, Th. Proffen and S. J. L. Billinge,
+@url{https://stacks.iop.org/0953-8984/19/335219,
+PDFfit2 and PDFgui: computer programs for studying nanostructure in crystals},
+@i{@w{J. Phys.:} Condens. Matter}, @b{19}, 335219 (2007)
+@end quotation
+
+@bigskip{}
+@insertcopying
+@cindex  copyright
+@bigskip{}
+As of February 2017, and the 1.1.2 release, PDFgui has moved to a shared copyright model.
+@bigskip{}
+PDFgui uses a shared copyright model. Each contributor maintains copyright over their
+contributions to PDFgui. But, it is important to note that these contributions are
+typically only changes to the repositories. Thus, the PDFgui source code, in its entirety,
+is not the copyright of any single person or institution. Instead, it is the collective
+copyright of the entire PDFgui Development Team. If individual contributors want to
+maintain a record of what changes/contributions they have specific copyright on, they
+should indicate their copyright in the commit message of the change, when they commit
+the change to one of the PDFgui repositories.
+@bigskip{}
+The PDFgui Development Team is the set of all contributors to the PDFgui project.
+A full list can be obtained from the git version control logs.
+@bigskip{}
+For more information please visit @url{https://www.diffpy.org}
+or contact Prof. Simon Billinge at @email{sb2896@@columbia.edu}.
