@@ -1,23 +1,14 @@
-recursive-include src *
-recursive-exclude src *.py[co]
-include AUTHORS.txt LICENSE*.txt README*
-recursive-include doc *
-prune doc/epydoc
-prune doc/manual/images/originals
-exclude doc/manual/images/*.pdf
-recursive-exclude doc/manual Makefile *.py *.texinfo
-recursive-exclude doc/manual *.aux *.cp *.cps *.err *.log *.toc *.vr *.vrs
-recursive-include icons *.png *.ico
-recursive-exclude icons *.m *.xcf
-global-exclude .gitattributes .gitignore .gitarchive.cfg
-global-exclude .DS_Store
+include AUTHORS.rst
+include LICENSE
+include README.rst
+include requirements.txt
 
-# Avoid user content in setup.cfg to make distribution reproducible.
-exclude setup.cfg
+recursive-exclude * __pycache__
+recursive-exclude * *.py[co]
 
-# Exclude git-tracked files spuriously added by setuptools_scm
-exclude .coveragerc
-exclude .travis*
-prune conda-recipe
-prune devutils
-#prune doc
+recursive-include docs *.rst conf.py Makefile make.bat
+
+include diffpy.pdfgui/version.py
+
+# If including data files in the package, add them like:
+# include path/to/data_file

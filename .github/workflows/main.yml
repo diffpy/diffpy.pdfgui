@@ -23,31 +23,32 @@ jobs:
           path: .
           fetch-depth: 0  # avoid shallow clone with no tags
 
-      - name: Install Mamba
-        run: |
-          wget "https://github.com/conda-forge/miniforge/releases/latest/download/Mambaforge-Linux-x86_64.sh" -O mambaforge.sh
-          bash mambaforge.sh -b -p $HOME/mambaforge
-          echo "$HOME/mambaforge/bin" >> $GITHUB_PATH
-          source $HOME/mambaforge/etc/profile.d/conda.sh
-          conda init bash
-
-      - name: Create conda environment
-        run: |
-          source $HOME/mambaforge/etc/profile.d/conda.sh
-          conda create -n test_env python=3.12 xonsh regolith -c conda-forge -y
-          conda activate test_env
-          pip install case_insensitive_dict
-
-      - name: Install dependencies
-        run: |
-          source $HOME/mambaforge/etc/profile.d/conda.sh
-          conda activate test_env
-          mamba install --file requirements/run.txt
-          mamba install --file requirements/test.txt
-          pip install -e .
-
-      - name: Use Xvfb Action
-        uses: GabrielBB/xvfb-action@v1
+      - name: initialize miniconda
+        # this uses a marketplace action that sets up miniconda in a way that makes
+        # it easier to use.  I tried setting it up without this and it was a pain
+        uses: conda-incubator/setup-miniconda@v2
         with:
-          run: |
-            bash -c "source $HOME/mambaforge/etc/profile.d/conda.sh && conda activate test_env && python -m run_tests.py"
+          activate-environment: test
+          # environment.yml file is needed by this action.  Because I don't want
+          # maintain this but rather maintain the requirements files it just has
+          # basic things in it like conda and pip
+          environment-file: ./environment.yml
+          python-version: 3
+          auto-activate-base: false
+
+      - name: install diffpy.pdfgui requirements
+        shell: bash -l {0}
+        run: |
+          conda config --set always_yes yes --set changeps1 no
+          conda config --add channels conda-forge
+          conda activate test
+          conda install --file requirements/run.txt
+          conda install --file requirements/test.txt
+          pip install .
+      - name: Validate diffpy.pdfgui
+        shell: bash -l {0}
+        run: |
+          conda activate test
+          coverage run -m pytest -vv -s
+          coverage report -m
+          codecov
