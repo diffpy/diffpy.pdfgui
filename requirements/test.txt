@@ -1,4 +1,5 @@
+flake8
 pytest
-freezegun
-coverage
 codecov
+coverage
+pytest-env
