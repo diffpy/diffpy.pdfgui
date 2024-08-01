@@ -1,11 +1,41 @@
-.. image:: https://travis-ci.org/diffpy/diffpy.pdfgui.svg?branch=master
-   :target: https://travis-ci.org/diffpy/diffpy.pdfgui
+|Icon| |title|_
+===============
 
-.. image:: https://codecov.io/gh/diffpy/diffpy.pdfgui/branch/master/graph/badge.svg
-  :target: https://codecov.io/gh/diffpy/diffpy.pdfgui
+.. |title| replace:: diffpy.pdfgui
+.. _title: https://diffpy.github.io/diffpy.pdfgui
 
+.. |Icon| image:: https://avatars.githubusercontent.com/diffpy
+        :target: https://diffpy.github.io/diffpy.pdfgui
+        :height: 100px
 
-PDFgui
+|PyPi| |Forge| |PythonVersion| |PR|
+
+|CI| |Codecov| |Black| |Tracking|
+
+.. |Black| image:: https://img.shields.io/badge/code_style-black-black
+        :target: https://github.com/psf/black
+
+.. |CI| image:: https://github.com/diffpy/diffpy.pdfgui/actions/workflows/main.yml/badge.svg
+        :target: https://github.com/diffpy/diffpy.pdfgui/actions/workflows/main.yml
+
+.. |Codecov| image:: https://codecov.io/gh/diffpy/diffpy.pdfgui/branch/main/graph/badge.svg
+        :target: https://codecov.io/gh/diffpy/diffpy.pdfgui
+
+.. |Forge| image:: https://img.shields.io/conda/vn/conda-forge/diffpy.pdfgui
+        :target: https://anaconda.org/conda-forge/diffpy.pdfgui
+
+.. |PR| image:: https://img.shields.io/badge/PR-Welcome-29ab47ff
+
+.. |PyPi| image:: https://img.shields.io/pypi/v/diffpy.pdfgui
+        :target: https://pypi.org/project/diffpy.pdfgui/
+
+.. |PythonVersion| image:: https://img.shields.io/pypi/pyversions/diffpy.pdfgui
+        :target: https://pypi.org/project/diffpy.pdfgui/
+
+.. |Tracking| image:: https://img.shields.io/badge/issue_tracking-github-blue
+        :target: https://github.com/diffpy/diffpy.pdfgui/issues
+
+diffpy.pdfgui
 ========================================================================
 
 Graphical user interface program for structure refinements to atomic
@@ -16,128 +46,83 @@ powerful extensions.  To get started, please open the manual from the
 help menu and follow the tutorial instructions.  A detailed description
 is available in the doc/Farrow-jpcm-2007.pdf paper.
 
+For more information about the diffpy.pdfgui library, please consult our `online documentation <https://diffpy.github.io/diffpy.pdfgui>`_.
 
-REQUIREMENTS
-------------------------------------------------------------------------
+Citation
+--------
 
-PDFgui requires Python 3.8+ or 2.7 and several third-party
-libraries that are used by PDFgui and its components.
+If you use diffpy.pdfgui in a scientific publication, we would like you to cite this package as
 
-* setuptools   - tools for installing Python packages
-* wxpython     - graphical user interface toolkit for Python
-* numpy        - library for scientific computing with Python
-* matplotlib   - Python 2D plotting library
-* diffpy.pdffit2 - computational engine for PDFgui,
-  https://github.com/diffpy/diffpy.pdffit2
-* diffpy.structure - simple storage and manipulation of atomic
-  structures, https://github.com/diffpy/diffpy.structure
-* diffpy.utils - shared helper utilities for wx GUI,
-  https://github.com/diffpy/diffpy.utils
+        diffpy.pdfgui Package, https://github.com/diffpy/diffpy.pdfgui
 
-We recommend to use `Anaconda Python <https://www.anaconda.com/download>`_
-which allows to conveniently install PDFgui and all its software
-dependencies with a single command.
+Installation
+------------
 
-Please note that the Python3 PDFgui will read .ddp3 files. It is also
-possible for it to read .ddp files that were saved by the Python2 PDFgui
-but it will sometimes fail to read these. We are working on a solution
-that will be available in a future version.
+The preferred method is to use `Miniconda Python
+<https://docs.conda.io/projects/miniconda/en/latest/miniconda-install.html>`_
+and install from the "conda-forge" channel of Conda packages.
 
-INSTALLATION
-------------------------------------------------------------------------
+To add "conda-forge" to the conda channels, run the following in a terminal. ::
 
-The preferred method is to use Anaconda Python and install from the
-"conda-forge" channel of Anaconda packages. `pdfgui` can be installed with `conda` ::
+        conda config --add channels conda-forge
 
-   conda install -c conda-forge diffpy.pdfgui
+We want to install our packages in a suitable conda environment.
+The following creates and activates a new environment named ``diffpy.pdfgui_env`` ::
 
-PDFgui can be then started from a terminal ("Anaconda Prompt" on
-Windows) by executing the "pdfgui" program.  An alternative
-method on Windows is to start PDFgui through the DiffPy start menu.
+        conda create -n diffpy.pdfgui_env python=3
+        conda activate diffpy.pdfgui_env
 
-If you don't use Anaconda or prefer to install from sources, make
-sure the required software is all in place ::
+Then, to fully install ``diffpy.pdfgui`` in our active environment, run ::
 
-   conda install -c conda-forge diffpy.utils diffpy.pdffit2 matplotlib wxpython
+        conda install diffpy.pdfgui
 
-Then you are ready to install diffpy.pdfgui from source codes::
+Another option is to use ``pip`` to download and install the latest release from
+`Python Package Index <https://pypi.python.org>`_.
+To install using ``pip`` into your ``diffpy.pdfgui_env`` environment, we will also have to install dependencies ::
 
-   python setup.py install
+        pip install -r https://raw.githubusercontent.com/diffpy/diffpy.pdfgui/main/requirements/run.txt
 
-By default the files are installed to standard system directories,
-which may require the use of ``sudo`` for write privileges.  If
-administrator (root) access is not available, see the output from
-``python setup.py install --help`` for options to install as a regular
-user to user-writable locations.  Note that installation to non-standard
-directories may require adjustments to the PATH and PYTHONPATH
-environment variables.  The installation integrity can be verified by
-changing to the HOME directory and running ::
+and then install the package ::
 
-   python -m diffpy.pdfgui.tests.rundeps
+        pip install diffpy.pdfgui
 
-To use PDFgui, you can simply type `pdfgui`, or run the following command ::
+If you prefer to install from sources, after installing the dependencies, obtain the source archive from
+`GitHub <https://github.com/diffpy/diffpy.pdfgui/>`_. Once installed, ``cd`` into your ``diffpy.pdfgui`` directory
+and run the following ::
 
-   python diffpy.pdfgui/src/diffpy/pdfgui/application/pdfgui.py
+        pip install .
 
-If it shows some error like "This program needs access to the screen.". For Mac, you could install `python.app` from conda
-(`conda install python.app`), then run as follows ::
+Support and Contribute
+----------------------
 
-   python.app diffpy.pdfgui/src/diffpy/pdfgui/application/pdfgui.py
+`Diffpy user group <https://groups.google.com/g/diffpy-users>`_ is the discussion forum for general questions and discussions about the use of diffpy.pdfgui. Please join the diffpy.pdfgui users community by joining the Google group. The diffpy.pdfgui project welcomes your expertise and enthusiasm!
 
-With Anaconda PDFgui can be later upgraded to the latest released
-version using ::
+If you see a bug or want to request a feature, please `report it as an issue <https://github.com/diffpy/diffpy.pdfgui/issues>`_ and/or `submit a fix as a PR <https://github.com/diffpy/diffpy.pdfgui/pulls>`_. You can also post it to the `Diffpy user group <https://groups.google.com/g/diffpy-users>`_. 
 
-   conda update -c conda-forge diffpy.pdfgui
+Feel free to fork the project and contribute. To install diffpy.pdfgui
+in a development mode, with its sources being directly used by Python
+rather than copied to a package directory, use the following in the root
+directory ::
 
-With other Python distributions the program can be upgraded to
-the latest version as follows ::
+        pip install -e .
 
-   easy_install --upgrade diffpy.pdfgui
+To ensure code quality and to prevent accidental commits into the default branch, please set up the use of our pre-commit
+hooks.
 
-If you would like to use other Python distributions except Anaconda,
-it is necessary to install the required software separately. As an
-example, on Ubuntu Linux some of the required software can be
-installed using ::
+1. Install pre-commit in your working environment by running ``conda install pre-commit``.
 
-   sudo apt-get install \
-      python-setuptools python-wxtools python-numpy \
-      python-matplotlib
+2. Initialize pre-commit (one time only) ``pre-commit install``.
 
-To install the remaining packages see the installation instructions
-at their respective web pages.
+Thereafter your code will be linted by black and isort and checked against flake8 before you can commit.
+If it fails by black or isort, just rerun and it should pass (black and isort will modify the files so should
+pass after they are modified). If the flake8 test fails please see the error messages and fix them manually before
+trying to commit again.
 
-Other software
-````````````````````````````````````````````````````````````````````````
+Improvements and fixes are always appreciated.
 
-PDFgui can use an external structure viewer for displaying analyzed
-structures.  We have tested with several structure viewers such as
+Before contribuing, please read our `Code of Conduct <https://github.com/diffpy/diffpy.pdfgui/blob/main/CODE_OF_CONDUCT.rst>`_.
 
-* AtomEye, http://li.mit.edu/A/Graphics/A/
-* PyMol, https://www.pymol.org
-* VESTA, http://jp-minerals.org/vesta/en/
+Contact
+-------
 
-Other viewers should work as well, as long as they understand one of
-the output structure formats supported by PDFgui.
-
-
-DEVELOPMENT
-------------------------------------------------------------------------
-
-PDFgui is an open-source software available in a git repository at
-https://github.com/diffpy/diffpy.pdfgui.
-
-Feel free to fork the project and contribute.  To install PDFgui
-in a development mode where the source files are used directly
-rather than copied to a system directory, use ::
-
-   python setup.py develop --user
-
-
-CONTACTS
-------------------------------------------------------------------------
-
-For more information on PDFgui please visit the project web-page:
-
-https://www.diffpy.org/products/pdfgui.html
-
-or email Prof. Simon Billinge at sb2896@columbia.edu
+For more information on diffpy.pdfgui please visit the project `web-page <https://diffpy.github.io/>`_ or email Prof. Simon Billinge at sb2896@columbia.edu.
