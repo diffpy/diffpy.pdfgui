@@ -17,7 +17,7 @@ help menu and follow the tutorial instructions.  A detailed description
 is available in the doc/Farrow-jpcm-2007.pdf paper.
 
 
-REQUIREMENTS
+Requirements
 ------------------------------------------------------------------------
 
 PDFgui requires Python 3.8+ or 2.7 and several third-party
