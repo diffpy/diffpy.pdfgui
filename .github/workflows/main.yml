@@ -1,0 +1,53 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+      - CI
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  miniconda:
+    name: Miniconda ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+        matrix:
+            os: ["ubuntu-latest"]
+    steps:
+      - name: check out diffpy.pdfgui
+        uses: actions/checkout@v3
+        with:
+          repository: diffpy/diffpy.pdfgui
+          path: .
+          fetch-depth: 0  # avoid shallow clone with no tags
+
+      - name: Install Mamba
+        run: |
+          wget "https://github.com/conda-forge/miniforge/releases/latest/download/Mambaforge-Linux-x86_64.sh" -O mambaforge.sh
+          bash mambaforge.sh -b -p $HOME/mambaforge
+          echo "$HOME/mambaforge/bin" >> $GITHUB_PATH
+          source $HOME/mambaforge/etc/profile.d/conda.sh
+          conda init bash
+
+      - name: Create conda environment
+        run: |
+          source $HOME/mambaforge/etc/profile.d/conda.sh
+          conda create -n test_env python=3.12 xonsh regolith -c conda-forge -y
+          conda activate test_env
+          pip install case_insensitive_dict
+
+      - name: Install dependencies
+        run: |
+          source $HOME/mambaforge/etc/profile.d/conda.sh
+          conda activate test_env
+          mamba install --file requirements/run.txt
+          mamba install --file requirements/test.txt
+          pip install -e .
+
+      - name: Use Xvfb Action
+        uses: GabrielBB/xvfb-action@v1
+        with:
+          run: |
+            bash -c "source $HOME/mambaforge/etc/profile.d/conda.sh && conda activate test_env && python -m run_tests.py"

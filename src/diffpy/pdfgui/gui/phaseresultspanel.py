@@ -198,7 +198,7 @@ class PhaseResultsPanel(wx.Panel, PDFPanel):
         self.__customProperties()
         return
 
-    ##########################################################################
+    # ########################################################################
     # Misc Methods
 
     def __customProperties(self):

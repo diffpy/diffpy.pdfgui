@@ -46,7 +46,7 @@ class Menu(wx.Menu):
 
 
 if WX4:
-    Menu = wx.Menu
+    Menu = wx.Menu  # noqa: F811
 
 # ----------------------------------------------------------------------------
 
@@ -58,7 +58,7 @@ class ListCtrl(wx.ListCtrl):
 
 
 if WX4:
-    ListCtrl = wx.ListCtrl
+    ListCtrl = wx.ListCtrl  # noqa: F811
 
 # ----------------------------------------------------------------------------
 
@@ -70,7 +70,7 @@ class TreeCtrl(wx.TreeCtrl):
 
 
 if WX4:
-    TreeCtrl = wx.TreeCtrl
+    TreeCtrl = wx.TreeCtrl  # noqa: F811
 
 # wx.ToolBar -----------------------------------------------------------------
 

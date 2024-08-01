@@ -19,6 +19,8 @@ import os.path
 
 from pkg_resources import Requirement, resource_filename
 
+from diffpy.pdfgui.gui import debugoptions
+
 # Name of the program
 name = "PDFgui"
 # Maximum number of files to be remembered
@@ -76,7 +78,6 @@ cmdopts = []
 cmdargs = []
 
 # debugging options:
-from diffpy.pdfgui.gui import debugoptions
 
 dbopts = debugoptions.DebugOptions()
 

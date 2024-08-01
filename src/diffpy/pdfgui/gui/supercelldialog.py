@@ -74,7 +74,7 @@ class SupercellDialog(wx.Dialog):
         self.Layout()
         # end wxGlade
 
-    ############################################################################
+    # ##########################################################################
 
     def __customProperties(self):
         """Set custom properties."""

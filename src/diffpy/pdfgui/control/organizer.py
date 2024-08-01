@@ -20,6 +20,15 @@ from diffpy.pdfgui.control.fitstructure import FitStructure
 from diffpy.pdfgui.control.pdfcomponent import PDFComponent
 
 
+# Search datasets for spdiameter and its constraints
+def spd_assigned(ds):
+    return bool(ds.spdiameter)
+
+
+def spd_constrained(ds):
+    return "spdiameter" in ds.constraints
+
+
 class Organizer(PDFComponent):
     """Base class for Fitting. It holds separate lists of datasets,
     strucs and calculations
@@ -241,9 +250,7 @@ class Organizer(PDFComponent):
         for stru in self.strucs:
             if stru.getvar("spdiameter"):
                 return
-        # Search datasets for spdiameter and its constraints
-        spd_assigned = lambda ds: bool(ds.spdiameter)
-        spd_constrained = lambda ds: "spdiameter" in ds.constraints
+
         # Figure out the value and constraint for spdiameter.
         # The highest priority is for a dataset with constrained spdiameter,
         # then for dataset with assigned spdiameter and finally from

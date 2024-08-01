@@ -98,7 +98,7 @@ class ParametersPanel(wx.Panel, PDFPanel):
         self.Layout()
         # end wxGlade
 
-    ##########################################################################
+    # ########################################################################
     # Misc Methods
 
     def __customProperties(self):
@@ -116,7 +116,7 @@ class ParametersPanel(wx.Panel, PDFPanel):
 
         nRows = len(self.parameters)
 
-        ### update the grid
+        # update the grid
         # remove all rows and create new ones
         self.grid_parameters.BeginBatch()
         gridrows = self.grid_parameters.GetNumberRows()
@@ -297,7 +297,7 @@ class ParametersPanel(wx.Panel, PDFPanel):
         menu.Destroy()
         return
 
-    ##### Popup menu events  ##################################################
+    # Popup menu events  ##################################################
     def onPopupFill(self, event):
         """Fills cells selected in the grid with a new value"""
 
@@ -402,7 +402,7 @@ class ParametersPanel(wx.Panel, PDFPanel):
         event.Skip()
         return
 
-    ##### end of Popup menu events  ###########################################
+    # end of Popup menu events  ###########################################
 
     def onApplyParameters(self, event):  # wxGlade: ParametersPanel.<event_handler>
         self.fit.applyParameters()
@@ -439,7 +439,7 @@ class ParametersPanel(wx.Panel, PDFPanel):
 
 # end of class ParametersPanel
 
-##### testing code ############################################################
+# testing code ############################################################
 if __name__ == "__main__":
 
     class MyFrame(wx.Frame):
@@ -481,4 +481,4 @@ if __name__ == "__main__":
 
     app = MyApp(0)
     app.MainLoop()
-##### end of testing code #####################################################
+# end of testing code #####################################################

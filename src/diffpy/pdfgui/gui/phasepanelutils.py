@@ -234,7 +234,7 @@ def canPasteIntoCells(panel):
         # Strip any trailing tabs
         rowlist = [r.rstrip("\t") for r in rowlist]
         celllist = [r.split("\t") for r in rowlist]
-    except:
+    except wx.PyDeadObjectError:
         return False
 
     if len(celllist) == 0:
