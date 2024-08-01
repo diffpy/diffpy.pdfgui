@@ -46,12 +46,32 @@ powerful extensions.  To get started, please open the manual from the
 help menu and follow the tutorial instructions.  A detailed description
 is available in the doc/Farrow-jpcm-2007.pdf paper.
 
-For more information about the diffpy.pdfgui library, please consult our `online documentation <https://diffpy.github.io/diffpy.pdfgui>`_.
 
-Citation
---------
+REQUIREMENTS
+------------------------------------------------------------------------
 
-If you use diffpy.pdfgui in a scientific publication, we would like you to cite this package as
+PDFgui requires Python 3.8+ or 2.7 and several third-party
+libraries that are used by PDFgui and its components.
+
+* setuptools   - tools for installing Python packages
+* wxpython     - graphical user interface toolkit for Python
+* numpy        - library for scientific computing with Python
+* matplotlib   - Python 2D plotting library
+* diffpy.pdffit2 - computational engine for PDFgui,
+  https://github.com/diffpy/diffpy.pdffit2
+* diffpy.structure - simple storage and manipulation of atomic
+  structures, https://github.com/diffpy/diffpy.structure
+* diffpy.utils - shared helper utilities for wx GUI,
+  https://github.com/diffpy/diffpy.utils
+
+We recommend to use `Anaconda Python <https://www.anaconda.com/download>`_
+which allows to conveniently install PDFgui and all its software
+dependencies with a single command.
+
+Please note that the Python3 PDFgui will read .ddp3 files. It is also
+possible for it to read .ddp files that were saved by the Python2 PDFgui
+but it will sometimes fail to read these. We are working on a solution
+that will be available in a future version.
 
         diffpy.pdfgui Package, https://github.com/diffpy/diffpy.pdfgui
 
