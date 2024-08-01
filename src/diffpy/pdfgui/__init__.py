@@ -1,23 +1,22 @@
 #!/usr/bin/env python
 ##############################################################################
 #
-# diffpy.pdfgui     by DANSE Diffraction group
-#                   Simon J. L. Billinge
-#                   (c) 2006 trustees of the Michigan State University.
-#                   All rights reserved.
+# (c) 2006 trustees of the Michigan State University.
+# (c) 2024 The Trustees of Columbia University in the City of New York.
+# All rights reserved.
 #
-# File coded by:    Pavol Juhas
+# File coded by: Billinge Group members and community contributors.
 #
-# See AUTHORS.txt for a list of people who contributed.
-# See LICENSE.txt for license information.
+# See GitHub contributions for a more detailed list of contributors.
+# https://github.com/diffpy/diffpy.pdfgui/graphs/contributors
+#
+# See LICENSE.rst for license information.
 #
 ##############################################################################
 
-"""Constants:
-    __version__ -- full version of this PDFgui release
-"""
+"""GUI for PDF simulation and structure refinement."""
 
-
+# package version
 from diffpy.pdfgui.version import __version__
 
 # silence the pyflakes syntax checker
