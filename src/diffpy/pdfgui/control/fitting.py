@@ -18,11 +18,7 @@ from __future__ import print_function
 import threading
 import time
 
-from diffpy.pdfgui.control.controlerrors import (
-    ControlError,
-    ControlStatusError,
-    ControlValueError,
-)
+from diffpy.pdfgui.control.controlerrors import ControlError, ControlStatusError, ControlValueError
 from diffpy.pdfgui.control.organizer import Organizer
 from diffpy.pdfgui.utils import pickle_loads, safeCPickleDumps
 
