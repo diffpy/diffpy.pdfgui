@@ -20,6 +20,17 @@ contributors to this package were
     Pavol Juhas
     Dmitriy Bryndin
 
+Other current and former contributors of the DiffPy project include
+
+    Simon Billinge
+    Chris Farrow
+    Emil Bozin
+    Wenduo Zhou
+    Peng Tian
+
+The DiffPy team is part of the Billinge Group at Columbia University in New York,
+within the Department of Applied Physics and Applied Mathematics.
+
 Contributors
 ------------
 Please see the header of each source file for a detailed list of
