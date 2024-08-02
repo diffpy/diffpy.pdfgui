@@ -1,0 +1,4 @@
+numpy==1.26
+diffpy.pdffit2
+diffpy.utils
+matplotlib-base
