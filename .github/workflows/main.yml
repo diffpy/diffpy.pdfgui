@@ -34,7 +34,7 @@ jobs:
       - name: Create conda environment
         run: |
           source $HOME/mambaforge/etc/profile.d/conda.sh
-          conda create -n test_env python=3.12 xonsh regolith -c conda-forge -y
+          conda create -n test_env python=3.11 xonsh regolith -c conda-forge -y
           conda activate test_env
           pip install case_insensitive_dict
 
