@@ -1,3 +1,4 @@
+importlib_resources
 numpy<2.0
 wxpython
 diffpy.pdffit2
