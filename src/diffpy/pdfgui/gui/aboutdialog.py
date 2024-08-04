@@ -21,7 +21,7 @@ import wx
 import wx.lib.agw.hyperlink
 
 from diffpy.pdfgui.gui.pdfguiglobals import iconpath
-from diffpy.pdfgui.version import __date__, __version__
+from diffpy.pdfgui.version import __version__, __year__
 
 _acknowledgement = """\
 This software was developed by the Billinge-group as part of the Distributed
@@ -42,7 +42,7 @@ following paper in your publication:
     computer programs for studying nanostructure in crystals,
     J. Phys.: Condens. Matter 19, 335219 (2007)."""
 
-_copyright = "(c) 2005-{year},".format(year=__date__[:4])
+_copyright = "(c) 2005-{year},".format(year=__year__)
 
 _homepage = "https://www.diffpy.org"
 
