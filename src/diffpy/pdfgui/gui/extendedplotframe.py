@@ -183,8 +183,11 @@ class ExtendedPlotFrame(wx.Frame):
         return:  internal reference to the newly added curve
         """
         stylestr, properties = self.__translateStyles(style)
-        curveRef = self.subplot.plot(xData, yData, stylestr, **properties)[0]
-        self.subplot.legend(**legendBoxProperties())
+        if stylestr == "":  # blank stylestring throws warning for duplicated information
+            curveRef = self.subplot.plot(xData, yData, **properties)[0]
+        else:
+            curveRef = self.subplot.plot(xData, yData, stylestr, **properties)[0]
+        self.subplot.legend([], **legendBoxProperties())  # add blank list argument to prevent warning
         try:
             self.datalims[curveRef] = (min(xData), max(xData), min(yData), max(yData))
         except ValueError:
@@ -314,7 +317,7 @@ class ExtendedPlotFrame(wx.Frame):
             # not 'points', so line properties are required as well
             lineStyle = lineStyleDict.get(style["line"], "-")  # prefer solid
             lineWidth = style["width"]
-            stylestr += lineStyle
+            # stylestr += lineStyle  # no need to add lineStyle to stylestr when in properties
             properties.update({"color": color, "linestyle": lineStyle, "linewidth": lineWidth})
 
         if "legend" in style:
