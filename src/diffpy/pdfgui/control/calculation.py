@@ -19,11 +19,7 @@
 import copy
 import math
 
-from diffpy.pdfgui.control.controlerrors import (
-    ControlConfigError,
-    ControlKeyError,
-    ControlValueError,
-)
+from diffpy.pdfgui.control.controlerrors import ControlConfigError, ControlKeyError, ControlValueError
 from diffpy.pdfgui.control.pdfcomponent import PDFComponent
 from diffpy.pdfgui.utils import pickle_loads, safeCPickleDumps
 
@@ -124,10 +120,7 @@ class Calculation(PDFComponent):
 
     def start(self):
         """entry function for calculation"""
-        from diffpy.pdfgui.control.fitting import (
-            getEngineExceptions,
-            handleEngineException,
-        )
+        from diffpy.pdfgui.control.fitting import getEngineExceptions, handleEngineException
 
         try:
             self.calculate()
