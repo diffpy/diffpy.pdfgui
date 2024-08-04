@@ -3,3 +3,4 @@ wxpython
 diffpy.pdffit2
 diffpy.utils
 matplotlib-base
+importlib_resources
