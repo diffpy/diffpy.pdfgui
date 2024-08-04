@@ -42,6 +42,7 @@ jobs:
           conda config --set always_yes yes --set changeps1 no
           conda config --add channels conda-forge
           conda activate test
+          conda install --file requirements/build.txt
           conda install --file requirements/run.txt
           conda install --file requirements/test.txt
           pip install .
