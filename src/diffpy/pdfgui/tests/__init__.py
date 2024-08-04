@@ -38,31 +38,32 @@ def testsuite(pattern=""):
     from itertools import chain
     from os.path import dirname
 
-    from pkg_resources import resource_filename
+    from importlib_resources import files, as_file
 
     loader = unittest.defaultTestLoader
-    thisdir = resource_filename(__name__, "")
-    depth = __name__.count(".") + 1
-    topdir = thisdir
-    for i in range(depth):
-        topdir = dirname(topdir)
-    suite_all = loader.discover(thisdir, top_level_dir=topdir)
-    # always filter the suite by pattern to test-cover the selection code.
-    suite = unittest.TestSuite()
-    rx = re.compile(pattern)
-    tsuites = list(chain.from_iterable(suite_all))
-    tsok = all(isinstance(ts, unittest.TestSuite) for ts in tsuites)
-    if not tsok:  # pragma: no cover
-        return suite_all
-    tcases = chain.from_iterable(tsuites)
-    for tc in tcases:
-        tcwords = tc.id().split(".")
-        shortname = ".".join(tcwords[-3:])
-        if rx.search(shortname):
-            suite.addTest(tc)
-    # verify all tests are found for an empty pattern.
-    assert pattern or suite_all.countTestCases() == suite.countTestCases()
-    return suite
+    ref = files(__name__)
+    with as_file(ref) as thisdir:
+        depth = __name__.count(".") + 1
+        topdir = thisdir
+        for i in range(depth):
+            topdir = dirname(topdir)
+        suite_all = loader.discover(thisdir, top_level_dir=topdir)
+        # always filter the suite by pattern to test-cover the selection code.
+        suite = unittest.TestSuite()
+        rx = re.compile(pattern)
+        tsuites = list(chain.from_iterable(suite_all))
+        tsok = all(isinstance(ts, unittest.TestSuite) for ts in tsuites)
+        if not tsok:  # pragma: no cover
+            return suite_all
+        tcases = chain.from_iterable(tsuites)
+        for tc in tcases:
+            tcwords = tc.id().split(".")
+            shortname = ".".join(tcwords[-3:])
+            if rx.search(shortname):
+                suite.addTest(tc)
+        # verify all tests are found for an empty pattern.
+        assert pattern or suite_all.countTestCases() == suite.countTestCases()
+        return suite
 
 
 def test():
