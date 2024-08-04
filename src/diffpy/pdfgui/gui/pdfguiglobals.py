@@ -49,9 +49,10 @@ if _development_mode:
     APPDATADIR = os.path.dirname(_mydir)
 else:
     with as_file(files(_req)) as file:
-        APPDATADIR = os.path.join(file, "src/diffpy/pdfgui")
+        APPDATADIR = os.path.join(file, "")
 
 APPDATADIR = os.path.abspath(APPDATADIR)
+print(APPDATADIR)
 
 # Location of the HTML manual
 docMainFile = os.path.join(APPDATADIR, "doc/manual/pdfgui.html")
