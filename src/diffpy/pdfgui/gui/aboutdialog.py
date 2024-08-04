@@ -21,7 +21,7 @@ import wx
 import wx.lib.agw.hyperlink
 
 from diffpy.pdfgui.gui.pdfguiglobals import iconpath
-from diffpy.pdfgui.version import __year__, __version__
+from diffpy.pdfgui.version import __version__, __year__
 
 _acknowledgement = """\
 This software was developed by the Billinge-group as part of the Distributed

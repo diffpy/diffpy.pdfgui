@@ -17,7 +17,7 @@
 
 import os.path
 
-from importlib_resources import files, as_file
+from importlib_resources import as_file, files
 
 from diffpy.pdfgui.gui import debugoptions
 

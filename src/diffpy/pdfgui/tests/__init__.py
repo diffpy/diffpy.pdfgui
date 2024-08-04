@@ -38,7 +38,7 @@ def testsuite(pattern=""):
     from itertools import chain
     from os.path import dirname
 
-    from importlib_resources import files, as_file
+    from importlib_resources import as_file, files
 
     loader = unittest.defaultTestLoader
     ref = files(__name__)
