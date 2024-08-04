@@ -1,4 +1,5 @@
-numpy==1.26
+importlib_resources
+numpy<2.0
 wxpython
 diffpy.pdffit2
 diffpy.utils
