@@ -26,6 +26,12 @@ Installation
 See the `README <https://github.com/diffpy/diffpy.pdfgui#installation>`_
 file included with the distribution.
 
+========
+Tutorial
+========
+
+A tutorial for this package can be found `here <../TUTORIAL.rst>`.
+
 =================
 Table of contents
 =================

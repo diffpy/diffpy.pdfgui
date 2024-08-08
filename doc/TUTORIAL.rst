@@ -17,8 +17,8 @@ Lesson 1: Creating simple fit of Ni PDF
 
 Input files:
 
-* `<../tutorial/Ni-xray.gr>`_ - experimental X-ray PDF data
-* `<../tutorial/Ni.stru>`_ - Ni f.c.c. structure in PDFfit format
+* `<tutorial/Ni-xray.gr>`_ - experimental X-ray PDF data
+* `<tutorial/Ni.stru>`_ - Ni f.c.c. structure in PDFfit format
 
 Procedure:
 
@@ -141,8 +141,8 @@ Learn how to string together fits.
 References:
 -----------
 
-1. `(pdf) <../manual/Proffen-jac-1999.pdf>`_,
+1. `(pdf) <manual/Proffen-jac-1999.pdf>`_,
    Th. Proffen and S. J. L. Billinge, PDFFIT a program for full profile structural refinement of the atomic pair distribution function, J. Appl. Crystallogr. 32, 572-575 (1999)
 
-2. `(pdf) <../manual/Farrow-jpcm-2007.pdf>`_,
+2. `(pdf) <manual/Farrow-jpcm-2007.pdf>`_,
    C. L. Farrow, P. Juhas, J. W. Liu, D. Bryndin, J. Bloch, Th. Proffen and S. J. L. Billinge, PDFfit2 and PDFgui: Computer programs for studying nanostructure in crystals, J. Phys.: Condens. Matter 19, 335219 (2007)
