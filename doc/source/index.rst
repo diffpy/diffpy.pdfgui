@@ -30,7 +30,7 @@ file included with the distribution.
 Tutorial
 ========
 
-A tutorial for this package can be found `here <../TUTORIAL.rst>`.
+A tutorial for this package can be found here: `<../TUTORIAL.rst>`
 
 =================
 Table of contents
