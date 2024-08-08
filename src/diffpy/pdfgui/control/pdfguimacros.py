@@ -381,7 +381,7 @@ if __name__ == "__main__":
     from diffpy.pdfgui.control.pdfguicontrol import PDFGuiControl
 
     control = PDFGuiControl()
-    control.load("../../tests/testdata/ni.ddp")
+    control.load("src/diffpy/pdfgui/tests/testdata/ni.ddp")
     fit = control.fits[0]
     olist = makeRSeries(control, fit, 5, 20, 5)
     print("\n".join(f[0].name for f in olist))

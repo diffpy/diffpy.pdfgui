@@ -1,38 +1,34 @@
 #!/usr/bin/env python
 ##############################################################################
 #
-# diffpy.pdfgui     by DANSE Diffraction group
-#                   Simon J. L. Billinge
-#                   (c) 2012-2024 Trustees of the Columbia University
-#                   in the City of New York.  All rights reserved.
+# (c) 2012-2024 The Trustees of Columbia University in the City of New York.
+# All rights reserved.
 #
-# File coded by:    Pavol Juhas
+# File coded by: Billinge Group members and community contributors.
 #
-# See AUTHORS.txt for a list of people who contributed.
-# See LICENSE.txt for license information.
+# See GitHub contributions for a more detailed list of contributors.
+# https://github.com/diffpy/diffpy.pdfgui/graphs/contributors
+#
+# See LICENSE.rst for license information.
 #
 ##############################################################################
-
 """Convenience module for executing all unit tests with
-
 python -m diffpy.pdfgui.tests.run
 """
 
+import sys
+
+import pytest
 
 if __name__ == "__main__":
-    import sys
-
-    # show warnings by default
-    if not sys.warnoptions:
-        import os
-        import warnings
-
-        warnings.simplefilter("default")
-        # also affect subprocesses
-        os.environ["PYTHONWARNINGS"] = "default"
-    from diffpy.pdfgui.tests import test
-
-    # produce zero exit code for a successful test
-    sys.exit(not test().wasSuccessful())
+    # show output results from every test function
+    args = ["-v"]
+    # show the message output for skipped and expected failure tests
+    if len(sys.argv) > 1:
+        args.extend(sys.argv[1:])
+    print("pytest arguments: {}".format(args))
+    # call pytest and exit with the return code from pytest
+    exit_res = pytest.main(args)
+    sys.exit(exit_res)
 
 # End of file

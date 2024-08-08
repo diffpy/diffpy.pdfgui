@@ -16,8 +16,9 @@
 """This module contains global parameters needed by PDFgui."""
 
 import os.path
+from importlib import resources
 
-from pkg_resources import Requirement, resource_filename
+from pkg_resources import Requirement
 
 from diffpy.pdfgui.gui import debugoptions
 
@@ -31,7 +32,7 @@ configfilename = os.path.expanduser("~/.pdfgui_py3.cfg")
 isAltered = False
 
 # Resolve APPDATADIR base path to application data files.
-_mydir = os.path.abspath(resource_filename(__name__, ""))
+_mydir = os.path.abspath(str(resources.files(__name__).joinpath("")))
 _upbasedir = os.path.normpath(_mydir + "/../../..")
 _development_mode = os.path.basename(_upbasedir) == "src" and os.path.isfile(
     os.path.join(_upbasedir, "../setup.py")
@@ -47,7 +48,7 @@ _req = Requirement.parse("diffpy.pdfgui")
 if _development_mode:
     APPDATADIR = os.path.dirname(_mydir)
 else:
-    APPDATADIR = os.path.join(resource_filename(_req, ""), "diffpy/pdfgui")
+    APPDATADIR = os.path.join(str(resources.files(_req, "")), "diffpy/pdfgui")
 
 APPDATADIR = os.path.abspath(APPDATADIR)
 
