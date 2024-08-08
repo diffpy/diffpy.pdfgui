@@ -1,2 +1,34 @@
-fixes:
-  - ".*/site-packages/::src/"
+# codecov can find this file anywhere in the repo, so we don't need to clutter
+# the root folder.
+#comment: false
+
+codecov:
+  notify:
+    require_ci_to_pass: no
+
+coverage:
+  status:
+    patch:
+      default:
+        target: '70'
+        if_no_uploads: error
+        if_not_found: success
+        if_ci_failed: failure
+    project:
+      default: false
+      library:
+        target: auto
+        if_no_uploads: error
+        if_not_found: success
+        if_ci_failed: error
+        paths: '!*/tests/.*'
+
+      tests:
+        target: 97.9%
+        paths: '*/tests/.*'
+        if_not_found: success
+
+flags:
+  tests:
+    paths:
+      - tests/

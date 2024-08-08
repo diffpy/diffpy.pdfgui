@@ -1,22 +1,13 @@
-# Configuration of the coverage.py tool for reporting test coverage.
-
-[report]
-# RE patterns for lines to be excluded from consideration.
-exclude_lines =
-    #  Have to re-enable the standard pragma
-    pragma: no cover
-    #  Don't complain if tests don't hit defensive assertion code:
-    raise AssertionError
-    raise NotImplementedError
-    ^[ ]*assert False
-
-    #  Don't complain if non-runnable code isn't run:
-    ^[ ]*@unittest.skip\b
-    ^[ ]{4}unittest.main()
-    if __name__ == .__main__.:
-
-
 [run]
+source =
+    diffpy.pdfgui
+[report]
 omit =
-    #  exclude debug.py from codecov report
-    */tests/debug.py
+    */python?.?/*
+    */site-packages/nose/*
+    # ignore _version.py and versioneer.py
+    .*version.*
+    *_version.py
+
+exclude_lines =
+    if __name__ == '__main__':

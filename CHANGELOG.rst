@@ -1,6 +1,6 @@
-=========================
-Diffpy.pdfgui Change Log
-=========================
+=============
+Release Notes
+=============
 
 .. current developments
 
