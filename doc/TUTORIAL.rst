@@ -141,8 +141,6 @@ Learn how to string together fits.
 References:
 -----------
 
-1. `Proffen-jac-1999.pdf`,
-   Th. Proffen and S. J. L. Billinge, PDFFIT a program for full profile structural refinement of the atomic pair distribution function, J. Appl. Crystallogr. 32, 572-575 (1999)
+1. Th. Proffen and S. J. L. Billinge, PDFFIT a program for full profile structural refinement of the atomic pair distribution function, J. Appl. Crystallogr. 32, 572-575 (1999)
 
-2. `Farrow-jpcm-2007.pdf`,
-   C. L. Farrow, P. Juhas, J. W. Liu, D. Bryndin, J. Bloch, Th. Proffen and S. J. L. Billinge, PDFfit2 and PDFgui: Computer programs for studying nanostructure in crystals, J. Phys.: Condens. Matter 19, 335219 (2007)
+2. C. L. Farrow, P. Juhas, J. W. Liu, D. Bryndin, J. Bloch, Th. Proffen and S. J. L. Billinge, PDFfit2 and PDFgui: Computer programs for studying nanostructure in crystals, J. Phys.: Condens. Matter 19, 335219 (2007)
