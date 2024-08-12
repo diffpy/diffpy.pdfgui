@@ -12,6 +12,9 @@
 # See LICENSE.txt for license information.
 #
 ##############################################################################
+import string
+
+import wx
 
 """This module contains TextValidator, which is an input validator for the
 wxTextCtrl. See the wxPython documentation for wxTextCtrl for more about text
@@ -22,10 +25,6 @@ DIGIT_ONLY, and FLOAT_ONLY. See the TextValidator class for how these are used.
 ALPHA_ONLY = 1
 DIGIT_ONLY = 2
 FLOAT_ONLY = 3
-
-import string
-
-import wx
 
 
 class TextValidator(wx.Validator):

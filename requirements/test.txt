@@ -1,2 +1,6 @@
-pytest
+flake8
 freezegun
+pytest
+codecov
+coverage
+pytest-env
