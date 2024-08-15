@@ -46,8 +46,10 @@ jobs:
           mamba install --file requirements/test.txt
           pip install -e .
 
-      - name: Use Xvfb Action
-        uses: GabrielBB/xvfb-action@v1
-        with:
-          run: |
-            bash -c "source $HOME/mambaforge/etc/profile.d/conda.sh && conda activate test_env && python -m run_tests.py"
+      - name: Validate diffpy.pdfgui
+        shell: bash -l {0}
+        run: |
+          conda activate test
+          coverage run -m unittest run_tests.py
+          coverage report -m
+          codecov
