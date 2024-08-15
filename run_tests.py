@@ -1,12 +1,18 @@
 #!/usr/bin/env python
 
+import unittest
+
 import diffpy.pdfgui.tests
 
 
-def run_tests():
-    assert diffpy.pdfgui.tests.test().wasSuccessful()
-    assert diffpy.pdfgui.tests.testdeps().wasSuccessful()
+class TestPDFGui(unittest.TestCase):
+
+    def test_main_suite(self):
+        self.assertTrue(diffpy.pdfgui.tests.test().wasSuccessful())
+
+    def test_deps_suite(self):
+        self.assertTrue(diffpy.pdfgui.tests.testdeps().wasSuccessful())
 
 
 if __name__ == "__main__":
-    run_tests()
+    unittest.main()
