@@ -46,9 +46,18 @@ jobs:
           conda install --file requirements/test.txt
           pip install .
 
+      - name: Install Xvfb
+        run: sudo apt-get install -y xvfb
+
+      - name: Start Xvfb
+        run: |
+          export DISPLAY=:99
+          Xvfb :99 -screen 0 1024x768x16 &
+
       - name: Validate diffpy.pdfgui
         shell: bash -l {0}
         run: |
+          export DISPLAY=:99
           conda activate test
           coverage run -m unittest run_tests.py
           coverage report -m
