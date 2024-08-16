@@ -59,6 +59,6 @@ jobs:
         run: |
           export DISPLAY=:99
           conda activate test
-          coverage run -m unittest run_tests.py
+          coverage run -m pytest -vv -s
           coverage report -m
           codecov
