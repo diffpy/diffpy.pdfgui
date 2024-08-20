@@ -16,8 +16,9 @@
 """This module contains global parameters needed by PDFgui."""
 
 import os.path
+from importlib.resources import files
 
-from pkg_resources import Requirement, resource_filename
+from diffpy.pdfgui.gui import debugoptions
 
 # Name of the program
 name = "PDFgui"
@@ -29,23 +30,23 @@ configfilename = os.path.expanduser("~/.pdfgui_py3.cfg")
 isAltered = False
 
 # Resolve APPDATADIR base path to application data files.
-_mydir = os.path.abspath(resource_filename(__name__, ""))
+_mydir = os.path.abspath(str(files(__name__)))
 _upbasedir = os.path.normpath(_mydir + "/../../..")
 _development_mode = os.path.basename(_upbasedir) == "src" and os.path.isfile(
-    os.path.join(_upbasedir, "../setup.py")
+    os.path.join(_upbasedir, "../pyproject.toml")
 )
 
 # Requirement must have egg-info.  Do not use in _development_mode.
-_req = Requirement.parse("diffpy.pdfgui")
+_req = "diffpy.pdfgui"
 
 # pavol
 # APPDATADIR = (os.path.dirname(_upbasedir) if _development_mode
-#               else resource_filename(_req, ""))
+#               else str(files(_req)))
 # long
 if _development_mode:
     APPDATADIR = os.path.dirname(_mydir)
 else:
-    APPDATADIR = os.path.join(resource_filename(_req, ""), "diffpy/pdfgui")
+    APPDATADIR = str(files(_req))
 
 APPDATADIR = os.path.abspath(APPDATADIR)
 
@@ -76,7 +77,6 @@ cmdopts = []
 cmdargs = []
 
 # debugging options:
-from diffpy.pdfgui.gui import debugoptions
 
 dbopts = debugoptions.DebugOptions()
 

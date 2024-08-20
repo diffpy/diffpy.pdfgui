@@ -54,7 +54,7 @@ test:
     # entry points work.
 
 
-  # You can also put a file called run_test.py in the recipe that will be run
+  # You can also put a file called dont_run.py in the recipe that will be run
   # at test time.
 
   # requires:

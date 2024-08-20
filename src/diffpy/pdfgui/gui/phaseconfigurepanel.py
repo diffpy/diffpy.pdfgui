@@ -221,7 +221,7 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
         # end wxGlade
         self.__customProperties()
 
-    ##########################################################################
+    # ########################################################################
     # Misc Methods
 
     def __customProperties(self):
@@ -319,7 +319,7 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
         """Set 'read-only' boxes that correspond to constrained parameters."""
 
         self.setToolTips(tooltips.phasepanel)
-        txtbg = self.textCtrlA.DefaultStyle.BackgroundColour
+        self.textCtrlA.DefaultStyle.BackgroundColour
 
         # First the TextCtrls
         for key, var in self.lConstraintsMap.items():
@@ -393,7 +393,7 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
 
             return value
 
-        except:
+        except Exception:
             return None
 
     def applyCellChange(self, i, j, value):
@@ -447,7 +447,7 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
         except ValueError:
             return
 
-    ##########################################################################
+    # ########################################################################
     # Event Handlers
 
     # TextCtrl Events
@@ -629,7 +629,7 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
 
         return
 
-    ##########################################################################
+    # ########################################################################
     # Grid popup menu and handlers
 
     def popupMenu(self, window, x, y):

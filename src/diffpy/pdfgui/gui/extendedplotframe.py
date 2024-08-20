@@ -20,8 +20,6 @@ The module contains extensions for GUI plot frame.
 import os.path
 
 import matplotlib
-
-matplotlib.use("WXAgg")
 import wx
 from matplotlib.artist import setp
 from matplotlib.backends.backend_wxagg import FigureCanvasWxAgg as FigureCanvas
@@ -31,6 +29,8 @@ from matplotlib.font_manager import FontProperties
 
 from diffpy.pdfgui.gui.pdfguiglobals import iconpath
 from diffpy.pdfgui.gui.wxextensions import wx12
+
+matplotlib.use("WXAgg")
 
 DATA_SAVE_ID = wx12.NewIdRef()
 
@@ -303,7 +303,7 @@ class ExtendedPlotFrame(wx.Frame):
             symbolSize = style["symbolSize"]
             symbolColor = colorDict.get(style["symbolColor"], "k")
             properties.update(
-                {  #'linewidth':0.0, # doesn't affect any
+                {  # 'linewidth':0.0, # doesn't affect any
                     "markerfacecolor": symbolColor,
                     "markeredgecolor": color,
                     "marker": symbol,
@@ -368,9 +368,9 @@ def legendBoxProperties():
         return _lbp
     #  figure out matplotlib version and appropriate names
     from matplotlib import __version__ as mplver
-    from pkg_resources import parse_version
+    from packaging.version import parse
 
-    if parse_version(mplver) >= parse_version("0.98.5"):
+    if parse(mplver) >= parse("0.98.5"):
         _lbp = {
             "loc": "upper right",
             "numpoints": 3,  # number of points in the legend line

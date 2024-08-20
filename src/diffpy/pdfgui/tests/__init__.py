@@ -3,7 +3,7 @@
 #
 # diffpy.pdfgui     by DANSE Diffraction group
 #                   Simon J. L. Billinge
-#                   (c) 2012 Trustees of the Columbia University
+#                   (c) 2012-2024 Trustees of the Columbia University
 #                   in the City of New York.  All rights reserved.
 #
 # File coded by:    Pavol Juhas
@@ -35,13 +35,12 @@ def testsuite(pattern=""):
         The TestSuite object containing the matching tests.
     """
     import re
+    from importlib.resources import files
     from itertools import chain
     from os.path import dirname
 
-    from pkg_resources import resource_filename
-
     loader = unittest.defaultTestLoader
-    thisdir = resource_filename(__name__, "")
+    thisdir = str(files(__name__))
     depth = __name__.count(".") + 1
     topdir = thisdir
     for i in range(depth):
@@ -73,30 +72,6 @@ def test():
     result : `unittest.TestResult`
     """
     suite = testsuite()
-    runner = unittest.TextTestRunner()
-    result = runner.run(suite)
-    return result
-
-
-def testdeps():
-    """Execute all unit tests for diffpy.pdfgui and its dependencies.
-
-    Returns
-    -------
-    result : `unittest.TestResult`
-    """
-    from importlib import import_module
-
-    modulenames = """
-        diffpy.pdfgui.tests
-        diffpy.structure.tests
-        diffpy.pdffit2.tests
-        diffpy.utils.tests
-    """.split()
-    suite = unittest.TestSuite()
-    for mname in modulenames:
-        mod = import_module(mname)
-        suite.addTests(mod.testsuite())
     runner = unittest.TextTestRunner()
     result = runner.run(suite)
     return result

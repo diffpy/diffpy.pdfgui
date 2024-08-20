@@ -3,7 +3,7 @@
 #
 # diffpy.pdfgui     by DANSE Diffraction group
 #                   Simon J. L. Billinge
-#                   (c) 2016 Trustees of the Columbia University
+#                   (c) 2016-2024 Trustees of the Columbia University
 #                   in the City of New York.  All rights reserved.
 #
 # File coded by:    Pavol Juhas
@@ -29,9 +29,9 @@ from diffpy.pdfgui.gui import mainframe, pdfguiglobals
 
 
 def datafile(filename):
-    from pkg_resources import resource_filename
+    from importlib.resources import files
 
-    rv = resource_filename(__name__, "testdata/" + filename)
+    rv = str(files(__name__).joinpath("testdata", filename))
     return rv
 
 

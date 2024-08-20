@@ -5,6 +5,7 @@
 # PDFgui            by DANSE Diffraction group
 #                   Simon J. L. Billinge
 #                   (c) 2006 trustees of the Michigan State University.
+#                   (c) 2024 trustees of the Columbia University in the City
 #                   All rights reserved.
 #
 # File coded by:    Chris Farrow

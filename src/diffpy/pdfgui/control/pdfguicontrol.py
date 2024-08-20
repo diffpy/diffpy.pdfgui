@@ -24,11 +24,7 @@ import six
 import six.moves.cPickle as pickle
 
 from diffpy.pdfgui.control.calculation import Calculation
-from diffpy.pdfgui.control.controlerrors import (
-    ControlError,
-    ControlFileError,
-    ControlTypeError,
-)
+from diffpy.pdfgui.control.controlerrors import ControlError, ControlFileError, ControlTypeError
 from diffpy.pdfgui.control.fitdataset import FitDataSet
 from diffpy.pdfgui.control.fitstructure import FitStructure
 from diffpy.pdfgui.control.fitting import Fitting
@@ -58,7 +54,7 @@ class PDFGuiControl:
         self.fittingQueue = []
         self.currentFitting = None
         self.queueManager = PDFGuiControl.QueueManager(self)
-        ##self.startQueue()
+        # self.startQueue()
 
     def reset(self):
         """clean up for a new project"""
@@ -93,7 +89,7 @@ class PDFGuiControl:
 
     def startQueue(self):
         """start queue manager"""
-        self.queueManager.setDaemon(True)
+        self.queueManager.daemon = True
         self.queueManager.start()
 
     def checkQueue(self):

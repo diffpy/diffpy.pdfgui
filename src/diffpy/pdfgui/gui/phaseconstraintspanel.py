@@ -210,7 +210,7 @@ class PhaseConstraintsPanel(wx.Panel, PDFPanel):
         # end wxGlade
         self.__customProperties()
 
-    ##########################################################################
+    # ########################################################################
     # Misc Methods
 
     def __customProperties(self):
@@ -314,7 +314,7 @@ class PhaseConstraintsPanel(wx.Panel, PDFPanel):
 
         self.refreshTextCtrls()
 
-        ### update the grid ###
+        # # update the grid ###
         natoms = len(self.structure)
         nrows = self.gridAtoms.GetNumberRows()
         self.gridAtoms.BeginBatch()
@@ -339,7 +339,7 @@ class PhaseConstraintsPanel(wx.Panel, PDFPanel):
             if not m:
                 continue
             barevar = m.group(1)
-            if not barevar in bareAtomVarColumn:
+            if barevar not in bareAtomVarColumn:
                 continue
             column = bareAtomVarColumn[barevar]
             row = int(m.group(2)) - 1
@@ -348,7 +348,7 @@ class PhaseConstraintsPanel(wx.Panel, PDFPanel):
                 raise ControlValueError(emsg)
             self.gridAtoms.SetCellValue(row, column, con.formula)
             barevar = re.sub(r"\(\d+\)$", "", var)
-            if not barevar in bareAtomVarColumn:
+            if barevar not in bareAtomVarColumn:
                 continue
 
         self.gridAtoms.AutosizeLabels()
@@ -411,7 +411,7 @@ class PhaseConstraintsPanel(wx.Panel, PDFPanel):
             return ""
         return
 
-    ##########################################################################
+    # ########################################################################
     # Event Handlers
 
     # TextCtrl Events
@@ -554,12 +554,12 @@ class PhaseConstraintsPanel(wx.Panel, PDFPanel):
             self.mainFrame.needsSave()
 
         # Can't get these to work. Maybe later.
-        ## Copy - Ctrl+C / Ctrl+Insert
+        #  Copy - Ctrl+C / Ctrl+Insert
         # if event.ControlDown() and (key == 67 or key == wx.WXK_INSERT):
         #    if phasepanelutils.canCopySelectedCells(self):
         #        phasepanelutils.copySelectedCells(self)
 
-        ## Paste - Ctrl+V / Shift+Insert
+        #  Paste - Ctrl+V / Shift+Insert
         # if (event.ControlDown() and key == 86) or\
         #   (event.ShiftDown() and key == wx.WXK_INSERT):
         #       if phasepanelutils.canPasteIntoCells(self):
@@ -569,7 +569,7 @@ class PhaseConstraintsPanel(wx.Panel, PDFPanel):
             event.Skip()
         return
 
-    ##########################################################################
+    # ########################################################################
     # Grid popup menu and handlers
 
     def popupMenu(self, window, x, y):

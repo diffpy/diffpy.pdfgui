@@ -356,7 +356,7 @@ class FitTree(wx12.TreeCtrl):
                 cdata = self.control.paste(cdata, None, fitname, pos)
             self.SetControlData(newfit, cdata)
             return newfit
-        except:
+        except Exception:
             self.Delete(newfit)
             raise
         return
@@ -427,7 +427,7 @@ class FitTree(wx12.TreeCtrl):
             elif cdata is not None:
                 self.control.paste(cdata, pdata, label, pos)
             return newphase
-        except:
+        except Exception:
             self.Delete(newphase)
             raise
         return
@@ -492,7 +492,7 @@ class FitTree(wx12.TreeCtrl):
             elif cdata is not None:
                 self.control.paste(cdata, pdata, label, pos)
             return newset
-        except:
+        except Exception:
             self.Delete(newset)
             raise
         return
@@ -553,7 +553,7 @@ class FitTree(wx12.TreeCtrl):
             elif cdata is not None:
                 self.control.paste(cdata, pdata, label, pos)
             return newcalc
-        except:
+        except Exception:
             self.Delete(newcalc)
             raise
         return
@@ -611,7 +611,7 @@ class FitTree(wx12.TreeCtrl):
             if cdatabytes[:16] == "pdfgui_cliboard=".encode():
                 cdatabytes = cdatabytes[16:]
                 cdata = pickle_loads(cdatabytes)
-        except:
+        except Exception:
             pass
         return cdata
 

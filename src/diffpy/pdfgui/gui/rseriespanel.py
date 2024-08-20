@@ -32,7 +32,7 @@ class RSeriesPanel(wx.Panel, PDFPanel):
         self.instructionsLabel = wx.StaticText(
             self,
             wx.ID_ANY,
-            "Select a fit from the tree on the left and set the first value, last value, \nand the step size of the maximum and/or minimum of the fit range\nbelow. If you have not set up a fit to be the template for the series, hit\ncancel and rerun this macro once a fit has been created.",
+            "Select a fit from the tree on the left and set the first value, last value, \nand the step size of the maximum and/or minimum of the fit range\nbelow. If you have not set up a fit to be the template for the series, hit\ncancel and rerun this macro once a fit has been created.",  # noqa: E501
         )
         self.maxFirstLabel = wx.StaticText(self, wx.ID_ANY, "first")
         self.maxFirstTextCtrl = wx.TextCtrl(self, wx.ID_ANY, "")
@@ -101,7 +101,7 @@ class RSeriesPanel(wx.Panel, PDFPanel):
         self.Layout()
         # end wxGlade
 
-    ##################################################
+    # ################################################
     def __customProperties(self):
         """Set the custom properties of this panel."""
         self.fit = None
