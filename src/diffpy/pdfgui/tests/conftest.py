@@ -1,12 +1,7 @@
 import json
-import subprocess
 from pathlib import Path
 
 import pytest
-
-
-def pytest_collection_modifyitems(session, config, items):
-    subprocess.run(["python", "-m", "diffpy.pdfgui.tests.rundeps"], check=True)
 
 
 @pytest.fixture
