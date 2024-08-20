@@ -35,9 +35,6 @@
 .. |Tracking| image:: https://img.shields.io/badge/issue_tracking-github-blue
         :target: https://github.com/diffpy/diffpy.pdfgui/issues
 
-diffpy.pdfgui
-========================================================================
-
 Graphical user interface program for structure refinements to atomic
 pair distribution function.
 
@@ -46,34 +43,19 @@ powerful extensions.  To get started, please open the manual from the
 help menu and follow the tutorial instructions.  A detailed description
 is available in the doc/Farrow-jpcm-2007.pdf paper.
 
+For more information about diffpy.pdfgui, please consult our 
+`online documentation <https://diffpy.github.io/diffpy.pdfgui>`_.
 
-Requirements
-------------------------------------------------------------------------
+Citation
+--------
 
-PDFgui requires Python 3.8+ or 2.7 and several third-party
-libraries that are used by PDFgui and its components.
+If you use diffpy.pdfgui in a scientific publication, we would like you to 
+cite this package as
 
-* setuptools   - tools for installing Python packages
-* wxpython     - graphical user interface toolkit for Python
-* numpy        - library for scientific computing with Python
-* matplotlib   - Python 2D plotting library
-* diffpy.pdffit2 - computational engine for PDFgui,
-  https://github.com/diffpy/diffpy.pdffit2
-* diffpy.structure - simple storage and manipulation of atomic
-  structures, https://github.com/diffpy/diffpy.structure
-* diffpy.utils - shared helper utilities for wx GUI,
-  https://github.com/diffpy/diffpy.utils
-
-We recommend to use `Anaconda Python <https://www.anaconda.com/download>`_
-which allows to conveniently install PDFgui and all its software
-dependencies with a single command.
-
-Please note that the Python3 PDFgui will read .ddp3 files. It is also
-possible for it to read .ddp files that were saved by the Python2 PDFgui
-but it will sometimes fail to read these. We are working on a solution
-that will be available in a future version.
-
-        diffpy.pdfgui Package, https://github.com/diffpy/diffpy.pdfgui
+        C L Farrow, P Juhas, J W Liu, D Bryndin, E S Božin, 
+        J Bloch, Th Proffen and S J L Billinge, PDFfit2 and PDFgui: 
+        computer programs for studying nanostructure in crystals, J. Phys.: 
+        Condens. Matter 19 (2007) 335219. doi:10.1088/0953-8984/19/33/335219
 
 Installation
 ------------
@@ -98,7 +80,8 @@ Then, to fully install ``diffpy.pdfgui`` in our active environment, run ::
 
 Another option is to use ``pip`` to download and install the latest release from
 `Python Package Index <https://pypi.python.org>`_.
-To install using ``pip`` into your ``diffpy.pdfgui_env`` environment, we will also have to install dependencies ::
+To install using ``pip`` into your ``diffpy.pdfgui_env`` environment, we will also have to 
+install dependencies ::
 
         pip install -r https://raw.githubusercontent.com/diffpy/diffpy.pdfgui/main/requirements/run.txt
 
@@ -107,17 +90,21 @@ and then install the package ::
         pip install diffpy.pdfgui
 
 If you prefer to install from sources, after installing the dependencies, obtain the source archive from
-`GitHub <https://github.com/diffpy/diffpy.pdfgui/>`_. Once installed, ``cd`` into your ``diffpy.pdfgui`` directory
-and run the following ::
+`GitHub <https://github.com/diffpy/diffpy.pdfgui/>`_. Once installed, ``cd`` into your ``diffpy.pdfgui`` 
+directory and run the following ::
 
         pip install .
 
 Support and Contribute
 ----------------------
 
-`Diffpy user group <https://groups.google.com/g/diffpy-users>`_ is the discussion forum for general questions and discussions about the use of diffpy.pdfgui. Please join the diffpy.pdfgui users community by joining the Google group. The diffpy.pdfgui project welcomes your expertise and enthusiasm!
+`Diffpy user group <https://groups.google.com/g/diffpy-users>`_ is the discussion forum for general 
+questions and discussions about the use of diffpy.pdfgui. Please join the diffpy.pdfgui users community 
+by joining the Google group. The diffpy.pdfgui project welcomes your expertise and enthusiasm!
 
-If you see a bug or want to request a feature, please `report it as an issue <https://github.com/diffpy/diffpy.pdfgui/issues>`_ and/or `submit a fix as a PR <https://github.com/diffpy/diffpy.pdfgui/pulls>`_. You can also post it to the `Diffpy user group <https://groups.google.com/g/diffpy-users>`_. 
+If you see a bug or want to request a feature, please `report it as an issue <https://github.com/diffpy/diffpy.pdfgui/issues>`_
+and/or `submit a fix as a PR <https://github.com/diffpy/diffpy.pdfgui/pulls>`_. You can also post it to the 
+`Diffpy user group <https://groups.google.com/g/diffpy-users>`_. 
 
 Feel free to fork the project and contribute. To install diffpy.pdfgui
 in a development mode, with its sources being directly used by Python
@@ -145,4 +132,5 @@ Before contribuing, please read our `Code of Conduct <https://github.com/diffpy/
 Contact
 -------
 
-For more information on diffpy.pdfgui please visit the project `web-page <https://diffpy.github.io/>`_ or email Prof. Simon Billinge at sb2896@columbia.edu.
+For more information on diffpy.pdfgui please visit the project `web-page <https://diffpy.github.io/>`_ or email Prof. Simon Billinge 
+at sb2896@columbia.edu.
