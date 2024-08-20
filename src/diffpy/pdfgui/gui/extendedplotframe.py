@@ -368,9 +368,9 @@ def legendBoxProperties():
         return _lbp
     #  figure out matplotlib version and appropriate names
     from matplotlib import __version__ as mplver
-    from pkg_resources import parse_version
+    from packaging.version import parse
 
-    if parse_version(mplver) >= parse_version("0.98.5"):
+    if parse(mplver) >= parse("0.98.5"):
         _lbp = {
             "loc": "upper right",
             "numpoints": 3,  # number of points in the legend line
