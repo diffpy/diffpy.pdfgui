@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>diffpy.pdfgui.control.organizer &mdash; diffpy.pdfgui 3.1.0rc0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../../../_static/documentation_options.js?v=a2ca8c84"></script>
+        <script src="../../../../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../../index.html" class="icon icon-home">
+            diffpy.pdfgui
+          </a>
+              <div class="version">
+                3.1.0rc0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tutorial.html">Tutorial</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../license.html">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../release.html">Release Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../api/diffpy.pdfgui.html">Package API</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">diffpy.pdfgui</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">diffpy.pdfgui.control.organizer</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for diffpy.pdfgui.control.organizer</h1><div class="highlight"><pre>
+<span></span><span class="ch">#!/usr/bin/env python</span>
+<span class="c1">##############################################################################</span>
+<span class="c1">#</span>
+<span class="c1"># PDFgui            by DANSE Diffraction group</span>
+<span class="c1">#                   Simon J. L. Billinge</span>
+<span class="c1">#                   (c) 2006 trustees of the Michigan State University.</span>
+<span class="c1">#                   All rights reserved.</span>
+<span class="c1">#</span>
+<span class="c1"># File coded by:    Jiwu Liu</span>
+<span class="c1">#</span>
+<span class="c1"># See AUTHORS.txt for a list of people who contributed.</span>
+<span class="c1"># See LICENSE.txt for license information.</span>
+<span class="c1">#</span>
+<span class="c1">##############################################################################</span>
+
+<span class="kn">from</span> <span class="nn">diffpy.pdfgui.control.calculation</span> <span class="kn">import</span> <span class="n">Calculation</span>
+<span class="kn">from</span> <span class="nn">diffpy.pdfgui.control.controlerrors</span> <span class="kn">import</span> <span class="n">ControlTypeError</span>
+<span class="kn">from</span> <span class="nn">diffpy.pdfgui.control.fitdataset</span> <span class="kn">import</span> <span class="n">FitDataSet</span>
+<span class="kn">from</span> <span class="nn">diffpy.pdfgui.control.fitstructure</span> <span class="kn">import</span> <span class="n">FitStructure</span>
+<span class="kn">from</span> <span class="nn">diffpy.pdfgui.control.pdfcomponent</span> <span class="kn">import</span> <span class="n">PDFComponent</span>
+
+
+<span class="c1"># Search datasets for spdiameter and its constraints</span>
+<div class="viewcode-block" id="spd_assigned">
+<a class="viewcode-back" href="../../../../api/diffpy.pdfgui.control.html#diffpy.pdfgui.control.organizer.spd_assigned">[docs]</a>
+<span class="k">def</span> <span class="nf">spd_assigned</span><span class="p">(</span><span class="n">ds</span><span class="p">):</span>
+    <span class="k">return</span> <span class="nb">bool</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">spdiameter</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="spd_constrained">
+<a class="viewcode-back" href="../../../../api/diffpy.pdfgui.control.html#diffpy.pdfgui.control.organizer.spd_constrained">[docs]</a>
+<span class="k">def</span> <span class="nf">spd_constrained</span><span class="p">(</span><span class="n">ds</span><span class="p">):</span>
+    <span class="k">return</span> <span class="s2">&quot;spdiameter&quot;</span> <span class="ow">in</span> <span class="n">ds</span><span class="o">.</span><span class="n">constraints</span></div>
+
+
+
+<div class="viewcode-block" id="Organizer">
+<a class="viewcode-back" href="../../../../api/diffpy.pdfgui.control.html#diffpy.pdfgui.control.organizer.Organizer">[docs]</a>
+<span class="k">class</span> <span class="nc">Organizer</span><span class="p">(</span><span class="n">PDFComponent</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Base class for Fitting. It holds separate lists of datasets,</span>
+<span class="sd">    strucs and calculations</span>
+
+<span class="sd">    datasets:     dataset list</span>
+<span class="sd">    strucs:       structure list</span>
+<span class="sd">    calcs:        calculation list</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;initialize</span>
+
+<span class="sd">        name -- component name</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">from</span> <span class="nn">diffpy.pdfgui.control.pdflist</span> <span class="kn">import</span> <span class="n">PDFList</span>
+
+        <span class="n">PDFComponent</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">datasets</span> <span class="o">=</span> <span class="n">PDFList</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">strucs</span> <span class="o">=</span> <span class="n">PDFList</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">calcs</span> <span class="o">=</span> <span class="n">PDFList</span><span class="p">()</span>
+
+        <span class="c1"># self.metadata is created but not pickled only for the purpose</span>
+        <span class="c1"># of plotting. It holds common metadata from all its datasets</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">metadata</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="c1"># controlCenter is the reference to global PDFGuiControl object</span>
+        <span class="kn">from</span> <span class="nn">diffpy.pdfgui.control.pdfguicontrol</span> <span class="kn">import</span> <span class="n">pdfguicontrol</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">controlCenter</span> <span class="o">=</span> <span class="n">pdfguicontrol</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">__findList</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">id</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="nb">id</span><span class="p">,</span> <span class="n">FitDataSet</span><span class="p">):</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">datasets</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="nb">id</span><span class="p">,</span> <span class="n">FitStructure</span><span class="p">):</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">strucs</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="nb">id</span><span class="p">,</span> <span class="n">Calculation</span><span class="p">):</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">calcs</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">emsg</span> <span class="o">=</span> <span class="s2">&quot;Unknown type object &#39;</span><span class="si">%s</span><span class="s2">&#39;&quot;</span> <span class="o">%</span> <span class="nb">id</span><span class="o">.</span><span class="n">name</span>
+            <span class="k">raise</span> <span class="n">ControlTypeError</span><span class="p">(</span><span class="n">emsg</span><span class="p">)</span>
+
+<div class="viewcode-block" id="Organizer.add">
+<a class="viewcode-back" href="../../../../api/diffpy.pdfgui.control.html#diffpy.pdfgui.control.organizer.Organizer.add">[docs]</a>
+    <span class="k">def</span> <span class="nf">add</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">id</span><span class="p">,</span> <span class="n">position</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;add structure/dataset/calculation</span>
+
+<span class="sd">        id       -- reference to structure/dataset/calculation</span>
+<span class="sd">        position -- position to insert, by default the last one</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">objList</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__findList</span><span class="p">(</span><span class="nb">id</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">position</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">position</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">objList</span><span class="p">)</span>
+        <span class="n">objList</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">position</span><span class="p">,</span> <span class="nb">id</span><span class="p">)</span>
+
+        <span class="c1"># successfully added, set the object owner</span>
+        <span class="nb">id</span><span class="o">.</span><span class="n">owner</span> <span class="o">=</span> <span class="bp">self</span></div>
+
+
+<div class="viewcode-block" id="Organizer.remove">
+<a class="viewcode-back" href="../../../../api/diffpy.pdfgui.control.html#diffpy.pdfgui.control.organizer.Organizer.remove">[docs]</a>
+    <span class="k">def</span> <span class="nf">remove</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">id</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;remove structure/dataset/calculation</span>
+
+<span class="sd">        id -- reference to structure/dataset/calculation</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">objList</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__findList</span><span class="p">(</span><span class="nb">id</span><span class="p">)</span>
+        <span class="n">objList</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="nb">id</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nb">id</span></div>
+
+
+<div class="viewcode-block" id="Organizer.rename">
+<a class="viewcode-back" href="../../../../api/diffpy.pdfgui.control.html#diffpy.pdfgui.control.organizer.Organizer.rename">[docs]</a>
+    <span class="k">def</span> <span class="nf">rename</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">id</span><span class="p">,</span> <span class="n">newname</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;rename structure/dataset/calculation</span>
+
+<span class="sd">        id -- reference to structure/dataset/calculation</span>
+<span class="sd">        newname -- new name to be given</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">objList</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__findList</span><span class="p">(</span><span class="nb">id</span><span class="p">)</span>
+        <span class="n">objList</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="nb">id</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">newname</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Organizer.index">
+<a class="viewcode-back" href="../../../../api/diffpy.pdfgui.control.html#diffpy.pdfgui.control.organizer.Organizer.index">[docs]</a>
+    <span class="k">def</span> <span class="nf">index</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">id</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;find the position of item in the list</span>
+
+<span class="sd">        id -- id of object</span>
+<span class="sd">        return : object position</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">objList</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__findList</span><span class="p">(</span><span class="nb">id</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">objList</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="nb">id</span><span class="o">.</span><span class="n">name</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Organizer.hasStructures">
+<a class="viewcode-back" href="../../../../api/diffpy.pdfgui.control.html#diffpy.pdfgui.control.organizer.Organizer.hasStructures">[docs]</a>
+    <span class="k">def</span> <span class="nf">hasStructures</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Check to see if there are structures.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">strucs</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span></div>
+
+
+<div class="viewcode-block" id="Organizer.getStructure">
+<a class="viewcode-back" href="../../../../api/diffpy.pdfgui.control.html#diffpy.pdfgui.control.organizer.Organizer.getStructure">[docs]</a>
+    <span class="k">def</span> <span class="nf">getStructure</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pos</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;get structure by position</span>
+
+<span class="sd">        pos -- the position of structure in the list</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># The function can only be called by gui code. So don&#39;t catch IndexError</span>
+        <span class="c1"># Any IndexError is a program bug thus should be propagated as is.</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">strucs</span><span class="p">[</span><span class="n">pos</span><span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="Organizer.hasDataSets">
+<a class="viewcode-back" href="../../../../api/diffpy.pdfgui.control.html#diffpy.pdfgui.control.organizer.Organizer.hasDataSets">[docs]</a>
+    <span class="k">def</span> <span class="nf">hasDataSets</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Check to see if there are datasets.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">datasets</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span></div>
+
+
+<div class="viewcode-block" id="Organizer.getDataSet">
+<a class="viewcode-back" href="../../../../api/diffpy.pdfgui.control.html#diffpy.pdfgui.control.organizer.Organizer.getDataSet">[docs]</a>
+    <span class="k">def</span> <span class="nf">getDataSet</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pos</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;get dataset by position</span>
+
+<span class="sd">        pos -- the position of dataset in the list</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># The function can only be called by gui code. So don&#39;t catch IndexError</span>
+        <span class="c1"># Any IndexError is a program bug thus should be propagated as is.</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">datasets</span><span class="p">[</span><span class="n">pos</span><span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="Organizer.hasCalculations">
+<a class="viewcode-back" href="../../../../api/diffpy.pdfgui.control.html#diffpy.pdfgui.control.organizer.Organizer.hasCalculations">[docs]</a>
+    <span class="k">def</span> <span class="nf">hasCalculations</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Check to see if there are calculations.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">calcs</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span></div>
+
+
+<div class="viewcode-block" id="Organizer.getCalculation">
+<a class="viewcode-back" href="../../../../api/diffpy.pdfgui.control.html#diffpy.pdfgui.control.organizer.Organizer.getCalculation">[docs]</a>
+    <span class="k">def</span> <span class="nf">getCalculation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pos</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;get calculation by position</span>
+
+<span class="sd">        pos -- the position of calculation in the list</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># The function can only be called by gui code. So don&#39;t catch IndexError</span>
+        <span class="c1"># Any IndexError is a program bug thus should be propagated as is.</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">calcs</span><span class="p">[</span><span class="n">pos</span><span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="Organizer.load">
+<a class="viewcode-back" href="../../../../api/diffpy.pdfgui.control.html#diffpy.pdfgui.control.organizer.Organizer.load">[docs]</a>
+    <span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">subpath</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;load data from a zipped project file</span>
+
+<span class="sd">        z -- zipped project file</span>
+<span class="sd">        subpath -- path to its own storage within project file</span>
+
+<span class="sd">        returns a tree of internal hierachy</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># subpath = projName/myName/</span>
+        <span class="kn">from</span> <span class="nn">diffpy.pdfgui.utils</span> <span class="kn">import</span> <span class="n">unquote_plain</span>
+
+        <span class="n">subs</span> <span class="o">=</span> <span class="n">subpath</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)</span>
+        <span class="n">rootDict</span> <span class="o">=</span> <span class="n">z</span><span class="o">.</span><span class="n">fileTree</span><span class="p">[</span><span class="n">subs</span><span class="p">[</span><span class="mi">0</span><span class="p">]][</span><span class="n">subs</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span>
+        <span class="k">if</span> <span class="s2">&quot;structure&quot;</span> <span class="ow">in</span> <span class="n">rootDict</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">strucName</span> <span class="ow">in</span> <span class="n">rootDict</span><span class="p">[</span><span class="s2">&quot;structure&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                <span class="n">struc</span> <span class="o">=</span> <span class="n">FitStructure</span><span class="p">(</span><span class="n">unquote_plain</span><span class="p">(</span><span class="n">strucName</span><span class="p">))</span>
+                <span class="n">struc</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">z</span><span class="p">,</span> <span class="n">subpath</span> <span class="o">+</span> <span class="s2">&quot;structure/&quot;</span> <span class="o">+</span> <span class="n">strucName</span> <span class="o">+</span> <span class="s2">&quot;/&quot;</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">struc</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="s2">&quot;dataset&quot;</span> <span class="ow">in</span> <span class="n">rootDict</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">datasetName</span> <span class="ow">in</span> <span class="n">rootDict</span><span class="p">[</span><span class="s2">&quot;dataset&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                <span class="n">dataset</span> <span class="o">=</span> <span class="n">FitDataSet</span><span class="p">(</span><span class="n">unquote_plain</span><span class="p">(</span><span class="n">datasetName</span><span class="p">))</span>
+                <span class="n">dataset</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">z</span><span class="p">,</span> <span class="n">subpath</span> <span class="o">+</span> <span class="s2">&quot;dataset/&quot;</span> <span class="o">+</span> <span class="n">datasetName</span> <span class="o">+</span> <span class="s2">&quot;/&quot;</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">dataset</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="s2">&quot;calculation&quot;</span> <span class="ow">in</span> <span class="n">rootDict</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">calcName</span> <span class="ow">in</span> <span class="n">rootDict</span><span class="p">[</span><span class="s2">&quot;calculation&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                <span class="n">calc</span> <span class="o">=</span> <span class="n">Calculation</span><span class="p">(</span><span class="n">unquote_plain</span><span class="p">(</span><span class="n">calcName</span><span class="p">))</span>
+                <span class="n">calc</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">z</span><span class="p">,</span> <span class="n">subpath</span> <span class="o">+</span> <span class="s2">&quot;calculation/&quot;</span> <span class="o">+</span> <span class="n">calcName</span> <span class="o">+</span> <span class="s2">&quot;/&quot;</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">calc</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">__forward_spdiameter</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">organization</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="Organizer.save">
+<a class="viewcode-back" href="../../../../api/diffpy.pdfgui.control.html#diffpy.pdfgui.control.organizer.Organizer.save">[docs]</a>
+    <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">subpath</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;save data from a zipped project file</span>
+
+<span class="sd">        z -- zipped project file</span>
+<span class="sd">        subpath -- path to its own storage within project file</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># strucs and datasets</span>
+        <span class="kn">from</span> <span class="nn">diffpy.pdfgui.utils</span> <span class="kn">import</span> <span class="n">quote_plain</span>
+
+        <span class="k">for</span> <span class="n">struc</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">strucs</span><span class="p">:</span>
+            <span class="n">struc</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">z</span><span class="p">,</span> <span class="n">subpath</span> <span class="o">+</span> <span class="s2">&quot;structure/&quot;</span> <span class="o">+</span> <span class="n">quote_plain</span><span class="p">(</span><span class="n">struc</span><span class="o">.</span><span class="n">name</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;/&quot;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">dataset</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">datasets</span><span class="p">:</span>
+            <span class="n">dataset</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">z</span><span class="p">,</span> <span class="n">subpath</span> <span class="o">+</span> <span class="s2">&quot;dataset/&quot;</span> <span class="o">+</span> <span class="n">quote_plain</span><span class="p">(</span><span class="n">dataset</span><span class="o">.</span><span class="n">name</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;/&quot;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">calc</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">calcs</span><span class="p">:</span>
+            <span class="n">calc</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">z</span><span class="p">,</span> <span class="n">subpath</span> <span class="o">+</span> <span class="s2">&quot;calculation/&quot;</span> <span class="o">+</span> <span class="n">quote_plain</span><span class="p">(</span><span class="n">calc</span><span class="o">.</span><span class="n">name</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;/&quot;</span><span class="p">)</span>
+        <span class="k">return</span></div>
+
+
+<div class="viewcode-block" id="Organizer.copy">
+<a class="viewcode-back" href="../../../../api/diffpy.pdfgui.control.html#diffpy.pdfgui.control.organizer.Organizer.copy">[docs]</a>
+    <span class="k">def</span> <span class="nf">copy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;copy self to other. if other is None, create an instance</span>
+
+<span class="sd">        other -- ref to other object</span>
+<span class="sd">        returns reference to copied object</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">other</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">other</span> <span class="o">=</span> <span class="n">Organizer</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">dataset</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">datasets</span><span class="p">:</span>
+            <span class="n">other</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">dataset</span><span class="o">.</span><span class="n">copy</span><span class="p">())</span>
+        <span class="k">for</span> <span class="n">struc</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">strucs</span><span class="p">:</span>
+            <span class="n">other</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">struc</span><span class="o">.</span><span class="n">copy</span><span class="p">())</span>
+        <span class="k">for</span> <span class="n">calc</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">calcs</span><span class="p">:</span>
+            <span class="n">other</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">calc</span><span class="o">.</span><span class="n">copy</span><span class="p">())</span>
+        <span class="k">return</span> <span class="n">other</span></div>
+
+
+<div class="viewcode-block" id="Organizer.organization">
+<a class="viewcode-back" href="../../../../api/diffpy.pdfgui.control.html#diffpy.pdfgui.control.organizer.Organizer.organization">[docs]</a>
+    <span class="k">def</span> <span class="nf">organization</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;get internal organization</span>
+
+<span class="sd">        returns a tree of internal hierachy</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">org</span> <span class="o">=</span> <span class="p">[</span><span class="kc">None</span><span class="p">]</span> <span class="o">*</span> <span class="mi">4</span>
+        <span class="n">org</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span>
+        <span class="n">org</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">dataset</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">datasets</span><span class="p">:</span>
+            <span class="n">org</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">dataset</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">dataset</span><span class="p">))</span>
+        <span class="n">org</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">struc</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">strucs</span><span class="p">:</span>
+            <span class="n">org</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">struc</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">struc</span><span class="p">))</span>
+        <span class="n">org</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">calc</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">calcs</span><span class="p">:</span>
+            <span class="n">org</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">calc</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">calc</span><span class="p">))</span>
+
+        <span class="k">return</span> <span class="n">org</span></div>
+
+
+    <span class="k">def</span> <span class="nf">__forward_spdiameter</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Copy spdiameter value loaded from fit or calculation to phase.</span>
+
+<span class="sd">        This method takes care of loading old PDFgui projects where</span>
+<span class="sd">        spdiameter belonged to FitDataSet or Calculation classes.</span>
+<span class="sd">        It should be called only from the Organizer.load method.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Jump out if any of structures has spdiameter set</span>
+        <span class="k">for</span> <span class="n">stru</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">strucs</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">stru</span><span class="o">.</span><span class="n">getvar</span><span class="p">(</span><span class="s2">&quot;spdiameter&quot;</span><span class="p">):</span>
+                <span class="k">return</span>
+
+        <span class="c1"># Figure out the value and constraint for spdiameter.</span>
+        <span class="c1"># The highest priority is for a dataset with constrained spdiameter,</span>
+        <span class="c1"># then for dataset with assigned spdiameter and finally from</span>
+        <span class="c1"># a calculation.</span>
+        <span class="n">spd_val</span> <span class="o">=</span> <span class="n">spd_cns</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">constrained_datas</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">filter</span><span class="p">(</span><span class="n">spd_constrained</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">datasets</span><span class="p">))</span>
+        <span class="n">assigned_datas</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">filter</span><span class="p">(</span><span class="n">spd_assigned</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">datasets</span><span class="p">))</span>
+        <span class="n">assigned_calcs</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">filter</span><span class="p">(</span><span class="n">spd_assigned</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">calcs</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">constrained_datas</span><span class="p">:</span>
+            <span class="n">spd_val</span> <span class="o">=</span> <span class="n">constrained_datas</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">spdiameter</span>
+            <span class="n">spd_cns</span> <span class="o">=</span> <span class="n">constrained_datas</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">constraints</span><span class="p">[</span><span class="s2">&quot;spdiameter&quot;</span><span class="p">]</span>
+        <span class="k">elif</span> <span class="n">assigned_datas</span><span class="p">:</span>
+            <span class="n">spd_val</span> <span class="o">=</span> <span class="n">assigned_datas</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">spdiameter</span>
+        <span class="k">elif</span> <span class="n">assigned_calcs</span><span class="p">:</span>
+            <span class="n">spd_val</span> <span class="o">=</span> <span class="n">assigned_calcs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">spdiameter</span>
+        <span class="c1"># assign spd_val to all structures that don&#39;t have it set</span>
+        <span class="k">for</span> <span class="n">stru</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">strucs</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">spd_val</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">stru</span><span class="o">.</span><span class="n">getvar</span><span class="p">(</span><span class="s2">&quot;spdiameter&quot;</span><span class="p">):</span>
+                <span class="n">stru</span><span class="o">.</span><span class="n">setvar</span><span class="p">(</span><span class="s2">&quot;spdiameter&quot;</span><span class="p">,</span> <span class="n">spd_val</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">spd_cns</span><span class="p">:</span>
+                <span class="n">stru</span><span class="o">.</span><span class="n">constraints</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">&quot;spdiameter&quot;</span><span class="p">,</span> <span class="n">spd_cns</span><span class="p">)</span>
+        <span class="c1"># finally remove any spdiameter constraints from all datasets</span>
+        <span class="k">for</span> <span class="n">ds</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">datasets</span><span class="p">:</span>
+            <span class="n">ds</span><span class="o">.</span><span class="n">constraints</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;spdiameter&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="k">return</span></div>
+
+
+
+<span class="c1"># End of class Organizer</span>
+
+<span class="c1"># simple test code</span>
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">Organizer</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">)</span>
+
+<span class="c1"># End of file</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, The Trustees of Columbia University in the City of New York.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

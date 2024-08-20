@@ -1,0 +1,1136 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>diffpy.pdfgui.gui.fittree &mdash; diffpy.pdfgui 3.1.0rc0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../../../_static/documentation_options.js?v=a2ca8c84"></script>
+        <script src="../../../../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../../index.html" class="icon icon-home">
+            diffpy.pdfgui
+          </a>
+              <div class="version">
+                3.1.0rc0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tutorial.html">Tutorial</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../license.html">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../release.html">Release Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../api/diffpy.pdfgui.html">Package API</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">diffpy.pdfgui</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">diffpy.pdfgui.gui.fittree</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for diffpy.pdfgui.gui.fittree</h1><div class="highlight"><pre>
+<span></span><span class="ch">#!/usr/bin/env python</span>
+<span class="c1">##############################################################################</span>
+<span class="c1">#</span>
+<span class="c1"># PDFgui            by DANSE Diffraction group</span>
+<span class="c1">#                   Simon J. L. Billinge</span>
+<span class="c1">#                   (c) 2006 trustees of the Michigan State University.</span>
+<span class="c1">#                   All rights reserved.</span>
+<span class="c1">#</span>
+<span class="c1"># File coded by:    Chris Farrow</span>
+<span class="c1">#</span>
+<span class="c1"># See AUTHORS.txt for a list of people who contributed.</span>
+<span class="c1"># See LICENSE.txt for license information.</span>
+<span class="c1">#</span>
+<span class="c1">##############################################################################</span>
+
+<span class="sd">&quot;&quot;&quot;This module contains the FitTree object designed for use in PDFgui.</span>
+
+<span class="sd">Classes:</span>
+<span class="sd">    FitTree         --  A tree specific to orgainizing data for pdffit</span>
+
+<span class="sd">Exceptions:</span>
+<span class="sd">    FitTreeError    --  Exception for errors with FitTree operations.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">base64</span>
+<span class="kn">import</span> <span class="nn">re</span>
+
+<span class="kn">import</span> <span class="nn">wx</span>
+
+<span class="kn">from</span> <span class="nn">diffpy.pdfgui.control.controlerrors</span> <span class="kn">import</span> <span class="n">ControlError</span>
+<span class="kn">from</span> <span class="nn">diffpy.pdfgui.control.fitting</span> <span class="kn">import</span> <span class="n">Fitting</span>
+<span class="kn">from</span> <span class="nn">diffpy.pdfgui.gui.pdfguiglobals</span> <span class="kn">import</span> <span class="n">iconpath</span>
+<span class="kn">from</span> <span class="nn">diffpy.pdfgui.gui.wxextensions</span> <span class="kn">import</span> <span class="n">wx12</span>
+<span class="kn">from</span> <span class="nn">diffpy.pdfgui.utils</span> <span class="kn">import</span> <span class="n">pickle_loads</span><span class="p">,</span> <span class="n">safeCPickleDumps</span>
+
+
+<div class="viewcode-block" id="FitTree">
+<a class="viewcode-back" href="../../../../api/diffpy.pdfgui.gui.html#diffpy.pdfgui.gui.fittree.FitTree">[docs]</a>
+<span class="k">class</span> <span class="nc">FitTree</span><span class="p">(</span><span class="n">wx12</span><span class="o">.</span><span class="n">TreeCtrl</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;TreeCtrl designed to organize pdffit fits.</span>
+
+<span class="sd">    The root of the tree is hidden. Below that there are several levels</span>
+<span class="sd">    which are diagrammed below.</span>
+
+<span class="sd">    _ fit (*)</span>
+<span class="sd">    |</span>
+<span class="sd">    |____ phase (5)</span>
+<span class="sd">    |____ datset (*)</span>
+<span class="sd">    |____ calculation (*)</span>
+
+<span class="sd">    Fits are at the top level. Under fits there are phases, datasets, and</span>
+<span class="sd">    calculations (in that order).</span>
+
+<span class="sd">    It is required that the data for each node is a dictionary. In the &#39;type&#39;</span>
+<span class="sd">    entry of this dictionary is the node type (fit, phase, dataset,</span>
+<span class="sd">    calculation). Fit items also have a &#39;cdata&#39; entry in their tree item</span>
+<span class="sd">    dictionary. This is the control center data associated with this node&#39;s</span>
+<span class="sd">    branch.</span>
+
+<span class="sd">    Data members:</span>
+<span class="sd">    control     --  The pdfguicontrol object that interfaces between the tree</span>
+<span class="sd">                    and the pdffit2 engine. The tree is a mirror of the internal</span>
+<span class="sd">                    structure of the control.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">parent</span><span class="p">,</span>
+        <span class="nb">id</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span>
+        <span class="n">pos</span><span class="o">=</span><span class="n">wx</span><span class="o">.</span><span class="n">DefaultPosition</span><span class="p">,</span>
+        <span class="n">size</span><span class="o">=</span><span class="n">wx</span><span class="o">.</span><span class="n">DefaultSize</span><span class="p">,</span>
+        <span class="n">style</span><span class="o">=</span><span class="n">wx</span><span class="o">.</span><span class="n">TR_HAS_BUTTONS</span> <span class="o">|</span> <span class="n">wx</span><span class="o">.</span><span class="n">TR_HIDE_ROOT</span> <span class="o">|</span> <span class="n">wx</span><span class="o">.</span><span class="n">TR_MULTIPLE</span><span class="p">,</span>
+        <span class="n">validator</span><span class="o">=</span><span class="n">wx</span><span class="o">.</span><span class="n">DefaultValidator</span><span class="p">,</span>
+        <span class="n">name</span><span class="o">=</span><span class="s2">&quot;FitTree&quot;</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="n">wx</span><span class="o">.</span><span class="n">TreeCtrl</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent</span><span class="p">,</span> <span class="nb">id</span><span class="p">,</span> <span class="n">pos</span><span class="p">,</span> <span class="n">size</span><span class="p">,</span> <span class="n">style</span><span class="p">)</span>
+
+        <span class="c1"># Define the control</span>
+        <span class="c1"># This is set by the mainFrame</span>
+        <span class="c1"># self.control = pdfguicontrol()</span>
+
+        <span class="c1"># Define bitmaps</span>
+        <span class="n">datasetbmp</span> <span class="o">=</span> <span class="n">wx</span><span class="o">.</span><span class="n">Bitmap</span><span class="p">(</span><span class="n">iconpath</span><span class="p">(</span><span class="s2">&quot;datasetitem.png&quot;</span><span class="p">))</span>
+        <span class="n">phasebmp</span> <span class="o">=</span> <span class="n">wx</span><span class="o">.</span><span class="n">Bitmap</span><span class="p">(</span><span class="n">iconpath</span><span class="p">(</span><span class="s2">&quot;phaseitem.png&quot;</span><span class="p">))</span>
+        <span class="n">fitbmp</span> <span class="o">=</span> <span class="n">wx</span><span class="o">.</span><span class="n">Bitmap</span><span class="p">(</span><span class="n">iconpath</span><span class="p">(</span><span class="s2">&quot;fititem.png&quot;</span><span class="p">))</span>
+        <span class="n">calcbmp</span> <span class="o">=</span> <span class="n">wx</span><span class="o">.</span><span class="n">Bitmap</span><span class="p">(</span><span class="n">iconpath</span><span class="p">(</span><span class="s2">&quot;calculationitem.png&quot;</span><span class="p">))</span>
+        <span class="n">isz</span> <span class="o">=</span> <span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="mi">16</span><span class="p">)</span>
+        <span class="n">il</span> <span class="o">=</span> <span class="n">wx</span><span class="o">.</span><span class="n">ImageList</span><span class="p">(</span><span class="n">isz</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">isz</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fitbmid</span> <span class="o">=</span> <span class="n">il</span><span class="o">.</span><span class="n">Add</span><span class="p">(</span><span class="n">fitbmp</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dtsbmid</span> <span class="o">=</span> <span class="n">il</span><span class="o">.</span><span class="n">Add</span><span class="p">(</span><span class="n">datasetbmp</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">phabmid</span> <span class="o">=</span> <span class="n">il</span><span class="o">.</span><span class="n">Add</span><span class="p">(</span><span class="n">phasebmp</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">clcbmid</span> <span class="o">=</span> <span class="n">il</span><span class="o">.</span><span class="n">Add</span><span class="p">(</span><span class="n">calcbmp</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">SetImageList</span><span class="p">(</span><span class="n">il</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">treeImageList</span> <span class="o">=</span> <span class="n">il</span>
+
+        <span class="k">return</span>
+
+<div class="viewcode-block" id="FitTree.InitializeTree">
+<a class="viewcode-back" href="../../../../api/diffpy.pdfgui.gui.html#diffpy.pdfgui.gui.fittree.FitTree.InitializeTree">[docs]</a>
+    <span class="k">def</span> <span class="nf">InitializeTree</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;This initializes the tree by adding a root node.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">root</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">AddRoot</span><span class="p">(</span><span class="s2">&quot;The Root Item&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">SetNodeType</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">root</span><span class="p">,</span> <span class="s2">&quot;root&quot;</span><span class="p">)</span>
+        <span class="c1"># Testing code</span>
+        <span class="c1"># fit1 = self.AddFit()</span>
+        <span class="c1"># self.AddPhase(fit1, &quot;Phase 1&quot;)</span>
+        <span class="c1"># self.AddPhase(fit1, &quot;Phase 2&quot;)</span>
+        <span class="c1"># self.AddDataSet(fit1, &quot;Data 1&quot;)</span>
+        <span class="c1"># self.AddCalc(fit1, &quot;Calc 1&quot;)</span>
+        <span class="c1"># self.Expand(fit1)</span>
+        <span class="k">return</span></div>
+
+
+<div class="viewcode-block" id="FitTree.GetTreeItemDict">
+<a class="viewcode-back" href="../../../../api/diffpy.pdfgui.gui.html#diffpy.pdfgui.gui.fittree.FitTree.GetTreeItemDict">[docs]</a>
+    <span class="k">def</span> <span class="nf">GetTreeItemDict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the data dictionary of the node.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">GetItemData</span><span class="p">(</span><span class="n">node</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="FitTree.GetFitRoot">
+<a class="viewcode-back" href="../../../../api/diffpy.pdfgui.gui.html#diffpy.pdfgui.gui.fittree.FitTree.GetFitRoot">[docs]</a>
+    <span class="k">def</span> <span class="nf">GetFitRoot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the id of the fit in which the passed node resides.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">node</span><span class="p">:</span>
+            <span class="k">return</span>
+        <span class="n">fitId</span> <span class="o">=</span> <span class="n">node</span>
+        <span class="n">nextId</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">GetItemParent</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+        <span class="k">while</span> <span class="n">nextId</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">root</span><span class="p">:</span>
+            <span class="n">fitId</span> <span class="o">=</span> <span class="n">nextId</span>
+            <span class="n">nextId</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">GetItemParent</span><span class="p">(</span><span class="n">nextId</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">fitId</span></div>
+
+
+<div class="viewcode-block" id="FitTree.GetChildren">
+<a class="viewcode-back" href="../../../../api/diffpy.pdfgui.gui.html#diffpy.pdfgui.gui.fittree.FitTree.GetChildren">[docs]</a>
+    <span class="k">def</span> <span class="nf">GetChildren</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the ids of the children of a given node.&quot;&quot;&quot;</span>
+        <span class="n">cookie</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">ids</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="p">(</span><span class="n">child</span><span class="p">,</span> <span class="n">cookie</span><span class="p">)</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">GetFirstChild</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+        <span class="k">while</span> <span class="n">child</span><span class="o">.</span><span class="n">IsOk</span><span class="p">():</span>
+            <span class="n">ids</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">child</span><span class="p">)</span>
+            <span class="p">(</span><span class="n">child</span><span class="p">,</span> <span class="n">cookie</span><span class="p">)</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">GetNextChild</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">cookie</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">ids</span></div>
+
+
+<div class="viewcode-block" id="FitTree.GetSiblings">
+<a class="viewcode-back" href="../../../../api/diffpy.pdfgui.gui.html#diffpy.pdfgui.gui.fittree.FitTree.GetSiblings">[docs]</a>
+    <span class="k">def</span> <span class="nf">GetSiblings</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the ids of the siblings of a given node.&quot;&quot;&quot;</span>
+        <span class="n">parent</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">GetItemParent</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+        <span class="n">ids</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">GetChildren</span><span class="p">(</span><span class="n">parent</span><span class="p">)</span>
+        <span class="n">ids</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">ids</span></div>
+
+
+<div class="viewcode-block" id="FitTree.GetAllType">
+<a class="viewcode-back" href="../../../../api/diffpy.pdfgui.gui.html#diffpy.pdfgui.gui.fittree.FitTree.GetAllType">[docs]</a>
+    <span class="k">def</span> <span class="nf">GetAllType</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the id of each item in the tree of the same type as node.&quot;&quot;&quot;</span>
+        <span class="n">nodetype</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">GetNodeType</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+        <span class="n">fits</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">GetChildren</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">root</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">nodetype</span> <span class="o">==</span> <span class="s2">&quot;fit&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">fits</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">sametype</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">fit</span> <span class="ow">in</span> <span class="n">fits</span><span class="p">:</span>
+                <span class="n">children</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">GetChildren</span><span class="p">(</span><span class="n">fit</span><span class="p">)</span>
+                <span class="n">sametype</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="n">child</span> <span class="k">for</span> <span class="n">child</span> <span class="ow">in</span> <span class="n">children</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">GetNodeType</span><span class="p">(</span><span class="n">child</span><span class="p">)</span> <span class="o">==</span> <span class="n">nodetype</span><span class="p">])</span>
+            <span class="k">return</span> <span class="n">sametype</span></div>
+
+
+<div class="viewcode-block" id="FitTree.GetPhases">
+<a class="viewcode-back" href="../../../../api/diffpy.pdfgui.gui.html#diffpy.pdfgui.gui.fittree.FitTree.GetPhases">[docs]</a>
+    <span class="k">def</span> <span class="nf">GetPhases</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get a list of phase in branch.</span>
+
+<span class="sd">        node is either the fit-root or a node in the fit-branch of interest.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">nodes</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">GetChildren</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">GetFitRoot</span><span class="p">(</span><span class="n">node</span><span class="p">))</span>
+        <span class="n">ids</span> <span class="o">=</span> <span class="p">[</span><span class="nb">id</span> <span class="k">for</span> <span class="nb">id</span> <span class="ow">in</span> <span class="n">nodes</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">GetNodeType</span><span class="p">(</span><span class="nb">id</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;phase&quot;</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">ids</span></div>
+
+
+<div class="viewcode-block" id="FitTree.GetDataSets">
+<a class="viewcode-back" href="../../../../api/diffpy.pdfgui.gui.html#diffpy.pdfgui.gui.fittree.FitTree.GetDataSets">[docs]</a>
+    <span class="k">def</span> <span class="nf">GetDataSets</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get a list of datasets in branch.</span>
+
+<span class="sd">        node is either the fit-root or a node in the fit-branch of interest.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">nodes</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">GetChildren</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">GetFitRoot</span><span class="p">(</span><span class="n">node</span><span class="p">))</span>
+        <span class="n">ids</span> <span class="o">=</span> <span class="p">[</span><span class="nb">id</span> <span class="k">for</span> <span class="nb">id</span> <span class="ow">in</span> <span class="n">nodes</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">GetNodeType</span><span class="p">(</span><span class="nb">id</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;dataset&quot;</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">ids</span></div>
+
+
+<div class="viewcode-block" id="FitTree.GetCalculations">
+<a class="viewcode-back" href="../../../../api/diffpy.pdfgui.gui.html#diffpy.pdfgui.gui.fittree.FitTree.GetCalculations">[docs]</a>
+    <span class="k">def</span> <span class="nf">GetCalculations</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get a list of calculations in branch.</span>
+
+<span class="sd">        node is either the fit-root or a node in the fit-branch of interest.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">nodes</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">GetChildren</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">GetFitRoot</span><span class="p">(</span><span class="n">node</span><span class="p">))</span>
+        <span class="n">ids</span> <span class="o">=</span> <span class="p">[</span><span class="nb">id</span> <span class="k">for</span> <span class="nb">id</span> <span class="ow">in</span> <span class="n">nodes</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">GetNodeType</span><span class="p">(</span><span class="nb">id</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;calculation&quot;</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">ids</span></div>
+
+
+<div class="viewcode-block" id="FitTree.GetNodeType">
+<a class="viewcode-back" href="../../../../api/diffpy.pdfgui.gui.html#diffpy.pdfgui.gui.fittree.FitTree.GetNodeType">[docs]</a>
+    <span class="k">def</span> <span class="nf">GetNodeType</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the node type.</span>
+
+<span class="sd">        This is the &quot;type&quot; entry in the data dictionary of the node.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">node</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+        <span class="n">datadict</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">GetTreeItemDict</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">datadict</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+        <span class="k">return</span> <span class="n">datadict</span><span class="p">[</span><span class="s2">&quot;type&quot;</span><span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="FitTree.SetNodeType">
+<a class="viewcode-back" href="../../../../api/diffpy.pdfgui.gui.html#diffpy.pdfgui.gui.fittree.FitTree.SetNodeType">[docs]</a>
+    <span class="k">def</span> <span class="nf">SetNodeType</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="n">tp</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the node type of a node.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">node</span><span class="p">:</span>
+            <span class="k">return</span>
+        <span class="n">datadict</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">GetTreeItemDict</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">datadict</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">datadict</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">SetItemData</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">datadict</span><span class="p">)</span>
+        <span class="n">datadict</span><span class="p">[</span><span class="s2">&quot;type&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">tp</span>
+        <span class="k">return</span></div>
+
+
+<div class="viewcode-block" id="FitTree.GetBranchName">
+<a class="viewcode-back" href="../../../../api/diffpy.pdfgui.gui.html#diffpy.pdfgui.gui.fittree.FitTree.GetBranchName">[docs]</a>
+    <span class="k">def</span> <span class="nf">GetBranchName</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the name of the branch in which node resides.&quot;&quot;&quot;</span>
+        <span class="n">fp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">GetFitRoot</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">GetItemText</span><span class="p">(</span><span class="n">fp</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="FitTree.GetLastPhase">
+<a class="viewcode-back" href="../../../../api/diffpy.pdfgui.gui.html#diffpy.pdfgui.gui.fittree.FitTree.GetLastPhase">[docs]</a>
+    <span class="k">def</span> <span class="nf">GetLastPhase</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the last phase child of the parent node.</span>
+
+<span class="sd">        This method is helpful in placing datasets and phases into the fit tree.</span>
+<span class="sd">        This method depends on the fact that phases are placed before datasets</span>
+<span class="sd">        in the fit tree.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">siblings</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">GetChildren</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+        <span class="n">lastphase</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">for</span> <span class="n">sib</span> <span class="ow">in</span> <span class="n">siblings</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">GetNodeType</span><span class="p">(</span><span class="n">sib</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;dataset&quot;</span><span class="p">:</span>
+                <span class="k">break</span>
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">GetNodeType</span><span class="p">(</span><span class="n">sib</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;calculation&quot;</span><span class="p">:</span>
+                <span class="k">break</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">lastphase</span> <span class="o">=</span> <span class="n">sib</span>
+        <span class="k">return</span> <span class="n">lastphase</span></div>
+
+
+<div class="viewcode-block" id="FitTree.GetLastDataSet">
+<a class="viewcode-back" href="../../../../api/diffpy.pdfgui.gui.html#diffpy.pdfgui.gui.fittree.FitTree.GetLastDataSet">[docs]</a>
+    <span class="k">def</span> <span class="nf">GetLastDataSet</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the last dataset child of the fit node.</span>
+
+<span class="sd">        If there is no last dataset node, this may return the last phase node.</span>
+<span class="sd">        The purpose of getting this node is to know where to place another node,</span>
+<span class="sd">        so the actual node type is not important.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">siblings</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">GetChildren</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+        <span class="n">lastdata</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">for</span> <span class="n">sib</span> <span class="ow">in</span> <span class="n">siblings</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">GetNodeType</span><span class="p">(</span><span class="n">sib</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;calculation&quot;</span><span class="p">:</span>
+                <span class="k">break</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">lastdata</span> <span class="o">=</span> <span class="n">sib</span>
+        <span class="k">return</span> <span class="n">lastdata</span></div>
+
+
+<div class="viewcode-block" id="FitTree.GetNumPhases">
+<a class="viewcode-back" href="../../../../api/diffpy.pdfgui.gui.html#diffpy.pdfgui.gui.fittree.FitTree.GetNumPhases">[docs]</a>
+    <span class="k">def</span> <span class="nf">GetNumPhases</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the number of phases in a branch.</span>
+
+<span class="sd">        node    --  A node in the branch, or the root of the branch.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">parent</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">GetFitRoot</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+        <span class="n">family</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">GetChildren</span><span class="p">(</span><span class="n">parent</span><span class="p">)</span>
+        <span class="n">phases</span> <span class="o">=</span> <span class="p">[</span><span class="n">item</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">family</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">GetNodeType</span><span class="p">(</span><span class="n">item</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;phase&quot;</span><span class="p">]</span>
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="n">phases</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="FitTree.GetNumDataSets">
+<a class="viewcode-back" href="../../../../api/diffpy.pdfgui.gui.html#diffpy.pdfgui.gui.fittree.FitTree.GetNumDataSets">[docs]</a>
+    <span class="k">def</span> <span class="nf">GetNumDataSets</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the number of datasets in a branch.</span>
+
+<span class="sd">        node    --  A node in the branch, or the root of the branch.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">parent</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">GetFitRoot</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+        <span class="n">family</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">GetChildren</span><span class="p">(</span><span class="n">parent</span><span class="p">)</span>
+        <span class="n">phases</span> <span class="o">=</span> <span class="p">[</span><span class="n">item</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">family</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">GetNodeType</span><span class="p">(</span><span class="n">item</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;dataset&quot;</span><span class="p">]</span>
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="n">phases</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="FitTree.GetPositionInSubtree">
+<a class="viewcode-back" href="../../../../api/diffpy.pdfgui.gui.html#diffpy.pdfgui.gui.fittree.FitTree.GetPositionInSubtree">[docs]</a>
+    <span class="k">def</span> <span class="nf">GetPositionInSubtree</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the index if the node in its subtree.</span>
+
+<span class="sd">        For fits the position is absolute within the tree. For phases, datasets,</span>
+<span class="sd">        and calculations, the location is taken to be in reference to the other</span>
+<span class="sd">        nodes of its type. This is designed to be compatible with the control</span>
+<span class="sd">        center.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">parent</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">GetItemParent</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+        <span class="n">brood</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">GetChildren</span><span class="p">(</span><span class="n">parent</span><span class="p">)</span>
+        <span class="n">pos</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">sib</span> <span class="ow">in</span> <span class="n">brood</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">sib</span> <span class="o">==</span> <span class="n">node</span><span class="p">:</span>
+                <span class="k">break</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">pos</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="n">nodetype</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">GetNodeType</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">nodetype</span> <span class="o">==</span> <span class="s2">&quot;dataset&quot;</span><span class="p">:</span>
+            <span class="n">pos</span> <span class="o">-=</span> <span class="bp">self</span><span class="o">.</span><span class="n">GetNumPhases</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">nodetype</span> <span class="o">==</span> <span class="s2">&quot;calculation&quot;</span><span class="p">:</span>
+            <span class="n">pos</span> <span class="o">-=</span> <span class="bp">self</span><span class="o">.</span><span class="n">GetNumPhases</span><span class="p">(</span><span class="n">node</span><span class="p">)</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">GetNumDataSets</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">pos</span></div>
+
+
+<div class="viewcode-block" id="FitTree.SetControlData">
+<a class="viewcode-back" href="../../../../api/diffpy.pdfgui.gui.html#diffpy.pdfgui.gui.fittree.FitTree.SetControlData">[docs]</a>
+    <span class="k">def</span> <span class="nf">SetControlData</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the control center data associated with the node.</span>
+
+<span class="sd">        This need only be called for &#39;fit&#39; nodes.</span>
+<span class="sd">        This is the &quot;cdata&quot; entry in the data dictionary of the</span>
+<span class="sd">        node. It holds the object with which the right panel interfaces. For</span>
+<span class="sd">        example, for a &#39;phase&#39; node, it contains a Structure object.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">nodetype</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">GetNodeType</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">nodetype</span> <span class="o">!=</span> <span class="s2">&quot;fit&quot;</span><span class="p">:</span>
+            <span class="n">message</span> <span class="o">=</span> <span class="s2">&quot;Node type </span><span class="si">%s</span><span class="s2"> does not hold its own data&quot;</span> <span class="o">%</span> <span class="n">nodetype</span>
+            <span class="k">raise</span> <span class="n">FitTreeError</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">GetTreeItemDict</span><span class="p">(</span><span class="n">node</span><span class="p">)[</span><span class="s2">&quot;cdata&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span>
+        <span class="k">return</span></div>
+
+
+<div class="viewcode-block" id="FitTree.GetControlData">
+<a class="viewcode-back" href="../../../../api/diffpy.pdfgui.gui.html#diffpy.pdfgui.gui.fittree.FitTree.GetControlData">[docs]</a>
+    <span class="k">def</span> <span class="nf">GetControlData</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the control center data associated with a node.</span>
+
+<span class="sd">        NOTE: The fit-root of a node holds this data. This method makes it</span>
+<span class="sd">        convenient to retrieve it.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">nodetype</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">GetNodeType</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+        <span class="n">parent</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">GetFitRoot</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+        <span class="n">pdata</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">GetTreeItemDict</span><span class="p">(</span><span class="n">parent</span><span class="p">)[</span><span class="s2">&quot;cdata&quot;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">nodetype</span> <span class="o">==</span> <span class="s2">&quot;fit&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">pdata</span>
+        <span class="k">elif</span> <span class="n">nodetype</span> <span class="o">==</span> <span class="s2">&quot;phase&quot;</span><span class="p">:</span>
+            <span class="n">pos</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">GetPositionInSubtree</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">pdata</span><span class="o">.</span><span class="n">getStructure</span><span class="p">(</span><span class="n">pos</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">nodetype</span> <span class="o">==</span> <span class="s2">&quot;dataset&quot;</span><span class="p">:</span>
+            <span class="n">pos</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">GetPositionInSubtree</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">pdata</span><span class="o">.</span><span class="n">getDataSet</span><span class="p">(</span><span class="n">pos</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">nodetype</span> <span class="o">==</span> <span class="s2">&quot;calculation&quot;</span><span class="p">:</span>
+            <span class="n">pos</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">GetPositionInSubtree</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">pdata</span><span class="o">.</span><span class="n">getCalculation</span><span class="p">(</span><span class="n">pos</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">message</span> <span class="o">=</span> <span class="s2">&quot;Node of type </span><span class="si">%s</span><span class="s2"> does not exist&quot;</span> <span class="o">%</span> <span class="n">nodetype</span>
+            <span class="k">raise</span> <span class="n">FitTreeError</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
+        <span class="k">return</span></div>
+
+
+<div class="viewcode-block" id="FitTree.AddFit">
+<a class="viewcode-back" href="../../../../api/diffpy.pdfgui.gui.html#diffpy.pdfgui.gui.fittree.FitTree.AddFit">[docs]</a>
+    <span class="k">def</span> <span class="nf">AddFit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fitname</span><span class="o">=</span><span class="s2">&quot;Fit 1&quot;</span><span class="p">,</span> <span class="n">cdata</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">paste</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Append a new fit tree to the end of the current fits.</span>
+
+<span class="sd">        fitname     --  The name of the fit. This is incremented if it already</span>
+<span class="sd">                        exists.</span>
+<span class="sd">        cdata       --  Control data for the node. If cdata is None (default),</span>
+<span class="sd">                        then the control is asked to create new data.</span>
+<span class="sd">        paste       --  Whether or not the cdata is being pasted from another</span>
+<span class="sd">                        node (default False).</span>
+
+<span class="sd">        Returns the id of the new node.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Name the fit, but check to not duplicate names.</span>
+        <span class="n">fits</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">GetChildren</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">root</span><span class="p">)</span>
+        <span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">GetItemText</span><span class="p">(</span><span class="n">f</span><span class="p">)</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">fits</span><span class="p">]</span>
+        <span class="n">fitname</span> <span class="o">=</span> <span class="n">incrementName</span><span class="p">(</span><span class="n">fitname</span><span class="p">,</span> <span class="n">names</span><span class="p">)</span>
+
+        <span class="n">newfit</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">AppendItem</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">root</span><span class="p">,</span> <span class="n">fitname</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">SetNodeType</span><span class="p">(</span><span class="n">newfit</span><span class="p">,</span> <span class="s2">&quot;fit&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">SetItemImage</span><span class="p">(</span><span class="n">newfit</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">fitbmid</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">TreeItemIcon_Normal</span><span class="p">)</span>
+        <span class="n">pos</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">GetPositionInSubtree</span><span class="p">(</span><span class="n">newfit</span><span class="p">)</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># Set the node data for the new node</span>
+            <span class="k">if</span> <span class="n">cdata</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">cdata</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">control</span><span class="o">.</span><span class="n">newFitting</span><span class="p">(</span><span class="n">fitname</span><span class="p">,</span> <span class="n">pos</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">paste</span><span class="p">:</span>
+                <span class="n">cdata</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">control</span><span class="o">.</span><span class="n">paste</span><span class="p">(</span><span class="n">cdata</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="n">fitname</span><span class="p">,</span> <span class="n">pos</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">SetControlData</span><span class="p">(</span><span class="n">newfit</span><span class="p">,</span> <span class="n">cdata</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">newfit</span>
+        <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">Delete</span><span class="p">(</span><span class="n">newfit</span><span class="p">)</span>
+            <span class="k">raise</span>
+        <span class="k">return</span></div>
+
+
+<div class="viewcode-block" id="FitTree.AddPhase">
+<a class="viewcode-back" href="../../../../api/diffpy.pdfgui.gui.html#diffpy.pdfgui.gui.fittree.FitTree.AddPhase">[docs]</a>
+    <span class="k">def</span> <span class="nf">AddPhase</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="n">label</span><span class="p">,</span> <span class="n">insertafter</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">makedata</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">cdata</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Add a new blank Phase to the tree as a child of node.</span>
+
+<span class="sd">        node        --  The parent &#39;fit&#39; node.</span>
+<span class="sd">        label       --  The name of the new node.</span>
+<span class="sd">        insertafter --  The node after which to insert the new phase. If</span>
+<span class="sd">                        insertafter is None (default) the new phase is</span>
+<span class="sd">                        appended to the end of the phases in the subtree of</span>
+<span class="sd">                        the parent node.</span>
+<span class="sd">        filename    --  The file from which to load the structure. If this is</span>
+<span class="sd">                        None (default), a new structure is created.</span>
+<span class="sd">        makedata    --  Tells whether the control needs to make data for the</span>
+<span class="sd">                        node (default True).</span>
+<span class="sd">        cdata       --  Control data for the node. If cdata is None (default),</span>
+<span class="sd">                        then it is assumed that the node already has data in the</span>
+<span class="sd">                        control. See ExtendProjectTree and __InsertBranch for</span>
+<span class="sd">                        examples of how this is used.</span>
+
+<span class="sd">        Phases are always placed before DataSets.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            FitTreeError if node is not a &quot;fit&quot; node.</span>
+<span class="sd">            FitTreeError if insertafter is not a &quot;phase&quot; node.</span>
+
+<span class="sd">        Returns the id of the new node.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Check to make sure the new phase is a child of a fit or calculation</span>
+        <span class="n">nodetype</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">GetNodeType</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">nodetype</span> <span class="o">!=</span> <span class="s2">&quot;fit&quot;</span><span class="p">:</span>
+            <span class="n">message</span> <span class="o">=</span> <span class="s2">&quot;Can only add a phase as a child of a fit.&quot;</span>
+            <span class="k">raise</span> <span class="n">FitTreeError</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">insertafter</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">afttype</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">GetNodeType</span><span class="p">(</span><span class="n">insertafter</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">afttype</span> <span class="o">!=</span> <span class="s2">&quot;phase&quot;</span><span class="p">:</span>
+                <span class="n">insertafter</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="k">if</span> <span class="n">insertafter</span><span class="p">:</span>
+            <span class="n">newphase</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">InsertItem</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">insertafter</span><span class="p">,</span> <span class="n">label</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">lastphase</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">GetLastPhase</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">lastphase</span><span class="p">:</span>
+                <span class="c1"># Put the new phase after the last</span>
+                <span class="n">newphase</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">InsertItem</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">lastphase</span><span class="p">,</span> <span class="n">label</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">newphase</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">PrependItem</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">label</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">SetNodeType</span><span class="p">(</span><span class="n">newphase</span><span class="p">,</span> <span class="s2">&quot;phase&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">SetItemImage</span><span class="p">(</span><span class="n">newphase</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">phabmid</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">TreeItemIcon_Normal</span><span class="p">)</span>
+
+        <span class="c1"># Set the control data to the new phase</span>
+        <span class="n">pdata</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">GetControlData</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+        <span class="n">pos</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">GetPositionInSubtree</span><span class="p">(</span><span class="n">newphase</span><span class="p">)</span>
+
+        <span class="c1"># Try to get/make the node data from the control. If it doesn&#39;t work,</span>
+        <span class="c1"># then delete the new node.</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">makedata</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">filename</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">control</span><span class="o">.</span><span class="n">newStructure</span><span class="p">(</span><span class="n">pdata</span><span class="p">,</span> <span class="n">label</span><span class="p">,</span> <span class="n">pos</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">control</span><span class="o">.</span><span class="n">loadStructure</span><span class="p">(</span><span class="n">pdata</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">label</span><span class="p">,</span> <span class="n">pos</span><span class="p">)</span>
+
+            <span class="k">elif</span> <span class="n">cdata</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">control</span><span class="o">.</span><span class="n">paste</span><span class="p">(</span><span class="n">cdata</span><span class="p">,</span> <span class="n">pdata</span><span class="p">,</span> <span class="n">label</span><span class="p">,</span> <span class="n">pos</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">newphase</span>
+        <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">Delete</span><span class="p">(</span><span class="n">newphase</span><span class="p">)</span>
+            <span class="k">raise</span>
+        <span class="k">return</span></div>
+
+
+<div class="viewcode-block" id="FitTree.AddDataSet">
+<a class="viewcode-back" href="../../../../api/diffpy.pdfgui.gui.html#diffpy.pdfgui.gui.fittree.FitTree.AddDataSet">[docs]</a>
+    <span class="k">def</span> <span class="nf">AddDataSet</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="n">label</span><span class="p">,</span> <span class="n">insertafter</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">makedata</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">cdata</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Add a new DataSet to the tree as a child of fit.</span>
+
+<span class="sd">        node        --  The parent node of the dataset. Must be &#39;fit&#39; type.</span>
+<span class="sd">        label       --  The label of the new node.</span>
+<span class="sd">        insertafter --  The node after which to insert the new dataset. If</span>
+<span class="sd">                        insertafter is None (default) the new dataset is</span>
+<span class="sd">                        appended to the end of the datasets in the subtree of</span>
+<span class="sd">                        the parent node.</span>
+<span class="sd">        filename    --  The name of the file from which to load the data.</span>
+<span class="sd">        makedata    --  Tells whether the control needs to make data for the</span>
+<span class="sd">                        node (default True). If True, cdata is ignored.</span>
+<span class="sd">        cdata       --  Control data for the node. If False cdata is None</span>
+<span class="sd">                        (default), then it is assumed that the node already has</span>
+<span class="sd">                        data in the control. See ExtendProjectTree and</span>
+<span class="sd">                        __InsertBranch for examples of how this is used.</span>
+
+<span class="sd">        DataSets are always placed after Phases.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            FitTreeError if node is not a &quot;fit&quot; node.</span>
+<span class="sd">            FitTreeError if insertafter is not a &quot;dataset&quot; node.</span>
+
+<span class="sd">        Returns the id of the new node.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Check to make sure the new dataset is a child of a fit</span>
+        <span class="n">nodetype</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">GetNodeType</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">nodetype</span> <span class="o">!=</span> <span class="s2">&quot;fit&quot;</span><span class="p">:</span>
+            <span class="n">message</span> <span class="o">=</span> <span class="s2">&quot;Can only add a data set as a child of a fit.&quot;</span>
+            <span class="k">raise</span> <span class="n">FitTreeError</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">insertafter</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">afttype</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">GetNodeType</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">afttype</span> <span class="o">!=</span> <span class="s2">&quot;dataset&quot;</span><span class="p">:</span>
+                <span class="n">insertafter</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="k">if</span> <span class="n">insertafter</span><span class="p">:</span>
+            <span class="n">newset</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">InsertItem</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">insertafter</span><span class="p">,</span> <span class="n">label</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">lastset</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">GetLastDataSet</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">lastset</span><span class="p">:</span>
+                <span class="n">newset</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">InsertItem</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">lastset</span><span class="p">,</span> <span class="n">label</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">newset</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">PrependItem</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">label</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">SetNodeType</span><span class="p">(</span><span class="n">newset</span><span class="p">,</span> <span class="s2">&quot;dataset&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">SetItemImage</span><span class="p">(</span><span class="n">newset</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">dtsbmid</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">TreeItemIcon_Normal</span><span class="p">)</span>
+        <span class="c1"># Attach the control center data to the new dataset</span>
+        <span class="n">pos</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">GetPositionInSubtree</span><span class="p">(</span><span class="n">newset</span><span class="p">)</span>
+        <span class="n">pdata</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">GetControlData</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">makedata</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">filename</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">control</span><span class="o">.</span><span class="n">loadDataset</span><span class="p">(</span><span class="n">pdata</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">label</span><span class="p">,</span> <span class="n">pos</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="n">FitTreeError</span><span class="p">(</span><span class="s2">&quot;Cannot load a dataset without a name!&quot;</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">cdata</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">control</span><span class="o">.</span><span class="n">paste</span><span class="p">(</span><span class="n">cdata</span><span class="p">,</span> <span class="n">pdata</span><span class="p">,</span> <span class="n">label</span><span class="p">,</span> <span class="n">pos</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">newset</span>
+        <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">Delete</span><span class="p">(</span><span class="n">newset</span><span class="p">)</span>
+            <span class="k">raise</span>
+        <span class="k">return</span></div>
+
+
+<div class="viewcode-block" id="FitTree.AddCalc">
+<a class="viewcode-back" href="../../../../api/diffpy.pdfgui.gui.html#diffpy.pdfgui.gui.fittree.FitTree.AddCalc">[docs]</a>
+    <span class="k">def</span> <span class="nf">AddCalc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="n">label</span><span class="p">,</span> <span class="n">insertafter</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">makedata</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">cdata</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Add a new DataSet to the tree as a child of fit.</span>
+
+<span class="sd">        node        --  The parent node of the calculation. Must be &#39;fit&#39; type.</span>
+<span class="sd">        label       --  The label of the new node.</span>
+<span class="sd">        insertafter --  The node after which to insert the new calculation. If</span>
+<span class="sd">                        insertafter is None (default) the new calculation is</span>
+<span class="sd">                        appended to the end of the calculation in the subtree of</span>
+<span class="sd">                        the parent node.</span>
+<span class="sd">        makedata    --  Tells whether the control needs to make data for the</span>
+<span class="sd">                        node (default True). If True, cdata is ignored.</span>
+<span class="sd">        cdata       --  Control data for the node. If False cdata is None</span>
+<span class="sd">                        (default), then it is assumed that the node already has</span>
+<span class="sd">                        data in the control. See ExtendProjectTree and</span>
+<span class="sd">                        __InsertBranch for examples of how this is used.</span>
+
+<span class="sd">        Calculations are always placed after datasets.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            FitTreeError if node is not a &quot;fit&quot; node.</span>
+<span class="sd">            FitTreeError if insertafter is not a &quot;calculation&quot; node.</span>
+
+<span class="sd">        Returns the id of the new node.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Check to make sure the new calculation is a child of a fit</span>
+        <span class="n">nodetype</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">GetNodeType</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">nodetype</span> <span class="o">!=</span> <span class="s2">&quot;fit&quot;</span><span class="p">:</span>
+            <span class="n">message</span> <span class="o">=</span> <span class="s2">&quot;Can only add a calculation as a child of a fit.&quot;</span>
+            <span class="k">raise</span> <span class="n">FitTreeError</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">insertafter</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">afttype</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">GetNodeType</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">afttype</span> <span class="o">!=</span> <span class="s2">&quot;calculation&quot;</span><span class="p">:</span>
+                <span class="n">insertafter</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="n">sibs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">GetCalculations</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+        <span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">GetItemText</span><span class="p">(</span><span class="n">sb</span><span class="p">)</span> <span class="k">for</span> <span class="n">sb</span> <span class="ow">in</span> <span class="n">sibs</span><span class="p">]</span>
+        <span class="n">label</span> <span class="o">=</span> <span class="n">incrementName</span><span class="p">(</span><span class="n">label</span><span class="p">,</span> <span class="n">names</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">insertafter</span><span class="p">:</span>
+            <span class="n">newcalc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">InsertItem</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">insertafter</span><span class="p">,</span> <span class="n">label</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">newcalc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">AppendItem</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">label</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">SetNodeType</span><span class="p">(</span><span class="n">newcalc</span><span class="p">,</span> <span class="s2">&quot;calculation&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">SetItemImage</span><span class="p">(</span><span class="n">newcalc</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">clcbmid</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">TreeItemIcon_Normal</span><span class="p">)</span>
+        <span class="c1"># Attach the control center data to the new datacalc</span>
+        <span class="n">pos</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">GetPositionInSubtree</span><span class="p">(</span><span class="n">newcalc</span><span class="p">)</span>
+        <span class="n">pdata</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">GetControlData</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">makedata</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">control</span><span class="o">.</span><span class="n">newCalculation</span><span class="p">(</span><span class="n">pdata</span><span class="p">,</span> <span class="n">label</span><span class="p">,</span> <span class="n">pos</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">cdata</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">control</span><span class="o">.</span><span class="n">paste</span><span class="p">(</span><span class="n">cdata</span><span class="p">,</span> <span class="n">pdata</span><span class="p">,</span> <span class="n">label</span><span class="p">,</span> <span class="n">pos</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">newcalc</span>
+        <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">Delete</span><span class="p">(</span><span class="n">newcalc</span><span class="p">)</span>
+            <span class="k">raise</span>
+        <span class="k">return</span></div>
+
+
+<div class="viewcode-block" id="FitTree.CopyBranch">
+<a class="viewcode-back" href="../../../../api/diffpy.pdfgui.gui.html#diffpy.pdfgui.gui.fittree.FitTree.CopyBranch">[docs]</a>
+    <span class="k">def</span> <span class="nf">CopyBranch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">startnode</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Make a copy of a tree branch.</span>
+
+<span class="sd">        The branch is held in the system clipboard so it can be used in another</span>
+<span class="sd">        instance of the fittree.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">nodetype</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">GetNodeType</span><span class="p">(</span><span class="n">startnode</span><span class="p">)</span>
+        <span class="n">cdata</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">control</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">GetControlData</span><span class="p">(</span><span class="n">startnode</span><span class="p">))</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">cdata</span><span class="p">,</span> <span class="n">Fitting</span><span class="p">):</span>
+            <span class="n">cdata</span> <span class="o">=</span> <span class="n">cdata</span><span class="o">.</span><span class="n">stripped</span><span class="p">()</span>
+        <span class="n">cdata</span><span class="o">.</span><span class="n">type</span> <span class="o">=</span> <span class="n">nodetype</span>
+        <span class="n">cdatabytes</span> <span class="o">=</span> <span class="n">safeCPickleDumps</span><span class="p">(</span><span class="n">cdata</span><span class="p">)</span>
+        <span class="n">cdatabytes</span> <span class="o">=</span> <span class="s2">&quot;pdfgui_cliboard=&quot;</span><span class="o">.</span><span class="n">encode</span><span class="p">()</span> <span class="o">+</span> <span class="n">cdatabytes</span>
+        <span class="c1"># wxpython only accepts str, use base64 to convert bytes to str</span>
+        <span class="n">cdatastring</span> <span class="o">=</span> <span class="n">base64</span><span class="o">.</span><span class="n">b64encode</span><span class="p">(</span><span class="n">cdatabytes</span><span class="p">)</span>
+        <span class="n">textdata</span> <span class="o">=</span> <span class="n">wx</span><span class="o">.</span><span class="n">TextDataObject</span><span class="p">(</span><span class="n">cdatastring</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">wx</span><span class="o">.</span><span class="n">TheClipboard</span><span class="o">.</span><span class="n">IsOpened</span><span class="p">():</span>
+            <span class="n">opened</span> <span class="o">=</span> <span class="n">wx</span><span class="o">.</span><span class="n">TheClipboard</span><span class="o">.</span><span class="n">Open</span><span class="p">()</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">opened</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">FitTreeError</span><span class="p">(</span><span class="s2">&quot;Cannot open the clipboard.&quot;</span><span class="p">)</span>
+        <span class="n">wx</span><span class="o">.</span><span class="n">TheClipboard</span><span class="o">.</span><span class="n">SetData</span><span class="p">(</span><span class="n">textdata</span><span class="p">)</span>
+        <span class="n">wx</span><span class="o">.</span><span class="n">TheClipboard</span><span class="o">.</span><span class="n">Close</span><span class="p">()</span>
+        <span class="k">return</span></div>
+
+
+<div class="viewcode-block" id="FitTree.GetClipboard">
+<a class="viewcode-back" href="../../../../api/diffpy.pdfgui.gui.html#diffpy.pdfgui.gui.fittree.FitTree.GetClipboard">[docs]</a>
+    <span class="k">def</span> <span class="nf">GetClipboard</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the clipboard data.</span>
+
+<span class="sd">        Returns the controldata in the clipboard, or None if the clipboard is</span>
+<span class="sd">        empty or contains the wrong type of data.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Check to see if data is present</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">wx</span><span class="o">.</span><span class="n">TheClipboard</span><span class="o">.</span><span class="n">IsSupported</span><span class="p">(</span><span class="n">wx</span><span class="o">.</span><span class="n">DataFormat</span><span class="p">(</span><span class="n">wx</span><span class="o">.</span><span class="n">DF_TEXT</span><span class="p">)):</span>
+            <span class="k">return</span> <span class="kc">None</span>
+
+        <span class="n">textdata</span> <span class="o">=</span> <span class="n">wx</span><span class="o">.</span><span class="n">TextDataObject</span><span class="p">()</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">wx</span><span class="o">.</span><span class="n">TheClipboard</span><span class="o">.</span><span class="n">IsOpened</span><span class="p">():</span>
+            <span class="n">opened</span> <span class="o">=</span> <span class="n">wx</span><span class="o">.</span><span class="n">TheClipboard</span><span class="o">.</span><span class="n">Open</span><span class="p">()</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">opened</span><span class="p">:</span>
+                <span class="k">return</span> <span class="kc">None</span>
+        <span class="n">success</span> <span class="o">=</span> <span class="n">wx</span><span class="o">.</span><span class="n">TheClipboard</span><span class="o">.</span><span class="n">GetData</span><span class="p">(</span><span class="n">textdata</span><span class="p">)</span>
+        <span class="n">wx</span><span class="o">.</span><span class="n">TheClipboard</span><span class="o">.</span><span class="n">Close</span><span class="p">()</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">success</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+        <span class="n">cdatastring</span> <span class="o">=</span> <span class="n">textdata</span><span class="o">.</span><span class="n">GetText</span><span class="p">()</span>
+
+        <span class="n">cdata</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="c1"># use base64 to convert str back to bytes</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">cdatabytes</span> <span class="o">=</span> <span class="n">base64</span><span class="o">.</span><span class="n">b64decode</span><span class="p">(</span><span class="n">cdatastring</span><span class="o">.</span><span class="n">encode</span><span class="p">())</span>
+
+            <span class="k">if</span> <span class="n">cdatabytes</span><span class="p">[:</span><span class="mi">16</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;pdfgui_cliboard=&quot;</span><span class="o">.</span><span class="n">encode</span><span class="p">():</span>
+                <span class="n">cdatabytes</span> <span class="o">=</span> <span class="n">cdatabytes</span><span class="p">[</span><span class="mi">16</span><span class="p">:]</span>
+                <span class="n">cdata</span> <span class="o">=</span> <span class="n">pickle_loads</span><span class="p">(</span><span class="n">cdatabytes</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+            <span class="k">pass</span>
+        <span class="k">return</span> <span class="n">cdata</span></div>
+
+
+<div class="viewcode-block" id="FitTree.PasteBranch">
+<a class="viewcode-back" href="../../../../api/diffpy.pdfgui.gui.html#diffpy.pdfgui.gui.fittree.FitTree.PasteBranch">[docs]</a>
+    <span class="k">def</span> <span class="nf">PasteBranch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">entrypoint</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Paste the branch from the clipboard into tree at the given node.</span>
+
+<span class="sd">        A certain type of branch can only be copied to specific places.</span>
+
+<span class="sd">        fit         -   A fit can be pasted to anywhere. This does not overwrite</span>
+<span class="sd">                        an existing node, but simply inserts the fit into the</span>
+<span class="sd">                        last available slot.</span>
+<span class="sd">        phase       -   A phase can be pasted from anywhere. If pasted from a</span>
+<span class="sd">                        fit, it is placed at the end of the phase section of</span>
+<span class="sd">                        that node. If inserted from a dataset or a calculation,</span>
+<span class="sd">                        it is placed at the end of the phase section.</span>
+<span class="sd">        dataset     -   A dataset can be pasted from anywhere. If pasted from a</span>
+<span class="sd">                        fit, the dataset is appended at the end of the other</span>
+<span class="sd">                        datasets. If pasted from a dataset, the pasted set is</span>
+<span class="sd">                        inserted right after that one. If pasted from a phase,</span>
+<span class="sd">                        it is placed at the beginning of the dataset section. If</span>
+<span class="sd">                        pasted from a calculation, it is placed at the end of</span>
+<span class="sd">                        the dataset section.</span>
+<span class="sd">        calculation -   A calculation can be pasted to anywhere, but it appears</span>
+<span class="sd">                        at the end of the calculation section of the tree. If</span>
+<span class="sd">                        pasted from a calculation node, it is inserted after</span>
+<span class="sd">                        that node.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            FitTreeError if the entrypoint and branch type are incompatible.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">cdata</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">GetClipboard</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">cdata</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">message</span> <span class="o">=</span> <span class="s2">&quot;There is no branch to paste!&quot;</span>
+            <span class="k">raise</span> <span class="n">FitTreeError</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
+
+        <span class="c1"># Now we have the cdata, we must put it into the tree</span>
+        <span class="n">branchtype</span> <span class="o">=</span> <span class="n">cdata</span><span class="o">.</span><span class="n">type</span>
+        <span class="n">insertafter</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">prepend</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="n">entrytype</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="n">entrypoint</span><span class="p">:</span>
+            <span class="n">entrytype</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">GetNodeType</span><span class="p">(</span><span class="n">entrypoint</span><span class="p">)</span>
+        <span class="c1"># Check to see what we are trying to paste, and where.</span>
+
+        <span class="k">if</span> <span class="n">branchtype</span> <span class="o">==</span> <span class="s2">&quot;fit&quot;</span><span class="p">:</span>
+            <span class="c1"># Paste after the selected fit containing the selection, or</span>
+            <span class="c1"># after the last fit if a calculation is selected. If nothing is</span>
+            <span class="c1"># selected, just paste it!</span>
+
+            <span class="n">entrytype</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="k">if</span> <span class="n">entrypoint</span><span class="p">:</span>
+                <span class="n">entrypoint</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">GetFitRoot</span><span class="p">(</span><span class="n">entrypoint</span><span class="p">)</span>
+                <span class="n">entrytype</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">GetNodeType</span><span class="p">(</span><span class="n">entrypoint</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">entrytype</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">entrypoint</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">root</span>
+                <span class="n">insertafter</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="k">elif</span> <span class="n">entrytype</span> <span class="o">==</span> <span class="s2">&quot;fit&quot;</span><span class="p">:</span>
+                <span class="n">insertafter</span> <span class="o">=</span> <span class="n">entrypoint</span>
+                <span class="n">entrypoint</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">root</span>
+            <span class="k">else</span><span class="p">:</span>  <span class="c1"># Just in case</span>
+                <span class="k">raise</span> <span class="n">FitTreeError</span><span class="p">(</span><span class="s2">&quot;Cannot paste a fit branch here.&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">branchtype</span> <span class="o">==</span> <span class="s2">&quot;phase&quot;</span><span class="p">:</span>
+            <span class="c1"># Paste after selected phase, or append to the end of the phase</span>
+            <span class="c1"># section of a fit.</span>
+
+            <span class="k">if</span> <span class="n">entrytype</span> <span class="o">==</span> <span class="s2">&quot;phase&quot;</span><span class="p">:</span>
+                <span class="c1"># The entry is to be a sibling.</span>
+                <span class="n">insertafter</span> <span class="o">=</span> <span class="n">entrypoint</span>
+                <span class="n">entrypoint</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">GetItemParent</span><span class="p">(</span><span class="n">entrypoint</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">entrytype</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;dataset&quot;</span><span class="p">,</span> <span class="s2">&quot;calculation&quot;</span><span class="p">):</span>
+                <span class="c1"># Paste to the end of the phases, if they exist.</span>
+                <span class="n">entrypoint</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">GetItemParent</span><span class="p">(</span><span class="n">entrypoint</span><span class="p">)</span>
+                <span class="n">insertafter</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">GetLastPhase</span><span class="p">(</span><span class="n">entrypoint</span><span class="p">)</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">insertafter</span><span class="p">:</span>
+                    <span class="c1"># Put the branch at the beginning of the phases</span>
+                    <span class="n">prepend</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="k">elif</span> <span class="n">entrytype</span> <span class="o">==</span> <span class="s2">&quot;fit&quot;</span><span class="p">:</span>
+                <span class="c1"># Get the last phase in the phase section, which may not</span>
+                <span class="c1"># exist.</span>
+                <span class="n">insertafter</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">GetLastPhase</span><span class="p">(</span><span class="n">entrypoint</span><span class="p">)</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">insertafter</span><span class="p">:</span>
+                    <span class="c1"># Put the branch at the beginning of the phases</span>
+                    <span class="n">prepend</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="k">else</span><span class="p">:</span>  <span class="c1"># Just in case</span>
+                <span class="k">raise</span> <span class="n">FitTreeError</span><span class="p">(</span><span class="s2">&quot;Cannot paste a phase branch here.&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">branchtype</span> <span class="o">==</span> <span class="s2">&quot;dataset&quot;</span><span class="p">:</span>
+            <span class="c1"># Paste after a selected dataset, or into a selected fit.</span>
+
+            <span class="k">if</span> <span class="n">entrytype</span> <span class="o">==</span> <span class="s2">&quot;dataset&quot;</span><span class="p">:</span>
+                <span class="c1"># The entry is to be a sibling.</span>
+                <span class="n">insertafter</span> <span class="o">=</span> <span class="n">entrypoint</span>
+                <span class="n">entrypoint</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">GetItemParent</span><span class="p">(</span><span class="n">entrypoint</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">entrytype</span> <span class="o">==</span> <span class="s2">&quot;phase&quot;</span><span class="p">:</span>
+                <span class="c1"># The entry goes to the end of the phases, which must exist.</span>
+                <span class="n">entrypoint</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">GetItemParent</span><span class="p">(</span><span class="n">entrypoint</span><span class="p">)</span>
+                <span class="n">insertafter</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">GetLastPhase</span><span class="p">(</span><span class="n">entrypoint</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">entrytype</span> <span class="o">==</span> <span class="s2">&quot;calculation&quot;</span><span class="p">:</span>
+                <span class="c1"># The entry goes to the end of the datasets.</span>
+                <span class="n">entrypoint</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">GetItemParent</span><span class="p">(</span><span class="n">entrypoint</span><span class="p">)</span>
+                <span class="n">insertafter</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">GetLastDataSet</span><span class="p">(</span><span class="n">entrypoint</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">entrytype</span> <span class="o">==</span> <span class="s2">&quot;fit&quot;</span><span class="p">:</span>
+                <span class="n">insertafter</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">GetLastDataSet</span><span class="p">(</span><span class="n">entrypoint</span><span class="p">)</span>
+                <span class="c1"># The entrypoint is ok. The branch is appended to the end of</span>
+                <span class="c1"># the calculations.</span>
+                <span class="k">pass</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">FitTreeError</span><span class="p">(</span><span class="s2">&quot;Cannot paste a data set branch here.&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">branchtype</span> <span class="o">==</span> <span class="s2">&quot;calculation&quot;</span><span class="p">:</span>
+            <span class="c1"># Paste after the selected calculation or after the calculations.</span>
+
+            <span class="k">if</span> <span class="n">entrytype</span> <span class="o">==</span> <span class="s2">&quot;calculation&quot;</span><span class="p">:</span>
+                <span class="c1"># The entry is to be a sibling.</span>
+                <span class="n">insertafter</span> <span class="o">=</span> <span class="n">entrypoint</span>
+                <span class="n">entrypoint</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">GetItemParent</span><span class="p">(</span><span class="n">entrypoint</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">entrytype</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;phase&quot;</span><span class="p">,</span> <span class="s2">&quot;dataset&quot;</span><span class="p">):</span>
+                <span class="n">entrypoint</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">GetItemParent</span><span class="p">(</span><span class="n">entrypoint</span><span class="p">)</span>
+                <span class="n">insertafter</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">GetLastDataSet</span><span class="p">(</span><span class="n">entrypoint</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">entrytype</span> <span class="o">==</span> <span class="s2">&quot;fit&quot;</span><span class="p">:</span>
+                <span class="n">insertafter</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">GetLastDataSet</span><span class="p">(</span><span class="n">entrypoint</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>  <span class="c1"># Just in case</span>
+                <span class="k">raise</span> <span class="n">FitTreeError</span><span class="p">(</span><span class="s2">&quot;Cannot paste a calculation branch here.&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Now set the name of the item to be inserted.</span>
+        <span class="n">label</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__copyLabel</span><span class="p">(</span><span class="n">cdata</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">entrypoint</span><span class="p">)</span>
+
+        <span class="c1"># Now we have a label. We must insert the item into the tree.</span>
+        <span class="n">newnode</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__InsertBranch</span><span class="p">(</span><span class="n">cdata</span><span class="p">,</span> <span class="n">entrypoint</span><span class="p">,</span> <span class="n">label</span><span class="p">,</span> <span class="n">insertafter</span><span class="p">,</span> <span class="n">prepend</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">newnode</span></div>
+
+
+    <span class="k">def</span> <span class="nf">__copyLabel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">oldlabel</span><span class="p">,</span> <span class="n">entrypoint</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Make a new label that is appropriate for a new node.&quot;&quot;&quot;</span>
+        <span class="c1"># Append &quot;_copy&quot; to the end of the label, unless it already has that.</span>
+        <span class="c1"># In that case, just add a number to indicate which copy it is.</span>
+        <span class="n">siblings</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">GetChildren</span><span class="p">(</span><span class="n">entrypoint</span><span class="p">)</span>
+        <span class="n">labels</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">GetItemText</span><span class="p">(</span><span class="n">sb</span><span class="p">)</span> <span class="k">for</span> <span class="n">sb</span> <span class="ow">in</span> <span class="n">siblings</span><span class="p">]</span>
+        <span class="n">match</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&quot;_copy\d*$&quot;</span>
+        <span class="n">label</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="n">match</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">oldlabel</span><span class="p">)</span>
+        <span class="n">label</span> <span class="o">+=</span> <span class="s2">&quot;_copy&quot;</span>
+        <span class="n">label</span> <span class="o">=</span> <span class="n">incrementName</span><span class="p">(</span><span class="n">label</span><span class="p">,</span> <span class="n">labels</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">label</span>
+
+    <span class="k">def</span> <span class="nf">__InsertBranch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cdata</span><span class="p">,</span> <span class="n">entrypoint</span><span class="p">,</span> <span class="n">label</span><span class="p">,</span> <span class="n">insertafter</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">prepend</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Instert control data into the tree.</span>
+
+<span class="sd">        cdata       --  The control data that goes with the branch</span>
+<span class="sd">        entrypoint  --  The subbranch (fit root) to paste into</span>
+<span class="sd">        label       --  The label of the new node</span>
+<span class="sd">        insertafter --  A node after which to insert. If insertafter is None</span>
+<span class="sd">                        (default), then the new node will be pasted after the</span>
+<span class="sd">                        last node of the same type.</span>
+<span class="sd">        prepend     --  Prepend to the beginning of the node group (default</span>
+<span class="sd">                        False). insertafter takes prescedent over prepend.</span>
+
+<span class="sd">        Returns the newly inserted node.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">cdata</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">message</span> <span class="o">=</span> <span class="s2">&quot;There is no branch to paste!&quot;</span>
+            <span class="k">raise</span> <span class="n">FitTreeError</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
+
+        <span class="n">branchtype</span> <span class="o">=</span> <span class="n">cdata</span><span class="o">.</span><span class="n">type</span>
+        <span class="c1"># cdata.name = label</span>
+        <span class="k">if</span> <span class="n">branchtype</span> <span class="o">==</span> <span class="s2">&quot;fit&quot;</span><span class="p">:</span>
+            <span class="n">cdata</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">label</span>
+            <span class="n">newnode</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ExtendProjectTree</span><span class="p">([</span><span class="n">cdata</span><span class="o">.</span><span class="n">organization</span><span class="p">()],</span> <span class="n">clear</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">paste</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">branchtype</span> <span class="o">==</span> <span class="s2">&quot;phase&quot;</span><span class="p">:</span>
+            <span class="n">newnode</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">AddPhase</span><span class="p">(</span><span class="n">entrypoint</span><span class="p">,</span> <span class="n">label</span><span class="p">,</span> <span class="n">insertafter</span><span class="o">=</span><span class="n">insertafter</span><span class="p">,</span> <span class="n">makedata</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">cdata</span><span class="o">=</span><span class="n">cdata</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">branchtype</span> <span class="o">==</span> <span class="s2">&quot;dataset&quot;</span><span class="p">:</span>
+            <span class="n">newnode</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">AddDataSet</span><span class="p">(</span><span class="n">entrypoint</span><span class="p">,</span> <span class="n">label</span><span class="p">,</span> <span class="n">insertafter</span><span class="o">=</span><span class="n">insertafter</span><span class="p">,</span> <span class="n">makedata</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">cdata</span><span class="o">=</span><span class="n">cdata</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">branchtype</span> <span class="o">==</span> <span class="s2">&quot;calculation&quot;</span><span class="p">:</span>
+            <span class="n">newnode</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">AddCalc</span><span class="p">(</span><span class="n">entrypoint</span><span class="p">,</span> <span class="n">label</span><span class="p">,</span> <span class="n">insertafter</span><span class="o">=</span><span class="n">insertafter</span><span class="p">,</span> <span class="n">makedata</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">cdata</span><span class="o">=</span><span class="n">cdata</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">FitTreeError</span><span class="p">(</span><span class="s2">&quot;Unrecognized node type: </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">branchtype</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">newnode</span>
+
+<div class="viewcode-block" id="FitTree.DeleteBranches">
+<a class="viewcode-back" href="../../../../api/diffpy.pdfgui.gui.html#diffpy.pdfgui.gui.fittree.FitTree.DeleteBranches">[docs]</a>
+    <span class="k">def</span> <span class="nf">DeleteBranches</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">selections</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Remove the subtree starting from the selected node(s).&quot;&quot;&quot;</span>
+        <span class="c1"># Get a list of branch heads</span>
+        <span class="n">branchset</span> <span class="o">=</span> <span class="p">[</span><span class="n">node</span> <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">selections</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">GetNodeType</span><span class="p">(</span><span class="n">node</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;fit&quot;</span><span class="p">]</span>
+
+        <span class="c1"># Get their children</span>
+        <span class="n">childset</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">branchset</span><span class="p">:</span>
+            <span class="n">childset</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">GetChildren</span><span class="p">(</span><span class="n">node</span><span class="p">))</span>
+
+        <span class="c1"># Collect all nodes, removing any children of branch nodes.</span>
+        <span class="n">nodeset</span> <span class="o">=</span> <span class="p">[</span><span class="n">node</span> <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">selections</span> <span class="k">if</span> <span class="n">node</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">childset</span><span class="p">]</span>
+
+        <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">nodeset</span><span class="p">:</span>
+            <span class="n">cdata</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">GetControlData</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">control</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">cdata</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">Delete</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">nodeset</span></div>
+
+
+<div class="viewcode-block" id="FitTree.SelectAll">
+<a class="viewcode-back" href="../../../../api/diffpy.pdfgui.gui.html#diffpy.pdfgui.gui.fittree.FitTree.SelectAll">[docs]</a>
+    <span class="k">def</span> <span class="nf">SelectAll</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Select all nodes.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">UnselectAll</span><span class="p">()</span>
+        <span class="n">fits</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">GetChildren</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">root</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">fit</span> <span class="ow">in</span> <span class="n">fits</span><span class="p">:</span>
+            <span class="n">children</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">GetChildren</span><span class="p">(</span><span class="n">fit</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">SelectItem</span><span class="p">(</span><span class="n">fit</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">child</span> <span class="ow">in</span> <span class="n">children</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">SelectItem</span><span class="p">(</span><span class="n">child</span><span class="p">)</span>
+        <span class="k">return</span></div>
+
+
+<div class="viewcode-block" id="FitTree.SelectAllType">
+<a class="viewcode-back" href="../../../../api/diffpy.pdfgui.gui.html#diffpy.pdfgui.gui.fittree.FitTree.SelectAllType">[docs]</a>
+    <span class="k">def</span> <span class="nf">SelectAllType</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Select all nodes of same type as passed node.</span>
+
+<span class="sd">        node    --  Node whose type to select. If node is None (default), then</span>
+<span class="sd">                    all fit nodes will be selected.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">UnselectAll</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">node</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="c1"># Get the first fit node</span>
+            <span class="n">fits</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">GetChildren</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">root</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">fits</span><span class="p">:</span>
+                <span class="k">return</span>
+            <span class="n">node</span> <span class="o">=</span> <span class="n">fits</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">typelist</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">GetAllType</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">typelist</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">SelectItem</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+        <span class="k">return</span></div>
+
+
+<div class="viewcode-block" id="FitTree.ExtendProjectTree">
+<a class="viewcode-back" href="../../../../api/diffpy.pdfgui.gui.html#diffpy.pdfgui.gui.fittree.FitTree.ExtendProjectTree">[docs]</a>
+    <span class="k">def</span> <span class="nf">ExtendProjectTree</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">treelist</span><span class="p">,</span> <span class="n">clear</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">paste</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Extend the project tree from the treelist.</span>
+
+<span class="sd">        treelist    --  A list of control data returned by</span>
+<span class="sd">                        Oraganizer.organization()</span>
+<span class="sd">        clear       --  Clear the tree before adding new nodes (default True)</span>
+<span class="sd">        paste       --  Whether or not the cdata is being pasted from another</span>
+<span class="sd">                        node (default False).</span>
+
+<span class="sd">        The treelist here is of the type returned from pdfguicontrol.load.</span>
+<span class="sd">        It is a list of fit lists with the following format.</span>
+<span class="sd">        node[0]     --  fit object</span>
+<span class="sd">        node[1]     --  list of (name, dataset) tuples</span>
+<span class="sd">        node[2]     --  list of (name, phase) tuples</span>
+<span class="sd">        node[3]     --  list of (name, calculation) tuples</span>
+
+<span class="sd">        Note that node[1] should be empty if the node is a calculation.</span>
+
+<span class="sd">        Returns the last insterted fit or calculation node</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Clean slate</span>
+        <span class="k">if</span> <span class="n">clear</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">DeleteAllItems</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">InitializeTree</span><span class="p">()</span>
+        <span class="n">roots</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="c1"># Return if the treelist is empty</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">treelist</span><span class="p">:</span>
+            <span class="k">return</span>
+
+        <span class="c1"># Build the tree</span>
+        <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">treelist</span><span class="p">:</span>
+            <span class="n">broot</span> <span class="o">=</span> <span class="n">item</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">name</span> <span class="o">=</span> <span class="n">broot</span><span class="o">.</span><span class="n">name</span>
+            <span class="n">node</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">AddFit</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">cdata</span><span class="o">=</span><span class="n">broot</span><span class="p">,</span> <span class="n">paste</span><span class="o">=</span><span class="n">paste</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">node</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">message</span> <span class="o">=</span> <span class="s2">&quot;Cannot insert data. Malformed tree list.&quot;</span>
+                <span class="k">raise</span> <span class="n">FitTreeError</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
+
+            <span class="n">roots</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+            <span class="c1"># Build the rest of the tree. Note that we don&#39;t want to create new</span>
+            <span class="c1"># data, but we don&#39;t pass the cdata since it is already included in</span>
+            <span class="c1"># the fit root.</span>
+            <span class="n">phases</span> <span class="o">=</span> <span class="n">item</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+            <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">phase</span> <span class="ow">in</span> <span class="n">phases</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">AddPhase</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">makedata</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+            <span class="n">dsets</span> <span class="o">=</span> <span class="n">item</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+            <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="nb">set</span> <span class="ow">in</span> <span class="n">dsets</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">AddDataSet</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">makedata</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+            <span class="n">calcs</span> <span class="o">=</span> <span class="n">item</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+            <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">calc</span> <span class="ow">in</span> <span class="n">calcs</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">AddCalc</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">makedata</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">roots</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">Expand</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">node</span></div>
+</div>
+
+
+
+<span class="c1"># End class FitTree</span>
+
+
+<span class="c1"># Exceptions</span>
+<div class="viewcode-block" id="FitTreeError">
+<a class="viewcode-back" href="../../../../api/diffpy.pdfgui.gui.html#diffpy.pdfgui.gui.fittree.FitTreeError">[docs]</a>
+<span class="k">class</span> <span class="nc">FitTreeError</span><span class="p">(</span><span class="n">ControlError</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
+        <span class="n">ControlError</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">)</span>
+        <span class="k">return</span></div>
+
+
+
+<span class="c1"># End class FitTreeError</span>
+
+
+<span class="c1"># Utility functions</span>
+<div class="viewcode-block" id="incrementName">
+<a class="viewcode-back" href="../../../../api/diffpy.pdfgui.gui.html#diffpy.pdfgui.gui.fittree.incrementName">[docs]</a>
+<span class="k">def</span> <span class="nf">incrementName</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">namelist</span><span class="p">,</span> <span class="n">start</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Increment the name by assigning the lowest number to the end such</span>
+<span class="sd">    that the name does not appear in the namelist.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">newname</span> <span class="o">=</span> <span class="n">name</span>
+    <span class="n">match</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&quot;\d+$&quot;</span>
+    <span class="n">counter</span> <span class="o">=</span> <span class="n">start</span>
+    <span class="k">while</span> <span class="n">newname</span> <span class="ow">in</span> <span class="n">namelist</span><span class="p">:</span>
+        <span class="n">newname</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="n">match</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
+        <span class="n">counter</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="n">newname</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">%s%i</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">newname</span><span class="p">,</span> <span class="n">counter</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">newname</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, The Trustees of Columbia University in the City of New York.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

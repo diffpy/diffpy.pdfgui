@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>diffpy.pdfgui.gui.wxextensions.autowidthlabelsgrid &mdash; diffpy.pdfgui 3.1.0rc0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../../../_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../../../../../_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../../../../_static/documentation_options.js?v=a2ca8c84"></script>
+        <script src="../../../../../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../../../index.html" class="icon icon-home">
+            diffpy.pdfgui
+          </a>
+              <div class="version">
+                3.1.0rc0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../tutorial.html">Tutorial</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../license.html">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../release.html">Release Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../api/diffpy.pdfgui.html">Package API</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../../index.html">diffpy.pdfgui</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">diffpy.pdfgui.gui.wxextensions.autowidthlabelsgrid</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for diffpy.pdfgui.gui.wxextensions.autowidthlabelsgrid</h1><div class="highlight"><pre>
+<span></span><span class="ch">#!/usr/bin/env python</span>
+<span class="c1">##############################################################################</span>
+<span class="c1">#</span>
+<span class="c1"># wxextensions      by DANSE Diffraction group</span>
+<span class="c1">#                   Simon J. L. Billinge</span>
+<span class="c1">#                   (c) 2006 trustees of the Michigan State University.</span>
+<span class="c1">#                   All rights reserved.</span>
+<span class="c1">#</span>
+<span class="c1"># File coded by:    Dmitriy Bryndin</span>
+<span class="c1">#</span>
+<span class="c1"># See AUTHORS.txt for a list of people who contributed.</span>
+<span class="c1"># See LICENSE.txt for license information.</span>
+<span class="c1">#</span>
+<span class="c1">##############################################################################</span>
+
+<span class="sd">&quot;&quot;&quot;This module contains AutoWidthListCtrl, a wxListCtrl object that</span>
+<span class="sd">automatically adjusts the width of its columns.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+
+<span class="kn">import</span> <span class="nn">wx</span>
+<span class="kn">import</span> <span class="nn">wx.grid</span>
+
+
+<div class="viewcode-block" id="AutoWidthLabelsGrid">
+<a class="viewcode-back" href="../../../../../api/diffpy.pdfgui.gui.wxextensions.html#diffpy.pdfgui.gui.wxextensions.autowidthlabelsgrid.AutoWidthLabelsGrid">[docs]</a>
+<span class="k">class</span> <span class="nc">AutoWidthLabelsGrid</span><span class="p">(</span><span class="n">wx</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">Grid</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;wx grid which allows lables auto sizing&quot;&quot;&quot;</span>
+
+    <span class="c1">#    def __init__(self, parent, state, size):</span>
+    <span class="c1">#        wx.grid.Grid.__init__(self, parent, state, size)</span>
+
+<div class="viewcode-block" id="AutoWidthLabelsGrid.AutosizeLabels">
+<a class="viewcode-back" href="../../../../../api/diffpy.pdfgui.gui.wxextensions.html#diffpy.pdfgui.gui.wxextensions.autowidthlabelsgrid.AutoWidthLabelsGrid.AutosizeLabels">[docs]</a>
+    <span class="k">def</span> <span class="nf">AutosizeLabels</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rows</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">cols</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="c1"># Common setup.</span>
+        <span class="n">devContext</span> <span class="o">=</span> <span class="n">wx</span><span class="o">.</span><span class="n">ScreenDC</span><span class="p">()</span>
+        <span class="n">devContext</span><span class="o">.</span><span class="n">SetFont</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">GetLabelFont</span><span class="p">())</span>
+
+        <span class="c1"># First do row labels.</span>
+        <span class="k">if</span> <span class="n">rows</span><span class="p">:</span>
+            <span class="n">maxWidth</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="n">curRow</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">GetNumberRows</span><span class="p">()</span> <span class="o">-</span> <span class="mi">1</span>
+            <span class="k">while</span> <span class="n">curRow</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">curWidth</span> <span class="o">=</span> <span class="n">devContext</span><span class="o">.</span><span class="n">GetTextExtent</span><span class="p">(</span><span class="s2">&quot;M</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">GetRowLabelValue</span><span class="p">(</span><span class="n">curRow</span><span class="p">)))[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="k">if</span> <span class="n">curWidth</span> <span class="o">&gt;</span> <span class="n">maxWidth</span><span class="p">:</span>
+                    <span class="n">maxWidth</span> <span class="o">=</span> <span class="n">curWidth</span>
+                <span class="n">curRow</span> <span class="o">=</span> <span class="n">curRow</span> <span class="o">-</span> <span class="mi">1</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">SetRowLabelSize</span><span class="p">(</span><span class="n">maxWidth</span><span class="p">)</span>
+
+        <span class="c1"># Then column labels.</span>
+        <span class="k">if</span> <span class="n">cols</span><span class="p">:</span>
+            <span class="n">maxHeight</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="n">curCol</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">GetNumberCols</span><span class="p">()</span> <span class="o">-</span> <span class="mi">1</span>
+            <span class="k">while</span> <span class="n">curCol</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">l</span><span class="p">)</span> <span class="o">=</span> <span class="n">devContext</span><span class="o">.</span><span class="n">GetFullTextExtent</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">GetColLabelValue</span><span class="p">(</span><span class="n">curCol</span><span class="p">))</span>
+                <span class="n">curHeight</span> <span class="o">=</span> <span class="n">h</span> <span class="o">+</span> <span class="n">d</span> <span class="o">+</span> <span class="n">l</span> <span class="o">+</span> <span class="mi">4</span>
+                <span class="k">if</span> <span class="n">curHeight</span> <span class="o">&gt;</span> <span class="n">maxHeight</span><span class="p">:</span>
+                    <span class="n">maxHeight</span> <span class="o">=</span> <span class="n">curHeight</span>
+                <span class="n">curCol</span> <span class="o">=</span> <span class="n">curCol</span> <span class="o">-</span> <span class="mi">1</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">SetColLabelSize</span><span class="p">(</span><span class="n">maxHeight</span><span class="p">)</span>
+        <span class="k">return</span></div>
+</div>
+
+
+
+<span class="c1"># End of class AutoWidthLabelsGrid</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, The Trustees of Columbia University in the City of New York.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

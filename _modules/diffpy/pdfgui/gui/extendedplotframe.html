@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>diffpy.pdfgui.gui.extendedplotframe &mdash; diffpy.pdfgui 3.1.0rc0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../../../_static/documentation_options.js?v=a2ca8c84"></script>
+        <script src="../../../../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../../index.html" class="icon icon-home">
+            diffpy.pdfgui
+          </a>
+              <div class="version">
+                3.1.0rc0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tutorial.html">Tutorial</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../license.html">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../release.html">Release Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../api/diffpy.pdfgui.html">Package API</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">diffpy.pdfgui</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">diffpy.pdfgui.gui.extendedplotframe</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for diffpy.pdfgui.gui.extendedplotframe</h1><div class="highlight"><pre>
+<span></span><span class="ch">#!/usr/bin/env python</span>
+<span class="c1">##############################################################################</span>
+<span class="c1">#</span>
+<span class="c1"># PDFgui            by DANSE Diffraction group</span>
+<span class="c1">#                   Simon J. L. Billinge</span>
+<span class="c1">#                   (c) 2006 trustees of the Michigan State University.</span>
+<span class="c1">#                   All rights reserved.</span>
+<span class="c1">#</span>
+<span class="c1"># File coded by:    Jiwu Liu, Chris Farrow</span>
+<span class="c1">#</span>
+<span class="c1"># See AUTHORS.txt for a list of people who contributed.</span>
+<span class="c1"># See LICENSE.txt for license information.</span>
+<span class="c1">#</span>
+<span class="c1">##############################################################################</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">The module contains extensions for GUI plot frame.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">os.path</span>
+
+<span class="kn">import</span> <span class="nn">matplotlib</span>
+<span class="kn">import</span> <span class="nn">wx</span>
+<span class="kn">from</span> <span class="nn">matplotlib.artist</span> <span class="kn">import</span> <span class="n">setp</span>
+<span class="kn">from</span> <span class="nn">matplotlib.backends.backend_wxagg</span> <span class="kn">import</span> <span class="n">FigureCanvasWxAgg</span> <span class="k">as</span> <span class="n">FigureCanvas</span>
+<span class="kn">from</span> <span class="nn">matplotlib.backends.backend_wxagg</span> <span class="kn">import</span> <span class="n">NavigationToolbar2WxAgg</span> <span class="k">as</span> <span class="n">NavToolbar</span>
+<span class="kn">from</span> <span class="nn">matplotlib.figure</span> <span class="kn">import</span> <span class="n">Figure</span>
+<span class="kn">from</span> <span class="nn">matplotlib.font_manager</span> <span class="kn">import</span> <span class="n">FontProperties</span>
+
+<span class="kn">from</span> <span class="nn">diffpy.pdfgui.gui.pdfguiglobals</span> <span class="kn">import</span> <span class="n">iconpath</span>
+<span class="kn">from</span> <span class="nn">diffpy.pdfgui.gui.wxextensions</span> <span class="kn">import</span> <span class="n">wx12</span>
+
+<span class="n">matplotlib</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s2">&quot;WXAgg&quot;</span><span class="p">)</span>
+
+<span class="n">DATA_SAVE_ID</span> <span class="o">=</span> <span class="n">wx12</span><span class="o">.</span><span class="n">NewIdRef</span><span class="p">()</span>
+
+
+<div class="viewcode-block" id="ExtendedToolbar">
+<a class="viewcode-back" href="../../../../api/diffpy.pdfgui.gui.html#diffpy.pdfgui.gui.extendedplotframe.ExtendedToolbar">[docs]</a>
+<span class="k">class</span> <span class="nc">ExtendedToolbar</span><span class="p">(</span><span class="n">NavToolbar</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;An extended plotting toolbar with a save and close button.&quot;&quot;&quot;</span>
+
+    <span class="c1"># override NavToolbar.toolitems to exclude the subplots tool.</span>
+    <span class="n">toolitems</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">el</span> <span class="k">for</span> <span class="n">el</span> <span class="ow">in</span> <span class="n">NavToolbar</span><span class="o">.</span><span class="n">toolitems</span> <span class="k">if</span> <span class="n">el</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="s2">&quot;Subplots&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">canvas</span><span class="p">):</span>
+        <span class="n">NavToolbar</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">canvas</span><span class="p">)</span>
+        <span class="n">wx12</span><span class="o">.</span><span class="n">patchToolBarMethods</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="c1"># Load customized icon image</span>
+        <span class="n">save_icon_fp</span> <span class="o">=</span> <span class="n">iconpath</span><span class="p">(</span><span class="s2">&quot;exportplotdata.png&quot;</span><span class="p">)</span>
+        <span class="n">save_icon</span> <span class="o">=</span> <span class="n">wx</span><span class="o">.</span><span class="n">Bitmap</span><span class="p">(</span><span class="n">save_icon_fp</span><span class="p">)</span>
+        <span class="c1"># Add new buttons</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">AddTool</span><span class="p">(</span><span class="n">DATA_SAVE_ID</span><span class="p">,</span> <span class="s2">&quot;Export data&quot;</span><span class="p">,</span> <span class="n">save_icon</span><span class="p">,</span> <span class="n">shortHelp</span><span class="o">=</span><span class="s2">&quot;Export plot data to file&quot;</span><span class="p">)</span>
+        <span class="k">return</span></div>
+
+
+
+<span class="c1"># End class ExtendedToolbar</span>
+
+
+<div class="viewcode-block" id="ExtendedPlotFrame">
+<a class="viewcode-back" href="../../../../api/diffpy.pdfgui.gui.html#diffpy.pdfgui.gui.extendedplotframe.ExtendedPlotFrame">[docs]</a>
+<span class="k">class</span> <span class="nc">ExtendedPlotFrame</span><span class="p">(</span><span class="n">wx</span><span class="o">.</span><span class="n">Frame</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;An extended plotting frame with a save and close button.</span>
+
+<span class="sd">    The class has a matplotlib.figure.Figure data member named &#39;figure&#39;.</span>
+<span class="sd">    It also has a matplotlib.axes.Axes data member named &#39;axes&#39;.</span>
+<span class="sd">    The normal matplotlib plot manipulations can be performed with these two</span>
+<span class="sd">    data members. See the matplotlib API at:</span>
+<span class="sd">    http://matplotlib.sourceforge.net/classdocs.html</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># keyboard shortcut(s) for closing plot window</span>
+    <span class="n">close_keys</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">matplotlib</span><span class="o">.</span><span class="n">rcParamsDefault</span><span class="p">[</span><span class="s2">&quot;keymap.quit&quot;</span><span class="p">])</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize the CanvasFrame.</span>
+
+<span class="sd">        The frame uses ExtendedToolbar as a toolbar, which has a save data</span>
+<span class="sd">        button and a close button on the toolbar in addition to the normal</span>
+<span class="sd">        buttons.</span>
+
+<span class="sd">        args -- argument list</span>
+<span class="sd">        kwargs -- keyword argument list</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">wx</span><span class="o">.</span><span class="n">Frame</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;ExtendedPlotFrame&quot;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">550</span><span class="p">,</span> <span class="mi">350</span><span class="p">))</span>
+
+        <span class="c1"># figsize in inches</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">figure</span> <span class="o">=</span> <span class="n">Figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">),</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">72</span><span class="p">)</span>
+
+        <span class="c1"># we will manage view scale ourselves</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">subplot</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">figure</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">,</span> <span class="n">autoscale_on</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">canvas</span> <span class="o">=</span> <span class="n">FigureCanvas</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">figure</span><span class="p">)</span>
+
+        <span class="c1"># Introspection data</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dirname</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">filename</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">sizer</span> <span class="o">=</span> <span class="n">wx</span><span class="o">.</span><span class="n">BoxSizer</span><span class="p">(</span><span class="n">wx</span><span class="o">.</span><span class="n">VERTICAL</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sizer</span><span class="o">.</span><span class="n">Add</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">canvas</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">TOP</span> <span class="o">|</span> <span class="n">wx</span><span class="o">.</span><span class="n">LEFT</span> <span class="o">|</span> <span class="n">wx</span><span class="o">.</span><span class="n">EXPAND</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">toolbar</span> <span class="o">=</span> <span class="n">ExtendedToolbar</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">canvas</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">toolbar</span><span class="o">.</span><span class="n">Realize</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">coordLabel</span> <span class="o">=</span> <span class="n">wx</span><span class="o">.</span><span class="n">StaticText</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="n">wx</span><span class="o">.</span><span class="n">ALIGN_RIGHT</span> <span class="o">|</span> <span class="n">wx</span><span class="o">.</span><span class="n">NO_BORDER</span><span class="p">)</span>
+        <span class="c1"># Place coordinates textbox in a horizontal sizer next to the toolbar.</span>
+        <span class="n">barSizer</span> <span class="o">=</span> <span class="n">wx</span><span class="o">.</span><span class="n">BoxSizer</span><span class="p">(</span><span class="n">wx</span><span class="o">.</span><span class="n">HORIZONTAL</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sizer</span><span class="o">.</span><span class="n">Add</span><span class="p">(</span><span class="n">barSizer</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">EXPAND</span> <span class="o">|</span> <span class="n">wx</span><span class="o">.</span><span class="n">CENTER</span><span class="p">)</span>
+        <span class="n">barSizer</span><span class="o">.</span><span class="n">Add</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">toolbar</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">CENTER</span><span class="p">)</span>
+        <span class="n">barSizer</span><span class="o">.</span><span class="n">Add</span><span class="p">((</span><span class="mi">20</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="n">barSizer</span><span class="o">.</span><span class="n">Add</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">coordLabel</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">CENTER</span><span class="p">)</span>
+
+        <span class="c1"># update the axes menu on the toolbar</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">toolbar</span><span class="o">.</span><span class="n">update</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">SetSizer</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sizer</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Fit</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">SetSize</span><span class="p">((</span><span class="mi">600</span><span class="p">,</span> <span class="mi">400</span><span class="p">))</span>
+        <span class="c1"># Use toolbar&#39;s color for coordinates label background.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">SetBackgroundColour</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">toolbar</span><span class="o">.</span><span class="n">GetBackgroundColour</span><span class="p">())</span>
+        <span class="c1"># FIXME -- toolbar background color does not match on Mac OS X.</span>
+        <span class="c1"># Use GIMP - picked color until a proper way is found.</span>
+        <span class="k">if</span> <span class="n">wx</span><span class="o">.</span><span class="n">Platform</span> <span class="o">==</span> <span class="s2">&quot;__WXMAC__&quot;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">SetBackgroundColour</span><span class="p">((</span><span class="mi">200</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="mi">255</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">canvas</span><span class="o">.</span><span class="n">mpl_connect</span><span class="p">(</span><span class="s2">&quot;motion_notify_event&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">UpdateStatusBar</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">canvas</span><span class="o">.</span><span class="n">mpl_connect</span><span class="p">(</span><span class="s2">&quot;key_press_event&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">mplKeyPress</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Bind</span><span class="p">(</span><span class="n">wx</span><span class="o">.</span><span class="n">EVT_PAINT</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">OnPaint</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Bind</span><span class="p">(</span><span class="n">wx</span><span class="o">.</span><span class="n">EVT_TOOL</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">savePlotData</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="n">DATA_SAVE_ID</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Bind</span><span class="p">(</span><span class="n">wx</span><span class="o">.</span><span class="n">EVT_CLOSE</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">onClose</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">datalims</span> <span class="o">=</span> <span class="p">{}</span>
+
+    <span class="c1"># CUSTOM METHODS ########################################################</span>
+
+    <span class="c1"># EVENT CODE #############################################################</span>
+<div class="viewcode-block" id="ExtendedPlotFrame.onClose">
+<a class="viewcode-back" href="../../../../api/diffpy.pdfgui.gui.html#diffpy.pdfgui.gui.extendedplotframe.ExtendedPlotFrame.onClose">[docs]</a>
+    <span class="k">def</span> <span class="nf">onClose</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">evt</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Close the frame.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;plotter&quot;</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">plotter</span><span class="o">.</span><span class="n">onWindowClose</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Destroy</span><span class="p">()</span>
+        <span class="k">return</span></div>
+
+
+<div class="viewcode-block" id="ExtendedPlotFrame.OnPaint">
+<a class="viewcode-back" href="../../../../api/diffpy.pdfgui.gui.html#diffpy.pdfgui.gui.extendedplotframe.ExtendedPlotFrame.OnPaint">[docs]</a>
+    <span class="k">def</span> <span class="nf">OnPaint</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">canvas</span><span class="o">.</span><span class="n">draw</span><span class="p">()</span>
+        <span class="n">event</span><span class="o">.</span><span class="n">Skip</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="ExtendedPlotFrame.savePlotData">
+<a class="viewcode-back" href="../../../../api/diffpy.pdfgui.gui.html#diffpy.pdfgui.gui.extendedplotframe.ExtendedPlotFrame.savePlotData">[docs]</a>
+    <span class="k">def</span> <span class="nf">savePlotData</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">evt</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Save the data in the plot in columns.&quot;&quot;&quot;</span>
+        <span class="n">d</span> <span class="o">=</span> <span class="n">wx</span><span class="o">.</span><span class="n">FileDialog</span><span class="p">(</span>
+            <span class="kc">None</span><span class="p">,</span>
+            <span class="s2">&quot;Save as...&quot;</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">dirname</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">filename</span><span class="p">,</span>
+            <span class="s2">&quot;(*.dat)|*.dat|(*.txt)|*.txt|(*)|*&quot;</span><span class="p">,</span>
+            <span class="n">wx</span><span class="o">.</span><span class="n">FD_SAVE</span> <span class="o">|</span> <span class="n">wx</span><span class="o">.</span><span class="n">FD_OVERWRITE_PROMPT</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="k">if</span> <span class="n">d</span><span class="o">.</span><span class="n">ShowModal</span><span class="p">()</span> <span class="o">==</span> <span class="n">wx</span><span class="o">.</span><span class="n">ID_OK</span><span class="p">:</span>
+            <span class="n">fullname</span> <span class="o">=</span> <span class="n">d</span><span class="o">.</span><span class="n">GetPath</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">dirname</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">fullname</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">filename</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">fullname</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">plotter</span><span class="o">.</span><span class="n">export</span><span class="p">(</span><span class="n">fullname</span><span class="p">)</span>
+
+        <span class="n">d</span><span class="o">.</span><span class="n">Destroy</span><span class="p">()</span>
+        <span class="k">return</span></div>
+
+
+<div class="viewcode-block" id="ExtendedPlotFrame.UpdateStatusBar">
+<a class="viewcode-back" href="../../../../api/diffpy.pdfgui.gui.html#diffpy.pdfgui.gui.extendedplotframe.ExtendedPlotFrame.UpdateStatusBar">[docs]</a>
+    <span class="k">def</span> <span class="nf">UpdateStatusBar</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">event</span><span class="o">.</span><span class="n">inaxes</span><span class="p">:</span>
+            <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">event</span><span class="o">.</span><span class="n">xdata</span><span class="p">,</span> <span class="n">event</span><span class="o">.</span><span class="n">ydata</span>
+            <span class="n">xystr</span> <span class="o">=</span> <span class="s2">&quot;x = </span><span class="si">%g</span><span class="s2">, y = </span><span class="si">%g</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">coordLabel</span><span class="o">.</span><span class="n">SetLabel</span><span class="p">(</span><span class="n">xystr</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="ExtendedPlotFrame.mplKeyPress">
+<a class="viewcode-back" href="../../../../api/diffpy.pdfgui.gui.html#diffpy.pdfgui.gui.extendedplotframe.ExtendedPlotFrame.mplKeyPress">[docs]</a>
+    <span class="k">def</span> <span class="nf">mplKeyPress</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Process keyboard input in matplotlib plot window.</span>
+
+<span class="sd">        This implements a standard close-window shortcut key.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">event</span><span class="o">.</span><span class="n">key</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">close_keys</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">Close</span><span class="p">()</span>
+        <span class="k">return</span></div>
+
+
+<div class="viewcode-block" id="ExtendedPlotFrame.replot">
+<a class="viewcode-back" href="../../../../api/diffpy.pdfgui.gui.html#diffpy.pdfgui.gui.extendedplotframe.ExtendedPlotFrame.replot">[docs]</a>
+    <span class="k">def</span> <span class="nf">replot</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;officially call function in matplotlib to do drawing&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">canvas</span><span class="o">.</span><span class="n">draw</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="ExtendedPlotFrame.insertCurve">
+<a class="viewcode-back" href="../../../../api/diffpy.pdfgui.gui.html#diffpy.pdfgui.gui.extendedplotframe.ExtendedPlotFrame.insertCurve">[docs]</a>
+    <span class="k">def</span> <span class="nf">insertCurve</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">xData</span><span class="p">,</span> <span class="n">yData</span><span class="p">,</span> <span class="n">style</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;insert a new curve to the plot</span>
+
+<span class="sd">        xData, yData -- x, y data to used for the curve</span>
+<span class="sd">        style -- the way curve should be plotted</span>
+<span class="sd">        return:  internal reference to the newly added curve</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">stylestr</span><span class="p">,</span> <span class="n">properties</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__translateStyles</span><span class="p">(</span><span class="n">style</span><span class="p">)</span>
+        <span class="n">curveRef</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">subplot</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xData</span><span class="p">,</span> <span class="n">yData</span><span class="p">,</span> <span class="n">stylestr</span><span class="p">,</span> <span class="o">**</span><span class="n">properties</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">subplot</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="o">**</span><span class="n">legendBoxProperties</span><span class="p">())</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">datalims</span><span class="p">[</span><span class="n">curveRef</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="n">xData</span><span class="p">),</span> <span class="nb">max</span><span class="p">(</span><span class="n">xData</span><span class="p">),</span> <span class="nb">min</span><span class="p">(</span><span class="n">yData</span><span class="p">),</span> <span class="nb">max</span><span class="p">(</span><span class="n">yData</span><span class="p">))</span>
+        <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">datalims</span><span class="p">[</span><span class="n">curveRef</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__updateViewLimits</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">curveRef</span></div>
+
+
+<div class="viewcode-block" id="ExtendedPlotFrame.updateData">
+<a class="viewcode-back" href="../../../../api/diffpy.pdfgui.gui.html#diffpy.pdfgui.gui.extendedplotframe.ExtendedPlotFrame.updateData">[docs]</a>
+    <span class="k">def</span> <span class="nf">updateData</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">curveRef</span><span class="p">,</span> <span class="n">xData</span><span class="p">,</span> <span class="n">yData</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;update data for a existing curve</span>
+
+<span class="sd">        curveRef -- internal reference to a curve</span>
+<span class="sd">        xData, yData -- x, y data to used for the curve</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">curveRef</span><span class="o">.</span><span class="n">set_data</span><span class="p">(</span><span class="n">xData</span><span class="p">,</span> <span class="n">yData</span><span class="p">)</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">datalims</span><span class="p">[</span><span class="n">curveRef</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="n">xData</span><span class="p">),</span> <span class="nb">max</span><span class="p">(</span><span class="n">xData</span><span class="p">),</span> <span class="nb">min</span><span class="p">(</span><span class="n">yData</span><span class="p">),</span> <span class="nb">max</span><span class="p">(</span><span class="n">yData</span><span class="p">))</span>
+        <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">datalims</span><span class="p">[</span><span class="n">curveRef</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__updateViewLimits</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="ExtendedPlotFrame.changeStyle">
+<a class="viewcode-back" href="../../../../api/diffpy.pdfgui.gui.html#diffpy.pdfgui.gui.extendedplotframe.ExtendedPlotFrame.changeStyle">[docs]</a>
+    <span class="k">def</span> <span class="nf">changeStyle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">curveRef</span><span class="p">,</span> <span class="n">style</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;change curve style</span>
+
+<span class="sd">        curveRef -- internal reference to curves</span>
+<span class="sd">        style -- style dictionary</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">stylestr</span><span class="p">,</span> <span class="n">properties</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__translateStyles</span><span class="p">(</span><span class="n">style</span><span class="p">)</span>
+        <span class="c1"># FIXME: we discard stylestr because it seems there&#39;s no way</span>
+        <span class="c1"># it can be changed afterwards.</span>
+        <span class="n">setp</span><span class="p">((</span><span class="n">curveRef</span><span class="p">,),</span> <span class="o">**</span><span class="n">properties</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">subplot</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="o">**</span><span class="n">legendBoxProperties</span><span class="p">())</span></div>
+
+
+<div class="viewcode-block" id="ExtendedPlotFrame.removeCurve">
+<a class="viewcode-back" href="../../../../api/diffpy.pdfgui.gui.html#diffpy.pdfgui.gui.extendedplotframe.ExtendedPlotFrame.removeCurve">[docs]</a>
+    <span class="k">def</span> <span class="nf">removeCurve</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">curveRef</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;remove curve from plot</span>
+
+<span class="sd">        curveRef -- internal reference to curves</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">datalims</span><span class="p">[</span><span class="n">curveRef</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">figure</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span><span class="o">.</span><span class="n">lines</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">curveRef</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">subplot</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="o">**</span><span class="n">legendBoxProperties</span><span class="p">())</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__updateViewLimits</span><span class="p">()</span></div>
+
+
+    <span class="k">def</span> <span class="nf">__updateViewLimits</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;adjust the subplot range in order to show all curves correctly.&quot;&quot;&quot;</span>
+        <span class="c1"># NOTE:</span>
+        <span class="c1"># we need to adjust view limits by ourselves because Matplotlib can&#39;t</span>
+        <span class="c1"># set the legend nicely when there are multiple curves in the plot.</span>
+        <span class="c1"># Beside, autoscale can not automatically respond to data change.</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">datalims</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span>
+        <span class="c1"># ignore previous range</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">subplot</span><span class="o">.</span><span class="n">dataLim</span><span class="o">.</span><span class="n">ignore</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">bounds</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">datalims</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+        <span class="n">xmin</span> <span class="o">=</span> <span class="nb">min</span><span class="p">([</span><span class="n">b</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">bounds</span><span class="p">])</span>
+        <span class="n">xmax</span> <span class="o">=</span> <span class="nb">max</span><span class="p">([</span><span class="n">b</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">bounds</span><span class="p">])</span>
+        <span class="n">ymin</span> <span class="o">=</span> <span class="nb">min</span><span class="p">([</span><span class="n">b</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">bounds</span><span class="p">])</span>
+        <span class="n">ymax</span> <span class="o">=</span> <span class="nb">max</span><span class="p">([</span><span class="n">b</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">bounds</span><span class="p">])</span>
+
+        <span class="c1"># If multiple curve, we need calculate new x limits because legend box</span>
+        <span class="c1"># take up some space</span>
+        <span class="c1"># NOTE: 3 and 0.33 is our best estimation for a good view</span>
+        <span class="c1"># 2007-10-25 PJ: it is better to use full plot area</span>
+        <span class="c1"># if len(self.datalims) &gt; 3:</span>
+        <span class="c1">#     # leave extra room for legend by shift the upper bound for x axis</span>
+        <span class="c1">#     xmax += (xmax-xmin)*0.33</span>
+        <span class="k">if</span> <span class="n">xmax</span> <span class="o">&gt;</span> <span class="n">xmin</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">subplot</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="n">xmin</span><span class="p">,</span> <span class="n">xmax</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">ymax</span> <span class="o">&gt;</span> <span class="n">ymin</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">subplot</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="n">ymin</span><span class="p">,</span> <span class="n">ymax</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__translateStyles</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">style</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Private function to translate general probabilities to</span>
+<span class="sd">        Matplotlib specific ones</span>
+
+<span class="sd">        style -- general curve style dictionary (defined in demoplot)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Translation dictionary</span>
+        <span class="n">lineStyleDict</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;solid&quot;</span><span class="p">:</span> <span class="s2">&quot;-&quot;</span><span class="p">,</span> <span class="s2">&quot;dash&quot;</span><span class="p">:</span> <span class="s2">&quot;--&quot;</span><span class="p">,</span> <span class="s2">&quot;dot&quot;</span><span class="p">:</span> <span class="s2">&quot;:&quot;</span><span class="p">,</span> <span class="s2">&quot;dashDot&quot;</span><span class="p">:</span> <span class="s2">&quot;-.&quot;</span><span class="p">}</span>
+        <span class="n">symbolDict</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;diamond&quot;</span><span class="p">:</span> <span class="s2">&quot;d&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;square&quot;</span><span class="p">:</span> <span class="s2">&quot;s&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;circle&quot;</span><span class="p">:</span> <span class="s2">&quot;o&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;cross&quot;</span><span class="p">:</span> <span class="s2">&quot;+&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;xCross&quot;</span><span class="p">:</span> <span class="s2">&quot;x&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;triangle&quot;</span><span class="p">:</span> <span class="s2">&quot;^&quot;</span><span class="p">,</span>
+        <span class="p">}</span>
+        <span class="n">colorDict</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;blue&quot;</span><span class="p">:</span> <span class="s2">&quot;b&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;green&quot;</span><span class="p">:</span> <span class="s2">&quot;g&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;red&quot;</span><span class="p">:</span> <span class="s2">&quot;r&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;cyan&quot;</span><span class="p">:</span> <span class="s2">&quot;c&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;magenta&quot;</span><span class="p">:</span> <span class="s2">&quot;m&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;yellow&quot;</span><span class="p">:</span> <span class="s2">&quot;y&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;black&quot;</span><span class="p">:</span> <span class="s2">&quot;k&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;white&quot;</span><span class="p">:</span> <span class="s2">&quot;w&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;darkRed&quot;</span><span class="p">:</span> <span class="s2">&quot;#8B0000&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;darkGreen&quot;</span><span class="p">:</span> <span class="s2">&quot;#006400&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;darkCyan&quot;</span><span class="p">:</span> <span class="s2">&quot;#008B8B&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;darkYellow&quot;</span><span class="p">:</span> <span class="s2">&quot;#FFD700&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;darkBlue&quot;</span><span class="p">:</span> <span class="s2">&quot;#00008B&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;darkMagenta&quot;</span><span class="p">:</span> <span class="s2">&quot;#8B008B&quot;</span><span class="p">,</span>
+        <span class="p">}</span>
+
+        <span class="n">properties</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="c1"># NOTE: matplotlib takes additional string for plotting. It&#39;s</span>
+        <span class="c1"># purpose is like &#39;with&#39; in Gnuplot</span>
+        <span class="n">stylestr</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+        <span class="c1"># color is universal for either lines, points or linepoints</span>
+        <span class="n">color</span> <span class="o">=</span> <span class="n">colorDict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">style</span><span class="p">[</span><span class="s2">&quot;color&quot;</span><span class="p">],</span> <span class="s2">&quot;k&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">style</span><span class="p">[</span><span class="s2">&quot;with&quot;</span><span class="p">]</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;points&quot;</span><span class="p">,</span> <span class="s2">&quot;linespoints&quot;</span><span class="p">):</span>
+            <span class="c1"># require symbol properties</span>
+            <span class="n">stylestr</span> <span class="o">=</span> <span class="s2">&quot;.&quot;</span>
+            <span class="n">symbol</span> <span class="o">=</span> <span class="n">symbolDict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">style</span><span class="p">[</span><span class="s2">&quot;symbol&quot;</span><span class="p">],</span> <span class="s2">&quot;s&quot;</span><span class="p">)</span>  <span class="c1"># prefer square</span>
+            <span class="n">symbolSize</span> <span class="o">=</span> <span class="n">style</span><span class="p">[</span><span class="s2">&quot;symbolSize&quot;</span><span class="p">]</span>
+            <span class="n">symbolColor</span> <span class="o">=</span> <span class="n">colorDict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">style</span><span class="p">[</span><span class="s2">&quot;symbolColor&quot;</span><span class="p">],</span> <span class="s2">&quot;k&quot;</span><span class="p">)</span>
+            <span class="n">properties</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
+                <span class="p">{</span>  <span class="c1"># &#39;linewidth&#39;:0.0, # doesn&#39;t affect any</span>
+                    <span class="s2">&quot;markerfacecolor&quot;</span><span class="p">:</span> <span class="n">symbolColor</span><span class="p">,</span>
+                    <span class="s2">&quot;markeredgecolor&quot;</span><span class="p">:</span> <span class="n">color</span><span class="p">,</span>
+                    <span class="s2">&quot;marker&quot;</span><span class="p">:</span> <span class="n">symbol</span><span class="p">,</span>
+                    <span class="s2">&quot;markersize&quot;</span><span class="p">:</span> <span class="n">symbolSize</span><span class="p">,</span>
+                <span class="p">}</span>
+            <span class="p">)</span>
+        <span class="k">if</span> <span class="n">style</span><span class="p">[</span><span class="s2">&quot;with&quot;</span><span class="p">]</span> <span class="o">!=</span> <span class="s2">&quot;points&quot;</span><span class="p">:</span>
+            <span class="c1"># not &#39;points&#39;, so line properties are required as well</span>
+            <span class="n">lineStyle</span> <span class="o">=</span> <span class="n">lineStyleDict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">style</span><span class="p">[</span><span class="s2">&quot;line&quot;</span><span class="p">],</span> <span class="s2">&quot;-&quot;</span><span class="p">)</span>  <span class="c1"># prefer solid</span>
+            <span class="n">lineWidth</span> <span class="o">=</span> <span class="n">style</span><span class="p">[</span><span class="s2">&quot;width&quot;</span><span class="p">]</span>
+            <span class="n">stylestr</span> <span class="o">+=</span> <span class="n">lineStyle</span>
+            <span class="n">properties</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s2">&quot;color&quot;</span><span class="p">:</span> <span class="n">color</span><span class="p">,</span> <span class="s2">&quot;linestyle&quot;</span><span class="p">:</span> <span class="n">lineStyle</span><span class="p">,</span> <span class="s2">&quot;linewidth&quot;</span><span class="p">:</span> <span class="n">lineWidth</span><span class="p">})</span>
+
+        <span class="k">if</span> <span class="s2">&quot;legend&quot;</span> <span class="ow">in</span> <span class="n">style</span><span class="p">:</span>
+            <span class="n">properties</span><span class="p">[</span><span class="s2">&quot;label&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">style</span><span class="p">[</span><span class="s2">&quot;legend&quot;</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">stylestr</span><span class="p">,</span> <span class="n">properties</span>
+
+<div class="viewcode-block" id="ExtendedPlotFrame.setTitle">
+<a class="viewcode-back" href="../../../../api/diffpy.pdfgui.gui.html#diffpy.pdfgui.gui.extendedplotframe.ExtendedPlotFrame.setTitle">[docs]</a>
+    <span class="k">def</span> <span class="nf">setTitle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">wt</span><span class="p">,</span> <span class="n">gt</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;set graph labels</span>
+
+<span class="sd">        wt -- window title</span>
+<span class="sd">        gt -- graph title</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">SetTitle</span><span class="p">(</span><span class="n">wt</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">figure</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">gt</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="ExtendedPlotFrame.setXLabel">
+<a class="viewcode-back" href="../../../../api/diffpy.pdfgui.gui.html#diffpy.pdfgui.gui.extendedplotframe.ExtendedPlotFrame.setXLabel">[docs]</a>
+    <span class="k">def</span> <span class="nf">setXLabel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;set label for x axis</span>
+
+<span class="sd">        x -- x label</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">figure</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="n">x</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="ExtendedPlotFrame.setYLabel">
+<a class="viewcode-back" href="../../../../api/diffpy.pdfgui.gui.html#diffpy.pdfgui.gui.extendedplotframe.ExtendedPlotFrame.setYLabel">[docs]</a>
+    <span class="k">def</span> <span class="nf">setYLabel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;set label for y axis</span>
+
+<span class="sd">        y -- y label</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">figure</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="n">y</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="ExtendedPlotFrame.clear">
+<a class="viewcode-back" href="../../../../api/diffpy.pdfgui.gui.html#diffpy.pdfgui.gui.extendedplotframe.ExtendedPlotFrame.clear">[docs]</a>
+    <span class="k">def</span> <span class="nf">clear</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;erase all curves&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">subplot</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">curverefs</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">replot</span><span class="p">()</span></div>
+</div>
+
+
+
+<span class="c1"># End class ExtendedPlotFrame</span>
+
+
+<div class="viewcode-block" id="legendBoxProperties">
+<a class="viewcode-back" href="../../../../api/diffpy.pdfgui.gui.html#diffpy.pdfgui.gui.extendedplotframe.legendBoxProperties">[docs]</a>
+<span class="k">def</span> <span class="nf">legendBoxProperties</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Legend properties dictionary with keys consistent with MPL version.</span>
+
+<span class="sd">    The argument names have changed in matplotlib 0.98.5.</span>
+<span class="sd">    Old arguments do not work with later versions of matplotlib.</span>
+
+<span class="sd">    Return dictionary of legend properties.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">global</span> <span class="n">_lbp</span>
+    <span class="c1"># return immediately if properties have already been cached</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">_lbp</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">_lbp</span>
+    <span class="c1">#  figure out matplotlib version and appropriate names</span>
+    <span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">__version__</span> <span class="k">as</span> <span class="n">mplver</span>
+    <span class="kn">from</span> <span class="nn">packaging.version</span> <span class="kn">import</span> <span class="n">parse</span>
+
+    <span class="k">if</span> <span class="n">parse</span><span class="p">(</span><span class="n">mplver</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="n">parse</span><span class="p">(</span><span class="s2">&quot;0.98.5&quot;</span><span class="p">):</span>
+        <span class="n">_lbp</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;loc&quot;</span><span class="p">:</span> <span class="s2">&quot;upper right&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;numpoints&quot;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>  <span class="c1"># number of points in the legend line</span>
+            <span class="s2">&quot;borderpad&quot;</span><span class="p">:</span> <span class="mf">0.25</span><span class="p">,</span>  <span class="c1"># whitespace in the legend border</span>
+            <span class="s2">&quot;labelspacing&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>  <span class="c1"># space between legend entries</span>
+            <span class="s2">&quot;handlelength&quot;</span><span class="p">:</span> <span class="mf">1.5</span><span class="p">,</span>  <span class="c1"># the length of the legend lines</span>
+            <span class="s2">&quot;handletextpad&quot;</span><span class="p">:</span> <span class="mf">0.5</span><span class="p">,</span>  <span class="c1"># separation between line and text</span>
+            <span class="s2">&quot;prop&quot;</span><span class="p">:</span> <span class="n">FontProperties</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="s2">&quot;medium&quot;</span><span class="p">),</span>
+        <span class="p">}</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">_lbp</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;loc&quot;</span><span class="p">:</span> <span class="s2">&quot;upper right&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;numpoints&quot;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>  <span class="c1"># number of points in the legend line</span>
+            <span class="s2">&quot;pad&quot;</span><span class="p">:</span> <span class="mf">0.20</span><span class="p">,</span>  <span class="c1"># whitespace in the legend border</span>
+            <span class="s2">&quot;labelsep&quot;</span><span class="p">:</span> <span class="mf">0.005</span><span class="p">,</span>  <span class="c1"># space between legend entries</span>
+            <span class="s2">&quot;handlelen&quot;</span><span class="p">:</span> <span class="mf">0.03</span><span class="p">,</span>  <span class="c1"># the length of the legend lines</span>
+            <span class="s2">&quot;handletextsep&quot;</span><span class="p">:</span> <span class="mf">0.02</span><span class="p">,</span>  <span class="c1"># separation between line and text</span>
+            <span class="s2">&quot;prop&quot;</span><span class="p">:</span> <span class="n">FontProperties</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="s2">&quot;medium&quot;</span><span class="p">),</span>
+        <span class="p">}</span>
+    <span class="k">return</span> <span class="n">_lbp</span></div>
+
+
+
+<span class="n">_lbp</span> <span class="o">=</span> <span class="p">{}</span>
+
+<span class="c1"># End of legendBoxProperties</span>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+
+    <span class="k">class</span> <span class="nc">MyApp</span><span class="p">(</span><span class="n">wx</span><span class="o">.</span><span class="n">App</span><span class="p">):</span>
+        <span class="k">def</span> <span class="nf">OnInit</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+            <span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">arange</span><span class="p">,</span> <span class="n">cos</span><span class="p">,</span> <span class="n">pi</span><span class="p">,</span> <span class="n">sin</span>
+
+            <span class="s2">&quot;Create the main window and insert the custom frame&quot;</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="n">arange</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">)</span>
+            <span class="n">s</span> <span class="o">=</span> <span class="n">sin</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">pi</span> <span class="o">*</span> <span class="n">x</span><span class="p">)</span>
+            <span class="n">c</span> <span class="o">=</span> <span class="n">cos</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">pi</span> <span class="o">*</span> <span class="n">x</span><span class="p">)</span>
+            <span class="n">t</span> <span class="o">=</span> <span class="n">sin</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">pi</span> <span class="o">*</span> <span class="n">x</span><span class="p">)</span> <span class="o">+</span> <span class="n">cos</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">pi</span> <span class="o">*</span> <span class="n">x</span><span class="p">)</span>
+            <span class="n">frame</span> <span class="o">=</span> <span class="n">ExtendedPlotFrame</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
+            <span class="n">style</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;with&quot;</span><span class="p">:</span> <span class="s2">&quot;lines&quot;</span><span class="p">,</span> <span class="s2">&quot;color&quot;</span><span class="p">:</span> <span class="s2">&quot;blue&quot;</span><span class="p">,</span> <span class="s2">&quot;line&quot;</span><span class="p">:</span> <span class="s2">&quot;solid&quot;</span><span class="p">,</span> <span class="s2">&quot;width&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">}</span>
+            <span class="n">style</span><span class="p">[</span><span class="s2">&quot;legend&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;sin(x)&quot;</span>
+            <span class="n">frame</span><span class="o">.</span><span class="n">insertCurve</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">style</span><span class="p">)</span>
+            <span class="n">style</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;with&quot;</span><span class="p">:</span> <span class="s2">&quot;lines&quot;</span><span class="p">,</span> <span class="s2">&quot;color&quot;</span><span class="p">:</span> <span class="s2">&quot;red&quot;</span><span class="p">,</span> <span class="s2">&quot;line&quot;</span><span class="p">:</span> <span class="s2">&quot;solid&quot;</span><span class="p">,</span> <span class="s2">&quot;width&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">}</span>
+            <span class="n">style</span><span class="p">[</span><span class="s2">&quot;legend&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;cos(x)&quot;</span>
+            <span class="n">frame</span><span class="o">.</span><span class="n">insertCurve</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">style</span><span class="p">)</span>
+            <span class="n">style</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;with&quot;</span><span class="p">:</span> <span class="s2">&quot;lines&quot;</span><span class="p">,</span> <span class="s2">&quot;color&quot;</span><span class="p">:</span> <span class="s2">&quot;black&quot;</span><span class="p">,</span> <span class="s2">&quot;line&quot;</span><span class="p">:</span> <span class="s2">&quot;solid&quot;</span><span class="p">,</span> <span class="s2">&quot;width&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">}</span>
+            <span class="c1"># style[&#39;legend&#39;] = &#39;sin(x)+cos(x)&#39;</span>
+            <span class="n">frame</span><span class="o">.</span><span class="n">insertCurve</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">style</span><span class="p">)</span>
+            <span class="n">frame</span><span class="o">.</span><span class="n">Show</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">True</span>
+
+    <span class="n">app</span> <span class="o">=</span> <span class="n">MyApp</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">app</span><span class="o">.</span><span class="n">MainLoop</span><span class="p">()</span>
+
+
+<span class="c1"># End of file</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, The Trustees of Columbia University in the City of New York.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

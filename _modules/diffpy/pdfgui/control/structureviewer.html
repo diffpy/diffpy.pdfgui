@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>diffpy.pdfgui.control.structureviewer &mdash; diffpy.pdfgui 3.1.0rc0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../../../_static/documentation_options.js?v=a2ca8c84"></script>
+        <script src="../../../../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../../index.html" class="icon icon-home">
+            diffpy.pdfgui
+          </a>
+              <div class="version">
+                3.1.0rc0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tutorial.html">Tutorial</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../license.html">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../release.html">Release Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../api/diffpy.pdfgui.html">Package API</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">diffpy.pdfgui</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">diffpy.pdfgui.control.structureviewer</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for diffpy.pdfgui.control.structureviewer</h1><div class="highlight"><pre>
+<span></span><span class="ch">#!/usr/bin/env python</span>
+<span class="c1">##############################################################################</span>
+<span class="c1">#</span>
+<span class="c1"># diffpy.pdfgui     by DANSE Diffraction group</span>
+<span class="c1">#                   Simon J. L. Billinge</span>
+<span class="c1">#                   (c) 2009-2024 Trustees of the Columbia University</span>
+<span class="c1">#                   in the City of New York.  All rights reserved.</span>
+<span class="c1">#</span>
+<span class="c1"># File coded by:    Pavol Juhas</span>
+<span class="c1">#</span>
+<span class="c1"># See AUTHORS.txt for a list of people who contributed.</span>
+<span class="c1"># See LICENSE.txt for license information.</span>
+<span class="c1">#</span>
+<span class="c1">##############################################################################</span>
+
+<span class="sd">&quot;&quot;&quot;Structure plotting in an external viewer process.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">print_function</span>
+
+<span class="kn">import</span> <span class="nn">os.path</span>
+<span class="kn">import</span> <span class="nn">shutil</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">tempfile</span>
+
+<span class="kn">from</span> <span class="nn">diffpy.pdfgui.control.controlerrors</span> <span class="kn">import</span> <span class="n">ControlConfigError</span>
+
+
+<div class="viewcode-block" id="getStructureViewer">
+<a class="viewcode-back" href="../../../../api/diffpy.pdfgui.control.html#diffpy.pdfgui.control.structureviewer.getStructureViewer">[docs]</a>
+<span class="k">def</span> <span class="nf">getStructureViewer</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Factory returning singleton instance of the StructureViewer class.&quot;&quot;&quot;</span>
+    <span class="k">global</span> <span class="n">_struviewer</span>
+    <span class="k">if</span> <span class="n">_struviewer</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">_struviewer</span> <span class="o">=</span> <span class="n">StructureViewer</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">_struviewer</span></div>
+
+
+
+<span class="n">_struviewer</span> <span class="o">=</span> <span class="kc">None</span>
+
+
+<div class="viewcode-block" id="StructureViewer">
+<a class="viewcode-back" href="../../../../api/diffpy.pdfgui.control.html#diffpy.pdfgui.control.structureviewer.StructureViewer">[docs]</a>
+<span class="k">class</span> <span class="nc">StructureViewer</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Class for plotting structure in general structure viewer.</span>
+<span class="sd">    It takes care of creating temporary structure file in a desired</span>
+<span class="sd">    format and launching structure viewer as a background process.</span>
+<span class="sd">    The temporary files are removed when StructureViewer instance</span>
+<span class="sd">    goes out of scope.</span>
+
+<span class="sd">    Data attributes:</span>
+
+<span class="sd">    executable -- full path to the structure viewer executable or an executable</span>
+<span class="sd">                  that can be found in system PATH.  By default &#39;&#39; (not set).</span>
+<span class="sd">    argstr     -- argument string for the viewer program, it can use shell</span>
+<span class="sd">                  quoting.  Instances of &#39;%s&#39; in the string are replaced with</span>
+<span class="sd">                  temporary structure file.  By default &#39;%s&#39;</span>
+<span class="sd">    fileformat -- structure format that can be loaded by the viewer.</span>
+<span class="sd">                  Must be one of output formats supported by diffpy.structure</span>
+<span class="sd">                  package.  By default &#39;pdb&#39;.</span>
+<span class="sd">    _tmpdir    -- Temporary directory for structure files opened by the viewer.</span>
+<span class="sd">                  tmpdir is None before the first call to plot.  The directory</span>
+<span class="sd">                  and everything inside is removed when StructureViewer goes</span>
+<span class="sd">                  out of the scope.</span>
+<span class="sd">    _plotcount -- Number of plots created by this viewer.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">executable</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">argstr</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">fileformat</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create StructureViewer instance.  All arguments are optional,</span>
+<span class="sd">        they override defaults described in class docstring.  The</span>
+<span class="sd">        configuration can be changed later using setConfig method.</span>
+
+
+<span class="sd">        executable -- path to the structure viewer executable</span>
+<span class="sd">        argstr     -- argument string for the viewer program, it can use</span>
+<span class="sd">                      shell quoting.  Instances of &#39;%s&#39; are replaced with</span>
+<span class="sd">                      temporary structure file.</span>
+<span class="sd">        fileformat -- structure format supported by diffpy.structure package.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># declare instance data</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">executable</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">argstr</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">%s</span><span class="s2">&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fileformat</span> <span class="o">=</span> <span class="s2">&quot;pdb&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_tmpdir</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_plotcount</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="c1"># process arguments:</span>
+        <span class="k">if</span> <span class="n">executable</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">executable</span> <span class="o">=</span> <span class="n">executable</span>
+        <span class="k">if</span> <span class="n">argstr</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">argstr</span> <span class="o">=</span> <span class="n">argstr</span>
+        <span class="k">if</span> <span class="n">fileformat</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">fileformat</span> <span class="o">=</span> <span class="n">fileformat</span>
+        <span class="c1"># finish every method with return</span>
+        <span class="k">return</span>
+
+<div class="viewcode-block" id="StructureViewer.getConfig">
+<a class="viewcode-back" href="../../../../api/diffpy.pdfgui.control.html#diffpy.pdfgui.control.structureviewer.StructureViewer.getConfig">[docs]</a>
+    <span class="k">def</span> <span class="nf">getConfig</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return current configuration of StructureViewer instance.</span>
+
+<span class="sd">        Returns new dictionary with the following keys:</span>
+<span class="sd">        (&#39;executable&#39;, &#39;argstr&#39;, &#39;fileformat&#39;)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">cfgkeys</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;executable&quot;</span><span class="p">,</span> <span class="s2">&quot;argstr&quot;</span><span class="p">,</span> <span class="s2">&quot;fileformat&quot;</span><span class="p">)</span>
+        <span class="n">kv</span> <span class="o">=</span> <span class="p">[(</span><span class="n">k</span><span class="p">,</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">))</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">cfgkeys</span><span class="p">]</span>
+        <span class="n">rv</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">kv</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">rv</span></div>
+
+
+<div class="viewcode-block" id="StructureViewer.setConfig">
+<a class="viewcode-back" href="../../../../api/diffpy.pdfgui.control.html#diffpy.pdfgui.control.structureviewer.StructureViewer.setConfig">[docs]</a>
+    <span class="k">def</span> <span class="nf">setConfig</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cfg</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Configure StructureViewer instance using values in a dictionary.</span>
+
+<span class="sd">        cfg     -- configuration dictionary, with the same keys as returned</span>
+<span class="sd">                   by getConfig().  Any other keys are ignored.</span>
+
+<span class="sd">        No return value.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># iterate over keys from getConfig dictionary</span>
+        <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">getConfig</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">cfg</span><span class="p">:</span>
+                <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">cfg</span><span class="p">[</span><span class="n">k</span><span class="p">])</span>
+        <span class="k">return</span></div>
+
+
+<div class="viewcode-block" id="StructureViewer.getFileFormats">
+<a class="viewcode-back" href="../../../../api/diffpy.pdfgui.control.html#diffpy.pdfgui.control.structureviewer.StructureViewer.getFileFormats">[docs]</a>
+    <span class="k">def</span> <span class="nf">getFileFormats</span><span class="p">():</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return list of valid values for the fileformat attribute.&quot;&quot;&quot;</span>
+        <span class="kn">from</span> <span class="nn">diffpy.structure.parsers</span> <span class="kn">import</span> <span class="n">outputFormats</span>
+
+        <span class="k">return</span> <span class="n">outputFormats</span><span class="p">()</span></div>
+
+
+    <span class="n">getFileFormats</span> <span class="o">=</span> <span class="nb">staticmethod</span><span class="p">(</span><span class="n">getFileFormats</span><span class="p">)</span>
+
+<div class="viewcode-block" id="StructureViewer.plot">
+<a class="viewcode-back" href="../../../../api/diffpy.pdfgui.control.html#diffpy.pdfgui.control.structureviewer.StructureViewer.plot">[docs]</a>
+    <span class="k">def</span> <span class="nf">plot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">stru</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Launch new structure viewer and open a temporary copy of stru.</span>
+
+<span class="sd">        stru    -- instance of Structure class from diffpy.structure</span>
+
+<span class="sd">        No return value.</span>
+<span class="sd">        Raise ControlConfigError if structure viewer could not be launched.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">import</span> <span class="nn">subprocess</span>
+
+        <span class="c1"># check if executable has been set</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">executable</span><span class="p">:</span>
+            <span class="n">emsg</span> <span class="o">=</span> <span class="s2">&quot;StructureViewer program has not been set.&quot;</span>
+            <span class="k">raise</span> <span class="n">ControlConfigError</span><span class="p">(</span><span class="n">emsg</span><span class="p">)</span>
+        <span class="c1"># create temporary structure file</span>
+        <span class="n">strupath</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_writeTemporaryStructure</span><span class="p">(</span><span class="n">stru</span><span class="p">)</span>
+        <span class="n">args</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">executable</span><span class="p">]</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">_getArgumentList</span><span class="p">(</span><span class="n">strupath</span><span class="p">)</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">subprocess</span><span class="o">.</span><span class="n">Popen</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">OSError</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
+            <span class="n">emsg</span> <span class="o">=</span> <span class="s2">&quot;Error executing StructureViewer </span><span class="si">%s</span><span class="s2">: </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">executable</span><span class="p">,</span> <span class="n">err</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">ControlConfigError</span><span class="p">(</span><span class="n">emsg</span><span class="p">)</span>
+        <span class="k">return</span></div>
+
+
+    <span class="k">def</span> <span class="fm">__del__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Remove temporary files created by this instance of StructureViewer.&quot;&quot;&quot;</span>
+        <span class="c1"># short circuit if nothing has been created</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_tmpdir</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span>
+
+        <span class="c1"># Function for showing unremovable files</span>
+        <span class="k">def</span> <span class="nf">onerror</span><span class="p">(</span><span class="n">fnc</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">error</span><span class="p">):</span>
+            <span class="nb">print</span><span class="p">((</span><span class="s2">&quot;Cannot remove </span><span class="si">%s</span><span class="s2"> - </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">error</span><span class="p">)),</span> <span class="n">file</span><span class="o">=</span><span class="n">sys</span><span class="o">.</span><span class="n">stderr</span><span class="p">)</span>
+            <span class="k">return</span>
+
+        <span class="c1"># For safety remove _tmpdir subdirectories by their names</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_plotcount</span><span class="p">):</span>
+            <span class="n">di</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_tmpdir</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">%04i</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">i</span><span class="p">)</span>
+            <span class="n">shutil</span><span class="o">.</span><span class="n">rmtree</span><span class="p">(</span><span class="n">di</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="n">onerror</span><span class="p">)</span>
+        <span class="c1"># finally remove _tmpdir, which should now be empty</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">rmdir</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_tmpdir</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">OSError</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
+            <span class="n">onerror</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_tmpdir</span><span class="p">,</span> <span class="n">err</span><span class="p">)</span>
+            <span class="k">pass</span>
+        <span class="k">return</span>
+
+    <span class="k">def</span> <span class="nf">_getArgumentList</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">strupath</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Convert self.argstr to a list of string arguments.</span>
+
+<span class="sd">        strupath -- path to temporary structure file.  Replaces every</span>
+<span class="sd">                    instance of &#39;%s&#39; in self.argstr.</span>
+
+<span class="sd">        Return list of arguments (not including the viewer executable).</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">import</span> <span class="nn">re</span>
+        <span class="kn">import</span> <span class="nn">shlex</span>
+
+        <span class="c1"># make sure shlex.split is not called with None, because</span>
+        <span class="c1"># it would read standard input</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">argstr</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">argstr</span> <span class="ow">or</span> <span class="s2">&quot;&quot;</span>
+        <span class="n">args</span> <span class="o">=</span> <span class="n">shlex</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+        <span class="c1"># substitute strupath in args using % operator</span>
+        <span class="n">pat</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;(?&lt;!%)(</span><span class="si">%%</span><span class="s2">)*</span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">a</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">args</span><span class="p">):</span>
+            <span class="c1"># count instances of &#39;%s&#39; in argument a</span>
+            <span class="n">cnt</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">pat</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="n">a</span><span class="p">))</span>
+            <span class="n">tpl</span> <span class="o">=</span> <span class="n">cnt</span> <span class="o">*</span> <span class="p">(</span><span class="n">strupath</span><span class="p">,)</span>
+            <span class="n">args</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">a</span> <span class="o">%</span> <span class="n">tpl</span>
+        <span class="k">return</span> <span class="n">args</span>
+
+    <span class="k">def</span> <span class="nf">_writeTemporaryStructure</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">stru</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create new temporary structure file in specified fileformat.</span>
+
+<span class="sd">        stru -- instance of Structure class</span>
+
+<span class="sd">        Return full path to the temporary file.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># get extension preferred by fileformat</span>
+        <span class="kn">from</span> <span class="nn">diffpy.structure.parsers</span> <span class="kn">import</span> <span class="n">parser_index</span>
+
+        <span class="n">ffext</span> <span class="o">=</span> <span class="n">parser_index</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">fileformat</span><span class="p">][</span><span class="s2">&quot;file_extension&quot;</span><span class="p">]</span>
+        <span class="n">d</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_createTemporaryDirectory</span><span class="p">()</span>
+        <span class="c1"># Use a simple file name to avoid naming errors. It is common to put</span>
+        <span class="c1"># the space group name, such as &quot;C2\m&quot; in the structure title. This</span>
+        <span class="c1"># may lead to invalid posix file names.</span>
+        <span class="n">strutail</span> <span class="o">=</span> <span class="s2">&quot;structure&quot;</span> <span class="o">+</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
+        <span class="n">struext</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">strutail</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">struext</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">!=</span> <span class="n">ffext</span><span class="o">.</span><span class="n">lower</span><span class="p">():</span>
+            <span class="n">strutail</span> <span class="o">+=</span> <span class="n">ffext</span>
+        <span class="n">strupath</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">strutail</span><span class="p">)</span>
+        <span class="n">stru</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">strupath</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">fileformat</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">strupath</span>
+
+    <span class="k">def</span> <span class="nf">_createTemporaryDirectory</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create new numbered temporary directory below self._tmpdir.</span>
+
+<span class="sd">        Create _tmpdir if it does not exist yet.</span>
+
+<span class="sd">        Return full path to the new temporary directory.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_tmpdir</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_tmpdir</span> <span class="o">=</span> <span class="n">tempfile</span><span class="o">.</span><span class="n">mkdtemp</span><span class="p">()</span>
+        <span class="n">dname</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">%04i</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">_plotcount</span>
+        <span class="n">dpath</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_tmpdir</span><span class="p">,</span> <span class="n">dname</span><span class="p">)</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">dpath</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_plotcount</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">return</span> <span class="n">dpath</span></div>
+
+
+
+<span class="c1"># End of class StructureViewer</span>
+
+<span class="c1"># End of file.</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, The Trustees of Columbia University in the City of New York.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

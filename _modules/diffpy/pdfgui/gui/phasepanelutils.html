@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>diffpy.pdfgui.gui.phasepanelutils &mdash; diffpy.pdfgui 3.1.0rc0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../../../_static/documentation_options.js?v=a2ca8c84"></script>
+        <script src="../../../../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../../index.html" class="icon icon-home">
+            diffpy.pdfgui
+          </a>
+              <div class="version">
+                3.1.0rc0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tutorial.html">Tutorial</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../license.html">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../release.html">Release Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../api/diffpy.pdfgui.html">Package API</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">diffpy.pdfgui</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">diffpy.pdfgui.gui.phasepanelutils</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for diffpy.pdfgui.gui.phasepanelutils</h1><div class="highlight"><pre>
+<span></span><span class="ch">#!/usr/bin/env python</span>
+<span class="c1">##############################################################################</span>
+<span class="c1">#</span>
+<span class="c1"># PDFgui            by DANSE Diffraction group</span>
+<span class="c1">#                   Simon J. L. Billinge</span>
+<span class="c1">#                   (c) 2006 trustees of the Michigan State University.</span>
+<span class="c1">#                   All rights reserved.</span>
+<span class="c1">#</span>
+<span class="c1"># File coded by:    Chris Farrow</span>
+<span class="c1">#</span>
+<span class="c1"># See AUTHORS.txt for a list of people who contributed.</span>
+<span class="c1"># See LICENSE.txt for license information.</span>
+<span class="c1">#</span>
+<span class="c1">##############################################################################</span>
+
+<span class="sd">&quot;&quot;&quot;Common methods used in the phase panels.&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">wx</span>
+
+<span class="kn">from</span> <span class="nn">diffpy.utils.wx</span> <span class="kn">import</span> <span class="n">gridutils</span>
+
+<span class="c1"># List of row entries taken from the clipboard</span>
+<span class="n">clipcells</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="c1"># String describing what atoms should be selected.</span>
+<span class="n">selected_atoms</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+
+
+<div class="viewcode-block" id="float2str">
+<a class="viewcode-back" href="../../../../api/diffpy.pdfgui.gui.html#diffpy.pdfgui.gui.phasepanelutils.float2str">[docs]</a>
+<span class="k">def</span> <span class="nf">float2str</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;compact string representation of float&quot;&quot;&quot;</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">%g</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">x</span>
+    <span class="k">if</span> <span class="n">s</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span> <span class="ow">and</span> <span class="n">s</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;e&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="n">s</span> <span class="o">+</span> <span class="s2">&quot;.0&quot;</span>
+    <span class="k">return</span> <span class="n">s</span></div>
+
+
+
+<div class="viewcode-block" id="refreshTextCtrls">
+<a class="viewcode-back" href="../../../../api/diffpy.pdfgui.gui.html#diffpy.pdfgui.gui.phasepanelutils.refreshTextCtrls">[docs]</a>
+<span class="k">def</span> <span class="nf">refreshTextCtrls</span><span class="p">(</span><span class="n">panel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Refreshes the TextCtrls on the panel.</span>
+
+<span class="sd">    This is used by phaseconfigurepanel and phaseresultspanel.</span>
+
+<span class="sd">    This method updates the following TextCtrls with with contents of the</span>
+<span class="sd">    structure member variable of the panel.</span>
+<span class="sd">    textCtrlA</span>
+<span class="sd">    textCtrlB</span>
+<span class="sd">    textCtrlC</span>
+<span class="sd">    textCtrlAlpha</span>
+<span class="sd">    textCtrlBeta</span>
+<span class="sd">    textCtrlGamma</span>
+<span class="sd">    textCtrlScaleFactor</span>
+<span class="sd">    textCtrlDelta1</span>
+<span class="sd">    textCtrlDelta2</span>
+<span class="sd">    textCtrlSratio</span>
+<span class="sd">    textCtrlRcut</span>
+<span class="sd">    textCtrlStepcut</span>
+<span class="sd">    textCtrlSpdiameter</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">panel</span><span class="o">.</span><span class="n">structure</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="c1"># clear textcontrols</span>
+        <span class="n">panel</span><span class="o">.</span><span class="n">textCtrlA</span><span class="o">.</span><span class="n">SetValue</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+        <span class="n">panel</span><span class="o">.</span><span class="n">textCtrlB</span><span class="o">.</span><span class="n">SetValue</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+        <span class="n">panel</span><span class="o">.</span><span class="n">textCtrlC</span><span class="o">.</span><span class="n">SetValue</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+        <span class="n">panel</span><span class="o">.</span><span class="n">textCtrlAlpha</span><span class="o">.</span><span class="n">SetValue</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+        <span class="n">panel</span><span class="o">.</span><span class="n">textCtrlBeta</span><span class="o">.</span><span class="n">SetValue</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+        <span class="n">panel</span><span class="o">.</span><span class="n">textCtrlGamma</span><span class="o">.</span><span class="n">SetValue</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+        <span class="n">panel</span><span class="o">.</span><span class="n">textCtrlScaleFactor</span><span class="o">.</span><span class="n">SetValue</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+        <span class="n">panel</span><span class="o">.</span><span class="n">textCtrlDelta1</span><span class="o">.</span><span class="n">SetValue</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+        <span class="n">panel</span><span class="o">.</span><span class="n">textCtrlDelta2</span><span class="o">.</span><span class="n">SetValue</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+        <span class="n">panel</span><span class="o">.</span><span class="n">textCtrlSratio</span><span class="o">.</span><span class="n">SetValue</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+        <span class="n">panel</span><span class="o">.</span><span class="n">textCtrlRcut</span><span class="o">.</span><span class="n">SetValue</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+        <span class="n">panel</span><span class="o">.</span><span class="n">textCtrlStepcut</span><span class="o">.</span><span class="n">SetValue</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+        <span class="n">panel</span><span class="o">.</span><span class="n">textCtrlSpdiameter</span><span class="o">.</span><span class="n">SetValue</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># update panel with values from panel.structure</span>
+        <span class="c1"># update textctrls</span>
+        <span class="n">panel</span><span class="o">.</span><span class="n">textCtrlA</span><span class="o">.</span><span class="n">SetValue</span><span class="p">(</span><span class="n">float2str</span><span class="p">(</span><span class="n">panel</span><span class="o">.</span><span class="n">structure</span><span class="o">.</span><span class="n">lattice</span><span class="o">.</span><span class="n">a</span><span class="p">))</span>
+        <span class="n">panel</span><span class="o">.</span><span class="n">textCtrlB</span><span class="o">.</span><span class="n">SetValue</span><span class="p">(</span><span class="n">float2str</span><span class="p">(</span><span class="n">panel</span><span class="o">.</span><span class="n">structure</span><span class="o">.</span><span class="n">lattice</span><span class="o">.</span><span class="n">b</span><span class="p">))</span>
+        <span class="n">panel</span><span class="o">.</span><span class="n">textCtrlC</span><span class="o">.</span><span class="n">SetValue</span><span class="p">(</span><span class="n">float2str</span><span class="p">(</span><span class="n">panel</span><span class="o">.</span><span class="n">structure</span><span class="o">.</span><span class="n">lattice</span><span class="o">.</span><span class="n">c</span><span class="p">))</span>
+        <span class="n">panel</span><span class="o">.</span><span class="n">textCtrlAlpha</span><span class="o">.</span><span class="n">SetValue</span><span class="p">(</span><span class="n">float2str</span><span class="p">(</span><span class="n">panel</span><span class="o">.</span><span class="n">structure</span><span class="o">.</span><span class="n">lattice</span><span class="o">.</span><span class="n">alpha</span><span class="p">))</span>
+        <span class="n">panel</span><span class="o">.</span><span class="n">textCtrlBeta</span><span class="o">.</span><span class="n">SetValue</span><span class="p">(</span><span class="n">float2str</span><span class="p">(</span><span class="n">panel</span><span class="o">.</span><span class="n">structure</span><span class="o">.</span><span class="n">lattice</span><span class="o">.</span><span class="n">beta</span><span class="p">))</span>
+        <span class="n">panel</span><span class="o">.</span><span class="n">textCtrlGamma</span><span class="o">.</span><span class="n">SetValue</span><span class="p">(</span><span class="n">float2str</span><span class="p">(</span><span class="n">panel</span><span class="o">.</span><span class="n">structure</span><span class="o">.</span><span class="n">lattice</span><span class="o">.</span><span class="n">gamma</span><span class="p">))</span>
+        <span class="n">panel</span><span class="o">.</span><span class="n">textCtrlScaleFactor</span><span class="o">.</span><span class="n">SetValue</span><span class="p">(</span><span class="n">float2str</span><span class="p">(</span><span class="n">panel</span><span class="o">.</span><span class="n">structure</span><span class="o">.</span><span class="n">pdffit</span><span class="p">[</span><span class="s2">&quot;scale&quot;</span><span class="p">]))</span>
+        <span class="n">panel</span><span class="o">.</span><span class="n">textCtrlDelta1</span><span class="o">.</span><span class="n">SetValue</span><span class="p">(</span><span class="n">float2str</span><span class="p">(</span><span class="n">panel</span><span class="o">.</span><span class="n">structure</span><span class="o">.</span><span class="n">pdffit</span><span class="p">[</span><span class="s2">&quot;delta1&quot;</span><span class="p">]))</span>
+        <span class="n">panel</span><span class="o">.</span><span class="n">textCtrlDelta2</span><span class="o">.</span><span class="n">SetValue</span><span class="p">(</span><span class="n">float2str</span><span class="p">(</span><span class="n">panel</span><span class="o">.</span><span class="n">structure</span><span class="o">.</span><span class="n">pdffit</span><span class="p">[</span><span class="s2">&quot;delta2&quot;</span><span class="p">]))</span>
+        <span class="n">panel</span><span class="o">.</span><span class="n">textCtrlSratio</span><span class="o">.</span><span class="n">SetValue</span><span class="p">(</span><span class="n">float2str</span><span class="p">(</span><span class="n">panel</span><span class="o">.</span><span class="n">structure</span><span class="o">.</span><span class="n">pdffit</span><span class="p">[</span><span class="s2">&quot;sratio&quot;</span><span class="p">]))</span>
+        <span class="n">panel</span><span class="o">.</span><span class="n">textCtrlRcut</span><span class="o">.</span><span class="n">SetValue</span><span class="p">(</span><span class="n">float2str</span><span class="p">(</span><span class="n">panel</span><span class="o">.</span><span class="n">structure</span><span class="o">.</span><span class="n">pdffit</span><span class="p">[</span><span class="s2">&quot;rcut&quot;</span><span class="p">]))</span>
+        <span class="n">panel</span><span class="o">.</span><span class="n">textCtrlStepcut</span><span class="o">.</span><span class="n">SetValue</span><span class="p">(</span><span class="n">float2str</span><span class="p">(</span><span class="n">panel</span><span class="o">.</span><span class="n">structure</span><span class="o">.</span><span class="n">pdffit</span><span class="p">[</span><span class="s2">&quot;stepcut&quot;</span><span class="p">]))</span>
+        <span class="n">panel</span><span class="o">.</span><span class="n">textCtrlSpdiameter</span><span class="o">.</span><span class="n">SetValue</span><span class="p">(</span><span class="n">float2str</span><span class="p">(</span><span class="n">panel</span><span class="o">.</span><span class="n">structure</span><span class="o">.</span><span class="n">pdffit</span><span class="p">[</span><span class="s2">&quot;spdiameter&quot;</span><span class="p">]))</span>
+    <span class="k">return</span></div>
+
+
+
+<div class="viewcode-block" id="refreshGrid">
+<a class="viewcode-back" href="../../../../api/diffpy.pdfgui.gui.html#diffpy.pdfgui.gui.phasepanelutils.refreshGrid">[docs]</a>
+<span class="k">def</span> <span class="nf">refreshGrid</span><span class="p">(</span><span class="n">panel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Refreshes grid on the panel.</span>
+
+<span class="sd">    This is used by phaseconfigurepanel and phaseresultspanel.</span>
+
+<span class="sd">    This method fills the grid with the contents of the structure member</span>
+<span class="sd">    variable of the panel. It is expected that the grid is named &#39;gridAtoms&#39;.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">panel</span><span class="o">.</span><span class="n">structure</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="c1"># remove all rows from grid</span>
+        <span class="n">panel</span><span class="o">.</span><span class="n">gridAtoms</span><span class="o">.</span><span class="n">BeginBatch</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">panel</span><span class="o">.</span><span class="n">gridAtoms</span><span class="o">.</span><span class="n">GetNumberRows</span><span class="p">()</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">panel</span><span class="o">.</span><span class="n">gridAtoms</span><span class="o">.</span><span class="n">DeleteRows</span><span class="p">(</span><span class="n">numRows</span><span class="o">=</span><span class="n">panel</span><span class="o">.</span><span class="n">gridAtoms</span><span class="o">.</span><span class="n">GetNumberRows</span><span class="p">())</span>
+        <span class="n">panel</span><span class="o">.</span><span class="n">gridAtoms</span><span class="o">.</span><span class="n">EndBatch</span><span class="p">()</span>
+
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># update the grid with atoms</span>
+        <span class="n">panel</span><span class="o">.</span><span class="n">gridAtoms</span><span class="o">.</span><span class="n">BeginBatch</span><span class="p">()</span>
+
+        <span class="c1"># set column labels</span>
+        <span class="n">panel</span><span class="o">.</span><span class="n">gridAtoms</span><span class="o">.</span><span class="n">SetColLabelValue</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;elem&quot;</span><span class="p">)</span>
+        <span class="n">panel</span><span class="o">.</span><span class="n">gridAtoms</span><span class="o">.</span><span class="n">SetColLabelValue</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;x&quot;</span><span class="p">)</span>
+        <span class="n">panel</span><span class="o">.</span><span class="n">gridAtoms</span><span class="o">.</span><span class="n">SetColLabelValue</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="s2">&quot;y&quot;</span><span class="p">)</span>
+        <span class="n">panel</span><span class="o">.</span><span class="n">gridAtoms</span><span class="o">.</span><span class="n">SetColLabelValue</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="s2">&quot;z&quot;</span><span class="p">)</span>
+        <span class="n">panel</span><span class="o">.</span><span class="n">gridAtoms</span><span class="o">.</span><span class="n">SetColLabelValue</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="s2">&quot;u11&quot;</span><span class="p">)</span>
+        <span class="n">panel</span><span class="o">.</span><span class="n">gridAtoms</span><span class="o">.</span><span class="n">SetColLabelValue</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="s2">&quot;u22&quot;</span><span class="p">)</span>
+        <span class="n">panel</span><span class="o">.</span><span class="n">gridAtoms</span><span class="o">.</span><span class="n">SetColLabelValue</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="s2">&quot;u33&quot;</span><span class="p">)</span>
+        <span class="n">panel</span><span class="o">.</span><span class="n">gridAtoms</span><span class="o">.</span><span class="n">SetColLabelValue</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="s2">&quot;u12&quot;</span><span class="p">)</span>
+        <span class="n">panel</span><span class="o">.</span><span class="n">gridAtoms</span><span class="o">.</span><span class="n">SetColLabelValue</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="s2">&quot;u13&quot;</span><span class="p">)</span>
+        <span class="n">panel</span><span class="o">.</span><span class="n">gridAtoms</span><span class="o">.</span><span class="n">SetColLabelValue</span><span class="p">(</span><span class="mi">9</span><span class="p">,</span> <span class="s2">&quot;u23&quot;</span><span class="p">)</span>
+        <span class="n">panel</span><span class="o">.</span><span class="n">gridAtoms</span><span class="o">.</span><span class="n">SetColLabelValue</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="s2">&quot;occ&quot;</span><span class="p">)</span>
+
+        <span class="c1"># make sure grid has correct number of rows and blank it</span>
+        <span class="n">natoms</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">panel</span><span class="o">.</span><span class="n">structure</span><span class="p">)</span>
+        <span class="n">nrows</span> <span class="o">=</span> <span class="n">panel</span><span class="o">.</span><span class="n">gridAtoms</span><span class="o">.</span><span class="n">GetNumberRows</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">natoms</span> <span class="o">&gt;</span> <span class="n">nrows</span><span class="p">:</span>
+            <span class="n">panel</span><span class="o">.</span><span class="n">gridAtoms</span><span class="o">.</span><span class="n">InsertRows</span><span class="p">(</span><span class="n">numRows</span><span class="o">=</span><span class="n">natoms</span> <span class="o">-</span> <span class="n">nrows</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">natoms</span> <span class="o">&lt;</span> <span class="n">nrows</span><span class="p">:</span>
+            <span class="n">panel</span><span class="o">.</span><span class="n">gridAtoms</span><span class="o">.</span><span class="n">DeleteRows</span><span class="p">(</span><span class="n">numRows</span><span class="o">=</span><span class="n">nrows</span> <span class="o">-</span> <span class="n">natoms</span><span class="p">)</span>
+        <span class="n">panel</span><span class="o">.</span><span class="n">gridAtoms</span><span class="o">.</span><span class="n">ClearGrid</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">atom</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">panel</span><span class="o">.</span><span class="n">structure</span><span class="p">):</span>
+            <span class="n">panel</span><span class="o">.</span><span class="n">gridAtoms</span><span class="o">.</span><span class="n">SetCellValue</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">atom</span><span class="o">.</span><span class="n">element</span><span class="p">))</span>  <span class="c1"># element</span>
+            <span class="n">panel</span><span class="o">.</span><span class="n">gridAtoms</span><span class="o">.</span><span class="n">SetCellValue</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">float2str</span><span class="p">(</span><span class="n">atom</span><span class="o">.</span><span class="n">xyz</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>  <span class="c1"># x</span>
+            <span class="n">panel</span><span class="o">.</span><span class="n">gridAtoms</span><span class="o">.</span><span class="n">SetCellValue</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">float2str</span><span class="p">(</span><span class="n">atom</span><span class="o">.</span><span class="n">xyz</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>  <span class="c1"># y</span>
+            <span class="n">panel</span><span class="o">.</span><span class="n">gridAtoms</span><span class="o">.</span><span class="n">SetCellValue</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">float2str</span><span class="p">(</span><span class="n">atom</span><span class="o">.</span><span class="n">xyz</span><span class="p">[</span><span class="mi">2</span><span class="p">]))</span>  <span class="c1"># z</span>
+            <span class="n">panel</span><span class="o">.</span><span class="n">gridAtoms</span><span class="o">.</span><span class="n">SetCellValue</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="n">float2str</span><span class="p">(</span><span class="n">atom</span><span class="o">.</span><span class="n">U</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]))</span>  <span class="c1"># U(1,1)</span>
+            <span class="n">panel</span><span class="o">.</span><span class="n">gridAtoms</span><span class="o">.</span><span class="n">SetCellValue</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="n">float2str</span><span class="p">(</span><span class="n">atom</span><span class="o">.</span><span class="n">U</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]))</span>  <span class="c1"># U(2,2)</span>
+            <span class="n">panel</span><span class="o">.</span><span class="n">gridAtoms</span><span class="o">.</span><span class="n">SetCellValue</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="n">float2str</span><span class="p">(</span><span class="n">atom</span><span class="o">.</span><span class="n">U</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">]))</span>  <span class="c1"># U(3,3)</span>
+            <span class="n">panel</span><span class="o">.</span><span class="n">gridAtoms</span><span class="o">.</span><span class="n">SetCellValue</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="n">float2str</span><span class="p">(</span><span class="n">atom</span><span class="o">.</span><span class="n">U</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]))</span>  <span class="c1"># U(1,2)</span>
+            <span class="n">panel</span><span class="o">.</span><span class="n">gridAtoms</span><span class="o">.</span><span class="n">SetCellValue</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="n">float2str</span><span class="p">(</span><span class="n">atom</span><span class="o">.</span><span class="n">U</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">]))</span>  <span class="c1"># U(1,3)</span>
+            <span class="n">panel</span><span class="o">.</span><span class="n">gridAtoms</span><span class="o">.</span><span class="n">SetCellValue</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="n">float2str</span><span class="p">(</span><span class="n">atom</span><span class="o">.</span><span class="n">U</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]))</span>  <span class="c1"># U(2,3)</span>
+            <span class="n">panel</span><span class="o">.</span><span class="n">gridAtoms</span><span class="o">.</span><span class="n">SetCellValue</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="n">float2str</span><span class="p">(</span><span class="n">atom</span><span class="o">.</span><span class="n">occupancy</span><span class="p">))</span>  <span class="c1"># occupancy</span>
+
+    <span class="n">panel</span><span class="o">.</span><span class="n">gridAtoms</span><span class="o">.</span><span class="n">AutosizeLabels</span><span class="p">()</span>
+    <span class="n">panel</span><span class="o">.</span><span class="n">gridAtoms</span><span class="o">.</span><span class="n">AutoSizeColumns</span><span class="p">()</span>
+    <span class="n">panel</span><span class="o">.</span><span class="n">gridAtoms</span><span class="o">.</span><span class="n">EndBatch</span><span class="p">()</span>
+
+    <span class="n">panel</span><span class="o">.</span><span class="n">gridAtoms</span><span class="o">.</span><span class="n">AdjustScrollbars</span><span class="p">()</span>
+    <span class="k">return</span></div>
+
+
+
+<span class="c1"># Utility functions</span>
+
+
+<div class="viewcode-block" id="showSelectAtomsDialog">
+<a class="viewcode-back" href="../../../../api/diffpy.pdfgui.gui.html#diffpy.pdfgui.gui.phasepanelutils.showSelectAtomsDialog">[docs]</a>
+<span class="k">def</span> <span class="nf">showSelectAtomsDialog</span><span class="p">(</span><span class="n">panel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Extend or limit selection to a string atom selection.</span>
+
+<span class="sd">    panel    -- instance of PhaseConfigurePanel or PhaseConstraintsPanel</span>
+
+<span class="sd">    No return value.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># do nothing for non-existant or empty structure</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">panel</span><span class="o">.</span><span class="n">structure</span><span class="p">:</span>
+        <span class="k">return</span>
+    <span class="n">msg</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+        <span class="p">[</span>
+            <span class="s1">&#39;Specify index, symbol or &quot;all&quot;, use &quot;!&quot; to subtract selection.&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;Examples: &quot;Na&quot;, &quot;1:4, 6, 9:10&quot;, &quot;all, !Na&quot;.&#39;</span><span class="p">,</span>
+        <span class="p">]</span>
+    <span class="p">)</span>
+    <span class="k">global</span> <span class="n">selected_atoms</span>
+    <span class="n">dlg</span> <span class="o">=</span> <span class="n">wx</span><span class="o">.</span><span class="n">TextEntryDialog</span><span class="p">(</span><span class="n">panel</span><span class="p">,</span> <span class="n">msg</span><span class="p">,</span> <span class="s2">&quot;Select Atoms&quot;</span><span class="p">,</span> <span class="n">selected_atoms</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">dlg</span><span class="o">.</span><span class="n">ShowModal</span><span class="p">()</span> <span class="o">==</span> <span class="n">wx</span><span class="o">.</span><span class="n">ID_OK</span><span class="p">:</span>
+        <span class="n">s1</span> <span class="o">=</span> <span class="n">dlg</span><span class="o">.</span><span class="n">GetValue</span><span class="p">()</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+        <span class="n">rows</span> <span class="o">=</span> <span class="n">panel</span><span class="o">.</span><span class="n">structure</span><span class="o">.</span><span class="n">getSelectedIndices</span><span class="p">(</span><span class="n">s1</span><span class="p">)</span>
+        <span class="n">selected_atoms</span> <span class="o">=</span> <span class="n">s1</span>
+        <span class="k">if</span> <span class="n">s1</span><span class="p">:</span>
+            <span class="n">gridutils</span><span class="o">.</span><span class="n">limitSelectionToRows</span><span class="p">(</span><span class="n">panel</span><span class="o">.</span><span class="n">gridAtoms</span><span class="p">,</span> <span class="n">rows</span><span class="p">)</span>
+    <span class="n">dlg</span><span class="o">.</span><span class="n">Destroy</span><span class="p">()</span>
+    <span class="k">return</span></div>
+
+
+
+<div class="viewcode-block" id="canCopySelectedCells">
+<a class="viewcode-back" href="../../../../api/diffpy.pdfgui.gui.html#diffpy.pdfgui.gui.phasepanelutils.canCopySelectedCells">[docs]</a>
+<span class="k">def</span> <span class="nf">canCopySelectedCells</span><span class="p">(</span><span class="n">panel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Check to see if we can copy selected cells.</span>
+
+<span class="sd">    To be copyable, the cells must exist in a single block or there must be a</span>
+<span class="sd">    single cell selected. Note that a block that is selected by individual cells</span>
+<span class="sd">    is considered a collection of individual atoms, not a block. This is default</span>
+<span class="sd">    wxPython behavior.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">grid</span> <span class="o">=</span> <span class="n">panel</span><span class="o">.</span><span class="n">gridAtoms</span>
+
+    <span class="n">topleft</span> <span class="o">=</span> <span class="n">grid</span><span class="o">.</span><span class="n">GetSelectionBlockTopLeft</span><span class="p">()</span>
+    <span class="n">individuals</span> <span class="o">=</span> <span class="n">grid</span><span class="o">.</span><span class="n">GetSelectedCells</span><span class="p">()</span>
+    <span class="n">numsel</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">topleft</span><span class="p">)</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span><span class="n">individuals</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">numsel</span> <span class="o">==</span> <span class="mi">1</span></div>
+
+
+
+<div class="viewcode-block" id="canPasteIntoCells">
+<a class="viewcode-back" href="../../../../api/diffpy.pdfgui.gui.html#diffpy.pdfgui.gui.phasepanelutils.canPasteIntoCells">[docs]</a>
+<span class="k">def</span> <span class="nf">canPasteIntoCells</span><span class="p">(</span><span class="n">panel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Check if clipboard contents are formatted for grid insertion.</span>
+
+<span class="sd">    This also checks to see if the cell selection is appropriate for pasting.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">grid</span> <span class="o">=</span> <span class="n">panel</span><span class="o">.</span><span class="n">gridAtoms</span>
+
+    <span class="n">individuals</span> <span class="o">=</span> <span class="n">grid</span><span class="o">.</span><span class="n">GetSelectedCells</span><span class="p">()</span>
+    <span class="n">topleft</span> <span class="o">=</span> <span class="n">grid</span><span class="o">.</span><span class="n">GetSelectionBlockTopLeft</span><span class="p">()</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">individuals</span><span class="p">)</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span><span class="n">topleft</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span>
+
+    <span class="c1"># Get the text</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">wx</span><span class="o">.</span><span class="n">TheClipboard</span><span class="o">.</span><span class="n">IsSupported</span><span class="p">(</span><span class="n">wx</span><span class="o">.</span><span class="n">DataFormat</span><span class="p">(</span><span class="n">wx</span><span class="o">.</span><span class="n">DF_TEXT</span><span class="p">)):</span>
+        <span class="k">return</span> <span class="kc">False</span>
+
+    <span class="n">textdata</span> <span class="o">=</span> <span class="n">wx</span><span class="o">.</span><span class="n">TextDataObject</span><span class="p">()</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">wx</span><span class="o">.</span><span class="n">TheClipboard</span><span class="o">.</span><span class="n">IsOpened</span><span class="p">():</span>
+        <span class="n">opened</span> <span class="o">=</span> <span class="n">wx</span><span class="o">.</span><span class="n">TheClipboard</span><span class="o">.</span><span class="n">Open</span><span class="p">()</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">opened</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>
+    <span class="n">success</span> <span class="o">=</span> <span class="n">wx</span><span class="o">.</span><span class="n">TheClipboard</span><span class="o">.</span><span class="n">GetData</span><span class="p">(</span><span class="n">textdata</span><span class="p">)</span>
+    <span class="n">wx</span><span class="o">.</span><span class="n">TheClipboard</span><span class="o">.</span><span class="n">Close</span><span class="p">()</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">success</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span>
+    <span class="n">copytext</span> <span class="o">=</span> <span class="n">textdata</span><span class="o">.</span><span class="n">GetText</span><span class="p">()</span>
+
+    <span class="c1"># Remove any trailing newline</span>
+    <span class="n">copytext</span> <span class="o">=</span> <span class="n">copytext</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Make sure it is of the appropriate format</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">rowlist</span> <span class="o">=</span> <span class="n">copytext</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="c1"># Strip any trailing tabs</span>
+        <span class="n">rowlist</span> <span class="o">=</span> <span class="p">[</span><span class="n">r</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">)</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">rowlist</span><span class="p">]</span>
+        <span class="n">celllist</span> <span class="o">=</span> <span class="p">[</span><span class="n">r</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">)</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">rowlist</span><span class="p">]</span>
+    <span class="k">except</span> <span class="n">wx</span><span class="o">.</span><span class="n">PyDeadObjectError</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">celllist</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span>
+    <span class="n">ncol</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">celllist</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">celllist</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">row</span><span class="p">)</span> <span class="o">!=</span> <span class="n">ncol</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>
+    <span class="k">if</span> <span class="n">ncol</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span>
+
+    <span class="k">global</span> <span class="n">clipcells</span>
+    <span class="n">clipcells</span> <span class="o">=</span> <span class="n">celllist</span>
+    <span class="k">return</span> <span class="kc">True</span></div>
+
+
+
+<div class="viewcode-block" id="copySelectedCells">
+<a class="viewcode-back" href="../../../../api/diffpy.pdfgui.gui.html#diffpy.pdfgui.gui.phasepanelutils.copySelectedCells">[docs]</a>
+<span class="k">def</span> <span class="nf">copySelectedCells</span><span class="p">(</span><span class="n">panel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Copy block of selected cells or individual cell into clipboard.</span>
+
+<span class="sd">    This stores the cells as a plain text grid so that it can be copied to and</span>
+<span class="sd">    from other applications.</span>
+<span class="sd">    Columns are delimited by tabs &#39;\t&#39;.</span>
+<span class="sd">    Rows are delimited by newlines &#39;\n&#39;.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">grid</span> <span class="o">=</span> <span class="n">panel</span><span class="o">.</span><span class="n">gridAtoms</span>
+    <span class="n">copytext</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+
+    <span class="c1"># Get the cells</span>
+    <span class="n">individuals</span> <span class="o">=</span> <span class="n">grid</span><span class="o">.</span><span class="n">GetSelectedCells</span><span class="p">()</span>
+    <span class="n">topleft</span> <span class="o">=</span> <span class="n">grid</span><span class="o">.</span><span class="n">GetSelectionBlockTopLeft</span><span class="p">()</span>
+    <span class="n">bottomright</span> <span class="o">=</span> <span class="n">grid</span><span class="o">.</span><span class="n">GetSelectionBlockBottomRight</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">individuals</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">copytext</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">grid</span><span class="o">.</span><span class="n">GetCellValue</span><span class="p">(</span><span class="n">individuals</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+
+    <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">topleft</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="c1"># Format the block of cells</span>
+        <span class="n">rtl</span> <span class="o">=</span> <span class="n">topleft</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">ctl</span> <span class="o">=</span> <span class="n">topleft</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">rbr</span> <span class="o">=</span> <span class="n">bottomright</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">cbr</span> <span class="o">=</span> <span class="n">bottomright</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+
+        <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">rtl</span><span class="p">,</span> <span class="n">rbr</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">ctl</span><span class="p">,</span> <span class="n">cbr</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+                <span class="n">copytext</span> <span class="o">+=</span> <span class="nb">str</span><span class="p">(</span><span class="n">grid</span><span class="o">.</span><span class="n">GetCellValue</span><span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="n">col</span><span class="p">))</span>
+                <span class="n">copytext</span> <span class="o">+=</span> <span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span>
+            <span class="n">copytext</span> <span class="o">+=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span>
+
+    <span class="c1"># Place the copytext into the clipboard</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">wx</span><span class="o">.</span><span class="n">TheClipboard</span><span class="o">.</span><span class="n">IsOpened</span><span class="p">():</span>
+        <span class="n">opened</span> <span class="o">=</span> <span class="n">wx</span><span class="o">.</span><span class="n">TheClipboard</span><span class="o">.</span><span class="n">Open</span><span class="p">()</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">opened</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">IOError</span><span class="p">(</span><span class="s2">&quot;Cannot open the clipboard.&quot;</span><span class="p">)</span>
+        <span class="n">textdata</span> <span class="o">=</span> <span class="n">wx</span><span class="o">.</span><span class="n">TextDataObject</span><span class="p">(</span><span class="n">copytext</span><span class="p">)</span>
+    <span class="n">wx</span><span class="o">.</span><span class="n">TheClipboard</span><span class="o">.</span><span class="n">SetData</span><span class="p">(</span><span class="n">textdata</span><span class="p">)</span>
+    <span class="n">wx</span><span class="o">.</span><span class="n">TheClipboard</span><span class="o">.</span><span class="n">Close</span><span class="p">()</span>
+    <span class="k">return</span></div>
+
+
+
+<div class="viewcode-block" id="pasteIntoCells">
+<a class="viewcode-back" href="../../../../api/diffpy.pdfgui.gui.html#diffpy.pdfgui.gui.phasepanelutils.pasteIntoCells">[docs]</a>
+<span class="k">def</span> <span class="nf">pasteIntoCells</span><span class="p">(</span><span class="n">panel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Paste clipboard contents into cells.</span>
+
+<span class="sd">    canPasteIntoCells must be called before this method in order to format</span>
+<span class="sd">    clipboard text for pasting.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Double check the clipcells</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">clipcells</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">clipcells</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span>
+
+    <span class="n">grid</span> <span class="o">=</span> <span class="n">panel</span><span class="o">.</span><span class="n">gridAtoms</span>
+    <span class="n">individuals</span> <span class="o">=</span> <span class="n">grid</span><span class="o">.</span><span class="n">GetSelectedCells</span><span class="p">()</span>
+    <span class="n">topleft</span> <span class="o">=</span> <span class="n">grid</span><span class="o">.</span><span class="n">GetSelectionBlockTopLeft</span><span class="p">()</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">individuals</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">tl</span> <span class="o">=</span> <span class="n">individuals</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">topleft</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">tl</span> <span class="o">=</span> <span class="n">topleft</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span>
+    <span class="n">rtl</span> <span class="o">=</span> <span class="n">tl</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">ctl</span> <span class="o">=</span> <span class="n">tl</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+    <span class="n">nrows</span> <span class="o">=</span> <span class="n">grid</span><span class="o">.</span><span class="n">GetNumberRows</span><span class="p">()</span>
+    <span class="n">ncols</span> <span class="o">=</span> <span class="n">grid</span><span class="o">.</span><span class="n">GetNumberCols</span><span class="p">()</span>
+
+    <span class="n">rbr</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">nrows</span><span class="p">,</span> <span class="n">rtl</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span><span class="n">clipcells</span><span class="p">))</span> <span class="o">-</span> <span class="mi">1</span>
+    <span class="n">cbr</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">ncols</span><span class="p">,</span> <span class="n">ctl</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span><span class="n">clipcells</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span> <span class="o">-</span> <span class="mi">1</span>
+
+    <span class="n">selections</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">rtl</span><span class="p">,</span> <span class="n">rbr</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">ctl</span><span class="p">,</span> <span class="n">cbr</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">grid</span><span class="o">.</span><span class="n">IsReadOnly</span><span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="n">col</span><span class="p">):</span>
+                <span class="n">oldvalue</span> <span class="o">=</span> <span class="n">panel</span><span class="o">.</span><span class="n">gridAtoms</span><span class="o">.</span><span class="n">GetCellValue</span><span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="n">col</span><span class="p">)</span>
+                <span class="n">newvalue</span> <span class="o">=</span> <span class="n">panel</span><span class="o">.</span><span class="n">applyCellChange</span><span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="n">col</span><span class="p">,</span> <span class="n">clipcells</span><span class="p">[</span><span class="n">row</span> <span class="o">-</span> <span class="n">rtl</span><span class="p">][</span><span class="n">col</span> <span class="o">-</span> <span class="n">ctl</span><span class="p">])</span>
+                <span class="k">if</span> <span class="n">newvalue</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">newvalue</span> <span class="o">=</span> <span class="n">oldvalue</span>
+                <span class="n">panel</span><span class="o">.</span><span class="n">gridAtoms</span><span class="o">.</span><span class="n">SetCellValue</span><span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="n">col</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">newvalue</span><span class="p">))</span>
+                <span class="n">selections</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">row</span><span class="p">,</span> <span class="n">col</span><span class="p">))</span>
+
+    <span class="n">gridutils</span><span class="o">.</span><span class="n">quickResizeColumns</span><span class="p">(</span><span class="n">panel</span><span class="o">.</span><span class="n">gridAtoms</span><span class="p">,</span> <span class="n">selections</span><span class="p">)</span>
+
+    <span class="c1"># Clear the grid and select the inserted entries</span>
+    <span class="n">grid</span><span class="o">.</span><span class="n">ClearSelection</span><span class="p">()</span>
+    <span class="c1"># panel.refresh()</span>
+    <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">rtl</span><span class="p">,</span> <span class="n">rbr</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">ctl</span><span class="p">,</span> <span class="n">cbr</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">grid</span><span class="o">.</span><span class="n">IsReadOnly</span><span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="n">col</span><span class="p">):</span>
+                <span class="n">grid</span><span class="o">.</span><span class="n">SelectBlock</span><span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="n">col</span><span class="p">,</span> <span class="n">row</span><span class="p">,</span> <span class="n">col</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+    <span class="k">return</span></div>
+
+
+
+<span class="c1"># End of file</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, The Trustees of Columbia University in the City of New York.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

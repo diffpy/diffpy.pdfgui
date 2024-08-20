@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>diffpy.pdfgui.gui.tooltips &mdash; diffpy.pdfgui 3.1.0rc0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../../../_static/documentation_options.js?v=a2ca8c84"></script>
+        <script src="../../../../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../../index.html" class="icon icon-home">
+            diffpy.pdfgui
+          </a>
+              <div class="version">
+                3.1.0rc0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tutorial.html">Tutorial</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../license.html">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../release.html">Release Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../api/diffpy.pdfgui.html">Package API</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">diffpy.pdfgui</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">diffpy.pdfgui.gui.tooltips</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for diffpy.pdfgui.gui.tooltips</h1><div class="highlight"><pre>
+<span></span><span class="ch">#!/usr/bin/env python</span>
+<span class="c1">##############################################################################</span>
+<span class="c1">#</span>
+<span class="c1"># PDFgui            by DANSE Diffraction group</span>
+<span class="c1">#                   Simon J. L. Billinge</span>
+<span class="c1">#                   (c) 2007 trustees of the Michigan State University.</span>
+<span class="c1">#                   All rights reserved.</span>
+<span class="c1">#</span>
+<span class="c1"># File coded by:    Dmitriy Bryndin</span>
+<span class="c1">#</span>
+<span class="c1"># See AUTHORS.txt for a list of people who contributed.</span>
+<span class="c1"># See LICENSE.txt for license information.</span>
+<span class="c1">#</span>
+<span class="c1">##############################################################################</span>
+
+<span class="sd">&quot;&quot;&quot;Tooltips for pdfgui panels.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+
+<div class="viewcode-block" id="isalias">
+<a class="viewcode-back" href="../../../../api/diffpy.pdfgui.gui.html#diffpy.pdfgui.gui.tooltips.isalias">[docs]</a>
+<span class="k">def</span> <span class="nf">isalias</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">s</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="ow">and</span> <span class="n">s</span><span class="p">[::</span> <span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">&quot;</span> <span class="ow">and</span> <span class="n">s</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">isalnum</span><span class="p">()</span></div>
+
+
+
+<span class="k">def</span> <span class="nf">_expand_tooltip_aliases</span><span class="p">(</span><span class="n">ttps</span><span class="p">):</span>
+    <span class="s2">&quot;Replace aliased equivalent values </span><span class="si">{other}</span><span class="s2"> in tooltip strings.&quot;</span>
+    <span class="k">for</span> <span class="n">n</span><span class="p">,</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">ttps</span><span class="o">.</span><span class="n">items</span><span class="p">()):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">isalias</span><span class="p">(</span><span class="n">t</span><span class="p">):</span>
+            <span class="k">continue</span>
+        <span class="n">t1</span> <span class="o">=</span> <span class="n">t</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">**</span><span class="n">ttps</span><span class="p">)</span>
+        <span class="k">assert</span> <span class="ow">not</span> <span class="n">isalias</span><span class="p">(</span><span class="n">t1</span><span class="p">),</span> <span class="s2">&quot;chained tooltip alias is not allowed&quot;</span>
+        <span class="n">ttps</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="o">=</span> <span class="n">t1</span>
+    <span class="k">return</span> <span class="n">ttps</span>
+
+
+<span class="n">datasetconfigurepanel</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="c1">#    &#39;panelNameLabel&#39;      : &#39;&#39;, # StaticText &quot;Data Set Configuration&quot;</span>
+    <span class="s2">&quot;radioBoxStype&quot;</span><span class="p">:</span> <span class="s2">&quot;Radiation type&quot;</span><span class="p">,</span>  <span class="c1"># RadioBox &quot;Scatterer Type&quot;, choices=[&quot;Neutron&quot;, &quot;X-ray&quot;]</span>
+    <span class="s2">&quot;radioBoxSampling&quot;</span><span class="p">:</span> <span class="s2">&quot;Fit sampling type&quot;</span><span class="p">,</span>  <span class="c1"># RadioBox &quot;Scatterer Type&quot;, choices=[&quot;Default&quot;, &quot;Nyquist&quot;, &quot;Custom&quot;]</span>
+    <span class="c1">#    &#39;labelDataRange&#39;      : &#39;&#39;, # StaticText &quot;Data Range&quot;</span>
+    <span class="s2">&quot;textCtrlDataFrom&quot;</span><span class="p">:</span> <span class="s2">&quot;Data r_min&quot;</span><span class="p">,</span>  <span class="c1"># TextCtrl</span>
+    <span class="c1">#    &#39;labelDataTo&#39;         : &#39;&#39;, # StaticText &quot;to&quot;</span>
+    <span class="s2">&quot;textCtrlDataTo&quot;</span><span class="p">:</span> <span class="s2">&quot;Data r_max&quot;</span><span class="p">,</span>  <span class="c1"># TextCtrl</span>
+    <span class="c1">#    &#39;labelFitRange&#39;       : &#39;&#39;, # StaticText &quot;Fit Range&quot;</span>
+    <span class="s2">&quot;textCtrlDataStep&quot;</span><span class="p">:</span> <span class="s2">&quot;Step size in the data&quot;</span><span class="p">,</span>  <span class="c1"># TextCtrl</span>
+    <span class="s2">&quot;textCtrlFitFrom&quot;</span><span class="p">:</span> <span class="s2">&quot;Fit r_min&quot;</span><span class="p">,</span>  <span class="c1"># TextCtrl</span>
+    <span class="c1">#    &#39;labelFitTo&#39;          : &#39;&#39;, # StaticText &quot;to&quot;</span>
+    <span class="s2">&quot;textCtrlFitTo&quot;</span><span class="p">:</span> <span class="s2">&quot;Fit r_max&quot;</span><span class="p">,</span>  <span class="c1"># TextCtrl</span>
+    <span class="s2">&quot;textCtrlFitStep&quot;</span><span class="p">:</span> <span class="s2">&quot;Step size in the fit&quot;</span><span class="p">,</span>  <span class="c1"># TextCtrl</span>
+    <span class="c1">#    &#39;labelScaleFactor&#39;    : &#39;&#39;, # StaticText &quot;Scale Factor&quot;</span>
+    <span class="s2">&quot;textCtrlScaleFactor&quot;</span><span class="p">:</span> <span class="s2">&quot;Data scale factor&quot;</span><span class="p">,</span>  <span class="c1"># TextCtrl</span>
+    <span class="c1">#    &#39;labelQmax&#39;           : &#39;&#39;, # StaticText &quot;Qmax&quot;</span>
+    <span class="s2">&quot;textCtrlQmax&quot;</span><span class="p">:</span> <span class="s2">&quot;Upper limit used for Fourier transform to obtain data PDF&quot;</span><span class="p">,</span>  <span class="c1"># TextCtrl</span>
+    <span class="c1">#    &#39;labelQdamp&#39;          : &#39;&#39;, # StaticText &quot;Qdamp&quot;</span>
+    <span class="s2">&quot;textCtrlQdamp&quot;</span><span class="p">:</span> <span class="s2">&quot;Resolution dampening factor&quot;</span><span class="p">,</span>  <span class="c1"># TextCtrl</span>
+    <span class="c1">#    &#39;labelQbroad&#39;         : &#39;&#39;, # StaticText &quot;Qbroad&quot;</span>
+    <span class="s2">&quot;textCtrlQbroad&quot;</span><span class="p">:</span> <span class="s2">&quot;Resolution peak broadening factor&quot;</span><span class="p">,</span>  <span class="c1"># TextCtrl</span>
+    <span class="c1">#    &#39;labelTemperature&#39;    : &#39;&#39;, # StaticText &quot;Temperature&quot;</span>
+    <span class="s2">&quot;textCtrlTemperature&quot;</span><span class="p">:</span> <span class="s2">&quot;Temperature at which the data were collected&quot;</span><span class="p">,</span>  <span class="c1"># TextCtrl</span>
+    <span class="c1">#    &#39;labelDoping&#39;         : &#39;&#39;, # StaticText &quot;Doping&quot;</span>
+    <span class="s2">&quot;textCtrlDoping&quot;</span><span class="p">:</span> <span class="s2">&quot;Sample characteristic doping level (if applicable)&quot;</span><span class="p">,</span>  <span class="c1"># TextCtrl</span>
+<span class="p">}</span>
+
+<span class="n">datasetconstraintpanel</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;panelNameLabel&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>  <span class="c1"># StaticText &quot;Data Set Constraints&quot;</span>
+    <span class="s2">&quot;labelScaleFactor&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>  <span class="c1"># StaticText &quot;Scale Factor&quot;</span>
+    <span class="s2">&quot;textCtrlScaleFactor&quot;</span><span class="p">:</span> <span class="s2">&quot;Data scale factor&quot;</span><span class="p">,</span>  <span class="c1"># TextCtrl</span>
+    <span class="s2">&quot;labelQdamp&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>  <span class="c1"># StaticText &quot;Qdamp&quot;</span>
+    <span class="s2">&quot;textCtrlQdamp&quot;</span><span class="p">:</span> <span class="s2">&quot;Resolution dampening factor&quot;</span><span class="p">,</span>  <span class="c1"># TextCtrl</span>
+    <span class="s2">&quot;labelQbroad&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>  <span class="c1"># StaticText &quot;Qbroad&quot;</span>
+    <span class="s2">&quot;textCtrlQbroad&quot;</span><span class="p">:</span> <span class="s2">&quot;Resolution peak broadening factor&quot;</span><span class="p">,</span>  <span class="c1"># TextCtrl</span>
+<span class="p">}</span>
+
+<span class="n">datasetresultspanel</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;panelNameLabel&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>  <span class="c1"># StaticText &quot;Data Set Results&quot;</span>
+    <span class="s2">&quot;labelScaleFactor&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>  <span class="c1"># StaticText &quot;Scale Factor&quot;</span>
+    <span class="s2">&quot;textCtrlScaleFactor&quot;</span><span class="p">:</span> <span class="s2">&quot;Data scale factor&quot;</span><span class="p">,</span>  <span class="c1"># TextCtrl</span>
+    <span class="s2">&quot;labelQdamp&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>  <span class="c1"># StaticText &quot;Qdamp&quot;</span>
+    <span class="s2">&quot;textCtrlQdamp&quot;</span><span class="p">:</span> <span class="s2">&quot;Resolution dampening factor&quot;</span><span class="p">,</span>  <span class="c1"># TextCtrl</span>
+    <span class="s2">&quot;labelQbroad&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>  <span class="c1"># StaticText &quot;Qbroad&quot;</span>
+    <span class="s2">&quot;textCtrlQbroad&quot;</span><span class="p">:</span> <span class="s2">&quot;Resolution peak broadening factor&quot;</span><span class="p">,</span>  <span class="c1"># TextCtrl</span>
+<span class="p">}</span>
+
+
+<span class="n">dopingseriespanel</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="c1">#    &#39;instructionsLabel&#39; : &#39;&#39;, # StaticText &quot;Select a fit from the tree on the left then add</span>
+    <span class="c1">#                              datasets and assign\ndoping elements and values below. If you</span>
+    <span class="c1">#                              have not set up a fit to be\nthe template for the series, hit</span>
+    <span class="c1">#                              cancel and rerun this macro once a\nfit has been created.&quot;</span>
+    <span class="c1">#    &#39;labelBaseElement&#39; : &#39;&#39;, # StaticText &quot;Base element&quot;</span>
+    <span class="c1">#    &#39;textCtrlBaseElement&#39; : &#39;&#39;, # TextCtrl</span>
+    <span class="c1">#    &#39;labelDopant&#39; : &#39;&#39;, # StaticText &quot;Dopant&quot;</span>
+    <span class="c1">#    &#39;textCtrlDopant&#39; : &#39;&#39;, # TextCtrl</span>
+    <span class="s2">&quot;listCtrlFiles&quot;</span><span class="p">:</span> <span class="s2">&quot;Click header to sort by doping&quot;</span><span class="p">,</span>  <span class="c1"># AutoWidthListCtrl</span>
+    <span class="c1">#    &#39;buttonUp&#39; : &#39;&#39;, # BitmapButton</span>
+    <span class="c1">#    &#39;buttonDown&#39; : &#39;&#39;, # BitmapButton</span>
+    <span class="c1">#    &#39;buttonAdd&#39; : &#39;&#39;, # Button &quot;Add&quot;</span>
+    <span class="c1">#    &#39;buttonDelete&#39; : &#39;&#39;, # Button &quot;Delete&quot;</span>
+    <span class="c1">#    &#39;goButton&#39; : &#39;&#39;, # Button &quot;OK&quot;</span>
+    <span class="c1">#    &#39;cancelButton&#39; : &#39;&#39;, # Button &quot;Cancel&quot;</span>
+<span class="p">}</span>
+
+<span class="n">phasepanel</span> <span class="o">=</span> <span class="n">_expand_tooltip_aliases</span><span class="p">(</span>
+    <span class="p">{</span>
+        <span class="c1">#    &#39;sizerLatticeParameters_staticbox&#39; : &#39;&#39;, # StaticBox</span>
+        <span class="c1">#    &#39;sizerAdditionalParameters_staticbox&#39; : &#39;&#39;, # StaticBox</span>
+        <span class="c1">#    &#39;sizerAtoms_staticbox&#39; : &#39;&#39;, # StaticBox</span>
+        <span class="c1">#    &#39;sizerPanelName_staticbox&#39; : &#39;&#39;, # StaticBox</span>
+        <span class="c1">#    &#39;labelPanelName&#39; : &#39;&#39;, # StaticText &quot;Phase Configuration&quot;</span>
+        <span class="s2">&quot;labelA&quot;</span><span class="p">:</span> <span class="s2">&quot;</span><span class="si">{textCtrlA}</span><span class="s2">&quot;</span><span class="p">,</span>  <span class="c1"># StaticText &quot;a&quot;</span>
+        <span class="s2">&quot;textCtrlA&quot;</span><span class="p">:</span> <span class="s2">&quot;Lattice parameter a&quot;</span><span class="p">,</span>  <span class="c1"># TextCtrl</span>
+        <span class="s2">&quot;labelB&quot;</span><span class="p">:</span> <span class="s2">&quot;</span><span class="si">{textCtrlB}</span><span class="s2">&quot;</span><span class="p">,</span>  <span class="c1"># StaticText &quot;b&quot;</span>
+        <span class="s2">&quot;textCtrlB&quot;</span><span class="p">:</span> <span class="s2">&quot;Lattice parameter b&quot;</span><span class="p">,</span>  <span class="c1"># TextCtrl</span>
+        <span class="s2">&quot;labelC&quot;</span><span class="p">:</span> <span class="s2">&quot;</span><span class="si">{textCtrlC}</span><span class="s2">&quot;</span><span class="p">,</span>  <span class="c1"># StaticText &quot;c&quot;</span>
+        <span class="s2">&quot;textCtrlC&quot;</span><span class="p">:</span> <span class="s2">&quot;Lattice parameter c&quot;</span><span class="p">,</span>  <span class="c1"># TextCtrl</span>
+        <span class="s2">&quot;labelAlpha&quot;</span><span class="p">:</span> <span class="s2">&quot;</span><span class="si">{textCtrlAlpha}</span><span class="s2">&quot;</span><span class="p">,</span>  <span class="c1"># StaticText &quot;alpha&quot;</span>
+        <span class="s2">&quot;textCtrlAlpha&quot;</span><span class="p">:</span> <span class="s2">&quot;Lattice angle alpha&quot;</span><span class="p">,</span>  <span class="c1"># TextCtrl</span>
+        <span class="s2">&quot;labelBeta&quot;</span><span class="p">:</span> <span class="s2">&quot;</span><span class="si">{textCtrlBeta}</span><span class="s2">&quot;</span><span class="p">,</span>  <span class="c1"># StaticText &quot;beta&quot;</span>
+        <span class="s2">&quot;textCtrlBeta&quot;</span><span class="p">:</span> <span class="s2">&quot;Lattice angle beta&quot;</span><span class="p">,</span>  <span class="c1"># TextCtrl</span>
+        <span class="s2">&quot;labelGamma&quot;</span><span class="p">:</span> <span class="s2">&quot;</span><span class="si">{textCtrlGamma}</span><span class="s2">&quot;</span><span class="p">,</span>  <span class="c1"># StaticText &quot;gamma&quot;</span>
+        <span class="s2">&quot;textCtrlGamma&quot;</span><span class="p">:</span> <span class="s2">&quot;Lattice angle gamma&quot;</span><span class="p">,</span>  <span class="c1"># TextCtrl</span>
+        <span class="s2">&quot;labelScaleFactor&quot;</span><span class="p">:</span> <span class="s2">&quot;</span><span class="si">{textCtrlScaleFactor}</span><span class="s2">&quot;</span><span class="p">,</span>  <span class="c1"># StaticText &quot;Scale Factor&quot;</span>
+        <span class="s2">&quot;textCtrlScaleFactor&quot;</span><span class="p">:</span> <span class="s2">&quot;Phase scale factor&quot;</span><span class="p">,</span>  <span class="c1"># TextCtrl</span>
+        <span class="s2">&quot;labelDelta1&quot;</span><span class="p">:</span> <span class="s2">&quot;</span><span class="si">{textCtrlDelta1}</span><span class="s2">&quot;</span><span class="p">,</span>  <span class="c1"># StaticText &quot;delta1&quot;</span>
+        <span class="s2">&quot;textCtrlDelta1&quot;</span><span class="p">:</span> <span class="s2">&quot;Linear atomic correlation factor&quot;</span><span class="p">,</span>  <span class="c1"># TextCtrl</span>
+        <span class="s2">&quot;labelDelta2&quot;</span><span class="p">:</span> <span class="s2">&quot;</span><span class="si">{textCtrlDelta2}</span><span class="s2">&quot;</span><span class="p">,</span>  <span class="c1"># StaticText &quot;delta2&quot;</span>
+        <span class="s2">&quot;textCtrlDelta2&quot;</span><span class="p">:</span> <span class="s2">&quot;Quadratic atomic correlation factor&quot;</span><span class="p">,</span>  <span class="c1"># TextCtrl</span>
+        <span class="s2">&quot;labelSratio&quot;</span><span class="p">:</span> <span class="s2">&quot;</span><span class="si">{textCtrlSratio}</span><span class="s2">&quot;</span><span class="p">,</span>  <span class="c1"># StaticText &quot;sratio&quot;</span>
+        <span class="s2">&quot;textCtrlSratio&quot;</span><span class="p">:</span> <span class="s2">&quot;Low r peak sharpening&quot;</span><span class="p">,</span>  <span class="c1"># TextCtrl</span>
+        <span class="s2">&quot;labelRcut&quot;</span><span class="p">:</span> <span class="s2">&quot;</span><span class="si">{textCtrlRcut}</span><span class="s2">&quot;</span><span class="p">,</span>  <span class="c1"># StaticText &quot;rcut&quot;</span>
+        <span class="s2">&quot;textCtrlRcut&quot;</span><span class="p">:</span> <span class="s2">&quot;Peak sharpening cutoff&quot;</span><span class="p">,</span>  <span class="c1"># TextCtrl</span>
+        <span class="s2">&quot;labelStepcut&quot;</span><span class="p">:</span> <span class="s2">&quot;</span><span class="si">{textCtrlStepcut}</span><span class="s2">&quot;</span><span class="p">,</span>  <span class="c1"># StaticText &quot;stepcut&quot;</span>
+        <span class="s2">&quot;textCtrlStepcut&quot;</span><span class="p">:</span> <span class="s2">&quot;Cutoff for profile step-function&quot;</span><span class="p">,</span>  <span class="c1"># TextCtrl</span>
+        <span class="s2">&quot;labelSpdiameter&quot;</span><span class="p">:</span> <span class="s2">&quot;</span><span class="si">{textCtrlSpdiameter}</span><span class="s2">&quot;</span><span class="p">,</span>  <span class="c1"># StaticText &quot;Spdiameter&quot;</span>
+        <span class="s2">&quot;textCtrlSpdiameter&quot;</span><span class="p">:</span> <span class="s2">&quot;Spherical nanoparticle amplitude correction&quot;</span><span class="p">,</span>
+        <span class="c1">#    &#39;labelIncludedPairs&#39; : &#39;&#39;, # StaticText &quot;Included Pairs&quot;</span>
+        <span class="s2">&quot;textCtrlIncludedPairs&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;&quot;[!]{element|indexOrRange|all}-[!]{element|indexOrRange|all}</span>
+<span class="s2">Examples:</span>
+<span class="s2">all-all              all possible pairs</span>
+<span class="s2">Na-Na                only Na-Na pairs</span>
+<span class="s2">all-all, !Na-        all pairs except Na-Na</span>
+<span class="s2">all-all, -!Na        same as previous</span>
+<span class="s2">Na-1:4               pairs of Na and first 4 atoms</span>
+<span class="s2">all-all, !Cl-!Cl     exclude any pairs containing Cl</span>
+<span class="s2">all-all, !Cl-, -!Cl  same as previous</span>
+<span class="s2">1-all                only pairs including the first atom&quot;&quot;&quot;</span><span class="p">,</span>  <span class="c1"># TextCtrl &quot;all-all&quot;</span>
+        <span class="c1">#    &#39;gridAtoms&#39; : &#39;&#39;, # AutoWidthLabelsGrid</span>
+    <span class="p">}</span>
+<span class="p">)</span>
+
+
+<span class="n">plotpanel</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="c1">#    &#39;xDataCombo&#39; : &#39;&#39;, # ComboBox</span>
+    <span class="c1">#    &#39;yDataList&#39; : &#39;&#39;, # KeyEventsListCtrl</span>
+    <span class="s2">&quot;offsetLabel&quot;</span><span class="p">:</span> <span class="s2">&quot;The vertical gap between stacked plots&quot;</span><span class="p">,</span>  <span class="c1"># StaticText &quot;offset&quot;</span>
+    <span class="c1">#    &#39;offsetTextCtrl&#39; : &#39;&#39;, # TextCtrl</span>
+    <span class="s2">&quot;plotButton&quot;</span><span class="p">:</span> <span class="s2">&quot;Plot the selected data&quot;</span><span class="p">,</span>  <span class="c1"># Button &quot;Plot&quot;</span>
+    <span class="s2">&quot;resetButton&quot;</span><span class="p">:</span> <span class="s2">&quot;Reset the plot configuration&quot;</span><span class="p">,</span>  <span class="c1"># Button &quot;Reset&quot;</span>
+<span class="p">}</span>
+
+
+<span class="n">preferencespanel</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;structureDirCheckBox&quot;</span><span class="p">:</span> <span class="p">(</span>
+        <span class="s2">&quot;Remember the structures directory across sessions.  &quot;</span>
+        <span class="s2">&quot;If unchecked, the initial structures directory will &quot;</span>
+        <span class="s2">&quot;default to the current path.&quot;</span>
+    <span class="p">),</span>
+    <span class="s2">&quot;dataDirCheckBox&quot;</span><span class="p">:</span> <span class="p">(</span>
+        <span class="s2">&quot;Remember the data set directory across sessions.  &quot;</span>
+        <span class="s2">&quot;If unchecked, the initial data set directory will &quot;</span>
+        <span class="s2">&quot;default to the current path.&quot;</span>
+    <span class="p">),</span>
+    <span class="s2">&quot;textCtrlViewer&quot;</span><span class="p">:</span> <span class="p">(</span><span class="s2">&quot;The name of the structure viewer executable, &quot;</span> <span class="s2">&quot;e.g., &#39;atomeye&#39; or &#39;pymol&#39;.&quot;</span><span class="p">),</span>
+    <span class="s2">&quot;textCtrlArgument&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;&quot;</span><span class="se">\</span>
+<span class="s2">The command-line arguments to the structure viewer.</span>
+<span class="s2">&#39;</span><span class="si">%s</span><span class="s2">&#39; represents the file name that will be passed to the viewer.</span>
+<span class="s2">Command-line switches placed here will be passed as well.</span>
+<span class="s2">E. g. &#39;</span><span class="si">%s</span><span class="s2">&#39; or &#39;-c </span><span class="si">%s</span><span class="s2">&#39; (for pymol).</span><span class="se">\</span>
+<span class="s2">        &quot;&quot;&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;choiceFormat&quot;</span><span class="p">:</span> <span class="s2">&quot;Choose a file format the structure viewer accepts.&quot;</span><span class="p">,</span>
+<span class="p">}</span>
+
+
+<span class="n">temperatureseriespanel</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="c1">#    &#39;instructionsLabel&#39; : &#39;&#39;, # StaticText &quot;Select a fit from the tree on the left</span>
+    <span class="c1">#     then add datasets and assign\ntemperatues below. If you have not set up a fit to</span>
+    <span class="c1">#     be the template\nfor the series, hit cancel and rerun this macro once a fit has been\ncreated.&quot;</span>
+    <span class="s2">&quot;listCtrlFiles&quot;</span><span class="p">:</span> <span class="s2">&quot;Click header to sort by temperature&quot;</span><span class="p">,</span>  <span class="c1"># AutoWidthListCtrl</span>
+    <span class="c1">#    &#39;buttonUp&#39; : &#39;&#39;, # BitmapButton</span>
+    <span class="c1">#    &#39;buttonDown&#39; : &#39;&#39;, # BitmapButton</span>
+    <span class="c1">#    &#39;buttonAdd&#39; : &#39;&#39;, # Button &quot;Add&quot;</span>
+    <span class="c1">#    &#39;buttonDelete&#39; : &#39;&#39;, # Button &quot;Delete&quot;</span>
+    <span class="c1">#    &#39;goButton&#39; : &#39;&#39;, # Button &quot;OK&quot;</span>
+    <span class="c1">#    &#39;cancelButton&#39; : &#39;&#39;, # Button &quot;Cancel&quot;</span>
+<span class="p">}</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, The Trustees of Columbia University in the City of New York.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

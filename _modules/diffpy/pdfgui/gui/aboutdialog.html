@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>diffpy.pdfgui.gui.aboutdialog &mdash; diffpy.pdfgui 3.1.0rc0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../../../_static/documentation_options.js?v=a2ca8c84"></script>
+        <script src="../../../../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../../index.html" class="icon icon-home">
+            diffpy.pdfgui
+          </a>
+              <div class="version">
+                3.1.0rc0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tutorial.html">Tutorial</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../license.html">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../release.html">Release Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../api/diffpy.pdfgui.html">Package API</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">diffpy.pdfgui</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">diffpy.pdfgui.gui.aboutdialog</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for diffpy.pdfgui.gui.aboutdialog</h1><div class="highlight"><pre>
+<span></span><span class="ch">#!/usr/bin/env python</span>
+<span class="c1">##############################################################################</span>
+<span class="c1">#</span>
+<span class="c1"># PDFgui            by DANSE Diffraction group</span>
+<span class="c1">#                   Simon J. L. Billinge</span>
+<span class="c1">#                   (c) 2006 Trustees of the Michigan State University.</span>
+<span class="c1">#                   (c) 2024 Trustees of the Columbia University in the City</span>
+<span class="c1">#                   of New York</span>
+<span class="c1">#                   All rights reserved.</span>
+<span class="c1">#</span>
+<span class="c1"># File coded by:    Dmitriy Bryndin</span>
+<span class="c1">#</span>
+<span class="c1"># See AUTHORS.txt for a list of people who contributed.</span>
+<span class="c1"># See LICENSE.txt for license information.</span>
+<span class="c1">#</span>
+<span class="c1">##############################################################################</span>
+
+<span class="kn">import</span> <span class="nn">random</span>
+
+<span class="kn">import</span> <span class="nn">wx</span>
+<span class="kn">import</span> <span class="nn">wx.lib.agw.hyperlink</span>
+
+<span class="kn">from</span> <span class="nn">diffpy.pdfgui.gui.pdfguiglobals</span> <span class="kn">import</span> <span class="n">iconpath</span>
+<span class="kn">from</span> <span class="nn">diffpy.pdfgui.version</span> <span class="kn">import</span> <span class="n">__date__</span><span class="p">,</span> <span class="n">__version__</span>
+
+<span class="n">_acknowledgement</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span><span class="se">\</span>
+<span class="s2">This software was developed by the Billinge-group as part of the Distributed</span>
+<span class="s2">Data Analysis of Neutron Scattering Experiments (DANSE) project funded by the US</span>
+<span class="s2">National Science Foundation under grant DMR-0520547.  Developments of PDFfit2</span>
+<span class="s2">were funded by NSF grant DMR-0304391 in the Billinge-group, and with support</span>
+<span class="s2">from Michigan State University and Columbia University.  Any opinions, findings,</span>
+<span class="s2">and conclusions or recommendations expressed in this material are those of the</span>
+<span class="s2">author(s) and do not necessarily reflect the views of the respective funding</span>
+<span class="s2">bodies.</span>
+
+<span class="s2">If you use this program to do productive scientific research that leads to</span>
+<span class="s2">publication, we ask that you acknowledge use of the program by citing the</span>
+<span class="s2">following paper in your publication:</span>
+
+<span class="s2">    C. L. Farrow, P. Juhas, J. W. Liu, D. Bryndin, E. S. Bozin,</span>
+<span class="s2">    J. Bloch, Th. Proffen and S. J. L. Billinge, PDFfit2 and PDFgui:</span>
+<span class="s2">    computer programs for studying nanostructure in crystals,</span>
+<span class="s2">    J. Phys.: Condens. Matter 19, 335219 (2007).&quot;&quot;&quot;</span>
+
+<span class="n">_copyright</span> <span class="o">=</span> <span class="s2">&quot;(c) 2005-</span><span class="si">{year}</span><span class="s2">,&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">year</span><span class="o">=</span><span class="n">__date__</span><span class="p">[:</span><span class="mi">4</span><span class="p">])</span>
+
+<span class="n">_homepage</span> <span class="o">=</span> <span class="s2">&quot;https://www.diffpy.org&quot;</span>
+
+<span class="c1"># authors list is shuffled randomly every time</span>
+<span class="n">_authors</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;S. J. L. Billinge&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;E. S. Bozin&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;D. Bryndin&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;C. L. Farrow&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;P. Juhas&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;J. W. Liu&quot;</span><span class="p">,</span>
+<span class="p">]</span>
+<span class="n">_paper</span> <span class="o">=</span> <span class="s2">&quot;https://stacks.iop.org/0953-8984/19/335219&quot;</span>
+<span class="n">_license</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+
+
+<div class="viewcode-block" id="launchBrowser">
+<a class="viewcode-back" href="../../../../api/diffpy.pdfgui.gui.html#diffpy.pdfgui.gui.aboutdialog.launchBrowser">[docs]</a>
+<span class="k">def</span> <span class="nf">launchBrowser</span><span class="p">(</span><span class="n">url</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Launches browser and opens specified url</span>
+
+<span class="sd">    In some cases may require BROWSER environment variable to be set up.</span>
+
+<span class="sd">    @param url: URL to open</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">import</span> <span class="nn">webbrowser</span>
+
+    <span class="n">webbrowser</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">url</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="DialogAbout">
+<a class="viewcode-back" href="../../../../api/diffpy.pdfgui.gui.html#diffpy.pdfgui.gui.aboutdialog.DialogAbout">[docs]</a>
+<span class="k">class</span> <span class="nc">DialogAbout</span><span class="p">(</span><span class="n">wx</span><span class="o">.</span><span class="n">Dialog</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; &quot;About&quot; Dialog</span>
+
+<span class="sd">    Shows product name, current version, authors, and link to the product page.</span>
+<span class="sd">    Current version is taken from version.py</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">):</span>
+
+        <span class="c1"># begin wxGlade: DialogAbout.__init__</span>
+        <span class="n">kwds</span><span class="p">[</span><span class="s2">&quot;style&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">kwds</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;style&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="o">|</span> <span class="n">wx</span><span class="o">.</span><span class="n">DEFAULT_DIALOG_STYLE</span>
+        <span class="n">wx</span><span class="o">.</span><span class="n">Dialog</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">SetSize</span><span class="p">((</span><span class="mi">600</span><span class="p">,</span> <span class="mi">595</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bitmap_logo</span> <span class="o">=</span> <span class="n">wx</span><span class="o">.</span><span class="n">StaticBitmap</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">ID_ANY</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">Bitmap</span><span class="p">(</span><span class="n">iconpath</span><span class="p">(</span><span class="s2">&quot;logo.png&quot;</span><span class="p">)))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">label_title</span> <span class="o">=</span> <span class="n">wx</span><span class="o">.</span><span class="n">StaticText</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">ID_ANY</span><span class="p">,</span> <span class="s2">&quot;PDFgui&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">label_version</span> <span class="o">=</span> <span class="n">wx</span><span class="o">.</span><span class="n">StaticText</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">ID_ANY</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">label_build</span> <span class="o">=</span> <span class="n">wx</span><span class="o">.</span><span class="n">StaticText</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">ID_ANY</span><span class="p">,</span> <span class="s2">&quot;Build:&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">label_svnrevision</span> <span class="o">=</span> <span class="n">wx</span><span class="o">.</span><span class="n">StaticText</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">ID_ANY</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">label_copyright</span> <span class="o">=</span> <span class="n">wx</span><span class="o">.</span><span class="n">StaticText</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">ID_ANY</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">label_author</span> <span class="o">=</span> <span class="n">wx</span><span class="o">.</span><span class="n">StaticText</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">ID_ANY</span><span class="p">,</span> <span class="s2">&quot;author&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">hyperlink</span> <span class="o">=</span> <span class="n">wx</span><span class="o">.</span><span class="n">lib</span><span class="o">.</span><span class="n">agw</span><span class="o">.</span><span class="n">hyperlink</span><span class="o">.</span><span class="n">HyperLinkCtrl</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">ID_ANY</span><span class="p">,</span> <span class="n">_homepage</span><span class="p">,</span> <span class="n">URL</span><span class="o">=</span><span class="n">_homepage</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">hyperlink_license</span> <span class="o">=</span> <span class="n">wx</span><span class="o">.</span><span class="n">lib</span><span class="o">.</span><span class="n">agw</span><span class="o">.</span><span class="n">hyperlink</span><span class="o">.</span><span class="n">HyperLinkCtrl</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">ID_ANY</span><span class="p">,</span> <span class="n">_license</span><span class="p">,</span> <span class="n">URL</span><span class="o">=</span><span class="n">_license</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">static_line_1</span> <span class="o">=</span> <span class="n">wx</span><span class="o">.</span><span class="n">StaticLine</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">ID_ANY</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">label_acknowledgement</span> <span class="o">=</span> <span class="n">wx</span><span class="o">.</span><span class="n">StaticText</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">ID_ANY</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">hyperlink_paper</span> <span class="o">=</span> <span class="n">wx</span><span class="o">.</span><span class="n">lib</span><span class="o">.</span><span class="n">agw</span><span class="o">.</span><span class="n">hyperlink</span><span class="o">.</span><span class="n">HyperLinkCtrl</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">ID_ANY</span><span class="p">,</span> <span class="n">_paper</span><span class="p">,</span> <span class="n">URL</span><span class="o">=</span><span class="n">_paper</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">static_line_2</span> <span class="o">=</span> <span class="n">wx</span><span class="o">.</span><span class="n">StaticLine</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">ID_ANY</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bitmap_button_nsf</span> <span class="o">=</span> <span class="n">wx</span><span class="o">.</span><span class="n">BitmapButton</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">ID_ANY</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">NullBitmap</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="n">wx</span><span class="o">.</span><span class="n">BU_AUTODRAW</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bitmap_button_danse</span> <span class="o">=</span> <span class="n">wx</span><span class="o">.</span><span class="n">BitmapButton</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">ID_ANY</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">NullBitmap</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="n">wx</span><span class="o">.</span><span class="n">BU_AUTODRAW</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bitmap_button_msu</span> <span class="o">=</span> <span class="n">wx</span><span class="o">.</span><span class="n">BitmapButton</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">ID_ANY</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">NullBitmap</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="n">wx</span><span class="o">.</span><span class="n">BU_AUTODRAW</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bitmap_button_columbia</span> <span class="o">=</span> <span class="n">wx</span><span class="o">.</span><span class="n">BitmapButton</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">ID_ANY</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">NullBitmap</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="n">wx</span><span class="o">.</span><span class="n">BU_AUTODRAW</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">static_line_3</span> <span class="o">=</span> <span class="n">wx</span><span class="o">.</span><span class="n">StaticLine</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">ID_ANY</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">button_OK</span> <span class="o">=</span> <span class="n">wx</span><span class="o">.</span><span class="n">Button</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">ID_OK</span><span class="p">,</span> <span class="s2">&quot;OK&quot;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">__set_properties</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__do_layout</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">Bind</span><span class="p">(</span><span class="n">wx</span><span class="o">.</span><span class="n">EVT_BUTTON</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">onNsfLogo</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">bitmap_button_nsf</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Bind</span><span class="p">(</span><span class="n">wx</span><span class="o">.</span><span class="n">EVT_BUTTON</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">onDanseLogo</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">bitmap_button_danse</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Bind</span><span class="p">(</span><span class="n">wx</span><span class="o">.</span><span class="n">EVT_BUTTON</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">onMsuLogo</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">bitmap_button_msu</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Bind</span><span class="p">(</span><span class="n">wx</span><span class="o">.</span><span class="n">EVT_BUTTON</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">onColumbiaLogo</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">bitmap_button_columbia</span><span class="p">)</span>
+        <span class="c1"># end wxGlade</span>
+
+        <span class="c1"># randomly shuffle authors&#39; names</span>
+        <span class="n">random</span><span class="o">.</span><span class="n">shuffle</span><span class="p">(</span><span class="n">_authors</span><span class="p">)</span>
+        <span class="n">strLabel</span> <span class="o">=</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">_authors</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">label_author</span><span class="o">.</span><span class="n">SetLabel</span><span class="p">(</span><span class="n">strLabel</span><span class="p">)</span>
+        <span class="c1"># setup acknowledgement and copyright text labels</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">label_acknowledgement</span><span class="o">.</span><span class="n">SetLabel</span><span class="p">(</span><span class="n">_acknowledgement</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">label_copyright</span><span class="o">.</span><span class="n">SetLabel</span><span class="p">(</span><span class="n">_copyright</span><span class="p">)</span>
+        <span class="c1"># display version and svn revison numbers</span>
+        <span class="n">verwords</span> <span class="o">=</span> <span class="n">__version__</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.post&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">version</span> <span class="o">=</span> <span class="n">verwords</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">revision</span> <span class="o">=</span> <span class="s2">&quot;0&quot;</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">verwords</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span> <span class="k">else</span> <span class="n">verwords</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">label_version</span><span class="o">.</span><span class="n">SetLabel</span><span class="p">(</span><span class="n">version</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">label_svnrevision</span><span class="o">.</span><span class="n">SetLabel</span><span class="p">(</span><span class="n">revision</span><span class="p">)</span>
+
+        <span class="c1"># set bitmaps for logo buttons</span>
+        <span class="n">logo</span> <span class="o">=</span> <span class="n">wx</span><span class="o">.</span><span class="n">Bitmap</span><span class="p">(</span><span class="n">iconpath</span><span class="p">(</span><span class="s2">&quot;nsf_logo.png&quot;</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bitmap_button_nsf</span><span class="o">.</span><span class="n">SetBitmapLabel</span><span class="p">(</span><span class="n">logo</span><span class="p">)</span>
+        <span class="n">logo</span> <span class="o">=</span> <span class="n">wx</span><span class="o">.</span><span class="n">Bitmap</span><span class="p">(</span><span class="n">iconpath</span><span class="p">(</span><span class="s2">&quot;danse_logo.png&quot;</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bitmap_button_danse</span><span class="o">.</span><span class="n">SetBitmapLabel</span><span class="p">(</span><span class="n">logo</span><span class="p">)</span>
+        <span class="n">logo</span> <span class="o">=</span> <span class="n">wx</span><span class="o">.</span><span class="n">Bitmap</span><span class="p">(</span><span class="n">iconpath</span><span class="p">(</span><span class="s2">&quot;msu_logo.png&quot;</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bitmap_button_msu</span><span class="o">.</span><span class="n">SetBitmapLabel</span><span class="p">(</span><span class="n">logo</span><span class="p">)</span>
+        <span class="n">logo</span> <span class="o">=</span> <span class="n">wx</span><span class="o">.</span><span class="n">Bitmap</span><span class="p">(</span><span class="n">iconpath</span><span class="p">(</span><span class="s2">&quot;columbia_logo.png&quot;</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bitmap_button_columbia</span><span class="o">.</span><span class="n">SetBitmapLabel</span><span class="p">(</span><span class="n">logo</span><span class="p">)</span>
+
+        <span class="c1"># resize dialog window to fit version number nicely</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Fit</span><span class="p">()</span>
+        <span class="k">return</span>
+
+    <span class="k">def</span> <span class="nf">__set_properties</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># begin wxGlade: DialogAbout.__set_properties</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">SetTitle</span><span class="p">(</span><span class="s2">&quot;About&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">SetSize</span><span class="p">((</span><span class="mi">600</span><span class="p">,</span> <span class="mi">595</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">label_title</span><span class="o">.</span><span class="n">SetFont</span><span class="p">(</span>
+            <span class="n">wx</span><span class="o">.</span><span class="n">Font</span><span class="p">(</span>
+                <span class="mi">26</span><span class="p">,</span>
+                <span class="n">wx</span><span class="o">.</span><span class="n">FONTFAMILY_DEFAULT</span><span class="p">,</span>
+                <span class="n">wx</span><span class="o">.</span><span class="n">FONTSTYLE_NORMAL</span><span class="p">,</span>
+                <span class="n">wx</span><span class="o">.</span><span class="n">FONTWEIGHT_BOLD</span><span class="p">,</span>
+                <span class="mi">0</span><span class="p">,</span>
+                <span class="s2">&quot;&quot;</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">label_version</span><span class="o">.</span><span class="n">SetFont</span><span class="p">(</span>
+            <span class="n">wx</span><span class="o">.</span><span class="n">Font</span><span class="p">(</span>
+                <span class="mi">26</span><span class="p">,</span>
+                <span class="n">wx</span><span class="o">.</span><span class="n">FONTFAMILY_DEFAULT</span><span class="p">,</span>
+                <span class="n">wx</span><span class="o">.</span><span class="n">FONTSTYLE_NORMAL</span><span class="p">,</span>
+                <span class="n">wx</span><span class="o">.</span><span class="n">FONTWEIGHT_NORMAL</span><span class="p">,</span>
+                <span class="mi">0</span><span class="p">,</span>
+                <span class="s2">&quot;&quot;</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">hyperlink_license</span><span class="o">.</span><span class="n">Enable</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">hyperlink_license</span><span class="o">.</span><span class="n">Hide</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bitmap_button_nsf</span><span class="o">.</span><span class="n">SetSize</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bitmap_button_nsf</span><span class="o">.</span><span class="n">GetBestSize</span><span class="p">())</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bitmap_button_danse</span><span class="o">.</span><span class="n">SetSize</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bitmap_button_danse</span><span class="o">.</span><span class="n">GetBestSize</span><span class="p">())</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bitmap_button_msu</span><span class="o">.</span><span class="n">SetSize</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bitmap_button_msu</span><span class="o">.</span><span class="n">GetBestSize</span><span class="p">())</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bitmap_button_columbia</span><span class="o">.</span><span class="n">SetSize</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bitmap_button_columbia</span><span class="o">.</span><span class="n">GetBestSize</span><span class="p">())</span>
+        <span class="c1"># end wxGlade</span>
+
+    <span class="k">def</span> <span class="nf">__do_layout</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># begin wxGlade: DialogAbout.__do_layout</span>
+        <span class="n">sizer_main</span> <span class="o">=</span> <span class="n">wx</span><span class="o">.</span><span class="n">BoxSizer</span><span class="p">(</span><span class="n">wx</span><span class="o">.</span><span class="n">VERTICAL</span><span class="p">)</span>
+        <span class="n">sizer_button</span> <span class="o">=</span> <span class="n">wx</span><span class="o">.</span><span class="n">BoxSizer</span><span class="p">(</span><span class="n">wx</span><span class="o">.</span><span class="n">HORIZONTAL</span><span class="p">)</span>
+        <span class="n">sizer_logos</span> <span class="o">=</span> <span class="n">wx</span><span class="o">.</span><span class="n">BoxSizer</span><span class="p">(</span><span class="n">wx</span><span class="o">.</span><span class="n">HORIZONTAL</span><span class="p">)</span>
+        <span class="n">sizer_header</span> <span class="o">=</span> <span class="n">wx</span><span class="o">.</span><span class="n">BoxSizer</span><span class="p">(</span><span class="n">wx</span><span class="o">.</span><span class="n">HORIZONTAL</span><span class="p">)</span>
+        <span class="n">sizer_titles</span> <span class="o">=</span> <span class="n">wx</span><span class="o">.</span><span class="n">BoxSizer</span><span class="p">(</span><span class="n">wx</span><span class="o">.</span><span class="n">VERTICAL</span><span class="p">)</span>
+        <span class="n">sizer_build</span> <span class="o">=</span> <span class="n">wx</span><span class="o">.</span><span class="n">BoxSizer</span><span class="p">(</span><span class="n">wx</span><span class="o">.</span><span class="n">HORIZONTAL</span><span class="p">)</span>
+        <span class="n">sizer_title</span> <span class="o">=</span> <span class="n">wx</span><span class="o">.</span><span class="n">BoxSizer</span><span class="p">(</span><span class="n">wx</span><span class="o">.</span><span class="n">HORIZONTAL</span><span class="p">)</span>
+        <span class="n">sizer_header</span><span class="o">.</span><span class="n">Add</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bitmap_logo</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">EXPAND</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="n">sizer_title</span><span class="o">.</span><span class="n">Add</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">label_title</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">EXPAND</span> <span class="o">|</span> <span class="n">wx</span><span class="o">.</span><span class="n">LEFT</span> <span class="o">|</span> <span class="n">wx</span><span class="o">.</span><span class="n">TOP</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+        <span class="n">sizer_title</span><span class="o">.</span><span class="n">Add</span><span class="p">((</span><span class="mi">20</span><span class="p">,</span> <span class="mi">20</span><span class="p">),</span> <span class="mi">0</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">EXPAND</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="n">sizer_title</span><span class="o">.</span><span class="n">Add</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">label_version</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">ALIGN_BOTTOM</span> <span class="o">|</span> <span class="n">wx</span><span class="o">.</span><span class="n">RIGHT</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+        <span class="n">sizer_titles</span><span class="o">.</span><span class="n">Add</span><span class="p">(</span><span class="n">sizer_title</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">EXPAND</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="n">sizer_build</span><span class="o">.</span><span class="n">Add</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">label_build</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">LEFT</span> <span class="o">|</span> <span class="n">wx</span><span class="o">.</span><span class="n">RIGHT</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+        <span class="n">sizer_build</span><span class="o">.</span><span class="n">Add</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">label_svnrevision</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="n">sizer_titles</span><span class="o">.</span><span class="n">Add</span><span class="p">(</span><span class="n">sizer_build</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">EXPAND</span> <span class="o">|</span> <span class="n">wx</span><span class="o">.</span><span class="n">TOP</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+        <span class="n">sizer_titles</span><span class="o">.</span><span class="n">Add</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">label_copyright</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">LEFT</span> <span class="o">|</span> <span class="n">wx</span><span class="o">.</span><span class="n">RIGHT</span> <span class="o">|</span> <span class="n">wx</span><span class="o">.</span><span class="n">TOP</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+        <span class="n">sizer_titles</span><span class="o">.</span><span class="n">Add</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">label_author</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">LEFT</span> <span class="o">|</span> <span class="n">wx</span><span class="o">.</span><span class="n">RIGHT</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+        <span class="n">sizer_titles</span><span class="o">.</span><span class="n">Add</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">hyperlink</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">LEFT</span> <span class="o">|</span> <span class="n">wx</span><span class="o">.</span><span class="n">RIGHT</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+        <span class="n">sizer_titles</span><span class="o">.</span><span class="n">Add</span><span class="p">((</span><span class="mi">20</span><span class="p">,</span> <span class="mi">20</span><span class="p">),</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="n">sizer_titles</span><span class="o">.</span><span class="n">Add</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">hyperlink_license</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">LEFT</span> <span class="o">|</span> <span class="n">wx</span><span class="o">.</span><span class="n">RIGHT</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+        <span class="n">sizer_header</span><span class="o">.</span><span class="n">Add</span><span class="p">(</span><span class="n">sizer_titles</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">EXPAND</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="n">sizer_main</span><span class="o">.</span><span class="n">Add</span><span class="p">(</span><span class="n">sizer_header</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">BOTTOM</span> <span class="o">|</span> <span class="n">wx</span><span class="o">.</span><span class="n">EXPAND</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+        <span class="n">sizer_main</span><span class="o">.</span><span class="n">Add</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">static_line_1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">EXPAND</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="n">sizer_main</span><span class="o">.</span><span class="n">Add</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">label_acknowledgement</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">BOTTOM</span> <span class="o">|</span> <span class="n">wx</span><span class="o">.</span><span class="n">LEFT</span> <span class="o">|</span> <span class="n">wx</span><span class="o">.</span><span class="n">TOP</span><span class="p">,</span> <span class="mi">7</span><span class="p">)</span>
+        <span class="n">sizer_main</span><span class="o">.</span><span class="n">Add</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">hyperlink_paper</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">BOTTOM</span> <span class="o">|</span> <span class="n">wx</span><span class="o">.</span><span class="n">LEFT</span> <span class="o">|</span> <span class="n">wx</span><span class="o">.</span><span class="n">TOP</span><span class="p">,</span> <span class="mi">7</span><span class="p">)</span>
+        <span class="n">sizer_main</span><span class="o">.</span><span class="n">Add</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">static_line_2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">EXPAND</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="n">sizer_logos</span><span class="o">.</span><span class="n">Add</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bitmap_button_nsf</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">LEFT</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="n">sizer_logos</span><span class="o">.</span><span class="n">Add</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bitmap_button_danse</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">LEFT</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="n">sizer_logos</span><span class="o">.</span><span class="n">Add</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bitmap_button_msu</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">LEFT</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="n">sizer_logos</span><span class="o">.</span><span class="n">Add</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bitmap_button_columbia</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">LEFT</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="n">sizer_logos</span><span class="o">.</span><span class="n">Add</span><span class="p">((</span><span class="mi">50</span><span class="p">,</span> <span class="mi">50</span><span class="p">),</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="n">sizer_main</span><span class="o">.</span><span class="n">Add</span><span class="p">(</span><span class="n">sizer_logos</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">EXPAND</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="n">sizer_main</span><span class="o">.</span><span class="n">Add</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">static_line_3</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">EXPAND</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="n">sizer_button</span><span class="o">.</span><span class="n">Add</span><span class="p">((</span><span class="mi">20</span><span class="p">,</span> <span class="mi">20</span><span class="p">),</span> <span class="mi">1</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">EXPAND</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="n">sizer_button</span><span class="o">.</span><span class="n">Add</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">button_OK</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">RIGHT</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+        <span class="n">sizer_main</span><span class="o">.</span><span class="n">Add</span><span class="p">(</span><span class="n">sizer_button</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">EXPAND</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">SetSizer</span><span class="p">(</span><span class="n">sizer_main</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Layout</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Centre</span><span class="p">()</span>
+        <span class="c1"># end wxGlade</span>
+
+<div class="viewcode-block" id="DialogAbout.onNsfLogo">
+<a class="viewcode-back" href="../../../../api/diffpy.pdfgui.gui.html#diffpy.pdfgui.gui.aboutdialog.DialogAbout.onNsfLogo">[docs]</a>
+    <span class="k">def</span> <span class="nf">onNsfLogo</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>  <span class="c1"># wxGlade: DialogAbout.&lt;event_handler&gt;</span>
+        <span class="n">launchBrowser</span><span class="p">(</span><span class="s2">&quot;https://www.nsf.gov&quot;</span><span class="p">)</span>
+        <span class="n">event</span><span class="o">.</span><span class="n">Skip</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="DialogAbout.onDanseLogo">
+<a class="viewcode-back" href="../../../../api/diffpy.pdfgui.gui.html#diffpy.pdfgui.gui.aboutdialog.DialogAbout.onDanseLogo">[docs]</a>
+    <span class="k">def</span> <span class="nf">onDanseLogo</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>  <span class="c1"># wxGlade: DialogAbout.&lt;event_handler&gt;</span>
+        <span class="n">launchBrowser</span><span class="p">(</span><span class="s2">&quot;http://danse.us&quot;</span><span class="p">)</span>
+        <span class="n">event</span><span class="o">.</span><span class="n">Skip</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="DialogAbout.onMsuLogo">
+<a class="viewcode-back" href="../../../../api/diffpy.pdfgui.gui.html#diffpy.pdfgui.gui.aboutdialog.DialogAbout.onMsuLogo">[docs]</a>
+    <span class="k">def</span> <span class="nf">onMsuLogo</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>  <span class="c1"># wxGlade: DialogAbout.&lt;event_handler&gt;</span>
+        <span class="n">launchBrowser</span><span class="p">(</span><span class="s2">&quot;https://www.msu.edu&quot;</span><span class="p">)</span>
+        <span class="n">event</span><span class="o">.</span><span class="n">Skip</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="DialogAbout.onColumbiaLogo">
+<a class="viewcode-back" href="../../../../api/diffpy.pdfgui.gui.html#diffpy.pdfgui.gui.aboutdialog.DialogAbout.onColumbiaLogo">[docs]</a>
+    <span class="k">def</span> <span class="nf">onColumbiaLogo</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>  <span class="c1"># wxGlade: DialogAbout.&lt;event_handler&gt;</span>
+        <span class="n">launchBrowser</span><span class="p">(</span><span class="s2">&quot;https://www.columbia.edu&quot;</span><span class="p">)</span>
+        <span class="n">event</span><span class="o">.</span><span class="n">Skip</span><span class="p">()</span></div>
+</div>
+
+
+
+<span class="c1"># end of class DialogAbout</span>
+
+<span class="c1"># testing code ###########################################################</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">app</span> <span class="o">=</span> <span class="n">wx</span><span class="o">.</span><span class="n">App</span><span class="p">()</span>
+    <span class="n">dialog</span> <span class="o">=</span> <span class="n">DialogAbout</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+    <span class="n">dialog</span><span class="o">.</span><span class="n">ShowModal</span><span class="p">()</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, The Trustees of Columbia University in the City of New York.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

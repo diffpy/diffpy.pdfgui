@@ -1,0 +1,847 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>diffpy.pdfgui.control.plotter &mdash; diffpy.pdfgui 3.1.0rc0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../../../_static/documentation_options.js?v=a2ca8c84"></script>
+        <script src="../../../../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../../index.html" class="icon icon-home">
+            diffpy.pdfgui
+          </a>
+              <div class="version">
+                3.1.0rc0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tutorial.html">Tutorial</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../license.html">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../release.html">Release Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../api/diffpy.pdfgui.html">Package API</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">diffpy.pdfgui</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">diffpy.pdfgui.control.plotter</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for diffpy.pdfgui.control.plotter</h1><div class="highlight"><pre>
+<span></span><span class="ch">#!/usr/bin/env python</span>
+<span class="c1">##############################################################################</span>
+<span class="c1">#</span>
+<span class="c1"># PDFgui            by DANSE Diffraction group</span>
+<span class="c1">#                   Simon J. L. Billinge</span>
+<span class="c1">#                   (c) 2006 trustees of the Michigan State University.</span>
+<span class="c1">#                   All rights reserved.</span>
+<span class="c1">#</span>
+<span class="c1"># File coded by:    Jiwu Liu</span>
+<span class="c1">#</span>
+<span class="c1"># See AUTHORS.txt for a list of people who contributed.</span>
+<span class="c1"># See LICENSE.txt for license information.</span>
+<span class="c1">#</span>
+<span class="c1">##############################################################################</span>
+
+<span class="kn">from</span> <span class="nn">diffpy.pdfgui.control.controlerrors</span> <span class="kn">import</span> <span class="n">ControlConfigError</span><span class="p">,</span> <span class="n">ControlStatusError</span>
+<span class="kn">from</span> <span class="nn">diffpy.pdfgui.control.pdfcomponent</span> <span class="kn">import</span> <span class="n">PDFComponent</span>
+<span class="kn">from</span> <span class="nn">diffpy.pdfgui.gui.extendedplotframe</span> <span class="kn">import</span> <span class="n">ExtendedPlotFrame</span>
+
+<span class="c1"># Preset plotting style</span>
+<span class="n">colors</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="s2">&quot;red&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;blue&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;magenta&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;cyan&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;green&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;yellow&quot;</span><span class="p">,</span>  <span class="c1"># &quot;black&quot;,</span>
+    <span class="s2">&quot;darkRed&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;darkBlue&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;darkMagenta&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;darkCyan&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;darkGreen&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;darkYellow&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">lines</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;solid&quot;</span><span class="p">,</span> <span class="s2">&quot;dash&quot;</span><span class="p">,</span> <span class="s2">&quot;dot&quot;</span><span class="p">,</span> <span class="s2">&quot;dashDot&quot;</span><span class="p">)</span>
+<span class="n">symbols</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;circle&quot;</span><span class="p">,</span> <span class="s2">&quot;square&quot;</span><span class="p">,</span> <span class="s2">&quot;triangle&quot;</span><span class="p">,</span> <span class="s2">&quot;diamond&quot;</span><span class="p">)</span>  <span class="c1"># ,&quot;cross&quot;,&quot;xCross&quot;)</span>
+
+<span class="c1"># this is to map &#39;r&#39; to what it is supposed to be. For example, when user asks</span>
+<span class="c1"># for plotting &#39;Gobs&#39; against &#39;r&#39;, the real data objects are &#39;Gobs&#39; and &#39;robs&#39;</span>
+<span class="n">transdict</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;Gobs&quot;</span><span class="p">:</span> <span class="s2">&quot;robs&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Gcalc&quot;</span><span class="p">:</span> <span class="s2">&quot;rcalc&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Gdiff&quot;</span><span class="p">:</span> <span class="s2">&quot;rcalc&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Gtrunc&quot;</span><span class="p">:</span> <span class="s2">&quot;rcalc&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;crw&quot;</span><span class="p">:</span> <span class="s2">&quot;rcalc&quot;</span><span class="p">,</span>
+<span class="p">}</span>
+<span class="n">baselineStyle</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;with&quot;</span><span class="p">:</span> <span class="s2">&quot;lines&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;line&quot;</span><span class="p">:</span> <span class="s2">&quot;solid&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;color&quot;</span><span class="p">:</span> <span class="s2">&quot;black&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;width&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="s2">&quot;legend&quot;</span><span class="p">:</span> <span class="s2">&quot;_nolegend_&quot;</span><span class="p">,</span>
+<span class="p">}</span>
+
+
+<span class="k">def</span> <span class="nf">_transName</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;translate name of y object</span>
+
+<span class="sd">    This is mainly for plotting of parameters. GUI will pass in a integer to</span>
+<span class="sd">    indicate which parameter to be plotted. However, in data storage the</span>
+<span class="sd">    parameter is denoted as &#39;@n&#39;</span>
+
+<span class="sd">    name -- name of data item</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+        <span class="n">rv</span> <span class="o">=</span> <span class="s2">&quot;@&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">rv</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">rv</span>
+
+
+<span class="k">def</span> <span class="nf">_fullName</span><span class="p">(</span><span class="n">dataId</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;construct full name&quot;&quot;&quot;</span>
+    <span class="kn">from</span> <span class="nn">diffpy.pdfgui.control.fitting</span> <span class="kn">import</span> <span class="n">Fitting</span>
+
+    <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">dataId</span><span class="p">,</span> <span class="s2">&quot;owner&quot;</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">dataId</span><span class="o">.</span><span class="n">owner</span><span class="p">,</span> <span class="n">Fitting</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">_fullName</span><span class="p">(</span><span class="n">dataId</span><span class="o">.</span><span class="n">owner</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;/&quot;</span> <span class="o">+</span> <span class="n">dataId</span><span class="o">.</span><span class="n">name</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">dataId</span><span class="o">.</span><span class="n">name</span>
+
+
+<span class="k">def</span> <span class="nf">_buildStyle</span><span class="p">(</span><span class="n">plotter</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">group</span><span class="p">,</span> <span class="n">yNames</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;trying to figure out a good style</span>
+
+<span class="sd">    1. generally we want line style for Gcalc, Gdiff, crw, symbol style for Gobs,</span>
+<span class="sd">    and line-symbol style for the rest</span>
+<span class="sd">    2. there is a preferred style for plotting a single PDF curve</span>
+
+<span class="sd">    plotter -- A plotter instance</span>
+<span class="sd">    name -- what is to be plotted (y name)</span>
+<span class="sd">    group -- which group the curve is in (group = -1 means it is the only group)</span>
+<span class="sd">    yNames -- all y to be plotted</span>
+<span class="sd">    return: style dictionay</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;Gcalc&quot;</span><span class="p">,</span> <span class="s2">&quot;Gdiff&quot;</span><span class="p">,</span> <span class="s2">&quot;crw&quot;</span><span class="p">):</span>
+        <span class="n">style</span> <span class="o">=</span> <span class="n">plotter</span><span class="o">.</span><span class="n">buildLineStyle</span><span class="p">()</span>
+        <span class="n">style</span><span class="p">[</span><span class="s2">&quot;line&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;solid&quot;</span>
+    <span class="k">elif</span> <span class="n">name</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;Gobs&quot;</span><span class="p">,</span> <span class="s2">&quot;Gtrunc&quot;</span><span class="p">):</span>
+        <span class="n">style</span> <span class="o">=</span> <span class="n">plotter</span><span class="o">.</span><span class="n">buildSymbolStyle</span><span class="p">()</span>
+
+        <span class="c1"># Use open circle always</span>
+        <span class="n">style</span><span class="p">[</span><span class="s2">&quot;symbolColor&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;white&quot;</span>
+        <span class="n">style</span><span class="p">[</span><span class="s2">&quot;symbol&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;circle&quot;</span>
+        <span class="n">style</span><span class="p">[</span><span class="s2">&quot;symbolSize&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">6</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">style</span> <span class="o">=</span> <span class="n">plotter</span><span class="o">.</span><span class="n">buildLineSymbolStyle</span><span class="p">()</span>
+        <span class="n">style</span><span class="p">[</span><span class="s2">&quot;line&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;dash&quot;</span>
+        <span class="n">style</span><span class="p">[</span><span class="s2">&quot;symbol&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;circle&quot;</span>
+        <span class="n">style</span><span class="p">[</span><span class="s2">&quot;symbolSize&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">8</span>
+
+    <span class="c1"># We only care about how to arrange Gdiff Gobs Gcalc Gtrunc crw nicely</span>
+    <span class="k">if</span> <span class="n">group</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="c1"># use fixed style for single PDFFit picture</span>
+        <span class="k">if</span> <span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;Gcalc&quot;</span><span class="p">:</span>
+            <span class="n">style</span><span class="p">[</span><span class="s2">&quot;color&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;red&quot;</span>
+        <span class="k">elif</span> <span class="n">name</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;Gobs&quot;</span><span class="p">,</span> <span class="s2">&quot;Gtrunc&quot;</span><span class="p">):</span>
+            <span class="n">style</span><span class="p">[</span><span class="s2">&quot;color&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;blue&quot;</span>
+        <span class="k">elif</span> <span class="n">name</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;Gdiff&quot;</span><span class="p">,</span> <span class="s2">&quot;crw&quot;</span><span class="p">):</span>
+            <span class="n">style</span><span class="p">[</span><span class="s2">&quot;color&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;green&quot;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># make sure Gdiff, Gtrunc, Gobs, crw are having same color</span>
+        <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;Gobs&quot;</span><span class="p">,</span> <span class="s2">&quot;Gtrunc&quot;</span><span class="p">,</span> <span class="s2">&quot;Gdiff&quot;</span><span class="p">,</span> <span class="s2">&quot;Gcalc&quot;</span><span class="p">,</span> <span class="s2">&quot;crw&quot;</span><span class="p">):</span>
+            <span class="n">style</span><span class="p">[</span><span class="s2">&quot;color&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">colors</span><span class="p">[</span><span class="n">group</span> <span class="o">%</span> <span class="nb">len</span><span class="p">(</span><span class="n">colors</span><span class="p">)]</span>
+        <span class="k">if</span> <span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;Gcalc&quot;</span><span class="p">:</span>
+            <span class="c1"># for visual effect, change Gcalc to black if it&#39;s going to be plotted against Gobs/Gtrunc</span>
+            <span class="k">if</span> <span class="s2">&quot;Gobs&quot;</span> <span class="ow">in</span> <span class="n">yNames</span> <span class="ow">or</span> <span class="s2">&quot;Gtrunc&quot;</span> <span class="ow">in</span> <span class="n">yNames</span><span class="p">:</span>
+                <span class="n">style</span><span class="p">[</span><span class="s2">&quot;color&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;black&quot;</span>
+
+    <span class="k">return</span> <span class="n">style</span>
+
+
+<div class="viewcode-block" id="deblank">
+<a class="viewcode-back" href="../../../../api/diffpy.pdfgui.control.html#diffpy.pdfgui.control.plotter.deblank">[docs]</a>
+<span class="k">def</span> <span class="nf">deblank</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Remove all whitespace from the given string.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">split</span><span class="p">())</span></div>
+
+
+
+<div class="viewcode-block" id="Plotter">
+<a class="viewcode-back" href="../../../../api/diffpy.pdfgui.control.html#diffpy.pdfgui.control.plotter.Plotter">[docs]</a>
+<span class="k">class</span> <span class="nc">Plotter</span><span class="p">(</span><span class="n">PDFComponent</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Plots a single graph. It can have multiple curves.&quot;&quot;&quot;</span>
+
+    <span class="n">__plotWindowNumber</span> <span class="o">=</span> <span class="mi">1</span>
+
+<div class="viewcode-block" id="Plotter.Curve">
+<a class="viewcode-back" href="../../../../api/diffpy.pdfgui.control.html#diffpy.pdfgui.control.plotter.Plotter.Curve">[docs]</a>
+    <span class="k">class</span> <span class="nc">Curve</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Curve stores the information for a curve in the plot</span>
+
+<span class="sd">        There are three ways of forming x and y data lists.</span>
+<span class="sd">        (1) r and g(r) from a single refinement are vectors by themselves</span>
+<span class="sd">        (2) A scalar data item (any item other than r and g(r)) can form a</span>
+<span class="sd">        vector if multiple timeSteps (refinement steps) are specified.</span>
+<span class="sd">        (3) A scalar data item (any item other than r and g(r)) can form a</span>
+<span class="sd">        vector if multiple refinement (multiple ids) are specified</span>
+
+<span class="sd">        name  -- The curve name</span>
+<span class="sd">        plotwnd -- The window where the curve is drawn</span>
+<span class="sd">        xStr -- Data name (string) for x axis</span>
+<span class="sd">        yStr -- Data name (string) for y axis</span>
+<span class="sd">        steps -- refinement step list</span>
+<span class="sd">        ids -- The list of object ids that the curve is related to</span>
+<span class="sd">        offset -- curve displacement in y direction</span>
+<span class="sd">        style --The drawing style of the curve</span>
+<span class="sd">        xData, yData -- data to be plotted</span>
+<span class="sd">        x, y -- original data for exporting (curve could be shifted)</span>
+<span class="sd">        bMultiData -- if the curve data comes from multiple data objects</span>
+<span class="sd">        bMultiStep -- if the curve data comes from multiple refinement step</span>
+<span class="sd">        ref -- reference of curve in the plot window</span>
+<span class="sd">        initialized -- if curve has been inserted</span>
+<span class="sd">        dataChanged -- if curve data has changed</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">plotwnd</span><span class="p">,</span> <span class="n">xStr</span><span class="p">,</span> <span class="n">yStr</span><span class="p">,</span> <span class="n">steps</span><span class="p">,</span> <span class="n">ids</span><span class="p">,</span> <span class="n">offset</span><span class="p">,</span> <span class="n">style</span><span class="p">):</span>
+<span class="w">            </span><span class="sd">&quot;&quot;&quot;initialize</span>
+
+<span class="sd">            name  -- The curve name</span>
+<span class="sd">            plotwnd -- The window where the curve is drawn</span>
+<span class="sd">            xStr -- Data name (string) for x axis</span>
+<span class="sd">            yStr -- Data name (string) for y axis</span>
+<span class="sd">            steps -- refinement step list</span>
+<span class="sd">            ids -- The list of object ids that the curve is related to</span>
+<span class="sd">            offset -- curve displacement in y direction</span>
+<span class="sd">            style --The drawing style of the curve</span>
+<span class="sd">            &quot;&quot;&quot;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">plotwnd</span> <span class="o">=</span> <span class="n">plotwnd</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ids</span> <span class="o">=</span> <span class="n">ids</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">steps</span> <span class="o">=</span> <span class="n">steps</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">xStr</span> <span class="o">=</span> <span class="n">xStr</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">yStr</span> <span class="o">=</span> <span class="n">yStr</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">offset</span> <span class="o">=</span> <span class="n">offset</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">style</span> <span class="o">=</span> <span class="n">style</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">bMultiData</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ids</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">bMultiStep</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">steps</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">steps</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">bMultiStep</span> <span class="o">=</span> <span class="kc">True</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">xData</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">yData</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="kc">None</span>
+
+            <span class="c1"># Reference to the curve object in the  underlying plotting library</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ref</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">initialized</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">dataChanged</span> <span class="o">=</span> <span class="kc">False</span>
+
+            <span class="c1"># validate user&#39;s choice</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">validate</span><span class="p">()</span>
+
+<div class="viewcode-block" id="Plotter.Curve.validate">
+<a class="viewcode-back" href="../../../../api/diffpy.pdfgui.control.html#diffpy.pdfgui.control.plotter.Plotter.Curve.validate">[docs]</a>
+        <span class="k">def</span> <span class="nf">validate</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">            </span><span class="sd">&quot;&quot;&quot;validate(self) --&gt; check if  the curve is valid. Validity</span>
+<span class="sd">            is broken:</span>
+<span class="sd">            (1) when xStr or yStr doesn&#39;t refer to a legal vector</span>
+<span class="sd">            (2) when sizes of xStr and yStr don&#39;t match</span>
+<span class="sd">            &quot;&quot;&quot;</span>
+            <span class="n">bItemIsVector</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">xStr</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;r&quot;</span><span class="p">,</span> <span class="s2">&quot;rcalc&quot;</span><span class="p">,</span> <span class="s2">&quot;robs&quot;</span><span class="p">):</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">yStr</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;Gobs&quot;</span><span class="p">,</span> <span class="s2">&quot;Gcalc&quot;</span><span class="p">,</span> <span class="s2">&quot;Gdiff&quot;</span><span class="p">,</span> <span class="s2">&quot;Gtrunc&quot;</span><span class="p">,</span> <span class="s2">&quot;crw&quot;</span><span class="p">):</span>
+                    <span class="n">emsg</span> <span class="o">=</span> <span class="s2">&quot;x=</span><span class="si">{}</span><span class="s2">, y=</span><span class="si">{}</span><span class="s2"> don&#39;t match&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xStr</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">yStr</span><span class="p">)</span>
+                    <span class="k">raise</span> <span class="n">ControlConfigError</span><span class="p">(</span><span class="n">emsg</span><span class="p">)</span>
+                <span class="n">bItemIsVector</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">xStr</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;Gobs&quot;</span><span class="p">,</span> <span class="s2">&quot;Gcalc&quot;</span><span class="p">,</span> <span class="s2">&quot;Gdiff&quot;</span><span class="p">,</span> <span class="s2">&quot;Gtrunc&quot;</span><span class="p">,</span> <span class="s2">&quot;crw&quot;</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="n">ControlConfigError</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2"> can&#39;t be x axis&quot;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">xStr</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">yStr</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;Gobs&quot;</span><span class="p">,</span> <span class="s2">&quot;Gcalc&quot;</span><span class="p">,</span> <span class="s2">&quot;Gdiff&quot;</span><span class="p">,</span> <span class="s2">&quot;Gtrunc&quot;</span><span class="p">,</span> <span class="s2">&quot;crw&quot;</span><span class="p">):</span>
+                <span class="c1"># Get called when x is not r but y is not Gobs, Gtrunc Gdiff...</span>
+                <span class="k">raise</span> <span class="n">ControlConfigError</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2"> can only be plotted against r&quot;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">yStr</span><span class="p">)</span>
+
+            <span class="c1"># There are three booleans</span>
+            <span class="c1"># (1) bItemIsVector</span>
+            <span class="c1"># (2) self.ids has only one element</span>
+            <span class="c1"># (3) self.allSteps</span>
+            <span class="c1"># The logic below make sure only one of them can be true.</span>
+            <span class="k">if</span> <span class="n">bItemIsVector</span><span class="p">:</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">bMultiData</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">bMultiStep</span><span class="p">:</span>
+                    <span class="n">emsg</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;(</span><span class="si">{}</span><span class="s2">, </span><span class="si">{}</span><span class="s2">) can&#39;t be plotted with multiple &quot;</span> <span class="s2">&quot;refinements/steps&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">xStr</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">yStr</span>
+                    <span class="p">)</span>
+                    <span class="k">raise</span> <span class="n">ControlConfigError</span><span class="p">(</span><span class="n">emsg</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">bMultiData</span> <span class="ow">and</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">bMultiStep</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="n">ControlConfigError</span><span class="p">(</span><span class="s2">&quot;(</span><span class="si">%s</span><span class="s2">, </span><span class="si">%s</span><span class="s2">) is a single point&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xStr</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">yStr</span><span class="p">))</span>
+                <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">bMultiData</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">bMultiStep</span><span class="p">:</span>
+                    <span class="n">emsg</span> <span class="o">=</span> <span class="p">(</span>
+                        <span class="s2">&quot;(</span><span class="si">{}</span><span class="s2">, </span><span class="si">{}</span><span class="s2">) can&#39;t be plotted with both multiple &quot;</span> <span class="s2">&quot;refinements and multiple steps&quot;</span>
+                    <span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xStr</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">yStr</span><span class="p">)</span>
+                    <span class="k">raise</span> <span class="n">ControlConfigError</span><span class="p">(</span><span class="n">emsg</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Plotter.Curve.notify">
+<a class="viewcode-back" href="../../../../api/diffpy.pdfgui.control.html#diffpy.pdfgui.control.plotter.Plotter.Curve.notify">[docs]</a>
+        <span class="k">def</span> <span class="nf">notify</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">changedIds</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">plotwnd</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">            </span><span class="sd">&quot;&quot;&quot;notify Curve object certain data is updated</span>
+
+<span class="sd">            changedIds -- objects to which changed data is associated with</span>
+<span class="sd">            &quot;&quot;&quot;</span>
+            <span class="k">if</span> <span class="n">plotwnd</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">plotwnd</span> <span class="o">=</span> <span class="n">plotwnd</span>
+
+            <span class="c1"># in the case when changedIds are given explicitly, use it.</span>
+            <span class="k">if</span> <span class="n">changedIds</span><span class="p">:</span>
+                <span class="n">affectedIds</span> <span class="o">=</span> <span class="p">[]</span>
+                <span class="k">for</span> <span class="nb">id</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">ids</span><span class="p">:</span>
+                    <span class="k">for</span> <span class="n">changedId</span> <span class="ow">in</span> <span class="n">changedIds</span><span class="p">:</span>
+                        <span class="k">if</span> <span class="nb">id</span> <span class="ow">is</span> <span class="n">changedId</span> <span class="ow">or</span> <span class="nb">id</span><span class="o">.</span><span class="n">owner</span> <span class="ow">is</span> <span class="n">changedId</span><span class="p">:</span>
+                            <span class="n">affectedIds</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">id</span><span class="p">)</span>
+                            <span class="k">break</span>
+
+                <span class="c1"># If the change doesn&#39;t affect any id, do nothing</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">affectedIds</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="kc">False</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">affectedIds</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ids</span>
+
+            <span class="c1"># translation may be required</span>
+            <span class="n">xStr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xStr</span>
+            <span class="k">if</span> <span class="n">xStr</span> <span class="o">==</span> <span class="s2">&quot;r&quot;</span><span class="p">:</span>
+                <span class="n">xStr</span> <span class="o">=</span> <span class="n">transdict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">yStr</span><span class="p">,</span> <span class="n">xStr</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">bMultiData</span><span class="p">:</span>
+                <span class="c1"># Local list is maintained here</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">xData</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">xData</span> <span class="o">=</span> <span class="p">[</span><span class="kc">None</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ids</span><span class="p">)</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">yData</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">yData</span> <span class="o">=</span> <span class="p">[</span><span class="kc">None</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ids</span><span class="p">)</span>
+                <span class="k">for</span> <span class="nb">id</span> <span class="ow">in</span> <span class="n">affectedIds</span><span class="p">:</span>
+                    <span class="n">i</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ids</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="nb">id</span><span class="p">)</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">yData</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="nb">id</span><span class="o">.</span><span class="n">getData</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">yStr</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="n">xStr</span> <span class="o">==</span> <span class="s2">&quot;step&quot;</span><span class="p">:</span>
+                        <span class="k">raise</span> <span class="ne">AssertionError</span><span class="p">(</span><span class="s2">&quot;Can not plot against step&quot;</span><span class="p">)</span>
+                    <span class="k">elif</span> <span class="n">xStr</span> <span class="o">==</span> <span class="s2">&quot;index&quot;</span><span class="p">:</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">xData</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">i</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">xData</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="nb">id</span><span class="o">.</span><span class="n">getData</span><span class="p">(</span><span class="n">xStr</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="c1"># affectedIds has only one member</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">bMultiStep</span><span class="p">:</span>
+                    <span class="n">steps</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># None to get the whole steps</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">steps</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>  <span class="c1">#</span>
+
+                <span class="c1"># plot multiple refinement steps for a single dataId</span>
+                <span class="c1"># in deed, the reference is not gonna change</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">yData</span> <span class="o">=</span> <span class="n">affectedIds</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">getData</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">yStr</span><span class="p">,</span> <span class="n">steps</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">xStr</span> <span class="o">==</span> <span class="s2">&quot;step&quot;</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">yData</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">xData</span> <span class="o">=</span> <span class="kc">None</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">xData</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">yData</span><span class="p">)))</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">xData</span> <span class="o">=</span> <span class="n">affectedIds</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">getData</span><span class="p">(</span><span class="n">xStr</span><span class="p">,</span> <span class="n">steps</span><span class="p">)</span>
+
+                <span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xData</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">yData</span>
+
+                <span class="k">def</span> <span class="nf">_shift</span><span class="p">(</span><span class="n">y</span><span class="p">):</span>
+                    <span class="k">return</span> <span class="n">y</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">offset</span>
+
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">yData</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">offset</span><span class="p">:</span>  <span class="c1"># not zero</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">yData</span> <span class="o">=</span> <span class="p">[</span><span class="n">_shift</span><span class="p">(</span><span class="n">yi</span><span class="p">)</span> <span class="k">for</span> <span class="n">yi</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">yData</span><span class="p">]</span>
+
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">xData</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">yData</span><span class="p">:</span>  <span class="c1"># not empty or None</span>
+                <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">draw</span><span class="p">()</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span> <span class="kc">False</span></div>
+
+
+<div class="viewcode-block" id="Plotter.Curve.draw">
+<a class="viewcode-back" href="../../../../api/diffpy.pdfgui.control.html#diffpy.pdfgui.control.plotter.Plotter.Curve.draw">[docs]</a>
+        <span class="k">def</span> <span class="nf">draw</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">            </span><span class="sd">&quot;&quot;&quot;draw the curve in the graph. It will make sure the data is OK,</span>
+<span class="sd">            and plot to the screen.</span>
+<span class="sd">            &quot;&quot;&quot;</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">bMultiData</span><span class="p">:</span>
+                <span class="c1"># xs and ys initialize here. They are actual data object to be</span>
+                <span class="c1"># used for plotting</span>
+                <span class="n">xs</span> <span class="o">=</span> <span class="p">[]</span>
+                <span class="n">ys</span> <span class="o">=</span> <span class="p">[]</span>
+                <span class="n">plotData</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xData</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">yData</span><span class="p">))</span>
+                <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">plotData</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">x</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">y</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                        <span class="n">xs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+                        <span class="n">ys</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">xs</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">ys</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">xs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xData</span>
+                <span class="n">ys</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">yData</span>
+
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">xs</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">ys</span><span class="p">:</span>
+                <span class="k">return</span> <span class="kc">False</span>
+
+            <span class="c1"># If it can get here, data is ready now.</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">ref</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">ref</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">plotwnd</span><span class="o">.</span><span class="n">insertCurve</span><span class="p">(</span><span class="n">xs</span><span class="p">,</span> <span class="n">ys</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">style</span><span class="p">)</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">yStr</span> <span class="o">==</span> <span class="s2">&quot;Gdiff&quot;</span><span class="p">:</span>
+                    <span class="c1"># add a baseline for any Gdiff</span>
+                    <span class="n">rs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ids</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">rcalc</span>
+                    <span class="k">if</span> <span class="ow">not</span> <span class="n">rs</span><span class="p">:</span>
+                        <span class="n">rs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ids</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">robs</span>
+                    <span class="n">hMin</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">rs</span><span class="p">)</span>
+                    <span class="n">hMax</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">rs</span><span class="p">)</span>
+
+                    <span class="bp">self</span><span class="o">.</span><span class="n">plotwnd</span><span class="o">.</span><span class="n">insertCurve</span><span class="p">([</span><span class="n">hMin</span><span class="p">,</span> <span class="n">hMax</span><span class="p">],</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">offset</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">offset</span><span class="p">],</span> <span class="n">baselineStyle</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="c1"># update only</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">plotwnd</span><span class="o">.</span><span class="n">updateData</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ref</span><span class="p">,</span> <span class="n">xs</span><span class="p">,</span> <span class="n">ys</span><span class="p">)</span>
+
+            <span class="k">return</span> <span class="kc">True</span></div>
+</div>
+
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;initialize</span>
+
+<span class="sd">        name -- name of plot</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">name</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;Plot [</span><span class="si">%i</span><span class="s2">]&quot;</span> <span class="o">%</span> <span class="n">Plotter</span><span class="o">.</span><span class="n">__plotWindowNumber</span>
+
+        <span class="n">PDFComponent</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
+        <span class="kn">import</span> <span class="nn">threading</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">lock</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">RLock</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">curves</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">window</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">isShown</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="kn">from</span> <span class="nn">diffpy.pdfgui.control.pdfguicontrol</span> <span class="kn">import</span> <span class="n">pdfguicontrol</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">controlCenter</span> <span class="o">=</span> <span class="n">pdfguicontrol</span><span class="p">()</span>
+
+        <span class="c1"># add some flavor by starting with random style</span>
+        <span class="kn">import</span> <span class="nn">random</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">symbolStyleIndex</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lineStyleIndex</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+        <span class="k">return</span>
+
+<div class="viewcode-block" id="Plotter.close">
+<a class="viewcode-back" href="../../../../api/diffpy.pdfgui.control.html#diffpy.pdfgui.control.plotter.Plotter.close">[docs]</a>
+    <span class="k">def</span> <span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">force</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;close up the plot</span>
+
+<span class="sd">        force -- if True, close forcibly</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">window</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="c1"># self.window.Close(True)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">window</span><span class="o">.</span><span class="n">Destroy</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">window</span> <span class="o">=</span> <span class="kc">None</span></div>
+
+
+<div class="viewcode-block" id="Plotter.onWindowClose">
+<a class="viewcode-back" href="../../../../api/diffpy.pdfgui.control.html#diffpy.pdfgui.control.plotter.Plotter.onWindowClose">[docs]</a>
+    <span class="k">def</span> <span class="nf">onWindowClose</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;get called when self.window is closed by user&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">window</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">controlCenter</span><span class="o">.</span><span class="n">plots</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+            <span class="c1"># if controlCenter doesn&#39;t know me, I&#39;m just fine to bail out</span>
+            <span class="k">pass</span></div>
+
+
+<div class="viewcode-block" id="Plotter.buildSymbolStyle">
+<a class="viewcode-back" href="../../../../api/diffpy.pdfgui.control.html#diffpy.pdfgui.control.plotter.Plotter.buildSymbolStyle">[docs]</a>
+    <span class="k">def</span> <span class="nf">buildSymbolStyle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="o">=-</span><span class="mi">1</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;generate a symbol style</span>
+
+<span class="sd">        index -- plotting style index</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># To build different symbol style, we first change color then the symbol</span>
+        <span class="n">i</span> <span class="o">=</span> <span class="n">index</span>
+        <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+            <span class="n">i</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">symbolStyleIndex</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">symbolStyleIndex</span> <span class="o">+=</span> <span class="mi">1</span>
+
+        <span class="n">symbolIndex</span> <span class="o">=</span> <span class="n">i</span> <span class="o">%</span> <span class="nb">len</span><span class="p">(</span><span class="n">symbols</span><span class="p">)</span>
+        <span class="n">colorIndex</span> <span class="o">=</span> <span class="n">i</span> <span class="o">%</span> <span class="nb">len</span><span class="p">(</span><span class="n">colors</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s2">&quot;with&quot;</span><span class="p">:</span> <span class="s2">&quot;points&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;color&quot;</span><span class="p">:</span> <span class="n">colors</span><span class="p">[</span><span class="n">colorIndex</span><span class="p">],</span>
+            <span class="s2">&quot;symbolColor&quot;</span><span class="p">:</span> <span class="n">colors</span><span class="p">[</span><span class="n">colorIndex</span><span class="p">],</span>
+            <span class="s2">&quot;symbol&quot;</span><span class="p">:</span> <span class="n">symbols</span><span class="p">[</span><span class="n">symbolIndex</span><span class="p">],</span>
+            <span class="s2">&quot;symbolSize&quot;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
+        <span class="p">}</span></div>
+
+
+<div class="viewcode-block" id="Plotter.buildLineStyle">
+<a class="viewcode-back" href="../../../../api/diffpy.pdfgui.control.html#diffpy.pdfgui.control.plotter.Plotter.buildLineStyle">[docs]</a>
+    <span class="k">def</span> <span class="nf">buildLineStyle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="o">=-</span><span class="mi">1</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;generate a line style</span>
+
+<span class="sd">        index -- plotting style index</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># To build different line style, we first change color then the line</span>
+        <span class="n">i</span> <span class="o">=</span> <span class="n">index</span>
+        <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+            <span class="n">i</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lineStyleIndex</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">lineStyleIndex</span> <span class="o">+=</span> <span class="mi">1</span>
+
+        <span class="n">lineIndex</span> <span class="o">=</span> <span class="n">i</span> <span class="o">%</span> <span class="nb">len</span><span class="p">(</span><span class="n">lines</span><span class="p">)</span>
+        <span class="n">colorIndex</span> <span class="o">=</span> <span class="n">i</span> <span class="o">%</span> <span class="nb">len</span><span class="p">(</span><span class="n">colors</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s2">&quot;with&quot;</span><span class="p">:</span> <span class="s2">&quot;lines&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;color&quot;</span><span class="p">:</span> <span class="n">colors</span><span class="p">[</span><span class="n">colorIndex</span><span class="p">],</span>
+            <span class="s2">&quot;line&quot;</span><span class="p">:</span> <span class="n">lines</span><span class="p">[</span><span class="n">lineIndex</span><span class="p">],</span>
+            <span class="s2">&quot;width&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+        <span class="p">}</span></div>
+
+
+<div class="viewcode-block" id="Plotter.buildLineSymbolStyle">
+<a class="viewcode-back" href="../../../../api/diffpy.pdfgui.control.html#diffpy.pdfgui.control.plotter.Plotter.buildLineSymbolStyle">[docs]</a>
+    <span class="k">def</span> <span class="nf">buildLineSymbolStyle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="o">=-</span><span class="mi">1</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;generate a linesymbol style</span>
+
+<span class="sd">        index -- plotting style index</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">style</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">buildLineStyle</span><span class="p">(</span><span class="n">index</span><span class="p">)</span>
+        <span class="n">style</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">buildSymbolStyle</span><span class="p">(</span><span class="n">index</span><span class="p">))</span>
+        <span class="n">style</span><span class="p">[</span><span class="s2">&quot;with&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;linespoints&quot;</span>
+        <span class="k">return</span> <span class="n">style</span></div>
+
+
+<div class="viewcode-block" id="Plotter.plot">
+<a class="viewcode-back" href="../../../../api/diffpy.pdfgui.control.html#diffpy.pdfgui.control.plotter.Plotter.plot">[docs]</a>
+    <span class="k">def</span> <span class="nf">plot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">xName</span><span class="p">,</span> <span class="n">yNames</span><span class="p">,</span> <span class="n">ids</span><span class="p">,</span> <span class="n">shift</span><span class="p">,</span> <span class="n">dry</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Make a 2D plot</span>
+
+<span class="sd">        xName --  x data item name</span>
+<span class="sd">        yNames -- list of y data item names</span>
+<span class="sd">        ids --    Objects where y data items are taken from</span>
+<span class="sd">        shift -- y spacing for different ids</span>
+<span class="sd">        dry -- dry run</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">def</span> <span class="nf">_addCurve</span><span class="p">(</span><span class="n">dataIds</span><span class="p">):</span>
+            <span class="c1"># Identify the plot type. This is used to automatically modify</span>
+            <span class="c1"># &#39;Gdiff&#39; and &#39;crw&#39; in certain types of plots.</span>
+            <span class="n">yset</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">yNames</span><span class="p">)</span>
+            <span class="k">if</span> <span class="s2">&quot;Gdiff&quot;</span> <span class="ow">in</span> <span class="n">yset</span><span class="p">:</span>
+                <span class="n">yset</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="s2">&quot;Gdiff&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="s2">&quot;crw&quot;</span> <span class="ow">in</span> <span class="n">yset</span><span class="p">:</span>
+                <span class="n">yset</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="s2">&quot;crw&quot;</span><span class="p">)</span>
+
+            <span class="c1"># add yNames one by one for given dataIds</span>
+            <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">yNames</span><span class="p">:</span>
+                <span class="n">_offset</span> <span class="o">=</span> <span class="n">offset</span>
+                <span class="n">legend</span> <span class="o">=</span> <span class="kc">None</span>
+                <span class="n">style</span> <span class="o">=</span> <span class="kc">None</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">dry</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">dataIds</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">and</span> <span class="n">group</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+                        <span class="c1"># legend = dataIds[0].name  + &quot;: &quot; + _transName(y)</span>
+                        <span class="n">legend</span> <span class="o">=</span> <span class="n">_fullName</span><span class="p">(</span><span class="n">dataIds</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">+</span> <span class="s2">&quot;: &quot;</span> <span class="o">+</span> <span class="n">_transName</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="c1"># 1.Group = -1, multiple ids give a single curve</span>
+                        <span class="c1"># 2.there is only one dataId so that prefix unneeded</span>
+                        <span class="n">legend</span> <span class="o">=</span> <span class="n">_transName</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+
+                    <span class="n">style</span> <span class="o">=</span> <span class="n">_buildStyle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">group</span><span class="p">,</span> <span class="n">yNames</span><span class="p">)</span>
+                    <span class="n">style</span><span class="p">[</span><span class="s2">&quot;legend&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">legend</span>
+
+                    <span class="c1"># automatically apply offset if we&#39;re plotting more than</span>
+                    <span class="c1"># just &#39;Gdiff&#39; and &#39;crw&#39;</span>
+                    <span class="k">if</span> <span class="n">y</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;Gdiff&quot;</span><span class="p">,</span> <span class="s2">&quot;crw&quot;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">group</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">yset</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                        <span class="n">_offset</span> <span class="o">=</span> <span class="n">shift</span>
+                <span class="c1"># Create curve, get data for it and update it in the plot</span>
+                <span class="n">curve</span> <span class="o">=</span> <span class="n">Plotter</span><span class="o">.</span><span class="n">Curve</span><span class="p">(</span><span class="n">legend</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">window</span><span class="p">,</span> <span class="n">xName</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">step</span><span class="p">,</span> <span class="n">dataIds</span><span class="p">,</span> <span class="n">_offset</span><span class="p">,</span> <span class="n">style</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">curves</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">curve</span><span class="p">)</span>
+            <span class="k">return</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">ids</span><span class="p">:</span>  <span class="c1"># empty</span>
+            <span class="k">raise</span> <span class="n">ControlConfigError</span><span class="p">(</span><span class="s2">&quot;Plotter: No data is selected&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">yNames</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">ControlConfigError</span><span class="p">(</span><span class="s2">&quot;Plotter: No y item is selected&quot;</span><span class="p">)</span>
+
+        <span class="c1"># bSeparateID indicates if we want data from different ID to be</span>
+        <span class="c1"># plotted in different curve or not</span>
+        <span class="n">bSeparateID</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">ids</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="ow">and</span> <span class="n">xName</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;r&quot;</span><span class="p">,</span> <span class="s2">&quot;rcalc&quot;</span><span class="p">,</span> <span class="s2">&quot;step&quot;</span><span class="p">):</span>
+            <span class="c1"># multi ID and within each ID we wants a vector, so curve can</span>
+            <span class="c1"># only be plotted separately.</span>
+            <span class="n">bSeparateID</span> <span class="o">=</span> <span class="kc">True</span>
+
+        <span class="c1"># set up the step</span>
+        <span class="k">if</span> <span class="n">xName</span> <span class="o">==</span> <span class="s2">&quot;step&quot;</span><span class="p">:</span>
+            <span class="n">step</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">step</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">curves</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="k">if</span> <span class="s2">&quot;Gcalc&quot;</span> <span class="ow">in</span> <span class="n">yNames</span><span class="p">:</span>
+            <span class="n">yNames</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="s2">&quot;Gcalc&quot;</span><span class="p">)</span>
+            <span class="n">yNames</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;Gcalc&quot;</span><span class="p">)</span>
+
+        <span class="c1"># default is no shift, single group.</span>
+        <span class="n">offset</span> <span class="o">=</span> <span class="mf">0.0</span>
+        <span class="n">group</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+        <span class="k">if</span> <span class="n">bSeparateID</span><span class="p">:</span>
+            <span class="k">for</span> <span class="nb">id</span> <span class="ow">in</span> <span class="n">ids</span><span class="p">:</span>
+                <span class="n">group</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="n">_addCurve</span><span class="p">(</span>
+                    <span class="p">[</span>
+                        <span class="nb">id</span><span class="p">,</span>
+                    <span class="p">]</span>
+                <span class="p">)</span>
+                <span class="n">offset</span> <span class="o">+=</span> <span class="n">shift</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">_addCurve</span><span class="p">(</span><span class="n">ids</span><span class="p">)</span>
+
+        <span class="c1"># clean up, it&#39;s only a dry run</span>
+        <span class="k">if</span> <span class="n">dry</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">curves</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">return</span>
+
+        <span class="c1"># Real plot starts</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">window</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="c1"># plotWindown may either not be ready or it has been closed</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">window</span> <span class="o">=</span> <span class="n">ExtendedPlotFrame</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">controlCenter</span><span class="o">.</span><span class="n">gui</span><span class="p">)</span>
+            <span class="n">Plotter</span><span class="o">.</span><span class="n">__plotWindowNumber</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">window</span><span class="o">.</span><span class="n">plotter</span> <span class="o">=</span> <span class="bp">self</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">window</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+
+        <span class="k">for</span> <span class="n">curve</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">curves</span><span class="p">:</span>
+            <span class="c1"># Initial notification, don&#39;t plot immediately, wait for last line to be added</span>
+            <span class="c1"># This is to optimize plotting multiple curves.</span>
+            <span class="n">curve</span><span class="o">.</span><span class="n">notify</span><span class="p">(</span><span class="n">plotwnd</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">window</span><span class="p">)</span>
+
+        <span class="c1"># make the graph title, x, y label</span>
+        <span class="n">yStrs</span> <span class="o">=</span> <span class="p">[</span><span class="n">_transName</span><span class="p">(</span><span class="n">yName</span><span class="p">)</span> <span class="k">for</span> <span class="n">yName</span> <span class="ow">in</span> <span class="n">yNames</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">yStrs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;G&quot;</span><span class="p">):</span>
+            <span class="c1"># then all are Gs</span>
+            <span class="n">yLabel</span> <span class="o">=</span> <span class="s2">&quot;G&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">yLabel</span> <span class="o">=</span> <span class="s2">&quot;,&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">yStrs</span><span class="p">)</span>
+        <span class="n">title</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">ids</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">title</span> <span class="o">=</span> <span class="n">ids</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">name</span> <span class="o">+</span> <span class="s2">&quot;: &quot;</span>
+        <span class="n">title</span> <span class="o">+=</span> <span class="n">yLabel</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">window</span><span class="o">.</span><span class="n">setTitle</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">+</span> <span class="s2">&quot; &quot;</span> <span class="o">+</span> <span class="n">title</span><span class="p">,</span> <span class="n">title</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">window</span><span class="o">.</span><span class="n">setXLabel</span><span class="p">(</span><span class="n">_transName</span><span class="p">(</span><span class="n">xName</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">window</span><span class="o">.</span><span class="n">setYLabel</span><span class="p">(</span><span class="n">yLabel</span><span class="p">)</span>
+
+        <span class="c1"># show the graph</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">window</span><span class="o">.</span><span class="n">replot</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Plotter.show">
+<a class="viewcode-back" href="../../../../api/diffpy.pdfgui.control.html#diffpy.pdfgui.control.plotter.Plotter.show">[docs]</a>
+    <span class="k">def</span> <span class="nf">show</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bShow</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;show the plot on screen</span>
+
+<span class="sd">        bShow -- True to show, False to Hide. None to toggle</span>
+<span class="sd">        return value: current status of window</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">window</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">ControlStatusError</span><span class="p">(</span><span class="s2">&quot;Plot: </span><span class="si">%s</span><span class="s2"> has no window&quot;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">bShow</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">bShow</span> <span class="o">=</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">isShown</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">window</span><span class="o">.</span><span class="n">Show</span><span class="p">(</span><span class="n">bShow</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">bShow</span><span class="p">:</span>  <span class="c1"># True</span>
+            <span class="c1"># further bring it to top</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">window</span><span class="o">.</span><span class="n">Raise</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">isShown</span> <span class="o">=</span> <span class="n">bShow</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">isShown</span></div>
+
+
+<div class="viewcode-block" id="Plotter.notify">
+<a class="viewcode-back" href="../../../../api/diffpy.pdfgui.control.html#diffpy.pdfgui.control.plotter.Plotter.notify">[docs]</a>
+    <span class="k">def</span> <span class="nf">notify</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;change of the data is notified</span>
+
+<span class="sd">        data -- data object that has changed</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">curves</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">window</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span>
+        <span class="n">ret</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">for</span> <span class="n">curve</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">curves</span><span class="p">:</span>
+            <span class="n">ret</span> <span class="o">|=</span> <span class="n">curve</span><span class="o">.</span><span class="n">notify</span><span class="p">(</span>
+                <span class="n">changedIds</span><span class="o">=</span><span class="p">[</span>
+                    <span class="n">data</span><span class="p">,</span>
+                <span class="p">]</span>
+            <span class="p">)</span>
+        <span class="k">if</span> <span class="n">ret</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">window</span><span class="o">.</span><span class="n">replot</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="Plotter.export">
+<a class="viewcode-back" href="../../../../api/diffpy.pdfgui.control.html#diffpy.pdfgui.control.plotter.Plotter.export">[docs]</a>
+    <span class="k">def</span> <span class="nf">export</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;export current data to external file</span>
+
+<span class="sd">        filename -- the name of the file to save data</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Check if any curve</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">curves</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span>
+        <span class="kn">import</span> <span class="nn">getpass</span>
+        <span class="kn">import</span> <span class="nn">time</span>
+
+        <span class="n">outfile</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span>
+        <span class="n">header</span> <span class="o">=</span> <span class="s2">&quot;# Generated on </span><span class="si">%s</span><span class="s2"> by </span><span class="si">%s</span><span class="s2">.</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">ctime</span><span class="p">(),</span> <span class="n">getpass</span><span class="o">.</span><span class="n">getuser</span><span class="p">())</span>
+        <span class="n">header</span> <span class="o">+=</span> <span class="s2">&quot;# This file was created by PDFgui.</span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="n">outfile</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">header</span><span class="p">)</span>
+        <span class="n">xylist</span> <span class="o">=</span> <span class="p">[(</span><span class="n">c</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">c</span><span class="o">.</span><span class="n">y</span><span class="p">)</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">curves</span><span class="p">]</span>
+        <span class="n">xynames</span> <span class="o">=</span> <span class="p">[(</span><span class="n">_transName</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">xStr</span><span class="p">),</span> <span class="n">deblank</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">name</span><span class="p">))</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">curves</span><span class="p">]</span>
+        <span class="n">_exportCompactData</span><span class="p">(</span><span class="n">outfile</span><span class="p">,</span> <span class="n">xylist</span><span class="p">,</span> <span class="n">xynames</span><span class="p">)</span>
+        <span class="n">outfile</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="k">return</span></div>
+</div>
+
+
+
+<span class="c1"># End of class Plotter</span>
+
+
+<span class="k">def</span> <span class="nf">_exportCompactData</span><span class="p">(</span><span class="n">fp</span><span class="p">,</span> <span class="n">xylist</span><span class="p">,</span> <span class="n">xynames</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Write the xylist data in a text format to the file object fp.</span>
+<span class="sd">    The curves with the same x are groupped in the same datasets.</span>
+<span class="sd">    The datasets are marked with &quot;#S 1&quot;, &quot;#S 2&quot;, etc. labels according</span>
+<span class="sd">    to the spec format http://www.certif.com/cplot_manual/ch0c_C_11_3.html</span>
+
+<span class="sd">    fp       -- file type object that is writable</span>
+<span class="sd">    xylist   -- list of (x, y) tuples of x and y arrays.  Items with</span>
+<span class="sd">                empty x or empty y are ignored.</span>
+<span class="sd">    xynames  -- list of tuples of (xname, yname) strings.  These are</span>
+<span class="sd">                used as a header in the dataset blocks.</span>
+
+<span class="sd">    No return value.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">dataformat</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">%g</span><span class="s2">&quot;</span>
+    <span class="c1"># build the default xynames:</span>
+    <span class="k">if</span> <span class="n">xynames</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">xynames</span> <span class="o">=</span> <span class="p">[(</span><span class="s2">&quot;x</span><span class="si">%i</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">i</span><span class="p">,</span> <span class="s2">&quot;y</span><span class="si">%i</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">xylist</span><span class="p">))]</span>
+    <span class="n">datasets</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">datanames</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">xt2idx</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">),</span> <span class="p">(</span><span class="n">xn</span><span class="p">,</span> <span class="n">yn</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">xylist</span><span class="p">,</span> <span class="n">xynames</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">x</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="ow">not</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+            <span class="k">continue</span>
+        <span class="k">if</span> <span class="n">y</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="ow">not</span> <span class="nb">len</span><span class="p">(</span><span class="n">y</span><span class="p">):</span>
+            <span class="k">continue</span>
+        <span class="n">xt</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">i</span> <span class="o">=</span> <span class="n">xt2idx</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="n">xt</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">xt2idx</span><span class="p">))</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">datasets</span><span class="p">):</span>
+            <span class="n">datasets</span><span class="o">.</span><span class="n">append</span><span class="p">([])</span>
+            <span class="n">datanames</span><span class="o">.</span><span class="n">append</span><span class="p">([])</span>
+        <span class="n">ds</span> <span class="o">=</span> <span class="n">datasets</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+        <span class="n">dn</span> <span class="o">=</span> <span class="n">datanames</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">ds</span><span class="p">:</span>
+            <span class="n">ds</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+            <span class="n">dn</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">xn</span><span class="p">)</span>
+        <span class="n">ds</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+        <span class="n">dn</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">yn</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">dn</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">datasets</span><span class="p">,</span> <span class="n">datanames</span><span class="p">)):</span>
+        <span class="c1"># separate datasets with a blank line:</span>
+        <span class="k">if</span> <span class="n">i</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;#S </span><span class="si">%i</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
+        <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;#L </span><span class="si">%s</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="s2">&quot;  &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">dn</span><span class="p">)))</span>
+        <span class="n">ncols</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">ds</span><span class="p">)</span>
+        <span class="n">fmt</span> <span class="o">=</span> <span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">ncols</span> <span class="o">*</span> <span class="p">[</span><span class="n">dataformat</span><span class="p">])</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="k">for</span> <span class="n">cols</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="o">*</span><span class="n">ds</span><span class="p">):</span>
+            <span class="n">line</span> <span class="o">=</span> <span class="n">fmt</span> <span class="o">%</span> <span class="n">cols</span>
+            <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+    <span class="k">return</span>
+
+
+<span class="c1"># End of file</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, The Trustees of Columbia University in the City of New York.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>diffpy.pdfgui.gui.errorwrapper &mdash; diffpy.pdfgui 3.1.0rc0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../../../_static/documentation_options.js?v=a2ca8c84"></script>
+        <script src="../../../../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../../index.html" class="icon icon-home">
+            diffpy.pdfgui
+          </a>
+              <div class="version">
+                3.1.0rc0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tutorial.html">Tutorial</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../license.html">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../release.html">Release Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../api/diffpy.pdfgui.html">Package API</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">diffpy.pdfgui</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">diffpy.pdfgui.gui.errorwrapper</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for diffpy.pdfgui.gui.errorwrapper</h1><div class="highlight"><pre>
+<span></span><span class="ch">#!/usr/bin/env python</span>
+<span class="c1">##############################################################################</span>
+<span class="c1">#</span>
+<span class="c1"># PDFgui            by DANSE Diffraction group</span>
+<span class="c1">#                   Simon J. L. Billinge</span>
+<span class="c1">#                   (c) 2008 trustees of the Michigan State University.</span>
+<span class="c1">#                   All rights reserved.</span>
+<span class="c1">#</span>
+<span class="c1"># File coded by:    Chris Farrow</span>
+<span class="c1">#</span>
+<span class="c1"># See AUTHORS.txt for a list of people who contributed.</span>
+<span class="c1"># See LICENSE.txt for license information.</span>
+<span class="c1">#</span>
+<span class="c1">##############################################################################</span>
+
+<span class="sd">&quot;&quot;&quot;This module contains a function wrapper and an object wrapper that catch</span>
+<span class="sd">control errors and shows them in an error report dialog. This is used by</span>
+<span class="sd">PDFPanel and MainFrame.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">traceback</span>
+
+<span class="kn">import</span> <span class="nn">wx</span>
+
+<span class="kn">from</span> <span class="nn">diffpy.pdfgui.control.controlerrors</span> <span class="kn">import</span> <span class="n">ControlError</span><span class="p">,</span> <span class="n">TempControlSelectError</span>
+<span class="kn">from</span> <span class="nn">diffpy.pdfgui.gui</span> <span class="kn">import</span> <span class="n">pdfguiglobals</span>
+<span class="kn">from</span> <span class="nn">diffpy.pdfgui.gui.errorreportdialog</span> <span class="kn">import</span> <span class="n">ErrorReportDialog</span>
+<span class="kn">from</span> <span class="nn">diffpy.pdfgui.gui.errorreportdialog_control_fix</span> <span class="kn">import</span> <span class="n">ErrorReportDialogControlFix</span>
+
+<span class="c1"># these methods will not be wrapped in catchFunctionErrors</span>
+<span class="n">_EXCLUDED_METHODS</span> <span class="o">=</span> <span class="nb">dict</span><span class="o">.</span><span class="n">fromkeys</span><span class="p">(</span><span class="nb">dir</span><span class="p">(</span><span class="n">wx</span><span class="o">.</span><span class="n">Panel</span><span class="p">)</span> <span class="o">+</span> <span class="nb">dir</span><span class="p">(</span><span class="n">wx</span><span class="o">.</span><span class="n">Dialog</span><span class="p">))</span>
+
+
+<div class="viewcode-block" id="catchFunctionErrors">
+<a class="viewcode-back" href="../../../../api/diffpy.pdfgui.gui.html#diffpy.pdfgui.gui.errorwrapper.catchFunctionErrors">[docs]</a>
+<span class="k">def</span> <span class="nf">catchFunctionErrors</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">funcName</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Wrap a function so its errors get transferred to a dialog.</span>
+
+<span class="sd">    obj         --  Object containing the function. It is assumed that the</span>
+<span class="sd">                    object has an attribute named &#39;mainFrame&#39;, which is a</span>
+<span class="sd">                    reference to the MainFrame instance, which contains</span>
+<span class="sd">                    information about how and when to display errors.</span>
+<span class="sd">    funcName    --  Name of a function to wrap.</span>
+
+<span class="sd">    Returns the wrapped function</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">func</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">funcName</span><span class="p">)</span>
+
+    <span class="c1"># do not catch anything when requested in pdfguigloabals.dbopts</span>
+    <span class="k">if</span> <span class="n">pdfguiglobals</span><span class="o">.</span><span class="n">dbopts</span><span class="o">.</span><span class="n">noerrordialog</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">func</span>
+
+    <span class="c1"># default return value when exception is skipped:</span>
+    <span class="n">rvpass</span> <span class="o">=</span> <span class="n">wx</span><span class="o">.</span><span class="n">ID_CANCEL</span>
+
+    <span class="c1"># otherwise wrap func within exceptions handler</span>
+    <span class="k">def</span> <span class="nf">_f</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+
+        <span class="n">hasmf</span> <span class="o">=</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="s2">&quot;mainFrame&quot;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">obj</span><span class="o">.</span><span class="n">mainFrame</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="c1"># to be deleted. temporarily used for show the select-control error.</span>
+        <span class="k">except</span> <span class="n">TempControlSelectError</span><span class="p">:</span>
+            <span class="n">dlg</span> <span class="o">=</span> <span class="n">ErrorReportDialogControlFix</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">mainFrame</span><span class="p">)</span>
+            <span class="n">dlg</span><span class="o">.</span><span class="n">ShowModal</span><span class="p">()</span>
+            <span class="n">dlg</span><span class="o">.</span><span class="n">Destroy</span><span class="p">()</span>
+
+        <span class="c1"># Display ControlError error messages in a dialog.</span>
+        <span class="k">except</span> <span class="n">ControlError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">hasmf</span><span class="p">:</span>
+                <span class="k">raise</span>
+            <span class="n">message</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+            <span class="n">obj</span><span class="o">.</span><span class="n">mainFrame</span><span class="o">.</span><span class="n">showMessage</span><span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="s2">&quot;Oops!&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">rvpass</span>
+
+        <span class="c1"># Everything else</span>
+        <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">pdfguiglobals</span><span class="o">.</span><span class="n">dbopts</span><span class="o">.</span><span class="n">pythondebugger</span><span class="p">:</span>
+                <span class="kn">import</span> <span class="nn">pdb</span>
+
+                <span class="n">tb</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">exc_info</span><span class="p">()[</span><span class="mi">2</span><span class="p">]</span>
+                <span class="n">pdb</span><span class="o">.</span><span class="n">post_mortem</span><span class="p">(</span><span class="n">tb</span><span class="p">)</span>
+                <span class="k">return</span> <span class="n">rvpass</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">hasmf</span><span class="p">:</span>
+                <span class="k">raise</span>
+            <span class="n">msglines</span> <span class="o">=</span> <span class="n">traceback</span><span class="o">.</span><span class="n">format_exception</span><span class="p">(</span><span class="o">*</span><span class="n">sys</span><span class="o">.</span><span class="n">exc_info</span><span class="p">())</span>
+            <span class="n">message</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">msglines</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">obj</span><span class="o">.</span><span class="n">mainFrame</span><span class="o">.</span><span class="n">quitting</span><span class="p">:</span>
+                <span class="n">sys</span><span class="o">.</span><span class="n">stderr</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
+                <span class="n">sys</span><span class="o">.</span><span class="n">stderr</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">dlg</span> <span class="o">=</span> <span class="n">ErrorReportDialog</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">mainFrame</span><span class="p">)</span>
+                <span class="n">dlg</span><span class="o">.</span><span class="n">text_ctrl_log</span><span class="o">.</span><span class="n">SetValue</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
+                <span class="n">dlg</span><span class="o">.</span><span class="n">ShowModal</span><span class="p">()</span>
+                <span class="n">dlg</span><span class="o">.</span><span class="n">Destroy</span><span class="p">()</span>
+            <span class="k">return</span> <span class="n">rvpass</span>
+
+        <span class="c1"># we should never get here</span>
+        <span class="k">pass</span>
+
+    <span class="k">return</span> <span class="n">_f</span></div>
+
+
+
+<div class="viewcode-block" id="catchObjectErrors">
+<a class="viewcode-back" href="../../../../api/diffpy.pdfgui.gui.html#diffpy.pdfgui.gui.errorwrapper.catchObjectErrors">[docs]</a>
+<span class="k">def</span> <span class="nf">catchObjectErrors</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">exclude</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Wrap all functions of an object so that the exceptions are caught.</span>
+
+<span class="sd">    obj --  Object containing the function. It is assumed that the object has an</span>
+<span class="sd">            attribute named &#39;mainFrame&#39;, which is a reference to the MainFrame</span>
+<span class="sd">            instance, which contains information about how and when to display</span>
+<span class="sd">            errors.</span>
+<span class="sd">    exclude  -- An iterable of additional function names to exclude.  These are</span>
+<span class="sd">            excluded in addtion to names in _EXCLUDED_METHODS defined above.</span>
+
+<span class="sd">    All functions starting with &#39;_&#39; are excluded.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">exclude</span><span class="p">:</span>
+        <span class="n">extra_excludes</span> <span class="o">=</span> <span class="nb">dict</span><span class="o">.</span><span class="n">fromkeys</span><span class="p">(</span><span class="n">exclude</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">extra_excludes</span> <span class="o">=</span> <span class="p">{}</span>
+
+    <span class="n">funcNames</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="n">item</span>
+        <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="nb">dir</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">item</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">item</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">_EXCLUDED_METHODS</span> <span class="ow">and</span> <span class="n">item</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">extra_excludes</span>
+    <span class="p">]</span>
+
+    <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">funcNames</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">name</span><span class="p">),</span> <span class="s2">&quot;__call__&quot;</span><span class="p">):</span>
+            <span class="nb">setattr</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">catchFunctionErrors</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">name</span><span class="p">))</span>
+
+    <span class="k">return</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, The Trustees of Columbia University in the City of New York.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

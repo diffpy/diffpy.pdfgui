@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>diffpy.pdfgui.control.pdfguimacros &mdash; diffpy.pdfgui 3.1.0rc0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../../../_static/documentation_options.js?v=a2ca8c84"></script>
+        <script src="../../../../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../../index.html" class="icon icon-home">
+            diffpy.pdfgui
+          </a>
+              <div class="version">
+                3.1.0rc0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tutorial.html">Tutorial</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../license.html">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../release.html">Release Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../api/diffpy.pdfgui.html">Package API</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">diffpy.pdfgui</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">diffpy.pdfgui.control.pdfguimacros</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for diffpy.pdfgui.control.pdfguimacros</h1><div class="highlight"><pre>
+<span></span><span class="ch">#!/usr/bin/env python</span>
+<span class="c1">##############################################################################</span>
+<span class="c1">#</span>
+<span class="c1"># PDFgui            by DANSE Diffraction group</span>
+<span class="c1">#                   Simon J. L. Billinge</span>
+<span class="c1">#                   (c) 2006 trustees of the Michigan State University.</span>
+<span class="c1">#                   All rights reserved.</span>
+<span class="c1">#</span>
+<span class="c1"># File coded by:    Chris Farrow</span>
+<span class="c1">#</span>
+<span class="c1"># See AUTHORS.txt for a list of people who contributed.</span>
+<span class="c1"># See LICENSE.txt for license information.</span>
+<span class="c1">#</span>
+<span class="c1">##############################################################################</span>
+
+<span class="sd">&quot;&quot;&quot;Methods for macros used in pdfgui.&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">print_function</span>
+
+<span class="kn">import</span> <span class="nn">copy</span>
+<span class="kn">import</span> <span class="nn">os</span>
+
+<span class="kn">from</span> <span class="nn">diffpy.pdfgui.control.controlerrors</span> <span class="kn">import</span> <span class="n">ControlValueError</span>
+<span class="kn">from</span> <span class="nn">diffpy.pdfgui.control.fitdataset</span> <span class="kn">import</span> <span class="n">FitDataSet</span>
+
+
+<div class="viewcode-block" id="makeRSeries">
+<a class="viewcode-back" href="../../../../api/diffpy.pdfgui.control.html#diffpy.pdfgui.control.pdfguimacros.makeRSeries">[docs]</a>
+<span class="k">def</span> <span class="nf">makeRSeries</span><span class="p">(</span>
+    <span class="n">control</span><span class="p">,</span>
+    <span class="n">fit</span><span class="p">,</span>
+    <span class="n">maxfirst</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">maxlast</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">maxstep</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">minfirst</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">minlast</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">minstep</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Make an series of fits with an increasing r-range.</span>
+
+<span class="sd">    The new fits are appended to the end of any current fits in the control.</span>
+
+<span class="sd">    control     --  The control object that will contain the fits</span>
+<span class="sd">    fit         --  The prototype fit</span>
+<span class="sd">    maxfirst    --  The first value of the maximum of the fit range</span>
+<span class="sd">    maxlast     --  The last value of the maximum of the fit range</span>
+<span class="sd">    maxstep     --  The step size of the maximum of the fit range</span>
+<span class="sd">    minfirst    --  The first value of the minimum of the fit range</span>
+<span class="sd">    minlast     --  The last value of the minimum of the fit range</span>
+<span class="sd">    minstep     --  The step size of the minimum of the fit range</span>
+
+<span class="sd">    returns a list of the new fit organization objects</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Check to see if the input values are correct.</span>
+
+    <span class="c1"># MIN-MIN: FIRST &lt; LAST</span>
+    <span class="k">if</span> <span class="n">minfirst</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">minlast</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">minfirst</span> <span class="o">&lt;</span> <span class="n">minlast</span><span class="p">:</span>
+        <span class="n">message</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="s2">&quot;The first value of the minimum (</span><span class="si">%.2f</span><span class="s2">)</span><span class="se">\</span>
+<span class="s2">                 </span><span class="se">\n</span><span class="s2">must be less than the last value of the</span><span class="se">\</span>
+<span class="s2">                 </span><span class="se">\n</span><span class="s2">minimum (</span><span class="si">%.2f</span><span class="s2">)&quot;</span>
+            <span class="o">%</span> <span class="p">(</span><span class="n">minfirst</span><span class="p">,</span> <span class="n">minlast</span><span class="p">)</span>
+        <span class="p">)</span>
+        <span class="k">raise</span> <span class="n">ControlValueError</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
+
+    <span class="c1"># MAX-MAX: FIRST &lt; LAST</span>
+    <span class="k">if</span> <span class="n">maxfirst</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">maxlast</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">maxfirst</span> <span class="o">&lt;</span> <span class="n">maxlast</span><span class="p">:</span>
+        <span class="n">message</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="s2">&quot;The first value of the maximum (</span><span class="si">%.2f</span><span class="s2">)</span><span class="se">\</span>
+<span class="s2">                 </span><span class="se">\n</span><span class="s2">must be less than the last value of the</span><span class="se">\</span>
+<span class="s2">                 </span><span class="se">\n</span><span class="s2">maximum (</span><span class="si">%.2f</span><span class="s2">)&quot;</span>
+            <span class="o">%</span> <span class="p">(</span><span class="n">maxfirst</span><span class="p">,</span> <span class="n">maxlast</span><span class="p">)</span>
+        <span class="p">)</span>
+        <span class="k">raise</span> <span class="n">ControlValueError</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
+
+    <span class="c1"># MAX &gt; MIN: FIRST-FIRST</span>
+    <span class="k">if</span> <span class="n">maxfirst</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">minfirst</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">maxfirst</span> <span class="o">&gt;</span> <span class="n">minfirst</span><span class="p">:</span>
+        <span class="n">message</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="s2">&quot;The first value of the fit maximum (</span><span class="si">%.2f</span><span class="s2">)</span><span class="se">\</span>
+<span class="s2">                 </span><span class="se">\n</span><span class="s2">must be greater than first value of the fit</span><span class="se">\</span>
+<span class="s2">                 </span><span class="se">\n</span><span class="s2">minimum (</span><span class="si">%.2f</span><span class="s2">).&quot;</span>
+            <span class="o">%</span> <span class="p">(</span><span class="n">maxfirst</span><span class="p">,</span> <span class="n">minfirst</span><span class="p">)</span>
+        <span class="p">)</span>
+        <span class="k">raise</span> <span class="n">ControlValueError</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
+
+    <span class="c1"># MAX &gt; MIN: LAST-LAST</span>
+    <span class="k">if</span> <span class="n">maxlast</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">minlast</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">maxlast</span> <span class="o">&gt;</span> <span class="n">minlast</span><span class="p">:</span>
+        <span class="n">message</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="s2">&quot;The last value of the fit maximum (</span><span class="si">%.2f</span><span class="s2">)</span><span class="se">\</span>
+<span class="s2">                 </span><span class="se">\n</span><span class="s2">must be greater than last value of the fit</span><span class="se">\</span>
+<span class="s2">                 </span><span class="se">\n</span><span class="s2">minimum (</span><span class="si">%.2f</span><span class="s2">).&quot;</span>
+            <span class="o">%</span> <span class="p">(</span><span class="n">maxlast</span><span class="p">,</span> <span class="n">minlast</span><span class="p">)</span>
+        <span class="p">)</span>
+        <span class="k">raise</span> <span class="n">ControlValueError</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
+
+    <span class="c1"># STEP &gt; 0</span>
+    <span class="n">message</span> <span class="o">=</span> <span class="s2">&quot;Step size (</span><span class="si">%.2f</span><span class="s2">) must be greater than 0.&quot;</span>
+    <span class="k">if</span> <span class="n">maxstep</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">maxstep</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">ControlValueError</span><span class="p">(</span><span class="n">message</span> <span class="o">%</span> <span class="n">maxstep</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">minstep</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">minstep</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">ControlValueError</span><span class="p">(</span><span class="n">message</span> <span class="o">%</span> <span class="n">minstep</span><span class="p">)</span>
+
+    <span class="c1"># Check to see that either max or min is fully specified</span>
+    <span class="n">maxlist</span> <span class="o">=</span> <span class="p">[</span><span class="n">maxfirst</span><span class="p">,</span> <span class="n">maxlast</span><span class="p">]</span>
+    <span class="n">minlist</span> <span class="o">=</span> <span class="p">[</span><span class="n">minfirst</span><span class="p">,</span> <span class="n">minlast</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">maxlist</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">or</span> <span class="n">minlist</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">ControlValueError</span><span class="p">(</span><span class="s2">&quot;First and last values are partially specified&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">maxstep</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">minstep</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">ControlValueError</span><span class="p">(</span><span class="s2">&quot;Either minstep or maxstep must be specified.&quot;</span><span class="p">)</span>
+
+    <span class="n">maxlist</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">minlist</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">if</span> <span class="n">maxfirst</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">maxstep</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">maxstep</span> <span class="o">=</span> <span class="n">minstep</span>
+        <span class="n">maxrange</span> <span class="o">=</span> <span class="nb">int</span><span class="p">((</span><span class="n">maxlast</span> <span class="o">-</span> <span class="n">maxfirst</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">*</span> <span class="n">maxstep</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">maxlist</span> <span class="o">=</span> <span class="p">[</span><span class="n">maxfirst</span> <span class="o">+</span> <span class="n">i</span> <span class="o">*</span> <span class="n">maxstep</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">maxrange</span><span class="p">)]</span>
+    <span class="k">if</span> <span class="n">minfirst</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">minstep</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">minstep</span> <span class="o">=</span> <span class="n">maxstep</span>
+        <span class="n">minrange</span> <span class="o">=</span> <span class="nb">int</span><span class="p">((</span><span class="n">minlast</span> <span class="o">-</span> <span class="n">minfirst</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">*</span> <span class="n">minstep</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">minlist</span> <span class="o">=</span> <span class="p">[</span><span class="n">minfirst</span> <span class="o">+</span> <span class="n">i</span> <span class="o">*</span> <span class="n">minstep</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">minrange</span><span class="p">)]</span>
+
+    <span class="c1"># Resize the lists to the length of the shortest</span>
+    <span class="n">serieslen</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">maxlist</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">minlist</span><span class="p">))</span>
+    <span class="k">if</span> <span class="n">serieslen</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">maxlist</span> <span class="o">=</span> <span class="n">maxlist</span><span class="p">[:</span><span class="n">serieslen</span><span class="p">]</span>
+        <span class="n">minlist</span> <span class="o">=</span> <span class="n">minlist</span><span class="p">[:</span><span class="n">serieslen</span><span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">serieslen</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">maxlist</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">minlist</span><span class="p">))</span>
+
+    <span class="n">basename</span> <span class="o">=</span> <span class="n">fit</span><span class="o">.</span><span class="n">name</span>
+    <span class="n">fits</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="n">newname</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+    <span class="n">lastname</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+    <span class="n">fitcopy</span> <span class="o">=</span> <span class="n">control</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">fit</span><span class="p">)</span>
+    <span class="c1"># Duplicate the original fit and change the appropriate parameters.</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">serieslen</span><span class="p">):</span>
+        <span class="n">lastname</span> <span class="o">=</span> <span class="n">newname</span>
+
+        <span class="c1"># Loop over datasets</span>
+        <span class="k">for</span> <span class="n">ds</span> <span class="ow">in</span> <span class="n">fitcopy</span><span class="o">.</span><span class="n">datasets</span><span class="p">:</span>
+
+            <span class="k">if</span> <span class="n">minlist</span><span class="p">:</span>
+                <span class="n">fitrmin</span> <span class="o">=</span> <span class="n">minlist</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">fitrmin</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">fitrmin</span>
+            <span class="k">if</span> <span class="n">maxlist</span><span class="p">:</span>
+                <span class="n">fitrmax</span> <span class="o">=</span> <span class="n">maxlist</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">fitrmax</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">fitrmax</span>
+
+            <span class="c1"># Check to see that the values are in bounds and sensical</span>
+            <span class="k">if</span> <span class="n">fitrmin</span> <span class="o">&lt;</span> <span class="n">ds</span><span class="o">.</span><span class="n">rmin</span> <span class="ow">or</span> <span class="n">fitrmin</span> <span class="o">&gt;=</span> <span class="n">ds</span><span class="o">.</span><span class="n">rmax</span><span class="p">:</span>
+                <span class="n">message</span> <span class="o">=</span> <span class="p">(</span>
+                    <span class="s2">&quot;Fit minimum (</span><span class="si">%.2f</span><span class="s2">) is outside the data range</span><span class="se">\</span>
+<span class="s2">                           </span><span class="se">\n</span><span class="s2">[</span><span class="si">%.2f</span><span class="s2">, </span><span class="si">%.2f</span><span class="s2">].</span><span class="se">\</span>
+<span class="s2">                           </span><span class="se">\n</span><span class="s2">Adjust the range of the series.&quot;</span>
+                    <span class="o">%</span> <span class="p">(</span><span class="n">fitrmin</span><span class="p">,</span> <span class="n">ds</span><span class="o">.</span><span class="n">rmin</span><span class="p">,</span> <span class="n">ds</span><span class="o">.</span><span class="n">rmax</span><span class="p">)</span>
+                <span class="p">)</span>
+                <span class="k">raise</span> <span class="n">ControlValueError</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">fitrmax</span> <span class="o">&lt;=</span> <span class="n">ds</span><span class="o">.</span><span class="n">rmin</span> <span class="ow">or</span> <span class="n">fitrmax</span> <span class="o">&gt;</span> <span class="n">ds</span><span class="o">.</span><span class="n">rmax</span><span class="p">:</span>
+                <span class="n">message</span> <span class="o">=</span> <span class="p">(</span>
+                    <span class="s2">&quot;Fit maximum (</span><span class="si">%.2f</span><span class="s2">) is outside the data range</span><span class="se">\</span>
+<span class="s2">                           </span><span class="se">\n</span><span class="s2">[</span><span class="si">%.2f</span><span class="s2">, </span><span class="si">%.2f</span><span class="s2">].</span><span class="se">\</span>
+<span class="s2">                           </span><span class="se">\n</span><span class="s2">Adjust the range of the series.&quot;</span>
+                    <span class="o">%</span> <span class="p">(</span><span class="n">fitrmax</span><span class="p">,</span> <span class="n">ds</span><span class="o">.</span><span class="n">rmin</span><span class="p">,</span> <span class="n">ds</span><span class="o">.</span><span class="n">rmax</span><span class="p">)</span>
+                <span class="p">)</span>
+                <span class="k">raise</span> <span class="n">ControlValueError</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">fitrmin</span> <span class="o">&gt;=</span> <span class="n">fitrmax</span><span class="p">:</span>
+                <span class="n">message</span> <span class="o">=</span> <span class="p">(</span>
+                    <span class="s2">&quot;Fit minimum (</span><span class="si">%.2f</span><span class="s2">) is greater than the</span><span class="se">\</span>
+<span class="s2">                           </span><span class="se">\n</span><span class="s2">maximum (</span><span class="si">%.2f</span><span class="s2">).</span><span class="se">\</span>
+<span class="s2">                           </span><span class="se">\n</span><span class="s2">Increase maxstep or reduce minstep.&quot;</span>
+                    <span class="o">%</span> <span class="p">(</span><span class="n">fitrmin</span><span class="p">,</span> <span class="n">fitrmax</span><span class="p">)</span>
+                <span class="p">)</span>
+                <span class="k">raise</span> <span class="n">ControlValueError</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
+
+            <span class="c1"># Set the values if all is well</span>
+            <span class="k">if</span> <span class="n">minlist</span><span class="p">:</span>
+                <span class="n">ds</span><span class="o">.</span><span class="n">fitrmin</span> <span class="o">=</span> <span class="n">fitrmin</span>
+            <span class="k">if</span> <span class="n">maxlist</span><span class="p">:</span>
+                <span class="n">ds</span><span class="o">.</span><span class="n">fitrmax</span> <span class="o">=</span> <span class="n">fitrmax</span>
+
+        <span class="c1"># Set the parameters to the previous fit&#39;s name, if one exists.</span>
+        <span class="k">if</span> <span class="n">lastname</span><span class="p">:</span>
+            <span class="n">parval</span> <span class="o">=</span> <span class="s2">&quot;=</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">lastname</span>
+            <span class="k">for</span> <span class="n">par</span> <span class="ow">in</span> <span class="n">fitcopy</span><span class="o">.</span><span class="n">parameters</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+                <span class="n">par</span><span class="o">.</span><span class="n">setInitial</span><span class="p">(</span><span class="n">parval</span><span class="p">)</span>
+
+        <span class="c1"># Now paste the copy into the control.</span>
+        <span class="n">newname</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">%s</span><span class="s2">-(</span><span class="si">%.2f</span><span class="s2">,</span><span class="si">%.2f</span><span class="s2">)&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">basename</span><span class="p">,</span> <span class="n">fitrmin</span><span class="p">,</span> <span class="n">fitrmax</span><span class="p">)</span>
+        <span class="n">o</span> <span class="o">=</span> <span class="n">control</span><span class="o">.</span><span class="n">paste</span><span class="p">(</span><span class="n">fitcopy</span><span class="p">,</span> <span class="n">new_name</span><span class="o">=</span><span class="n">newname</span><span class="p">)</span>
+        <span class="n">fits</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">o</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="p">[</span><span class="n">f</span><span class="o">.</span><span class="n">organization</span><span class="p">()</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">fits</span><span class="p">]</span></div>
+
+
+
+<span class="c1"># Temperature Series</span>
+<div class="viewcode-block" id="makeTemperatureSeries">
+<a class="viewcode-back" href="../../../../api/diffpy.pdfgui.control.html#diffpy.pdfgui.control.pdfguimacros.makeTemperatureSeries">[docs]</a>
+<span class="k">def</span> <span class="nf">makeTemperatureSeries</span><span class="p">(</span><span class="n">control</span><span class="p">,</span> <span class="n">fit</span><span class="p">,</span> <span class="n">paths</span><span class="p">,</span> <span class="n">temperatures</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Make a temperature series.</span>
+
+<span class="sd">    control         --  pdguicontrol instance</span>
+<span class="sd">    fit             --  The template fit</span>
+<span class="sd">    paths           --  list of path names of new datasets</span>
+<span class="sd">    temperatures    --  list of temperatures corresponding to the datasets</span>
+
+<span class="sd">    returns a list of the new fit organization objects</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">fit</span><span class="o">.</span><span class="n">datasets</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">message</span> <span class="o">=</span> <span class="s2">&quot;Can&#39;t apply macro to fits with multiple datasets.&quot;</span>
+        <span class="k">raise</span> <span class="n">ControlValueError</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
+
+    <span class="n">fits</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="c1"># holds all of the other information about the dataset</span>
+    <span class="n">fitbasename</span> <span class="o">=</span> <span class="n">fit</span><span class="o">.</span><span class="n">name</span>
+    <span class="n">fitnewname</span> <span class="o">=</span> <span class="n">fit</span><span class="o">.</span><span class="n">name</span>
+    <span class="n">fitlastname</span> <span class="o">=</span> <span class="n">fit</span><span class="o">.</span><span class="n">name</span>
+    <span class="n">dataset</span> <span class="o">=</span> <span class="n">fit</span><span class="o">.</span><span class="n">datasets</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">paths</span><span class="p">)):</span>
+        <span class="n">filename</span> <span class="o">=</span> <span class="n">paths</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+        <span class="n">fitlastname</span> <span class="o">=</span> <span class="n">fitnewname</span>
+
+        <span class="n">fitcopy</span> <span class="o">=</span> <span class="n">control</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">fit</span><span class="p">)</span>
+
+        <span class="c1"># Get rid of the old dataset</span>
+        <span class="n">temp</span> <span class="o">=</span> <span class="n">fitcopy</span><span class="o">.</span><span class="n">datasets</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">fitcopy</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">temp</span><span class="p">)</span>
+
+        <span class="c1"># Configure the new dataset</span>
+        <span class="n">dsname</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+        <span class="n">newdataset</span> <span class="o">=</span> <span class="n">FitDataSet</span><span class="p">(</span><span class="n">dsname</span><span class="p">)</span>
+        <span class="n">newdataset</span><span class="o">.</span><span class="n">readObs</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+
+        <span class="n">newdataset</span><span class="o">.</span><span class="n">qdamp</span> <span class="o">=</span> <span class="n">dataset</span><span class="o">.</span><span class="n">qdamp</span>
+        <span class="n">newdataset</span><span class="o">.</span><span class="n">qbroad</span> <span class="o">=</span> <span class="n">dataset</span><span class="o">.</span><span class="n">qbroad</span>
+        <span class="n">newdataset</span><span class="o">.</span><span class="n">dscale</span> <span class="o">=</span> <span class="n">dataset</span><span class="o">.</span><span class="n">dscale</span>
+        <span class="n">newdataset</span><span class="o">.</span><span class="n">fitrmin</span> <span class="o">=</span> <span class="n">dataset</span><span class="o">.</span><span class="n">fitrmin</span>
+        <span class="n">newdataset</span><span class="o">.</span><span class="n">fitrmax</span> <span class="o">=</span> <span class="n">dataset</span><span class="o">.</span><span class="n">fitrmax</span>
+        <span class="n">rstep</span> <span class="o">=</span> <span class="n">dataset</span><span class="o">.</span><span class="n">fitrstep</span>
+        <span class="n">st</span> <span class="o">=</span> <span class="n">dataset</span><span class="o">.</span><span class="n">getFitSamplingType</span><span class="p">()</span>
+        <span class="n">newdataset</span><span class="o">.</span><span class="n">setFitSamplingType</span><span class="p">(</span><span class="n">st</span><span class="p">,</span> <span class="n">rstep</span><span class="p">)</span>
+        <span class="n">doping</span> <span class="o">=</span> <span class="n">dataset</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;doping&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">doping</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">doping</span> <span class="o">=</span> <span class="mf">0.0</span>
+        <span class="n">newdataset</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;doping&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">doping</span>
+        <span class="n">newdataset</span><span class="o">.</span><span class="n">constraints</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">dataset</span><span class="o">.</span><span class="n">constraints</span><span class="p">)</span>
+
+        <span class="c1"># Set the chosen temperature</span>
+        <span class="n">newdataset</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;temperature&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">temperatures</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+
+        <span class="c1"># Add the dataset to the fitcopy</span>
+        <span class="n">fitcopy</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">newdataset</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+
+        <span class="c1"># Set the parameters to the previous fit&#39;s name, if one exists.</span>
+        <span class="k">if</span> <span class="n">fitlastname</span><span class="p">:</span>
+            <span class="n">parval</span> <span class="o">=</span> <span class="s2">&quot;=</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">fitlastname</span>
+            <span class="k">for</span> <span class="n">par</span> <span class="ow">in</span> <span class="n">fitcopy</span><span class="o">.</span><span class="n">parameters</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+                <span class="n">par</span><span class="o">.</span><span class="n">setInitial</span><span class="p">(</span><span class="n">parval</span><span class="p">)</span>
+
+        <span class="c1"># Now paste the copy into the control.</span>
+        <span class="n">fitnewname</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">%s</span><span class="s2">-T</span><span class="si">%i</span><span class="s2">=</span><span class="si">%g</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">fitbasename</span><span class="p">,</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">temperatures</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+        <span class="n">o</span> <span class="o">=</span> <span class="n">control</span><span class="o">.</span><span class="n">paste</span><span class="p">(</span><span class="n">fitcopy</span><span class="p">,</span> <span class="n">new_name</span><span class="o">=</span><span class="n">fitnewname</span><span class="p">)</span>
+        <span class="n">fits</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">o</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="p">[</span><span class="n">f</span><span class="o">.</span><span class="n">organization</span><span class="p">()</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">fits</span><span class="p">]</span></div>
+
+
+
+<span class="c1"># Doping Series</span>
+<div class="viewcode-block" id="makeDopingSeries">
+<a class="viewcode-back" href="../../../../api/diffpy.pdfgui.control.html#diffpy.pdfgui.control.pdfguimacros.makeDopingSeries">[docs]</a>
+<span class="k">def</span> <span class="nf">makeDopingSeries</span><span class="p">(</span><span class="n">control</span><span class="p">,</span> <span class="n">fit</span><span class="p">,</span> <span class="n">base</span><span class="p">,</span> <span class="n">dopant</span><span class="p">,</span> <span class="n">paths</span><span class="p">,</span> <span class="n">doping</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Make a temperature series.</span>
+
+<span class="sd">    control         --  pdguicontrol instance</span>
+<span class="sd">    fit             --  The template fit</span>
+<span class="sd">    base            --  Name of the base element</span>
+<span class="sd">    dopant          --  Name of the dopant element</span>
+<span class="sd">    paths           --  list of path names of new datasets</span>
+<span class="sd">    doping          --  list of doping values corresponding to the datasets</span>
+
+<span class="sd">    returns a list of the new fit organization objects</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span> <span class="nn">diffpy.pdffit2</span> <span class="kn">import</span> <span class="n">is_element</span>
+
+    <span class="c1"># Make sure that base and dopant are elements</span>
+    <span class="n">base</span> <span class="o">=</span> <span class="n">base</span><span class="o">.</span><span class="n">title</span><span class="p">()</span>
+    <span class="n">dopant</span> <span class="o">=</span> <span class="n">dopant</span><span class="o">.</span><span class="n">title</span><span class="p">()</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">is_element</span><span class="p">(</span><span class="n">base</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="n">ControlValueError</span><span class="p">(</span><span class="s2">&quot;&#39;</span><span class="si">%s</span><span class="s2">&#39; is not an element!&quot;</span> <span class="o">%</span> <span class="n">base</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">is_element</span><span class="p">(</span><span class="n">dopant</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="n">ControlValueError</span><span class="p">(</span><span class="s2">&quot;&#39;</span><span class="si">%s</span><span class="s2">&#39; is not an element!&quot;</span> <span class="o">%</span> <span class="n">dopant</span><span class="p">)</span>
+
+    <span class="c1"># Make sure that base and dopant are in the structure file(s)</span>
+    <span class="n">hasBase</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">hasDopant</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="k">for</span> <span class="n">S</span> <span class="ow">in</span> <span class="n">fit</span><span class="o">.</span><span class="n">strucs</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">atom</span> <span class="ow">in</span> <span class="n">S</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">atom</span><span class="o">.</span><span class="n">element</span> <span class="o">==</span> <span class="n">base</span><span class="p">:</span>
+                <span class="n">hasBase</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="k">if</span> <span class="n">atom</span><span class="o">.</span><span class="n">element</span> <span class="o">==</span> <span class="n">dopant</span><span class="p">:</span>
+                <span class="n">hasDopant</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">if</span> <span class="n">hasBase</span> <span class="ow">and</span> <span class="n">hasDopant</span><span class="p">:</span>
+            <span class="k">break</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">hasBase</span><span class="p">:</span>
+        <span class="n">message</span> <span class="o">=</span> <span class="s2">&quot;The template structure does not contain the base atom.&quot;</span>
+        <span class="k">raise</span> <span class="n">ControlValueError</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">hasDopant</span><span class="p">:</span>
+        <span class="n">message</span> <span class="o">=</span> <span class="s2">&quot;The template structure does not contain the dopant atom.&quot;</span>
+        <span class="k">raise</span> <span class="n">ControlValueError</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
+
+    <span class="c1"># Make sure we&#39;re only replacing a single dataset</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">fit</span><span class="o">.</span><span class="n">datasets</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">message</span> <span class="o">=</span> <span class="s2">&quot;Can&#39;t apply macro to fits with multiple datasets.&quot;</span>
+        <span class="k">raise</span> <span class="n">ControlValueError</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
+
+    <span class="n">fits</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="c1"># holds all of the other information about the dataset</span>
+    <span class="n">fitbasename</span> <span class="o">=</span> <span class="n">fit</span><span class="o">.</span><span class="n">name</span>
+    <span class="n">fitnewname</span> <span class="o">=</span> <span class="n">fit</span><span class="o">.</span><span class="n">name</span>
+    <span class="n">fitlastname</span> <span class="o">=</span> <span class="n">fit</span><span class="o">.</span><span class="n">name</span>
+    <span class="n">dataset</span> <span class="o">=</span> <span class="n">fit</span><span class="o">.</span><span class="n">datasets</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">paths</span><span class="p">)):</span>
+        <span class="n">filename</span> <span class="o">=</span> <span class="n">paths</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+        <span class="n">fitlastname</span> <span class="o">=</span> <span class="n">fitnewname</span>
+
+        <span class="n">fitcopy</span> <span class="o">=</span> <span class="n">control</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">fit</span><span class="p">)</span>
+
+        <span class="c1"># Get rid of the old dataset</span>
+        <span class="n">temp</span> <span class="o">=</span> <span class="n">fitcopy</span><span class="o">.</span><span class="n">datasets</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">fitcopy</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">temp</span><span class="p">)</span>
+
+        <span class="c1"># Configure the new dataset</span>
+        <span class="n">dsname</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+        <span class="n">newdataset</span> <span class="o">=</span> <span class="n">FitDataSet</span><span class="p">(</span><span class="n">dsname</span><span class="p">)</span>
+        <span class="n">newdataset</span><span class="o">.</span><span class="n">readObs</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+
+        <span class="n">newdataset</span><span class="o">.</span><span class="n">qdamp</span> <span class="o">=</span> <span class="n">dataset</span><span class="o">.</span><span class="n">qdamp</span>
+        <span class="n">newdataset</span><span class="o">.</span><span class="n">qbroad</span> <span class="o">=</span> <span class="n">dataset</span><span class="o">.</span><span class="n">qbroad</span>
+        <span class="n">newdataset</span><span class="o">.</span><span class="n">dscale</span> <span class="o">=</span> <span class="n">dataset</span><span class="o">.</span><span class="n">dscale</span>
+        <span class="n">newdataset</span><span class="o">.</span><span class="n">fitrmin</span> <span class="o">=</span> <span class="n">dataset</span><span class="o">.</span><span class="n">fitrmin</span>
+        <span class="n">newdataset</span><span class="o">.</span><span class="n">fitrmax</span> <span class="o">=</span> <span class="n">dataset</span><span class="o">.</span><span class="n">fitrmax</span>
+        <span class="n">rstep</span> <span class="o">=</span> <span class="n">dataset</span><span class="o">.</span><span class="n">fitrstep</span>
+        <span class="n">st</span> <span class="o">=</span> <span class="n">dataset</span><span class="o">.</span><span class="n">getFitSamplingType</span><span class="p">()</span>
+        <span class="n">newdataset</span><span class="o">.</span><span class="n">setFitSamplingType</span><span class="p">(</span><span class="n">st</span><span class="p">,</span> <span class="n">rstep</span><span class="p">)</span>
+        <span class="n">temperature</span> <span class="o">=</span> <span class="n">dataset</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;temperature&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">temperature</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">temperature</span> <span class="o">=</span> <span class="mf">300.0</span>
+        <span class="n">newdataset</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;temperature&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">temperature</span>
+        <span class="n">newdataset</span><span class="o">.</span><span class="n">constraints</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">dataset</span><span class="o">.</span><span class="n">constraints</span><span class="p">)</span>
+
+        <span class="c1"># Set the chosen temperature</span>
+        <span class="n">newdataset</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;doping&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">doping</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+
+        <span class="c1"># Add the dataset to the fitcopy</span>
+        <span class="n">fitcopy</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">newdataset</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+
+        <span class="c1"># Update the doping information in the structures</span>
+        <span class="k">for</span> <span class="n">S</span> <span class="ow">in</span> <span class="n">fitcopy</span><span class="o">.</span><span class="n">strucs</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">A</span> <span class="ow">in</span> <span class="n">S</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">A</span><span class="o">.</span><span class="n">element</span> <span class="o">==</span> <span class="n">dopant</span><span class="p">:</span>
+                    <span class="n">A</span><span class="o">.</span><span class="n">occupancy</span> <span class="o">=</span> <span class="n">doping</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+                <span class="k">if</span> <span class="n">A</span><span class="o">.</span><span class="n">element</span> <span class="o">==</span> <span class="n">base</span><span class="p">:</span>
+                    <span class="n">A</span><span class="o">.</span><span class="n">occupancy</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">doping</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+
+        <span class="c1"># Set the parameters to the previous fit&#39;s name, if one exists.</span>
+        <span class="k">if</span> <span class="n">fitlastname</span><span class="p">:</span>
+            <span class="n">parval</span> <span class="o">=</span> <span class="s2">&quot;=</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">fitlastname</span>
+            <span class="k">for</span> <span class="n">par</span> <span class="ow">in</span> <span class="n">fitcopy</span><span class="o">.</span><span class="n">parameters</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+                <span class="n">par</span><span class="o">.</span><span class="n">setInitial</span><span class="p">(</span><span class="n">parval</span><span class="p">)</span>
+
+        <span class="c1"># Now paste the copy into the control.</span>
+        <span class="n">fitnewname</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">%s</span><span class="s2">-</span><span class="si">%1.4f</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">fitbasename</span><span class="p">,</span> <span class="n">doping</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+        <span class="n">o</span> <span class="o">=</span> <span class="n">control</span><span class="o">.</span><span class="n">paste</span><span class="p">(</span><span class="n">fitcopy</span><span class="p">,</span> <span class="n">new_name</span><span class="o">=</span><span class="n">fitnewname</span><span class="p">)</span>
+        <span class="n">fits</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">o</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="p">[</span><span class="n">f</span><span class="o">.</span><span class="n">organization</span><span class="p">()</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">fits</span><span class="p">]</span></div>
+
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">diffpy.pdfgui.control.pdfguicontrol</span> <span class="kn">import</span> <span class="n">PDFGuiControl</span>
+
+    <span class="n">control</span> <span class="o">=</span> <span class="n">PDFGuiControl</span><span class="p">()</span>
+    <span class="n">control</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;../../tests/testdata/ni.ddp&quot;</span><span class="p">)</span>
+    <span class="n">fit</span> <span class="o">=</span> <span class="n">control</span><span class="o">.</span><span class="n">fits</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">olist</span> <span class="o">=</span> <span class="n">makeRSeries</span><span class="p">(</span><span class="n">control</span><span class="p">,</span> <span class="n">fit</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">f</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">olist</span><span class="p">))</span>
+
+<span class="c1"># End of file</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, The Trustees of Columbia University in the City of New York.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

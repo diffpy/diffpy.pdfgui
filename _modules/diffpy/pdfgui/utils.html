@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>diffpy.pdfgui.utils &mdash; diffpy.pdfgui 3.1.0rc0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../../_static/documentation_options.js?v=a2ca8c84"></script>
+        <script src="../../../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            diffpy.pdfgui
+          </a>
+              <div class="version">
+                3.1.0rc0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial.html">Tutorial</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../license.html">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../release.html">Release Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/diffpy.pdfgui.html">Package API</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">diffpy.pdfgui</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">diffpy.pdfgui.utils</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for diffpy.pdfgui.utils</h1><div class="highlight"><pre>
+<span></span><span class="ch">#!/usr/bin/env python</span>
+<span class="c1">##############################################################################</span>
+<span class="c1">#</span>
+<span class="c1"># PDFgui            by DANSE Diffraction group</span>
+<span class="c1">#                   Simon J. L. Billinge</span>
+<span class="c1">#                   (c) 2007 trustees of the Michigan State University.</span>
+<span class="c1">#                   All rights reserved.</span>
+<span class="c1">#</span>
+<span class="c1"># File coded by:    Pavol Juhas</span>
+<span class="c1">#</span>
+<span class="c1"># See AUTHORS.txt for a list of people who contributed.</span>
+<span class="c1"># See LICENSE.txt for license information.</span>
+<span class="c1">#</span>
+<span class="c1">##############################################################################</span>
+
+<span class="sd">&quot;&quot;&quot;Small shared routines:</span>
+<span class="sd">    numericStringSort   -- sort list of strings according to numeric value</span>
+<span class="sd">    safeCPickleDumps    -- same as pickle.dumps, but safe for NaN and Inf</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+
+<span class="kn">import</span> <span class="nn">six</span>
+<span class="kn">import</span> <span class="nn">six.moves.cPickle</span> <span class="k">as</span> <span class="nn">pickle</span>
+<span class="kn">from</span> <span class="nn">six.moves.configparser</span> <span class="kn">import</span> <span class="n">RawConfigParser</span>
+
+<span class="c1"># protocol=2 keep project files compatible with Python 2</span>
+<span class="c1"># PDFGUI_PICKLE_PROTOCOL = 2</span>
+
+
+<div class="viewcode-block" id="numericStringSort">
+<a class="viewcode-back" href="../../../api/diffpy.pdfgui.html#diffpy.pdfgui.utils.numericStringSort">[docs]</a>
+<span class="k">def</span> <span class="nf">numericStringSort</span><span class="p">(</span><span class="n">lst</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Sort list of strings inplace according to general numeric value.</span>
+<span class="sd">    Each string gets split to string and integer segments to create keys</span>
+<span class="sd">    for comparison.  Signs, decimal points and exponents are ignored.</span>
+
+<span class="sd">    lst  -- sorted list of strings</span>
+
+<span class="sd">    No return value to highlight inplace sorting.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">import</span> <span class="nn">re</span>
+
+    <span class="n">rx</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;(\d+)&quot;</span><span class="p">)</span>
+    <span class="n">keys</span> <span class="o">=</span> <span class="p">[</span><span class="n">rx</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">lst</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">keys</span><span class="p">:</span>
+        <span class="n">k</span><span class="p">[</span><span class="mi">1</span><span class="p">::</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">k</span><span class="p">[</span><span class="mi">1</span><span class="p">::</span><span class="mi">2</span><span class="p">]]</span>
+    <span class="n">newlst</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">keys</span><span class="p">,</span> <span class="n">lst</span><span class="p">))</span>
+    <span class="n">lst</span><span class="p">[:]</span> <span class="o">=</span> <span class="p">[</span><span class="n">kv</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">kv</span> <span class="ow">in</span> <span class="n">newlst</span><span class="p">]</span>
+    <span class="k">return</span></div>
+
+
+
+<div class="viewcode-block" id="pickle_loads">
+<a class="viewcode-back" href="../../../api/diffpy.pdfgui.html#diffpy.pdfgui.utils.pickle_loads">[docs]</a>
+<span class="k">def</span> <span class="nf">pickle_loads</span><span class="p">(</span><span class="n">sdata</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;latin1&quot;</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Mimic interface of Python 3 pickle.loads.</span>
+
+<span class="sd">    Using encoding=&#39;latin1&#39; is required for unpickling NumPy arrays and</span>
+<span class="sd">    instances of datetime, date and time pickled by Python 2.</span>
+
+<span class="sd">    Return the reconstructed object hierarchy.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">rv</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">sdata</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="n">encoding</span><span class="p">)</span> <span class="k">if</span> <span class="n">six</span><span class="o">.</span><span class="n">PY3</span> <span class="k">else</span> <span class="n">pickle</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">sdata</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">rv</span></div>
+
+
+
+<div class="viewcode-block" id="safeCPickleDumps">
+<a class="viewcode-back" href="../../../api/diffpy.pdfgui.html#diffpy.pdfgui.utils.safeCPickleDumps">[docs]</a>
+<span class="k">def</span> <span class="nf">safeCPickleDumps</span><span class="p">(</span><span class="n">obj</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get pickle representation of an object possibly containing NaN or Inf.</span>
+<span class="sd">    By default it uses pickle.HIGHEST_PROTOCOL, but falls back to ASCII</span>
+<span class="sd">    protocol 0 if there is SystemError frexp() exception.</span>
+
+<span class="sd">    obj -- object to be pickled</span>
+
+<span class="sd">    Return pickle string.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">ascii_protocol</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">pickle</span><span class="o">.</span><span class="n">HIGHEST_PROTOCOL</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">SystemError</span><span class="p">:</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">ascii_protocol</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">s</span></div>
+
+
+
+<span class="c1"># This should be unnecessary in Python 3</span>
+<span class="c1"># TODO - replace getquoted/setquoted with get/set after dropping Python 2</span>
+
+
+<div class="viewcode-block" id="QuotedConfigParser">
+<a class="viewcode-back" href="../../../api/diffpy.pdfgui.html#diffpy.pdfgui.utils.QuotedConfigParser">[docs]</a>
+<span class="k">class</span> <span class="nc">QuotedConfigParser</span><span class="p">(</span><span class="n">RawConfigParser</span><span class="p">):</span>
+<div class="viewcode-block" id="QuotedConfigParser.getquoted">
+<a class="viewcode-back" href="../../../api/diffpy.pdfgui.html#diffpy.pdfgui.utils.QuotedConfigParser.getquoted">[docs]</a>
+    <span class="k">def</span> <span class="nf">getquoted</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">section</span><span class="p">,</span> <span class="n">option</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Retrieve option value previously set with setquoted.</span>
+
+<span class="sd">        This allows to work with unicode strings.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">vq</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">section</span><span class="p">,</span> <span class="n">option</span><span class="p">)</span>
+        <span class="n">rv</span> <span class="o">=</span> <span class="n">vq</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span> <span class="k">if</span> <span class="n">six</span><span class="o">.</span><span class="n">PY2</span> <span class="k">else</span> <span class="n">vq</span>
+        <span class="k">return</span> <span class="n">rv</span></div>
+
+
+<div class="viewcode-block" id="QuotedConfigParser.setquoted">
+<a class="viewcode-back" href="../../../api/diffpy.pdfgui.html#diffpy.pdfgui.utils.QuotedConfigParser.setquoted">[docs]</a>
+    <span class="k">def</span> <span class="nf">setquoted</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">section</span><span class="p">,</span> <span class="n">option</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set option to a value encoded with urllib.quote.</span>
+
+<span class="sd">        This allows to store and write out unicode strings.</span>
+<span class="sd">        Use getquoted to recover the decoded value.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">vq</span> <span class="o">=</span> <span class="n">value</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span> <span class="k">if</span> <span class="n">six</span><span class="o">.</span><span class="n">PY2</span> <span class="k">else</span> <span class="n">value</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">section</span><span class="p">,</span> <span class="n">option</span><span class="p">,</span> <span class="n">vq</span><span class="p">)</span></div>
+</div>
+
+
+
+<span class="c1"># class QuotedConfigParser</span>
+
+
+<div class="viewcode-block" id="quote_plain">
+<a class="viewcode-back" href="../../../api/diffpy.pdfgui.html#diffpy.pdfgui.utils.quote_plain">[docs]</a>
+<span class="k">def</span> <span class="nf">quote_plain</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return a possibly Unicode string quoted as plain ASCII.</span>
+
+<span class="sd">    The returned value is suitable as a path component in the</span>
+<span class="sd">    project file format.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span> <span class="nn">six.moves.urllib.parse</span> <span class="kn">import</span> <span class="n">quote_plus</span>
+
+    <span class="n">rv</span> <span class="o">=</span> <span class="n">quote_plus</span><span class="p">(</span><span class="n">asunicode</span><span class="p">(</span><span class="n">s</span><span class="p">)</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">rv</span></div>
+
+
+
+<div class="viewcode-block" id="unquote_plain">
+<a class="viewcode-back" href="../../../api/diffpy.pdfgui.html#diffpy.pdfgui.utils.unquote_plain">[docs]</a>
+<span class="k">def</span> <span class="nf">unquote_plain</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Unquote string previously encoded with quote_plain.&quot;&quot;&quot;</span>
+    <span class="kn">from</span> <span class="nn">six.moves.urllib.parse</span> <span class="kn">import</span> <span class="n">unquote_plus</span>
+
+    <span class="n">u</span> <span class="o">=</span> <span class="n">unquote_plus</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+    <span class="n">rv</span> <span class="o">=</span> <span class="n">asunicode</span><span class="p">(</span><span class="n">u</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">rv</span></div>
+
+
+
+<div class="viewcode-block" id="asunicode">
+<a class="viewcode-back" href="../../../api/diffpy.pdfgui.html#diffpy.pdfgui.utils.asunicode">[docs]</a>
+<span class="k">def</span> <span class="nf">asunicode</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Convert string or bytes object to a text type.</span>
+
+<span class="sd">    This is `unicode` in Python 2 and `str` in Python 3.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">rv</span> <span class="o">=</span> <span class="n">s</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">six</span><span class="o">.</span><span class="n">text_type</span><span class="p">):</span>
+        <span class="n">rv</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">rv</span></div>
+
+
+
+<span class="c1"># End of file</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, The Trustees of Columbia University in the City of New York.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

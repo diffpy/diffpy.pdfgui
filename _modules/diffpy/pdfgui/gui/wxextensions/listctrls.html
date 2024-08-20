@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>diffpy.pdfgui.gui.wxextensions.listctrls &mdash; diffpy.pdfgui 3.1.0rc0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../../../_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../../../../../_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../../../../_static/documentation_options.js?v=a2ca8c84"></script>
+        <script src="../../../../../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../../../index.html" class="icon icon-home">
+            diffpy.pdfgui
+          </a>
+              <div class="version">
+                3.1.0rc0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../tutorial.html">Tutorial</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../license.html">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../release.html">Release Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../api/diffpy.pdfgui.html">Package API</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../../index.html">diffpy.pdfgui</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">diffpy.pdfgui.gui.wxextensions.listctrls</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for diffpy.pdfgui.gui.wxextensions.listctrls</h1><div class="highlight"><pre>
+<span></span><span class="ch">#!/usr/bin/env python</span>
+<span class="c1">##############################################################################</span>
+<span class="c1">#</span>
+<span class="c1"># wxextensions      by DANSE Diffraction group</span>
+<span class="c1">#                   Simon J. L. Billinge</span>
+<span class="c1">#                   (c) 2006 trustees of the Michigan State University.</span>
+<span class="c1">#                   All rights reserved.</span>
+<span class="c1">#</span>
+<span class="c1"># File coded by:    Chris Farrow</span>
+<span class="c1">#</span>
+<span class="c1"># See AUTHORS.txt for a list of people who contributed.</span>
+<span class="c1"># See LICENSE.txt for license information.</span>
+<span class="c1">#</span>
+<span class="c1">##############################################################################</span>
+
+<span class="sd">&quot;&quot;&quot;This module contains custom wxListCtrl subclasses.</span>
+<span class="sd">AutoWidthListCtrl  - A wxListCtrl object that automatically adjusts the width of</span>
+<span class="sd">its columns.</span>
+<span class="sd">ColumnSortListCtrl - An AutoWidthListCtrl that sorts its entries when the column</span>
+<span class="sd">header is clicked.</span>
+<span class="sd">KeyEventsListCtrl  - A ColumnSortListCtrl that selects and item as you type its</span>
+<span class="sd">name.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+
+<span class="kn">import</span> <span class="nn">wx</span>
+<span class="kn">import</span> <span class="nn">wx.lib.mixins.listctrl</span> <span class="k">as</span> <span class="nn">listmix</span>
+
+<span class="kn">from</span> <span class="nn">diffpy.pdfgui.gui.wxextensions</span> <span class="kn">import</span> <span class="n">wx12</span>
+
+
+<div class="viewcode-block" id="AutoWidthListCtrl">
+<a class="viewcode-back" href="../../../../../api/diffpy.pdfgui.gui.wxextensions.html#diffpy.pdfgui.gui.wxextensions.listctrls.AutoWidthListCtrl">[docs]</a>
+<span class="k">class</span> <span class="nc">AutoWidthListCtrl</span><span class="p">(</span><span class="n">wx12</span><span class="o">.</span><span class="n">ListCtrl</span><span class="p">,</span> <span class="n">listmix</span><span class="o">.</span><span class="n">ListCtrlAutoWidthMixin</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;wxListCtrl subclass that automatically adjusts its column width.&quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent</span><span class="p">,</span> <span class="n">ID</span><span class="p">,</span> <span class="n">pos</span><span class="o">=</span><span class="n">wx</span><span class="o">.</span><span class="n">DefaultPosition</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">wx</span><span class="o">.</span><span class="n">DefaultSize</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">wx12</span><span class="o">.</span><span class="n">ListCtrl</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent</span><span class="p">,</span> <span class="n">ID</span><span class="p">,</span> <span class="n">pos</span><span class="p">,</span> <span class="n">size</span><span class="p">,</span> <span class="n">style</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">listmix</span><span class="o">.</span><span class="n">ListCtrlAutoWidthMixin</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+<div class="viewcode-block" id="AutoWidthListCtrl.clearSelections">
+<a class="viewcode-back" href="../../../../../api/diffpy.pdfgui.gui.wxextensions.html#diffpy.pdfgui.gui.wxextensions.listctrls.AutoWidthListCtrl.clearSelections">[docs]</a>
+    <span class="k">def</span> <span class="nf">clearSelections</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Clear all selections in the list.&quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">GetItemCount</span><span class="p">()):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">Select</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="k">return</span></div>
+
+
+<div class="viewcode-block" id="AutoWidthListCtrl.setSelection">
+<a class="viewcode-back" href="../../../../../api/diffpy.pdfgui.gui.wxextensions.html#diffpy.pdfgui.gui.wxextensions.listctrls.AutoWidthListCtrl.setSelection">[docs]</a>
+    <span class="k">def</span> <span class="nf">setSelection</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">itemtext</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Convenience function for simple selection of a list item by label.</span>
+
+<span class="sd">        itemtext    --  The label of the item to select. If itemtext is None</span>
+<span class="sd">                        (default) then all items will be deselected.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Clear all selections</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">clearSelections</span><span class="p">()</span>
+
+        <span class="c1"># Set the selected item</span>
+        <span class="n">item</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">if</span> <span class="n">itemtext</span><span class="p">:</span>
+            <span class="n">item</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">FindItem</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">itemtext</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">Select</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">Focus</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">item</span></div>
+</div>
+
+
+
+<span class="c1"># end AutoWidthListCtrl</span>
+
+
+<div class="viewcode-block" id="ColumnSortListCtrl">
+<a class="viewcode-back" href="../../../../../api/diffpy.pdfgui.gui.wxextensions.html#diffpy.pdfgui.gui.wxextensions.listctrls.ColumnSortListCtrl">[docs]</a>
+<span class="k">class</span> <span class="nc">ColumnSortListCtrl</span><span class="p">(</span><span class="n">AutoWidthListCtrl</span><span class="p">,</span> <span class="n">listmix</span><span class="o">.</span><span class="n">ColumnSorterMixin</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;AutoWidthListCtrl subclass that sorts its columns when the column header</span>
+<span class="sd">    is pressed.</span>
+
+<span class="sd">    This ListCtrl requires an itemDataMap member dictionary to be initialized</span>
+<span class="sd">    before the sorting capabilites can be realized. This dictionary simply references</span>
+<span class="sd">    the ListCtrl&#39;s entries by a unique number. This number must be stored as the</span>
+<span class="sd">    ItemData (with SetItemData) of the entry.  The member data must be in the</span>
+<span class="sd">    form of a tuple, where the tuple has a number of entries as the ListCtrl has</span>
+<span class="sd">    columns. The sorting routine sorts the items in the ListCtrl by the entries</span>
+<span class="sd">    in this tuple.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent</span><span class="p">,</span> <span class="n">ID</span><span class="p">,</span> <span class="n">pos</span><span class="o">=</span><span class="n">wx</span><span class="o">.</span><span class="n">DefaultPosition</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">wx</span><span class="o">.</span><span class="n">DefaultSize</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">AutoWidthListCtrl</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent</span><span class="p">,</span> <span class="n">ID</span><span class="p">,</span> <span class="n">pos</span><span class="p">,</span> <span class="n">size</span><span class="p">,</span> <span class="n">style</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">listmix</span><span class="o">.</span><span class="n">ListCtrlAutoWidthMixin</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+<div class="viewcode-block" id="ColumnSortListCtrl.GetListCtrl">
+<a class="viewcode-back" href="../../../../../api/diffpy.pdfgui.gui.wxextensions.html#diffpy.pdfgui.gui.wxextensions.listctrls.ColumnSortListCtrl.GetListCtrl">[docs]</a>
+    <span class="k">def</span> <span class="nf">GetListCtrl</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;This method is required by the sorter mixin.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+
+<div class="viewcode-block" id="ColumnSortListCtrl.initializeSorter">
+<a class="viewcode-back" href="../../../../../api/diffpy.pdfgui.gui.wxextensions.html#diffpy.pdfgui.gui.wxextensions.listctrls.ColumnSortListCtrl.initializeSorter">[docs]</a>
+    <span class="k">def</span> <span class="nf">initializeSorter</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize the column sorter mixin after the ListCtrl is filled.</span>
+
+<span class="sd">        This method must be called whenever the itemDataMap is altered.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">numcol</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">GetColumnCount</span><span class="p">()</span>
+        <span class="n">listmix</span><span class="o">.</span><span class="n">ColumnSorterMixin</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">numcol</span><span class="p">)</span>
+        <span class="k">return</span></div>
+
+
+<div class="viewcode-block" id="ColumnSortListCtrl.makeIDM">
+<a class="viewcode-back" href="../../../../../api/diffpy.pdfgui.gui.wxextensions.html#diffpy.pdfgui.gui.wxextensions.listctrls.ColumnSortListCtrl.makeIDM">[docs]</a>
+    <span class="k">def</span> <span class="nf">makeIDM</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;This method automatically sets up the itemDataMap.</span>
+
+<span class="sd">        The itemDataMap gets filled with the current ListCtrl entries. The</span>
+<span class="sd">        itemDataMap does not update automatically when the list is changed. To</span>
+<span class="sd">        update the itemDataMap this method must be called again.</span>
+<span class="sd">        initializeSorter should be called after a call to this method.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">numcol</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">GetColumnCount</span><span class="p">()</span>
+        <span class="n">numrow</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">GetItemCount</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">itemDataMap</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">numrow</span><span class="p">):</span>
+            <span class="n">infolist</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">numcol</span><span class="p">):</span>
+                <span class="n">infolist</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">GetItem</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">)</span><span class="o">.</span><span class="n">GetText</span><span class="p">())</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">itemDataMap</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">infolist</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">SetItemData</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="k">return</span></div>
+</div>
+
+
+
+<span class="c1"># end ColumnSortListCtrl</span>
+
+
+<div class="viewcode-block" id="KeyEventsListCtrl">
+<a class="viewcode-back" href="../../../../../api/diffpy.pdfgui.gui.wxextensions.html#diffpy.pdfgui.gui.wxextensions.listctrls.KeyEventsListCtrl">[docs]</a>
+<span class="k">class</span> <span class="nc">KeyEventsListCtrl</span><span class="p">(</span><span class="n">ColumnSortListCtrl</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;ColumnSortListCtrl that catches key events and selects the item that</span>
+<span class="sd">    matches.</span>
+
+<span class="sd">    It only searches for items in the first column.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent</span><span class="p">,</span> <span class="nb">id</span><span class="p">,</span> <span class="n">pos</span><span class="o">=</span><span class="n">wx</span><span class="o">.</span><span class="n">DefaultPosition</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">wx</span><span class="o">.</span><span class="n">DefaultSize</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">ColumnSortListCtrl</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent</span><span class="p">,</span> <span class="nb">id</span><span class="p">,</span> <span class="n">pos</span><span class="p">,</span> <span class="n">size</span><span class="p">,</span> <span class="n">style</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">typedText</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Bind</span><span class="p">(</span><span class="n">wx</span><span class="o">.</span><span class="n">EVT_KEY_DOWN</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">OnKey</span><span class="p">)</span>
+
+<div class="viewcode-block" id="KeyEventsListCtrl.findPrefix">
+<a class="viewcode-back" href="../../../../../api/diffpy.pdfgui.gui.wxextensions.html#diffpy.pdfgui.gui.wxextensions.listctrls.KeyEventsListCtrl.findPrefix">[docs]</a>
+    <span class="k">def</span> <span class="nf">findPrefix</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">prefix</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">prefix</span><span class="p">:</span>
+            <span class="n">prefix</span> <span class="o">=</span> <span class="n">prefix</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+            <span class="n">length</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">prefix</span><span class="p">)</span>
+
+            <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">GetItemCount</span><span class="p">()):</span>
+                <span class="n">text</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">GetItemText</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+                <span class="n">text</span> <span class="o">=</span> <span class="n">text</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+
+                <span class="k">if</span> <span class="n">text</span><span class="p">[:</span><span class="n">length</span><span class="p">]</span> <span class="o">==</span> <span class="n">prefix</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="n">x</span>
+
+        <span class="k">return</span> <span class="o">-</span><span class="mi">1</span></div>
+
+
+<div class="viewcode-block" id="KeyEventsListCtrl.OnKey">
+<a class="viewcode-back" href="../../../../../api/diffpy.pdfgui.gui.wxextensions.html#diffpy.pdfgui.gui.wxextensions.listctrls.KeyEventsListCtrl.OnKey">[docs]</a>
+    <span class="k">def</span> <span class="nf">OnKey</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">evt</span><span class="p">):</span>
+        <span class="n">key</span> <span class="o">=</span> <span class="n">evt</span><span class="o">.</span><span class="n">GetKeyCode</span><span class="p">()</span>
+
+        <span class="c1"># Select All - Ctrl+A</span>
+        <span class="k">if</span> <span class="n">evt</span><span class="o">.</span><span class="n">ControlDown</span><span class="p">()</span> <span class="ow">and</span> <span class="n">key</span> <span class="o">==</span> <span class="mi">65</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">GetItemCount</span><span class="p">()):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">Select</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+            <span class="k">return</span>
+
+        <span class="c1"># Search for name</span>
+        <span class="k">if</span> <span class="n">key</span> <span class="o">&gt;=</span> <span class="mi">32</span> <span class="ow">and</span> <span class="n">key</span> <span class="o">&lt;=</span> <span class="mi">127</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">typedText</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">typedText</span> <span class="o">+</span> <span class="nb">chr</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+            <span class="n">item</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">findPrefix</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">typedText</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">item</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+                <span class="n">itemtext</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">GetItemText</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">setSelection</span><span class="p">(</span><span class="n">itemtext</span><span class="p">)</span>
+
+        <span class="k">elif</span> <span class="n">key</span> <span class="o">==</span> <span class="n">wx</span><span class="o">.</span><span class="n">WXK_BACK</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">typedText</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">typedText</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+
+            <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">typedText</span><span class="p">:</span>
+                <span class="n">itemtext</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">GetItemText</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">setSelection</span><span class="p">(</span><span class="n">itemtext</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">item</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">findPrefix</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">typedText</span><span class="p">)</span>
+
+                <span class="k">if</span> <span class="n">item</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+                    <span class="n">itemtext</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">GetItemText</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">setSelection</span><span class="p">(</span><span class="n">itemtext</span><span class="p">)</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">typedText</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+            <span class="n">evt</span><span class="o">.</span><span class="n">Skip</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="KeyEventsListCtrl.OnKeyDown">
+<a class="viewcode-back" href="../../../../../api/diffpy.pdfgui.gui.wxextensions.html#diffpy.pdfgui.gui.wxextensions.listctrls.KeyEventsListCtrl.OnKeyDown">[docs]</a>
+    <span class="k">def</span> <span class="nf">OnKeyDown</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">evt</span><span class="p">):</span>
+        <span class="k">pass</span></div>
+</div>
+
+
+
+<span class="c1"># End of class KeyEventsListCtrl</span>
+
+<span class="c1"># verify inheritance of all ListCtrl classes</span>
+<span class="k">assert</span> <span class="nb">issubclass</span><span class="p">(</span><span class="n">AutoWidthListCtrl</span><span class="p">,</span> <span class="n">wx12</span><span class="o">.</span><span class="n">ListCtrl</span><span class="p">)</span>
+<span class="k">assert</span> <span class="nb">issubclass</span><span class="p">(</span><span class="n">ColumnSortListCtrl</span><span class="p">,</span> <span class="n">wx12</span><span class="o">.</span><span class="n">ListCtrl</span><span class="p">)</span>
+<span class="k">assert</span> <span class="nb">issubclass</span><span class="p">(</span><span class="n">KeyEventsListCtrl</span><span class="p">,</span> <span class="n">wx12</span><span class="o">.</span><span class="n">ListCtrl</span><span class="p">)</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, The Trustees of Columbia University in the City of New York.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

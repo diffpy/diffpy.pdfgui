@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tutorial &mdash; diffpy.pdfgui 3.1.0rc0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=a2ca8c84"></script>
+        <script src="_static/doctools.js?v=9a2dae69"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="License" href="license.html" />
+    <link rel="prev" title="diffpy.pdfgui documentation" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            diffpy.pdfgui
+          </a>
+              <div class="version">
+                3.1.0rc0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Tutorial</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#lesson-1-creating-simple-fit-of-ni-pdf">Lesson 1: Creating simple fit of Ni PDF</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#lesson-2-build-structure-model-using-crystal-symmetry">Lesson 2: Build structure model using crystal symmetry</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#lesson-3-multi-stage-fitting">Lesson 3: Multi-stage fitting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#references">References</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="release.html">Release Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/diffpy.pdfgui.html">Package API</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">diffpy.pdfgui</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Tutorial</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/tutorial.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="tutorial">
+<span id="quick-start"></span><h1>Tutorial<a class="headerlink" href="#tutorial" title="Link to this heading"></a></h1>
+<p>Please, have your co-workers or students try it out and let us know if you
+have any comments.  We want to make it really easy for the new users to get
+started with PDFgui.</p>
+<section id="lesson-1-creating-simple-fit-of-ni-pdf">
+<h2>Lesson 1: Creating simple fit of Ni PDF<a class="headerlink" href="#lesson-1-creating-simple-fit-of-ni-pdf" title="Link to this heading"></a></h2>
+<p>Input files:</p>
+<ul class="simple">
+<li><p><a class="reference download internal" download="" href="_downloads/152427a3fb2089faa71c17d4774bb0e8/Ni-xray.gr"><code class="xref download docutils literal notranslate"><span class="pre">Ni-xray.gr</span></code></a> - experimental X-ray PDF data</p></li>
+<li><p><a class="reference download internal" download="" href="_downloads/5c534d55babfa2f2f0098cfa8fe20fea/Ni.stru"><code class="xref download docutils literal notranslate"><span class="pre">Ni.stru</span></code></a> - Ni f.c.c. structure in PDFfit format</p></li>
+</ul>
+<p>Procedure:</p>
+<ol class="arabic">
+<li><p>Open a terminal and type <code class="docutils literal notranslate"><span class="pre">pdfgui</span></code> to start the program.</p></li>
+<li><dl class="simple">
+<dt>Create a new Fit:</dt><dd><ol class="arabic simple">
+<li><p>Select “FITTING” in the left-most vertical tab.</p></li>
+<li><p>Click right mouse button in the left panel and choose “New Fit” in the pop-up menu.</p></li>
+</ol>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>Load structure model:</dt><dd><ol class="arabic simple">
+<li><p>Place the cursor of the mouse onto the title of the Fit, click the right button and choose “Insert Phase” in the pop-up menu.</p></li>
+<li><p>Click the “Open” button and load the <cite>Ni.stru</cite> file.</p></li>
+</ol>
+</dd>
+</dl>
+<p>The right panel has 3 tabs for the initial configuration, constraints panel for expressing structure properties as functions of tunable parameters, and Results panel for refined structure.</p>
+</li>
+<li><dl class="simple">
+<dt>Load experimental PDF data:</dt><dd><ol class="arabic simple">
+<li><p>Select the title of “Fit 1”, click the right button and choose “Insert Data Set” in the pop-up menu.</p></li>
+<li><p>Load the <cite>Ni-xray.gr</cite> file.</p></li>
+</ol>
+</dd>
+</dl>
+<p>Again, the right panel shows 3 tabs for properties of this dataset.</p>
+</li>
+<li><dl class="simple">
+<dt>Define what is refined:</dt><dd><ol class="arabic simple">
+<li><p>Click on the <cite>Ni-xray.gr</cite> data and select the “Constraints” tab.</p></li>
+<li><p>Type <code class="docutils literal notranslate"><span class="pre">&#64;1</span></code> into “Scale Factor” edit box.</p></li>
+<li><p>Select the <cite>Ni.stru</cite> phase and its “Constraints” tab.</p></li>
+<li><p>Fill “a”, “b”, “c” boxes with <code class="docutils literal notranslate"><span class="pre">&#64;5</span></code>.</p></li>
+</ol>
+</dd>
+</dl>
+<p>A refined variable can be expressed as a math expression:
+<code class="docutils literal notranslate"><span class="pre">f(&#64;n1,</span> <span class="pre">&#64;n2,</span> <span class="pre">&#64;n3,</span> <span class="pre">...)</span></code> where
+<code class="docutils literal notranslate"><span class="pre">&#64;n1</span></code> stands for fitted parameter and
+<code class="docutils literal notranslate"><span class="pre">n1,</span> <span class="pre">n2,</span> <span class="pre">...</span></code> are arbitrary positive integers.
+This allows simple linking of related variables - for example, since
+cell lengths a, b, c are all expressed as <code class="docutils literal notranslate"><span class="pre">&#64;5</span></code>, the refined structure will remain cubic.</p>
+</li>
+<li><dl class="simple">
+<dt>Start the refinement:</dt><dd><ol class="arabic simple">
+<li><p>Select “Fit 1” in the left panel.  The parameters panel shows a list of used parameters and their initial values.</p></li>
+<li><p>Click the “gear” icon on the toolbar and watch the fit progress in the terminal window.</p></li>
+</ol>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>Plot the results:</dt><dd><ol class="arabic simple">
+<li><p>Select “PLOTTING” in the left-most vertical tab.</p></li>
+<li><p>Select the <cite>Ni-xray.gr</cite> dataset.</p></li>
+<li><p>Select “r” as the X plotting variable.</p></li>
+<li><p>Hold down shift and select “Gcalc” and “Gtrunc” as the Y plotting variables.</p></li>
+<li><p>Click “Plot” button.</p></li>
+</ol>
+</dd>
+</dl>
+<p>A new window pops up with plots.  You can try out the buttons in the toolbar below.</p>
+</li>
+<li><p>Save your project for later use.</p></li>
+</ol>
+</section>
+<section id="lesson-2-build-structure-model-using-crystal-symmetry">
+<h2>Lesson 2: Build structure model using crystal symmetry<a class="headerlink" href="#lesson-2-build-structure-model-using-crystal-symmetry" title="Link to this heading"></a></h2>
+<p>In the previous example the initial structure was defined by an existing file. However, PDFgui makes it very easy to build a structure model from scratch and constrain it with arbitrary crystal symmetry.</p>
+<ol class="arabic">
+<li><dl class="simple">
+<dt>Create a blank structure:</dt><dd><ol class="arabic simple">
+<li><p>Click the FITTING tab.</p></li>
+<li><p>Repeat steps 1-3a from Lesson 1, but choose the “New” button. Rename “New Phase” to “Ni fcc”.</p></li>
+</ol>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>Define asymmetric unit:</dt><dd><ol class="arabic simple">
+<li><p>Right click the header of the empty atoms grid in the “Configure” page.</p></li>
+<li><p>Insert 1 atom using the popup menu.</p></li>
+<li><p>Change the elem cell to “Ni”.</p></li>
+<li><p>Select the u11-u33 cells and type “0.004” and press Enter.</p></li>
+</ol>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>Expand to all equivalent positions:</dt><dd><ol class="arabic simple">
+<li><p>Right click the first Ni atom and select “Expand space group”. A “Space Group Expansion” dialog should open.</p></li>
+<li><p>In the dialog, select Fm-3m or just type 225 in the “Space Group” box and hit “OK”.</p></li>
+</ol>
+</dd>
+</dl>
+<p>You should now have four atoms in the atoms grid.</p>
+</li>
+<li><dl class="simple">
+<dt>Generate symmetry constraints:</dt><dd><ol class="arabic simple">
+<li><p>Select the “Constraints” tab.</p></li>
+<li><p>Select all atoms. This can be done by dragging the mouse over the atom names or by clicking on the “elem” header.</p></li>
+<li><p>Right click in a selected cell and select “Symmetry constraints.” A “Space Group Constraints” dialog should open.</p></li>
+<li><p>“Fm-3m” should already appear in the “Space Group” box. If it does not, select it as you did in step 3 and hit “OK”.</p></li>
+</ol>
+</dd>
+</dl>
+<p>The u11-u33 cells should all read the same value. The “x”, “y” and “z” cells should be all empty because Ni atoms are at special positions in Fm-3m. You may try to select lower-symmetry space and check what happens with the constraints. The space group constraints may be mixed by selecting different groups of atoms, for example, when only certain species show lowered symmetry.</p>
+</li>
+<li><p>Continue the fit as in Lesson 1.</p></li>
+</ol>
+</section>
+<section id="lesson-3-multi-stage-fitting">
+<h2>Lesson 3: Multi-stage fitting<a class="headerlink" href="#lesson-3-multi-stage-fitting" title="Link to this heading"></a></h2>
+<p>Learn how to string together fits.</p>
+<ol class="arabic">
+<li><p>Create a fit as in Lesson 1.</p></li>
+<li><dl class="simple">
+<dt>Copy the fit:</dt><dd><ol class="arabic simple">
+<li><p>Right click on the fit name “Fit 1” in the right panel (the fit tree).</p></li>
+<li><p>Select “Copy” from the pop-up menu.</p></li>
+</ol>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>Paste the fit:</dt><dd><ol class="arabic simple">
+<li><p>Right click in the empty space between the first fit in the fit tree.</p></li>
+<li><p>Select “Paste Fit.” This will create “Fit 1_copy”, a copy of “Fit 1” in the fit tree.</p></li>
+</ol>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>Link the fits:</dt><dd><ol class="arabic simple">
+<li><p>Click on “Fit 1_copy” in the fit tree.</p></li>
+<li><p>In the “Parameters” panel, select the entire “Initial” column.</p></li>
+<li><p>Type <code class="docutils literal notranslate"><span class="pre">=Fit</span> <span class="pre">1</span></code> and then press Enter. The “Initial” values of the parameters should now read <code class="docutils literal notranslate"><span class="pre">=Fit1:n</span></code>, where “n” is the index of the parameter.</p></li>
+</ol>
+</dd>
+</dl>
+<p>This is the linking syntax: <code class="docutils literal notranslate"><span class="pre">=name:index</span></code>.
+“name” is the name of another fit.
+“index” is the index of a parameter in that fit.
+If you omit “index”, it will default to the index of the parameter you are linking from. A linked parameter uses the refined value of the link as its initial value. This is useful when you are running several related fits.</p>
+</li>
+<li><dl class="simple">
+<dt>Add more fit parameters:</dt><dd><ol class="arabic simple">
+<li><p>Select the “Constraints” tab of the <cite>Ni.stru</cite> phase below “Fit 1_copy”.</p></li>
+<li><p>Write <code class="docutils literal notranslate"><span class="pre">&#64;9</span></code> in the “delta2” box.</p></li>
+</ol>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>Run the fit and plot the results:</dt><dd><ol class="arabic simple">
+<li><p>Run the fit as in Lesson 1.</p></li>
+<li><p>Plot the fit as in Lesson 1, but this time hold down Control and select the data sets from “Fit 1” and “Fit 1_copy”. You can change the “offset” in the plotting window to 0 to place the plots on top of each other.</p></li>
+</ol>
+</dd>
+</dl>
+</li>
+</ol>
+</section>
+<section id="references">
+<h2>References<a class="headerlink" href="#references" title="Link to this heading"></a></h2>
+<ol class="arabic simple">
+<li><p><a class="reference download internal" download="" href="_downloads/86e7a143ba2ff8e0416b42c2c6919e14/Proffen-jac-1999.pdf"><code class="xref download docutils literal notranslate"><span class="pre">(pdf)</span></code></a>,
+Th. Proffen and S. J. L. Billinge, PDFFIT a program for full profile structural refinement of the atomic pair distribution function, J. Appl. Crystallogr. 32, 572-575 (1999)</p></li>
+<li><p><a class="reference download internal" download="" href="_downloads/7f278b2b470f8adf60991438dc3db388/Farrow-jpcm-2007.pdf"><code class="xref download docutils literal notranslate"><span class="pre">(pdf)</span></code></a>,
+C. L. Farrow, P. Juhas, J. W. Liu, D. Bryndin, J. Bloch, Th. Proffen and S. J. L. Billinge, PDFfit2 and PDFgui: Computer programs for studying nanostructure in crystals, J. Phys.: Condens. Matter 19, 335219 (2007)</p></li>
+</ol>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="diffpy.pdfgui documentation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="license.html" class="btn btn-neutral float-right" title="License" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, The Trustees of Columbia University in the City of New York.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

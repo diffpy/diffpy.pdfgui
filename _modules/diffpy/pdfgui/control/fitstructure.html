@@ -1,0 +1,1086 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>diffpy.pdfgui.control.fitstructure &mdash; diffpy.pdfgui 3.1.0rc0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../../../_static/documentation_options.js?v=a2ca8c84"></script>
+        <script src="../../../../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../../index.html" class="icon icon-home">
+            diffpy.pdfgui
+          </a>
+              <div class="version">
+                3.1.0rc0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tutorial.html">Tutorial</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../license.html">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../release.html">Release Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../api/diffpy.pdfgui.html">Package API</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">diffpy.pdfgui</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">diffpy.pdfgui.control.fitstructure</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for diffpy.pdfgui.control.fitstructure</h1><div class="highlight"><pre>
+<span></span><span class="ch">#!/usr/bin/env python</span>
+<span class="c1">##############################################################################</span>
+<span class="c1">#</span>
+<span class="c1"># PDFgui            by DANSE Diffraction group</span>
+<span class="c1">#                   Simon J. L. Billinge</span>
+<span class="c1">#                   (c) 2006 trustees of the Michigan State University.</span>
+<span class="c1">#                   All rights reserved.</span>
+<span class="c1">#</span>
+<span class="c1"># File coded by:    Pavol Juhas</span>
+<span class="c1">#</span>
+<span class="c1"># See AUTHORS.txt for a list of people who contributed.</span>
+<span class="c1"># See LICENSE.txt for license information.</span>
+<span class="c1">#</span>
+<span class="c1">##############################################################################</span>
+
+<span class="sd">&quot;&quot;&quot;class FitStructure for storage of one phase and related fitting parameters</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">copy</span>
+<span class="kn">import</span> <span class="nn">re</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span>
+
+<span class="kn">from</span> <span class="nn">diffpy.pdfgui.control.constraint</span> <span class="kn">import</span> <span class="n">Constraint</span>
+<span class="kn">from</span> <span class="nn">diffpy.pdfgui.control.controlerrors</span> <span class="kn">import</span> <span class="n">ControlTypeError</span><span class="p">,</span> <span class="n">ControlValueError</span>
+<span class="kn">from</span> <span class="nn">diffpy.pdfgui.control.parameter</span> <span class="kn">import</span> <span class="n">Parameter</span>
+<span class="kn">from</span> <span class="nn">diffpy.pdfgui.control.pdfstructure</span> <span class="kn">import</span> <span class="n">PDFStructure</span>
+<span class="kn">from</span> <span class="nn">diffpy.structure</span> <span class="kn">import</span> <span class="n">Atom</span>
+
+
+<div class="viewcode-block" id="FitStructure">
+<a class="viewcode-back" href="../../../../api/diffpy.pdfgui.control.html#diffpy.pdfgui.control.fitstructure.FitStructure">[docs]</a>
+<span class="k">class</span> <span class="nc">FitStructure</span><span class="p">(</span><span class="n">PDFStructure</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;FitStructure holds initial and refined structure and related fit</span>
+<span class="sd">    parameters.  Inherited from PDFStructure.</span>
+
+<span class="sd">    Class data members:</span>
+<span class="sd">        symposeps   -- tolerance for recognizing site as symmetry position</span>
+
+<span class="sd">    Data members (in adition to those in PDFStructure):</span>
+<span class="sd">        owner       -- instance of parent Fitting (set in Organizer.add())</span>
+<span class="sd">        initial     -- initial structure, same as self</span>
+<span class="sd">        refined     -- refined structure when available or None</span>
+<span class="sd">        constraints -- dictionary of { refvar_string : Constraint_instance }</span>
+<span class="sd">        selected_pairs -- string of selected pairs, by default &quot;all-all&quot;.</span>
+<span class="sd">                       Use setSelectedPairs() and getSelectedPairs() methods</span>
+<span class="sd">                       to access its value.</span>
+<span class="sd">        custom_spacegroup -- instance of SpaceGroup which has no equivalent</span>
+<span class="sd">                       in diffpy.structure.spacegroups module.  This can happen</span>
+<span class="sd">                       after reading from a CIF file.  When equivalent space</span>
+<span class="sd">                       group exists, custom_spacegroup is None.</span>
+
+<span class="sd">    Refinable variables:  pscale, spdiameter, delta1, delta2, sratio, lat(n),</span>
+<span class="sd">        where n=1..6,  x(i), y(i), z(i), occ(i), u11(i), u22(i), u33(i),</span>
+<span class="sd">        u12(i), u13(i), u23(i), where i=1..Natoms</span>
+
+<span class="sd">    Non-refinable variable:  rcut, stepcut</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># class data members:</span>
+    <span class="n">symposeps</span> <span class="o">=</span> <span class="mf">0.001</span>
+    <span class="c1"># evaluation of sorted_standard_space_groups deferred when necessary</span>
+    <span class="n">sorted_standard_space_groups</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize FitDataSet.</span>
+
+<span class="sd">        name         -- name of the data set.  The same name is used for</span>
+<span class="sd">                        self.initial and self.final.</span>
+<span class="sd">        args, kwargs -- optional arguments passed to parent PDFStructure</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">PDFStructure</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">owner</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="c1"># self.initial deliberately not assigned,</span>
+        <span class="c1"># it gets mapped to self by __getattr__</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">refined</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">constraints</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">selected_pairs</span> <span class="o">=</span> <span class="s2">&quot;all-all&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">initial</span><span class="o">.</span><span class="n">pdffit</span><span class="p">[</span><span class="s2">&quot;sgoffset&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">custom_spacegroup</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">return</span>
+
+    <span class="k">def</span> <span class="nf">_update_custom_spacegroup</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parser</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Helper method for read() and readStr(), which takes care</span>
+<span class="sd">        of setting custom_spacegroup after successful reading.</span>
+
+<span class="sd">        parser -- instance of StructureParser used in reading.</span>
+
+<span class="sd">        No return value.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">custom_spacegroup</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">initial</span><span class="o">.</span><span class="n">pdffit</span><span class="p">[</span><span class="s2">&quot;sgoffset&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">]</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">parser</span><span class="p">,</span> <span class="s2">&quot;spacegroup&quot;</span><span class="p">):</span>
+            <span class="n">sg</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">spacegroup</span>
+            <span class="c1"># when sg.number is None or 0, we have a custom spacegroup</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">sg</span><span class="o">.</span><span class="n">number</span><span class="p">:</span>
+                <span class="c1"># overwrite sg.number with 0, an identifier for custom SG</span>
+                <span class="n">sg</span><span class="o">.</span><span class="n">number</span> <span class="o">=</span> <span class="mi">0</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">custom_spacegroup</span> <span class="o">=</span> <span class="n">sg</span>
+            <span class="c1"># here sg.number is 0 or positive integer</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">initial</span><span class="o">.</span><span class="n">pdffit</span><span class="p">[</span><span class="s2">&quot;spcgr&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">sg</span><span class="o">.</span><span class="n">short_name</span>
+        <span class="k">return</span>
+
+<div class="viewcode-block" id="FitStructure.read">
+<a class="viewcode-back" href="../../../../api/diffpy.pdfgui.control.html#diffpy.pdfgui.control.fitstructure.FitStructure.read">[docs]</a>
+    <span class="k">def</span> <span class="nf">read</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s2">&quot;auto&quot;</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Load structure from a file, raise ControlFileError for invalid</span>
+<span class="sd">        or unknown structure format.  Overloads PDFStructure.read()</span>
+<span class="sd">        to handle custom_spacegroup attribute.</span>
+
+<span class="sd">        filename -- file to be loaded</span>
+<span class="sd">        format   -- structure format such as &#39;pdffit&#39;, &#39;pdb&#39;, &#39;xyz&#39;.  When</span>
+<span class="sd">                    &#39;auto&#39; all available formats are tried in a row.</span>
+
+<span class="sd">        Return instance of StructureParser used to load the data.</span>
+<span class="sd">        See Structure.read() for more info.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">p</span> <span class="o">=</span> <span class="n">PDFStructure</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="nb">format</span><span class="p">)</span>
+        <span class="c1"># update data only after successful reading</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_update_custom_spacegroup</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+        <span class="c1"># FIXME Temporary workaround to prevent forced isotropy of the Uij</span>
+        <span class="c1"># values.  To be removed and handled by atom isotropy column.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">anisotropy</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">return</span> <span class="n">p</span></div>
+
+
+<div class="viewcode-block" id="FitStructure.readStr">
+<a class="viewcode-back" href="../../../../api/diffpy.pdfgui.control.html#diffpy.pdfgui.control.fitstructure.FitStructure.readStr">[docs]</a>
+    <span class="k">def</span> <span class="nf">readStr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s2">&quot;auto&quot;</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Same as PDFStructure.readStr, but handle the</span>
+<span class="sd">        custom_spacegroup data.</span>
+
+<span class="sd">        Return instance of StructureParser used to load the data.</span>
+<span class="sd">        See Structure.readStr() for more info.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">p</span> <span class="o">=</span> <span class="n">PDFStructure</span><span class="o">.</span><span class="n">readStr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="nb">format</span><span class="p">)</span>
+        <span class="c1"># update data only after successful reading</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_update_custom_spacegroup</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+        <span class="c1"># FIXME Temporary workaround to prevent forced isotropy of the Uij</span>
+        <span class="c1"># values.  To be removed and handled by atom isotropy column.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">anisotropy</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">return</span> <span class="n">p</span></div>
+
+
+    <span class="k">def</span> <span class="fm">__getattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Map self.initial to self.</span>
+<span class="sd">        This is called only when normal attribute lookup fails.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;initial&quot;</span><span class="p">:</span>
+            <span class="n">value</span> <span class="o">=</span> <span class="bp">self</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">emsg</span> <span class="o">=</span> <span class="s2">&quot;A instance has no attribute &#39;</span><span class="si">%s</span><span class="s2">&#39;&quot;</span> <span class="o">%</span> <span class="n">name</span>
+            <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="n">emsg</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">value</span>
+
+    <span class="k">def</span> <span class="nf">_getStrId</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;make a string identifier</span>
+
+<span class="sd">        return value: string id</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="s2">&quot;p_&quot;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
+
+<div class="viewcode-block" id="FitStructure.clearRefined">
+<a class="viewcode-back" href="../../../../api/diffpy.pdfgui.control.html#diffpy.pdfgui.control.fitstructure.FitStructure.clearRefined">[docs]</a>
+    <span class="k">def</span> <span class="nf">clearRefined</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Clear all refinement results.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">refined</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">return</span></div>
+
+
+<div class="viewcode-block" id="FitStructure.obtainRefined">
+<a class="viewcode-back" href="../../../../api/diffpy.pdfgui.control.html#diffpy.pdfgui.control.fitstructure.FitStructure.obtainRefined">[docs]</a>
+    <span class="k">def</span> <span class="nf">obtainRefined</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">server</span><span class="p">,</span> <span class="n">iphase</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Upload refined phase from PdfFit server instance.</span>
+
+<span class="sd">        server -- instance of PdfFit server</span>
+<span class="sd">        iphase -- index of this phase in server</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">server</span><span class="o">.</span><span class="n">setphase</span><span class="p">(</span><span class="n">iphase</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">refined</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">refined</span> <span class="o">=</span> <span class="n">PDFStructure</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">refined</span><span class="o">.</span><span class="n">readStr</span><span class="p">(</span><span class="n">server</span><span class="o">.</span><span class="n">save_struct_string</span><span class="p">(</span><span class="n">iphase</span><span class="p">),</span> <span class="s2">&quot;pdffit&quot;</span><span class="p">)</span>
+        <span class="k">return</span></div>
+
+
+<div class="viewcode-block" id="FitStructure.findParameters">
+<a class="viewcode-back" href="../../../../api/diffpy.pdfgui.control.html#diffpy.pdfgui.control.fitstructure.FitStructure.findParameters">[docs]</a>
+    <span class="k">def</span> <span class="nf">findParameters</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Obtain dictionary of parameters used by self.constraints.</span>
+<span class="sd">        The keys of returned dictionary are integer parameter indices, and</span>
+<span class="sd">        the values are Parameter instances, with guessed initial values.</span>
+
+<span class="sd">        returns dictionary of indices and Parameter instances</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">foundpars</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">var</span><span class="p">,</span> <span class="n">con</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">constraints</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">con</span><span class="o">.</span><span class="n">guess</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">initial</span><span class="o">.</span><span class="n">getvar</span><span class="p">(</span><span class="n">var</span><span class="p">))</span>
+            <span class="k">for</span> <span class="n">pidx</span><span class="p">,</span> <span class="n">pguess</span> <span class="ow">in</span> <span class="n">con</span><span class="o">.</span><span class="n">parguess</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="c1"># skip if already found</span>
+                <span class="k">if</span> <span class="n">pidx</span> <span class="ow">in</span> <span class="n">foundpars</span><span class="p">:</span>
+                    <span class="k">continue</span>
+                <span class="c1"># insert to foundpars otherwise</span>
+                <span class="k">if</span> <span class="n">pguess</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">foundpars</span><span class="p">[</span><span class="n">pidx</span><span class="p">]</span> <span class="o">=</span> <span class="n">Parameter</span><span class="p">(</span><span class="n">pidx</span><span class="p">,</span> <span class="n">initial</span><span class="o">=</span><span class="n">pguess</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">foundpars</span><span class="p">[</span><span class="n">pidx</span><span class="p">]</span> <span class="o">=</span> <span class="n">Parameter</span><span class="p">(</span><span class="n">pidx</span><span class="p">,</span> <span class="n">initial</span><span class="o">=</span><span class="mf">0.0</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">foundpars</span></div>
+
+
+<div class="viewcode-block" id="FitStructure.applyParameters">
+<a class="viewcode-back" href="../../../../api/diffpy.pdfgui.control.html#diffpy.pdfgui.control.fitstructure.FitStructure.applyParameters">[docs]</a>
+    <span class="k">def</span> <span class="nf">applyParameters</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parameters</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Evaluate constraint formulas and adjust initial PDFStructure.</span>
+
+<span class="sd">        parameters -- dictionary of parameter indices with Parameter</span>
+<span class="sd">                      instance values.  Values may also be float type.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># convert values to floats</span>
+        <span class="n">parvalues</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">pidx</span><span class="p">,</span> <span class="n">par</span> <span class="ow">in</span> <span class="n">parameters</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">par</span><span class="p">,</span> <span class="n">Parameter</span><span class="p">):</span>
+                <span class="n">parvalues</span><span class="p">[</span><span class="n">pidx</span><span class="p">]</span> <span class="o">=</span> <span class="n">par</span><span class="o">.</span><span class="n">initialValue</span><span class="p">()</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">parvalues</span><span class="p">[</span><span class="n">pidx</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">par</span><span class="p">)</span>
+        <span class="c1"># evaluate constraints</span>
+        <span class="k">for</span> <span class="n">var</span><span class="p">,</span> <span class="n">con</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">constraints</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">initial</span><span class="o">.</span><span class="n">setvar</span><span class="p">(</span><span class="n">var</span><span class="p">,</span> <span class="n">con</span><span class="o">.</span><span class="n">evalFormula</span><span class="p">(</span><span class="n">parvalues</span><span class="p">))</span>
+        <span class="k">return</span></div>
+
+
+<div class="viewcode-block" id="FitStructure.changeParameterIndex">
+<a class="viewcode-back" href="../../../../api/diffpy.pdfgui.control.html#diffpy.pdfgui.control.fitstructure.FitStructure.changeParameterIndex">[docs]</a>
+    <span class="k">def</span> <span class="nf">changeParameterIndex</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">oldidx</span><span class="p">,</span> <span class="n">newidx</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Change a parameter index to a new value.</span>
+
+<span class="sd">        This will replace all instances of one parameter name with another in</span>
+<span class="sd">        this fit.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">constraints</span><span class="p">:</span>
+            <span class="n">formula</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">constraints</span><span class="p">[</span><span class="n">var</span><span class="p">]</span><span class="o">.</span><span class="n">formula</span>
+            <span class="n">pat</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&quot;@</span><span class="si">%i</span><span class="s2">\b&quot;</span> <span class="o">%</span> <span class="n">oldidx</span>
+            <span class="n">newformula</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="n">pat</span><span class="p">,</span> <span class="s2">&quot;@</span><span class="si">%i</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">newidx</span><span class="p">,</span> <span class="n">formula</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">constraints</span><span class="p">[</span><span class="n">var</span><span class="p">]</span><span class="o">.</span><span class="n">formula</span> <span class="o">=</span> <span class="n">newformula</span>
+        <span class="k">return</span></div>
+
+
+    <span class="k">def</span> <span class="nf">_popAtomConstraints</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Take out atom-related items from the constraints dictionary.</span>
+
+<span class="sd">        This is useful when atom indices are going to change due to</span>
+<span class="sd">        insertion or removal of atoms.  See also _restoreAtomConstraints().</span>
+
+<span class="sd">        Return a dictionary of atom instances vs dictionary of related</span>
+<span class="sd">        refinable variables (stripped of &quot;(siteindex)&quot;) and Constraint</span>
+<span class="sd">        instances - for example {atom : {&#39;u13&#39; : constraint}}.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">rv</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="c1"># atom variable pattern</span>
+        <span class="n">avpat</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;^([xyz]|occ|u11|u22|u33|u12|u13|u23)\((\d+)\)&quot;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">constraints</span><span class="o">.</span><span class="n">keys</span><span class="p">()):</span>
+            <span class="n">m</span> <span class="o">=</span> <span class="n">avpat</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">var</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">m</span><span class="p">:</span>
+                <span class="k">continue</span>
+            <span class="n">barevar</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+            <span class="n">atomidx</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span> <span class="o">-</span> <span class="mi">1</span>
+            <span class="n">cnts</span> <span class="o">=</span> <span class="n">rv</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">initial</span><span class="p">[</span><span class="n">atomidx</span><span class="p">],</span> <span class="p">{})</span>
+            <span class="n">cnts</span><span class="p">[</span><span class="n">barevar</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">constraints</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">var</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">rv</span>
+
+    <span class="k">def</span> <span class="nf">_restoreAtomConstraints</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">acd</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Restore self.constraints from atom constraints dictionary.  This</span>
+<span class="sd">        is useful for getting correct atom indices into refvar strings.</span>
+<span class="sd">        See also _popAtomConstraints()</span>
+
+<span class="sd">        acd -- dictionary obtained from _popAtomConstraints()</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">a</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">initial</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">a</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">acd</span><span class="p">:</span>
+                <span class="k">continue</span>
+            <span class="c1"># there are some constraints for atom a</span>
+            <span class="n">siteindex</span> <span class="o">=</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span>
+            <span class="n">cnts</span> <span class="o">=</span> <span class="n">acd</span><span class="p">[</span><span class="n">a</span><span class="p">]</span>
+            <span class="k">for</span> <span class="n">barevar</span><span class="p">,</span> <span class="n">con</span> <span class="ow">in</span> <span class="n">cnts</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="n">var</span> <span class="o">=</span> <span class="n">barevar</span> <span class="o">+</span> <span class="s2">&quot;(</span><span class="si">%i</span><span class="s2">)&quot;</span> <span class="o">%</span> <span class="n">siteindex</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">constraints</span><span class="p">[</span><span class="n">var</span><span class="p">]</span> <span class="o">=</span> <span class="n">con</span>
+        <span class="k">return</span>
+
+<div class="viewcode-block" id="FitStructure.insertAtoms">
+<a class="viewcode-back" href="../../../../api/diffpy.pdfgui.control.html#diffpy.pdfgui.control.fitstructure.FitStructure.insertAtoms">[docs]</a>
+    <span class="k">def</span> <span class="nf">insertAtoms</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">,</span> <span class="n">atomlist</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Insert list of atoms before index and adjust self.constraints.</span>
+
+<span class="sd">        index    -- position in the initial structure, atoms are appended</span>
+<span class="sd">                    when larger than len(self.initial).</span>
+<span class="sd">        atomlist -- list of atom instances.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">acd</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_popAtomConstraints</span><span class="p">()</span>
+        <span class="c1"># FIXME Temporary workaround to prevent forced isotropy of the Uij</span>
+        <span class="c1"># values.  To be removed and handled by atom isotropy column.</span>
+        <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">atomlist</span><span class="p">:</span>
+            <span class="n">a</span><span class="o">.</span><span class="n">anisotropy</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="c1"># workaround ends here.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">initial</span><span class="p">[</span><span class="n">index</span><span class="p">:</span><span class="n">index</span><span class="p">]</span> <span class="o">=</span> <span class="n">atomlist</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_restoreAtomConstraints</span><span class="p">(</span><span class="n">acd</span><span class="p">)</span>
+        <span class="k">return</span></div>
+
+
+<div class="viewcode-block" id="FitStructure.deleteAtoms">
+<a class="viewcode-back" href="../../../../api/diffpy.pdfgui.control.html#diffpy.pdfgui.control.fitstructure.FitStructure.deleteAtoms">[docs]</a>
+    <span class="k">def</span> <span class="nf">deleteAtoms</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">indices</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Removed atoms at given indices and adjust self.constraints.</span>
+
+<span class="sd">        indices -- list of integer indices of atoms to be deleted</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">acd</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_popAtomConstraints</span><span class="p">()</span>
+        <span class="c1"># get unique, reverse sorted indices</span>
+        <span class="n">ruindices</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">indices</span><span class="p">),</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">ruindices</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">initial</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_restoreAtomConstraints</span><span class="p">(</span><span class="n">acd</span><span class="p">)</span>
+        <span class="k">return</span></div>
+
+
+<div class="viewcode-block" id="FitStructure.expandSuperCell">
+<a class="viewcode-back" href="../../../../api/diffpy.pdfgui.control.html#diffpy.pdfgui.control.fitstructure.FitStructure.expandSuperCell">[docs]</a>
+    <span class="k">def</span> <span class="nf">expandSuperCell</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mno</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Perform supercell expansion for this structure and adjust</span>
+<span class="sd">        constraints for positions and lattice parameters.  New lattice</span>
+<span class="sd">        parameters are multiplied and fractional coordinates divided by</span>
+<span class="sd">        corresponding multiplier.  New atoms are grouped with their source</span>
+<span class="sd">        in the original cell.</span>
+
+<span class="sd">        mno -- tuple or list of three positive integer cell multipliers along</span>
+<span class="sd">        the a, b, c axis</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># check argument</span>
+        <span class="k">if</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">mno</span><span class="p">)</span> <span class="o">==</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">):</span>
+            <span class="k">return</span>
+        <span class="k">if</span> <span class="nb">min</span><span class="p">(</span><span class="n">mno</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">ControlValueError</span><span class="p">(</span><span class="s2">&quot;mno must contain 3 positive integers&quot;</span><span class="p">)</span>
+        <span class="c1"># back to business</span>
+        <span class="n">acd</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_popAtomConstraints</span><span class="p">()</span>
+        <span class="n">mnofloats</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">mno</span><span class="p">[:</span><span class="mi">3</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+        <span class="n">ijklist</span> <span class="o">=</span> <span class="p">[(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">mno</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">mno</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">mno</span><span class="p">[</span><span class="mi">2</span><span class="p">])]</span>
+        <span class="c1"># build a list of new atoms</span>
+        <span class="n">newatoms</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">initial</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">ijk</span> <span class="ow">in</span> <span class="n">ijklist</span><span class="p">:</span>
+                <span class="n">adup</span> <span class="o">=</span> <span class="n">Atom</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+                <span class="n">adup</span><span class="o">.</span><span class="n">xyz</span> <span class="o">=</span> <span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="n">xyz</span> <span class="o">+</span> <span class="n">ijk</span><span class="p">)</span> <span class="o">/</span> <span class="n">mnofloats</span>
+                <span class="n">newatoms</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">adup</span><span class="p">)</span>
+                <span class="c1"># does atom a have any constraint?</span>
+                <span class="k">if</span> <span class="n">a</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">acd</span><span class="p">:</span>
+                    <span class="k">continue</span>
+                <span class="c1"># add empty constraint dictionary for duplicate atom</span>
+                <span class="n">acd</span><span class="p">[</span><span class="n">adup</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+                <span class="k">for</span> <span class="n">barevar</span><span class="p">,</span> <span class="n">con</span> <span class="ow">in</span> <span class="n">acd</span><span class="p">[</span><span class="n">a</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                    <span class="n">formula</span> <span class="o">=</span> <span class="n">con</span><span class="o">.</span><span class="n">formula</span>
+                    <span class="k">if</span> <span class="n">barevar</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="s2">&quot;y&quot;</span><span class="p">,</span> <span class="s2">&quot;z&quot;</span><span class="p">):</span>
+                        <span class="n">symidx</span> <span class="o">=</span> <span class="s2">&quot;xyz&quot;</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">barevar</span><span class="p">)</span>
+                        <span class="k">if</span> <span class="n">ijk</span><span class="p">[</span><span class="n">symidx</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+                            <span class="n">formula</span> <span class="o">+=</span> <span class="s2">&quot; + </span><span class="si">%i</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">ijk</span><span class="p">[</span><span class="n">symidx</span><span class="p">]</span>
+                        <span class="k">if</span> <span class="n">mno</span><span class="p">[</span><span class="n">symidx</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+                            <span class="n">formula</span> <span class="o">=</span> <span class="s2">&quot;(</span><span class="si">%s</span><span class="s2">)/</span><span class="si">%.1f</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">formula</span><span class="p">,</span> <span class="n">mno</span><span class="p">[</span><span class="n">symidx</span><span class="p">])</span>
+                            <span class="n">formula</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;\((@\d+)\)&quot;</span><span class="p">,</span> <span class="sa">r</span><span class="s2">&quot;\1&quot;</span><span class="p">,</span> <span class="n">formula</span><span class="p">)</span>
+                    <span class="c1"># keep other formulas intact and add constraint</span>
+                    <span class="c1"># for barevar of the duplicate atom</span>
+                    <span class="n">acd</span><span class="p">[</span><span class="n">adup</span><span class="p">][</span><span class="n">barevar</span><span class="p">]</span> <span class="o">=</span> <span class="n">Constraint</span><span class="p">(</span><span class="n">formula</span><span class="p">)</span>
+        <span class="c1"># replace original atoms with newatoms</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">initial</span><span class="p">[:]</span> <span class="o">=</span> <span class="n">newatoms</span>
+        <span class="k">for</span> <span class="n">ai</span><span class="p">,</span> <span class="n">an</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">initial</span><span class="p">,</span> <span class="n">newatoms</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">an</span> <span class="ow">in</span> <span class="n">acd</span><span class="p">:</span>
+                <span class="n">acd</span><span class="p">[</span><span class="n">ai</span><span class="p">]</span> <span class="o">=</span> <span class="n">acd</span><span class="p">[</span><span class="n">an</span><span class="p">]</span>
+        <span class="c1"># and rebuild their constraints</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_restoreAtomConstraints</span><span class="p">(</span><span class="n">acd</span><span class="p">)</span>
+        <span class="c1"># take care of lattice parameters</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">initial</span><span class="o">.</span><span class="n">lattice</span><span class="o">.</span><span class="n">setLatPar</span><span class="p">(</span>
+            <span class="n">a</span><span class="o">=</span><span class="n">mno</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">initial</span><span class="o">.</span><span class="n">lattice</span><span class="o">.</span><span class="n">a</span><span class="p">,</span>
+            <span class="n">b</span><span class="o">=</span><span class="n">mno</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">initial</span><span class="o">.</span><span class="n">lattice</span><span class="o">.</span><span class="n">b</span><span class="p">,</span>
+            <span class="n">c</span><span class="o">=</span><span class="n">mno</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">initial</span><span class="o">.</span><span class="n">lattice</span><span class="o">.</span><span class="n">c</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="c1"># adjust lattice constraints if present</span>
+        <span class="n">latvars</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;lat(1)&quot;</span><span class="p">,</span> <span class="s2">&quot;lat(2)&quot;</span><span class="p">,</span> <span class="s2">&quot;lat(3)&quot;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">var</span><span class="p">,</span> <span class="n">multiplier</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">latvars</span><span class="p">,</span> <span class="n">mno</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">var</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">constraints</span> <span class="ow">and</span> <span class="n">multiplier</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">con</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">constraints</span><span class="p">[</span><span class="n">var</span><span class="p">]</span>
+                <span class="n">formula</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">%.0f</span><span class="s2">*(</span><span class="si">%s</span><span class="s2">)&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">multiplier</span><span class="p">,</span> <span class="n">con</span><span class="o">.</span><span class="n">formula</span><span class="p">)</span>
+                <span class="n">formula</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;\((@\d+)\)&quot;</span><span class="p">,</span> <span class="sa">r</span><span class="s2">&quot;\1&quot;</span><span class="p">,</span> <span class="n">formula</span><span class="p">)</span>
+                <span class="n">con</span><span class="o">.</span><span class="n">formula</span> <span class="o">=</span> <span class="n">formula</span>
+        <span class="k">return</span></div>
+
+
+<div class="viewcode-block" id="FitStructure.isSpaceGroupPossible">
+<a class="viewcode-back" href="../../../../api/diffpy.pdfgui.control.html#diffpy.pdfgui.control.fitstructure.FitStructure.isSpaceGroupPossible">[docs]</a>
+    <span class="k">def</span> <span class="nf">isSpaceGroupPossible</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spacegroup</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Check if space group is consistent with lattice parameters.</span>
+
+<span class="sd">        spacegroup -- instance of SpaceGroup</span>
+
+<span class="sd">        Return bool.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">from</span> <span class="nn">diffpy.structure.symmetryutilities</span> <span class="kn">import</span> <span class="n">isSpaceGroupLatPar</span>
+
+        <span class="k">return</span> <span class="n">isSpaceGroupLatPar</span><span class="p">(</span><span class="n">spacegroup</span><span class="p">,</span> <span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">initial</span><span class="o">.</span><span class="n">lattice</span><span class="o">.</span><span class="n">abcABG</span><span class="p">())</span></div>
+
+
+<div class="viewcode-block" id="FitStructure.getSpaceGroupList">
+<a class="viewcode-back" href="../../../../api/diffpy.pdfgui.control.html#diffpy.pdfgui.control.fitstructure.FitStructure.getSpaceGroupList">[docs]</a>
+    <span class="k">def</span> <span class="nf">getSpaceGroupList</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return a list of SpaceGroup instances sorted by International</span>
+<span class="sd">        Tables number.  When custom_spacegroup is defined, the list starts</span>
+<span class="sd">        with custom_spacegroup.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">FitStructure</span><span class="o">.</span><span class="n">sorted_standard_space_groups</span><span class="p">:</span>
+            <span class="kn">import</span> <span class="nn">diffpy.structure.spacegroups</span> <span class="k">as</span> <span class="nn">SG</span>
+
+            <span class="n">existing_names</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="n">unique_named_list</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">sg</span> <span class="ow">in</span> <span class="n">SG</span><span class="o">.</span><span class="n">SpaceGroupList</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">sg</span><span class="o">.</span><span class="n">short_name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">existing_names</span><span class="p">:</span>
+                    <span class="n">unique_named_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">sg</span><span class="p">)</span>
+                <span class="n">existing_names</span><span class="p">[</span><span class="n">sg</span><span class="o">.</span><span class="n">short_name</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="c1"># sort by International Tables number, stay compatible with 2.3</span>
+            <span class="n">n_sg</span> <span class="o">=</span> <span class="p">[(</span><span class="n">sg</span><span class="o">.</span><span class="n">number</span> <span class="o">%</span> <span class="mi">1000</span><span class="p">,</span> <span class="n">sg</span><span class="p">)</span> <span class="k">for</span> <span class="n">sg</span> <span class="ow">in</span> <span class="n">unique_named_list</span><span class="p">]</span>
+            <span class="n">n_sg</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">n_sg</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>  <span class="c1"># sort by the first element of tuple.</span>
+            <span class="n">FitStructure</span><span class="o">.</span><span class="n">sorted_standard_space_groups</span> <span class="o">=</span> <span class="p">[</span><span class="n">sg</span> <span class="k">for</span> <span class="n">n</span><span class="p">,</span> <span class="n">sg</span> <span class="ow">in</span> <span class="n">n_sg</span><span class="p">]</span>
+        <span class="n">sglist</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">FitStructure</span><span class="o">.</span><span class="n">sorted_standard_space_groups</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">custom_spacegroup</span><span class="p">:</span>
+            <span class="n">sglist</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">custom_spacegroup</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">sglist</span></div>
+
+
+<div class="viewcode-block" id="FitStructure.getSpaceGroup">
+<a class="viewcode-back" href="../../../../api/diffpy.pdfgui.control.html#diffpy.pdfgui.control.fitstructure.FitStructure.getSpaceGroup">[docs]</a>
+    <span class="k">def</span> <span class="nf">getSpaceGroup</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sgname</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Find space group in getSpaceGroupList() by short_name or number.</span>
+<span class="sd">        sgname can be non-standard in case of CIF file defined space group.</span>
+
+<span class="sd">        Return instance of SpaceGroup.</span>
+<span class="sd">        Raise ValueError if sgname cannot be found or when it is not present</span>
+<span class="sd">        in getSpaceGroupList().</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">import</span> <span class="nn">diffpy.structure.spacegroups</span> <span class="k">as</span> <span class="nn">SG</span>
+
+        <span class="c1"># this should match the &quot;CIF data&quot; sgname</span>
+        <span class="n">sgmatch</span> <span class="o">=</span> <span class="p">[</span><span class="n">sg</span> <span class="k">for</span> <span class="n">sg</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">getSpaceGroupList</span><span class="p">()</span> <span class="k">if</span> <span class="n">sg</span><span class="o">.</span><span class="n">short_name</span> <span class="o">==</span> <span class="n">sgname</span><span class="p">]</span>
+        <span class="c1"># use standard lookup function when not matched by short_name</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">sgmatch</span><span class="p">:</span>
+            <span class="n">sgmatch</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">SG</span><span class="o">.</span><span class="n">GetSpaceGroup</span><span class="p">(</span><span class="n">sgname</span><span class="p">))</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">sgmatch</span><span class="p">:</span>
+            <span class="n">emsg</span> <span class="o">=</span> <span class="s2">&quot;Unknown space group </span><span class="si">%r</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">sgname</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">emsg</span><span class="p">)</span>
+        <span class="n">sgfound</span> <span class="o">=</span> <span class="n">sgmatch</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">sgfound</span></div>
+
+
+<div class="viewcode-block" id="FitStructure.expandAsymmetricUnit">
+<a class="viewcode-back" href="../../../../api/diffpy.pdfgui.control.html#diffpy.pdfgui.control.fitstructure.FitStructure.expandAsymmetricUnit">[docs]</a>
+    <span class="k">def</span> <span class="nf">expandAsymmetricUnit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spacegroup</span><span class="p">,</span> <span class="n">indices</span><span class="p">,</span> <span class="n">sgoffset</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Perform symmetry expansion for atoms at given indices.</span>
+<span class="sd">        Temperature factors may be corrected to reflect the symmetry.</span>
+<span class="sd">        All constraints for expanded atoms are erased with the exception</span>
+<span class="sd">        of the occupancy(&quot;occ&quot;.  Constraints of unaffected atoms are adjusted</span>
+<span class="sd">        for new positions self.initial.</span>
+
+<span class="sd">        spacegroup  -- instance of SpaceGroup from diffpy.structure</span>
+<span class="sd">        indices     -- list of integer indices of atoms to be expanded</span>
+<span class="sd">        sgoffset    -- optional offset of space group origin [0,0,0]</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">from</span> <span class="nn">diffpy.structure.symmetryutilities</span> <span class="kn">import</span> <span class="n">ExpandAsymmetricUnit</span>
+
+        <span class="n">acd</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_popAtomConstraints</span><span class="p">()</span>
+        <span class="c1"># get unique, reverse sorted indices</span>
+        <span class="n">ruindices</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">indices</span><span class="p">),</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">coreatoms</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">initial</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">ruindices</span><span class="p">]</span>
+        <span class="n">corepos</span> <span class="o">=</span> <span class="p">[</span><span class="n">a</span><span class="o">.</span><span class="n">xyz</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">coreatoms</span><span class="p">]</span>
+        <span class="n">coreUijs</span> <span class="o">=</span> <span class="p">[</span><span class="n">a</span><span class="o">.</span><span class="n">U</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">coreatoms</span><span class="p">]</span>
+        <span class="n">eau</span> <span class="o">=</span> <span class="n">ExpandAsymmetricUnit</span><span class="p">(</span><span class="n">spacegroup</span><span class="p">,</span> <span class="n">corepos</span><span class="p">,</span> <span class="n">coreUijs</span><span class="p">,</span> <span class="n">sgoffset</span><span class="o">=</span><span class="n">sgoffset</span><span class="p">,</span> <span class="n">eps</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">symposeps</span><span class="p">)</span>
+        <span class="c1"># build a nested list of new atoms:</span>
+        <span class="n">newatoms</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">coreatoms</span><span class="p">)):</span>
+            <span class="n">ca</span> <span class="o">=</span> <span class="n">coreatoms</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+            <span class="n">caocc_con</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="k">if</span> <span class="n">ca</span> <span class="ow">in</span> <span class="n">acd</span> <span class="ow">and</span> <span class="s2">&quot;occ&quot;</span> <span class="ow">in</span> <span class="n">acd</span><span class="p">[</span><span class="n">ca</span><span class="p">]:</span>
+                <span class="n">caocc_con</span> <span class="o">=</span> <span class="n">acd</span><span class="p">[</span><span class="n">ca</span><span class="p">][</span><span class="s2">&quot;occ&quot;</span><span class="p">]</span>
+            <span class="n">eca</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># expanded core atom</span>
+            <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">eau</span><span class="o">.</span><span class="n">multiplicity</span><span class="p">[</span><span class="n">i</span><span class="p">]):</span>
+                <span class="n">a</span> <span class="o">=</span> <span class="n">Atom</span><span class="p">(</span><span class="n">ca</span><span class="p">)</span>
+                <span class="n">a</span><span class="o">.</span><span class="n">xyz</span> <span class="o">=</span> <span class="n">eau</span><span class="o">.</span><span class="n">expandedpos</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span>
+                <span class="n">a</span><span class="o">.</span><span class="n">U</span> <span class="o">=</span> <span class="n">eau</span><span class="o">.</span><span class="n">expandedUijs</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span>
+                <span class="n">eca</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">caocc_con</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="k">continue</span>
+                <span class="c1"># make a copy of occupancy constraint</span>
+                <span class="n">acd</span><span class="p">[</span><span class="n">a</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;occ&quot;</span><span class="p">:</span> <span class="n">copy</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">caocc_con</span><span class="p">)}</span>
+            <span class="n">newatoms</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">eca</span><span class="p">)</span>
+        <span class="c1"># insert new atoms where they belong</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">atomlist</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">ruindices</span><span class="p">,</span> <span class="n">newatoms</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">initial</span><span class="p">[</span><span class="n">i</span> <span class="p">:</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">atomlist</span>
+        <span class="c1"># remember this spacegroup as the last one used</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">initial</span><span class="o">.</span><span class="n">pdffit</span><span class="p">[</span><span class="s2">&quot;spcgr&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">spacegroup</span><span class="o">.</span><span class="n">short_name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">initial</span><span class="o">.</span><span class="n">pdffit</span><span class="p">[</span><span class="s2">&quot;sgoffset&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">sgoffset</span><span class="p">)</span>
+        <span class="c1"># tidy constraints</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_restoreAtomConstraints</span><span class="p">(</span><span class="n">acd</span><span class="p">)</span>
+        <span class="k">return</span></div>
+
+
+<div class="viewcode-block" id="FitStructure.applySymmetryConstraints">
+<a class="viewcode-back" href="../../../../api/diffpy.pdfgui.control.html#diffpy.pdfgui.control.fitstructure.FitStructure.applySymmetryConstraints">[docs]</a>
+    <span class="k">def</span> <span class="nf">applySymmetryConstraints</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spacegroup</span><span class="p">,</span> <span class="n">indices</span><span class="p">,</span> <span class="n">posflag</span><span class="p">,</span> <span class="n">Uijflag</span><span class="p">,</span> <span class="n">sgoffset</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Generate symmetry constraints for positions and thermal factors.</span>
+<span class="sd">        Both positions and thermal factors may get corrected to reflect</span>
+<span class="sd">        space group symmetry.  Old positional and thermal constraints get</span>
+<span class="sd">        erased.  New parameter indices start at fist decade after the last</span>
+<span class="sd">        used parameter.</span>
+
+<span class="sd">        spacegroup  -- instance of SpaceGroup from diffpy.structure</span>
+<span class="sd">        indices     -- list of integer indices of atoms to be expanded</span>
+<span class="sd">        posflag     -- required bool flag for constraining positions</span>
+<span class="sd">        Uijflag     -- required bool flag for Uij constrainment</span>
+<span class="sd">        sgoffset    -- optional offset of space group origin [0,0,0]</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">posflag</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">Uijflag</span><span class="p">:</span>
+            <span class="k">return</span>
+        <span class="c1"># need to do something</span>
+        <span class="kn">from</span> <span class="nn">diffpy.structure.symmetryutilities</span> <span class="kn">import</span> <span class="n">SymmetryConstraints</span>
+
+        <span class="c1"># get unique sorted indices</span>
+        <span class="n">tobeconstrained</span> <span class="o">=</span> <span class="nb">dict</span><span class="o">.</span><span class="n">fromkeys</span><span class="p">(</span><span class="n">indices</span><span class="p">)</span>
+        <span class="n">uindices</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">tobeconstrained</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+        <span class="c1"># remove old constraints</span>
+        <span class="n">pospat</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;^([xyz])\((\d+)\)&quot;</span><span class="p">)</span>
+        <span class="n">Uijpat</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;^(u11|u22|u33|u12|u13|u23)\((\d+)\)&quot;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">constraints</span><span class="o">.</span><span class="n">keys</span><span class="p">()):</span>
+            <span class="n">mpos</span> <span class="o">=</span> <span class="n">posflag</span> <span class="ow">and</span> <span class="n">pospat</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">var</span><span class="p">)</span>
+            <span class="n">mUij</span> <span class="o">=</span> <span class="n">Uijflag</span> <span class="ow">and</span> <span class="n">Uijpat</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">var</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">mpos</span> <span class="ow">and</span> <span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">mpos</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="ow">in</span> <span class="n">tobeconstrained</span><span class="p">:</span>
+                <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">constraints</span><span class="p">[</span><span class="n">var</span><span class="p">]</span>
+            <span class="k">elif</span> <span class="n">mUij</span> <span class="ow">and</span> <span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">mUij</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="ow">in</span> <span class="n">tobeconstrained</span><span class="p">:</span>
+                <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">constraints</span><span class="p">[</span><span class="n">var</span><span class="p">]</span>
+        <span class="c1"># find the largest used parameter index; pidxused must have an element</span>
+        <span class="n">pidxused</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">owner</span><span class="o">.</span><span class="n">updateParameters</span><span class="p">()]</span> <span class="o">+</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="c1"># new parameters will start at the next decade</span>
+        <span class="n">parzeroidx</span> <span class="o">=</span> <span class="mi">10</span> <span class="o">*</span> <span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="n">pidxused</span><span class="p">)</span> <span class="o">/</span> <span class="mi">10</span><span class="p">))</span> <span class="o">+</span> <span class="mi">10</span>
+        <span class="c1"># dictionary of parameter indices and their values</span>
+        <span class="n">newparvalues</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">selatoms</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">initial</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">uindices</span><span class="p">]</span>
+        <span class="n">selpos</span> <span class="o">=</span> <span class="p">[</span><span class="n">a</span><span class="o">.</span><span class="n">xyz</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">selatoms</span><span class="p">]</span>
+        <span class="n">selUijs</span> <span class="o">=</span> <span class="p">[</span><span class="n">a</span><span class="o">.</span><span class="n">U</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">selatoms</span><span class="p">]</span>
+        <span class="n">symcon</span> <span class="o">=</span> <span class="n">SymmetryConstraints</span><span class="p">(</span><span class="n">spacegroup</span><span class="p">,</span> <span class="n">selpos</span><span class="p">,</span> <span class="n">selUijs</span><span class="p">,</span> <span class="n">sgoffset</span><span class="o">=</span><span class="n">sgoffset</span><span class="p">,</span> <span class="n">eps</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">symposeps</span><span class="p">)</span>
+        <span class="c1"># deal with positions</span>
+        <span class="k">if</span> <span class="n">posflag</span><span class="p">:</span>
+            <span class="c1"># fix positions:</span>
+            <span class="k">for</span> <span class="n">a</span><span class="p">,</span> <span class="n">xyz</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">selatoms</span><span class="p">,</span> <span class="n">symcon</span><span class="o">.</span><span class="n">positions</span><span class="p">):</span>
+                <span class="n">a</span><span class="o">.</span><span class="n">xyz</span> <span class="o">=</span> <span class="n">xyz</span>
+            <span class="n">possymbols</span><span class="p">,</span> <span class="n">parvalues</span> <span class="o">=</span> <span class="n">_makeParNames</span><span class="p">(</span><span class="n">symcon</span><span class="o">.</span><span class="n">pospars</span><span class="p">,</span> <span class="n">parzeroidx</span><span class="p">)</span>
+            <span class="n">newparvalues</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">parvalues</span><span class="p">)</span>
+            <span class="n">eqns</span> <span class="o">=</span> <span class="n">symcon</span><span class="o">.</span><span class="n">positionFormulasPruned</span><span class="p">(</span><span class="n">possymbols</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">aidx</span><span class="p">,</span> <span class="n">eq</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">uindices</span><span class="p">,</span> <span class="n">eqns</span><span class="p">):</span>
+                <span class="n">siteidx</span> <span class="o">=</span> <span class="n">aidx</span> <span class="o">+</span> <span class="mi">1</span>
+                <span class="k">for</span> <span class="n">barevar</span><span class="p">,</span> <span class="n">formula</span> <span class="ow">in</span> <span class="n">eq</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                    <span class="n">var</span> <span class="o">=</span> <span class="n">barevar</span> <span class="o">+</span> <span class="s2">&quot;(</span><span class="si">%i</span><span class="s2">)&quot;</span> <span class="o">%</span> <span class="n">siteidx</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">constraints</span><span class="p">[</span><span class="n">var</span><span class="p">]</span> <span class="o">=</span> <span class="n">Constraint</span><span class="p">(</span><span class="n">formula</span><span class="p">)</span>
+        <span class="c1"># deal with temperature factors</span>
+        <span class="k">if</span> <span class="n">Uijflag</span><span class="p">:</span>
+            <span class="c1"># fix thermals</span>
+            <span class="k">for</span> <span class="n">a</span><span class="p">,</span> <span class="n">Uij</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">selatoms</span><span class="p">,</span> <span class="n">symcon</span><span class="o">.</span><span class="n">Uijs</span><span class="p">):</span>
+                <span class="n">a</span><span class="o">.</span><span class="n">U</span> <span class="o">=</span> <span class="n">Uij</span>
+            <span class="n">Usymbols</span><span class="p">,</span> <span class="n">parvalues</span> <span class="o">=</span> <span class="n">_makeParNames</span><span class="p">(</span><span class="n">symcon</span><span class="o">.</span><span class="n">Upars</span><span class="p">,</span> <span class="n">parzeroidx</span><span class="p">)</span>
+            <span class="n">newparvalues</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">parvalues</span><span class="p">)</span>
+            <span class="n">eqns</span> <span class="o">=</span> <span class="n">symcon</span><span class="o">.</span><span class="n">UFormulasPruned</span><span class="p">(</span><span class="n">Usymbols</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">aidx</span><span class="p">,</span> <span class="n">eq</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">uindices</span><span class="p">,</span> <span class="n">eqns</span><span class="p">):</span>
+                <span class="n">siteidx</span> <span class="o">=</span> <span class="n">aidx</span> <span class="o">+</span> <span class="mi">1</span>
+                <span class="k">for</span> <span class="n">barevar</span><span class="p">,</span> <span class="n">formula</span> <span class="ow">in</span> <span class="n">eq</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                    <span class="c1"># keys in formula dictionary are uppercase</span>
+                    <span class="n">var</span> <span class="o">=</span> <span class="n">barevar</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot;(</span><span class="si">%i</span><span class="s2">)&quot;</span> <span class="o">%</span> <span class="n">siteidx</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">constraints</span><span class="p">[</span><span class="n">var</span><span class="p">]</span> <span class="o">=</span> <span class="n">Constraint</span><span class="p">(</span><span class="n">formula</span><span class="p">)</span>
+        <span class="c1"># update parameter values in parent Fitting</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">owner</span><span class="o">.</span><span class="n">updateParameters</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">pidx</span><span class="p">,</span> <span class="n">pvalue</span> <span class="ow">in</span> <span class="n">newparvalues</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">parobj</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">owner</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="n">pidx</span><span class="p">]</span>
+            <span class="n">parobj</span><span class="o">.</span><span class="n">setInitial</span><span class="p">(</span><span class="n">pvalue</span><span class="p">)</span>
+        <span class="c1"># and finally remember this space group</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">initial</span><span class="o">.</span><span class="n">pdffit</span><span class="p">[</span><span class="s2">&quot;spcgr&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">spacegroup</span><span class="o">.</span><span class="n">short_name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">initial</span><span class="o">.</span><span class="n">pdffit</span><span class="p">[</span><span class="s2">&quot;sgoffset&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">sgoffset</span><span class="p">)</span>
+        <span class="k">return</span></div>
+
+
+<div class="viewcode-block" id="FitStructure.setSelectedPairs">
+<a class="viewcode-back" href="../../../../api/diffpy.pdfgui.control.html#diffpy.pdfgui.control.fitstructure.FitStructure.setSelectedPairs">[docs]</a>
+    <span class="k">def</span> <span class="nf">setSelectedPairs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">s</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the value of selected_pairs to s, raise ControlValueError when</span>
+<span class="sd">        s has invalid syntax.  The selected_pairs is a comma separated list of</span>
+<span class="sd">        words formatted as</span>
+
+<span class="sd">            [!]{element|indexOrRange|all}-[!]{element|indexOrRange|all}</span>
+
+<span class="sd">        where &#39;!&#39; excludes the given atoms from first or second pair.</span>
+
+<span class="sd">        Examples:</span>
+
+<span class="sd">            all-all              all possible pairs</span>
+<span class="sd">            Na-Na                only Na-Na pairs</span>
+<span class="sd">            all-all, !Na-        all pairs except Na-Na (first index skips Na)</span>
+<span class="sd">            all-all, -!Na        same as previous (second index skips Na)</span>
+<span class="sd">            Na-1:4               pairs of Na and first 4 atoms</span>
+<span class="sd">            all-all, !Cl-!Cl     exclude any pairs containing Cl</span>
+<span class="sd">            all-all, !Cl-, -!Cl  same as previous</span>
+<span class="sd">            1-all                only pairs including the first atom</span>
+
+<span class="sd">        Use getPairSelectionFlags() method to get a list of included values</span>
+<span class="sd">        for first and second pair index.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># check syntax of s</span>
+        <span class="n">psf</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getPairSelectionFlags</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">selected_pairs</span> <span class="o">=</span> <span class="n">psf</span><span class="p">[</span><span class="s2">&quot;fixed_pair_string&quot;</span><span class="p">]</span>
+        <span class="k">return</span></div>
+
+
+<div class="viewcode-block" id="FitStructure.getSelectedPairs">
+<a class="viewcode-back" href="../../../../api/diffpy.pdfgui.control.html#diffpy.pdfgui.control.fitstructure.FitStructure.getSelectedPairs">[docs]</a>
+    <span class="k">def</span> <span class="nf">getSelectedPairs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">selected_pairs</span></div>
+
+
+<div class="viewcode-block" id="FitStructure.getPairSelectionFlags">
+<a class="viewcode-back" href="../../../../api/diffpy.pdfgui.control.html#diffpy.pdfgui.control.fitstructure.FitStructure.getPairSelectionFlags">[docs]</a>
+    <span class="k">def</span> <span class="nf">getPairSelectionFlags</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Translate string s to a list of allowed values for first and second</span>
+<span class="sd">        pair index.  Raise ControlValueError for invalid syntax of s.  See</span>
+<span class="sd">        setSelectedPairs() docstring for a definition of pair selection syntax.</span>
+
+<span class="sd">        s -- string describing selected pairs (default: self.selected_pairs)</span>
+
+<span class="sd">        Return a dictionary with following keys:</span>
+
+<span class="sd">        firstflags  -- list of selection flags for first indices</span>
+<span class="sd">        secondflags -- list of selection flags for second indices</span>
+<span class="sd">        fixed_pair_string -- argument corrected to standard syntax</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">s</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">s</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">selected_pairs</span>
+        <span class="n">Natoms</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">initial</span><span class="p">)</span>
+        <span class="c1"># sets of first and second indices</span>
+        <span class="n">firstflags</span> <span class="o">=</span> <span class="n">Natoms</span> <span class="o">*</span> <span class="p">[</span><span class="kc">False</span><span class="p">]</span>
+        <span class="n">secondflags</span> <span class="o">=</span> <span class="n">Natoms</span> <span class="o">*</span> <span class="p">[</span><span class="kc">False</span><span class="p">]</span>
+        <span class="c1"># words of fixed_pair_string</span>
+        <span class="n">words_fixed</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">s1</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s2">&quot; </span><span class="se">\t</span><span class="s2">,&quot;</span><span class="p">)</span>
+        <span class="n">words</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot; *, *&quot;</span><span class="p">,</span> <span class="n">s1</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">words</span><span class="p">:</span>
+            <span class="n">wparts</span> <span class="o">=</span> <span class="n">w</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;-&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">wparts</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">:</span>
+                <span class="n">emsg</span> <span class="o">=</span> <span class="s2">&quot;Selection word &#39;</span><span class="si">%s</span><span class="s2">&#39; must contain one dash &#39;-&#39;.&quot;</span> <span class="o">%</span> <span class="n">w</span>
+                <span class="k">raise</span> <span class="n">ControlValueError</span><span class="p">(</span><span class="n">emsg</span><span class="p">)</span>
+            <span class="n">sel0</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parseAtomSelectionString</span><span class="p">(</span><span class="n">wparts</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="n">sel1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parseAtomSelectionString</span><span class="p">(</span><span class="n">wparts</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+            <span class="n">wfixed</span> <span class="o">=</span> <span class="n">sel0</span><span class="p">[</span><span class="s2">&quot;fixedstring&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;-&quot;</span> <span class="o">+</span> <span class="n">sel1</span><span class="p">[</span><span class="s2">&quot;fixedstring&quot;</span><span class="p">]</span>
+            <span class="n">words_fixed</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">wfixed</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">flg</span> <span class="ow">in</span> <span class="n">sel0</span><span class="p">[</span><span class="s2">&quot;flags&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="n">firstflags</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">flg</span>
+            <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">flg</span> <span class="ow">in</span> <span class="n">sel1</span><span class="p">[</span><span class="s2">&quot;flags&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="n">secondflags</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">flg</span>
+        <span class="c1"># build returned dictionary</span>
+        <span class="n">rv</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;firstflags&quot;</span><span class="p">:</span> <span class="n">firstflags</span><span class="p">,</span>
+            <span class="s2">&quot;secondflags&quot;</span><span class="p">:</span> <span class="n">secondflags</span><span class="p">,</span>
+            <span class="s2">&quot;fixed_pair_string&quot;</span><span class="p">:</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">words_fixed</span><span class="p">),</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="n">rv</span></div>
+
+
+<div class="viewcode-block" id="FitStructure.applyPairSelection">
+<a class="viewcode-back" href="../../../../api/diffpy.pdfgui.control.html#diffpy.pdfgui.control.fitstructure.FitStructure.applyPairSelection">[docs]</a>
+    <span class="k">def</span> <span class="nf">applyPairSelection</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">server</span><span class="p">,</span> <span class="n">phaseidx</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Apply pair selection for calculations of partial PDF.</span>
+
+<span class="sd">        server   -- instance of PdfFit engine</span>
+<span class="sd">        phaseidx -- phase index in PdfFit engine starting from 1</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">psf</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getPairSelectionFlags</span><span class="p">()</span>
+        <span class="n">idx</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">iflag</span><span class="p">,</span> <span class="n">jflag</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">psf</span><span class="p">[</span><span class="s2">&quot;firstflags&quot;</span><span class="p">],</span> <span class="n">psf</span><span class="p">[</span><span class="s2">&quot;secondflags&quot;</span><span class="p">]):</span>
+            <span class="n">idx</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="n">server</span><span class="o">.</span><span class="n">selectAtomIndex</span><span class="p">(</span><span class="n">phaseidx</span><span class="p">,</span> <span class="s2">&quot;i&quot;</span><span class="p">,</span> <span class="n">idx</span><span class="p">,</span> <span class="n">iflag</span><span class="p">)</span>
+            <span class="n">server</span><span class="o">.</span><span class="n">selectAtomIndex</span><span class="p">(</span><span class="n">phaseidx</span><span class="p">,</span> <span class="s2">&quot;j&quot;</span><span class="p">,</span> <span class="n">idx</span><span class="p">,</span> <span class="n">jflag</span><span class="p">)</span>
+        <span class="k">return</span></div>
+
+
+<div class="viewcode-block" id="FitStructure.getSelectedIndices">
+<a class="viewcode-back" href="../../../../api/diffpy.pdfgui.control.html#diffpy.pdfgui.control.fitstructure.FitStructure.getSelectedIndices">[docs]</a>
+    <span class="k">def</span> <span class="nf">getSelectedIndices</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">s</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Indices of the atoms that match the specified selection string.</span>
+
+<span class="sd">        s    -- selection string consisting of one or more atom selection</span>
+<span class="sd">                words formatted as [!]{element|indexOrRange|all}</span>
+<span class="sd">                Example: &quot;1:4, 7, Cl&quot;.</span>
+
+<span class="sd">        Return a list of integers.</span>
+<span class="sd">        Raise ControlValueError for invalid selection string format.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">s1</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">s</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">c</span><span class="o">.</span><span class="n">isspace</span><span class="p">())</span>
+        <span class="n">words</span> <span class="o">=</span> <span class="n">s1</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">)</span>
+        <span class="n">indices</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">words</span><span class="p">:</span>
+            <span class="n">asd</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parseAtomSelectionString</span><span class="p">(</span><span class="n">w</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">flg</span> <span class="ow">in</span> <span class="n">asd</span><span class="p">[</span><span class="s2">&quot;flags&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="k">if</span> <span class="n">flg</span><span class="p">:</span>
+                    <span class="n">indices</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">idx</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">indices</span><span class="o">.</span><span class="n">discard</span><span class="p">(</span><span class="n">idx</span><span class="p">)</span>
+        <span class="n">rv</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">indices</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">rv</span></div>
+
+
+    <span class="c1"># Regular expression object for matching atom selection strings.</span>
+    <span class="c1"># Will be assign with the first call to _parseAtomSelectionString.</span>
+    <span class="n">_rxatomselection</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">def</span> <span class="nf">_parseAtomSelectionString</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">s</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Process string that describes a set of atoms in the structure.</span>
+
+<span class="sd">        s    -- selection string formatted as [!]{element|indexOrRange|all}</span>
+<span class="sd">                &quot;!&quot; negates the selection, indexOrRange can be 1, 1:4,</span>
+<span class="sd">                where atom indices starts from 1, and &quot;all&quot; matches all atoms.</span>
+
+<span class="sd">        Return a dictionary with following keys:</span>
+<span class="sd">        &#39;fixedstring&#39;    -- selection string adjusted to standard formatting</span>
+<span class="sd">        &#39;flags&#39;          -- dictionary of atom indices and boolean flags for</span>
+<span class="sd">                            normal or negated selection.</span>
+<span class="sd">        Raise ControlValueError for invalid string format.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># delayed initialization of the class variable</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_rxatomselection</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">FitStructure</span><span class="o">.</span><span class="n">_rxatomselection</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span>
+<span class="w">                </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            (?P&lt;negate&gt;!?)                      # exclamation point</span>
+<span class="sd">            (?:(?P&lt;element&gt;[a-zA-Z]+)$|         # element|all   or</span>
+<span class="sd">               (?P&lt;start&gt;\d+)(?P&lt;stop&gt;:\d+)?$   # number range</span>
+<span class="sd">            )&quot;&quot;&quot;</span><span class="p">,</span>
+                <span class="n">re</span><span class="o">.</span><span class="n">VERBOSE</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">_rxatomselection</span>
+        <span class="n">Natoms</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">initial</span><span class="p">)</span>
+        <span class="n">flags</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">rv</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;fixedstring&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="s2">&quot;flags&quot;</span><span class="p">:</span> <span class="n">flags</span><span class="p">}</span>
+        <span class="c1"># allow empty string and return an empty flags dictionary</span>
+        <span class="n">s1</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">s1</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">rv</span>
+        <span class="n">mx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_rxatomselection</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">s1</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">mx</span><span class="p">:</span>
+            <span class="n">emsg</span> <span class="o">=</span> <span class="s2">&quot;Invalid selection syntax in &#39;</span><span class="si">%s</span><span class="s2">&#39;&quot;</span> <span class="o">%</span> <span class="n">s</span>
+            <span class="k">raise</span> <span class="n">ControlValueError</span><span class="p">(</span><span class="n">emsg</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">mx</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="s2">&quot;negate&quot;</span><span class="p">):</span>
+            <span class="n">rv</span><span class="p">[</span><span class="s2">&quot;fixedstring&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;!&quot;</span>
+        <span class="n">flg</span> <span class="o">=</span> <span class="ow">not</span> <span class="n">mx</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="s2">&quot;negate&quot;</span><span class="p">)</span>
+        <span class="c1"># process atom type</span>
+        <span class="k">if</span> <span class="n">mx</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="s2">&quot;element&quot;</span><span class="p">):</span>
+            <span class="n">elfixed</span> <span class="o">=</span> <span class="n">mx</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="s2">&quot;element&quot;</span><span class="p">)</span>
+            <span class="n">elfixed</span> <span class="o">=</span> <span class="n">elfixed</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="o">+</span> <span class="n">elfixed</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">elfixed</span> <span class="o">==</span> <span class="s2">&quot;All&quot;</span><span class="p">:</span>
+                <span class="n">flags</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="nb">dict</span><span class="o">.</span><span class="n">fromkeys</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">Natoms</span><span class="p">),</span> <span class="n">flg</span><span class="p">))</span>
+                <span class="n">rv</span><span class="p">[</span><span class="s2">&quot;fixedstring&quot;</span><span class="p">]</span> <span class="o">+=</span> <span class="n">elfixed</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">Natoms</span><span class="p">):</span>
+                    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">initial</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span><span class="o">.</span><span class="n">element</span> <span class="o">==</span> <span class="n">elfixed</span><span class="p">:</span>
+                        <span class="n">flags</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">flg</span>
+                <span class="n">rv</span><span class="p">[</span><span class="s2">&quot;fixedstring&quot;</span><span class="p">]</span> <span class="o">+=</span> <span class="n">elfixed</span>
+        <span class="c1"># process range</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">lo</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">mx</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="s2">&quot;start&quot;</span><span class="p">))</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+            <span class="n">rv</span><span class="p">[</span><span class="s2">&quot;fixedstring&quot;</span><span class="p">]</span> <span class="o">+=</span> <span class="n">mx</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="s2">&quot;start&quot;</span><span class="p">)</span>
+            <span class="n">hi</span> <span class="o">=</span> <span class="n">lo</span> <span class="o">+</span> <span class="mi">1</span>
+            <span class="k">if</span> <span class="n">mx</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="s2">&quot;stop&quot;</span><span class="p">):</span>
+                <span class="n">hi</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">mx</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="s2">&quot;stop&quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">:])</span>
+                <span class="n">rv</span><span class="p">[</span><span class="s2">&quot;fixedstring&quot;</span><span class="p">]</span> <span class="o">+=</span> <span class="n">mx</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="s2">&quot;stop&quot;</span><span class="p">)</span>
+            <span class="n">hi</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">hi</span><span class="p">,</span> <span class="n">Natoms</span><span class="p">)</span>
+            <span class="n">flags</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="nb">dict</span><span class="o">.</span><span class="n">fromkeys</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">lo</span><span class="p">,</span> <span class="n">hi</span><span class="p">),</span> <span class="n">flg</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">rv</span>
+
+<div class="viewcode-block" id="FitStructure.copy">
+<a class="viewcode-back" href="../../../../api/diffpy.pdfgui.control.html#diffpy.pdfgui.control.fitstructure.FitStructure.copy">[docs]</a>
+    <span class="k">def</span> <span class="nf">copy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;copy self to other. if other is None, create new instance</span>
+
+<span class="sd">        other -- reference to other object</span>
+
+<span class="sd">        returns reference to copied object</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># check arguments</span>
+        <span class="k">if</span> <span class="n">other</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">other</span> <span class="o">=</span> <span class="n">FitStructure</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">PDFStructure</span><span class="p">):</span>
+            <span class="n">emsg</span> <span class="o">=</span> <span class="s2">&quot;other must be PDFStructure or FitStructure&quot;</span>
+            <span class="k">raise</span> <span class="n">ControlTypeError</span><span class="p">(</span><span class="n">emsg</span><span class="p">)</span>
+        <span class="c1"># copy initial structure (self) to other</span>
+        <span class="n">PDFStructure</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">)</span>
+        <span class="c1"># copy refined structure to other when it is FitStructure</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">FitStructure</span><span class="p">):</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">refined</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">other</span><span class="o">.</span><span class="n">refined</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">other</span><span class="o">.</span><span class="n">refined</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">refined</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">other</span><span class="o">.</span><span class="n">refined</span><span class="p">)</span>
+        <span class="c1"># copy constraints</span>
+        <span class="n">other</span><span class="o">.</span><span class="n">constraints</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">constraints</span><span class="p">)</span>
+        <span class="n">other</span><span class="o">.</span><span class="n">selected_pairs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">selected_pairs</span>
+        <span class="k">return</span> <span class="n">other</span></div>
+
+
+<div class="viewcode-block" id="FitStructure.load">
+<a class="viewcode-back" href="../../../../api/diffpy.pdfgui.control.html#diffpy.pdfgui.control.fitstructure.FitStructure.load">[docs]</a>
+    <span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">subpath</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Load structure from a zipped project file.</span>
+
+<span class="sd">        z       -- zipped project file</span>
+<span class="sd">        subpath -- path to its own storage within project file</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># subpath = projname/fitname/structure/myname/</span>
+        <span class="kn">from</span> <span class="nn">diffpy.pdfgui.control.pdfguicontrol</span> <span class="kn">import</span> <span class="n">CtrlUnpickler</span>
+        <span class="kn">from</span> <span class="nn">diffpy.pdfgui.utils</span> <span class="kn">import</span> <span class="n">asunicode</span>
+
+        <span class="n">subs</span> <span class="o">=</span> <span class="n">subpath</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)</span>
+        <span class="n">rootDict</span> <span class="o">=</span> <span class="n">z</span><span class="o">.</span><span class="n">fileTree</span><span class="p">[</span><span class="n">subs</span><span class="p">[</span><span class="mi">0</span><span class="p">]][</span><span class="n">subs</span><span class="p">[</span><span class="mi">1</span><span class="p">]][</span><span class="n">subs</span><span class="p">[</span><span class="mi">2</span><span class="p">]][</span><span class="n">subs</span><span class="p">[</span><span class="mi">3</span><span class="p">]]</span>
+        <span class="n">strudata</span> <span class="o">=</span> <span class="n">asunicode</span><span class="p">(</span><span class="n">z</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">subpath</span> <span class="o">+</span> <span class="s2">&quot;initial&quot;</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">initial</span><span class="o">.</span><span class="n">readStr</span><span class="p">(</span><span class="n">strudata</span><span class="p">,</span> <span class="s2">&quot;pdffit&quot;</span><span class="p">)</span>
+        <span class="c1"># refined</span>
+        <span class="k">if</span> <span class="s2">&quot;refined&quot;</span> <span class="ow">in</span> <span class="n">rootDict</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">refined</span> <span class="o">=</span> <span class="n">PDFStructure</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+            <span class="n">refdata</span> <span class="o">=</span> <span class="n">asunicode</span><span class="p">(</span><span class="n">z</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">subpath</span> <span class="o">+</span> <span class="s2">&quot;refined&quot;</span><span class="p">))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">refined</span><span class="o">.</span><span class="n">readStr</span><span class="p">(</span><span class="n">refdata</span><span class="p">,</span> <span class="s2">&quot;pdffit&quot;</span><span class="p">)</span>
+        <span class="c1"># constraints</span>
+        <span class="k">if</span> <span class="s2">&quot;constraints&quot;</span> <span class="ow">in</span> <span class="n">rootDict</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">constraints</span> <span class="o">=</span> <span class="n">CtrlUnpickler</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">z</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">subpath</span> <span class="o">+</span> <span class="s2">&quot;constraints&quot;</span><span class="p">))</span>
+            <span class="n">translate</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;gamma&quot;</span><span class="p">:</span> <span class="s2">&quot;delta1&quot;</span><span class="p">,</span> <span class="s2">&quot;delta&quot;</span><span class="p">:</span> <span class="s2">&quot;delta2&quot;</span><span class="p">,</span> <span class="s2">&quot;srat&quot;</span><span class="p">:</span> <span class="s2">&quot;sratio&quot;</span><span class="p">}</span>
+            <span class="k">for</span> <span class="n">old</span><span class="p">,</span> <span class="n">new</span> <span class="ow">in</span> <span class="n">translate</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="k">if</span> <span class="n">old</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">constraints</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">constraints</span><span class="p">[</span><span class="n">new</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">constraints</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">old</span><span class="p">)</span>
+        <span class="c1"># selected_pairs</span>
+        <span class="k">if</span> <span class="s2">&quot;selected_pairs&quot;</span> <span class="ow">in</span> <span class="n">rootDict</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">selected_pairs</span> <span class="o">=</span> <span class="n">asunicode</span><span class="p">(</span><span class="n">z</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">subpath</span> <span class="o">+</span> <span class="s2">&quot;selected_pairs&quot;</span><span class="p">))</span>
+        <span class="c1"># sgoffset</span>
+        <span class="k">if</span> <span class="s2">&quot;sgoffset&quot;</span> <span class="ow">in</span> <span class="n">rootDict</span><span class="p">:</span>
+            <span class="n">sgoffsetstr</span> <span class="o">=</span> <span class="n">asunicode</span><span class="p">(</span><span class="n">z</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">subpath</span> <span class="o">+</span> <span class="s2">&quot;sgoffset&quot;</span><span class="p">))</span>
+            <span class="n">sgoffset</span> <span class="o">=</span> <span class="p">[</span><span class="nb">float</span><span class="p">(</span><span class="n">w</span><span class="p">)</span> <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">sgoffsetstr</span><span class="o">.</span><span class="n">split</span><span class="p">()]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">initial</span><span class="o">.</span><span class="n">pdffit</span><span class="p">[</span><span class="s2">&quot;sgoffset&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">sgoffset</span>
+        <span class="c1"># custom_spacegroup</span>
+        <span class="k">if</span> <span class="s2">&quot;custom_spacegroup&quot;</span> <span class="ow">in</span> <span class="n">rootDict</span><span class="p">:</span>
+            <span class="n">spkl</span> <span class="o">=</span> <span class="n">z</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">subpath</span> <span class="o">+</span> <span class="s2">&quot;custom_spacegroup&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">custom_spacegroup</span> <span class="o">=</span> <span class="n">CtrlUnpickler</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">spkl</span><span class="p">)</span>
+        <span class="k">return</span></div>
+
+
+<div class="viewcode-block" id="FitStructure.save">
+<a class="viewcode-back" href="../../../../api/diffpy.pdfgui.control.html#diffpy.pdfgui.control.fitstructure.FitStructure.save">[docs]</a>
+    <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">subpath</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Save structure to a zipped project file.</span>
+
+<span class="sd">        z       -- zipped project file</span>
+<span class="sd">        subpath -- path to its own storage within project file</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">from</span> <span class="nn">diffpy.pdfgui.utils</span> <span class="kn">import</span> <span class="n">safeCPickleDumps</span>
+
+        <span class="n">z</span><span class="o">.</span><span class="n">writestr</span><span class="p">(</span><span class="n">subpath</span> <span class="o">+</span> <span class="s2">&quot;initial&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">initial</span><span class="o">.</span><span class="n">writeStr</span><span class="p">(</span><span class="s2">&quot;pdffit&quot;</span><span class="p">))</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">refined</span><span class="p">:</span>
+            <span class="n">z</span><span class="o">.</span><span class="n">writestr</span><span class="p">(</span><span class="n">subpath</span> <span class="o">+</span> <span class="s2">&quot;refined&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">refined</span><span class="o">.</span><span class="n">writeStr</span><span class="p">(</span><span class="s2">&quot;pdffit&quot;</span><span class="p">))</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">constraints</span><span class="p">:</span>
+            <span class="n">spkl</span> <span class="o">=</span> <span class="n">safeCPickleDumps</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">constraints</span><span class="p">)</span>
+            <span class="n">z</span><span class="o">.</span><span class="n">writestr</span><span class="p">(</span><span class="n">subpath</span> <span class="o">+</span> <span class="s2">&quot;constraints&quot;</span><span class="p">,</span> <span class="n">spkl</span><span class="p">)</span>
+        <span class="n">z</span><span class="o">.</span><span class="n">writestr</span><span class="p">(</span><span class="n">subpath</span> <span class="o">+</span> <span class="s2">&quot;selected_pairs&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">selected_pairs</span><span class="p">)</span>
+        <span class="c1"># sgoffset</span>
+        <span class="n">sgoffset</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">initial</span><span class="o">.</span><span class="n">pdffit</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;sgoffset&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">])</span>
+        <span class="n">sgoffsetstr</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">%g</span><span class="s2"> </span><span class="si">%g</span><span class="s2"> </span><span class="si">%g</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">sgoffset</span><span class="p">)</span>
+        <span class="n">z</span><span class="o">.</span><span class="n">writestr</span><span class="p">(</span><span class="n">subpath</span> <span class="o">+</span> <span class="s2">&quot;sgoffset&quot;</span><span class="p">,</span> <span class="n">sgoffsetstr</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">custom_spacegroup</span><span class="p">:</span>
+            <span class="n">spkl</span> <span class="o">=</span> <span class="n">safeCPickleDumps</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">custom_spacegroup</span><span class="p">)</span>
+            <span class="n">z</span><span class="o">.</span><span class="n">writestr</span><span class="p">(</span><span class="n">subpath</span> <span class="o">+</span> <span class="s2">&quot;custom_spacegroup&quot;</span><span class="p">,</span> <span class="n">spkl</span><span class="p">)</span>
+        <span class="k">return</span></div>
+
+
+<div class="viewcode-block" id="FitStructure.getYNames">
+<a class="viewcode-back" href="../../../../api/diffpy.pdfgui.control.html#diffpy.pdfgui.control.fitstructure.FitStructure.getYNames">[docs]</a>
+    <span class="k">def</span> <span class="nf">getYNames</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;get names of data item which can be plotted as y</span>
+
+<span class="sd">        returns a name str list</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">constraints</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span></div>
+
+
+<div class="viewcode-block" id="FitStructure.getXNames">
+<a class="viewcode-back" href="../../../../api/diffpy.pdfgui.control.html#diffpy.pdfgui.control.fitstructure.FitStructure.getXNames">[docs]</a>
+    <span class="k">def</span> <span class="nf">getXNames</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;get names of data item which can be plotted as x</span>
+
+<span class="sd">        returns a name str list</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># in fact nothing</span>
+        <span class="k">return</span> <span class="p">[]</span></div>
+
+
+<div class="viewcode-block" id="FitStructure.getData">
+<a class="viewcode-back" href="../../../../api/diffpy.pdfgui.control.html#diffpy.pdfgui.control.fitstructure.FitStructure.getData">[docs]</a>
+    <span class="k">def</span> <span class="nf">getData</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">step</span><span class="o">=-</span><span class="mi">1</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;get self&#39;s data member</span>
+
+<span class="sd">        name -- data item name</span>
+<span class="sd">        step -- step info, it can be:</span>
+<span class="sd">                (1) a number ( -1 means latest step ): for single step</span>
+<span class="sd">                (2) a list of numbers: for multiple steps</span>
+<span class="sd">                (3) None: for all steps</span>
+
+<span class="sd">        returns data object, be it a single number, a list, or a list of list</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># FIXME: for next plot interface, we need find how many steps the</span>
+        <span class="c1"># plotter is requiring for and make exact same number of copies of</span>
+        <span class="c1"># data by name</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">owner</span><span class="o">.</span><span class="n">getMetaData</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">data</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">data</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">owner</span><span class="o">.</span><span class="n">_getData</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">step</span><span class="p">)</span></div>
+</div>
+
+
+
+<span class="c1"># End of class FitStructure</span>
+
+<span class="c1"># Local helper functions -----------------------------------------------------</span>
+
+
+<span class="k">def</span> <span class="nf">_makeParNames</span><span class="p">(</span><span class="n">sympars</span><span class="p">,</span> <span class="n">parzeroindex</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return a tuple of (symbols, parvalues), where symbols is a list of</span>
+<span class="sd">    unique PDFFit parameter strings in &quot;@%i&quot; format and parvalues is a</span>
+<span class="sd">    dictionary of parameter indices and their values.</span>
+<span class="sd">    The symbols have indices 10n + (1, 2, 3) when referring to x, y, z, or</span>
+<span class="sd">    10n + (4, 5, 6, 7, 8, 9) when referring to Uij.</span>
+
+<span class="sd">    sympars      -- pospars or Upars attribute of a SymmetryConstraints object</span>
+<span class="sd">                    Must be a sequence of symbols and values.</span>
+<span class="sd">    parzeroindex -- the offset of all parameter indices.</span>
+<span class="sd">                    Must be a multiple of 10.</span>
+
+<span class="sd">    Return a tuple of (possymbols, Usymbols, parvalues).</span>
+<span class="sd">    This function is only used in FitStructure.applySymmetryConstraints method.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">parzeroindex</span> <span class="o">%</span> <span class="mi">10</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;parzeroindex must be a multiple of 10.&quot;</span><span class="p">)</span>
+    <span class="n">smbindex</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;x&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="s2">&quot;y&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+        <span class="s2">&quot;z&quot;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
+        <span class="s2">&quot;U11&quot;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
+        <span class="s2">&quot;U22&quot;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
+        <span class="s2">&quot;U33&quot;</span><span class="p">:</span> <span class="mi">6</span><span class="p">,</span>
+        <span class="s2">&quot;U12&quot;</span><span class="p">:</span> <span class="mi">7</span><span class="p">,</span>
+        <span class="s2">&quot;U13&quot;</span><span class="p">:</span> <span class="mi">8</span><span class="p">,</span>
+        <span class="s2">&quot;U23&quot;</span><span class="p">:</span> <span class="mi">9</span><span class="p">,</span>
+    <span class="p">}</span>
+    <span class="n">symbols</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">parvalues</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">smb</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">sympars</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">smb</span><span class="p">[:</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;U&quot;</span><span class="p">:</span>
+            <span class="n">nsite</span> <span class="o">=</span> <span class="mi">10</span> <span class="o">*</span> <span class="nb">int</span><span class="p">(</span><span class="n">smb</span><span class="p">[</span><span class="mi">3</span><span class="p">:])</span>
+            <span class="n">nvar</span> <span class="o">=</span> <span class="n">smbindex</span><span class="p">[</span><span class="n">smb</span><span class="p">[:</span><span class="mi">3</span><span class="p">]]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">nsite</span> <span class="o">=</span> <span class="mi">10</span> <span class="o">*</span> <span class="nb">int</span><span class="p">(</span><span class="n">smb</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
+            <span class="n">nvar</span> <span class="o">=</span> <span class="n">smbindex</span><span class="p">[</span><span class="n">smb</span><span class="p">[:</span><span class="mi">1</span><span class="p">]]</span>
+        <span class="n">pidx</span> <span class="o">=</span> <span class="n">parzeroindex</span> <span class="o">+</span> <span class="n">nsite</span> <span class="o">+</span> <span class="n">nvar</span>
+        <span class="n">symbols</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;@</span><span class="si">%i</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">pidx</span><span class="p">)</span>
+        <span class="n">parvalues</span><span class="p">[</span><span class="n">pidx</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+    <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">symbols</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">parvalues</span><span class="p">)</span>
+    <span class="n">rv</span> <span class="o">=</span> <span class="p">(</span><span class="n">symbols</span><span class="p">,</span> <span class="n">parvalues</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">rv</span>
+
+
+<span class="c1"># End of file</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, The Trustees of Columbia University in the City of New York.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
