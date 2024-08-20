@@ -40,7 +40,7 @@ def testsuite(pattern=""):
     from os.path import dirname
 
     loader = unittest.defaultTestLoader
-    thisdir = str(files("diffpy.pdfgui.tests"))
+    thisdir = str(files(__name__))
     depth = __name__.count(".") + 1
     topdir = thisdir
     for i in range(depth):
