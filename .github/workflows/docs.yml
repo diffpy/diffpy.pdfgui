@@ -1,37 +1,42 @@
-name: Build Documentation
+name: Build and Deploy Documentation
 
 on:
-  push:
-    branches:
-      - main
   release:
+    types:
+      - published
+  workflow_dispatch:
+
+defaults:
+  run:
+    shell: bash -l {0}
 
 jobs:
-  test:
+  docs:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        shell: bash -l {0}
     steps:
-      - uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
+      - name: Check out diffpy.pdfgui
+        uses: actions/checkout@v4
 
-      - uses: conda-incubator/setup-miniconda@v2
+      - name: Initialize miniconda
+        uses: conda-incubator/setup-miniconda@v3
         with:
           activate-environment: build
           auto-update-conda: true
+          environment-file: environment.yml
+          auto-activate-base: false
 
-      - name: install requirements
+      - name: Conda config
         run: >-
-          conda install -n build -c conda-forge
-          --file requirements/build.txt
-          --file requirements/run.txt
-          --file requirements/docs.txt
-          --quiet --yes
+          conda config --set always_yes yes
+          --set changeps1 no
 
-      - name: install the package
-        run: python -m pip install . --no-deps
+      - name: Install diffpy.pdfgui and build requirements
+        run: |
+          conda install --file requirements/build.txt
+          conda install --file requirements/run.txt
+          conda install --file requirements/docs.txt
+          python -m pip install -r requirements/pip.txt
+          python -m pip install . --no-deps
 
       - name: build documents
         run: make -C doc html
