@@ -1,5 +1,6 @@
 numpy < 2.0.0  # Need to fix deprecations before 2.0.0 compat
 wxpython
 diffpy.pdffit2
+diffpy.structure
 diffpy.utils
 matplotlib-base
