@@ -31,6 +31,9 @@ classifiers = [
         'Topic :: Scientific/Engineering :: Chemistry',
 ]
 
+[project.scripts]
+pdfgui = "diffpy.pdfgui.pdfgui:main"
+
 [project.urls]
 Homepage = "https://github.com/diffpy/diffpy.pdfgui/"
 Issues = "https://github.com/diffpy/diffpy.pdfgui/issues/"
