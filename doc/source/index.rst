@@ -17,8 +17,8 @@ or neutron diffraction data and comes with built in graphical and structure
 visualization capabilities.
 
 PDFgui is a friendly interface to the PDFfit2 refinement engine, with many
-powerful extensions. To get started, please open the `manual <../../manual/pdfgui.html>`_ 
-from the help menu or follow the `tutorial instructions <tutorial.html>`_.
+powerful extensions. To get started, please open the manual (:download:`html <../manual/pdfgui.html>`
+/:download:`pdf <../manual/pdfgui.pdf>`) from the help menu or follow the :ref:`quick_start`.
 
 =======
 Authors
