@@ -29,9 +29,9 @@ from diffpy.pdfgui.gui import mainframe, pdfguiglobals
 
 
 def datafile(filename):
-    from pkg_resources import resource_filename
+    from importlib.resources import files
 
-    rv = resource_filename(__name__, "testdata/" + filename)
+    rv = str(files(__name__).joinpath("testdata", filename))
     return rv
 
 

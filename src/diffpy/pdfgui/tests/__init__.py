@@ -35,13 +35,12 @@ def testsuite(pattern=""):
         The TestSuite object containing the matching tests.
     """
     import re
+    from importlib.resources import files
     from itertools import chain
     from os.path import dirname
 
-    from pkg_resources import resource_filename
-
     loader = unittest.defaultTestLoader
-    thisdir = resource_filename(__name__, "")
+    thisdir = str(files(__name__))
     depth = __name__.count(".") + 1
     topdir = thisdir
     for i in range(depth):

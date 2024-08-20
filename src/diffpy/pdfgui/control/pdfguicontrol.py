@@ -89,7 +89,7 @@ class PDFGuiControl:
 
     def startQueue(self):
         """start queue manager"""
-        self.queueManager.setDaemon(True)
+        self.queueManager.daemon = True
         self.queueManager.start()
 
     def checkQueue(self):
