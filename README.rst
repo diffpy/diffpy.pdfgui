@@ -38,10 +38,17 @@
 Graphical user interface program for structure refinements to atomic
 pair distribution function.
 
+For users who do not have the expertise or necessity for command 
+line analysis, PDFgui is a convenient and easy to use graphical front 
+end for the PDFfit2 refinement program. It is capable of full-profile 
+fitting of the atomic pair distribution function (PDF) derived from x-ray 
+or neutron diffraction data and comes with built in graphical and structure 
+visualization capabilities.
+
 PDFgui is a friendly interface to the PDFfit2 refinement engine, with many
 powerful extensions.  To get started, please open the manual from the
-help menu and follow the tutorial instructions.  A detailed description
-is available in the doc/Farrow-jpcm-2007.pdf paper.
+help menu and follow the tutorial instructions. A detailed description
+is available in `this paper <http://dx.doi.org/10.1088/0953-8984/19/33/335219>`_.
 
 For more information about diffpy.pdfgui, please consult our 
 `online documentation <https://diffpy.github.io/diffpy.pdfgui>`_.
