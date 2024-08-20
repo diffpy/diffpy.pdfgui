@@ -1,6 +1,9 @@
-name: Build and Deploy Documentation
+name: Gather coverage report and upload to codecov
 
 on:
+  push:
+    branches:
+      - main
   release:
     types:
       - prereleased
@@ -12,7 +15,7 @@ defaults:
     shell: bash -l {0}
 
 jobs:
-  docs:
+  coverage:
     runs-on: ubuntu-latest
     steps:
       - name: Check out diffpy.pdfgui
@@ -21,7 +24,7 @@ jobs:
       - name: Initialize miniconda
         uses: conda-incubator/setup-miniconda@v3
         with:
-          activate-environment: build
+          activate-environment: test
           auto-update-conda: true
           environment-file: environment.yml
           auto-activate-base: false
@@ -31,19 +34,29 @@ jobs:
           conda config --set always_yes yes
           --set changeps1 no
 
-      - name: Install diffpy.pdfgui and build requirements
+      - name: Install diffpy.pdfgui and requirements
         run: |
-          conda install --file requirements/build.txt
           conda install --file requirements/run.txt
-          conda install --file requirements/docs.txt
+          conda install --file requirements/test.txt
           python -m pip install -r requirements/pip.txt
           python -m pip install . --no-deps
 
-      - name: build documents
-        run: make -C doc html
+      - name: Install Xvfb
+        run: sudo apt-get install -y xvfb
 
-      - name: Deploy
-        uses: peaceiris/actions-gh-pages@v4
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./doc/build/html
+      - name: Start Xvfb
+        run: |
+          export DISPLAY=:99
+          Xvfb :99 -screen 0 1024x768x16 &
+
+      - name: Validate diffpy.pdfgui
+        run: |
+          export DISPLAY=:99
+          coverage run -m pytest -vv -s
+          coverage report -m
+          codecov
+
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v4
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
