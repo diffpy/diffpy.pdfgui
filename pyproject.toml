@@ -32,7 +32,7 @@ classifiers = [
 ]
 
 [project.scripts]
-pdfgui = "diffpy.pdfgui.pdfgui:main"
+pdfgui = "diffpy.pdfgui.applications.pdfgui:main"
 
 [project.urls]
 Homepage = "https://github.com/diffpy/diffpy.pdfgui/"
