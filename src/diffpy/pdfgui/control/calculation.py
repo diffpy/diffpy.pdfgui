@@ -18,10 +18,11 @@
 
 import copy
 import math
+import pickle
 
 from diffpy.pdfgui.control.controlerrors import ControlConfigError, ControlKeyError, ControlValueError
 from diffpy.pdfgui.control.pdfcomponent import PDFComponent
-from diffpy.pdfgui.utils import pickle_loads, safeCPickleDumps
+from diffpy.pdfgui.utils import safeCPickleDumps
 
 
 class Calculation(PDFComponent):
@@ -253,7 +254,7 @@ class Calculation(PDFComponent):
 
         returns a tree of internal hierachy
         """
-        config = pickle_loads(z.read(subpath + "config"))
+        config = pickle.loads(z.read(subpath + "config"), encoding="latin1")
         self.rmin = config["rmin"]
         self.rstep = config["rstep"]
         self.rmax = config["rmax"]

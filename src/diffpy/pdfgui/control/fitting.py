@@ -15,12 +15,13 @@
 
 from __future__ import print_function
 
+import pickle
 import threading
 import time
 
 from diffpy.pdfgui.control.controlerrors import ControlError, ControlStatusError, ControlValueError
 from diffpy.pdfgui.control.organizer import Organizer
-from diffpy.pdfgui.utils import pickle_loads, safeCPickleDumps
+from diffpy.pdfgui.utils import safeCPickleDumps
 
 # helper routines to deal with PDFfit2 exceptions
 
@@ -210,9 +211,11 @@ class Fitting(Organizer):
 
             self.parameters = CtrlUnpickler.loads(z.read(subpath + "parameters"))
         if "steps" in rootDict:
-            self.itemIndex, self.dataNameDict, self.snapshots = pickle_loads(z.read(subpath + "steps"))
+            self.itemIndex, self.dataNameDict, self.snapshots = pickle.loads(
+                z.read(subpath + "steps"), encoding="latin1"
+            )
         if "result" in rootDict:
-            self.rw, self.res = pickle_loads(z.read(subpath + "result"))
+            self.rw, self.res = pickle.loads(z.read(subpath + "result"), encoding="latin1")
 
         return Organizer.load(self, z, subpath)
 

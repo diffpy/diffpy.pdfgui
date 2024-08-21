@@ -18,6 +18,7 @@
 """This module contains the main window of PDFgui."""
 
 import os.path
+from configparser import ConfigParser
 
 import wx
 import wx.aui
@@ -48,7 +49,6 @@ from diffpy.pdfgui.gui.rseriespanel import RSeriesPanel
 from diffpy.pdfgui.gui.temperatureseriespanel import TemperatureSeriesPanel
 from diffpy.pdfgui.gui.welcomepanel import WelcomePanel
 from diffpy.pdfgui.gui.wxextensions import wx12
-from diffpy.pdfgui.utils import QuotedConfigParser
 
 (PDFCustomEvent, EVT_PDFCUSTOM) = wx.lib.newevent.NewEvent()
 
@@ -300,9 +300,9 @@ class MainFrame(wx.Frame):
         self.runningDict = {}
 
         # The configuration parser for getting configuration data.
-        # self.cP = QuotedConfigParser()
+        # self.cP = Configparser()
         # Long try this to avoid DuplicateSectionError and ParsingError
-        self.cP = QuotedConfigParser(strict=False, allow_no_value=True)
+        self.cP = ConfigParser(strict=False, allow_no_value=True, interpolation=None)
 
         # Set the program mode
         self.mode = "fitting"
@@ -984,7 +984,7 @@ class MainFrame(wx.Frame):
             self.cP.read(localpath)
             for i in range(pdfguiglobals.MAXMRU, 0, -1):
                 if self.cP.has_option("MRU", str(i)):
-                    filename = self.cP.getquoted("MRU", str(i))
+                    filename = self.cP.get("MRU", str(i))
                     if filename:
                         self.fileHistory.AddFileToHistory(filename)
 
@@ -1029,7 +1029,7 @@ class MainFrame(wx.Frame):
 
         for i in range(self.fileHistory.GetCount()):
             item = self.fileHistory.GetHistoryFile(i)
-            self.cP.setquoted("MRU", str(i + 1), item)
+            self.cP.set("MRU", str(i + 1), item)
 
         # Window size
         if not self.cP.has_section("SIZE"):
@@ -2522,8 +2522,7 @@ class MainFrame(wx.Frame):
     def onDocumentation(self, event):
         """Show information about the documentation."""
         import webbrowser
-
-        from six.moves.urllib.request import pathname2url
+        from urllib.request import pathname2url
 
         url = "file://" + pathname2url(docMainFile)
         webbrowser.open(url)
