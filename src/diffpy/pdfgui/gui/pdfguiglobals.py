@@ -32,7 +32,7 @@ isAltered = False
 # Resolve APPDATADIR base path to application data files.
 try:
     _mydir = os.path.abspath(str(files(__name__)))
-except TypeError: # For Python < 3.12
+except TypeError:  # For Python < 3.12
     _mydir = os.path.abspath(os.path.dirname(__file__))
 
 _upbasedir = os.path.normpath(_mydir + "/../../..")
