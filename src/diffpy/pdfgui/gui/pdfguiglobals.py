@@ -30,7 +30,11 @@ configfilename = os.path.expanduser("~/.pdfgui_py3.cfg")
 isAltered = False
 
 # Resolve APPDATADIR base path to application data files.
-_mydir = os.path.abspath(str(files(__name__)))
+try:
+    _mydir = os.path.abspath(str(files(__name__)))
+except TypeError:  # For Python < 3.12
+    _mydir = os.path.abspath(os.path.dirname(__file__))
+
 _upbasedir = os.path.normpath(_mydir + "/../../..")
 _development_mode = os.path.basename(_upbasedir) == "src" and os.path.isfile(
     os.path.join(_upbasedir, "../pyproject.toml")
