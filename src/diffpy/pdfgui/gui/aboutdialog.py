@@ -42,7 +42,7 @@ following paper in your publication:
     computer programs for studying nanostructure in crystals,
     J. Phys.: Condens. Matter 19, 335219 (2007)."""
 
-_copyright = "(c) 2005-{year},".format(year=__date__[:4])
+_copyright = f"(c) 2005-{__date__[-4:]},"
 
 _homepage = "https://www.diffpy.org"
 
