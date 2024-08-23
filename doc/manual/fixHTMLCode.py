@@ -12,7 +12,7 @@ Also fix any accented characters texinfo does not get right.
 # constants
 
 rc = {
-    "directory": "images",  # directory with equation images
+    "directory": "../source/images",  # directory with equation images
 }
 
 eqmark = "<!-- EquationMark -->"
