@@ -11,7 +11,7 @@ directory.
 # constants
 
 rc = {
-    "directory": "images",  # output directory
+    "directory": "../source/images",  # output directory
     "resolution": 72,  # equation images resolution
     "eqns": [],  # list of raw equation codes
     "tmpdir": None,  # temporary directory
