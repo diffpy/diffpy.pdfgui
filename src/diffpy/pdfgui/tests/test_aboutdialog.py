@@ -53,7 +53,7 @@ class TestDialogAbout(GUITestCase):
             self._clickbutton(d.bitmap_button_nsf)
             self.assertTrue(self.url.endswith("www.nsf.gov"))
             self._clickbutton(d.bitmap_button_danse)
-            self.assertTrue(self.url.endswith("danse.us"))
+            self.assertTrue(self.url.endswith("www.its.caltech.edu/~matsci/btf/DANSE_web_page.html"))
             self._clickbutton(d.bitmap_button_msu)
             self.assertTrue(self.url.endswith("www.msu.edu"))
             self._clickbutton(d.bitmap_button_columbia)
