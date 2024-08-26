@@ -42,7 +42,7 @@ jobs:
           conda install --file requirements/test.txt
           python -m pip install -r requirements/pip.txt
           python -m pip install . --no-deps
-          
+
       - name: Install latest diffpy.pdffit2 for Mac
         if: runner.os == 'macos-latest'
         run: |
