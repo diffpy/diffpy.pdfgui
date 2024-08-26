@@ -55,7 +55,7 @@ else:
 APPDATADIR = os.path.abspath(APPDATADIR)
 
 # Location of the HTML manual
-docMainFile = os.path.join(APPDATADIR, "doc/manual/pdfgui.html")
+docMainFile = "https://www.diffpy.org/diffpy.pdfgui/manual.html"
 
 del _upbasedir
 del _development_mode
