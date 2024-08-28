@@ -44,7 +44,7 @@ jobs:
           python -m pip install . --no-deps
 
       - name: Install latest diffpy.pdffit2 for Mac
-        if: runner.os == 'macos-latest'
+        if: runner.os == 'macOS'
         run: |
           conda uninstall diffpy.pdffit2
           brew install gsl
