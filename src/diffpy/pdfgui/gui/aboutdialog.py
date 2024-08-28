@@ -221,7 +221,7 @@ class DialogAbout(wx.Dialog):
         event.Skip()
 
     def onDanseLogo(self, event):  # wxGlade: DialogAbout.<event_handler>
-        launchBrowser("http://danse.us")
+        launchBrowser("https://www.its.caltech.edu/~matsci/btf/DANSE_web_page.html")
         event.Skip()
 
     def onMsuLogo(self, event):  # wxGlade: DialogAbout.<event_handler>

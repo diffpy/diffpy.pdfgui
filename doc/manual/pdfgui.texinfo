@@ -1446,7 +1446,7 @@ the comments in the script for detailed explanation.
 To learn more about the tui module and about the objects
 and functions that it returns, please see the API
 documentation for diffpy.pdfgui at
-@url{http://docs.danse.us/diffraction/diffpy.pdfgui/}.
+@url{https://www.diffpy.org/diffpy.pdfgui/api/diffpy.pdfgui.html}.
 
 Feel free to ask at the
 @url{https://groups.google.com/d/forum/diffpy-users, diffpy-users}
