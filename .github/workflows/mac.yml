@@ -1,0 +1,68 @@
+name: Matrix test
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+  workflow_dispatch:
+
+defaults:
+  run:
+    shell: bash -l {0}
+
+jobs:
+  test:
+    runs-on: macos-latest
+    steps:
+      - name: check out diffpy.pdfgui
+        uses: actions/checkout@v4
+
+      - name: Initialize miniconda
+        uses: conda-incubator/setup-miniconda@v3
+        with:
+          activate-environment: test
+          auto-update-conda: true
+          environment-file: environment.yml
+          auto-activate-base: false
+
+      - name: Conda config
+        run: >-
+          conda config --set always_yes yes
+          --set changeps1 no
+
+      - name: Install diffpy.pdfgui and requirements
+        run: |
+          conda install --file requirements/run.txt
+          conda install --file requirements/test.txt
+          python -m pip install -r requirements/pip.txt
+          python -m pip install . --no-deps
+
+      - name: Install latest diffpy.pdffit2 for Mac
+        if: runner.os == 'macOS'
+        run: |
+          conda uninstall diffpy.pdffit2
+          brew install gsl
+          pip install diffpy.pdffit2==1.4.4rc1
+
+      - name: Install Xvfb
+        if: runner.os == 'Linux'
+        run: sudo apt-get install -y xvfb
+
+      - name: Start Xvfb
+        if: runner.os == 'Linux'
+        run: |
+          export DISPLAY=:99
+          Xvfb :99 -screen 0 1024x768x16 &
+
+      - name: Validate diffpy.pdfgui
+        run: |
+          if [ "$RUNNER_OS" == "Linux" ]; then
+            export DISPLAY=:99
+          fi
+          python -m pytest
+
+      - name: Display Python and Conda info
+        run: |
+          python --version
+          conda info
