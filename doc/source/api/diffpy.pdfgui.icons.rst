@@ -7,4 +7,3 @@ diffpy.pdfgui.icons package
     :members:
     :undoc-members:
     :show-inheritance:
-

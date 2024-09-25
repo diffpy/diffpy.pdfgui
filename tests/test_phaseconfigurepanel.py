@@ -20,10 +20,10 @@ Unit tests for PhaseConfigurePanel class.
 import unittest
 
 import wx
+from testutils import GUITestCase, clickcell, datafile, overrideclipboard, tooltiptext
 
 from diffpy.pdfgui.gui.mainframe import MainFrame
 from diffpy.pdfgui.gui.phaseconfigurepanel import PhaseConfigurePanel
-from testutils import GUITestCase, clickcell, datafile, overrideclipboard, tooltiptext
 
 # ----------------------------------------------------------------------------
 

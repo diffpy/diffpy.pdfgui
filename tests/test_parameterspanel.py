@@ -20,10 +20,10 @@ Unit tests for ParametersPanel class
 import unittest
 
 import wx.grid
+from testutils import GUITestCase, clickcell
 
 from diffpy.pdfgui.control.parameter import Parameter
 from diffpy.pdfgui.gui.parameterspanel import ParametersPanel
-from testutils import GUITestCase, clickcell
 
 # ----------------------------------------------------------------------------
 

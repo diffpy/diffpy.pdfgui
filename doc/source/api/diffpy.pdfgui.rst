@@ -37,4 +37,3 @@ diffpy.pdfgui.tui module
     :members:
     :undoc-members:
     :show-inheritance:
-

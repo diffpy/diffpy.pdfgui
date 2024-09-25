@@ -6,11 +6,12 @@
 
 import unittest
 
+from testutils import datafile
+
 from diffpy.pdfgui.control.constraint import Constraint
 from diffpy.pdfgui.control.controlerrors import ControlTypeError
 from diffpy.pdfgui.control.fitstructure import FitStructure
 from diffpy.pdfgui.control.pdfstructure import PDFStructure
-from testutils import datafile
 from diffpy.structure import Structure
 
 # ----------------------------------------------------------------------------

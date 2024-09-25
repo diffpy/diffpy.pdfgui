@@ -38,11 +38,11 @@
 Graphical user interface program for structure refinements to atomic
 pair distribution function.
 
-For users who do not have the expertise or necessity for command 
-line analysis, PDFgui is a convenient and easy to use graphical front 
-end for the PDFfit2 refinement program. It is capable of full-profile 
-fitting of the atomic pair distribution function (PDF) derived from x-ray 
-or neutron diffraction data and comes with built in graphical and structure 
+For users who do not have the expertise or necessity for command
+line analysis, PDFgui is a convenient and easy to use graphical front
+end for the PDFfit2 refinement program. It is capable of full-profile
+fitting of the atomic pair distribution function (PDF) derived from x-ray
+or neutron diffraction data and comes with built in graphical and structure
 visualization capabilities.
 
 PDFgui is a friendly interface to the PDFfit2 refinement engine, with many
@@ -50,18 +50,18 @@ powerful extensions.  To get started, please open the manual from the
 help menu and follow the tutorial instructions. A detailed description
 is available in `this paper <http://dx.doi.org/10.1088/0953-8984/19/33/335219>`_.
 
-For more information about diffpy.pdfgui, please consult our 
+For more information about diffpy.pdfgui, please consult our
 `online documentation <https://diffpy.github.io/diffpy.pdfgui>`_.
 
 Citation
 --------
 
-If you use diffpy.pdfgui in a scientific publication, we would like you to 
+If you use diffpy.pdfgui in a scientific publication, we would like you to
 cite this package as
 
-        C L Farrow, P Juhas, J W Liu, D Bryndin, E S Božin, 
-        J Bloch, Th Proffen and S J L Billinge, PDFfit2 and PDFgui: 
-        computer programs for studying nanostructure in crystals, J. Phys.: 
+        C L Farrow, P Juhas, J W Liu, D Bryndin, E S Božin,
+        J Bloch, Th Proffen and S J L Billinge, PDFfit2 and PDFgui:
+        computer programs for studying nanostructure in crystals, J. Phys.:
         Condens. Matter 19 (2007) 335219. doi:10.1088/0953-8984/19/33/335219
 
 Installation
@@ -102,7 +102,7 @@ Support and Contribute
 
 `Diffpy user group <https://groups.google.com/g/diffpy-users>`_ is the discussion forum for general questions and discussions about the use of diffpy.pdfgui. Please join the diffpy.pdfgui users community by joining the Google group. The diffpy.pdfgui project welcomes your expertise and enthusiasm!
 
-If you see a bug or want to request a feature, please `report it as an issue <https://github.com/diffpy/diffpy.pdfgui/issues>`_ and/or `submit a fix as a PR <https://github.com/diffpy/diffpy.pdfgui/pulls>`_. You can also post it to the `Diffpy user group <https://groups.google.com/g/diffpy-users>`_. 
+If you see a bug or want to request a feature, please `report it as an issue <https://github.com/diffpy/diffpy.pdfgui/issues>`_ and/or `submit a fix as a PR <https://github.com/diffpy/diffpy.pdfgui/pulls>`_. You can also post it to the `Diffpy user group <https://groups.google.com/g/diffpy-users>`_.
 
 Feel free to fork the project and contribute. To install diffpy.pdfgui
 in a development mode, with its sources being directly used by Python
