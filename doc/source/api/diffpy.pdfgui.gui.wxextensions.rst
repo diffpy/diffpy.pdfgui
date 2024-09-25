@@ -58,3 +58,4 @@ diffpy.pdfgui.gui.wxextensions.paneldialog module
     :members:
     :undoc-members:
     :show-inheritance:
+

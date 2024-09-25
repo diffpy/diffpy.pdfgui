@@ -371,3 +371,4 @@ diffpy.pdfgui.gui.mainframe module
     :members:
     :undoc-members:
     :show-inheritance:
+

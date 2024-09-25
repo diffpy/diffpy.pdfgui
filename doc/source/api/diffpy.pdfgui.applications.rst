@@ -18,3 +18,4 @@ diffpy.pdfgui.applications.pdfgui module
     :members:
     :undoc-members:
     :show-inheritance:
+

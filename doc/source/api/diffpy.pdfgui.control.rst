@@ -138,3 +138,4 @@ diffpy.pdfgui.control.organizer module
     :members:
     :undoc-members:
     :show-inheritance:
+
