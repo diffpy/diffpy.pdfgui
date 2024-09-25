@@ -1,21 +1,12 @@
-recursive-include src *
-recursive-include doc *
-recursive-exclude * __pycache__
-recursive-exclude * *.py[co]
-exclude doc/manual/images/*.pdf
-recursive-exclude doc/manual Makefile *.py *.texinfo
-recursive-exclude doc/manual *.aux *.cp *.cps *.err *.log *.toc *.vr *.vrs
-recursive-include icons *.png *.ico
-recursive-exclude icons *.m *.xcf
-global-exclude .gitattributes .gitignore .gitarchive.cfg
-global-exclude .DS_Store
+graft src
+graft tests
+graft requirements
 
-include AUTHORS.rst
-include LICENSE.rst
-include README.rst
-include requirements.txt
+include AUTHORS.rst LICENSE*.rst README.rst
 
-include diffpy.pdfgui/_version.py
-
-# If including data files in the package, add them like:
-# include path/to/data_file
+# Exclude all bytecode files and __pycache__ directories
+global-exclude *.py[cod]  # Exclude all .pyc, .pyo, and .pyd files.
+global-exclude .DS_Store  # Exclude Mac filesystem artifacts.
+global-exclude __pycache__  # Exclude Python cache directories.
+global-exclude .git*  # Exclude git files and directories.
+global-exclude .idea  # Exclude PyCharm project settings.
