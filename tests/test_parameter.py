@@ -24,7 +24,7 @@ import wx
 from diffpy.pdfgui.control.controlerrors import ControlKeyError, ControlTypeError
 from diffpy.pdfgui.control.parameter import Parameter
 from diffpy.pdfgui.gui.mainframe import MainFrame
-from diffpy.pdfgui.tests.testutils import GUITestCase, datafile
+from testutils import GUITestCase, datafile
 
 # ----------------------------------------------------------------------------
 

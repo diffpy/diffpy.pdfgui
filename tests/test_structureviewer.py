@@ -9,7 +9,7 @@ import unittest
 
 from diffpy.pdfgui.control.controlerrors import ControlConfigError
 from diffpy.pdfgui.control.structureviewer import StructureViewer, getStructureViewer
-from diffpy.pdfgui.tests.testutils import datafile
+from testutils import datafile
 
 
 ##############################################################################

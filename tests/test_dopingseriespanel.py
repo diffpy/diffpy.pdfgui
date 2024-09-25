@@ -22,7 +22,7 @@ import unittest
 import wx
 
 from diffpy.pdfgui.gui.dopingseriespanel import DopingSeriesPanel
-from diffpy.pdfgui.tests.testutils import GUITestCase, datafile, overridefiledialog
+from testutils import GUITestCase, datafile, overridefiledialog
 
 # ----------------------------------------------------------------------------
 

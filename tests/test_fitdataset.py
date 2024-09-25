@@ -23,7 +23,7 @@ import numpy
 
 import diffpy.pdfgui.control.fitdataset as fds
 from diffpy.pdfgui.control.fitdataset import FitDataSet
-from diffpy.pdfgui.tests.testutils import datafile
+from testutils import datafile
 
 # ----------------------------------------------------------------------------
 

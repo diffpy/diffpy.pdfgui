@@ -19,7 +19,6 @@
 import os
 from contextlib import contextmanager
 from unittest import TestCase
-
 import wx
 
 from diffpy.pdfgui.control import pdfguicontrol
@@ -33,7 +32,6 @@ def datafile(filename):
 
     rv = str(files(__name__).joinpath("testdata", filename))
     return rv
-
 
 @contextmanager
 def overridewebbrowser(fnc_open):

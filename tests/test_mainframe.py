@@ -22,7 +22,7 @@ import unittest
 import wx
 
 from diffpy.pdfgui.gui.mainframe import MainFrame
-from diffpy.pdfgui.tests.testutils import GUITestCase
+from testutils import GUITestCase
 
 # ----------------------------------------------------------------------------
 
