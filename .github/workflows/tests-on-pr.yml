@@ -1,0 +1,16 @@
+name: Tests on PR
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  validate:
+    uses: Billingegroup/release-scripts/.github/workflows/_tests-on-pr.yml@v0
+    with:
+      project: diffpy.pdfgui
+      c_extension: false
+      headless: true
