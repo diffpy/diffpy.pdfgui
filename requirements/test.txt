@@ -1,6 +1,7 @@
 flake8
-freezegun
 pytest
+freezegun
 codecov
 coverage
+pytest-cov
 pytest-env
