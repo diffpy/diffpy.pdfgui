@@ -15,8 +15,8 @@
 .. |Black| image:: https://img.shields.io/badge/code_style-black-black
         :target: https://github.com/psf/black
 
-.. |CI| image:: https://github.com/diffpy/diffpy.pdfgui/actions/workflows/main.yml/badge.svg
-        :target: https://github.com/diffpy/diffpy.pdfgui/actions/workflows/main.yml
+.. |CI| image:: https://github.com/diffpy/diffpy.pdfgui/actions/workflows/matrix-and-codecov-on-merge-to-main.yml/badge.svg
+        :target: https://github.com/diffpy/diffpy.pdfgui/actions/workflows/matrix-and-codecov-on-merge-to-main.yml
 
 .. |Codecov| image:: https://codecov.io/gh/diffpy/diffpy.pdfgui/branch/main/graph/badge.svg
         :target: https://codecov.io/gh/diffpy/diffpy.pdfgui
@@ -87,31 +87,22 @@ Then, to fully install ``diffpy.pdfgui`` in our active environment, run ::
 
 Another option is to use ``pip`` to download and install the latest release from
 `Python Package Index <https://pypi.python.org>`_.
-To install using ``pip`` into your ``diffpy.pdfgui_env`` environment, we will also have to 
-install dependencies ::
-
-        pip install -r https://raw.githubusercontent.com/diffpy/diffpy.pdfgui/main/requirements/run.txt
-
-and then install the package ::
+To install using ``pip`` into your ``diffpy.pdfgui_env`` environment, type ::
 
         pip install diffpy.pdfgui
 
 If you prefer to install from sources, after installing the dependencies, obtain the source archive from
-`GitHub <https://github.com/diffpy/diffpy.pdfgui/>`_. Once installed, ``cd`` into your ``diffpy.pdfgui`` 
-directory and run the following ::
+`GitHub <https://github.com/diffpy/diffpy.pdfgui/>`_. Once installed, ``cd`` into your ``diffpy.pdfgui`` directory
+and run the following ::
 
         pip install .
 
 Support and Contribute
 ----------------------
 
-`Diffpy user group <https://groups.google.com/g/diffpy-users>`_ is the discussion forum for general 
-questions and discussions about the use of diffpy.pdfgui. Please join the diffpy.pdfgui users community 
-by joining the Google group. The diffpy.pdfgui project welcomes your expertise and enthusiasm!
+`Diffpy user group <https://groups.google.com/g/diffpy-users>`_ is the discussion forum for general questions and discussions about the use of diffpy.pdfgui. Please join the diffpy.pdfgui users community by joining the Google group. The diffpy.pdfgui project welcomes your expertise and enthusiasm!
 
-If you see a bug or want to request a feature, please `report it as an issue <https://github.com/diffpy/diffpy.pdfgui/issues>`_
-and/or `submit a fix as a PR <https://github.com/diffpy/diffpy.pdfgui/pulls>`_. You can also post it to the 
-`Diffpy user group <https://groups.google.com/g/diffpy-users>`_. 
+If you see a bug or want to request a feature, please `report it as an issue <https://github.com/diffpy/diffpy.pdfgui/issues>`_ and/or `submit a fix as a PR <https://github.com/diffpy/diffpy.pdfgui/pulls>`_. You can also post it to the `Diffpy user group <https://groups.google.com/g/diffpy-users>`_. 
 
 Feel free to fork the project and contribute. To install diffpy.pdfgui
 in a development mode, with its sources being directly used by Python
@@ -139,5 +130,4 @@ Before contribuing, please read our `Code of Conduct <https://github.com/diffpy/
 Contact
 -------
 
-For more information on diffpy.pdfgui please visit the project `web-page <https://diffpy.github.io/>`_ or email Prof. Simon Billinge 
-at sb2896@columbia.edu.
+For more information on diffpy.pdfgui please visit the project `web-page <https://diffpy.github.io/>`_ or email Prof. Simon Billinge at sb2896@columbia.edu.
