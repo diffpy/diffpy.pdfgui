@@ -19,8 +19,9 @@
 
 import unittest
 
-from diffpy.pdfgui.control.pdfdataset import PDFDataSet
 from testutils import datafile
+
+from diffpy.pdfgui.control.pdfdataset import PDFDataSet
 
 
 ##############################################################################

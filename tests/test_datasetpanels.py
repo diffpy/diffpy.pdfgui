@@ -20,9 +20,9 @@ Unit tests for DataSet panels.
 import unittest
 
 import wx
+from testutils import GUITestCase, datafile, tooltiptext
 
 from diffpy.pdfgui.gui.mainframe import MainFrame
-from testutils import GUITestCase, datafile, tooltiptext
 
 # ----------------------------------------------------------------------------
 

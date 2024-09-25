@@ -15,17 +15,17 @@ This code was developed as part of the DiffPy project to create python
 modules for structure investigations from diffraction data.  The main
 contributors to this package were
 
-    Chris Farrow, 
-    Jiwu Liu, 
-    Pavol Juhas, 
+    Chris Farrow,
+    Jiwu Liu,
+    Pavol Juhas,
     Dmitriy Bryndin
 
 Other current and former contributors of the DiffPy project include
 
-    Simon Billinge, 
-    Chris Farrow, 
-    Emil Bozin, 
-    Wenduo Zhou, 
+    Simon Billinge,
+    Chris Farrow,
+    Emil Bozin,
+    Wenduo Zhou,
     Peng Tian
 
 The DiffPy team is part of the Billinge Group at Columbia University in New York,

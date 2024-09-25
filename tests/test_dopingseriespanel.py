@@ -20,9 +20,9 @@ Unit tests for the DopingSeriesPanel class.
 import unittest
 
 import wx
+from testutils import GUITestCase, datafile, overridefiledialog
 
 from diffpy.pdfgui.gui.dopingseriespanel import DopingSeriesPanel
-from testutils import GUITestCase, datafile, overridefiledialog
 
 # ----------------------------------------------------------------------------
 

@@ -20,11 +20,11 @@ Unit tests for the Parameter class.
 import unittest
 
 import wx
+from testutils import GUITestCase, datafile
 
 from diffpy.pdfgui.control.controlerrors import ControlKeyError, ControlTypeError
 from diffpy.pdfgui.control.parameter import Parameter
 from diffpy.pdfgui.gui.mainframe import MainFrame
-from testutils import GUITestCase, datafile
 
 # ----------------------------------------------------------------------------
 

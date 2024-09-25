@@ -20,11 +20,12 @@ Unit tests for class DialogAbout
 import unittest
 
 import wx
-from diffpy.pdfgui.gui import aboutdialog
 from testutils import GUITestCase, overridewebbrowser
 
+from diffpy.pdfgui.gui import aboutdialog
 
 # ----------------------------------------------------------------------------
+
 
 class TestDialogAbout(GUITestCase):
     def setUp(self):

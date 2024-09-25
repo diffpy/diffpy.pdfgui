@@ -6,9 +6,10 @@
 
 import unittest
 
+from testutils import datafile
+
 from diffpy.pdfgui.control.controlerrors import ControlFileError, ControlKeyError
 from diffpy.pdfgui.control.pdfstructure import PDFStructure
-from testutils import datafile
 
 # ----------------------------------------------------------------------------
 

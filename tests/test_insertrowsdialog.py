@@ -20,9 +20,9 @@ Unit tests for class InsertRowsDialog
 import unittest
 
 import wx
+from testutils import GUITestCase
 
 from diffpy.pdfgui.gui.insertrowsdialog import InsertRowsDialog
-from testutils import GUITestCase
 
 # ----------------------------------------------------------------------------
 
