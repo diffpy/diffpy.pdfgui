@@ -20,10 +20,10 @@
 import unittest
 
 import numpy
+from testutils import datafile
 
 import diffpy.pdfgui.control.fitdataset as fds
 from diffpy.pdfgui.control.fitdataset import FitDataSet
-from diffpy.pdfgui.tests.testutils import datafile
 
 # ----------------------------------------------------------------------------
 

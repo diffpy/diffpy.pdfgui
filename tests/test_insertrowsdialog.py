@@ -14,46 +14,38 @@
 ##############################################################################
 
 """
-Unit tests for the DopingSeriesPanel class.
+Unit tests for class InsertRowsDialog
 """
 
 import unittest
 
 import wx
+from testutils import GUITestCase
 
-from diffpy.pdfgui.gui.dopingseriespanel import DopingSeriesPanel
-from diffpy.pdfgui.tests.testutils import GUITestCase, datafile, overridefiledialog
+from diffpy.pdfgui.gui.insertrowsdialog import InsertRowsDialog
 
 # ----------------------------------------------------------------------------
 
 
-class TestDopingSeriesPanel(GUITestCase):
+class TestInsertRowsDialog(GUITestCase):
     def setUp(self):
         self.app = wx.App()
-        self.frame = wx.Frame(None)
-        self.panel = DopingSeriesPanel(self.frame)
-        self.panel.mainFrame = self._mockUpMainFrame()
-        self.panel.mainFrame.workpath = datafile("")
+        self.dialog = InsertRowsDialog(None)
         return
 
     def tearDown(self):
-        self.frame.Close()
+        self.dialog.Close()
         self.app.Destroy()
         return
 
-    def test_onAdd(self):
-        "Check DopingSeriesPanel.onAdd"
-        panel = self.panel
-        paths = ["x000.gr", "x020.gr", "lcmo_00.gr", "lcmo_20.gr"]
-        paths = [datafile(p) for p in paths]
-        with overridefiledialog(wx.ID_OK, paths):
-            panel.onAdd(None)
-        self.assertEqual(paths[-1], panel.fullpath)
-        self.assertEqual([0, 20, 0, 0.2], [xf[0] for xf in panel.datasets])
+    def test_spin_ctrl_rows(self):
+        "Check default number of rows to insert"
+        d = self.dialog
+        self.assertEqual(1, d.spin_ctrl_Rows.GetValue())
         return
 
 
-# End of class TestDopingSeriesPanel
+# End of class TestInsertRowsDialog
 
 # ----------------------------------------------------------------------------
 

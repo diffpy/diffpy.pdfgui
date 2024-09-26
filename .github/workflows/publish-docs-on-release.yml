@@ -1,0 +1,14 @@
+name: Build and Deploy Docs
+
+on:
+  release:
+    types:
+      - published
+  workflow_dispatch:
+
+jobs:
+  docs:
+    uses: Billingegroup/release-scripts/.github/workflows/_publish-docs-on-release.yml@v0
+    with:
+      project: diffpy.pdfgui
+      c_extension: false

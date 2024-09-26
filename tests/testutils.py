@@ -29,10 +29,7 @@ from diffpy.pdfgui.gui import mainframe, pdfguiglobals
 
 
 def datafile(filename):
-    from importlib.resources import files
-
-    rv = str(files(__name__).joinpath("testdata", filename))
-    return rv
+    return "tests/testdata/" + filename
 
 
 @contextmanager

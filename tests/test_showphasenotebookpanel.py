@@ -18,9 +18,9 @@
 
 
 import wx
+from testutils import datafile
 
 from diffpy.pdfgui.gui.phasenotebookpanel import PhaseNotebookPanel
-from diffpy.pdfgui.tests.testutils import datafile
 from diffpy.pdfgui.tui import LoadProject
 
 

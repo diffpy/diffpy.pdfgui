@@ -14,6 +14,7 @@ Subpackages
 .. toctree::
     :titlesonly:
 
+    diffpy.pdfgui.icons
     diffpy.pdfgui.gui
     diffpy.pdfgui.applications
     diffpy.pdfgui.control

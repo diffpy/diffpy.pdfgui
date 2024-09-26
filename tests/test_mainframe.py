@@ -20,9 +20,9 @@ Unit tests for the MainFrame class.
 import unittest
 
 import wx
+from testutils import GUITestCase
 
 from diffpy.pdfgui.gui.mainframe import MainFrame
-from diffpy.pdfgui.tests.testutils import GUITestCase
 
 # ----------------------------------------------------------------------------
 

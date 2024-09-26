@@ -1,10 +1,10 @@
 [build-system]
-requires = ["setuptools>=62.0", "setuptools-git-versioning<2"]
+requires = ["setuptools>=62.0", "setuptools-git-versioning>=2.0"]
 build-backend = "setuptools.build_meta"
 
 [project]
 name = "diffpy.pdfgui"
-dynamic=['version']
+dynamic=['version', 'dependencies']
 authors = [
   { name="Simon J.L. Billinge group", email="simon.billinge@gmail.com" },
 ]
@@ -47,8 +47,11 @@ dirty_template = "{tag}"
 [tool.setuptools.packages.find]
 where = ["src"]  # list of folders that contain the packages (["."] by default)
 include = ["*"]  # package names should match these glob patterns (["*"] by default)
-exclude = ["diffpy.pdfgui.tests*"]  # exclude packages matching these glob patterns (empty by default)
+exclude = []  # exclude packages matching these glob patterns (empty by default)
 namespaces = false  # to disable scanning PEP 420 namespaces (true by default)
+
+[tool.setuptools.dynamic]
+dependencies = {file = ["requirements/run.txt"]}
 
 [tool.black]
 line-length = 115

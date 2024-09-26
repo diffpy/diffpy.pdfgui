@@ -1,0 +1,12 @@
+name: Check for News
+
+on:
+  pull_request_target:
+    branches:
+    - main
+
+jobs:
+  build:
+    uses: Billingegroup/release-scripts/.github/workflows/_check-news-item.yml@v0
+    with:
+      project: diffpy.pdfgui

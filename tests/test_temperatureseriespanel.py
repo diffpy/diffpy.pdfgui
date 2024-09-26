@@ -20,9 +20,9 @@ Unit tests for the TemperatureSeriesPanel class.
 import unittest
 
 import wx
+from testutils import GUITestCase, datafile, overridefiledialog
 
 from diffpy.pdfgui.gui.temperatureseriespanel import TemperatureSeriesPanel
-from diffpy.pdfgui.tests.testutils import GUITestCase, datafile, overridefiledialog
 
 # ----------------------------------------------------------------------------
 
