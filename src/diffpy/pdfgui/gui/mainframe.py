@@ -2523,10 +2523,7 @@ class MainFrame(wx.Frame):
         """Show information about the documentation."""
         import webbrowser
 
-        from six.moves.urllib.request import pathname2url
-
-        url = "file://" + pathname2url(docMainFile)
-        webbrowser.open(url)
+        webbrowser.open(docMainFile)
         return
 
     # MISC INTERACTION ITEMS
