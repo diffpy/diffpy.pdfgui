@@ -315,6 +315,7 @@ class ExtendedPlotFrame(wx.Frame):
             # not 'points', so line properties are required as well
             lineStyle = lineStyleDict.get(style["line"], "-")  # prefer solid
             lineWidth = style["width"]
+            stylestr += lineStyle
             properties.update({"color": color, "linestyle": lineStyle, "linewidth": lineWidth})
 
         if "legend" in style:
