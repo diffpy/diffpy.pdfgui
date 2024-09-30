@@ -785,10 +785,10 @@ def grid_interpolation(x0, y0, x1, youtleft=0.0, youtright=0.0):
 
     Return numpy.array of interpolated y1 values.
     """
-    x0 = numpy.asarray(x0, dtype=float)
-    y0 = numpy.asarray(y0, dtype=float)
+    x0 = numpy.asarray(x0, copy=None, dtype=float)
+    y0 = numpy.asarray(y0, copy=None, dtype=float)
     n0 = len(x0)
-    x1 = numpy.asarray(x1, dtype=float)
+    x1 = numpy.asarray(x1, copy=None, dtype=float)
     n1 = len(x1)
     y1 = youtright * numpy.ones(n1, dtype=float)
     if n0:
