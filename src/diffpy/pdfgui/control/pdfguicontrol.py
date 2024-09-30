@@ -15,13 +15,13 @@
 
 from __future__ import print_function
 
+import io
 import os
+import pickle
 import sys
 import threading
 import time
-
-import six
-import six.moves.cPickle as pickle
+from urllib.parse import quote_plus
 
 from diffpy.pdfgui.control.calculation import Calculation
 from diffpy.pdfgui.control.controlerrors import ControlError, ControlFileError, ControlTypeError
@@ -30,7 +30,7 @@ from diffpy.pdfgui.control.fitstructure import FitStructure
 from diffpy.pdfgui.control.fitting import Fitting
 from diffpy.pdfgui.control.organizer import Organizer
 from diffpy.pdfgui.control.pdflist import PDFList
-from diffpy.pdfgui.utils import asunicode, quote_plain
+from diffpy.pdfgui.utils import asunicode
 
 
 class PDFGuiControl:
@@ -395,7 +395,7 @@ class PDFGuiControl:
                     continue
                 fit = Fitting(name)
                 # fitting name stored in rootDict should be quoted
-                rdname = quote_plain(name)
+                rdname = quote_plus(name)
                 # but let's also handle old project files
                 if rdname not in rootDict:
                     rdname = name
@@ -450,7 +450,7 @@ class PDFGuiControl:
             # fits also contain calculations
             for fit in self.fits:
                 name = fit.name
-                fit.save(z, projName + "/" + quote_plain(fit.name) + "/")
+                fit.save(z, projName + "/" + quote_plus(fit.name) + "/")
                 fitnames.append(name)
             if self.journal:
                 z.writestr(projName + "/journal", asunicode(self.journal))
@@ -516,7 +516,7 @@ class PDFGuiControl:
         from diffpy.pdffit2 import output, redirect_stdout
 
         if output.stdout is sys.stdout:
-            redirect_stdout(six.StringIO())
+            redirect_stdout(io.StringIO())
         return
 
     def getEngineOutput(self):
@@ -525,7 +525,7 @@ class PDFGuiControl:
 
         txt = output.stdout.getvalue()
         output.stdout.close()
-        redirect_stdout(six.StringIO())
+        redirect_stdout(io.StringIO())
         return txt
 
 
@@ -571,7 +571,7 @@ class CtrlUnpickler:
             missedModule = str(err).split(" ")[-1]
             if missedModule.find("pdfgui.control") == -1:
                 raise err
-            f = six.StringIO(s)
+            f = io.StringIO(s)
             unpickler = pickle.Unpickler(f)
             unpickler.find_global = _find_global
             return unpickler.load()

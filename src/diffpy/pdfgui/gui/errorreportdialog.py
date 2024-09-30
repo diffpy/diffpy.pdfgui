@@ -151,7 +151,7 @@ class ErrorReportDialog(wx.Dialog):
         Search for path-independent module and function names and for
         error message extracted from exception traceback.
         """
-        from six.moves.urllib.parse import quote_plus
+        from urllib.parse import quote_plus
 
         traceback = self.text_ctrl_log.GetValue()
         terms = _extractSearchTerms(traceback)

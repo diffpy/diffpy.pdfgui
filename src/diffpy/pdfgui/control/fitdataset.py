@@ -461,7 +461,9 @@ class FitDataSet(PDFDataSet):
         z       -- zipped project file
         subpath -- path to its own storage within project file
         """
-        from diffpy.pdfgui.utils import asunicode, pickle_loads
+        import pickle
+
+        from diffpy.pdfgui.utils import asunicode
 
         self.clear()
         subs = subpath.split("/")
@@ -471,7 +473,7 @@ class FitDataSet(PDFDataSet):
         self.readObsStr(obsdata)
 
         # data from calculation
-        content = pickle_loads(z.read(subpath + "calc"))
+        content = pickle.loads(z.read(subpath + "calc"), encoding="latin1")
         for item in FitDataSet.persistentItems:
             # skip items which are not in the project file
             if item not in content:

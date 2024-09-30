@@ -17,8 +17,6 @@
 To be stored in Fitting.parameters { idx : parameter } dictionary
 """
 
-import six
-
 from diffpy.pdfgui.control.controlerrors import (
     ControlError,
     ControlKeyError,
@@ -79,7 +77,7 @@ class Parameter:
         if isinstance(initial, Fitting):
             self.__initial = "=" + initial.name
             self.__fitrepr = repr(initial)
-        elif isinstance(initial, six.string_types) and initial[:1] == "=":
+        elif isinstance(initial, str) and initial[:1] == "=":
             self.__initial = initial
             self.__findLinkedFitting()
         else:

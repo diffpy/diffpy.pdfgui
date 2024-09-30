@@ -23,6 +23,7 @@ Exceptions:
 """
 
 import base64
+import pickle
 import re
 
 import wx
@@ -31,7 +32,7 @@ from diffpy.pdfgui.control.controlerrors import ControlError
 from diffpy.pdfgui.control.fitting import Fitting
 from diffpy.pdfgui.gui.pdfguiglobals import iconpath
 from diffpy.pdfgui.gui.wxextensions import wx12
-from diffpy.pdfgui.utils import pickle_loads, safeCPickleDumps
+from diffpy.pdfgui.utils import safeCPickleDumps
 
 
 class FitTree(wx12.TreeCtrl):
@@ -610,7 +611,7 @@ class FitTree(wx12.TreeCtrl):
 
             if cdatabytes[:16] == "pdfgui_cliboard=".encode():
                 cdatabytes = cdatabytes[16:]
-                cdata = pickle_loads(cdatabytes)
+                cdata = pickle.loads(cdatabytes, encoding="latin1")
         except Exception:
             pass
         return cdata

@@ -106,7 +106,7 @@ class AddDataPanel(wx.Panel, PDFPanel):
 
         if remember:
             if self.cP.has_option("DATASET", "last"):
-                self.fullpath = self.cP.getquoted("DATASET", "last")
+                self.fullpath = self.cP.get("DATASET", "last")
                 import os.path
 
                 if not os.path.exists(self.fullpath):
@@ -119,7 +119,7 @@ class AddDataPanel(wx.Panel, PDFPanel):
         """Update the configuration for the 'DATASET'."""
         if not self.cP.has_section("DATASET"):
             self.cP.add_section("DATASET")
-        self.cP.setquoted("DATASET", "last", self.fullpath)
+        self.cP.set("DATASET", "last", self.fullpath)
         return
 
     # EVENT CODE ####
