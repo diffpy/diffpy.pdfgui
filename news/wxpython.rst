@@ -16,7 +16,7 @@
 
 **Fixed:**
 
-* pip install wxpython to use latest v4.2.2 
+* pip install wxpython to use latest v4.2.2
 
 **Security:**
 
