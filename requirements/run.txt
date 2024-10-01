@@ -1,5 +1,4 @@
 numpy
-wxpython
 diffpy.pdffit2
 diffpy.structure
 diffpy.utils
