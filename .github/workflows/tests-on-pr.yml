@@ -9,7 +9,7 @@ on:
 
 jobs:
   validate:
-    uses: Billingegroup/release-scripts/.github/workflows/_tests-on-pr.yml@v0
+    uses: bobleesj/release-scripts/.github/workflows/_tests-on-pr.yml@v0
     with:
       project: diffpy.pdfgui
       c_extension: false
