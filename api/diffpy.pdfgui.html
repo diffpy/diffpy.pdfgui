@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>diffpy.pdfgui package &mdash; diffpy.pdfgui 3.1.0rc4 documentation</title>
+  <title>diffpy.pdfgui package &mdash; diffpy.pdfgui 3.1.0rc5 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=19f00094" />
 
@@ -15,14 +15,14 @@
   
         <script src="../_static/jquery.js?v=5d32c60e"></script>
         <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../_static/documentation_options.js?v=6a5857df"></script>
+        <script src="../_static/documentation_options.js?v=c31823b9"></script>
         <script src="../_static/doctools.js?v=9a2dae69"></script>
         <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="diffpy.pdfgui.gui package" href="diffpy.pdfgui.gui.html" />
-    <link rel="prev" title="Release Notes" href="../release.html" /> 
+    <link rel="next" title="diffpy.pdfgui.icons package" href="diffpy.pdfgui.icons.html" />
+    <link rel="prev" title="Manual" href="../manual.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -37,7 +37,7 @@
             diffpy.pdfgui
           </a>
               <div class="version">
-                3.1.0rc4
+                3.1.0rc5
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
@@ -53,7 +53,9 @@
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../license.html">License</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../release.html">Release Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../manual.html">Manual</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Package API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="diffpy.pdfgui.icons.html">diffpy.pdfgui.icons package</a></li>
 <li class="toctree-l2"><a class="reference internal" href="diffpy.pdfgui.gui.html">diffpy.pdfgui.gui package</a></li>
 <li class="toctree-l2"><a class="reference internal" href="diffpy.pdfgui.applications.html">diffpy.pdfgui.applications package</a></li>
 <li class="toctree-l2"><a class="reference internal" href="diffpy.pdfgui.control.html">diffpy.pdfgui.control package</a></li>
@@ -87,12 +89,12 @@
              
   <section id="module-diffpy.pdfgui">
 <span id="diffpy-pdfgui-package"></span><h1>diffpy.pdfgui package<a class="headerlink" href="#module-diffpy.pdfgui" title="Link to this heading"></a></h1>
-<p>Constants:
-__version__ – full version of this PDFgui release</p>
+<p>GUI for PDF simulation and structure refinement.</p>
 <section id="subpackages">
 <h2>Subpackages<a class="headerlink" href="#subpackages" title="Link to this heading"></a></h2>
 <div class="toctree-wrapper compound">
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="diffpy.pdfgui.icons.html">diffpy.pdfgui.icons package</a></li>
 <li class="toctree-l1"><a class="reference internal" href="diffpy.pdfgui.gui.html">diffpy.pdfgui.gui package</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="diffpy.pdfgui.gui.design.html">diffpy.pdfgui.gui.design package</a></li>
 <li class="toctree-l2"><a class="reference internal" href="diffpy.pdfgui.gui.wxextensions.html">diffpy.pdfgui.gui.wxextensions package</a></li>
@@ -110,32 +112,10 @@ __version__ – full version of this PDFgui release</p>
 <p>Small shared routines:
 numericStringSort   – sort list of strings according to numeric value
 safeCPickleDumps    – same as pickle.dumps, but safe for NaN and Inf</p>
-<dl class="py class">
-<dt class="sig sig-object py" id="diffpy.pdfgui.utils.QuotedConfigParser">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">diffpy.pdfgui.utils.</span></span><span class="sig-name descname"><span class="pre">QuotedConfigParser</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">defaults=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dict_type=&lt;class</span> <span class="pre">'dict'&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">allow_no_value=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">delimiters=('='</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">':')</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">comment_prefixes=('#'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">';')</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inline_comment_prefixes=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">strict=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">empty_lines_in_values=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default_section='DEFAULT'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">interpolation=&lt;object</span> <span class="pre">object&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">converters=&lt;object</span> <span class="pre">object&gt;</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/pdfgui/utils.html#QuotedConfigParser"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.pdfgui.utils.QuotedConfigParser" title="Link to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">RawConfigParser</span></code></p>
-<dl class="py method">
-<dt class="sig sig-object py" id="diffpy.pdfgui.utils.QuotedConfigParser.getquoted">
-<span class="sig-name descname"><span class="pre">getquoted</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">section</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">option</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/pdfgui/utils.html#QuotedConfigParser.getquoted"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.pdfgui.utils.QuotedConfigParser.getquoted" title="Link to this definition"></a></dt>
-<dd><p>Retrieve option value previously set with setquoted.</p>
-<p>This allows to work with unicode strings.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="diffpy.pdfgui.utils.QuotedConfigParser.setquoted">
-<span class="sig-name descname"><span class="pre">setquoted</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">section</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">option</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/pdfgui/utils.html#QuotedConfigParser.setquoted"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.pdfgui.utils.QuotedConfigParser.setquoted" title="Link to this definition"></a></dt>
-<dd><p>Set option to a value encoded with urllib.quote.</p>
-<p>This allows to store and write out unicode strings.
-Use getquoted to recover the decoded value.</p>
-</dd></dl>
-
-</dd></dl>
-
 <dl class="py function">
 <dt class="sig sig-object py" id="diffpy.pdfgui.utils.asunicode">
 <span class="sig-prename descclassname"><span class="pre">diffpy.pdfgui.utils.</span></span><span class="sig-name descname"><span class="pre">asunicode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">s</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/pdfgui/utils.html#asunicode"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.pdfgui.utils.asunicode" title="Link to this definition"></a></dt>
 <dd><p>Convert string or bytes object to a text type.</p>
-<p>This is <cite>unicode</cite> in Python 2 and <cite>str</cite> in Python 3.</p>
 </dd></dl>
 
 <dl class="py function">
@@ -149,23 +129,6 @@ for comparison.  Signs, decimal points and exponents are ignored.</p>
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="diffpy.pdfgui.utils.pickle_loads">
-<span class="sig-prename descclassname"><span class="pre">diffpy.pdfgui.utils.</span></span><span class="sig-name descname"><span class="pre">pickle_loads</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sdata</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">encoding</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'latin1'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/pdfgui/utils.html#pickle_loads"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.pdfgui.utils.pickle_loads" title="Link to this definition"></a></dt>
-<dd><p>Mimic interface of Python 3 pickle.loads.</p>
-<p>Using encoding=’latin1’ is required for unpickling NumPy arrays and
-instances of datetime, date and time pickled by Python 2.</p>
-<p>Return the reconstructed object hierarchy.</p>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="diffpy.pdfgui.utils.quote_plain">
-<span class="sig-prename descclassname"><span class="pre">diffpy.pdfgui.utils.</span></span><span class="sig-name descname"><span class="pre">quote_plain</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">s</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/pdfgui/utils.html#quote_plain"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.pdfgui.utils.quote_plain" title="Link to this definition"></a></dt>
-<dd><p>Return a possibly Unicode string quoted as plain ASCII.</p>
-<p>The returned value is suitable as a path component in the
-project file format.</p>
-</dd></dl>
-
-<dl class="py function">
 <dt class="sig sig-object py" id="diffpy.pdfgui.utils.safeCPickleDumps">
 <span class="sig-prename descclassname"><span class="pre">diffpy.pdfgui.utils.</span></span><span class="sig-name descname"><span class="pre">safeCPickleDumps</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/pdfgui/utils.html#safeCPickleDumps"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.pdfgui.utils.safeCPickleDumps" title="Link to this definition"></a></dt>
 <dd><p>Get pickle representation of an object possibly containing NaN or Inf.
@@ -173,12 +136,6 @@ By default it uses pickle.HIGHEST_PROTOCOL, but falls back to ASCII
 protocol 0 if there is SystemError frexp() exception.</p>
 <p>obj – object to be pickled</p>
 <p>Return pickle string.</p>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="diffpy.pdfgui.utils.unquote_plain">
-<span class="sig-prename descclassname"><span class="pre">diffpy.pdfgui.utils.</span></span><span class="sig-name descname"><span class="pre">unquote_plain</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">s</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/pdfgui/utils.html#unquote_plain"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.pdfgui.utils.unquote_plain" title="Link to this definition"></a></dt>
-<dd><p>Unquote string previously encoded with quote_plain.</p>
 </dd></dl>
 
 </section>
@@ -287,8 +244,8 @@ None-s for datasets with undefined temperature.</p>
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="../release.html" class="btn btn-neutral float-left" title="Release Notes" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="diffpy.pdfgui.gui.html" class="btn btn-neutral float-right" title="diffpy.pdfgui.gui package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="../manual.html" class="btn btn-neutral float-left" title="Manual" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="diffpy.pdfgui.icons.html" class="btn btn-neutral float-right" title="diffpy.pdfgui.icons package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>diffpy.pdfgui.control.parameter &mdash; diffpy.pdfgui 3.1.0rc4 documentation</title>
+  <title>diffpy.pdfgui.control.parameter &mdash; diffpy.pdfgui 3.1.0rc5 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=fa44fd50" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=19f00094" />
 
@@ -14,7 +14,7 @@
   
         <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../../../../_static/documentation_options.js?v=6a5857df"></script>
+        <script src="../../../../_static/documentation_options.js?v=c31823b9"></script>
         <script src="../../../../_static/doctools.js?v=9a2dae69"></script>
         <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../_static/js/theme.js"></script>
@@ -34,7 +34,7 @@
             diffpy.pdfgui
           </a>
               <div class="version">
-                3.1.0rc4
+                3.1.0rc5
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
@@ -50,6 +50,7 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../../license.html">License</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../release.html">Release Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../manual.html">Manual</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../api/diffpy.pdfgui.html">Package API</a></li>
 </ul>
 
@@ -96,8 +97,6 @@
 <span class="sd">&quot;&quot;&quot;class Parameter for handling one refined parameter</span>
 <span class="sd">To be stored in Fitting.parameters { idx : parameter } dictionary</span>
 <span class="sd">&quot;&quot;&quot;</span>
-
-<span class="kn">import</span> <span class="nn">six</span>
 
 <span class="kn">from</span> <span class="nn">diffpy.pdfgui.control.controlerrors</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">ControlError</span><span class="p">,</span>
@@ -163,7 +162,7 @@
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">initial</span><span class="p">,</span> <span class="n">Fitting</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">__initial</span> <span class="o">=</span> <span class="s2">&quot;=&quot;</span> <span class="o">+</span> <span class="n">initial</span><span class="o">.</span><span class="n">name</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">__fitrepr</span> <span class="o">=</span> <span class="nb">repr</span><span class="p">(</span><span class="n">initial</span><span class="p">)</span>
-        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">initial</span><span class="p">,</span> <span class="n">six</span><span class="o">.</span><span class="n">string_types</span><span class="p">)</span> <span class="ow">and</span> <span class="n">initial</span><span class="p">[:</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;=&quot;</span><span class="p">:</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">initial</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="ow">and</span> <span class="n">initial</span><span class="p">[:</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;=&quot;</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">__initial</span> <span class="o">=</span> <span class="n">initial</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">__findLinkedFitting</span><span class="p">()</span>
         <span class="k">else</span><span class="p">:</span>

@@ -1,3 +1,97 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Manual &mdash; diffpy.pdfgui 3.1.0rc5 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=c31823b9"></script>
+        <script src="_static/doctools.js?v=9a2dae69"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="diffpy.pdfgui package" href="api/diffpy.pdfgui.html" />
+    <link rel="prev" title="Release Notes" href="release.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            diffpy.pdfgui
+          </a>
+              <div class="version">
+                3.1.0rc5
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorial.html">Tutorial</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="release.html">Release Notes</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Manual</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/diffpy.pdfgui.html">Package API</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">diffpy.pdfgui</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Manual</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/manual.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="manual">
+<span id="id1"></span><h1>Manual<a class="headerlink" href="#manual" title="Link to this heading"></a></h1>
+<section id="resources-used">
+<h2>Resources used<a class="headerlink" href="#resources-used" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p><a class="reference download internal" download="" href="_downloads/032062351bf34c8fe361e08dc302b237/Ni%20data.zip"><code class="xref download docutils literal notranslate"><span class="pre">Ni</span> <span class="pre">data</span></code></a></p></li>
+<li><p><a class="reference download internal" download="" href="_downloads/96f93e59ce2c84278c696ef7f0b09a4e/Temperature%20data%20series.zip"><code class="xref download docutils literal notranslate"><span class="pre">Temperature</span> <span class="pre">data</span> <span class="pre">series</span></code></a></p></li>
+<li><p><a class="reference download internal" download="" href="_downloads/0ef3e2edfca13d573862b655df0a2b60/Doping%20data%20series.zip"><code class="xref download docutils literal notranslate"><span class="pre">Doping</span> <span class="pre">data</span> <span class="pre">series</span></code></a></p></li>
+<li><p><a class="reference download internal" download="" href="_downloads/2c50488e54890de4446320c8083064d0/tui_mno_bond_lengths.py"><code class="xref download docutils literal notranslate"><span class="pre">tui</span> <span class="pre">Mn-O</span> <span class="pre">script</span></code></a></p></li>
+<li><p><a class="reference download internal" download="" href="_downloads/74679939e242a632e3c46d39852bd6c9/Nanoparticle%20structure.zip"><code class="xref download docutils literal notranslate"><span class="pre">Nanoparticle</span> <span class="pre">structure</span></code></a></p></li>
+</ul>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <!-- Up to the release 1.1.2 (February 2017) the copyright was held by
@@ -1069,7 +1163,7 @@ offered to load a structure from a file or to generate it from scratch. In this
 exercise a preexisting structure file <i>Ni.stru</i> is to be loaded.
 </p>
 <div class="float"><a name="fig2_002d01"></a>
-<img src="images/fig2-01.png" alt="images/fig2-01">
+<img src="../../source/images/fig2-01.png" alt="images/fig2-01">
 
 </div><p><strong>Figure 2.1: PDFgui window with fit tree and Plot Control panels to the left and
 current action panel to the right. The fit tree panel features the current fit
@@ -1103,7 +1197,7 @@ facility at the Argonne National Laboratory. Both x-ray and neutron datasets
 were collected at 300 K.
 </p>
 <div class="float"><a name="fig2_002d02"></a>
-<img src="images/fig2-02.png" alt="images/fig2-02">
+<img src="../../source/images/fig2-02.png" alt="images/fig2-02">
 
 </div><p><strong>Figure 2.2: Appearance of a PDFgui window after a PDF dataset is loaded.  The Fit
 Tree panel features the current fit, loaded Ni structure, and loaded Ni PDF
@@ -1137,7 +1231,7 @@ difference yields a blank plot. The data can also be displayed by clicking the
 rightmost &ldquo;quick-plot&rdquo; button in the tool bar.
 </p>
 <div class="float"><a name="fig2_002d03"></a>
-<img src="images/fig2-03.png" alt="images/fig2-03">
+<img src="../../source/images/fig2-03.png" alt="images/fig2-03">
 
 </div><p><strong>Figure 2.3: Adjusting data set related configuration.
 </strong>
@@ -1168,7 +1262,7 @@ inserting <i>@2</i> into the appropriate edit box. This is illustrated in Figure
 <a href="#fig2_002d04">Figure 2.4</a>.
 </p>
 <div class="float"><a name="fig2_002d04"></a>
-<img src="images/fig2-04.png" alt="images/fig2-04">
+<img src="../../source/images/fig2-04.png" alt="images/fig2-04">
 
 </div><p><strong>Figure 2.4: Setting up the refinement parameters and constraints.
 </strong>
@@ -1187,7 +1281,7 @@ then pressing &ldquo;Enter&rdquo; on your keyboard. The outcome is shown in Figu
 </p>
 
 <div class="float"><a name="fig2_002d05"></a>
-<img src="images/fig2-05.png" alt="images/fig2-05">
+<img src="../../source/images/fig2-05.png" alt="images/fig2-05">
 
 </div><p><strong>Figure 2.5: Setting up the refinement parameters and constraints.
 </strong>
@@ -1210,7 +1304,7 @@ part manually, in particular for complex setups, it is recommended to verify
 that the parameter assignment is done correctly.
 </p>
 <div class="float"><a name="fig2_002d06"></a>
-<img src="images/fig2-06.png" alt="images/fig2-06">
+<img src="../../source/images/fig2-06.png" alt="images/fig2-06">
 
 </div><p><strong>Figure 2.6: Reviewing the fit parameters and conditions.
 </strong>
@@ -1231,7 +1325,7 @@ progress will be directly reported in the PDFfit2 Output panel. This is
 illustrated in <a href="#fig2_002d07">Figure 2.7</a>.
 </p>
 <div class="float"><a name="fig2_002d07"></a>
-<img src="images/fig2-07.png" alt="images/fig2-07">
+<img src="../../source/images/fig2-07.png" alt="images/fig2-07">
 
 </div><p><strong>Figure 2.7: While the refinement is running, the refinement progress is
 displayed in the PDFfit2 Output panel.
@@ -1252,7 +1346,7 @@ you loose the original starting values when copying values in this way, which
 may make it difficult to reproduce the fit.
 </p>
 <div class="float"><a name="fig2_002d08"></a>
-<img src="images/fig2-08.png" alt="images/fig2-08">
+<img src="../../source/images/fig2-08.png" alt="images/fig2-08">
 
 </div><p><strong>Figure 2.8: Updating the set of initial values of refined parameters.
 </strong>
@@ -1267,13 +1361,13 @@ iteration step in <a href="#fig2_002d10">Figure 2.10</a>. If the plotting window
 fitting is in progress, the content will be updated after each fit iteration.
 </p>
 <div class="float"><a name="fig2_002d09"></a>
-<img src="images/fig2-09.png" alt="images/fig2-09">
+<img src="../../source/images/fig2-09.png" alt="images/fig2-09">
 
 </div><p><strong>Figure 2.9: An example of PDFgui plotting capabilities: displaying a fit.
 </strong>
 </p>
 <div class="float"><a name="fig2_002d10"></a>
-<img src="images/fig2-10.png" alt="images/fig2-10">
+<img src="../../source/images/fig2-10.png" alt="images/fig2-10">
 
 </div><p><strong>Figure 2.10: An example of PDFgui plotting capabilities: displaying a parameter.
 </strong>
@@ -1284,7 +1378,7 @@ notes, as illustrated in <a href="#fig2_002d11">Figure 2.11</a>. These notes can
 file, or saved along with the entire project for future reference.
 </p>
 <div class="float"><a name="fig2_002d11"></a>
-<img src="images/fig2-11.png" alt="images/fig2-11">
+<img src="../../source/images/fig2-11.png" alt="images/fig2-11">
 
 </div><p><strong>Figure 2.11: Using &ldquo;Journal&rdquo; feature can be a convenient way for taking notes.
 </strong>
@@ -1406,7 +1500,7 @@ or &ldquo;225&rdquo;, the space group number.  This will expand the unit cell to
 sites with the proper symmetry.
 </p>
 <div class="float"><a name="fig3_002d01"></a>
-<img src="images/fig3-01.png" alt="images/fig3-01">
+<img src="../../source/images/fig3-01.png" alt="images/fig3-01">
 
 </div><p><strong>Figure 3.1: Expanding the unit cell using space group information.
 </strong>
@@ -1435,7 +1529,7 @@ tool and nothing more than that. The remaining steps of this example are
 identical to these described in <a href="#Simple-fit">Creating a simple fit using a preexisting structure file</a>.
 </p>
 <div class="float"><a name="fig3_002d02"></a>
-<img src="images/fig3-02.png" alt="images/fig3-02">
+<img src="../../source/images/fig3-02.png" alt="images/fig3-02">
 
 </div><p><strong>Figure 3.2: Setting up symmetry constraints to be used in a refinement.
 </strong>
@@ -1472,7 +1566,7 @@ current action panel will display information very similar to that when a data
 set is loaded, as shown in <a href="#fig3_002d03">Figure 3.3</a>.
 </p>
 <div class="float"><a name="fig3_002d03"></a>
-<img src="images/fig3-03.png" alt="images/fig3-03">
+<img src="../../source/images/fig3-03.png" alt="images/fig3-03">
 
 </div><p><strong>Figure 3.3: An example of the calculation configuration panel.
 </strong>
@@ -1582,7 +1676,7 @@ of the link as its <i>initial</i> value, or the initial value if the linked
 parameter is not yet refined.  An example of this is shown in <a href="#fig3_002d04">Figure 3.4</a>.
 </p>
 <div class="float"><a name="fig3_002d04"></a>
-<img src="images/fig3-04.png" alt="images/fig3-04">
+<img src="../../source/images/fig3-04.png" alt="images/fig3-04">
 
 </div><p><strong>Figure 3.4: An example of linked fits. The output of a converged fit will
 be fed into the succeeding fit in the sequence as an input.
@@ -1678,7 +1772,7 @@ limits. Select all four of them and execute the refinement.  Once the sequence
 is done, you can review the results using the plot control.
 </p>
 <div class="float"><a name="fig3_002d05"></a>
-<img src="images/fig3-05.png" alt="images/fig3-05">
+<img src="../../source/images/fig3-05.png" alt="images/fig3-05">
 
 </div><p><strong>Figure 3.5: Appearance of the setup panel for specifying an incremental r-series
 fit conditions.
@@ -1741,7 +1835,7 @@ information from the files. User should verify that the information is correct.
 The data can be ordered by temperature by clicking the &ldquo;Temperature&rdquo; header.
 </p>
 <div class="float"><a name="fig3_002d06"></a>
-<img src="images/fig3-06.png" alt="images/fig3-06">
+<img src="../../source/images/fig3-06.png" alt="images/fig3-06">
 
 </div><p><strong>Figure 3.6: Setting up a T-series sequential refinement for LaMnO3. Ordering
 by temperature will ensure that the fits are linked correctly.
@@ -1768,7 +1862,7 @@ of O2 (for example atom 20) for the <i>y</i> axis.  Clicking &ldquo;Plot&rdquo; 
 the plot of Uiso(20) vs T.
 </p>
 <div class="float"><a name="fig3_002d07"></a>
-<img src="images/fig3-07.png" alt="images/fig3-07">
+<img src="../../source/images/fig3-07.png" alt="images/fig3-07">
 
 </div><p><strong>Figure 3.7: Displaying the refinement results as a function of external
 parameter: T-series refinement of LaMnO3, example of isotropic ADP of
@@ -1828,7 +1922,7 @@ different instrument was used, the value of <i>Qdamp</i> is different than in
 previous example.
 </p>
 <div class="float"><a name="fig3_002d08"></a>
-<img src="images/fig3-08.png" alt="images/fig3-08">
+<img src="../../source/images/fig3-08.png" alt="images/fig3-08">
 
 </div><p><strong>Figure 3.8: After loading of the Ca-doping data series of LaMnO3 system, proper
 doping assignment needs to be carried out, as the doping levels introspected
@@ -1872,7 +1966,7 @@ content increase. Highlight all the fits in the fit tree to start the
 sequential refinement of the doping series.
 </p>
 <div class="float"><a name="fig3_002d09"></a>
-<img src="images/fig3-09.png" alt="images/fig3-09">
+<img src="../../source/images/fig3-09.png" alt="images/fig3-09">
 
 </div><p><strong>Figure 3.9: Sequence of refined parameters, such as lattice constants, can be
 plotted vs doping using PDFgui plotting facilities. Figure features lattice
@@ -2049,7 +2143,7 @@ PDF modeling can be found in this publication:
 <a href="https://link.aps.org/doi/10.1103/PhysRevB.76.115413">Quantitative size-dependent structure and strain determination of CdSe nanoparticles using atomic pair distribution function analysis</a>.
 </p>
 <div class="float"><a name="fig3_002d10"></a>
-<img src="images/fig3-10.png" alt="images/fig3-10">
+<img src="../../source/images/fig3-10.png" alt="images/fig3-10">
 
 </div><p><strong>Figure 3.10: Fitting the structure of a nanoparticle: 3nm CdSe
 nanoparticle example.
@@ -2141,7 +2235,7 @@ shown in <a href="#fig4_002d01">Figure 4.1</a> for Ni example.
 
 
 <div class="float"><a name="fig4_002d01"></a>
-<img src="images/fig4-01.png" alt="images/fig4-01">
+<img src="../../source/images/fig4-01.png" alt="images/fig4-01">
 
 </div><p><strong>Figure 4.1: Plotting window featuring Rw vs refinement step for Ni example.
 The basic functionality for manipulating the plot is provided through icons
@@ -2185,7 +2279,7 @@ full details in <a href="#Configuration-of-structure-viewer">Configuration of st
 <p>An example Ni structure visualization with AtomEye is shown in <a href="#fig4_002d02">Figure 4.2</a>.
 </p>
 <div class="float"><a name="fig4_002d02"></a>
-<img src="images/fig4-02.png" alt="images/fig4-02">
+<img src="../../source/images/fig4-02.png" alt="images/fig4-02">
 
 </div><p><strong>Figure 4.2: Using AtomEye functionality (if installed on your system) for 3D
 visualization of the initial and refined PDF structures: example of Ni
@@ -2511,7 +2605,7 @@ Scale factor for the selected dataset.
 <dd><p>(float &Aring;<em>^-1</em>, default 0 &Aring;<em>^-1</em>, <var>qsig</var> in PDFFIT) <br>
 PDF Gaussian dampening envelope due to limited Q-resolution.
 Not applied when equal to zero. The Gaussian envelope is of the form
-</p><p align="center"><img src="images/eq-01.png" alt="images/eq-01.png"></p></dd></dl>
+</p><p align="center"><img src="../../source/images/eq-01.png" alt="images/eq-01.png"></p></dd></dl>
 
 <dl>
 <dt><a name="index-qbroad"></a>Dataset: <strong>qbroad</strong></dt>
@@ -2627,7 +2721,7 @@ of the two contributing atoms is uncorrelated. For small distances, however,
 the motion can be strongly correlated leading to a sharpening of the first
 peak(s) in the observed PDF. PDFfit2 provides three different correction terms
 for the PDF peak width. The final width is given by
-</p><p align="center"><img src="images/eq-02.png" alt="images/eq-02.png"></p>
+</p><p align="center"><img src="../../source/images/eq-02.png" alt="images/eq-02.png"></p>
 <p>Here the primed sigma is the peak width without correlation, which is
 computed from the anisotropic displacement parameters.  The first two terms
 correct for the effects of correlated motion. Within the scope of the users
@@ -3030,5 +3124,40 @@ for example &ldquo;12-C&rdquo;.  Deuterium and tritium can be entered also as
  <br>
 
 </p>
+</body>
+</html>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="release.html" class="btn btn-neutral float-left" title="Release Notes" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="api/diffpy.pdfgui.html" class="btn btn-neutral float-right" title="diffpy.pdfgui package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, The Trustees of Columbia University in the City of New York.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
 </body>
 </html>

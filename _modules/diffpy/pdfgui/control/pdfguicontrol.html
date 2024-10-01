@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>diffpy.pdfgui.control.pdfguicontrol &mdash; diffpy.pdfgui 3.1.0rc4 documentation</title>
+  <title>diffpy.pdfgui.control.pdfguicontrol &mdash; diffpy.pdfgui 3.1.0rc5 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=fa44fd50" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=19f00094" />
 
@@ -14,7 +14,7 @@
   
         <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../../../../_static/documentation_options.js?v=6a5857df"></script>
+        <script src="../../../../_static/documentation_options.js?v=c31823b9"></script>
         <script src="../../../../_static/doctools.js?v=9a2dae69"></script>
         <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../_static/js/theme.js"></script>
@@ -34,7 +34,7 @@
             diffpy.pdfgui
           </a>
               <div class="version">
-                3.1.0rc4
+                3.1.0rc5
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
@@ -50,6 +50,7 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../../license.html">License</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../release.html">Release Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../manual.html">Manual</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../api/diffpy.pdfgui.html">Package API</a></li>
 </ul>
 
@@ -95,13 +96,13 @@
 
 <span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">print_function</span>
 
+<span class="kn">import</span> <span class="nn">io</span>
 <span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">pickle</span>
 <span class="kn">import</span> <span class="nn">sys</span>
 <span class="kn">import</span> <span class="nn">threading</span>
 <span class="kn">import</span> <span class="nn">time</span>
-
-<span class="kn">import</span> <span class="nn">six</span>
-<span class="kn">import</span> <span class="nn">six.moves.cPickle</span> <span class="k">as</span> <span class="nn">pickle</span>
+<span class="kn">from</span> <span class="nn">urllib.parse</span> <span class="kn">import</span> <span class="n">quote_plus</span>
 
 <span class="kn">from</span> <span class="nn">diffpy.pdfgui.control.calculation</span> <span class="kn">import</span> <span class="n">Calculation</span>
 <span class="kn">from</span> <span class="nn">diffpy.pdfgui.control.controlerrors</span> <span class="kn">import</span> <span class="n">ControlError</span><span class="p">,</span> <span class="n">ControlFileError</span><span class="p">,</span> <span class="n">ControlTypeError</span>
@@ -110,7 +111,7 @@
 <span class="kn">from</span> <span class="nn">diffpy.pdfgui.control.fitting</span> <span class="kn">import</span> <span class="n">Fitting</span>
 <span class="kn">from</span> <span class="nn">diffpy.pdfgui.control.organizer</span> <span class="kn">import</span> <span class="n">Organizer</span>
 <span class="kn">from</span> <span class="nn">diffpy.pdfgui.control.pdflist</span> <span class="kn">import</span> <span class="n">PDFList</span>
-<span class="kn">from</span> <span class="nn">diffpy.pdfgui.utils</span> <span class="kn">import</span> <span class="n">asunicode</span><span class="p">,</span> <span class="n">quote_plain</span>
+<span class="kn">from</span> <span class="nn">diffpy.pdfgui.utils</span> <span class="kn">import</span> <span class="n">asunicode</span>
 
 
 <div class="viewcode-block" id="PDFGuiControl">
@@ -536,7 +537,7 @@
                     <span class="k">continue</span>
                 <span class="n">fit</span> <span class="o">=</span> <span class="n">Fitting</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
                 <span class="c1"># fitting name stored in rootDict should be quoted</span>
-                <span class="n">rdname</span> <span class="o">=</span> <span class="n">quote_plain</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+                <span class="n">rdname</span> <span class="o">=</span> <span class="n">quote_plus</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
                 <span class="c1"># but let&#39;s also handle old project files</span>
                 <span class="k">if</span> <span class="n">rdname</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">rootDict</span><span class="p">:</span>
                     <span class="n">rdname</span> <span class="o">=</span> <span class="n">name</span>
@@ -594,7 +595,7 @@
             <span class="c1"># fits also contain calculations</span>
             <span class="k">for</span> <span class="n">fit</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">fits</span><span class="p">:</span>
                 <span class="n">name</span> <span class="o">=</span> <span class="n">fit</span><span class="o">.</span><span class="n">name</span>
-                <span class="n">fit</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">z</span><span class="p">,</span> <span class="n">projName</span> <span class="o">+</span> <span class="s2">&quot;/&quot;</span> <span class="o">+</span> <span class="n">quote_plain</span><span class="p">(</span><span class="n">fit</span><span class="o">.</span><span class="n">name</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;/&quot;</span><span class="p">)</span>
+                <span class="n">fit</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">z</span><span class="p">,</span> <span class="n">projName</span> <span class="o">+</span> <span class="s2">&quot;/&quot;</span> <span class="o">+</span> <span class="n">quote_plus</span><span class="p">(</span><span class="n">fit</span><span class="o">.</span><span class="n">name</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;/&quot;</span><span class="p">)</span>
                 <span class="n">fitnames</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">journal</span><span class="p">:</span>
                 <span class="n">z</span><span class="o">.</span><span class="n">writestr</span><span class="p">(</span><span class="n">projName</span> <span class="o">+</span> <span class="s2">&quot;/journal&quot;</span><span class="p">,</span> <span class="n">asunicode</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">journal</span><span class="p">))</span>
@@ -672,7 +673,7 @@
         <span class="kn">from</span> <span class="nn">diffpy.pdffit2</span> <span class="kn">import</span> <span class="n">output</span><span class="p">,</span> <span class="n">redirect_stdout</span>
 
         <span class="k">if</span> <span class="n">output</span><span class="o">.</span><span class="n">stdout</span> <span class="ow">is</span> <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="p">:</span>
-            <span class="n">redirect_stdout</span><span class="p">(</span><span class="n">six</span><span class="o">.</span><span class="n">StringIO</span><span class="p">())</span>
+            <span class="n">redirect_stdout</span><span class="p">(</span><span class="n">io</span><span class="o">.</span><span class="n">StringIO</span><span class="p">())</span>
         <span class="k">return</span></div>
 
 
@@ -684,7 +685,7 @@
 
         <span class="n">txt</span> <span class="o">=</span> <span class="n">output</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">getvalue</span><span class="p">()</span>
         <span class="n">output</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
-        <span class="n">redirect_stdout</span><span class="p">(</span><span class="n">six</span><span class="o">.</span><span class="n">StringIO</span><span class="p">())</span>
+        <span class="n">redirect_stdout</span><span class="p">(</span><span class="n">io</span><span class="o">.</span><span class="n">StringIO</span><span class="p">())</span>
         <span class="k">return</span> <span class="n">txt</span></div>
 </div>
 
@@ -739,7 +740,7 @@
             <span class="n">missedModule</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">err</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
             <span class="k">if</span> <span class="n">missedModule</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;pdfgui.control&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="n">err</span>
-            <span class="n">f</span> <span class="o">=</span> <span class="n">six</span><span class="o">.</span><span class="n">StringIO</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+            <span class="n">f</span> <span class="o">=</span> <span class="n">io</span><span class="o">.</span><span class="n">StringIO</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
             <span class="n">unpickler</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">Unpickler</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
             <span class="n">unpickler</span><span class="o">.</span><span class="n">find_global</span> <span class="o">=</span> <span class="n">_find_global</span>
             <span class="k">return</span> <span class="n">unpickler</span><span class="o">.</span><span class="n">load</span><span class="p">()</span></div>

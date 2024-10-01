@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>diffpy.pdfgui.control.organizer &mdash; diffpy.pdfgui 3.1.0rc4 documentation</title>
+  <title>diffpy.pdfgui.control.organizer &mdash; diffpy.pdfgui 3.1.0rc5 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=fa44fd50" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=19f00094" />
 
@@ -14,7 +14,7 @@
   
         <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../../../../_static/documentation_options.js?v=6a5857df"></script>
+        <script src="../../../../_static/documentation_options.js?v=c31823b9"></script>
         <script src="../../../../_static/doctools.js?v=9a2dae69"></script>
         <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../_static/js/theme.js"></script>
@@ -34,7 +34,7 @@
             diffpy.pdfgui
           </a>
               <div class="version">
-                3.1.0rc4
+                3.1.0rc5
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
@@ -50,6 +50,7 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../../license.html">License</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../release.html">Release Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../manual.html">Manual</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../api/diffpy.pdfgui.html">Package API</a></li>
 </ul>
 
@@ -280,25 +281,25 @@
 <span class="sd">        returns a tree of internal hierachy</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># subpath = projName/myName/</span>
-        <span class="kn">from</span> <span class="nn">diffpy.pdfgui.utils</span> <span class="kn">import</span> <span class="n">unquote_plain</span>
+        <span class="kn">from</span> <span class="nn">urllib.parse</span> <span class="kn">import</span> <span class="n">unquote_plus</span>
 
         <span class="n">subs</span> <span class="o">=</span> <span class="n">subpath</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)</span>
         <span class="n">rootDict</span> <span class="o">=</span> <span class="n">z</span><span class="o">.</span><span class="n">fileTree</span><span class="p">[</span><span class="n">subs</span><span class="p">[</span><span class="mi">0</span><span class="p">]][</span><span class="n">subs</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span>
         <span class="k">if</span> <span class="s2">&quot;structure&quot;</span> <span class="ow">in</span> <span class="n">rootDict</span><span class="p">:</span>
             <span class="k">for</span> <span class="n">strucName</span> <span class="ow">in</span> <span class="n">rootDict</span><span class="p">[</span><span class="s2">&quot;structure&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
-                <span class="n">struc</span> <span class="o">=</span> <span class="n">FitStructure</span><span class="p">(</span><span class="n">unquote_plain</span><span class="p">(</span><span class="n">strucName</span><span class="p">))</span>
+                <span class="n">struc</span> <span class="o">=</span> <span class="n">FitStructure</span><span class="p">(</span><span class="n">unquote_plus</span><span class="p">(</span><span class="n">strucName</span><span class="p">))</span>
                 <span class="n">struc</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">z</span><span class="p">,</span> <span class="n">subpath</span> <span class="o">+</span> <span class="s2">&quot;structure/&quot;</span> <span class="o">+</span> <span class="n">strucName</span> <span class="o">+</span> <span class="s2">&quot;/&quot;</span><span class="p">)</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">struc</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="s2">&quot;dataset&quot;</span> <span class="ow">in</span> <span class="n">rootDict</span><span class="p">:</span>
             <span class="k">for</span> <span class="n">datasetName</span> <span class="ow">in</span> <span class="n">rootDict</span><span class="p">[</span><span class="s2">&quot;dataset&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
-                <span class="n">dataset</span> <span class="o">=</span> <span class="n">FitDataSet</span><span class="p">(</span><span class="n">unquote_plain</span><span class="p">(</span><span class="n">datasetName</span><span class="p">))</span>
+                <span class="n">dataset</span> <span class="o">=</span> <span class="n">FitDataSet</span><span class="p">(</span><span class="n">unquote_plus</span><span class="p">(</span><span class="n">datasetName</span><span class="p">))</span>
                 <span class="n">dataset</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">z</span><span class="p">,</span> <span class="n">subpath</span> <span class="o">+</span> <span class="s2">&quot;dataset/&quot;</span> <span class="o">+</span> <span class="n">datasetName</span> <span class="o">+</span> <span class="s2">&quot;/&quot;</span><span class="p">)</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">dataset</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="s2">&quot;calculation&quot;</span> <span class="ow">in</span> <span class="n">rootDict</span><span class="p">:</span>
             <span class="k">for</span> <span class="n">calcName</span> <span class="ow">in</span> <span class="n">rootDict</span><span class="p">[</span><span class="s2">&quot;calculation&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
-                <span class="n">calc</span> <span class="o">=</span> <span class="n">Calculation</span><span class="p">(</span><span class="n">unquote_plain</span><span class="p">(</span><span class="n">calcName</span><span class="p">))</span>
+                <span class="n">calc</span> <span class="o">=</span> <span class="n">Calculation</span><span class="p">(</span><span class="n">unquote_plus</span><span class="p">(</span><span class="n">calcName</span><span class="p">))</span>
                 <span class="n">calc</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">z</span><span class="p">,</span> <span class="n">subpath</span> <span class="o">+</span> <span class="s2">&quot;calculation/&quot;</span> <span class="o">+</span> <span class="n">calcName</span> <span class="o">+</span> <span class="s2">&quot;/&quot;</span><span class="p">)</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">calc</span><span class="p">)</span>
 
@@ -316,14 +317,14 @@
 <span class="sd">        subpath -- path to its own storage within project file</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># strucs and datasets</span>
-        <span class="kn">from</span> <span class="nn">diffpy.pdfgui.utils</span> <span class="kn">import</span> <span class="n">quote_plain</span>
+        <span class="kn">from</span> <span class="nn">urllib.parse</span> <span class="kn">import</span> <span class="n">quote_plus</span>
 
         <span class="k">for</span> <span class="n">struc</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">strucs</span><span class="p">:</span>
-            <span class="n">struc</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">z</span><span class="p">,</span> <span class="n">subpath</span> <span class="o">+</span> <span class="s2">&quot;structure/&quot;</span> <span class="o">+</span> <span class="n">quote_plain</span><span class="p">(</span><span class="n">struc</span><span class="o">.</span><span class="n">name</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;/&quot;</span><span class="p">)</span>
+            <span class="n">struc</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">z</span><span class="p">,</span> <span class="n">subpath</span> <span class="o">+</span> <span class="s2">&quot;structure/&quot;</span> <span class="o">+</span> <span class="n">quote_plus</span><span class="p">(</span><span class="n">struc</span><span class="o">.</span><span class="n">name</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;/&quot;</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">dataset</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">datasets</span><span class="p">:</span>
-            <span class="n">dataset</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">z</span><span class="p">,</span> <span class="n">subpath</span> <span class="o">+</span> <span class="s2">&quot;dataset/&quot;</span> <span class="o">+</span> <span class="n">quote_plain</span><span class="p">(</span><span class="n">dataset</span><span class="o">.</span><span class="n">name</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;/&quot;</span><span class="p">)</span>
+            <span class="n">dataset</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">z</span><span class="p">,</span> <span class="n">subpath</span> <span class="o">+</span> <span class="s2">&quot;dataset/&quot;</span> <span class="o">+</span> <span class="n">quote_plus</span><span class="p">(</span><span class="n">dataset</span><span class="o">.</span><span class="n">name</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;/&quot;</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">calc</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">calcs</span><span class="p">:</span>
-            <span class="n">calc</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">z</span><span class="p">,</span> <span class="n">subpath</span> <span class="o">+</span> <span class="s2">&quot;calculation/&quot;</span> <span class="o">+</span> <span class="n">quote_plain</span><span class="p">(</span><span class="n">calc</span><span class="o">.</span><span class="n">name</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;/&quot;</span><span class="p">)</span>
+            <span class="n">calc</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">z</span><span class="p">,</span> <span class="n">subpath</span> <span class="o">+</span> <span class="s2">&quot;calculation/&quot;</span> <span class="o">+</span> <span class="n">quote_plus</span><span class="p">(</span><span class="n">calc</span><span class="o">.</span><span class="n">name</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;/&quot;</span><span class="p">)</span>
         <span class="k">return</span></div>
 
 

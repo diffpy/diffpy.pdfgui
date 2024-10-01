@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>diffpy.pdfgui.control.calculation &mdash; diffpy.pdfgui 3.1.0rc4 documentation</title>
+  <title>diffpy.pdfgui.control.calculation &mdash; diffpy.pdfgui 3.1.0rc5 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=fa44fd50" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=19f00094" />
 
@@ -14,7 +14,7 @@
   
         <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../../../../_static/documentation_options.js?v=6a5857df"></script>
+        <script src="../../../../_static/documentation_options.js?v=c31823b9"></script>
         <script src="../../../../_static/doctools.js?v=9a2dae69"></script>
         <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../_static/js/theme.js"></script>
@@ -34,7 +34,7 @@
             diffpy.pdfgui
           </a>
               <div class="version">
-                3.1.0rc4
+                3.1.0rc5
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
@@ -50,6 +50,7 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../../license.html">License</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../release.html">Release Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../manual.html">Manual</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../api/diffpy.pdfgui.html">Package API</a></li>
 </ul>
 
@@ -98,10 +99,11 @@
 
 <span class="kn">import</span> <span class="nn">copy</span>
 <span class="kn">import</span> <span class="nn">math</span>
+<span class="kn">import</span> <span class="nn">pickle</span>
 
 <span class="kn">from</span> <span class="nn">diffpy.pdfgui.control.controlerrors</span> <span class="kn">import</span> <span class="n">ControlConfigError</span><span class="p">,</span> <span class="n">ControlKeyError</span><span class="p">,</span> <span class="n">ControlValueError</span>
 <span class="kn">from</span> <span class="nn">diffpy.pdfgui.control.pdfcomponent</span> <span class="kn">import</span> <span class="n">PDFComponent</span>
-<span class="kn">from</span> <span class="nn">diffpy.pdfgui.utils</span> <span class="kn">import</span> <span class="n">pickle_loads</span><span class="p">,</span> <span class="n">safeCPickleDumps</span>
+<span class="kn">from</span> <span class="nn">diffpy.pdfgui.utils</span> <span class="kn">import</span> <span class="n">safeCPickleDumps</span>
 
 
 <div class="viewcode-block" id="Calculation">
@@ -352,7 +354,7 @@
 
 <span class="sd">        returns a tree of internal hierachy</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">config</span> <span class="o">=</span> <span class="n">pickle_loads</span><span class="p">(</span><span class="n">z</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">subpath</span> <span class="o">+</span> <span class="s2">&quot;config&quot;</span><span class="p">))</span>
+        <span class="n">config</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">z</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">subpath</span> <span class="o">+</span> <span class="s2">&quot;config&quot;</span><span class="p">),</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;latin1&quot;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">rmin</span> <span class="o">=</span> <span class="n">config</span><span class="p">[</span><span class="s2">&quot;rmin&quot;</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">rstep</span> <span class="o">=</span> <span class="n">config</span><span class="p">[</span><span class="s2">&quot;rstep&quot;</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">rmax</span> <span class="o">=</span> <span class="n">config</span><span class="p">[</span><span class="s2">&quot;rmax&quot;</span><span class="p">]</span>

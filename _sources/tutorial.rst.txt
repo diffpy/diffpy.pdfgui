@@ -1,4 +1,4 @@
-.. _quick_start:
+.. _tutorial:
 
 Tutorial
 ########
@@ -13,8 +13,9 @@ Lesson 1: Creating simple fit of Ni PDF
 
 Input files:
 
-* :download:`Ni-xray.gr <../tutorial/Ni-xray.gr>` - experimental X-ray PDF data
-* :download:`Ni.stru <../tutorial/Ni.stru>` - Ni f.c.c. structure in PDFfit format
+- :download:`Ni data <manual_resources/Ni data.zip>` containing:
+    1. Ni-xray.gr - experimental X-ray PDF data
+    2. Ni.stru - Ni f.c.c. structure in PDFfit format
 
 Procedure:
 

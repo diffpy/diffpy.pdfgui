@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>diffpy.pdfgui.gui.mainframe &mdash; diffpy.pdfgui 3.1.0rc4 documentation</title>
+  <title>diffpy.pdfgui.gui.mainframe &mdash; diffpy.pdfgui 3.1.0rc5 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=fa44fd50" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=19f00094" />
 
@@ -14,7 +14,7 @@
   
         <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../../../../_static/documentation_options.js?v=6a5857df"></script>
+        <script src="../../../../_static/documentation_options.js?v=c31823b9"></script>
         <script src="../../../../_static/doctools.js?v=9a2dae69"></script>
         <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../_static/js/theme.js"></script>
@@ -34,7 +34,7 @@
             diffpy.pdfgui
           </a>
               <div class="version">
-                3.1.0rc4
+                3.1.0rc5
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
@@ -50,6 +50,7 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../../license.html">License</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../release.html">Release Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../manual.html">Manual</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../api/diffpy.pdfgui.html">Package API</a></li>
 </ul>
 
@@ -98,6 +99,7 @@
 <span class="sd">&quot;&quot;&quot;This module contains the main window of PDFgui.&quot;&quot;&quot;</span>
 
 <span class="kn">import</span> <span class="nn">os.path</span>
+<span class="kn">from</span> <span class="nn">configparser</span> <span class="kn">import</span> <span class="n">ConfigParser</span>
 
 <span class="kn">import</span> <span class="nn">wx</span>
 <span class="kn">import</span> <span class="nn">wx.aui</span>
@@ -128,7 +130,6 @@
 <span class="kn">from</span> <span class="nn">diffpy.pdfgui.gui.temperatureseriespanel</span> <span class="kn">import</span> <span class="n">TemperatureSeriesPanel</span>
 <span class="kn">from</span> <span class="nn">diffpy.pdfgui.gui.welcomepanel</span> <span class="kn">import</span> <span class="n">WelcomePanel</span>
 <span class="kn">from</span> <span class="nn">diffpy.pdfgui.gui.wxextensions</span> <span class="kn">import</span> <span class="n">wx12</span>
-<span class="kn">from</span> <span class="nn">diffpy.pdfgui.utils</span> <span class="kn">import</span> <span class="n">QuotedConfigParser</span>
 
 <span class="p">(</span><span class="n">PDFCustomEvent</span><span class="p">,</span> <span class="n">EVT_PDFCUSTOM</span><span class="p">)</span> <span class="o">=</span> <span class="n">wx</span><span class="o">.</span><span class="n">lib</span><span class="o">.</span><span class="n">newevent</span><span class="o">.</span><span class="n">NewEvent</span><span class="p">()</span>
 
@@ -382,9 +383,9 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">runningDict</span> <span class="o">=</span> <span class="p">{}</span>
 
         <span class="c1"># The configuration parser for getting configuration data.</span>
-        <span class="c1"># self.cP = QuotedConfigParser()</span>
+        <span class="c1"># self.cP = Configparser()</span>
         <span class="c1"># Long try this to avoid DuplicateSectionError and ParsingError</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">cP</span> <span class="o">=</span> <span class="n">QuotedConfigParser</span><span class="p">(</span><span class="n">strict</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">allow_no_value</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cP</span> <span class="o">=</span> <span class="n">ConfigParser</span><span class="p">(</span><span class="n">strict</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">allow_no_value</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">interpolation</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
 
         <span class="c1"># Set the program mode</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">mode</span> <span class="o">=</span> <span class="s2">&quot;fitting&quot;</span>
@@ -1077,7 +1078,7 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">cP</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">localpath</span><span class="p">)</span>
             <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">pdfguiglobals</span><span class="o">.</span><span class="n">MAXMRU</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">):</span>
                 <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">cP</span><span class="o">.</span><span class="n">has_option</span><span class="p">(</span><span class="s2">&quot;MRU&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)):</span>
-                    <span class="n">filename</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cP</span><span class="o">.</span><span class="n">getquoted</span><span class="p">(</span><span class="s2">&quot;MRU&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
+                    <span class="n">filename</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cP</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;MRU&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
                     <span class="k">if</span> <span class="n">filename</span><span class="p">:</span>
                         <span class="bp">self</span><span class="o">.</span><span class="n">fileHistory</span><span class="o">.</span><span class="n">AddFileToHistory</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
 
@@ -1125,7 +1126,7 @@
 
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fileHistory</span><span class="o">.</span><span class="n">GetCount</span><span class="p">()):</span>
             <span class="n">item</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fileHistory</span><span class="o">.</span><span class="n">GetHistoryFile</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">cP</span><span class="o">.</span><span class="n">setquoted</span><span class="p">(</span><span class="s2">&quot;MRU&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span> <span class="n">item</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">cP</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s2">&quot;MRU&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span> <span class="n">item</span><span class="p">)</span>
 
         <span class="c1"># Window size</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">cP</span><span class="o">.</span><span class="n">has_section</span><span class="p">(</span><span class="s2">&quot;SIZE&quot;</span><span class="p">):</span>
@@ -2792,8 +2793,7 @@
     <span class="k">def</span> <span class="nf">onDocumentation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Show information about the documentation.&quot;&quot;&quot;</span>
         <span class="kn">import</span> <span class="nn">webbrowser</span>
-
-        <span class="kn">from</span> <span class="nn">six.moves.urllib.request</span> <span class="kn">import</span> <span class="n">pathname2url</span>
+        <span class="kn">from</span> <span class="nn">urllib.request</span> <span class="kn">import</span> <span class="n">pathname2url</span>
 
         <span class="n">url</span> <span class="o">=</span> <span class="s2">&quot;file://&quot;</span> <span class="o">+</span> <span class="n">pathname2url</span><span class="p">(</span><span class="n">docMainFile</span><span class="p">)</span>
         <span class="n">webbrowser</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
