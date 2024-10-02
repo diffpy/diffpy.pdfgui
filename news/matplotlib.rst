@@ -16,7 +16,7 @@
 
 **Fixed:**
 
-* use matplotlib isntead of matplotlib-base in run.txt for pip install
+* use matplotlib instead of matplotlib-base in run.txt for pip install
 
 **Security:**
 
