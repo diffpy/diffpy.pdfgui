@@ -16,7 +16,7 @@
 
 **Fixed:**
 
-* Fix absent from setuptools' `packages` configuration warnings during build
+* fix "absent from setuptools' packages configuration" warnings during python -m build
 * use conda.txt instead of run.txt for conda package dependencies
 
 **Security:**
