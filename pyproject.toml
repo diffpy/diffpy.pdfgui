@@ -51,7 +51,7 @@ exclude = []  # exclude packages matching these glob patterns (empty by default)
 namespaces = false  # to disable scanning PEP 420 namespaces (true by default)
 
 [tool.setuptools.dynamic]
-dependencies = {file = ["requirements/run.txt"]}
+dependencies = {file = ["requirements/pip.txt"]}
 
 [tool.black]
 line-length = 115
