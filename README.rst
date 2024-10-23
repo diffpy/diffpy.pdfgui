@@ -102,7 +102,7 @@ and run the following ::
 Getting Started
 ---------------
 
-You may consult our user manual in our `online website <https://www.diffpy.org/products/pdfgui.html>`_ under the Documentation and help section.
+You may consult our user manual on our `online website <https://www.diffpy.org/products/pdfgui.html>`_ under the Documentation and help section.
 
 Support and Contribute
 ----------------------
