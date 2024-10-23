@@ -18,9 +18,10 @@
 #  We do not use the other three variables, but can be added back if needed.
 #  __all__ = ["__date__", "__git_commit__", "__timestamp__", "__version__"]
 
+import os
+import time
+from importlib.metadata import distribution, version
+
 # obtain version information
-from importlib.metadata import version
-
+__date__ = time.ctime(os.path.getctime(distribution("diffpy.pdfgui")._path))
 __version__ = version("diffpy.pdfgui")
-
-# End of file
