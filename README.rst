@@ -102,7 +102,7 @@ and run the following ::
 Getting Started
 ---------------
 
-You may consult our `online documentation <https://diffpy.github.io/diffpy.srmise>`_ for tutorials and API references.
+You may consult our `online documentation <https://diffpy.github.io/diffpy.pdfgui>`_ for tutorials and API references.
 
 Support and Contribute
 ----------------------
