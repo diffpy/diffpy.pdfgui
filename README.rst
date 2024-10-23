@@ -78,14 +78,16 @@ To add "conda-forge" to the conda channels, run the following in a terminal. ::
 We want to install our packages in a suitable conda environment.
 The following creates and activates a new environment named ``diffpy.pdfgui_env`` ::
 
-        conda create -n diffpy.pdfgui_env python=3
+        conda create -n diffpy.pdfgui_env diffpy.pdfgui
         conda activate diffpy.pdfgui_env
 
-Then, to fully install ``diffpy.pdfgui`` in our active environment, run ::
+To confirm that the installation was successful, type ::
 
-        conda install diffpy.pdfgui
+        python -c "import diffpy.pdfgui; print(diffpy.pdfgui.__version__)"
 
-Another option is to use ``pip`` to download and install the latest release from
+The output should print the latest version displayed on the badges above.
+
+If the above does not work, you can use ``pip`` to download and install the latest release from
 `Python Package Index <https://pypi.python.org>`_.
 To install using ``pip`` into your ``diffpy.pdfgui_env`` environment, type ::
 
@@ -96,6 +98,11 @@ If you prefer to install from sources, after installing the dependencies, obtain
 and run the following ::
 
         pip install .
+
+Getting Started
+---------------
+
+You may consult our user manual in our `online website <https://www.diffpy.org/products/pdfgui.html>`_ under the Documentation and help section.
 
 Support and Contribute
 ----------------------
