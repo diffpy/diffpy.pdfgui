@@ -37,7 +37,6 @@ jobs:
           conda install --file requirements/test.txt
           pip install wxpython diffpy.utils matplotlib
           pip install diffpy.pdffit2==1.4.4rc6
-          
           python -m pip install . --no-deps
 
       - name: Start Xvfb
