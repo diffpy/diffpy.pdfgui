@@ -23,7 +23,7 @@ import wx.grid
 
 
 class AutoWidthLabelsGrid(wx.grid.Grid):
-    """wx grid which allows lables auto sizing"""
+    """wx grid which allows labels auto sizing"""
 
     #    def __init__(self, parent, state, size):
     #        wx.grid.Grid.__init__(self, parent, state, size)

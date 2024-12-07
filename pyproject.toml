@@ -56,7 +56,7 @@ dependencies = {file = ["requirements/pip.txt"]}
 [tool.codespell]
 exclude-file = ".codespell/ignore_lines.txt"
 ignore-words = ".codespell/ignore_words.txt"
-skip = "*.cif,*.dat"
+skip = "*.cif,*.dat,*.html,*.m,*.textinfo"
 
 [tool.black]
 line-length = 115

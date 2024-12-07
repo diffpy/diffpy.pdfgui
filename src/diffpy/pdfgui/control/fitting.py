@@ -73,7 +73,7 @@ class Fitting(Organizer):
     Fitting will start a new thread to interact with the PdfFit server.
 
     rw:         fitness parameter
-    tolerancy:  accurancy requirement
+    tolerancy:  accuracy requirement
     step:       current refinement step
     res:        fitting result string
     parameters: parameter dictionary
@@ -200,7 +200,7 @@ class Fitting(Organizer):
         z -- zipped project file
         subpath -- path to its own storage within project file
 
-        returns a tree of internal hierachy
+        returns a tree of internal hierarchy
         """
         # subpath = projName/fitName/
         subs = subpath.split("/")
@@ -349,7 +349,7 @@ class Fitting(Organizer):
             for key, var in struc.constraints.items():
                 self.server.constrain(key, var.formula)
 
-        # phase paramters configured
+        # phase parameters configured
 
         for dataset in self.datasets:
             dataset.clearRefined()
@@ -493,7 +493,7 @@ class Fitting(Organizer):
         return
 
     def outputBondLengthTypes(self, struc, a1, a2, lb, ub):
-        """Output all a1-a2 bond lenghts within specified range.
+        """Output all a1-a2 bond lengths within specified range.
 
         struc  -- instance of PDFStructure
         a1     -- symbol of the first element in pair or "ALL"
@@ -589,7 +589,7 @@ class Fitting(Organizer):
         """build up a data name dictionary, which will map data name to a
         unique index
 
-        The private dataNameDict has such strcture:
+        The private dataNameDict has such structure:
         { 'd_data1':{'Gobs':12, 'Gcalc':11, ....},
           'd_data2':{'Gobs':10, 'Gcalc':9, ....},
           ...
@@ -660,7 +660,7 @@ class Fitting(Organizer):
             snapshot[nameDict["crw"]] = dataset.crw
             seq += 1
 
-        # udpate strucs
+        # update strucs
         seq = 1
         for struc in self.strucs:
             id = struc._getStrId()

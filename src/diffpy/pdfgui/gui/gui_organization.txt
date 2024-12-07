@@ -12,7 +12,7 @@ pdfpanel.py). PDFPanel is a 'mix-in' class that contains variables and methods
 needed by dynamic panels. The most important of these is the refresh() method.
 The dynamic panel's refresh() method is called by MainPanel whenever a given
 dynamic panel is made visible (it becomes the rightPanel). refresh() must be
-redefined in a sublass of PDFPanel otherwise a NotImplementedError will be
+redefined in a subclass of PDFPanel otherwise a NotImplementedError will be
 thrown whenever refresh() is called. MainPanel only calls refresh() for the
 rightPanel, not any of its children. It is up to a dynamic panel to take care of
 its children.
@@ -48,7 +48,7 @@ selected phase in the FitTree. The information must be shared with the
 children by rightPanel (perhaps as part of the refresh() method.)
 
 Objects given to the rightPanel in these cases is as follows.
-_configuration  -   The configuation data for the panel. This is either a
+_configuration  -   The configuration data for the panel. This is either a
                     dictionary or other object that tells how to set up the
                     configuration window.
 _constraints    -   The constraints data for the panel.

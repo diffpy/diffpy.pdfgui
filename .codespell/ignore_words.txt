@@ -9,3 +9,12 @@ socio-economic
 
 ;; Frobenius norm used in np.linalg.norm
 fro
+
+;; abbreviation for "structure"
+struc
+
+;; method name within JournalPanel class
+onText
+
+;; a method name within JournalPanel class
+delt

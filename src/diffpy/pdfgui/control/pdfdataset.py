@@ -229,7 +229,7 @@ class PDFDataSet(PDFComponent):
         if res:
             self.metadata["doping"] = float(res.groups()[0])
 
-        # parsing gerneral metadata
+        # parsing general metadata
         if metadata:
             regexp = r"\b(\w+)\ *=\ *(%(f)s)\b" % rx
             while True:
@@ -374,7 +374,7 @@ class PDFDataSet(PDFComponent):
 
 
 class PDFDataFormatError(Exception):
-    """Exception class marking failure to proccess PDF data string."""
+    """Exception class marking failure to process PDF data string."""
 
     pass
 

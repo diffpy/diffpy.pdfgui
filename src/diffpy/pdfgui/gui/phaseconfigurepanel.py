@@ -39,8 +39,8 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
         structure       -- reference to PDFStructure
         _focusedText    -- value of a cell or textctrl before it changes
         lConstraintsMap -- map of TextCtrl name to parameter name
-        _row            -- row,    where rightclick occured
-        _col            -- column, where rightclick occured
+        _row            -- row,    where rightclick occurred
+        _col            -- column, where rightclick occurred
     """
 
     def __init__(self, *args, **kwds):

@@ -243,7 +243,7 @@ requirements. This can be done either for all atoms in the structure or for an
 arbitrary subset - for example when it is known that only a certain species
 show a local distortion. The code for space group definitions was provided by
 the Python Macromolecular Library (mmLib,
-@url{http://pymmlib.sourceforge.net}).  This was extened to include
+@url{http://pymmlib.sourceforge.net}).  This was extended to include
 non-standard space groups using the Computational Crystallography Toolbox
 (cctbx, @uref{https://cctbx.github.io}).  PDFgui also supports supercell
 expansion of a normal unit cell.

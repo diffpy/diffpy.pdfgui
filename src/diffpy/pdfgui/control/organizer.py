@@ -157,7 +157,7 @@ class Organizer(PDFComponent):
         z -- zipped project file
         subpath -- path to its own storage within project file
 
-        returns a tree of internal hierachy
+        returns a tree of internal hierarchy
         """
         # subpath = projName/myName/
         from urllib.parse import unquote_plus
@@ -223,7 +223,7 @@ class Organizer(PDFComponent):
     def organization(self):
         """get internal organization
 
-        returns a tree of internal hierachy
+        returns a tree of internal hierarchy
         """
         org = [None] * 4
         org[0] = self

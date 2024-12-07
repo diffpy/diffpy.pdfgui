@@ -137,7 +137,7 @@ class Parameter:
         srcfit = self.__findLinkedFitting()
         if srcfit is None:
             raise ControlKeyError("Fitting '%s' does not exist" % fitname)
-        # Check to see if srcfit has paramter srcidx
+        # Check to see if srcfit has parameter srcidx
         try:
             srcpar = srcfit.parameters[srcidx]
         except KeyError:
