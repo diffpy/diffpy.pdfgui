@@ -45,7 +45,7 @@ jobs:
       - name: Install diffpy.pdfgui and requirements
         run: |
           conda install --file requirements/test.txt
-          pip install wxpython diffpy.utils matplotlib
+          conda install wxpython diffpy.utils matplotlib-base
           pip install diffpy.pdffit2==1.4.4rc6
           python -m pip install . --no-deps
 
