@@ -11,7 +11,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  coverage:
+  matrix-coverage:
     uses: Billingegroup/release-scripts/.github/workflows/_matrix-and-codecov-on-merge-to-main.yml@v0
     with:
       project: diffpy.pdfgui

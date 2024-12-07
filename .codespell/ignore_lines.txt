@@ -1,0 +1,2 @@
+;; Please include filenames and explanations for each ignored line.
+;; See https://docs.openverse.org/meta/codespell.html for docs.

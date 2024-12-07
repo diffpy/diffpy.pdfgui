@@ -8,9 +8,11 @@ on:
   workflow_dispatch:
 
 jobs:
-  validate:
+  tests-on-pr:
     uses: Billingegroup/release-scripts/.github/workflows/_tests-on-pr.yml@v0
     with:
       project: diffpy.pdfgui
       c_extension: false
       headless: true
+    secrets:
+      CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
