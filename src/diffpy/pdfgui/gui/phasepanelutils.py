@@ -161,7 +161,7 @@ def showSelectAtomsDialog(panel):
 
     No return value.
     """
-    # do nothing for non-existant or empty structure
+    # do nothing for non-existent or empty structure
     if not panel.structure:
         return
     msg = "\n".join(

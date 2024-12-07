@@ -9,8 +9,52 @@ on:
 
 jobs:
   validate:
-    uses: Billingegroup/release-scripts/.github/workflows/_tests-on-pr.yml@v0
-    with:
-      project: diffpy.pdfgui
-      c_extension: false
-      headless: true
+    defaults:
+      run:
+        shell: bash -l {0}
+
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out diffpy.pdfgui
+        uses: actions/checkout@v4
+
+      - name: Initialize miniconda
+        uses: conda-incubator/setup-miniconda@v3
+        with:
+          activate-environment: test
+          auto-update-conda: true
+          environment-file: environment.yml
+          auto-activate-base: false
+          python-version: 3.12
+
+      - name: Conda config
+        run: >-
+          conda config --set always_yes yes
+          --set changeps1 no
+
+      - name: Install diffpy.pdfgui and requirements
+        run: |
+          conda install --file requirements/test.txt
+          conda install wxpython diffpy.utils matplotlib-base
+          pip install diffpy.pdffit2==1.4.4rc6
+          python -m pip install . --no-deps
+
+      - name: Start Xvfb
+        run: |
+          sudo apt-get install -y xvfb
+          export DISPLAY=:99
+          Xvfb :99 -screen 0 1024x768x16 &
+
+      - name: Validate diffpy.pdfgui
+        run: |
+          export DISPLAY=:99
+          pytest --cov
+          coverage report -m
+          codecov
+
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v4
+        with:
+          verbose: true
+          fail_ci_if_error: true
+          token: ${{ secrets.CODECOV_TOKEN }}

@@ -252,7 +252,7 @@ class Calculation(PDFComponent):
         z       -- zipped project file
         subpath -- path to its own storage within project file
 
-        returns a tree of internal hierachy
+        returns a tree of internal hierarchy
         """
         config = pickle.loads(z.read(subpath + "config"), encoding="latin1")
         self.rmin = config["rmin"]

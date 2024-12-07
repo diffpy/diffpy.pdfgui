@@ -3,7 +3,7 @@
 Copying and Pasting:
 The project is going to allow copying and pasting on all levels of the fit
 tree. By default, when changing the metadata or constraints of a copied
-data set or structure, the change will be local. The same is true of chaning a
+data set or structure, the change will be local. The same is true of changing a
 structure. If, however, many identical copies are selected simultaneously,
 changes will take place to all of them. If many items are highlighted, but are
 not identical, the display only shows information for the first item. If the
@@ -26,6 +26,6 @@ the tree.
 Future Options:
 * Highlight many items, copy from one to all others from right click.
 * Remember history of constraints.
-* Hava a "Link to results" copy option in the right click menu.
+* Have a "Link to results" copy option in the right click menu.
 * Be able to describe a parameter. Hovering over the parameter in the windows
   where it appears will show user's description as a tool tip

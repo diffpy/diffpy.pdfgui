@@ -227,7 +227,7 @@ class MainFrame(wx.Frame):
 
     def __defineLocalIds(self):
         """Several user functions are duplicated many times throughout the gui.
-        This occurrs mostly between the main menu, the right-click menu, and the
+        This occurs mostly between the main menu, the right-click menu, and the
         many buttons in the gui. This method defines local Ids that can be used
         for all of these.
         """
@@ -1217,7 +1217,7 @@ class MainFrame(wx.Frame):
          "dseries" mode:
             * can only select fit items
         """
-        # THIS DOESNT WORK ON WINDOWS!
+        # THIS DOESN'T WORK ON WINDOWS!
         node = event.GetItem()
         if not node:
             return
@@ -1918,7 +1918,7 @@ class MainFrame(wx.Frame):
 
         This also runs calculations that are children of a running fit.
         """
-        # Make sure that the tree is focued. This will trigger the KILL_FOCUS
+        # Make sure that the tree is focused. This will trigger the KILL_FOCUS
         # events of the other panels.
         self.treeCtrlMain.SetFocus()
 
@@ -2164,7 +2164,7 @@ class MainFrame(wx.Frame):
         return
 
     def onCommunity(self, event):
-        """Open the brower and go to the diffpy-users Google Group."""
+        """Open the browser and go to the diffpy-users Google Group."""
         import webbrowser
 
         try:
@@ -2223,7 +2223,7 @@ class MainFrame(wx.Frame):
 
     def onSave(self, event):
         """Save the project to a predetermined location."""
-        # Make sure that the tree is focued. This will trigger the KILL_FOCUS
+        # Make sure that the tree is focused. This will trigger the KILL_FOCUS
         # events of the other panels.
         self.treeCtrlMain.SetFocus()
 
@@ -2239,7 +2239,7 @@ class MainFrame(wx.Frame):
 
     def onSaveAs(self, event):
         """Open a save dialog so the current project can be saved."""
-        # Make sure that the tree is focued. This will trigger the KILL_FOCUS
+        # Make sure that the tree is focused. This will trigger the KILL_FOCUS
         # events of the other panels.
         self.treeCtrlMain.SetFocus()
 
@@ -2334,7 +2334,7 @@ class MainFrame(wx.Frame):
         if d.ShowModal() == wx.ID_OK:
             path = d.GetPath()
             self.workpath, savename = os.path.split(path)
-            # Add the right extention if it doesn't already have it.
+            # Add the right extension if it doesn't already have it.
             if len(savename) < 3 or savename[-3:] != "res":
                 savename += ".res"
             path = os.path.join(self.workpath, savename)
@@ -2397,7 +2397,7 @@ class MainFrame(wx.Frame):
             i = d.GetFilterIndex()
             path = d.GetPath()
             self.workpath, savename = os.path.split(path)
-            # Add the right extention if the file needs it.
+            # Add the right extension if the file needs it.
             if len(savename) < 3 or (extlist[i] and savename[-3:] != extlist[i][-3:]):
                 savename += ".%s" % extlist[i]
             path = os.path.join(self.workpath, savename)
@@ -2443,7 +2443,7 @@ class MainFrame(wx.Frame):
             i = d.GetFilterIndex()
             path = d.GetPath()
             self.workpath, savename = os.path.split(path)
-            # Add the right extention if the file needs it.
+            # Add the right extension if the file needs it.
             if len(savename) < 3 or (extlist[i] and savename[-3:] != extlist[i][-3:]):
                 savename += ".%s" % extlist[i]
             path = os.path.join(self.workpath, savename)
@@ -2479,7 +2479,7 @@ class MainFrame(wx.Frame):
         if d.ShowModal() == wx.ID_OK:
             path = d.GetPath()
             self.workpath, savename = os.path.split(path)
-            # Add the right extention if it doesn't already have it.
+            # Add the right extension if it doesn't already have it.
             if len(savename) < 3 or savename[-3:] != "fgr":
                 savename += ".fgr"
             path = os.path.join(self.workpath, savename)
@@ -2511,7 +2511,7 @@ class MainFrame(wx.Frame):
         if d.ShowModal() == wx.ID_OK:
             path = d.GetPath()
             self.workpath, savename = os.path.split(path)
-            # Add the right extention if it doesn't already have it.
+            # Add the right extension if it doesn't already have it.
             if len(savename) < 3 or savename[-3:] != "cgr":
                 savename += ".cgr"
             path = os.path.join(self.workpath, savename)

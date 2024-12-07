@@ -120,7 +120,7 @@ class DialogAbout(wx.Dialog):
         # setup acknowledgement and copyright text labels
         self.label_acknowledgement.SetLabel(_acknowledgement)
         self.label_copyright.SetLabel(_copyright)
-        # display version and svn revison numbers
+        # display version and svn revision numbers
         verwords = __version__.split(".post", 1)
         version = verwords[0]
         revision = "0" if len(verwords) == 1 else verwords[1]

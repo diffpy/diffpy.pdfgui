@@ -1,0 +1,20 @@
+;; Please include explanations for each ignored word (lowercase).
+;; See https://docs.openverse.org/meta/codespell.html for docs.
+
+;; abbreviation for "materials" often used in a journal title
+mater
+
+;; alternative use of socioeconomic
+socio-economic
+
+;; Frobenius norm used in np.linalg.norm
+fro
+
+;; abbreviation for "structure"
+struc
+
+;; method name within JournalPanel class
+onText
+
+;; a method name within JournalPanel class
+delt

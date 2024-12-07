@@ -233,7 +233,7 @@ class SGConstrainDialog(wx.Dialog, PDFPanel):
         return
 
     def onOk(self, event):  # wxGlade: SGConstrainDialog.<event_handler>
-        # check to see if the space group is consistant
+        # check to see if the space group is consistent
         if not self.structure.isSpaceGroupPossible(self.spacegroup):
             message = "The chosen space group is not consistent\n"
             message += "with the lattice parameters.\n"

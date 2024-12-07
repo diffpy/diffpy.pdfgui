@@ -90,7 +90,7 @@ def _buildStyle(plotter, name, group, yNames):
     name -- what is to be plotted (y name)
     group -- which group the curve is in (group = -1 means it is the only group)
     yNames -- all y to be plotted
-    return: style dictionay
+    return: style dictionary
     """
     if name in ("Gcalc", "Gdiff", "crw"):
         style = plotter.buildLineStyle()
@@ -639,7 +639,7 @@ class Plotter(PDFComponent):
 
 def _exportCompactData(fp, xylist, xynames=None):
     """Write the xylist data in a text format to the file object fp.
-    The curves with the same x are groupped in the same datasets.
+    The curves with the same x are grouped in the same datasets.
     The datasets are marked with "#S 1", "#S 2", etc. labels according
     to the spec format http://www.certif.com/cplot_manual/ch0c_C_11_3.html
 

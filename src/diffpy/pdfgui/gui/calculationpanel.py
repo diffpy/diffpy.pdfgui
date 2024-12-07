@@ -156,7 +156,7 @@ class CalculationPanel(wx.Panel, PDFPanel):
     # USER CONFIGURATION CODE #################################################
 
     def __customProperties(self):
-        """Set up the custom properites."""
+        """Set up the custom properties."""
         self._focusedText = None
         self.calculation = None
         self.stypeMap = {0: "N", 1: "X"}

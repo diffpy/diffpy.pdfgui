@@ -44,7 +44,7 @@ class FitTree(wx12.TreeCtrl):
     _ fit (*)
     |
     |____ phase (5)
-    |____ datset (*)
+    |____ dataset (*)
     |____ calculation (*)
 
     Fits are at the top level. Under fits there are phases, datasets, and
@@ -760,7 +760,7 @@ class FitTree(wx12.TreeCtrl):
         return label
 
     def __InsertBranch(self, cdata, entrypoint, label, insertafter=None, prepend=False):
-        """Instert control data into the tree.
+        """Insert control data into the tree.
 
         cdata       --  The control data that goes with the branch
         entrypoint  --  The subbranch (fit root) to paste into
@@ -859,7 +859,7 @@ class FitTree(wx12.TreeCtrl):
 
         Note that node[1] should be empty if the node is a calculation.
 
-        Returns the last insterted fit or calculation node
+        Returns the last inserted fit or calculation node
         """
         # Clean slate
         if clear:

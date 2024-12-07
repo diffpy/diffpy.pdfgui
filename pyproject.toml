@@ -14,7 +14,7 @@ maintainers = [
 description = "GUI for PDF simulation and structure refinement."
 keywords = ['PDF structure refinement GUI']
 readme = "README.rst"
-requires-python = ">=3.10"
+requires-python = ">=3.11, <3.13"
 classifiers = [
         'Development Status :: 5 - Production/Stable',
         'Environment :: Console',
@@ -25,7 +25,6 @@ classifiers = [
         'Operating System :: Microsoft :: Windows',
         'Operating System :: POSIX',
         'Operating System :: Unix',
-        'Programming Language :: Python :: 3.10',
         'Programming Language :: Python :: 3.11',
         'Programming Language :: Python :: 3.12',
         'Topic :: Scientific/Engineering :: Physics',
@@ -53,6 +52,11 @@ namespaces = false  # to disable scanning PEP 420 namespaces (true by default)
 
 [tool.setuptools.dynamic]
 dependencies = {file = ["requirements/pip.txt"]}
+
+[tool.codespell]
+exclude-file = ".codespell/ignore_lines.txt"
+ignore-words = ".codespell/ignore_words.txt"
+skip = "*.cif,*.dat,*.html,*.m,*.textinfo"
 
 [tool.black]
 line-length = 115

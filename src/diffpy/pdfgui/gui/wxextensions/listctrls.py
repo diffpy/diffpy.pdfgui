@@ -68,7 +68,7 @@ class ColumnSortListCtrl(AutoWidthListCtrl, listmix.ColumnSorterMixin):
     is pressed.
 
     This ListCtrl requires an itemDataMap member dictionary to be initialized
-    before the sorting capabilites can be realized. This dictionary simply references
+    before the sorting capabilities can be realized. This dictionary simply references
     the ListCtrl's entries by a unique number. This number must be stored as the
     ItemData (with SetItemData) of the entry.  The member data must be in the
     form of a tuple, where the tuple has a number of entries as the ListCtrl has

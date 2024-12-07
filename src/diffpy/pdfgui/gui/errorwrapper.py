@@ -110,7 +110,7 @@ def catchObjectErrors(obj, exclude=None):
             instance, which contains information about how and when to display
             errors.
     exclude  -- An iterable of additional function names to exclude.  These are
-            excluded in addtion to names in _EXCLUDED_METHODS defined above.
+            excluded in addition to names in _EXCLUDED_METHODS defined above.
 
     All functions starting with '_' are excluded.
     """

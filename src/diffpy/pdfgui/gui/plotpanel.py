@@ -140,7 +140,7 @@ class PlotPanel(wx.Panel, PDFPanel):
                 xdata.append("step")
                 break
 
-        # index is added if mutiple selections are chosen from different fits
+        # index is added if multiple selections are chosen from different fits
         if len(fits) > 1:
             xdata.append("index")
 

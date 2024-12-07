@@ -225,7 +225,7 @@ class TemperatureSeriesPanel(wx.Panel, PDFPanel):
             rx = {"f": r"(?:\d+(?:\.\d*)?|\d*\.\d+)"}
             # Search for T123, t123, Temp123, temp123, 123k, 123K.
             # Some filenames fool this, e.g. "test1.dat" will match '1' since it
-            # is preceeded by a 't'.
+            # is preceded by a 't'.
             # Is there a better regexp? Probably...
             regexp = (
                 r"""(?:[Tt](?:emp(?:erature)?)?(%(f)s))|

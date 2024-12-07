@@ -44,3 +44,9 @@ repos:
         name: Prevent Commit to Main Branch
         args: ["--branch", "main"]
         stages: [pre-commit]
+  - repo: https://github.com/codespell-project/codespell
+    rev: v2.3.0
+    hooks:
+    - id: codespell
+      additional_dependencies:
+        - tomli

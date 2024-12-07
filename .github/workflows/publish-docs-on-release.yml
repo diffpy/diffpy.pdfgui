@@ -1,9 +1,8 @@
-name: Build and Deploy Docs
+name: Deploy Documentation on Release
 
 on:
   release:
-    types:
-      - published
+    types: [published]
   workflow_dispatch:
 
 jobs:
@@ -12,3 +11,5 @@ jobs:
     with:
       project: diffpy.pdfgui
       c_extension: false
+      headless: true
+      python_version: 3.12

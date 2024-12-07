@@ -12,10 +12,61 @@ on:
 
 jobs:
   coverage:
-    uses: Billingegroup/release-scripts/.github/workflows/_matrix-and-codecov-on-merge-to-main.yml@v0
-    with:
-      project: diffpy.pdfgui
-      c_extension: false
-      headless: true
-    secrets:
-      CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+    defaults:
+      run:
+        shell: bash -l {0}
+
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-13, macos-14]
+        python-version: ["3.11", "3.12"]
+    env:
+          LATEST_PYTHON_VERSION: "3.12"
+    steps:
+      - name: Check out diffpy.pdfgui
+        uses: actions/checkout@v4
+
+      - name: Initialize miniconda
+        uses: conda-incubator/setup-miniconda@v3
+        with:
+          activate-environment: test
+          auto-update-conda: true
+          environment-file: environment.yml
+          auto-activate-base: false
+          python-version: ${{ matrix.python-version }}
+
+      - name: Conda config
+        run: >-
+          conda config --set always_yes yes
+          --set changeps1 no
+
+      - name: Install diffpy.pdfgui and requirements
+        run: |
+          conda install --file requirements/test.txt
+          conda install wxpython diffpy.utils matplotlib-base
+          pip install diffpy.pdffit2==1.4.4rc6
+          python -m pip install . --no-deps
+
+      - name: Start Xvfb for ubuntu-latest only
+        if: matrix.os == 'ubuntu-latest'
+        run: |
+          sudo apt-get install -y xvfb
+          export DISPLAY=:99
+          Xvfb :99 -screen 0 1024x768x16 &
+
+      - name: Validate diffpy.pdfgui
+        run: |
+          if [[ "${{ matrix.os }}" == "ubuntu-latest" ]]; then
+            export DISPLAY=:99
+          fi
+          pytest --cov
+          coverage report -m
+          codecov
+
+      - name: Upload coverage to Codecov
+        if: matrix.os == 'ubuntu-latest' && matrix.python-version == env.LATEST_PYTHON_VERSION
+        uses: codecov/codecov-action@v4
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}

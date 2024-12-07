@@ -35,7 +35,7 @@ class FitStructure(PDFStructure):
     Class data members:
         symposeps   -- tolerance for recognizing site as symmetry position
 
-    Data members (in adition to those in PDFStructure):
+    Data members (in addition to those in PDFStructure):
         owner       -- instance of parent Fitting (set in Organizer.add())
         initial     -- initial structure, same as self
         refined     -- refined structure when available or None

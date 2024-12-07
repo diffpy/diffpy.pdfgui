@@ -1,34 +1,14 @@
-# codecov can find this file anywhere in the repo, so we don't need to clutter
-# the root folder.
-#comment: false
-
-codecov:
-  notify:
-    require_ci_to_pass: no
-
 coverage:
   status:
-    patch:
+    project:  # more options at https://docs.codecov.com/docs/commit-status
       default:
-        target: '70'
-        if_no_uploads: error
-        if_not_found: success
-        if_ci_failed: failure
-    project:
-      default: false
-      library:
-        target: auto
-        if_no_uploads: error
-        if_not_found: success
-        if_ci_failed: error
-        paths: '!*/tests/.*'
+        target: auto # use the coverage from the base commit, fail if coverage is lower
+        threshold: 0%  # allow the coverage to drop by
 
-      tests:
-        target: 97.9%
-        paths: '*/tests/.*'
-        if_not_found: success
-
-flags:
-  tests:
-    paths:
-      - tests/
+comment:
+  layout: " diff, flags, files"
+  behavior: default
+  require_changes: false
+  require_base: false  # [true :: must have a base report to post]
+  require_head: false  # [true :: must have a head report to post]
+  hide_project_coverage: false # [true :: only show coverage on the git diff aka patch coverage]
