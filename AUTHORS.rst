@@ -4,9 +4,10 @@ Authors
 DiffPy was initiated as part of the Distributed Data Analysis of Neutron
 Scattering Experiments (DANSE) project, funded by the National Science
 Foundation under grant DMR-0520547.  More information on DANSE can be
-found at http://danse.us.  Any opinions, findings, and conclusions or
-recommendations expressed in this material are those of the author(s)
-and do not necessarily reflect the views of the NSF.
+found at `DANSE Project Legacy Page <https://www.its.caltech.edu/~matsci/btf/DANSE_web_page.html>`_.
+Any opinions, findings, and conclusions or recommendations expressed
+in this material are those of the author(s) and do not necessarily reflect
+the views of the NSF.
 
 Main Contributors
 -----------------
