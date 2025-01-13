@@ -332,7 +332,7 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
             else:
                 textCtrl.SetEditable(True)
                 # textCtrl.SetBackgroundColour(txtbg)
-                textCtrl.SetBackgroundColour(wx.WHITE)
+                textCtrl.SetBackgroundColour(wx.SystemSettings.GetColour(wx.SYS_COLOUR_GRAYTEXT))
 
         # Now the grid
         rows = self.gridAtoms.GetNumberRows()
