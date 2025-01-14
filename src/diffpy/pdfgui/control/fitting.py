@@ -92,10 +92,10 @@ class Fitting(Organizer):
     PAUSED = 1 << 11
 
     class Worker(threading.Thread):
-        """Worker is the daemon thread of fitting"""
+        """Worker is the daemon thread of fitting."""
 
         def __init__(self, fitting):
-            """Worker ( self, fitting) --> initialize
+            """Worker ( self, fitting) --> initialize.
 
             fitting -- fitting object
             """
@@ -103,7 +103,7 @@ class Fitting(Organizer):
             self.fitting = fitting
 
         def run(self):
-            """overload function from Thread"""
+            """Overload function from Thread."""
             try:
                 self.fitting.run()
             except ControlError as error:
@@ -118,7 +118,7 @@ class Fitting(Organizer):
             return
 
     def __init__(self, name):
-        """initialize
+        """initialize.
 
         name -- name of this fitting
         """
@@ -151,7 +151,7 @@ class Fitting(Organizer):
         self.itemIndex = 0
 
     def __changeStatus(self, fitStatus=None, jobStatus=None):
-        """change current status of fitting
+        """Change current status of fitting.
 
         fitStatus -- new  fitting status
         jobStatus -- new thread status
@@ -165,19 +165,19 @@ class Fitting(Organizer):
                 gui.postEvent(gui.OUTPUT, None)
 
     def _release(self):
-        """release resources"""
+        """Release resources."""
         if self.server:  # server has been allocated, we need free the memory
             self.server.reset()
 
     def _getStrId(self):
-        """make a string identifier
+        """Make a string identifier.
 
         return value: string id
         """
         return "f_" + self.name
 
     def copy(self, other=None):
-        """copy self to other. if other is None, create an instance
+        """Copy self to other. if other is None, create an instance.
 
         other -- ref to other object
         return value: reference to copied object
@@ -195,7 +195,7 @@ class Fitting(Organizer):
         return other
 
     def load(self, z, subpath):
-        """load data from a zipped project file
+        """Load data from a zipped project file.
 
         z -- zipped project file
         subpath -- path to its own storage within project file
@@ -220,7 +220,7 @@ class Fitting(Organizer):
         return Organizer.load(self, z, subpath)
 
     def save(self, z, subpath):
-        """save data from a zipped project file
+        """Save data from a zipped project file.
 
         z       -- zipped project file
         subpath -- path to its own storage within project file
@@ -288,8 +288,8 @@ class Fitting(Organizer):
     def changeParameterIndex(self, oldidx, newidx):
         """Change a parameter index to a new value.
 
-        This will replace all instances of one parameter name with another in
-        the containing fit.
+        This will replace all instances of one parameter name with
+        another in the containing fit.
         """
         # Change the index in the current structure
         for struc in self.strucs:
@@ -314,7 +314,7 @@ class Fitting(Organizer):
         return
 
     def queue(self, enter=True):
-        """queue or dequeue self
+        """Queue or dequeue self.
 
         enter -- True to queue, False to dequeue
         """
@@ -326,7 +326,7 @@ class Fitting(Organizer):
                 self.__changeStatus(jobStatus=Fitting.VOID)
 
     def getServer(self):
-        """get a PDFfit2 instance either locally or remotely"""
+        """Get a PDFfit2 instance either locally or remotely."""
         if self.fitStatus != Fitting.INITIALIZED:
             return
         # create a new instance of calculation server
@@ -336,7 +336,7 @@ class Fitting(Organizer):
         self.__changeStatus(fitStatus=Fitting.CONNECTED)
 
     def configure(self):
-        """configure fitting"""
+        """Configure fitting."""
         if self.fitStatus != Fitting.CONNECTED:
             return
 
@@ -386,7 +386,7 @@ class Fitting(Organizer):
         return
 
     def resetStatus(self):
-        """reset status back to initialized"""
+        """Reset status back to initialized."""
         self.snapshots = []
         self.step = 0
         if self.fitStatus == Fitting.INITIALIZED:
@@ -396,7 +396,7 @@ class Fitting(Organizer):
         self.__changeStatus(fitStatus=Fitting.INITIALIZED)
 
     def run(self):
-        """function to be run in daemon thread."""
+        """Function to be run in daemon thread."""
         # Begin
         self.__changeStatus(jobStatus=Fitting.RUNNING)
         try:
@@ -446,9 +446,9 @@ class Fitting(Organizer):
         return
 
     def outputBondAngle(self, struc, i, j, k):
-        """Output bond angle defined by atoms i, j, k.
-        The angle is calculated using the shortest lengths ji and jk with
-        respect to periodic boundary conditions.
+        """Output bond angle defined by atoms i, j, k. The angle is calculated
+        using the shortest lengths ji and jk with respect to periodic boundary
+        conditions.
 
         struc   -- instance of PDFStructure
         i, j, k -- atom indices starting at 1
@@ -470,8 +470,8 @@ class Fitting(Organizer):
         return
 
     def outputBondLengthAtoms(self, struc, i, j):
-        """Output shortest bond between atoms i, j.
-        Periodic boundary conditions are applied to find the shortest bond.
+        """Output shortest bond between atoms i, j. Periodic boundary
+        conditions are applied to find the shortest bond.
 
         struc   -- instance of PDFStructure
         i, j    -- atom indices starting at 1
@@ -518,7 +518,7 @@ class Fitting(Organizer):
         return
 
     def pause(self, bPause=None):
-        """pause ( self, bPause = None ) --> pause a fitting process
+        """Pause ( self, bPause = None ) --> pause a fitting process.
 
         bPause -- True to pause, False to restart. If None, it will figure out
                 by itself.
@@ -533,7 +533,7 @@ class Fitting(Organizer):
             self.pauseEvent.set()
 
     def start(self):
-        """start fitting"""
+        """Start fitting."""
         # check if paused
         if self.jobStatus == Fitting.PAUSED:
             self.pause(False)
@@ -549,7 +549,7 @@ class Fitting(Organizer):
         self.thread.start()
 
     def stop(self):
-        """stop the fitting"""
+        """Stop the fitting."""
         self.stopped = True
 
         # wake up daemon thread if it is paused
@@ -557,20 +557,20 @@ class Fitting(Organizer):
             self.pause(False)
 
     def isThreadRunning(self):
-        """check if fitting thread is running
+        """Check if fitting thread is running.
 
         return: True if running, False otherwise
         """
         return self.thread is not None and self.thread.is_alive()
 
     def join(self):
-        """wait for current fitting to finish"""
+        """Wait for current fitting to finish."""
         if self.thread:
             self.thread.join()
             self.thread = None
 
     def close(self, force=False):
-        """close up the fitting in order to exit
+        """Close up the fitting in order to exit.
 
         force -- if force to exit
         """
@@ -586,8 +586,8 @@ class Fitting(Organizer):
                 self.thread.join()
 
     def buildNameDict(self):
-        """build up a data name dictionary, which will map data name to a
-        unique index
+        """Build up a data name dictionary, which will map data name to a
+        unique index.
 
         The private dataNameDict has such structure:
         { 'd_data1':{'Gobs':12, 'Gcalc':11, ....},
@@ -636,8 +636,8 @@ class Fitting(Organizer):
         self.dataNameDict = dataNameDict
 
     def appendStep(self, source):
-        """after a refinement step is done, append all data from self to the
-        historical storage, i.e., self.snapshots
+        """After a refinement step is done, append all data from self to the
+        historical storage, i.e., self.snapshots.
 
         source -- where to get the fitted data, in deed it's a PdfFit2 instance
         """
@@ -727,7 +727,7 @@ class Fitting(Organizer):
         return finished
 
     def getYNames(self):
-        """get names of data item which can be plotted as y
+        """Get names of data item which can be plotted as y.
 
         returns a name str list
         """
@@ -736,14 +736,14 @@ class Fitting(Organizer):
         return names
 
     def getXNames(self):
-        """get names of data item which can be plotted as x
+        """Get names of data item which can be plotted as x.
 
         returns a name str list
         """
         return []
 
     def getData(self, name, step=-1):
-        """get self's data member
+        """Get self's data member.
 
         name -- data item name
         step -- step info, it can be:
@@ -763,7 +763,7 @@ class Fitting(Organizer):
         return self._getData(self, name, step)
 
     def getMetaDataNames(self):
-        """return all applicable meta data names"""
+        """Return all applicable meta data names."""
         names = []
         for dataset in self.datasets:
             # build up the name list
@@ -776,7 +776,7 @@ class Fitting(Organizer):
         return names
 
     def getMetaData(self, name):
-        """get meta data value
+        """Get meta data value.
 
         name -- meta data name
         returns meta data value
@@ -787,7 +787,7 @@ class Fitting(Organizer):
             return None
 
     def _getData(self, id, name, step=-1):
-        """get any data member from snapshots
+        """Get any data member from snapshots.
 
         id   -- reference to a Fitting/Calculation/Phase/DataSet object
         name -- data item name

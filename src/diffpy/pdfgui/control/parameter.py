@@ -12,10 +12,8 @@
 # See LICENSE.txt for license information.
 #
 ##############################################################################
-
-"""class Parameter for handling one refined parameter
-To be stored in Fitting.parameters { idx : parameter } dictionary
-"""
+"""Class Parameter for handling one refined parameter To be stored in
+Fitting.parameters { idx : parameter } dictionary."""
 
 from diffpy.pdfgui.control.controlerrors import (
     ControlError,
@@ -27,8 +25,8 @@ from diffpy.pdfgui.control.controlerrors import (
 
 class Parameter:
     """Parameter is class for value and properties of refined parameter.
-    Because the initial value of Parameter may come from another Fitting,
-    it is accessed by setInitial(), initialStr() and initialValue() methods.
+    Because the initial value of Parameter may come from another Fitting, it is
+    accessed by setInitial(), initialStr() and initialValue() methods.
 
     Data members:
         idx       -- integer identifier of this parameter in PdfFit
@@ -44,7 +42,7 @@ class Parameter:
     # fits should reference PDFGuiControl.fits
 
     def __init__(self, idx, initial=0.0):
-        """Initialize new parameter
+        """Initialize new parameter.
 
         idx     -- idx of this parameter in PdfFit
         initial -- optional initial value of the parameter.
@@ -60,7 +58,7 @@ class Parameter:
         return
 
     def setInitial(self, initial):
-        """set initial value to float or refined value from another Fitting.
+        """Set initial value to float or refined value from another Fitting.
 
         initial -- initial value, it can be something convertible to float,
                    Fitting reference or string in "=fitname" or
@@ -153,8 +151,8 @@ class Parameter:
 
     def __findLinkedFitting(self):
         """Private search for linked Fitting by name and by representation.
-        Should be called only when initial value is linked to another
-        Fitting.  Updates self.__initial and self.__fitrepr.
+        Should be called only when initial value is linked to another Fitting.
+        Updates self.__initial and self.__fitrepr.
 
         returns reference to Fitting when found or None
         """

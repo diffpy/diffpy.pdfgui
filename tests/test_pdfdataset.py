@@ -12,9 +12,7 @@
 # See LICENSE.txt for license information.
 #
 ##############################################################################
-
-"""Unit tests for pdfdataset.py
-"""
+"""Unit tests for pdfdataset.py."""
 
 
 import unittest
@@ -55,7 +53,7 @@ class TestPDFDataSet(unittest.TestCase):
     #       return
     #
     def test_read(self):
-        """check PDFDataSet.read()"""
+        """Check PDFDataSet.read()"""
         # neutron data -------------------------------------------------
         fn_550K = datafile("550K.gr")
         self.pdfds.read(fn_550K)
@@ -83,7 +81,7 @@ class TestPDFDataSet(unittest.TestCase):
         return
 
     def test_readStr(self):
-        """check PDFDataSet.readStr()"""
+        """Check PDFDataSet.readStr()"""
         # read Ni xray data, but invalidate the last dGobs
         fx_Ni = datafile("Ni_2-8.chi.gr")
         with open(fx_Ni) as fp:

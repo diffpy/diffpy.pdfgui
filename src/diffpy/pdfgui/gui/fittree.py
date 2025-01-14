@@ -12,7 +12,6 @@
 # See LICENSE.txt for license information.
 #
 ##############################################################################
-
 """This module contains the FitTree object designed for use in PDFgui.
 
 Classes:
@@ -60,7 +59,6 @@ class FitTree(wx12.TreeCtrl):
     control     --  The pdfguicontrol object that interfaces between the tree
                     and the pdffit2 engine. The tree is a mirror of the internal
                     structure of the control.
-
     """
 
     def __init__(
@@ -157,7 +155,8 @@ class FitTree(wx12.TreeCtrl):
     def GetPhases(self, node):
         """Get a list of phase in branch.
 
-        node is either the fit-root or a node in the fit-branch of interest.
+        node is either the fit-root or a node in the fit-branch of
+        interest.
         """
         nodes = self.GetChildren(self.GetFitRoot(node))
         ids = [id for id in nodes if self.GetNodeType(id) == "phase"]
@@ -166,7 +165,8 @@ class FitTree(wx12.TreeCtrl):
     def GetDataSets(self, node):
         """Get a list of datasets in branch.
 
-        node is either the fit-root or a node in the fit-branch of interest.
+        node is either the fit-root or a node in the fit-branch of
+        interest.
         """
         nodes = self.GetChildren(self.GetFitRoot(node))
         ids = [id for id in nodes if self.GetNodeType(id) == "dataset"]
@@ -175,7 +175,8 @@ class FitTree(wx12.TreeCtrl):
     def GetCalculations(self, node):
         """Get a list of calculations in branch.
 
-        node is either the fit-root or a node in the fit-branch of interest.
+        node is either the fit-root or a node in the fit-branch of
+        interest.
         """
         nodes = self.GetChildren(self.GetFitRoot(node))
         ids = [id for id in nodes if self.GetNodeType(id) == "calculation"]
@@ -212,9 +213,9 @@ class FitTree(wx12.TreeCtrl):
     def GetLastPhase(self, node):
         """Get the last phase child of the parent node.
 
-        This method is helpful in placing datasets and phases into the fit tree.
-        This method depends on the fact that phases are placed before datasets
-        in the fit tree.
+        This method is helpful in placing datasets and phases into the
+        fit tree. This method depends on the fact that phases are placed
+        before datasets in the fit tree.
         """
         siblings = self.GetChildren(node)
         lastphase = None
@@ -230,9 +231,9 @@ class FitTree(wx12.TreeCtrl):
     def GetLastDataSet(self, node):
         """Get the last dataset child of the fit node.
 
-        If there is no last dataset node, this may return the last phase node.
-        The purpose of getting this node is to know where to place another node,
-        so the actual node type is not important.
+        If there is no last dataset node, this may return the last phase
+        node. The purpose of getting this node is to know where to place
+        another node, so the actual node type is not important.
         """
         siblings = self.GetChildren(node)
         lastdata = None
@@ -266,10 +267,10 @@ class FitTree(wx12.TreeCtrl):
     def GetPositionInSubtree(self, node):
         """Get the index if the node in its subtree.
 
-        For fits the position is absolute within the tree. For phases, datasets,
-        and calculations, the location is taken to be in reference to the other
-        nodes of its type. This is designed to be compatible with the control
-        center.
+        For fits the position is absolute within the tree. For phases,
+        datasets, and calculations, the location is taken to be in
+        reference to the other nodes of its type. This is designed to be
+        compatible with the control center.
         """
         parent = self.GetItemParent(node)
         brood = self.GetChildren(parent)
@@ -289,10 +290,10 @@ class FitTree(wx12.TreeCtrl):
     def SetControlData(self, node, data):
         """Set the control center data associated with the node.
 
-        This need only be called for 'fit' nodes.
-        This is the "cdata" entry in the data dictionary of the
-        node. It holds the object with which the right panel interfaces. For
-        example, for a 'phase' node, it contains a Structure object.
+        This need only be called for 'fit' nodes. This is the "cdata"
+        entry in the data dictionary of the node. It holds the object
+        with which the right panel interfaces. For example, for a
+        'phase' node, it contains a Structure object.
         """
         nodetype = self.GetNodeType(node)
         if nodetype != "fit":
@@ -562,8 +563,8 @@ class FitTree(wx12.TreeCtrl):
     def CopyBranch(self, startnode):
         """Make a copy of a tree branch.
 
-        The branch is held in the system clipboard so it can be used in another
-        instance of the fittree.
+        The branch is held in the system clipboard so it can be used in
+        another instance of the fittree.
         """
         nodetype = self.GetNodeType(startnode)
         cdata = self.control.copy(self.GetControlData(startnode))
@@ -586,8 +587,8 @@ class FitTree(wx12.TreeCtrl):
     def GetClipboard(self):
         """Get the clipboard data.
 
-        Returns the controldata in the clipboard, or None if the clipboard is
-        empty or contains the wrong type of data.
+        Returns the controldata in the clipboard, or None if the
+        clipboard is empty or contains the wrong type of data.
         """
         # Check to see if data is present
         if not wx.TheClipboard.IsSupported(wx.DataFormat(wx.DF_TEXT)):
@@ -915,9 +916,8 @@ class FitTreeError(ControlError):
 
 # Utility functions
 def incrementName(name, namelist, start=1):
-    """Increment the name by assigning the lowest number to the end such
-    that the name does not appear in the namelist.
-    """
+    """Increment the name by assigning the lowest number to the end such that
+    the name does not appear in the namelist."""
     newname = name
     match = r"\d+$"
     counter = start

@@ -12,7 +12,6 @@
 # See LICENSE.rst for license information.
 #
 ##############################################################################
-
 """Definition of __version__."""
 
 #  We do not use the other three variables, but can be added back if needed.

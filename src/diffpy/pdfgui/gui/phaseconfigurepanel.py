@@ -290,7 +290,8 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
     onTextCtrlKey = textCtrlAsGridCell
 
     def _cache(self):
-        """Cache the current structure and constraints for future comparison."""
+        """Cache the current structure and constraints for future
+        comparison."""
         pass
 
     __this_is_first_refresh = True
@@ -633,7 +634,7 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
     # Grid popup menu and handlers
 
     def popupMenu(self, window, x, y):
-        """Creates the popup menu
+        """Creates the popup menu.
 
         window  --  window, where to popup a menu
         x       --  x coordinate

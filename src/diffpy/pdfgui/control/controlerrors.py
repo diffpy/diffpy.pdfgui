@@ -15,10 +15,10 @@
 
 
 class ControlError(Exception):
-    """Basic PDFGuiControl exception class"""
+    """Basic PDFGuiControl exception class."""
 
     def __init__(self, info):
-        """initialize
+        """initialize.
 
         info -- description string
         """
@@ -30,61 +30,63 @@ class ControlError(Exception):
 
 
 class ControlConfigError(ControlError):
-    """PDFGuiControl exception class -- object config is invalid"""
+    """PDFGuiControl exception class -- object config is invalid."""
 
     pass
 
 
 class ControlFileError(ControlError):
-    """PDFGuiControl exception class -- object config is invalid"""
+    """PDFGuiControl exception class -- object config is invalid."""
 
     pass
 
 
 class ControlKeyError(ControlError):
-    """PDFGuiControl exception class -- requested object can't be found"""
+    """PDFGuiControl exception class -- requested object can't be found."""
 
     pass
 
 
 class ControlValueError(ControlError):
-    """PDFGuiControl exception class -- Invalid value"""
+    """PDFGuiControl exception class -- Invalid value."""
 
     pass
 
 
 class ControlTypeError(ControlError):
-    """PDFGuiControl exception class -- Type mismatch"""
+    """PDFGuiControl exception class -- Type mismatch."""
 
     pass
 
 
 class ControlStatusError(ControlError):
-    """PDFGuiControl exception class -- Fitting status doesn't match"""
+    """PDFGuiControl exception class -- Fitting status doesn't match."""
 
     pass
 
 
 class ControlRuntimeError(ControlError):
-    """PDFGuiControl exception class -- various irrecoverable runtime error"""
+    """PDFGuiControl exception class -- various irrecoverable runtime error."""
 
     pass
 
 
 class ControlIndexError(ControlError):
-    """PDFGuiControl exception class -- index out of bound"""
+    """PDFGuiControl exception class -- index out of bound."""
 
     pass
 
 
 class ControlSyntaxError(ControlError):
-    """PDFGuiControl exception class -- invalid syntax of constraint formula"""
+    """PDFGuiControl exception class -- invalid syntax of constraint
+    formula."""
 
     pass
 
 
 class TempControlSelectError(ControlError):
-    """Temporary define this error to identify the select-control error in python3"""
+    """Temporary define this error to identify the select-control error in
+    python3."""
 
     pass
 

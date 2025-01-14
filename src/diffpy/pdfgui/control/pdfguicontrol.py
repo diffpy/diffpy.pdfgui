@@ -34,13 +34,14 @@ from diffpy.pdfgui.utils import asunicode
 
 
 class PDFGuiControl:
-    """PDFGuiControl holds all the data GUI needs to access or change
-    It has a container of Calculation and Fitting instances.
+    """PDFGuiControl holds all the data GUI needs to access or change It has a
+    container of Calculation and Fitting instances.
+
     Each Calculation and Fitting has a unique name.
     """
 
     def __init__(self, gui=None):
-        """initialize
+        """initialize.
 
         gui: main panel of GUI
         """
@@ -57,7 +58,7 @@ class PDFGuiControl:
         # self.startQueue()
 
     def reset(self):
-        """clean up for a new project"""
+        """Clean up for a new project."""
         self.fits = PDFList()
         self.plots = PDFList()
         self.journal = ""
@@ -88,12 +89,12 @@ class PDFGuiControl:
                 time.sleep(1)
 
     def startQueue(self):
-        """start queue manager"""
+        """Start queue manager."""
         self.queueManager.daemon = True
         self.queueManager.start()
 
     def checkQueue(self):
-        """find next fitting in the queue and start it"""
+        """Find next fitting in the queue and start it."""
         if self.currentFitting:
             # wait for currentFitting
             self.currentFitting.join()
@@ -112,7 +113,7 @@ class PDFGuiControl:
         self.currentFitting.start()
 
     def enqueue(self, fits, enter=True):
-        """enqueue or dequeue fittings
+        """Enqueue or dequeue fittings.
 
         fits -- list of fittings to be queued/dequeued
         enter -- True to queue, False to dequeue
@@ -144,7 +145,7 @@ class PDFGuiControl:
             self.lock.release()
 
     def close(self, force=True):
-        """close a project
+        """Close a project.
 
         force -- if exit forciably
         """
@@ -157,13 +158,13 @@ class PDFGuiControl:
         self.reset()
 
     def exit(self):
-        """exit when program finished"""
+        """Exit when program finished."""
         self.close()
         if self.queueManager.is_alive():
             self.queueManager.running = False
 
     def newFitting(self, name, position=None):
-        """insert a new instance of Fitting
+        """Insert a new instance of Fitting.
 
         name      --  unique name for this Fitting
         position  --  where Fitting is inserted, default is last place
@@ -175,7 +176,7 @@ class PDFGuiControl:
         return fitting
 
     def newCalculation(self, targetID, name, position=None):
-        """insert a new instance of Calculation to a Fitting
+        """Insert a new instance of Calculation to a Fitting.
 
         targetID  --  reference to Fitting
         name      --  unique name for this Calculation
@@ -189,7 +190,7 @@ class PDFGuiControl:
         return calculation
 
     def newStructure(self, targetID, name, position=None):
-        """add blank structure to a Fitting
+        """Add blank structure to a Fitting.
 
         targetID  --  reference to Fitting
         name      --  name of the new Structure
@@ -205,7 +206,7 @@ class PDFGuiControl:
         return struct
 
     def loadStructure(self, targetID, filename, name=None, position=None):
-        """add blank structure to a Fitting
+        """Add blank structure to a Fitting.
 
         targetID  --  reference to Fitting
         name      --  name of the new Structure, default is file basename
@@ -223,7 +224,7 @@ class PDFGuiControl:
         return struct
 
     def loadDataset(self, targetID, filename, name=None, position=None):
-        """load Dataset from a file to a Fitting
+        """Load Dataset from a file to a Fitting.
 
         targetID  --  reference to Fitting
         name      --  name of the new Dataset, default is file basename
@@ -243,7 +244,7 @@ class PDFGuiControl:
         return dataset
 
     def add(self, ID, position=None):
-        """add fitting/calculation to internal list
+        """Add fitting/calculation to internal list.
 
         Id -- reference to the object to be inserted
         position  --  where the object is to be inserted, default is last
@@ -259,7 +260,7 @@ class PDFGuiControl:
         return ID
 
     def __findOwner(self, ID):
-        """find where the ID belongs
+        """Find where the ID belongs.
 
         ID -- object which can be Fitting,Calculation,FitDataSet or FitStructure
         return: a PDFList holding that object
@@ -273,8 +274,7 @@ class PDFGuiControl:
                 raise ControlTypeError("Object %s doesn't exit in the list" % ID.name)
 
     def rename(self, ID, new_name):
-        """rename Fitting, Calculation, Dataset or Structure
-        identified by ID
+        """Rename Fitting, Calculation, Dataset or Structure identified by ID.
 
         ID:       reference to the object to be renamed
         new_name: new name to be given to the object
@@ -283,8 +283,7 @@ class PDFGuiControl:
         container.rename(ID, new_name)
 
     def remove(self, ID):
-        """remove Fitting, Calculation, Dataset or Structure
-        identified by ID
+        """Remove Fitting, Calculation, Dataset or Structure identified by ID.
 
         ID:     reference to the object to be removed
         return: removed object
@@ -294,7 +293,7 @@ class PDFGuiControl:
         return ID
 
     def index(self, ID):
-        """return position index of an object in its owner list
+        """Return position index of an object in its owner list.
 
         ID  --  ID of object
         return: index
@@ -303,7 +302,7 @@ class PDFGuiControl:
         return container.index(ID)
 
     def copy(self, src):
-        """copy src object
+        """Copy src object.
 
         src -- reference to the source object
         return: reference to the copy
@@ -312,8 +311,8 @@ class PDFGuiControl:
         return newObject
 
     def paste(self, dup, target=None, new_name=None, position=None):
-        """paste copied object to target under new_name, the default new_name
-        will be name of src
+        """Paste copied object to target under new_name, the default new_name
+        will be name of src.
 
         dup -- reference to the copied object
         target -- target object where the copy should be inserted
@@ -334,13 +333,13 @@ class PDFGuiControl:
         return o
 
     def load(self, projfile):
-        """load project from projfile.
+        """Load project from projfile.
 
         projfile -- a zip file of everything
         """
 
         def _nameParser(namelist):
-            """parse the zipfile name list to get a file tree"""
+            """Parse the zipfile name list to get a file tree."""
             fileTree = {}
             for name in namelist:
                 subs = name.split("/")
@@ -418,14 +417,14 @@ class PDFGuiControl:
         return organizations
 
     def save(self, projfile=None):
-        """Save project to projfile, default projfile is self.projfile
+        """Save project to projfile, default projfile is self.projfile.
 
         This method first writes to a temporary file and only when
-        successful, it overwrites projfile with the temporary file content.
-        These steps prevent corruption of existing projects should
-        something go wrong in the middle of save.  As an added benefit,
-        all permissions and ownership flags in an existing projfile
-        are preserved.
+        successful, it overwrites projfile with the temporary file
+        content. These steps prevent corruption of existing projects
+        should something go wrong in the middle of save.  As an added
+        benefit, all permissions and ownership flags in an existing
+        projfile are preserved.
         """
         if projfile is not None:
             self.projfile = projfile
@@ -472,7 +471,7 @@ class PDFGuiControl:
         return
 
     def plot(self, xItem, yItems, Ids, shift=1.0, dry=False):
-        """Make a 2D plot
+        """Make a 2D plot.
 
         xItem --  x data item name
         yItems -- list of y data item names
@@ -487,7 +486,7 @@ class PDFGuiControl:
         self.plots.append(plotter)
 
     def start(self, IDlist):
-        """execute Calculations and Fittings in IDlist."""
+        """Execute Calculations and Fittings in IDlist."""
         self.redirectStdout()
         fits = [ID for ID in IDlist if isinstance(ID, Fitting)]
         # only add calcs which is not in fits, because fits will automatically run calcs under it anyway
@@ -497,14 +496,14 @@ class PDFGuiControl:
         self.enqueue(fits)
 
     def stop(self):
-        """stop all Fittings"""
+        """Stop all Fittings."""
         self.enqueue(self.fits, False)
         for id in self.fits:
             if isinstance(id, Fitting):
                 id.stop()
 
     def __validateType(self, targetID):
-        """check if targetID is a Fitting class"""
+        """Check if targetID is a Fitting class."""
         if not isinstance(targetID, Organizer):
             raise ControlTypeError("Can't insert to %s" % self.__class__.__name__)
 
@@ -533,7 +532,7 @@ _pdfguicontrol = None
 
 
 def pdfguicontrol(*args, **kwargs):
-    """This function will return the single instance of class PDFGuiControl"""
+    """This function will return the single instance of class PDFGuiControl."""
     global _pdfguicontrol
     if _pdfguicontrol is None:
         _pdfguicontrol = PDFGuiControl(*args, **kwargs)
@@ -557,10 +556,11 @@ def _find_global(moduleName, clsName):
 
 class CtrlUnpickler:
     """Occasionally the project file may be generated on a platform where
-    PYTHONPATH is not correctly set up. CtrlUnpickler will transform the
-    module path in the project file to be relative to diffpy so that it can
-    be safely loaded. Only constraints and parameters need this class to un-
-    pickle.
+    PYTHONPATH is not correctly set up.
+
+    CtrlUnpickler will transform the module path in the project file to
+    be relative to diffpy so that it can be safely loaded. Only
+    constraints and parameters need this class to un- pickle.
     """
 
     @staticmethod

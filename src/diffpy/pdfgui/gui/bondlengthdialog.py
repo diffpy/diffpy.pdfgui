@@ -141,8 +141,8 @@ class BondLengthDialog(wx.Dialog):
     def setStructure(self, structure):
         """Set the structure and update the widgets.
 
-        This must be called before the spin control boxes will be settable to
-        anything other than 1.
+        This must be called before the spin control boxes will be
+        settable to anything other than 1.
         """
         self.okButton.Enable(True)
 

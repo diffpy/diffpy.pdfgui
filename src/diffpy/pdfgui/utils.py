@@ -12,7 +12,6 @@
 # See LICENSE.txt for license information.
 #
 ##############################################################################
-
 """Small shared routines:
     numericStringSort   -- sort list of strings according to numeric value
     safeCPickleDumps    -- same as pickle.dumps, but safe for NaN and Inf
@@ -20,9 +19,9 @@
 
 
 def numericStringSort(lst):
-    """Sort list of strings inplace according to general numeric value.
-    Each string gets split to string and integer segments to create keys
-    for comparison.  Signs, decimal points and exponents are ignored.
+    """Sort list of strings inplace according to general numeric value. Each
+    string gets split to string and integer segments to create keys for
+    comparison.  Signs, decimal points and exponents are ignored.
 
     lst  -- sorted list of strings
 

@@ -18,14 +18,14 @@ class PDFComponent(object):
     """Common base class."""
 
     def __init__(self, name):
-        """initialize
+        """initialize.
 
         name -- object name
         """
         self.name = name
 
     def close(self, force=False):
-        """close myself
+        """Close myself.
 
         force -- if forcibly (no wait)
         """

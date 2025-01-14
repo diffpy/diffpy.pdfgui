@@ -12,9 +12,7 @@
 # See LICENSE.txt for license information.
 #
 ##############################################################################
-
-"""Unit tests for tui.py
-"""
+"""Unit tests for tui.py."""
 
 
 import unittest
@@ -49,13 +47,13 @@ class TestLoadProject(GUITestCase):
         return
 
     def test___init__(self):
-        """check LoadProject.__init__()"""
+        """Check LoadProject.__init__()"""
         self.assertEqual(1, len(self.prj_ni.getFits()))
         self.assertRaises(ControlFileError, LoadProject, "does/not/exist.ddp")
         return
 
     def test_getFits(self):
-        """check LoadProject.getFits()"""
+        """Check LoadProject.getFits()"""
         lcmofits = self.prj_lcmo.getFits()
         lcmofullfits = self.prj_lcmo_full.getFits()
         self.assertEqual(1, len(lcmofits))
@@ -66,7 +64,7 @@ class TestLoadProject(GUITestCase):
         return
 
     def test_getDataSets(self):
-        """check LoadProject.getDataSets()"""
+        """Check LoadProject.getDataSets()"""
         lcmofullfits = self.prj_lcmo_full.getFits()
         datasets = self.prj_lcmo_full.getDataSets()
         self.assertEqual(10, len(datasets))
@@ -77,7 +75,7 @@ class TestLoadProject(GUITestCase):
         return
 
     def test_getPhases(self):
-        """check LoadProject.getPhases()"""
+        """Check LoadProject.getPhases()"""
         lcmofullfits = self.prj_lcmo_full.getFits()
         phases = self.prj_lcmo_full.getPhases()
         self.assertAlmostEqual(5.53884, phases[0].refined.lattice.a, 4)
@@ -88,7 +86,7 @@ class TestLoadProject(GUITestCase):
         return
 
     def test_getTemperatures(self):
-        """check LoadProject.getTemperatures()"""
+        """Check LoadProject.getTemperatures()"""
         temps = self.prj_lcmo_full.getTemperatures()
         self.assertEqual(10, len(temps))
         self.assertEqual(300, temps[0])
@@ -99,7 +97,7 @@ class TestLoadProject(GUITestCase):
         return
 
     def test_getDopings(self):
-        """check LoadProject.getDopings()"""
+        """Check LoadProject.getDopings()"""
         dopings = self.prj_lcmo_full.getDopings()
         self.assertEqual(10 * [None], dopings)
         datasets3 = self.prj_lcmo_full.getDataSets()[:3]

@@ -12,9 +12,7 @@
 # See LICENSE.txt for license information.
 #
 ##############################################################################
-
-"""class Calculation for performing PDF simulation from model structure.
-"""
+"""Class Calculation for performing PDF simulation from model structure."""
 
 import copy
 import math
@@ -51,7 +49,7 @@ class Calculation(PDFComponent):
     """
 
     def __init__(self, name):
-        """initialize Calculation
+        """Initialize Calculation.
 
         name -- calculation name
         """
@@ -71,15 +69,15 @@ class Calculation(PDFComponent):
         return
 
     def _getStrId(self):
-        """make a string identifier
+        """Make a string identifier.
 
         return value: string id
         """
         return "c_" + self.name
 
     def setRGrid(self, rmin=None, rstep=None, rmax=None):
-        """Change specified r-grid parameters (rmin, rstep, rmax).
-        Adjust rmax for integer number of steps.
+        """Change specified r-grid parameters (rmin, rstep, rmax). Adjust rmax
+        for integer number of steps.
 
         rmin  -- new low rcalc boundary
         rstep -- new r-grid step
@@ -120,7 +118,7 @@ class Calculation(PDFComponent):
         return
 
     def start(self):
-        """entry function for calculation"""
+        """Entry function for calculation."""
         from diffpy.pdfgui.control.fitting import getEngineExceptions, handleEngineException
 
         try:
@@ -137,7 +135,7 @@ class Calculation(PDFComponent):
         return
 
     def calculate(self):
-        """do the real calculation"""
+        """Do the real calculation."""
         # clean up old results
         self.rcalc = []
         self.Gcalc = []
@@ -188,7 +186,7 @@ class Calculation(PDFComponent):
         self.Gcalc = server.getpdf_fit()
 
     def write(self, filename):
-        """write this calculated PDF to a file
+        """Write this calculated PDF to a file.
 
         filename -- name of file to write to
 
@@ -247,7 +245,7 @@ class Calculation(PDFComponent):
         return datastring
 
     def load(self, z, subpath):
-        """load data from a zipped project file
+        """Load data from a zipped project file.
 
         z       -- zipped project file
         subpath -- path to its own storage within project file
@@ -270,7 +268,7 @@ class Calculation(PDFComponent):
         return
 
     def save(self, z, subpath):
-        """save data from a zipped project file
+        """Save data from a zipped project file.
 
         z       -- zipped project file
         subpath -- path to its own storage within project file
@@ -292,7 +290,7 @@ class Calculation(PDFComponent):
         return
 
     def copy(self, other=None):
-        """copy self to other. if other is None, create new instance
+        """Copy self to other. if other is None, create new instance.
 
         other -- reference to other object
 
@@ -324,7 +322,7 @@ class Calculation(PDFComponent):
         return other
 
     def getYNames(self):
-        """get names of data item which can be plotted as y
+        """Get names of data item which can be plotted as y.
 
         returns a name str list
         """
@@ -333,7 +331,7 @@ class Calculation(PDFComponent):
         ]
 
     def getXNames(self):
-        """get names of data item which can be plotted as x
+        """Get names of data item which can be plotted as x.
 
         returns a name str list
         """
@@ -342,7 +340,7 @@ class Calculation(PDFComponent):
         ]
 
     def getData(self, dataname, step=None):
-        """get Calculation data member
+        """Get Calculation data member.
 
         name -- data item name
         step -- ignored, just for compatibility with Organizer.getData()
@@ -355,12 +353,12 @@ class Calculation(PDFComponent):
         return self.__dict__[dataname]
 
     def getMetaDataNames(self):
-        """return all applicable meta data names"""
+        """Return all applicable meta data names."""
         # FIXME: Currently we haven't thought about this
         return []
 
     def getMetaData(self, name):
-        """get meta data value
+        """Get meta data value.
 
         name -- meta data name
         returns meta data value

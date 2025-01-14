@@ -12,10 +12,7 @@
 # See LICENSE.txt for license information.
 #
 ##############################################################################
-
-"""
-Unit tests for the MainFrame class.
-"""
+"""Unit tests for the MainFrame class."""
 
 import unittest
 

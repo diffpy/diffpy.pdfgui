@@ -177,7 +177,10 @@ class AddDataPanel(wx.Panel, PDFPanel):
         return
 
     def onCancel(self, event):  # wxGlade: AddDataPanel.<event_handler>
-        """Cancel this addition. Go back to the last panel."""
+        """Cancel this addition.
+
+        Go back to the last panel.
+        """
         if self.entrypoint is None:
             return
         self.mainFrame.setMode("fitting")

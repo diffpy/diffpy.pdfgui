@@ -21,9 +21,9 @@ from diffpy.pdfgui.gui.errorwrapper import catchObjectErrors
 class PDFPanel(object):
     """Mix-in class for all PDF gui panels.
 
-    This method is meant to be a secondary parent class for classed derived from
-    wx.Panel. It defines methods and member variables necessary to all panels in
-    the PDFgui.
+    This method is meant to be a secondary parent class for classed
+    derived from wx.Panel. It defines methods and member variables
+    necessary to all panels in the PDFgui.
     """
 
     def __init__(self, *args, **kwds):
@@ -47,9 +47,10 @@ class PDFPanel(object):
         raise NotImplementedError("refresh() must be implemented in subclass")
 
     def setToolTips(self, toolTips):
-        """Sets tooltips for controls
+        """Sets tooltips for controls.
 
-        @param toolTips: dictionary of the form {'controlname' : 'tooltip'}
+        @param toolTips: dictionary of the form {'controlname' :
+        'tooltip'}
         """
         for controlName, tooltip in toolTips.items():
             control = getattr(self, controlName)

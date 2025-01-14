@@ -2,9 +2,10 @@
 
 """Extract the shortest Mn-O bond lengths from all fits in PDFgui project.
 
-This script loops through all refined phases in PDFgui project and calculates
-their shortest Mn-O bond lengths using diffpy.pdffit2 library.  The results
-are plotted versus temperature and saved to "mno-bond-lengths.dat" file.
+This script loops through all refined phases in PDFgui project and
+calculates their shortest Mn-O bond lengths using diffpy.pdffit2
+library.  The results are plotted versus temperature and saved to "mno-
+bond-lengths.dat" file.
 """
 
 import pylab
@@ -32,7 +33,7 @@ pf = PdfFit()
 
 
 def shortestBond_MnO(stru):
-    """extract the shortest MnO bond length in a structure.
+    """Extract the shortest MnO bond length in a structure.
 
     stru -- initial or refined phase from a PDFgui project
 

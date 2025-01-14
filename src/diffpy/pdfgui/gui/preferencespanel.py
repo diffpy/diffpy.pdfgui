@@ -124,7 +124,10 @@ class PreferencesPanel(wx.Panel, PDFPanel):
         return
 
     def onCancel(self, event):  # wxGlade: PreferencesPanel.<event_handler>
-        """Cancel the changes. Go back to the last panel."""
+        """Cancel the changes.
+
+        Go back to the last panel.
+        """
         selections = self.treeCtrlMain.GetSelections()
         if selections:
             node = selections[0]

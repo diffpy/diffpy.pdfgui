@@ -145,8 +145,7 @@ class ErrorReportDialog(wx.Dialog):
         wx.Dialog.ShowModal(self)
 
     def onGoogle(self, event):  # wxGlade: ErrorReportDialog.<event_handler>
-        """
-        Handle the "Google This Error" button.
+        """Handle the "Google This Error" button.
 
         Search for path-independent module and function names and for
         error message extracted from exception traceback.
@@ -185,8 +184,7 @@ class ErrorReportDialog(wx.Dialog):
 
 
 def _extractSearchTerms(tbtext):
-    """
-    Extract search words from a Python exception traceback.
+    """Extract search words from a Python exception traceback.
 
     Parameters
     ----------

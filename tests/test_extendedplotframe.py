@@ -12,10 +12,7 @@
 # See LICENSE.txt for license information.
 #
 ##############################################################################
-
-"""
-Unit tests for the ExtendedPlotFrame class.
-"""
+"""Unit tests for the ExtendedPlotFrame class."""
 
 import unittest
 

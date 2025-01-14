@@ -12,9 +12,7 @@
 # See LICENSE.txt for license information.
 #
 ##############################################################################
-
-"""Unit tests for constraint.py
-"""
+"""Unit tests for constraint.py."""
 
 
 import unittest
@@ -25,14 +23,14 @@ from diffpy.pdfgui.control.controlerrors import ControlSyntaxError
 
 ##############################################################################
 class TestConstraint(unittest.TestCase):
-    """test methods of TestConstraint"""
+    """Test methods of TestConstraint."""
 
     def setUp(self):
         self.c = Constraint("@1")
         return
 
     def test___init__(self):
-        """check Constraint.__init__()"""
+        """Check Constraint.__init__()"""
         self.assertTrue(1 in self.c.parguess)
         self.assertEqual(1, len(self.c.parguess))
         c1 = Constraint("2*@2 + 3.0", 13.0)
@@ -41,14 +39,14 @@ class TestConstraint(unittest.TestCase):
         return
 
     def test_guess(self):
-        """check Constraint.guess()"""
+        """Check Constraint.guess()"""
         self.c.guess(9)
         self.assertEqual(1, len(self.c.parguess))
         self.assertEqual(9, self.c.parguess[1])
         return
 
     def test___setattr__(self):
-        """check Constraint.__setattr__()"""
+        """Check Constraint.__setattr__()"""
         self.c.guess(9)
         self.c.formula = "9*@7 +18"
         self.assertEqual(1, len(self.c.parguess))
@@ -60,7 +58,7 @@ class TestConstraint(unittest.TestCase):
         return
 
     def test_evalFormula(self):
-        """check Constraint.evalFormula()"""
+        """Check Constraint.evalFormula()"""
         value = self.c.evalFormula({1: 5.0})
         self.assertEqual(5.0, value)
         self.c.formula = "sin(@3)"

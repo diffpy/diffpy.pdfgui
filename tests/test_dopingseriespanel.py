@@ -12,10 +12,7 @@
 # See LICENSE.txt for license information.
 #
 ##############################################################################
-
-"""
-Unit tests for the DopingSeriesPanel class.
-"""
+"""Unit tests for the DopingSeriesPanel class."""
 
 import unittest
 

@@ -12,9 +12,7 @@
 # See LICENSE.txt for license information.
 #
 ##############################################################################
-
-"""Unit tests for fitdataset.py
-"""
+"""Unit tests for fitdataset.py."""
 
 
 import unittest
@@ -36,7 +34,7 @@ class TestRoutines(unittest.TestCase):
         return
 
     def test_grid_interpolation(self):
-        """check grid_interpolation()"""
+        """Check grid_interpolation()"""
         x0 = numpy.arange(-5, 5, 0.25)
         y0 = numpy.sin(x0)
         x1 = [-6, x0[0], -0.2, x0[-1], 37]
@@ -189,7 +187,7 @@ class TestFitDataSet(unittest.TestCase):
     #       return
 
     def test__resampledPDFDataSet(self):
-        """check FitDataSet._resampledPDFDataSet()"""
+        """Check FitDataSet._resampledPDFDataSet()"""
         fNi_data = datafile("Ni_2-8.chi.gr")
         fds = FitDataSet("Ni")
         fds.read(fNi_data)

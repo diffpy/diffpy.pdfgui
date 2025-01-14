@@ -12,10 +12,7 @@
 # See LICENSE.txt for license information.
 #
 ##############################################################################
-
-"""
-Unit tests for PhaseConfigurePanel class.
-"""
+"""Unit tests for PhaseConfigurePanel class."""
 
 import unittest
 

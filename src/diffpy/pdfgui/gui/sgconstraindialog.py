@@ -128,6 +128,7 @@ class SGConstrainDialog(wx.Dialog, PDFPanel):
     def updateSpaceGroupList(self):
         """Update space group choices in combobox according to
         self.structure.getSpaceGroupList().
+
         Requires that structure attribute is defined.
         """
         self.sgComboBox.Clear()

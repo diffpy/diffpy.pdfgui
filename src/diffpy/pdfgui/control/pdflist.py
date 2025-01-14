@@ -17,12 +17,11 @@ from diffpy.pdfgui.control.controlerrors import ControlKeyError
 
 
 class PDFList(list):
-    """list class of PDFComponent, which can be accessed through index or a
-    name string
-    """
+    """List class of PDFComponent, which can be accessed through index or a
+    name string."""
 
     def __init__(self, *args):
-        """Initialize
+        """Initialize.
 
         args -- argument list
         """
@@ -30,7 +29,7 @@ class PDFList(list):
         return
 
     def __getitem__(self, idnm):
-        """Get the item by idnm
+        """Get the item by idnm.
 
         idnm -- The index or name of the item
         return: The requested object
@@ -45,7 +44,7 @@ class PDFList(list):
                 raise ControlKeyError("'%s' does not exist" % idnm)
 
     def __setitem__(self, idnm, obj):
-        """Set the item by idnm
+        """Set the item by idnm.
 
         idnm -- The index or name of the item
         obj  -- The object to be inserted
@@ -75,7 +74,7 @@ class PDFList(list):
                 raise ControlKeyError("'%s' does not exist" % idnm)
 
     def rename(self, idnmrf, newname):
-        """Rename an item
+        """Rename an item.
 
         idnmrf -- index,name or reference to the object
         newname -- new name
@@ -98,14 +97,14 @@ class PDFList(list):
         return [x.name for x in self]
 
     def values(self):
-        """Get all held objects
+        """Get all held objects.
 
         return: list of objects
         """
         return self[:]
 
     def items(self):
-        """Get name-object pairs
+        """Get name-object pairs.
 
         return: a list of tuple ( name, object)
         """

@@ -14,19 +14,19 @@
 # See LICENSE.txt for license information.
 #
 ##############################################################################
-
 """This module contains the PanelDialog class, a simple class that turns any
-panel into a dialog.
-"""
+panel into a dialog."""
 
 
 import wx
 
 
 class PanelDialog(wx.Dialog):
-    """This class will turn any panel into a dialog.  Using this makes for
-    quicker development and encourages the developer to design a gui as a
-    collection of panels, instead of a monolithic mega-panel.
+    """This class will turn any panel into a dialog.
+
+    Using this makes for quicker development and encourages the
+    developer to design a gui as a collection of panels, instead of a
+    monolithic mega-panel.
     """
 
     def __init__(self, *args, **kwds):
@@ -38,11 +38,10 @@ class PanelDialog(wx.Dialog):
         Unless specified, style is automatically set as
         wx.DEFAULT_DIALOG_STYLE|wx.RESIZE_BORDER
 
-        Creating a PanelDialog requires three steps.
-        1) Create the PanelDialog.
-        2) Create the Panel, with the new PanelDialog as the parent.
-        3) Call the setPanel method of the PanelDialog with the new Panel as the
-           the argument.
+        Creating a PanelDialog requires three steps. 1) Create the
+        PanelDialog. 2) Create the Panel, with the new PanelDialog as
+        the parent. 3) Call the setPanel method of the PanelDialog with
+        the new Panel as the    the argument.
         """
         if not hasattr(kwds, "style"):
             kwds["style"] = wx.DEFAULT_DIALOG_STYLE | wx.RESIZE_BORDER

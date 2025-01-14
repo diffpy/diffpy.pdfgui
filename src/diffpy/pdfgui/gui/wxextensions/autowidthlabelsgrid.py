@@ -12,10 +12,8 @@
 # See LICENSE.txt for license information.
 #
 ##############################################################################
-
 """This module contains AutoWidthListCtrl, a wxListCtrl object that
-automatically adjusts the width of its columns.
-"""
+automatically adjusts the width of its columns."""
 
 
 import wx
@@ -23,7 +21,7 @@ import wx.grid
 
 
 class AutoWidthLabelsGrid(wx.grid.Grid):
-    """wx grid which allows labels auto sizing"""
+    """Wx grid which allows labels auto sizing."""
 
     #    def __init__(self, parent, state, size):
     #        wx.grid.Grid.__init__(self, parent, state, size)

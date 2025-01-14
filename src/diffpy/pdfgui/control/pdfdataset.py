@@ -12,9 +12,7 @@
 # See LICENSE.txt for license information.
 #
 ##############################################################################
-
-"""class PDFDataSet for experimental PDF data.
-"""
+"""Class PDFDataSet for experimental PDF data."""
 
 import copy
 import os.path
@@ -82,7 +80,7 @@ class PDFDataSet(PDFComponent):
         return
 
     def clear(self):
-        """reset all data members to initial empty values"""
+        """Reset all data members to initial empty values."""
         self.robs = []
         self.Gobs = []
         self.drobs = []
@@ -101,8 +99,8 @@ class PDFDataSet(PDFComponent):
         return
 
     def setvar(self, var, value):
-        """Assign data member using PdfFit-style variable.
-        Used by applyParameters().
+        """Assign data member using PdfFit-style variable. Used by
+        applyParameters().
 
         var   -- string representation of dataset PdfFit variable.
                  Possible values: qdamp, qbroad, dscale
@@ -118,8 +116,8 @@ class PDFDataSet(PDFComponent):
         return
 
     def getvar(self, var):
-        """Obtain value corresponding to PdfFit dataset variable.
-        Used by findParameters().
+        """Obtain value corresponding to PdfFit dataset variable. Used by
+        findParameters().
 
         var   -- string representation of dataset PdfFit variable.
                  Possible values: qdamp, qbroad, dscale
@@ -135,7 +133,7 @@ class PDFDataSet(PDFComponent):
         return value
 
     def read(self, filename):
-        """load data from PDFGetX2 or PDFGetN gr file
+        """Load data from PDFGetX2 or PDFGetN gr file.
 
         filename -- file to read from
 
@@ -155,7 +153,7 @@ class PDFDataSet(PDFComponent):
         return self
 
     def readStr(self, datastring):
-        """read experimental PDF data from a string
+        """Read experimental PDF data from a string.
 
         datastring -- string of raw data
 
@@ -336,7 +334,7 @@ class PDFDataSet(PDFComponent):
         return datastring
 
     def copy(self, other=None):
-        """copy self to other. if other is None, create new instance
+        """Copy self to other. if other is None, create new instance.
 
         other -- ref to other object
         returns reference to copied object

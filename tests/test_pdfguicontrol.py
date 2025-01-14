@@ -12,9 +12,7 @@
 # See LICENSE.txt for license information.
 #
 ##############################################################################
-
-"""Unit tests for pdfgui.control.pdfguicontrol.py
-"""
+"""Unit tests for pdfgui.control.pdfguicontrol.py."""
 
 
 import unittest
@@ -25,7 +23,7 @@ from diffpy.pdfgui.control.pdfguicontrol import PDFGuiControl
 
 
 class TestPDFGuiControl(unittest.TestCase):
-    """test methods of PDFGuiControl"""
+    """Test methods of PDFGuiControl."""
 
     def setUp(self):
         self.control = PDFGuiControl()

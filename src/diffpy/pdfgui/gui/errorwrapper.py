@@ -12,10 +12,10 @@
 # See LICENSE.txt for license information.
 #
 ##############################################################################
-
 """This module contains a function wrapper and an object wrapper that catch
-control errors and shows them in an error report dialog. This is used by
-PDFPanel and MainFrame.
+control errors and shows them in an error report dialog.
+
+This is used by PDFPanel and MainFrame.
 """
 
 import sys

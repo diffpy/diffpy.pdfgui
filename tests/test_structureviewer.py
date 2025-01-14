@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 
-"""Unit tests for diffpy.pdfgui.control.structureviewer
-"""
+"""Unit tests for diffpy.pdfgui.control.structureviewer."""
 
 
 import os
@@ -16,7 +15,7 @@ from diffpy.pdfgui.control.structureviewer import StructureViewer, getStructureV
 ##############################################################################
 class TestRoutines(unittest.TestCase):
     def test_getStructureViewer(self):
-        """check getStructureViewer() returns a singleton."""
+        """Check getStructureViewer() returns a singleton."""
         sv0 = getStructureViewer()
         uid0 = id(sv0)
         del sv0
@@ -38,13 +37,13 @@ class TestStructureViewer(unittest.TestCase):
         return
 
     def test___init__(self):
-        """check StructureViewer.__init__()"""
+        """Check StructureViewer.__init__()"""
         sv = StructureViewer()
         self.assertEqual("%s", sv.argstr)
         return
 
     def test_getConfig(self):
-        """check StructureViewer.getConfig()"""
+        """Check StructureViewer.getConfig()"""
         sv = StructureViewer()
         self.assertEqual("%s", sv.getConfig()["argstr"])
         sv.argstr = "foooo"
@@ -52,7 +51,7 @@ class TestStructureViewer(unittest.TestCase):
         return
 
     def test_setConfig(self):
-        """check StructureViewer.setConfig()"""
+        """Check StructureViewer.setConfig()"""
         sv = StructureViewer()
         cfg0 = sv.getConfig()
         sv.setConfig({"asdf": 7})
@@ -62,7 +61,7 @@ class TestStructureViewer(unittest.TestCase):
         return
 
     def test_plot(self):
-        """check StructureViewer.plot()"""
+        """Check StructureViewer.plot()"""
         from diffpy.pdfgui.control.fitstructure import FitStructure
 
         sv = StructureViewer()
@@ -81,7 +80,7 @@ class TestStructureViewer(unittest.TestCase):
         return
 
     def test___del__(self):
-        """check StructureViewer.__del__()"""
+        """Check StructureViewer.__del__()"""
         import gc
 
         from diffpy.pdfgui.control.fitstructure import FitStructure

@@ -12,10 +12,7 @@
 # See LICENSE.txt for license information.
 #
 ##############################################################################
-
-"""
-Unit tests for class DialogAbout
-"""
+"""Unit tests for class DialogAbout."""
 
 import unittest
 

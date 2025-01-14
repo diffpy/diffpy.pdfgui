@@ -12,9 +12,7 @@
 # See LICENSE.txt for license information.
 #
 ##############################################################################
-
-"""Tooltips for pdfgui panels.
-"""
+"""Tooltips for pdfgui panels."""
 
 
 def isalias(s):

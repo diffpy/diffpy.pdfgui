@@ -14,7 +14,6 @@
 # See LICENSE.txt for license information.
 #
 ##############################################################################
-
 """This module contains utilities that can be used with wxTextCtrls."""
 
 

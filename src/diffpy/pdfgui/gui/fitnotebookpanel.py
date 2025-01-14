@@ -85,7 +85,8 @@ class FitNotebookPanel(wx.Panel, PDFPanel):
     def Enable(self, enable=True):
         """Keep the notebook enabled, just not the panels.
 
-        outputPanel is immune from this, since it needs to be interacted with.
+        outputPanel is immune from this, since it needs to be interacted
+        with.
         """
         self.parametersPanel.Enable(enable)
         return

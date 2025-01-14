@@ -30,7 +30,7 @@ from diffpy.utils.wx import gridutils
 
 
 class ParametersPanel(wx.Panel, PDFPanel):
-    """GUI Panel, parameters viewer/editor
+    """GUI Panel, parameters viewer/editor.
 
     Data members:
         parameters      -- parameters dictionary
@@ -110,7 +110,7 @@ class ParametersPanel(wx.Panel, PDFPanel):
         return
 
     def refresh(self):
-        """Refreshes wigets on the panel"""
+        """Refreshes wigets on the panel."""
         #        # Update the parameters dictionary
         #        self.fitting.updateParameters()
 
@@ -167,8 +167,8 @@ class ParametersPanel(wx.Panel, PDFPanel):
     def onGridRangeSelect(self, event):  # wxGlade: ParametersPanel.<event_handler>
         """Handle range selections.
 
-        This is needed to properly handle simple left-clicking of fix/free
-        cells. It serves no other purpose.
+        This is needed to properly handle simple left-clicking of
+        fix/free cells. It serves no other purpose.
         """
         event.Skip()
         return
@@ -245,7 +245,6 @@ class ParametersPanel(wx.Panel, PDFPanel):
         row     --  row
         col     --  column
         value   --  new value
-
         """
         key = int(self.grid_parameters.GetRowLabelValue(row))
         if col == 0:  # initial value
@@ -266,7 +265,7 @@ class ParametersPanel(wx.Panel, PDFPanel):
         return
 
     def popupMenu(self, window, x, y):
-        """Opens a popup menu
+        """Opens a popup menu.
 
         window  --  window, where to popup a menu
         x       --  x coordinate
@@ -299,7 +298,7 @@ class ParametersPanel(wx.Panel, PDFPanel):
 
     # Popup menu events  ##################################################
     def onPopupFill(self, event):
-        """Fills cells selected in the grid with a new value"""
+        """Fills cells selected in the grid with a new value."""
 
         # NOTE: GetSelectedCells returns only SINGLE selected cells, not blocks or row/columns !
         if self.grid_parameters.IsSelection():
@@ -324,7 +323,7 @@ class ParametersPanel(wx.Panel, PDFPanel):
         event.Skip()
 
     def onPopupFixFree(self, event):
-        """Fixes parameters with selected cells"""
+        """Fixes parameters with selected cells."""
         # NOTE: GetSelectedCells returns only SINGLE selected cells, not blocks
         # or row/columns !
         seldict = {}
@@ -458,7 +457,7 @@ if __name__ == "__main__":
             pass
 
         def test(self):
-            """Testing code goes here"""
+            """Testing code goes here."""
             from diffpy.pdfgui.control.parameter import Parameter
 
             self.window.parameters = {

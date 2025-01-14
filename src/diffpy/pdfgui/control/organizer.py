@@ -30,8 +30,8 @@ def spd_constrained(ds):
 
 
 class Organizer(PDFComponent):
-    """Base class for Fitting. It holds separate lists of datasets,
-    strucs and calculations
+    """Base class for Fitting. It holds separate lists of datasets, strucs and
+    calculations.
 
     datasets:     dataset list
     strucs:       structure list
@@ -39,7 +39,7 @@ class Organizer(PDFComponent):
     """
 
     def __init__(self, name):
-        """initialize
+        """initialize.
 
         name -- component name
         """
@@ -72,7 +72,7 @@ class Organizer(PDFComponent):
             raise ControlTypeError(emsg)
 
     def add(self, id, position=None):
-        """add structure/dataset/calculation
+        """Add structure/dataset/calculation.
 
         id       -- reference to structure/dataset/calculation
         position -- position to insert, by default the last one
@@ -86,7 +86,7 @@ class Organizer(PDFComponent):
         id.owner = self
 
     def remove(self, id):
-        """remove structure/dataset/calculation
+        """Remove structure/dataset/calculation.
 
         id -- reference to structure/dataset/calculation
         """
@@ -95,7 +95,7 @@ class Organizer(PDFComponent):
         return id
 
     def rename(self, id, newname):
-        """rename structure/dataset/calculation
+        """Rename structure/dataset/calculation.
 
         id -- reference to structure/dataset/calculation
         newname -- new name to be given
@@ -104,7 +104,7 @@ class Organizer(PDFComponent):
         objList.rename(id.name, newname)
 
     def index(self, id):
-        """find the position of item in the list
+        """Find the position of item in the list.
 
         id -- id of object
         return : object position
@@ -117,7 +117,7 @@ class Organizer(PDFComponent):
         return len(self.strucs) > 0
 
     def getStructure(self, pos):
-        """get structure by position
+        """Get structure by position.
 
         pos -- the position of structure in the list
         """
@@ -130,7 +130,7 @@ class Organizer(PDFComponent):
         return len(self.datasets) > 0
 
     def getDataSet(self, pos):
-        """get dataset by position
+        """Get dataset by position.
 
         pos -- the position of dataset in the list
         """
@@ -143,7 +143,7 @@ class Organizer(PDFComponent):
         return len(self.calcs) > 0
 
     def getCalculation(self, pos):
-        """get calculation by position
+        """Get calculation by position.
 
         pos -- the position of calculation in the list
         """
@@ -152,7 +152,7 @@ class Organizer(PDFComponent):
         return self.calcs[pos]
 
     def load(self, z, subpath):
-        """load data from a zipped project file
+        """Load data from a zipped project file.
 
         z -- zipped project file
         subpath -- path to its own storage within project file
@@ -187,7 +187,7 @@ class Organizer(PDFComponent):
         return self.organization()
 
     def save(self, z, subpath):
-        """save data from a zipped project file
+        """Save data from a zipped project file.
 
         z -- zipped project file
         subpath -- path to its own storage within project file
@@ -204,7 +204,7 @@ class Organizer(PDFComponent):
         return
 
     def copy(self, other=None):
-        """copy self to other. if other is None, create an instance
+        """Copy self to other. if other is None, create an instance.
 
         other -- ref to other object
         returns reference to copied object
@@ -221,7 +221,7 @@ class Organizer(PDFComponent):
         return other
 
     def organization(self):
-        """get internal organization
+        """Get internal organization.
 
         returns a tree of internal hierarchy
         """
@@ -243,8 +243,8 @@ class Organizer(PDFComponent):
         """Copy spdiameter value loaded from fit or calculation to phase.
 
         This method takes care of loading old PDFgui projects where
-        spdiameter belonged to FitDataSet or Calculation classes.
-        It should be called only from the Organizer.load method.
+        spdiameter belonged to FitDataSet or Calculation classes. It
+        should be called only from the Organizer.load method.
         """
         # Jump out if any of structures has spdiameter set
         for stru in self.strucs:
