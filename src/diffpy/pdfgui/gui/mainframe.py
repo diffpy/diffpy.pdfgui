@@ -2522,10 +2522,8 @@ class MainFrame(wx.Frame):
     def onDocumentation(self, event):
         """Show information about the documentation."""
         import webbrowser
-        from urllib.request import pathname2url
-
-        url = "file://" + pathname2url(docMainFile)
-        webbrowser.open(url)
+        
+        webbrowser.open(docMainFile)
         return
 
     # MISC INTERACTION ITEMS
