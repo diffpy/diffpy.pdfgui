@@ -2522,7 +2522,7 @@ class MainFrame(wx.Frame):
     def onDocumentation(self, event):
         """Show information about the documentation."""
         import webbrowser
-        
+
         webbrowser.open(docMainFile)
         return
 
