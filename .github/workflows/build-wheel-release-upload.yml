@@ -4,13 +4,15 @@ on:
   workflow_dispatch:
   push:
     tags:
-      - '*'  # Trigger on all tags initially, but tag and release privilege are verified in _build-wheel-release-upload.yml
+      - "*" # Trigger on all tags initially, but tag and release privilege are verified in _build-wheel-release-upload.yml
 
 jobs:
   release:
     uses: Billingegroup/release-scripts/.github/workflows/_build-wheel-release-upload.yml@v0
     with:
       project: diffpy.pdfgui
+      c_extension: false
+      github_admin_username: sbillinge
     secrets:
       PYPI_TOKEN: ${{ secrets.PYPI_TOKEN }}
       PAT_TOKEN: ${{ secrets.PAT_TOKEN }}
