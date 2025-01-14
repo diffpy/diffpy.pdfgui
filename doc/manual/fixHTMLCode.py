@@ -25,7 +25,7 @@ eqcnt = 0
 
 
 def eqreplace(mx):
-    """helper function to replace equation marks.
+    """Helper function to replace equation marks.
 
     mx -- regular expression match object
 
@@ -41,6 +41,7 @@ def eqreplace(mx):
 
 def replaceEquationMarks(s):
     """Replace equation marks in given string.
+
     Return modified string.
     """
     s1 = re.sub(eqmark, eqreplace, s)

@@ -12,10 +12,7 @@
 # See LICENSE.txt for license information.
 #
 ##############################################################################
-
-"""
-Unit tests for the TemperatureSeriesPanel class.
-"""
+"""Unit tests for the TemperatureSeriesPanel class."""
 
 import unittest
 

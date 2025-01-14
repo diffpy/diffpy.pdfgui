@@ -212,7 +212,8 @@ class PhaseResultsPanel(wx.Panel, PDFPanel):
         return
 
     def _cache(self):
-        """Cache the current structure and constraints for future comparison."""
+        """Cache the current structure and constraints for future
+        comparison."""
         pass
 
     def refresh(self):

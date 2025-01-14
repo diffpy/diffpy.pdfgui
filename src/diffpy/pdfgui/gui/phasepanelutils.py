@@ -12,7 +12,6 @@
 # See LICENSE.txt for license information.
 #
 ##############################################################################
-
 """Common methods used in the phase panels."""
 
 import wx
@@ -27,7 +26,7 @@ selected_atoms = ""
 
 
 def float2str(x):
-    """compact string representation of float"""
+    """Compact string representation of float."""
     s = "%g" % x
     if s.find(".") == -1 and s.find("e") == -1:
         s = s + ".0"
@@ -39,21 +38,11 @@ def refreshTextCtrls(panel):
 
     This is used by phaseconfigurepanel and phaseresultspanel.
 
-    This method updates the following TextCtrls with with contents of the
-    structure member variable of the panel.
-    textCtrlA
-    textCtrlB
-    textCtrlC
-    textCtrlAlpha
-    textCtrlBeta
-    textCtrlGamma
-    textCtrlScaleFactor
-    textCtrlDelta1
-    textCtrlDelta2
-    textCtrlSratio
-    textCtrlRcut
-    textCtrlStepcut
-    textCtrlSpdiameter
+    This method updates the following TextCtrls with with contents of
+    the structure member variable of the panel. textCtrlA textCtrlB
+    textCtrlC textCtrlAlpha textCtrlBeta textCtrlGamma
+    textCtrlScaleFactor textCtrlDelta1 textCtrlDelta2 textCtrlSratio
+    textCtrlRcut textCtrlStepcut textCtrlSpdiameter
     """
     if panel.structure is None:
         # clear textcontrols
@@ -96,7 +85,8 @@ def refreshGrid(panel):
     This is used by phaseconfigurepanel and phaseresultspanel.
 
     This method fills the grid with the contents of the structure member
-    variable of the panel. It is expected that the grid is named 'gridAtoms'.
+    variable of the panel. It is expected that the grid is named
+    'gridAtoms'.
     """
     if panel.structure is None:
         # remove all rows from grid
@@ -185,10 +175,10 @@ def showSelectAtomsDialog(panel):
 def canCopySelectedCells(panel):
     """Check to see if we can copy selected cells.
 
-    To be copyable, the cells must exist in a single block or there must be a
-    single cell selected. Note that a block that is selected by individual cells
-    is considered a collection of individual atoms, not a block. This is default
-    wxPython behavior.
+    To be copyable, the cells must exist in a single block or there must
+    be a single cell selected. Note that a block that is selected by
+    individual cells is considered a collection of individual atoms, not
+    a block. This is default wxPython behavior.
     """
     grid = panel.gridAtoms
 
@@ -201,7 +191,8 @@ def canCopySelectedCells(panel):
 def canPasteIntoCells(panel):
     """Check if clipboard contents are formatted for grid insertion.
 
-    This also checks to see if the cell selection is appropriate for pasting.
+    This also checks to see if the cell selection is appropriate for
+    pasting.
     """
     grid = panel.gridAtoms
 
@@ -254,9 +245,8 @@ def canPasteIntoCells(panel):
 def copySelectedCells(panel):
     """Copy block of selected cells or individual cell into clipboard.
 
-    This stores the cells as a plain text grid so that it can be copied to and
-    from other applications.
-    Columns are delimited by tabs '\t'.
+    This stores the cells as a plain text grid so that it can be copied
+    to and from other applications. Columns are delimited by tabs '\t'.
     Rows are delimited by newlines '\n'.
     """
     grid = panel.gridAtoms
@@ -297,8 +287,8 @@ def copySelectedCells(panel):
 def pasteIntoCells(panel):
     """Paste clipboard contents into cells.
 
-    canPasteIntoCells must be called before this method in order to format
-    clipboard text for pasting.
+    canPasteIntoCells must be called before this method in order to
+    format clipboard text for pasting.
     """
     # Double check the clipcells
     if len(clipcells) == 0:

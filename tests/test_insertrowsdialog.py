@@ -12,10 +12,7 @@
 # See LICENSE.txt for license information.
 #
 ##############################################################################
-
-"""
-Unit tests for class InsertRowsDialog
-"""
+"""Unit tests for class InsertRowsDialog."""
 
 import unittest
 

@@ -54,7 +54,7 @@ baselineStyle = {
 
 
 def _transName(name):
-    """translate name of y object
+    """Translate name of y object.
 
     This is mainly for plotting of parameters. GUI will pass in a integer to
     indicate which parameter to be plotted. However, in data storage the
@@ -70,7 +70,7 @@ def _transName(name):
 
 
 def _fullName(dataId):
-    """construct full name"""
+    """Construct full name."""
     from diffpy.pdfgui.control.fitting import Fitting
 
     if hasattr(dataId, "owner") and isinstance(dataId.owner, Fitting):
@@ -80,7 +80,7 @@ def _fullName(dataId):
 
 
 def _buildStyle(plotter, name, group, yNames):
-    """trying to figure out a good style
+    """Trying to figure out a good style.
 
     1. generally we want line style for Gcalc, Gdiff, crw, symbol style for Gobs,
     and line-symbol style for the rest
@@ -135,12 +135,15 @@ def deblank(s):
 
 
 class Plotter(PDFComponent):
-    """Plots a single graph. It can have multiple curves."""
+    """Plots a single graph.
+
+    It can have multiple curves.
+    """
 
     __plotWindowNumber = 1
 
     class Curve:
-        """Curve stores the information for a curve in the plot
+        """Curve stores the information for a curve in the plot.
 
         There are three ways of forming x and y data lists.
         (1) r and g(r) from a single refinement are vectors by themselves
@@ -167,7 +170,7 @@ class Plotter(PDFComponent):
         """
 
         def __init__(self, name, plotwnd, xStr, yStr, steps, ids, offset, style):
-            """initialize
+            """initialize.
 
             name  -- The curve name
             plotwnd -- The window where the curve is drawn
@@ -206,7 +209,9 @@ class Plotter(PDFComponent):
             self.validate()
 
         def validate(self):
-            """validate(self) --> check if  the curve is valid. Validity
+            """Validate(self) --> check if  the curve is valid.
+
+            Validity
             is broken:
             (1) when xStr or yStr doesn't refer to a legal vector
             (2) when sizes of xStr and yStr don't match
@@ -244,7 +249,7 @@ class Plotter(PDFComponent):
                     raise ControlConfigError(emsg)
 
         def notify(self, changedIds=None, plotwnd=None):
-            """notify Curve object certain data is updated
+            """Notify Curve object certain data is updated.
 
             changedIds -- objects to which changed data is associated with
             """
@@ -319,8 +324,9 @@ class Plotter(PDFComponent):
                 return False
 
         def draw(self):
-            """draw the curve in the graph. It will make sure the data is OK,
-            and plot to the screen.
+            """Draw the curve in the graph.
+
+            It will make sure the data is OK, and plot to the screen.
             """
             if self.bMultiData:
                 # xs and ys initialize here. They are actual data object to be
@@ -360,7 +366,7 @@ class Plotter(PDFComponent):
             return True
 
     def __init__(self, name=None):
-        """initialize
+        """initialize.
 
         name -- name of plot
         """
@@ -386,7 +392,7 @@ class Plotter(PDFComponent):
         return
 
     def close(self, force=True):
-        """close up the plot
+        """Close up the plot.
 
         force -- if True, close forcibly
         """
@@ -396,7 +402,7 @@ class Plotter(PDFComponent):
             self.window = None
 
     def onWindowClose(self):
-        """get called when self.window is closed by user"""
+        """Get called when self.window is closed by user."""
         self.window = None
         try:
             self.controlCenter.plots.remove(self)
@@ -405,7 +411,7 @@ class Plotter(PDFComponent):
             pass
 
     def buildSymbolStyle(self, index=-1):
-        """generate a symbol style
+        """Generate a symbol style.
 
         index -- plotting style index
         """
@@ -426,7 +432,7 @@ class Plotter(PDFComponent):
         }
 
     def buildLineStyle(self, index=-1):
-        """generate a line style
+        """Generate a line style.
 
         index -- plotting style index
         """
@@ -446,7 +452,7 @@ class Plotter(PDFComponent):
         }
 
     def buildLineSymbolStyle(self, index=-1):
-        """generate a linesymbol style
+        """Generate a linesymbol style.
 
         index -- plotting style index
         """
@@ -456,7 +462,7 @@ class Plotter(PDFComponent):
         return style
 
     def plot(self, xName, yNames, ids, shift, dry):
-        """Make a 2D plot
+        """Make a 2D plot.
 
         xName --  x data item name
         yNames -- list of y data item names
@@ -579,7 +585,7 @@ class Plotter(PDFComponent):
         self.show(True)
 
     def show(self, bShow=None):
-        """show the plot on screen
+        """Show the plot on screen.
 
         bShow -- True to show, False to Hide. None to toggle
         return value: current status of window
@@ -596,7 +602,7 @@ class Plotter(PDFComponent):
         return self.isShown
 
     def notify(self, data):
-        """change of the data is notified
+        """Change of the data is notified.
 
         data -- data object that has changed
         """
@@ -613,7 +619,7 @@ class Plotter(PDFComponent):
             self.window.replot()
 
     def export(self, filename):
-        """export current data to external file
+        """Export current data to external file.
 
         filename -- the name of the file to save data
         """

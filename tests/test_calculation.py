@@ -12,9 +12,7 @@
 # See LICENSE.txt for license information.
 #
 ##############################################################################
-
-"""Unit tests for calculation.py
-"""
+"""Unit tests for calculation.py."""
 
 
 import unittest
@@ -43,7 +41,7 @@ class TestCalculation(unittest.TestCase):
     #       return
 
     def test_setRGrid(self):
-        """check Calculation.setRGrid()"""
+        """Check Calculation.setRGrid()"""
 
         # helper function
         def rgriddata(calc):

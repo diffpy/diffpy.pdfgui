@@ -117,8 +117,7 @@ class PlotPanel(wx.Panel, PDFPanel):
 
     def updateWidgets(self):
         """Enable or disable certain widgets depending upon what is selected in
-        the tree and in the plotting widgets.
-        """
+        the tree and in the plotting widgets."""
         # selections: selected nodes in treeCtrl
         # fits:  only different fittings
         # refs:  data item ids ( can be calculation, fit, structure and dataset
@@ -233,7 +232,7 @@ class PlotPanel(wx.Panel, PDFPanel):
         return
 
     def _plot(self, event):
-        """This function is not wrapped"""
+        """This function is not wrapped."""
         selections = self.treeCtrlMain.GetSelections()
         refs = [self.treeCtrlMain.GetControlData(node) for node in selections]
         xval = self.xDataCombo.GetValue()

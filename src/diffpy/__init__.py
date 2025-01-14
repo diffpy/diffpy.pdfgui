@@ -12,7 +12,6 @@
 # See LICENSE.rst for license information.
 #
 ##############################################################################
-
 """Blank namespace package for module diffpy."""
 
 

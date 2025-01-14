@@ -60,7 +60,7 @@ _license = ""
 
 
 def launchBrowser(url):
-    """Launches browser and opens specified url
+    """Launches browser and opens specified url.
 
     In some cases may require BROWSER environment variable to be set up.
 
@@ -72,10 +72,10 @@ def launchBrowser(url):
 
 
 class DialogAbout(wx.Dialog):
-    """ "About" Dialog
+    """The "About" Dialog.
 
-    Shows product name, current version, authors, and link to the product page.
-    Current version is taken from version.py
+    Shows product name, current version, authors, and link to the
+    product page. Current version is taken from version.py
     """
 
     def __init__(self, *args, **kwds):

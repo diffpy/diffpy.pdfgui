@@ -12,7 +12,6 @@
 # See LICENSE.rst for license information.
 #
 ##############################################################################
-
 """GUI for PDF simulation and structure refinement."""
 
 # package version

@@ -12,10 +12,8 @@
 # See LICENSE.txt for license information.
 #
 ##############################################################################
-
-"""class Constraint for storage of a single constraint equation
-constraints will be stored in { variable : constraint } dictionary
-"""
+"""Class Constraint for storage of a single constraint equation constraints
+will be stored in { variable : constraint } dictionary."""
 
 import math
 import re
@@ -24,7 +22,7 @@ from diffpy.pdfgui.control.controlerrors import ControlSyntaxError
 
 
 class Constraint:
-    """Constraint --> storage and check of a single constraint equation
+    """Constraint --> storage and check of a single constraint equation.
 
     Data members:
         formula  -- right-side of constraint equation (string).  When
@@ -39,7 +37,7 @@ class Constraint:
     """
 
     def __init__(self, formula, value=None):
-        """initialize the Constraint.
+        """Initialize the Constraint.
 
         formula  -- (string) right-side of constraint equation
         value    -- (optional) current value of the variable
@@ -58,7 +56,7 @@ class Constraint:
         return
 
     def evalFormula(self, parvalues):
-        """evaluate constraint formula
+        """Evaluate constraint formula.
 
         parvalues -- dictionary of int parameter indices and float values.
 
@@ -69,8 +67,8 @@ class Constraint:
         return result
 
     def lambdaFormula(self):
-        """Build lambda function from constraint formula.
-        Lambda function expects dictionary argument.
+        """Build lambda function from constraint formula. Lambda function
+        expects dictionary argument.
 
         returns lambda function
         """
@@ -79,7 +77,7 @@ class Constraint:
         return f
 
     def guess(self, value):
-        """guess the initial values of parameters contained in parguess
+        """Guess the initial values of parameters contained in parguess.
 
         value -- current value of the constrained variable
 
@@ -112,7 +110,7 @@ class Constraint:
         return dict(self.parguess)
 
     def __setattr__(self, name, value):
-        """check math and update parguess when formula is assigned"""
+        """Check math and update parguess when formula is assigned."""
         if name != "formula":
             self.__dict__[name] = value
             return

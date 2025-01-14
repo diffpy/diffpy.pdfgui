@@ -12,10 +12,7 @@
 # See LICENSE.txt for license information.
 #
 ##############################################################################
-
-"""
-The module contains extensions for GUI plot frame.
-"""
+"""The module contains extensions for GUI plot frame."""
 
 import os.path
 
@@ -59,8 +56,8 @@ class ExtendedPlotFrame(wx.Frame):
     """An extended plotting frame with a save and close button.
 
     The class has a matplotlib.figure.Figure data member named 'figure'.
-    It also has a matplotlib.axes.Axes data member named 'axes'.
-    The normal matplotlib plot manipulations can be performed with these two
+    It also has a matplotlib.axes.Axes data member named 'axes'. The
+    normal matplotlib plot manipulations can be performed with these two
     data members. See the matplotlib API at:
     http://matplotlib.sourceforge.net/classdocs.html
     """
@@ -172,11 +169,11 @@ class ExtendedPlotFrame(wx.Frame):
         return
 
     def replot(self):
-        """officially call function in matplotlib to do drawing"""
+        """Officially call function in matplotlib to do drawing."""
         self.canvas.draw()
 
     def insertCurve(self, xData, yData, style):
-        """insert a new curve to the plot
+        """Insert a new curve to the plot.
 
         xData, yData -- x, y data to used for the curve
         style -- the way curve should be plotted
@@ -194,7 +191,7 @@ class ExtendedPlotFrame(wx.Frame):
         return curveRef
 
     def updateData(self, curveRef, xData, yData):
-        """update data for a existing curve
+        """Update data for a existing curve.
 
         curveRef -- internal reference to a curve
         xData, yData -- x, y data to used for the curve
@@ -207,7 +204,7 @@ class ExtendedPlotFrame(wx.Frame):
         self.__updateViewLimits()
 
     def changeStyle(self, curveRef, style):
-        """change curve style
+        """Change curve style.
 
         curveRef -- internal reference to curves
         style -- style dictionary
@@ -219,7 +216,7 @@ class ExtendedPlotFrame(wx.Frame):
         self.subplot.legend(**legendBoxProperties())
 
     def removeCurve(self, curveRef):
-        """remove curve from plot
+        """Remove curve from plot.
 
         curveRef -- internal reference to curves
         """
@@ -229,7 +226,7 @@ class ExtendedPlotFrame(wx.Frame):
         self.__updateViewLimits()
 
     def __updateViewLimits(self):
-        """adjust the subplot range in order to show all curves correctly."""
+        """Adjust the subplot range in order to show all curves correctly."""
         # NOTE:
         # we need to adjust view limits by ourselves because Matplotlib can't
         # set the legend nicely when there are multiple curves in the plot.
@@ -257,8 +254,8 @@ class ExtendedPlotFrame(wx.Frame):
             self.subplot.set_ylim(ymin, ymax)
 
     def __translateStyles(self, style):
-        """Private function to translate general probabilities to
-        Matplotlib specific ones
+        """Private function to translate general probabilities to Matplotlib
+        specific ones.
 
         style -- general curve style dictionary (defined in demoplot)
         """
@@ -323,7 +320,7 @@ class ExtendedPlotFrame(wx.Frame):
         return stylestr, properties
 
     def setTitle(self, wt, gt):
-        """set graph labels
+        """Set graph labels.
 
         wt -- window title
         gt -- graph title
@@ -332,21 +329,21 @@ class ExtendedPlotFrame(wx.Frame):
         self.figure.gca().set_title(gt)
 
     def setXLabel(self, x):
-        """set label for x axis
+        """Set label for x axis.
 
         x -- x label
         """
         self.figure.gca().set_xlabel(x)
 
     def setYLabel(self, y):
-        """set label for y axis
+        """Set label for y axis.
 
         y -- y label
         """
         self.figure.gca().set_ylabel(y)
 
     def clear(self):
-        """erase all curves"""
+        """Erase all curves."""
         self.subplot.clear()
         self.curverefs = []
         self.replot()
@@ -358,8 +355,8 @@ class ExtendedPlotFrame(wx.Frame):
 def legendBoxProperties():
     """Legend properties dictionary with keys consistent with MPL version.
 
-    The argument names have changed in matplotlib 0.98.5.
-    Old arguments do not work with later versions of matplotlib.
+    The argument names have changed in matplotlib 0.98.5. Old arguments
+    do not work with later versions of matplotlib.
 
     Return dictionary of legend properties.
     """

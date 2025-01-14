@@ -23,7 +23,7 @@ from diffpy.pdfgui.gui.pdfpanel import PDFPanel
 
 
 class AddPhasePanel(wx.Panel, PDFPanel):
-    """Panel for adding a phase
+    """Panel for adding a phase.
 
     Several items must know to this panel so it knows where to try to insert the
     phase.
@@ -150,8 +150,8 @@ class AddPhasePanel(wx.Panel, PDFPanel):
         """Add a the new phase to the tree.
 
         The phase is added as a child of entryfit, right after the
-        entryphase, if it exists. If entryphase is None, the new phase is
-        appended to the end of the children of entryfit.
+        entryphase, if it exists. If entryphase is None, the new phase
+        is appended to the end of the children of entryfit.
         """
         import os.path
 
@@ -223,7 +223,10 @@ class AddPhasePanel(wx.Panel, PDFPanel):
         return
 
     def onCancel(self, event):  # wxGlade: AddPhasePanel.<event_handler>
-        """Cancel this addition. Go back to the last panel."""
+        """Cancel this addition.
+
+        Go back to the last panel.
+        """
         self.mainFrame.setMode("fitting")
         self.treeCtrlMain.SetItemBold(self.entrypoint, False)
         self.treeCtrlMain.UnselectAll()

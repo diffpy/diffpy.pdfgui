@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 
-"""Unit tests for class FitStructure
-"""
+"""Unit tests for class FitStructure."""
 
 
 import unittest
@@ -26,7 +25,7 @@ class TestFitStructure(unittest.TestCase):
         return
 
     def test___init__(self):
-        """check FitStructure.__init__()"""
+        """Check FitStructure.__init__()"""
         stru = self.stru
         self.assertEqual("noname", stru.name)
         self.assertEqual("all-all", stru.selected_pairs)
@@ -48,14 +47,14 @@ class TestFitStructure(unittest.TestCase):
     #       return
 
     def test___getattr__(self):
-        """check FitStructure.__getattr__()"""
+        """Check FitStructure.__getattr__()"""
         stru = self.stru
         self.assertTrue(stru is stru.initial)
         self.assertRaises(AttributeError, eval, "stru.notdefined", locals())
         return
 
     def test__getStrId(self):
-        """check FitStructure._getStrId()"""
+        """Check FitStructure._getStrId()"""
         stru = self.stru
         self.assertEqual("p_noname", stru._getStrId())
         return
@@ -71,7 +70,7 @@ class TestFitStructure(unittest.TestCase):
     #       return
 
     def test_findParameters(self):
-        """check FitStructure.findParameters()"""
+        """Check FitStructure.findParameters()"""
         stru = self.stru
         stru.read(datafile("Ni.stru"), format="pdffit")
         for a in stru.initial:
@@ -87,7 +86,7 @@ class TestFitStructure(unittest.TestCase):
         return
 
     def test_applyParameters(self):
-        """check FitStructure.applyParameters()"""
+        """Check FitStructure.applyParameters()"""
         stru = self.stru
         stru.read(datafile("Ni.stru"), format="pdffit")
         for a in stru.initial:
@@ -108,7 +107,7 @@ class TestFitStructure(unittest.TestCase):
         return
 
     def test_changeParameterIndex(self):
-        """check FitStructure.changeParameterIndex()"""
+        """Check FitStructure.changeParameterIndex()"""
         stru = self.stru
         stru.constraints["pscale"] = Constraint("@7+3")
         stru.changeParameterIndex(7, 13)
@@ -129,7 +128,7 @@ class TestFitStructure(unittest.TestCase):
     #       return
 
     def test_insertAtoms(self):
-        """check FitStructure.insertAtoms()"""
+        """Check FitStructure.insertAtoms()"""
         from diffpy.structure import Atom
 
         stru = self.stru
@@ -145,7 +144,7 @@ class TestFitStructure(unittest.TestCase):
         return
 
     def test_deleteAtoms(self):
-        """check FitStructure.deleteAtoms()"""
+        """Check FitStructure.deleteAtoms()"""
         stru = self.stru
         stru.read(datafile("Ni.stru"), format="pdffit")
         cns = Constraint("@1")
@@ -208,7 +207,7 @@ class TestFitStructure(unittest.TestCase):
     #       return
 
     def test_getPairSelectionFlags(self):
-        """check FitStructure.getPairSelectionFlags()"""
+        """Check FitStructure.getPairSelectionFlags()"""
         cdse = self.stru
         cdse.read(datafile("CdSe_bulk_wur.stru"), format="pdffit")
         self.assertEqual("all-all", cdse.getSelectedPairs())
@@ -244,7 +243,7 @@ class TestFitStructure(unittest.TestCase):
     #       return
 
     def test_copy(self):
-        """check FitStructure.copy()"""
+        """Check FitStructure.copy()"""
         stru2 = self.stru.copy()
         self.assertEqual("noname", stru2.name)
         stru3 = Structure()

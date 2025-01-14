@@ -37,6 +37,7 @@ eqmark = "@EquationMark"
 
 def loadEquations():
     """Search for equation codes preceded by @EquationMark macro.
+
     Store equation codes in rc['eqns'].
     """
     lines = []
@@ -116,6 +117,7 @@ def convertToPNG(texfile):
 
 def getBoundingBox(psfilename):
     """Run ghostscript to obtain effective bounding box of psfilename.
+
     Return a list of bounding box coordinates.
     """
     cmd = "gs -dNOPAUSE -dBATCH -q -sDEVICE=bbox %r" % psfilename
@@ -132,6 +134,7 @@ def getBoundingBox(psfilename):
 
 def getPageBoundingBox(psfilename):
     """Obtain bounding box value defined in psfilename.
+
     Return a list of bounding box coordinates.
     """
     import re

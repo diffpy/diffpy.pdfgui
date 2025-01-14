@@ -28,10 +28,11 @@ FLOAT_ONLY = 3
 
 
 class TextValidator(wx.Validator):
-    """This validator is designed to check text input for wxTextCtrls. (It might
-    have uses in other widgets.) It can validate for letters only, digits only,
-    floats only, and can allow for a negative at the beginning of a digit string
-    or a negative float.
+    """This validator is designed to check text input for wxTextCtrls.
+
+    (It might have uses in other widgets.) It can validate for letters
+    only, digits only, floats only, and can allow for a negative at the
+    beginning of a digit string or a negative float.
     """
 
     def __init__(self, flag=DIGIT_ONLY, allowNeg=False):

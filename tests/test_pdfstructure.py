@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 
-"""Unit tests for class PDFStructure
-"""
+"""Unit tests for class PDFStructure."""
 
 
 import unittest
@@ -23,19 +22,19 @@ class TestPDFStructure(unittest.TestCase):
         return
 
     def test___init__(self):
-        """check PDFStructure.__init__()"""
+        """Check PDFStructure.__init__()"""
         self.assertEqual("noname", self.stru.name)
         return
 
     def test_read(self):
-        """check PDFStructure.read()"""
+        """Check PDFStructure.read()"""
         stru = self.stru
         notastructurefile = datafile("300K.gr")
         self.assertRaises(ControlFileError, stru.read, notastructurefile, format="pdffit")
         return
 
     def test_copy(self):
-        """check PDFStructure.copy()"""
+        """Check PDFStructure.copy()"""
         stru2 = self.stru.copy()
         self.assertEqual("noname", stru2.name)
         self.assertEqual(self.stru.pdffit, stru2.pdffit)
@@ -43,7 +42,7 @@ class TestPDFStructure(unittest.TestCase):
         return
 
     def test_setvar(self):
-        """check PDFStructure.setvar()"""
+        """Check PDFStructure.setvar()"""
         stru = self.stru
         stru.addNewAtom("C", [0, 0, 0], anisotropy=True)
         stru.setvar("pscale", 1.5)
@@ -77,7 +76,7 @@ class TestPDFStructure(unittest.TestCase):
         return
 
     def test_getvar(self):
-        """check PDFStructure.getvar()"""
+        """Check PDFStructure.getvar()"""
         from diffpy.structure import Atom
 
         stru = self.stru

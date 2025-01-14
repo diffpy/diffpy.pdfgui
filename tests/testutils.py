@@ -12,9 +12,7 @@
 # See LICENSE.txt for license information.
 #
 ##############################################################################
-
-"""Helper routines for running other unit tests.
-"""
+"""Helper routines for running other unit tests."""
 
 import os
 from contextlib import contextmanager
@@ -103,7 +101,7 @@ def tooltiptext(widget):
 
 
 def clickcell(grid, leftright, row, col, **kw):
-    """Simulate left or right mouse click over wx.grid.Grid
+    """Simulate left or right mouse click over wx.grid.Grid.
 
     Parameters
     ----------

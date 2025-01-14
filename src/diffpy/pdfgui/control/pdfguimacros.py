@@ -12,7 +12,6 @@
 # See LICENSE.txt for license information.
 #
 ##############################################################################
-
 """Methods for macros used in pdfgui."""
 
 from __future__ import print_function

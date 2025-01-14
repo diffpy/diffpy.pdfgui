@@ -12,7 +12,6 @@
 # See LICENSE.txt for license information.
 #
 ##############################################################################
-
 """This module contains custom wxListCtrl subclasses.
 AutoWidthListCtrl  - A wxListCtrl object that automatically adjusts the width of
 its columns.
@@ -30,7 +29,7 @@ from diffpy.pdfgui.gui.wxextensions import wx12
 
 
 class AutoWidthListCtrl(wx12.ListCtrl, listmix.ListCtrlAutoWidthMixin):
-    """wxListCtrl subclass that automatically adjusts its column width."""
+    """WxListCtrl subclass that automatically adjusts its column width."""
 
     def __init__(self, parent, ID, pos=wx.DefaultPosition, size=wx.DefaultSize, style=0, *args, **kwargs):
         wx12.ListCtrl.__init__(self, parent, ID, pos, size, style, *args, **kwargs)
@@ -67,13 +66,14 @@ class ColumnSortListCtrl(AutoWidthListCtrl, listmix.ColumnSorterMixin):
     """AutoWidthListCtrl subclass that sorts its columns when the column header
     is pressed.
 
-    This ListCtrl requires an itemDataMap member dictionary to be initialized
-    before the sorting capabilities can be realized. This dictionary simply references
-    the ListCtrl's entries by a unique number. This number must be stored as the
-    ItemData (with SetItemData) of the entry.  The member data must be in the
-    form of a tuple, where the tuple has a number of entries as the ListCtrl has
-    columns. The sorting routine sorts the items in the ListCtrl by the entries
-    in this tuple.
+    This ListCtrl requires an itemDataMap member dictionary to be
+    initialized before the sorting capabilities can be realized. This
+    dictionary simply references the ListCtrl's entries by a unique
+    number. This number must be stored as the ItemData (with
+    SetItemData) of the entry.  The member data must be in the form of a
+    tuple, where the tuple has a number of entries as the ListCtrl has
+    columns. The sorting routine sorts the items in the ListCtrl by the
+    entries in this tuple.
     """
 
     def __init__(self, parent, ID, pos=wx.DefaultPosition, size=wx.DefaultSize, style=0, *args, **kwargs):
@@ -96,10 +96,11 @@ class ColumnSortListCtrl(AutoWidthListCtrl, listmix.ColumnSorterMixin):
     def makeIDM(self):
         """This method automatically sets up the itemDataMap.
 
-        The itemDataMap gets filled with the current ListCtrl entries. The
-        itemDataMap does not update automatically when the list is changed. To
-        update the itemDataMap this method must be called again.
-        initializeSorter should be called after a call to this method.
+        The itemDataMap gets filled with the current ListCtrl entries.
+        The itemDataMap does not update automatically when the list is
+        changed. To update the itemDataMap this method must be called
+        again. initializeSorter should be called after a call to this
+        method.
         """
         numcol = self.GetColumnCount()
         numrow = self.GetItemCount()

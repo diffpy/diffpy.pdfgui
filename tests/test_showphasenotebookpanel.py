@@ -12,9 +12,7 @@
 # See LICENSE.txt for license information.
 #
 ##############################################################################
-
-"""Display the PhaseNotebookPanel.
-"""
+"""Display the PhaseNotebookPanel."""
 
 
 import wx
@@ -51,7 +49,7 @@ class MyFrame(wx.Frame):
         return True
 
     def test(self):
-        """Testing code goes here"""
+        """Testing code goes here."""
         project = LoadProject(datafile("lcmo.ddp"))
         fstru = project.getPhases()[0]
         self.window.configuration = fstru

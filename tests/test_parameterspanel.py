@@ -12,10 +12,7 @@
 # See LICENSE.txt for license information.
 #
 ##############################################################################
-
-"""
-Unit tests for ParametersPanel class
-"""
+"""Unit tests for ParametersPanel class."""
 
 import unittest
 

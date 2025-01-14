@@ -12,10 +12,7 @@
 # See LICENSE.txt for license information.
 #
 ##############################################################################
-
-"""
-Unit tests for DataSet panels.
-"""
+"""Unit tests for DataSet panels."""
 
 import unittest
 

@@ -120,8 +120,7 @@ class ErrorReportDialogControlFix(wx.Dialog):
 
 
 def _extractSearchTerms(tbtext):
-    """
-    Extract search words from a Python exception traceback.
+    """Extract search words from a Python exception traceback.
 
     Parameters
     ----------

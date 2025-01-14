@@ -369,8 +369,8 @@ class DataSetConfigurePanel(wx.Panel, PDFPanel):
     def __adjustFitRange(self, name, value):
         """Check the fit range values.
 
-        The fit range values are set to their defaults (the data range) when the
-        fit range is nonsensical.
+        The fit range values are set to their defaults (the data range)
+        when the fit range is nonsensical.
         """
         if name == "fitrmin":
             if value < self.configuration.rmin or value >= self.configuration.fitrmax:
@@ -394,8 +394,8 @@ class DataSetConfigurePanel(wx.Panel, PDFPanel):
     def onSampling(self, event):  # wxGlade: DataSetConfigurePanel.<event_handler>
         """Record how the data is to be sampled during the fit.
 
-        This does not use the event argument, so feel free to call this method
-        programmatically.
+        This does not use the event argument, so feel free to call this
+        method programmatically.
         """
         si = self.radioBoxSampling.GetSelection()
         oldsampling = self.configuration.getFitSamplingType()

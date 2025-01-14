@@ -12,9 +12,7 @@
 # See LICENSE.txt for license information.
 #
 ##############################################################################
-
-"""\
-Support for WX4-like methods and functions for WX3.
+"""Support for WX4-like methods and functions for WX3.
 
 Notes
 -----

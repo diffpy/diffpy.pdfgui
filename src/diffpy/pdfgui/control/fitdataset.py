@@ -12,9 +12,8 @@
 # See LICENSE.txt for license information.
 #
 ##############################################################################
-
-"""class FitDataSet for experimental PDF data and related fitting parameters
-"""
+"""Class FitDataSet for experimental PDF data and related fitting
+parameters."""
 
 import copy
 
@@ -92,6 +91,7 @@ class FitDataSet(PDFDataSet):
 
     def __getattr__(self, name):
         """Obtain refinable variables from self.initial.
+
         This is called only when normal attribute lookup fails.
         """
         if name in PDFDataSet.refinableVars:
@@ -102,14 +102,14 @@ class FitDataSet(PDFDataSet):
         return value
 
     def _getStrId(self):
-        """make a string identifier
+        """Make a string identifier.
 
         return value: string id
         """
         return "d_" + self.name
 
     def getYNames(self):
-        """get names of data item which can be plotted as y
+        """Get names of data item which can be plotted as y.
 
         returns list of strings
         """
@@ -117,7 +117,7 @@ class FitDataSet(PDFDataSet):
         return ynames
 
     def getXNames(self):
-        """get names of data item which can be plotted as x
+        """Get names of data item which can be plotted as x.
 
         returns list of strings
         """
@@ -126,7 +126,7 @@ class FitDataSet(PDFDataSet):
         ]
 
     def getData(self, name, step=-1):
-        """get self's data member
+        """Get self's data member.
 
         name -- data item name
         step -- step info, it can be:
@@ -203,8 +203,8 @@ class FitDataSet(PDFDataSet):
         return self.readObs(filename)
 
     def _updateRcalcRange(self):
-        """Helper method for updating fitrmin, fitrmax and fitrstep
-        just after reading observed values.
+        """Helper method for updating fitrmin, fitrmax and fitrstep just after
+        reading observed values.
 
         No return value.
         """
@@ -231,7 +231,7 @@ class FitDataSet(PDFDataSet):
         return self.readObsStr(datastring)
 
     def readObsStr(self, datastring):
-        """Read experimental PDF data from a string
+        """Read experimental PDF data from a string.
 
         datastring -- string of raw data
 
@@ -344,6 +344,7 @@ class FitDataSet(PDFDataSet):
 
     def _resampledPDFDataSet(self):
         """Return instance of PDFDataSet with resampled observed data.
+
         Helper method for writeResampledObs and writeResampledObsStr.
         """
         resampled = PDFDataSet(self.name)
@@ -375,9 +376,9 @@ class FitDataSet(PDFDataSet):
         return s
 
     def findParameters(self):
-        """Obtain dictionary of parameters used by self.constraints.
-        The keys of returned dictionary are integer parameter indices, and
-        their values Parameter instances, with guessed initial values.
+        """Obtain dictionary of parameters used by self.constraints. The keys
+        of returned dictionary are integer parameter indices, and their values
+        Parameter instances, with guessed initial values.
 
         returns dictionary of indices and Parameter instances
         """
@@ -396,7 +397,7 @@ class FitDataSet(PDFDataSet):
         return foundpars
 
     def applyParameters(self, parameters):
-        """Evaluate constraint formulas and adjust self.initial
+        """Evaluate constraint formulas and adjust self.initial.
 
         parameters -- dictionary of parameter indices with Parameter instances.
                       Dictionary may also have float-type values.
@@ -417,8 +418,8 @@ class FitDataSet(PDFDataSet):
     def changeParameterIndex(self, oldidx, newidx):
         """Change a parameter index to a new value.
 
-        This will replace all instances of one parameter name with another in
-        this fit.
+        This will replace all instances of one parameter name with
+        another in this fit.
         """
         import re
 
@@ -430,7 +431,7 @@ class FitDataSet(PDFDataSet):
         return
 
     def copy(self, other=None):
-        """Copy self to other. if other is None, create new instance
+        """Copy self to other. if other is None, create new instance.
 
         other -- ref to other object
 
@@ -525,11 +526,12 @@ class FitDataSet(PDFDataSet):
     # interface for data sampling
 
     def getFitSamplingType(self):
-        """Description of r-sampling used in the fit.  This method
-        compares self.fitrstep with r-sampling in the observed data
-        and with Nyquist r step.
+        """Description of r-sampling used in the fit.  This method compares
+        self.fitrstep with r-sampling in the observed data and with Nyquist r
+        step.
 
-        Return a string, possible values are "data", "Nyquist" or "custom".
+        Return a string, possible values are "data", "Nyquist" or
+        "custom".
         """
         eps = 1e-8
         if abs(self.fitrstep - self.getObsSampling()) < eps:
@@ -575,6 +577,7 @@ class FitDataSet(PDFDataSet):
 
     def getNyquistSampling(self):
         """Return r-step corresponding to Nyquist sampling at the qmax value.
+
         When qmax is zero, return r-step in the observed data.
         """
         if self.qmax > 0.0:

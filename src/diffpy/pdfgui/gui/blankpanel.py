@@ -12,7 +12,6 @@
 # See LICENSE.txt for license information.
 #
 ##############################################################################
-
 """This module contains the BlankPanel class."""
 
 import wx

@@ -71,8 +71,8 @@ class MainFrame(wx.Frame):
     panel, accessed via the data member rightPanel, which can hold one of any
     number of panels. The panels that can appear in the right pane must be
     derived from PDFPanel (in pdfpanel.py) and are defined in the dynamicPanels
-    dictionary, which is defined in __customProperties. A panel is placed in the
-    right pane by passing its dynamicPanels dictionary key to the
+    dictionary, which is defined in __customProperties. A panel is placed in
+    the right pane by passing its dynamicPanels dictionary key to the
     switchRightPanel method.  This method takes care of displaying the panel,
     giving the data it needs, and calling its refresh() method.
 
@@ -210,9 +210,9 @@ class MainFrame(wx.Frame):
     def __cmdLineLoad(self):
         """Open file loaded from the command line.
 
-        This opens a file without any checking for existing projects. This
-        should only be called after all initializations. It will open a file
-        whose name is specified in pdfguiglobals.cmdargs.
+        This opens a file without any checking for existing projects.
+        This should only be called after all initializations. It will
+        open a file whose name is specified in pdfguiglobals.cmdargs.
         """
         if pdfguiglobals.cmdargs:
             filename = pdfguiglobals.cmdargs[0]
@@ -227,9 +227,10 @@ class MainFrame(wx.Frame):
 
     def __defineLocalIds(self):
         """Several user functions are duplicated many times throughout the gui.
-        This occurs mostly between the main menu, the right-click menu, and the
-        many buttons in the gui. This method defines local Ids that can be used
-        for all of these.
+
+        This occurs mostly between the main menu, the right-click menu,
+        and the many buttons in the gui. This method defines local Ids
+        that can be used for all of these.
         """
         # Functions that modify the tree.
         # These are used in the fitting right-click menu and the main menu.
@@ -746,8 +747,8 @@ class MainFrame(wx.Frame):
     def __menuBindings(self):
         """Setup bindings for the main menu and toolbar.
 
-        Since all toolbar functions use the same Ids as main menu items, the
-        toolbar events do not need their own bindings.
+        Since all toolbar functions use the same Ids as main menu items,
+        the toolbar events do not need their own bindings.
         """
         # File Menu
         self.Bind(wx.EVT_MENU, self.onNew, id=self.newId)
@@ -838,7 +839,6 @@ class MainFrame(wx.Frame):
         paneltype   --  The code used in self.dynamicPanels that indicates the
                         panel to be displayed. If paneltype is None, the blank
                         panel is displayed.
-
         """
         self.rightPanel.Enable(False)
         self.plotPanel.Enable(False)
@@ -974,8 +974,8 @@ class MainFrame(wx.Frame):
     def loadConfiguration(self):
         """Load the configuration from file.
 
-        The MRU list is handled by the local member fileHistory, which is a
-        wxFileHistory object.
+        The MRU list is handled by the local member fileHistory, which
+        is a wxFileHistory object.
         """
 
         # Get MRU information
@@ -1116,7 +1116,8 @@ class MainFrame(wx.Frame):
         return
 
     def makeTreeSelection(self, node):
-        """Manually select a node of the tree and update according to selection.
+        """Manually select a node of the tree and update according to
+        selection.
 
         This makes sure that the node is visible after selection.
 
@@ -1799,9 +1800,9 @@ class MainFrame(wx.Frame):
     def onPasteLink(self, event):
         """Paste a copied fit and link it to the original.
 
-        This should only be called on a 'fit' node, and only if the original
-        'fit' node, or at least one with the same name as the original still
-        exists in the tree.
+        This should only be called on a 'fit' node, and only if the
+        original 'fit' node, or at least one with the same name as the
+        original still exists in the tree.
         """
         selections = self.treeCtrlMain.GetSelections()
         cdata = self.treeCtrlMain.GetClipboard()
@@ -1835,8 +1836,9 @@ class MainFrame(wx.Frame):
     def onInsData(self, event):
         """Insert a new dataset item.
 
-        This opens up the new data set panel from adddatapanel.py. That panel
-        is in charge of inserting a new phase. See the module for details.
+        This opens up the new data set panel from adddatapanel.py. That
+        panel is in charge of inserting a new phase. See the module for
+        details.
         """
         selections = self.treeCtrlMain.GetSelections()
         if len(selections) == 1:
@@ -1848,8 +1850,9 @@ class MainFrame(wx.Frame):
     def onInsPhase(self, event):
         """Insert a new phase item.
 
-        This opens up the new phase panel from addphasepanel.py. That panel is
-        in charge of inserting a new phase. See the module for details.
+        This opens up the new phase panel from addphasepanel.py. That
+        panel is in charge of inserting a new phase. See the module for
+        details.
         """
         selections = self.treeCtrlMain.GetSelections()
         if len(selections) == 1:
@@ -1861,8 +1864,9 @@ class MainFrame(wx.Frame):
     def onInsCalc(self, event):
         """Insert a new calculation item.
 
-        A calculation is given the name "Calculation n", where n is the smallest
-        positive integer such that the name is not already taken.
+        A calculation is given the name "Calculation n", where n is the
+        smallest positive integer such that the name is not already
+        taken.
         """
         selections = self.treeCtrlMain.GetSelections()
         if len(selections) == 1:
@@ -1961,8 +1965,8 @@ class MainFrame(wx.Frame):
     def onStop(self, event):
         """Stop all fits.
 
-        This removes all items from the runningDict and changes the status
-        colors back to wxWHITE.
+        This removes all items from the runningDict and changes the
+        status colors back to wxWHITE.
         """
         self.control.stop()
         self.needsSave()
@@ -2052,7 +2056,8 @@ class MainFrame(wx.Frame):
         return
 
     def onPrintBL(self, event):
-        """Print the bond lengths of a selected structure to the output panel."""
+        """Print the bond lengths of a selected structure to the output
+        panel."""
         from diffpy.pdfgui.gui.bondlengthdialog import BondLengthDialog
 
         selections = self.treeCtrlMain.GetSelections()
@@ -2095,7 +2100,8 @@ class MainFrame(wx.Frame):
         return
 
     def onPrintBA(self, event):
-        """Print the bond angles of a selected structure to the output panel."""
+        """Print the bond angles of a selected structure to the output
+        panel."""
         from diffpy.pdfgui.gui.bondangledialog import BondAngleDialog
 
         selections = self.treeCtrlMain.GetSelections()
@@ -2530,7 +2536,7 @@ class MainFrame(wx.Frame):
 
     # MISC INTERACTION ITEMS
     def showMessage(self, info, title="PDF Control Error"):
-        """showMessage(self, info) --> tell user about an exception and so on
+        """ShowMessage(self, info) --> tell user about an exception and so on.
 
         title -- window title
         info -- message
@@ -2552,9 +2558,9 @@ class MainFrame(wx.Frame):
     def postEvent(self, type, info):
         """This method is called by the control.
 
-        Whenever the control needs to communicate directly with the gui it can
-        call this method. The event is processed by onCustom and then handled by
-        the gui on its own terms.
+        Whenever the control needs to communicate directly with the gui
+        it can call this method. The event is processed by onCustom and
+        then handled by the gui on its own terms.
         """
         event = PDFCustomEvent()
         event.type = type

@@ -12,8 +12,6 @@
 # See LICENSE.txt for license information.
 #
 ##############################################################################
-
-"""Extensions to wxPython used in PDFgui
-"""
+"""Extensions to wxPython used in PDFgui."""
 
 #  End of file

@@ -115,10 +115,8 @@ class DataSetConstraintPanel(wx.Panel, PDFPanel):
     def setConstraintsData(self):
         """Set the values in the constraints panel.
 
-        The values come from the constraints member dictionary.
-        dscale
-        qdamp
-        qbroad
+        The values come from the constraints member dictionary. dscale
+        qdamp qbroad
         """
         for par, ctrlName in self.ctrlMap.items():
             textCtrl = getattr(self, ctrlName)
