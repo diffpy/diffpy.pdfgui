@@ -1,22 +1,20 @@
+
+
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" data-content_root="../../../../">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>diffpy.pdfgui.gui.fittree &mdash; diffpy.pdfgui 3.1.0rc5 documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=fa44fd50" />
-      <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=19f00094" />
+  <title>diffpy.pdfgui.gui.fittree &mdash; diffpy.pdfgui 3.1.0rc6 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=e59714d7" />
 
   
-  <!--[if lt IE 9]>
-    <script src="../../../../_static/js/html5shiv.min.js"></script>
-  <![endif]-->
-  
-        <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
-        <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../../../../_static/documentation_options.js?v=c31823b9"></script>
-        <script src="../../../../_static/doctools.js?v=9a2dae69"></script>
-        <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../../_static/documentation_options.js?v=e3a9b952"></script>
+      <script src="../../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../../genindex.html" />
     <link rel="search" title="Search" href="../../../../search.html" /> 
@@ -33,9 +31,6 @@
           <a href="../../../../index.html" class="icon icon-home">
             diffpy.pdfgui
           </a>
-              <div class="version">
-                3.1.0rc5
-              </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
@@ -93,7 +88,6 @@
 <span class="c1"># See LICENSE.txt for license information.</span>
 <span class="c1">#</span>
 <span class="c1">##############################################################################</span>
-
 <span class="sd">&quot;&quot;&quot;This module contains the FitTree object designed for use in PDFgui.</span>
 
 <span class="sd">Classes:</span>
@@ -103,22 +97,22 @@
 <span class="sd">    FitTreeError    --  Exception for errors with FitTree operations.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
-<span class="kn">import</span> <span class="nn">base64</span>
-<span class="kn">import</span> <span class="nn">pickle</span>
-<span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">base64</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pickle</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
 
-<span class="kn">import</span> <span class="nn">wx</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">wx</span>
 
-<span class="kn">from</span> <span class="nn">diffpy.pdfgui.control.controlerrors</span> <span class="kn">import</span> <span class="n">ControlError</span>
-<span class="kn">from</span> <span class="nn">diffpy.pdfgui.control.fitting</span> <span class="kn">import</span> <span class="n">Fitting</span>
-<span class="kn">from</span> <span class="nn">diffpy.pdfgui.gui.pdfguiglobals</span> <span class="kn">import</span> <span class="n">iconpath</span>
-<span class="kn">from</span> <span class="nn">diffpy.pdfgui.gui.wxextensions</span> <span class="kn">import</span> <span class="n">wx12</span>
-<span class="kn">from</span> <span class="nn">diffpy.pdfgui.utils</span> <span class="kn">import</span> <span class="n">safeCPickleDumps</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">diffpy.pdfgui.control.controlerrors</span><span class="w"> </span><span class="kn">import</span> <span class="n">ControlError</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">diffpy.pdfgui.control.fitting</span><span class="w"> </span><span class="kn">import</span> <span class="n">Fitting</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">diffpy.pdfgui.gui.pdfguiglobals</span><span class="w"> </span><span class="kn">import</span> <span class="n">iconpath</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">diffpy.pdfgui.gui.wxextensions</span><span class="w"> </span><span class="kn">import</span> <span class="n">wx12</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">diffpy.pdfgui.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">safeCPickleDumps</span>
 
 
 <div class="viewcode-block" id="FitTree">
 <a class="viewcode-back" href="../../../../api/diffpy.pdfgui.gui.html#diffpy.pdfgui.gui.fittree.FitTree">[docs]</a>
-<span class="k">class</span> <span class="nc">FitTree</span><span class="p">(</span><span class="n">wx12</span><span class="o">.</span><span class="n">TreeCtrl</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">FitTree</span><span class="p">(</span><span class="n">wx12</span><span class="o">.</span><span class="n">TreeCtrl</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;TreeCtrl designed to organize pdffit fits.</span>
 
 <span class="sd">    The root of the tree is hidden. Below that there are several levels</span>
@@ -127,7 +121,7 @@
 <span class="sd">    _ fit (*)</span>
 <span class="sd">    |</span>
 <span class="sd">    |____ phase (5)</span>
-<span class="sd">    |____ datset (*)</span>
+<span class="sd">    |____ dataset (*)</span>
 <span class="sd">    |____ calculation (*)</span>
 
 <span class="sd">    Fits are at the top level. Under fits there are phases, datasets, and</span>
@@ -143,10 +137,9 @@
 <span class="sd">    control     --  The pdfguicontrol object that interfaces between the tree</span>
 <span class="sd">                    and the pdffit2 engine. The tree is a mirror of the internal</span>
 <span class="sd">                    structure of the control.</span>
-
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">parent</span><span class="p">,</span>
         <span class="nb">id</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span>
@@ -180,7 +173,7 @@
 
 <div class="viewcode-block" id="FitTree.InitializeTree">
 <a class="viewcode-back" href="../../../../api/diffpy.pdfgui.gui.html#diffpy.pdfgui.gui.fittree.FitTree.InitializeTree">[docs]</a>
-    <span class="k">def</span> <span class="nf">InitializeTree</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">InitializeTree</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;This initializes the tree by adding a root node.&quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">root</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">AddRoot</span><span class="p">(</span><span class="s2">&quot;The Root Item&quot;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">SetNodeType</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">root</span><span class="p">,</span> <span class="s2">&quot;root&quot;</span><span class="p">)</span>
@@ -196,14 +189,14 @@
 
 <div class="viewcode-block" id="FitTree.GetTreeItemDict">
 <a class="viewcode-back" href="../../../../api/diffpy.pdfgui.gui.html#diffpy.pdfgui.gui.fittree.FitTree.GetTreeItemDict">[docs]</a>
-    <span class="k">def</span> <span class="nf">GetTreeItemDict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">GetTreeItemDict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the data dictionary of the node.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">GetItemData</span><span class="p">(</span><span class="n">node</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="FitTree.GetFitRoot">
 <a class="viewcode-back" href="../../../../api/diffpy.pdfgui.gui.html#diffpy.pdfgui.gui.fittree.FitTree.GetFitRoot">[docs]</a>
-    <span class="k">def</span> <span class="nf">GetFitRoot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">GetFitRoot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the id of the fit in which the passed node resides.&quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">node</span><span class="p">:</span>
             <span class="k">return</span>
@@ -217,7 +210,7 @@
 
 <div class="viewcode-block" id="FitTree.GetChildren">
 <a class="viewcode-back" href="../../../../api/diffpy.pdfgui.gui.html#diffpy.pdfgui.gui.fittree.FitTree.GetChildren">[docs]</a>
-    <span class="k">def</span> <span class="nf">GetChildren</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">GetChildren</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the ids of the children of a given node.&quot;&quot;&quot;</span>
         <span class="n">cookie</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="n">ids</span> <span class="o">=</span> <span class="p">[]</span>
@@ -231,7 +224,7 @@
 
 <div class="viewcode-block" id="FitTree.GetSiblings">
 <a class="viewcode-back" href="../../../../api/diffpy.pdfgui.gui.html#diffpy.pdfgui.gui.fittree.FitTree.GetSiblings">[docs]</a>
-    <span class="k">def</span> <span class="nf">GetSiblings</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">GetSiblings</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the ids of the siblings of a given node.&quot;&quot;&quot;</span>
         <span class="n">parent</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">GetItemParent</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
         <span class="n">ids</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">GetChildren</span><span class="p">(</span><span class="n">parent</span><span class="p">)</span>
@@ -241,7 +234,7 @@
 
 <div class="viewcode-block" id="FitTree.GetAllType">
 <a class="viewcode-back" href="../../../../api/diffpy.pdfgui.gui.html#diffpy.pdfgui.gui.fittree.FitTree.GetAllType">[docs]</a>
-    <span class="k">def</span> <span class="nf">GetAllType</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">GetAllType</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the id of each item in the tree of the same type as node.&quot;&quot;&quot;</span>
         <span class="n">nodetype</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">GetNodeType</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
         <span class="n">fits</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">GetChildren</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">root</span><span class="p">)</span>
@@ -257,10 +250,11 @@
 
 <div class="viewcode-block" id="FitTree.GetPhases">
 <a class="viewcode-back" href="../../../../api/diffpy.pdfgui.gui.html#diffpy.pdfgui.gui.fittree.FitTree.GetPhases">[docs]</a>
-    <span class="k">def</span> <span class="nf">GetPhases</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">GetPhases</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Get a list of phase in branch.</span>
 
-<span class="sd">        node is either the fit-root or a node in the fit-branch of interest.</span>
+<span class="sd">        node is either the fit-root or a node in the fit-branch of</span>
+<span class="sd">        interest.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">nodes</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">GetChildren</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">GetFitRoot</span><span class="p">(</span><span class="n">node</span><span class="p">))</span>
         <span class="n">ids</span> <span class="o">=</span> <span class="p">[</span><span class="nb">id</span> <span class="k">for</span> <span class="nb">id</span> <span class="ow">in</span> <span class="n">nodes</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">GetNodeType</span><span class="p">(</span><span class="nb">id</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;phase&quot;</span><span class="p">]</span>
@@ -269,10 +263,11 @@
 
 <div class="viewcode-block" id="FitTree.GetDataSets">
 <a class="viewcode-back" href="../../../../api/diffpy.pdfgui.gui.html#diffpy.pdfgui.gui.fittree.FitTree.GetDataSets">[docs]</a>
-    <span class="k">def</span> <span class="nf">GetDataSets</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">GetDataSets</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Get a list of datasets in branch.</span>
 
-<span class="sd">        node is either the fit-root or a node in the fit-branch of interest.</span>
+<span class="sd">        node is either the fit-root or a node in the fit-branch of</span>
+<span class="sd">        interest.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">nodes</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">GetChildren</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">GetFitRoot</span><span class="p">(</span><span class="n">node</span><span class="p">))</span>
         <span class="n">ids</span> <span class="o">=</span> <span class="p">[</span><span class="nb">id</span> <span class="k">for</span> <span class="nb">id</span> <span class="ow">in</span> <span class="n">nodes</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">GetNodeType</span><span class="p">(</span><span class="nb">id</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;dataset&quot;</span><span class="p">]</span>
@@ -281,10 +276,11 @@
 
 <div class="viewcode-block" id="FitTree.GetCalculations">
 <a class="viewcode-back" href="../../../../api/diffpy.pdfgui.gui.html#diffpy.pdfgui.gui.fittree.FitTree.GetCalculations">[docs]</a>
-    <span class="k">def</span> <span class="nf">GetCalculations</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">GetCalculations</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Get a list of calculations in branch.</span>
 
-<span class="sd">        node is either the fit-root or a node in the fit-branch of interest.</span>
+<span class="sd">        node is either the fit-root or a node in the fit-branch of</span>
+<span class="sd">        interest.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">nodes</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">GetChildren</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">GetFitRoot</span><span class="p">(</span><span class="n">node</span><span class="p">))</span>
         <span class="n">ids</span> <span class="o">=</span> <span class="p">[</span><span class="nb">id</span> <span class="k">for</span> <span class="nb">id</span> <span class="ow">in</span> <span class="n">nodes</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">GetNodeType</span><span class="p">(</span><span class="nb">id</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;calculation&quot;</span><span class="p">]</span>
@@ -293,7 +289,7 @@
 
 <div class="viewcode-block" id="FitTree.GetNodeType">
 <a class="viewcode-back" href="../../../../api/diffpy.pdfgui.gui.html#diffpy.pdfgui.gui.fittree.FitTree.GetNodeType">[docs]</a>
-    <span class="k">def</span> <span class="nf">GetNodeType</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">GetNodeType</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the node type.</span>
 
 <span class="sd">        This is the &quot;type&quot; entry in the data dictionary of the node.</span>
@@ -308,7 +304,7 @@
 
 <div class="viewcode-block" id="FitTree.SetNodeType">
 <a class="viewcode-back" href="../../../../api/diffpy.pdfgui.gui.html#diffpy.pdfgui.gui.fittree.FitTree.SetNodeType">[docs]</a>
-    <span class="k">def</span> <span class="nf">SetNodeType</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="n">tp</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">SetNodeType</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="n">tp</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the node type of a node.&quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">node</span><span class="p">:</span>
             <span class="k">return</span>
@@ -322,7 +318,7 @@
 
 <div class="viewcode-block" id="FitTree.GetBranchName">
 <a class="viewcode-back" href="../../../../api/diffpy.pdfgui.gui.html#diffpy.pdfgui.gui.fittree.FitTree.GetBranchName">[docs]</a>
-    <span class="k">def</span> <span class="nf">GetBranchName</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">GetBranchName</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the name of the branch in which node resides.&quot;&quot;&quot;</span>
         <span class="n">fp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">GetFitRoot</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">GetItemText</span><span class="p">(</span><span class="n">fp</span><span class="p">)</span></div>
@@ -330,12 +326,12 @@
 
 <div class="viewcode-block" id="FitTree.GetLastPhase">
 <a class="viewcode-back" href="../../../../api/diffpy.pdfgui.gui.html#diffpy.pdfgui.gui.fittree.FitTree.GetLastPhase">[docs]</a>
-    <span class="k">def</span> <span class="nf">GetLastPhase</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">GetLastPhase</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the last phase child of the parent node.</span>
 
-<span class="sd">        This method is helpful in placing datasets and phases into the fit tree.</span>
-<span class="sd">        This method depends on the fact that phases are placed before datasets</span>
-<span class="sd">        in the fit tree.</span>
+<span class="sd">        This method is helpful in placing datasets and phases into the</span>
+<span class="sd">        fit tree. This method depends on the fact that phases are placed</span>
+<span class="sd">        before datasets in the fit tree.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">siblings</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">GetChildren</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
         <span class="n">lastphase</span> <span class="o">=</span> <span class="kc">None</span>
@@ -351,12 +347,12 @@
 
 <div class="viewcode-block" id="FitTree.GetLastDataSet">
 <a class="viewcode-back" href="../../../../api/diffpy.pdfgui.gui.html#diffpy.pdfgui.gui.fittree.FitTree.GetLastDataSet">[docs]</a>
-    <span class="k">def</span> <span class="nf">GetLastDataSet</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">GetLastDataSet</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the last dataset child of the fit node.</span>
 
-<span class="sd">        If there is no last dataset node, this may return the last phase node.</span>
-<span class="sd">        The purpose of getting this node is to know where to place another node,</span>
-<span class="sd">        so the actual node type is not important.</span>
+<span class="sd">        If there is no last dataset node, this may return the last phase</span>
+<span class="sd">        node. The purpose of getting this node is to know where to place</span>
+<span class="sd">        another node, so the actual node type is not important.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">siblings</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">GetChildren</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
         <span class="n">lastdata</span> <span class="o">=</span> <span class="kc">None</span>
@@ -370,7 +366,7 @@
 
 <div class="viewcode-block" id="FitTree.GetNumPhases">
 <a class="viewcode-back" href="../../../../api/diffpy.pdfgui.gui.html#diffpy.pdfgui.gui.fittree.FitTree.GetNumPhases">[docs]</a>
-    <span class="k">def</span> <span class="nf">GetNumPhases</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">GetNumPhases</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the number of phases in a branch.</span>
 
 <span class="sd">        node    --  A node in the branch, or the root of the branch.</span>
@@ -383,7 +379,7 @@
 
 <div class="viewcode-block" id="FitTree.GetNumDataSets">
 <a class="viewcode-back" href="../../../../api/diffpy.pdfgui.gui.html#diffpy.pdfgui.gui.fittree.FitTree.GetNumDataSets">[docs]</a>
-    <span class="k">def</span> <span class="nf">GetNumDataSets</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">GetNumDataSets</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the number of datasets in a branch.</span>
 
 <span class="sd">        node    --  A node in the branch, or the root of the branch.</span>
@@ -396,13 +392,13 @@
 
 <div class="viewcode-block" id="FitTree.GetPositionInSubtree">
 <a class="viewcode-back" href="../../../../api/diffpy.pdfgui.gui.html#diffpy.pdfgui.gui.fittree.FitTree.GetPositionInSubtree">[docs]</a>
-    <span class="k">def</span> <span class="nf">GetPositionInSubtree</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">GetPositionInSubtree</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the index if the node in its subtree.</span>
 
-<span class="sd">        For fits the position is absolute within the tree. For phases, datasets,</span>
-<span class="sd">        and calculations, the location is taken to be in reference to the other</span>
-<span class="sd">        nodes of its type. This is designed to be compatible with the control</span>
-<span class="sd">        center.</span>
+<span class="sd">        For fits the position is absolute within the tree. For phases,</span>
+<span class="sd">        datasets, and calculations, the location is taken to be in</span>
+<span class="sd">        reference to the other nodes of its type. This is designed to be</span>
+<span class="sd">        compatible with the control center.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">parent</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">GetItemParent</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
         <span class="n">brood</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">GetChildren</span><span class="p">(</span><span class="n">parent</span><span class="p">)</span>
@@ -422,13 +418,13 @@
 
 <div class="viewcode-block" id="FitTree.SetControlData">
 <a class="viewcode-back" href="../../../../api/diffpy.pdfgui.gui.html#diffpy.pdfgui.gui.fittree.FitTree.SetControlData">[docs]</a>
-    <span class="k">def</span> <span class="nf">SetControlData</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">SetControlData</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the control center data associated with the node.</span>
 
-<span class="sd">        This need only be called for &#39;fit&#39; nodes.</span>
-<span class="sd">        This is the &quot;cdata&quot; entry in the data dictionary of the</span>
-<span class="sd">        node. It holds the object with which the right panel interfaces. For</span>
-<span class="sd">        example, for a &#39;phase&#39; node, it contains a Structure object.</span>
+<span class="sd">        This need only be called for &#39;fit&#39; nodes. This is the &quot;cdata&quot;</span>
+<span class="sd">        entry in the data dictionary of the node. It holds the object</span>
+<span class="sd">        with which the right panel interfaces. For example, for a</span>
+<span class="sd">        &#39;phase&#39; node, it contains a Structure object.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">nodetype</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">GetNodeType</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">nodetype</span> <span class="o">!=</span> <span class="s2">&quot;fit&quot;</span><span class="p">:</span>
@@ -441,7 +437,7 @@
 
 <div class="viewcode-block" id="FitTree.GetControlData">
 <a class="viewcode-back" href="../../../../api/diffpy.pdfgui.gui.html#diffpy.pdfgui.gui.fittree.FitTree.GetControlData">[docs]</a>
-    <span class="k">def</span> <span class="nf">GetControlData</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">GetControlData</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the control center data associated with a node.</span>
 
 <span class="sd">        NOTE: The fit-root of a node holds this data. This method makes it</span>
@@ -469,7 +465,7 @@
 
 <div class="viewcode-block" id="FitTree.AddFit">
 <a class="viewcode-back" href="../../../../api/diffpy.pdfgui.gui.html#diffpy.pdfgui.gui.fittree.FitTree.AddFit">[docs]</a>
-    <span class="k">def</span> <span class="nf">AddFit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fitname</span><span class="o">=</span><span class="s2">&quot;Fit 1&quot;</span><span class="p">,</span> <span class="n">cdata</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">paste</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">AddFit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fitname</span><span class="o">=</span><span class="s2">&quot;Fit 1&quot;</span><span class="p">,</span> <span class="n">cdata</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">paste</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Append a new fit tree to the end of the current fits.</span>
 
 <span class="sd">        fitname     --  The name of the fit. This is incremented if it already</span>
@@ -507,7 +503,7 @@
 
 <div class="viewcode-block" id="FitTree.AddPhase">
 <a class="viewcode-back" href="../../../../api/diffpy.pdfgui.gui.html#diffpy.pdfgui.gui.fittree.FitTree.AddPhase">[docs]</a>
-    <span class="k">def</span> <span class="nf">AddPhase</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="n">label</span><span class="p">,</span> <span class="n">insertafter</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">makedata</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">cdata</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">AddPhase</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="n">label</span><span class="p">,</span> <span class="n">insertafter</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">makedata</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">cdata</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Add a new blank Phase to the tree as a child of node.</span>
 
 <span class="sd">        node        --  The parent &#39;fit&#39; node.</span>
@@ -581,7 +577,7 @@
 
 <div class="viewcode-block" id="FitTree.AddDataSet">
 <a class="viewcode-back" href="../../../../api/diffpy.pdfgui.gui.html#diffpy.pdfgui.gui.fittree.FitTree.AddDataSet">[docs]</a>
-    <span class="k">def</span> <span class="nf">AddDataSet</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="n">label</span><span class="p">,</span> <span class="n">insertafter</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">makedata</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">cdata</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">AddDataSet</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="n">label</span><span class="p">,</span> <span class="n">insertafter</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">makedata</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">cdata</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Add a new DataSet to the tree as a child of fit.</span>
 
 <span class="sd">        node        --  The parent node of the dataset. Must be &#39;fit&#39; type.</span>
@@ -649,7 +645,7 @@
 
 <div class="viewcode-block" id="FitTree.AddCalc">
 <a class="viewcode-back" href="../../../../api/diffpy.pdfgui.gui.html#diffpy.pdfgui.gui.fittree.FitTree.AddCalc">[docs]</a>
-    <span class="k">def</span> <span class="nf">AddCalc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="n">label</span><span class="p">,</span> <span class="n">insertafter</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">makedata</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">cdata</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">AddCalc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="n">label</span><span class="p">,</span> <span class="n">insertafter</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">makedata</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">cdata</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Add a new DataSet to the tree as a child of fit.</span>
 
 <span class="sd">        node        --  The parent node of the calculation. Must be &#39;fit&#39; type.</span>
@@ -713,11 +709,11 @@
 
 <div class="viewcode-block" id="FitTree.CopyBranch">
 <a class="viewcode-back" href="../../../../api/diffpy.pdfgui.gui.html#diffpy.pdfgui.gui.fittree.FitTree.CopyBranch">[docs]</a>
-    <span class="k">def</span> <span class="nf">CopyBranch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">startnode</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">CopyBranch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">startnode</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Make a copy of a tree branch.</span>
 
-<span class="sd">        The branch is held in the system clipboard so it can be used in another</span>
-<span class="sd">        instance of the fittree.</span>
+<span class="sd">        The branch is held in the system clipboard so it can be used in</span>
+<span class="sd">        another instance of the fittree.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">nodetype</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">GetNodeType</span><span class="p">(</span><span class="n">startnode</span><span class="p">)</span>
         <span class="n">cdata</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">control</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">GetControlData</span><span class="p">(</span><span class="n">startnode</span><span class="p">))</span>
@@ -740,11 +736,11 @@
 
 <div class="viewcode-block" id="FitTree.GetClipboard">
 <a class="viewcode-back" href="../../../../api/diffpy.pdfgui.gui.html#diffpy.pdfgui.gui.fittree.FitTree.GetClipboard">[docs]</a>
-    <span class="k">def</span> <span class="nf">GetClipboard</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">GetClipboard</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the clipboard data.</span>
 
-<span class="sd">        Returns the controldata in the clipboard, or None if the clipboard is</span>
-<span class="sd">        empty or contains the wrong type of data.</span>
+<span class="sd">        Returns the controldata in the clipboard, or None if the</span>
+<span class="sd">        clipboard is empty or contains the wrong type of data.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># Check to see if data is present</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">wx</span><span class="o">.</span><span class="n">TheClipboard</span><span class="o">.</span><span class="n">IsSupported</span><span class="p">(</span><span class="n">wx</span><span class="o">.</span><span class="n">DataFormat</span><span class="p">(</span><span class="n">wx</span><span class="o">.</span><span class="n">DF_TEXT</span><span class="p">)):</span>
@@ -776,7 +772,7 @@
 
 <div class="viewcode-block" id="FitTree.PasteBranch">
 <a class="viewcode-back" href="../../../../api/diffpy.pdfgui.gui.html#diffpy.pdfgui.gui.fittree.FitTree.PasteBranch">[docs]</a>
-    <span class="k">def</span> <span class="nf">PasteBranch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">entrypoint</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">PasteBranch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">entrypoint</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Paste the branch from the clipboard into tree at the given node.</span>
 
 <span class="sd">        A certain type of branch can only be copied to specific places.</span>
@@ -908,7 +904,7 @@
         <span class="k">return</span> <span class="n">newnode</span></div>
 
 
-    <span class="k">def</span> <span class="nf">__copyLabel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">oldlabel</span><span class="p">,</span> <span class="n">entrypoint</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">__copyLabel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">oldlabel</span><span class="p">,</span> <span class="n">entrypoint</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Make a new label that is appropriate for a new node.&quot;&quot;&quot;</span>
         <span class="c1"># Append &quot;_copy&quot; to the end of the label, unless it already has that.</span>
         <span class="c1"># In that case, just add a number to indicate which copy it is.</span>
@@ -920,8 +916,8 @@
         <span class="n">label</span> <span class="o">=</span> <span class="n">incrementName</span><span class="p">(</span><span class="n">label</span><span class="p">,</span> <span class="n">labels</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">label</span>
 
-    <span class="k">def</span> <span class="nf">__InsertBranch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cdata</span><span class="p">,</span> <span class="n">entrypoint</span><span class="p">,</span> <span class="n">label</span><span class="p">,</span> <span class="n">insertafter</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">prepend</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Instert control data into the tree.</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">__InsertBranch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cdata</span><span class="p">,</span> <span class="n">entrypoint</span><span class="p">,</span> <span class="n">label</span><span class="p">,</span> <span class="n">insertafter</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">prepend</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Insert control data into the tree.</span>
 
 <span class="sd">        cdata       --  The control data that goes with the branch</span>
 <span class="sd">        entrypoint  --  The subbranch (fit root) to paste into</span>
@@ -956,7 +952,7 @@
 
 <div class="viewcode-block" id="FitTree.DeleteBranches">
 <a class="viewcode-back" href="../../../../api/diffpy.pdfgui.gui.html#diffpy.pdfgui.gui.fittree.FitTree.DeleteBranches">[docs]</a>
-    <span class="k">def</span> <span class="nf">DeleteBranches</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">selections</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">DeleteBranches</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">selections</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Remove the subtree starting from the selected node(s).&quot;&quot;&quot;</span>
         <span class="c1"># Get a list of branch heads</span>
         <span class="n">branchset</span> <span class="o">=</span> <span class="p">[</span><span class="n">node</span> <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">selections</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">GetNodeType</span><span class="p">(</span><span class="n">node</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;fit&quot;</span><span class="p">]</span>
@@ -978,7 +974,7 @@
 
 <div class="viewcode-block" id="FitTree.SelectAll">
 <a class="viewcode-back" href="../../../../api/diffpy.pdfgui.gui.html#diffpy.pdfgui.gui.fittree.FitTree.SelectAll">[docs]</a>
-    <span class="k">def</span> <span class="nf">SelectAll</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">SelectAll</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Select all nodes.&quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">UnselectAll</span><span class="p">()</span>
         <span class="n">fits</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">GetChildren</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">root</span><span class="p">)</span>
@@ -992,7 +988,7 @@
 
 <div class="viewcode-block" id="FitTree.SelectAllType">
 <a class="viewcode-back" href="../../../../api/diffpy.pdfgui.gui.html#diffpy.pdfgui.gui.fittree.FitTree.SelectAllType">[docs]</a>
-    <span class="k">def</span> <span class="nf">SelectAllType</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">SelectAllType</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Select all nodes of same type as passed node.</span>
 
 <span class="sd">        node    --  Node whose type to select. If node is None (default), then</span>
@@ -1013,7 +1009,7 @@
 
 <div class="viewcode-block" id="FitTree.ExtendProjectTree">
 <a class="viewcode-back" href="../../../../api/diffpy.pdfgui.gui.html#diffpy.pdfgui.gui.fittree.FitTree.ExtendProjectTree">[docs]</a>
-    <span class="k">def</span> <span class="nf">ExtendProjectTree</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">treelist</span><span class="p">,</span> <span class="n">clear</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">paste</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">ExtendProjectTree</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">treelist</span><span class="p">,</span> <span class="n">clear</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">paste</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Extend the project tree from the treelist.</span>
 
 <span class="sd">        treelist    --  A list of control data returned by</span>
@@ -1031,7 +1027,7 @@
 
 <span class="sd">        Note that node[1] should be empty if the node is a calculation.</span>
 
-<span class="sd">        Returns the last insterted fit or calculation node</span>
+<span class="sd">        Returns the last inserted fit or calculation node</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># Clean slate</span>
         <span class="k">if</span> <span class="n">clear</span><span class="p">:</span>
@@ -1080,8 +1076,8 @@
 <span class="c1"># Exceptions</span>
 <div class="viewcode-block" id="FitTreeError">
 <a class="viewcode-back" href="../../../../api/diffpy.pdfgui.gui.html#diffpy.pdfgui.gui.fittree.FitTreeError">[docs]</a>
-<span class="k">class</span> <span class="nc">FitTreeError</span><span class="p">(</span><span class="n">ControlError</span><span class="p">):</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">FitTreeError</span><span class="p">(</span><span class="n">ControlError</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
         <span class="n">ControlError</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">)</span>
         <span class="k">return</span></div>
 
@@ -1093,10 +1089,9 @@
 <span class="c1"># Utility functions</span>
 <div class="viewcode-block" id="incrementName">
 <a class="viewcode-back" href="../../../../api/diffpy.pdfgui.gui.html#diffpy.pdfgui.gui.fittree.incrementName">[docs]</a>
-<span class="k">def</span> <span class="nf">incrementName</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">namelist</span><span class="p">,</span> <span class="n">start</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Increment the name by assigning the lowest number to the end such</span>
-<span class="sd">    that the name does not appear in the namelist.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">incrementName</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">namelist</span><span class="p">,</span> <span class="n">start</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Increment the name by assigning the lowest number to the end such that</span>
+<span class="sd">    the name does not appear in the namelist.&quot;&quot;&quot;</span>
     <span class="n">newname</span> <span class="o">=</span> <span class="n">name</span>
     <span class="n">match</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&quot;\d+$&quot;</span>
     <span class="n">counter</span> <span class="o">=</span> <span class="n">start</span>
@@ -1115,7 +1110,7 @@
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2024, The Trustees of Columbia University in the City of New York.</p>
+    <p>&#169; Copyright 2025, The Trustees of Columbia University in the City of New York.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

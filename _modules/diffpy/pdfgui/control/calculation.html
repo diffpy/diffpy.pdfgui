@@ -1,22 +1,20 @@
+
+
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" data-content_root="../../../../">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>diffpy.pdfgui.control.calculation &mdash; diffpy.pdfgui 3.1.0rc5 documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=fa44fd50" />
-      <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=19f00094" />
+  <title>diffpy.pdfgui.control.calculation &mdash; diffpy.pdfgui 3.1.0rc6 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=e59714d7" />
 
   
-  <!--[if lt IE 9]>
-    <script src="../../../../_static/js/html5shiv.min.js"></script>
-  <![endif]-->
-  
-        <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
-        <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../../../../_static/documentation_options.js?v=c31823b9"></script>
-        <script src="../../../../_static/doctools.js?v=9a2dae69"></script>
-        <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../../_static/documentation_options.js?v=e3a9b952"></script>
+      <script src="../../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../../genindex.html" />
     <link rel="search" title="Search" href="../../../../search.html" /> 
@@ -33,9 +31,6 @@
           <a href="../../../../index.html" class="icon icon-home">
             diffpy.pdfgui
           </a>
-              <div class="version">
-                3.1.0rc5
-              </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
@@ -93,22 +88,20 @@
 <span class="c1"># See LICENSE.txt for license information.</span>
 <span class="c1">#</span>
 <span class="c1">##############################################################################</span>
+<span class="sd">&quot;&quot;&quot;Class Calculation for performing PDF simulation from model structure.&quot;&quot;&quot;</span>
 
-<span class="sd">&quot;&quot;&quot;class Calculation for performing PDF simulation from model structure.</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">copy</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">math</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pickle</span>
 
-<span class="kn">import</span> <span class="nn">copy</span>
-<span class="kn">import</span> <span class="nn">math</span>
-<span class="kn">import</span> <span class="nn">pickle</span>
-
-<span class="kn">from</span> <span class="nn">diffpy.pdfgui.control.controlerrors</span> <span class="kn">import</span> <span class="n">ControlConfigError</span><span class="p">,</span> <span class="n">ControlKeyError</span><span class="p">,</span> <span class="n">ControlValueError</span>
-<span class="kn">from</span> <span class="nn">diffpy.pdfgui.control.pdfcomponent</span> <span class="kn">import</span> <span class="n">PDFComponent</span>
-<span class="kn">from</span> <span class="nn">diffpy.pdfgui.utils</span> <span class="kn">import</span> <span class="n">safeCPickleDumps</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">diffpy.pdfgui.control.controlerrors</span><span class="w"> </span><span class="kn">import</span> <span class="n">ControlConfigError</span><span class="p">,</span> <span class="n">ControlKeyError</span><span class="p">,</span> <span class="n">ControlValueError</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">diffpy.pdfgui.control.pdfcomponent</span><span class="w"> </span><span class="kn">import</span> <span class="n">PDFComponent</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">diffpy.pdfgui.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">safeCPickleDumps</span>
 
 
 <div class="viewcode-block" id="Calculation">
 <a class="viewcode-back" href="../../../../api/diffpy.pdfgui.control.html#diffpy.pdfgui.control.calculation.Calculation">[docs]</a>
-<span class="k">class</span> <span class="nc">Calculation</span><span class="p">(</span><span class="n">PDFComponent</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Calculation</span><span class="p">(</span><span class="n">PDFComponent</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Perform a theoretical computation of PDF from model structure.</span>
 
 <span class="sd">    Data members:</span>
@@ -133,8 +126,8 @@
 <span class="sd">    dscale -- total scale factor</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;initialize Calculation</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize Calculation.</span>
 
 <span class="sd">        name -- calculation name</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -153,8 +146,8 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">dscale</span> <span class="o">=</span> <span class="mf">1.0</span>
         <span class="k">return</span>
 
-    <span class="k">def</span> <span class="nf">_getStrId</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;make a string identifier</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_getStrId</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Make a string identifier.</span>
 
 <span class="sd">        return value: string id</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -162,9 +155,9 @@
 
 <div class="viewcode-block" id="Calculation.setRGrid">
 <a class="viewcode-back" href="../../../../api/diffpy.pdfgui.control.html#diffpy.pdfgui.control.calculation.Calculation.setRGrid">[docs]</a>
-    <span class="k">def</span> <span class="nf">setRGrid</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rmin</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">rstep</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">rmax</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Change specified r-grid parameters (rmin, rstep, rmax).</span>
-<span class="sd">        Adjust rmax for integer number of steps.</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">setRGrid</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rmin</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">rstep</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">rmax</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Change specified r-grid parameters (rmin, rstep, rmax). Adjust rmax</span>
+<span class="sd">        for integer number of steps.</span>
 
 <span class="sd">        rmin  -- new low rcalc boundary</span>
 <span class="sd">        rstep -- new r-grid step</span>
@@ -207,9 +200,9 @@
 
 <div class="viewcode-block" id="Calculation.start">
 <a class="viewcode-back" href="../../../../api/diffpy.pdfgui.control.html#diffpy.pdfgui.control.calculation.Calculation.start">[docs]</a>
-    <span class="k">def</span> <span class="nf">start</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;entry function for calculation&quot;&quot;&quot;</span>
-        <span class="kn">from</span> <span class="nn">diffpy.pdfgui.control.fitting</span> <span class="kn">import</span> <span class="n">getEngineExceptions</span><span class="p">,</span> <span class="n">handleEngineException</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">start</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Entry function for calculation.&quot;&quot;&quot;</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">diffpy.pdfgui.control.fitting</span><span class="w"> </span><span class="kn">import</span> <span class="n">getEngineExceptions</span><span class="p">,</span> <span class="n">handleEngineException</span>
 
         <span class="k">try</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">calculate</span><span class="p">()</span>
@@ -227,8 +220,8 @@
 
 <div class="viewcode-block" id="Calculation.calculate">
 <a class="viewcode-back" href="../../../../api/diffpy.pdfgui.control.html#diffpy.pdfgui.control.calculation.Calculation.calculate">[docs]</a>
-    <span class="k">def</span> <span class="nf">calculate</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;do the real calculation&quot;&quot;&quot;</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">calculate</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Do the real calculation.&quot;&quot;&quot;</span>
         <span class="c1"># clean up old results</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">rcalc</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">Gcalc</span> <span class="o">=</span> <span class="p">[]</span>
@@ -239,7 +232,7 @@
 
         <span class="c1"># make sure parameters are initialized</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">owner</span><span class="o">.</span><span class="n">updateParameters</span><span class="p">()</span>
-        <span class="kn">from</span> <span class="nn">diffpy.pdffit2</span> <span class="kn">import</span> <span class="n">PdfFit</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">diffpy.pdffit2</span><span class="w"> </span><span class="kn">import</span> <span class="n">PdfFit</span>
 
         <span class="n">server</span> <span class="o">=</span> <span class="n">PdfFit</span><span class="p">()</span>
 
@@ -281,8 +274,8 @@
 
 <div class="viewcode-block" id="Calculation.write">
 <a class="viewcode-back" href="../../../../api/diffpy.pdfgui.control.html#diffpy.pdfgui.control.calculation.Calculation.write">[docs]</a>
-    <span class="k">def</span> <span class="nf">write</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;write this calculated PDF to a file</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">write</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Write this calculated PDF to a file.</span>
 
 <span class="sd">        filename -- name of file to write to</span>
 
@@ -297,13 +290,13 @@
 
 <div class="viewcode-block" id="Calculation.writeStr">
 <a class="viewcode-back" href="../../../../api/diffpy.pdfgui.control.html#diffpy.pdfgui.control.calculation.Calculation.writeStr">[docs]</a>
-    <span class="k">def</span> <span class="nf">writeStr</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">writeStr</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;String representation of calculated PDF.</span>
 
 <span class="sd">        Returns data string</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="kn">import</span> <span class="nn">time</span>
-        <span class="kn">from</span> <span class="nn">getpass</span> <span class="kn">import</span> <span class="n">getuser</span>
+        <span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">getpass</span><span class="w"> </span><span class="kn">import</span> <span class="n">getuser</span>
 
         <span class="n">lines</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="c1"># write metadata</span>
@@ -346,13 +339,13 @@
 
 <div class="viewcode-block" id="Calculation.load">
 <a class="viewcode-back" href="../../../../api/diffpy.pdfgui.control.html#diffpy.pdfgui.control.calculation.Calculation.load">[docs]</a>
-    <span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">subpath</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;load data from a zipped project file</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">load</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">subpath</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Load data from a zipped project file.</span>
 
 <span class="sd">        z       -- zipped project file</span>
 <span class="sd">        subpath -- path to its own storage within project file</span>
 
-<span class="sd">        returns a tree of internal hierachy</span>
+<span class="sd">        returns a tree of internal hierarchy</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">config</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">z</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">subpath</span> <span class="o">+</span> <span class="s2">&quot;config&quot;</span><span class="p">),</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;latin1&quot;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">rmin</span> <span class="o">=</span> <span class="n">config</span><span class="p">[</span><span class="s2">&quot;rmin&quot;</span><span class="p">]</span>
@@ -372,8 +365,8 @@
 
 <div class="viewcode-block" id="Calculation.save">
 <a class="viewcode-back" href="../../../../api/diffpy.pdfgui.control.html#diffpy.pdfgui.control.calculation.Calculation.save">[docs]</a>
-    <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">subpath</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;save data from a zipped project file</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">subpath</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Save data from a zipped project file.</span>
 
 <span class="sd">        z       -- zipped project file</span>
 <span class="sd">        subpath -- path to its own storage within project file</span>
@@ -397,8 +390,8 @@
 
 <div class="viewcode-block" id="Calculation.copy">
 <a class="viewcode-back" href="../../../../api/diffpy.pdfgui.control.html#diffpy.pdfgui.control.calculation.Calculation.copy">[docs]</a>
-    <span class="k">def</span> <span class="nf">copy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;copy self to other. if other is None, create new instance</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">copy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Copy self to other. if other is None, create new instance.</span>
 
 <span class="sd">        other -- reference to other object</span>
 
@@ -432,8 +425,8 @@
 
 <div class="viewcode-block" id="Calculation.getYNames">
 <a class="viewcode-back" href="../../../../api/diffpy.pdfgui.control.html#diffpy.pdfgui.control.calculation.Calculation.getYNames">[docs]</a>
-    <span class="k">def</span> <span class="nf">getYNames</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;get names of data item which can be plotted as y</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">getYNames</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get names of data item which can be plotted as y.</span>
 
 <span class="sd">        returns a name str list</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -444,8 +437,8 @@
 
 <div class="viewcode-block" id="Calculation.getXNames">
 <a class="viewcode-back" href="../../../../api/diffpy.pdfgui.control.html#diffpy.pdfgui.control.calculation.Calculation.getXNames">[docs]</a>
-    <span class="k">def</span> <span class="nf">getXNames</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;get names of data item which can be plotted as x</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">getXNames</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get names of data item which can be plotted as x.</span>
 
 <span class="sd">        returns a name str list</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -456,8 +449,8 @@
 
 <div class="viewcode-block" id="Calculation.getData">
 <a class="viewcode-back" href="../../../../api/diffpy.pdfgui.control.html#diffpy.pdfgui.control.calculation.Calculation.getData">[docs]</a>
-    <span class="k">def</span> <span class="nf">getData</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dataname</span><span class="p">,</span> <span class="n">step</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;get Calculation data member</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">getData</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dataname</span><span class="p">,</span> <span class="n">step</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get Calculation data member.</span>
 
 <span class="sd">        name -- data item name</span>
 <span class="sd">        step -- ignored, just for compatibility with Organizer.getData()</span>
@@ -472,16 +465,16 @@
 
 <div class="viewcode-block" id="Calculation.getMetaDataNames">
 <a class="viewcode-back" href="../../../../api/diffpy.pdfgui.control.html#diffpy.pdfgui.control.calculation.Calculation.getMetaDataNames">[docs]</a>
-    <span class="k">def</span> <span class="nf">getMetaDataNames</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;return all applicable meta data names&quot;&quot;&quot;</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">getMetaDataNames</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return all applicable meta data names.&quot;&quot;&quot;</span>
         <span class="c1"># FIXME: Currently we haven&#39;t thought about this</span>
         <span class="k">return</span> <span class="p">[]</span></div>
 
 
 <div class="viewcode-block" id="Calculation.getMetaData">
 <a class="viewcode-back" href="../../../../api/diffpy.pdfgui.control.html#diffpy.pdfgui.control.calculation.Calculation.getMetaData">[docs]</a>
-    <span class="k">def</span> <span class="nf">getMetaData</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;get meta data value</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">getMetaData</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get meta data value.</span>
 
 <span class="sd">        name -- meta data name</span>
 <span class="sd">        returns meta data value</span>
@@ -507,7 +500,7 @@
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2024, The Trustees of Columbia University in the City of New York.</p>
+    <p>&#169; Copyright 2025, The Trustees of Columbia University in the City of New York.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

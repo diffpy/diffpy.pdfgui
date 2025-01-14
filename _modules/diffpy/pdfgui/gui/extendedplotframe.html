@@ -1,22 +1,20 @@
+
+
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" data-content_root="../../../../">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>diffpy.pdfgui.gui.extendedplotframe &mdash; diffpy.pdfgui 3.1.0rc5 documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=fa44fd50" />
-      <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=19f00094" />
+  <title>diffpy.pdfgui.gui.extendedplotframe &mdash; diffpy.pdfgui 3.1.0rc6 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=e59714d7" />
 
   
-  <!--[if lt IE 9]>
-    <script src="../../../../_static/js/html5shiv.min.js"></script>
-  <![endif]-->
-  
-        <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
-        <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../../../../_static/documentation_options.js?v=c31823b9"></script>
-        <script src="../../../../_static/doctools.js?v=9a2dae69"></script>
-        <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../../_static/documentation_options.js?v=e3a9b952"></script>
+      <script src="../../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../../genindex.html" />
     <link rel="search" title="Search" href="../../../../search.html" /> 
@@ -33,9 +31,6 @@
           <a href="../../../../index.html" class="icon icon-home">
             diffpy.pdfgui
           </a>
-              <div class="version">
-                3.1.0rc5
-              </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
@@ -93,23 +88,20 @@
 <span class="c1"># See LICENSE.txt for license information.</span>
 <span class="c1">#</span>
 <span class="c1">##############################################################################</span>
+<span class="sd">&quot;&quot;&quot;The module contains extensions for GUI plot frame.&quot;&quot;&quot;</span>
 
-<span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">The module contains extensions for GUI plot frame.</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os.path</span>
 
-<span class="kn">import</span> <span class="nn">os.path</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">wx</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">matplotlib.artist</span><span class="w"> </span><span class="kn">import</span> <span class="n">setp</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">matplotlib.backends.backend_wxagg</span><span class="w"> </span><span class="kn">import</span> <span class="n">FigureCanvasWxAgg</span> <span class="k">as</span> <span class="n">FigureCanvas</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">matplotlib.backends.backend_wxagg</span><span class="w"> </span><span class="kn">import</span> <span class="n">NavigationToolbar2WxAgg</span> <span class="k">as</span> <span class="n">NavToolbar</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">matplotlib.figure</span><span class="w"> </span><span class="kn">import</span> <span class="n">Figure</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">matplotlib.font_manager</span><span class="w"> </span><span class="kn">import</span> <span class="n">FontProperties</span>
 
-<span class="kn">import</span> <span class="nn">matplotlib</span>
-<span class="kn">import</span> <span class="nn">wx</span>
-<span class="kn">from</span> <span class="nn">matplotlib.artist</span> <span class="kn">import</span> <span class="n">setp</span>
-<span class="kn">from</span> <span class="nn">matplotlib.backends.backend_wxagg</span> <span class="kn">import</span> <span class="n">FigureCanvasWxAgg</span> <span class="k">as</span> <span class="n">FigureCanvas</span>
-<span class="kn">from</span> <span class="nn">matplotlib.backends.backend_wxagg</span> <span class="kn">import</span> <span class="n">NavigationToolbar2WxAgg</span> <span class="k">as</span> <span class="n">NavToolbar</span>
-<span class="kn">from</span> <span class="nn">matplotlib.figure</span> <span class="kn">import</span> <span class="n">Figure</span>
-<span class="kn">from</span> <span class="nn">matplotlib.font_manager</span> <span class="kn">import</span> <span class="n">FontProperties</span>
-
-<span class="kn">from</span> <span class="nn">diffpy.pdfgui.gui.pdfguiglobals</span> <span class="kn">import</span> <span class="n">iconpath</span>
-<span class="kn">from</span> <span class="nn">diffpy.pdfgui.gui.wxextensions</span> <span class="kn">import</span> <span class="n">wx12</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">diffpy.pdfgui.gui.pdfguiglobals</span><span class="w"> </span><span class="kn">import</span> <span class="n">iconpath</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">diffpy.pdfgui.gui.wxextensions</span><span class="w"> </span><span class="kn">import</span> <span class="n">wx12</span>
 
 <span class="n">matplotlib</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s2">&quot;WXAgg&quot;</span><span class="p">)</span>
 
@@ -118,13 +110,13 @@
 
 <div class="viewcode-block" id="ExtendedToolbar">
 <a class="viewcode-back" href="../../../../api/diffpy.pdfgui.gui.html#diffpy.pdfgui.gui.extendedplotframe.ExtendedToolbar">[docs]</a>
-<span class="k">class</span> <span class="nc">ExtendedToolbar</span><span class="p">(</span><span class="n">NavToolbar</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">ExtendedToolbar</span><span class="p">(</span><span class="n">NavToolbar</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;An extended plotting toolbar with a save and close button.&quot;&quot;&quot;</span>
 
     <span class="c1"># override NavToolbar.toolitems to exclude the subplots tool.</span>
     <span class="n">toolitems</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">el</span> <span class="k">for</span> <span class="n">el</span> <span class="ow">in</span> <span class="n">NavToolbar</span><span class="o">.</span><span class="n">toolitems</span> <span class="k">if</span> <span class="n">el</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="s2">&quot;Subplots&quot;</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">canvas</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">canvas</span><span class="p">):</span>
         <span class="n">NavToolbar</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">canvas</span><span class="p">)</span>
         <span class="n">wx12</span><span class="o">.</span><span class="n">patchToolBarMethods</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
         <span class="c1"># Load customized icon image</span>
@@ -141,12 +133,12 @@
 
 <div class="viewcode-block" id="ExtendedPlotFrame">
 <a class="viewcode-back" href="../../../../api/diffpy.pdfgui.gui.html#diffpy.pdfgui.gui.extendedplotframe.ExtendedPlotFrame">[docs]</a>
-<span class="k">class</span> <span class="nc">ExtendedPlotFrame</span><span class="p">(</span><span class="n">wx</span><span class="o">.</span><span class="n">Frame</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">ExtendedPlotFrame</span><span class="p">(</span><span class="n">wx</span><span class="o">.</span><span class="n">Frame</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;An extended plotting frame with a save and close button.</span>
 
 <span class="sd">    The class has a matplotlib.figure.Figure data member named &#39;figure&#39;.</span>
-<span class="sd">    It also has a matplotlib.axes.Axes data member named &#39;axes&#39;.</span>
-<span class="sd">    The normal matplotlib plot manipulations can be performed with these two</span>
+<span class="sd">    It also has a matplotlib.axes.Axes data member named &#39;axes&#39;. The</span>
+<span class="sd">    normal matplotlib plot manipulations can be performed with these two</span>
 <span class="sd">    data members. See the matplotlib API at:</span>
 <span class="sd">    http://matplotlib.sourceforge.net/classdocs.html</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -154,7 +146,7 @@
     <span class="c1"># keyboard shortcut(s) for closing plot window</span>
     <span class="n">close_keys</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">matplotlib</span><span class="o">.</span><span class="n">rcParamsDefault</span><span class="p">[</span><span class="s2">&quot;keymap.quit&quot;</span><span class="p">])</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize the CanvasFrame.</span>
 
 <span class="sd">        The frame uses ExtendedToolbar as a toolbar, which has a save data</span>
@@ -214,7 +206,7 @@
     <span class="c1"># EVENT CODE #############################################################</span>
 <div class="viewcode-block" id="ExtendedPlotFrame.onClose">
 <a class="viewcode-back" href="../../../../api/diffpy.pdfgui.gui.html#diffpy.pdfgui.gui.extendedplotframe.ExtendedPlotFrame.onClose">[docs]</a>
-    <span class="k">def</span> <span class="nf">onClose</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">evt</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">onClose</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">evt</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Close the frame.&quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;plotter&quot;</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">plotter</span><span class="o">.</span><span class="n">onWindowClose</span><span class="p">()</span>
@@ -224,14 +216,14 @@
 
 <div class="viewcode-block" id="ExtendedPlotFrame.OnPaint">
 <a class="viewcode-back" href="../../../../api/diffpy.pdfgui.gui.html#diffpy.pdfgui.gui.extendedplotframe.ExtendedPlotFrame.OnPaint">[docs]</a>
-    <span class="k">def</span> <span class="nf">OnPaint</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">OnPaint</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">canvas</span><span class="o">.</span><span class="n">draw</span><span class="p">()</span>
         <span class="n">event</span><span class="o">.</span><span class="n">Skip</span><span class="p">()</span></div>
 
 
 <div class="viewcode-block" id="ExtendedPlotFrame.savePlotData">
 <a class="viewcode-back" href="../../../../api/diffpy.pdfgui.gui.html#diffpy.pdfgui.gui.extendedplotframe.ExtendedPlotFrame.savePlotData">[docs]</a>
-    <span class="k">def</span> <span class="nf">savePlotData</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">evt</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">savePlotData</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">evt</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Save the data in the plot in columns.&quot;&quot;&quot;</span>
         <span class="n">d</span> <span class="o">=</span> <span class="n">wx</span><span class="o">.</span><span class="n">FileDialog</span><span class="p">(</span>
             <span class="kc">None</span><span class="p">,</span>
@@ -253,7 +245,7 @@
 
 <div class="viewcode-block" id="ExtendedPlotFrame.UpdateStatusBar">
 <a class="viewcode-back" href="../../../../api/diffpy.pdfgui.gui.html#diffpy.pdfgui.gui.extendedplotframe.ExtendedPlotFrame.UpdateStatusBar">[docs]</a>
-    <span class="k">def</span> <span class="nf">UpdateStatusBar</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">UpdateStatusBar</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">event</span><span class="o">.</span><span class="n">inaxes</span><span class="p">:</span>
             <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">event</span><span class="o">.</span><span class="n">xdata</span><span class="p">,</span> <span class="n">event</span><span class="o">.</span><span class="n">ydata</span>
             <span class="n">xystr</span> <span class="o">=</span> <span class="s2">&quot;x = </span><span class="si">%g</span><span class="s2">, y = </span><span class="si">%g</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
@@ -262,7 +254,7 @@
 
 <div class="viewcode-block" id="ExtendedPlotFrame.mplKeyPress">
 <a class="viewcode-back" href="../../../../api/diffpy.pdfgui.gui.html#diffpy.pdfgui.gui.extendedplotframe.ExtendedPlotFrame.mplKeyPress">[docs]</a>
-    <span class="k">def</span> <span class="nf">mplKeyPress</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">mplKeyPress</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Process keyboard input in matplotlib plot window.</span>
 
 <span class="sd">        This implements a standard close-window shortcut key.</span>
@@ -274,15 +266,15 @@
 
 <div class="viewcode-block" id="ExtendedPlotFrame.replot">
 <a class="viewcode-back" href="../../../../api/diffpy.pdfgui.gui.html#diffpy.pdfgui.gui.extendedplotframe.ExtendedPlotFrame.replot">[docs]</a>
-    <span class="k">def</span> <span class="nf">replot</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;officially call function in matplotlib to do drawing&quot;&quot;&quot;</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">replot</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Officially call function in matplotlib to do drawing.&quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">canvas</span><span class="o">.</span><span class="n">draw</span><span class="p">()</span></div>
 
 
 <div class="viewcode-block" id="ExtendedPlotFrame.insertCurve">
 <a class="viewcode-back" href="../../../../api/diffpy.pdfgui.gui.html#diffpy.pdfgui.gui.extendedplotframe.ExtendedPlotFrame.insertCurve">[docs]</a>
-    <span class="k">def</span> <span class="nf">insertCurve</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">xData</span><span class="p">,</span> <span class="n">yData</span><span class="p">,</span> <span class="n">style</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;insert a new curve to the plot</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">insertCurve</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">xData</span><span class="p">,</span> <span class="n">yData</span><span class="p">,</span> <span class="n">style</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Insert a new curve to the plot.</span>
 
 <span class="sd">        xData, yData -- x, y data to used for the curve</span>
 <span class="sd">        style -- the way curve should be plotted</span>
@@ -302,8 +294,8 @@
 
 <div class="viewcode-block" id="ExtendedPlotFrame.updateData">
 <a class="viewcode-back" href="../../../../api/diffpy.pdfgui.gui.html#diffpy.pdfgui.gui.extendedplotframe.ExtendedPlotFrame.updateData">[docs]</a>
-    <span class="k">def</span> <span class="nf">updateData</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">curveRef</span><span class="p">,</span> <span class="n">xData</span><span class="p">,</span> <span class="n">yData</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;update data for a existing curve</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">updateData</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">curveRef</span><span class="p">,</span> <span class="n">xData</span><span class="p">,</span> <span class="n">yData</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Update data for a existing curve.</span>
 
 <span class="sd">        curveRef -- internal reference to a curve</span>
 <span class="sd">        xData, yData -- x, y data to used for the curve</span>
@@ -318,8 +310,8 @@
 
 <div class="viewcode-block" id="ExtendedPlotFrame.changeStyle">
 <a class="viewcode-back" href="../../../../api/diffpy.pdfgui.gui.html#diffpy.pdfgui.gui.extendedplotframe.ExtendedPlotFrame.changeStyle">[docs]</a>
-    <span class="k">def</span> <span class="nf">changeStyle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">curveRef</span><span class="p">,</span> <span class="n">style</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;change curve style</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">changeStyle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">curveRef</span><span class="p">,</span> <span class="n">style</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Change curve style.</span>
 
 <span class="sd">        curveRef -- internal reference to curves</span>
 <span class="sd">        style -- style dictionary</span>
@@ -333,8 +325,8 @@
 
 <div class="viewcode-block" id="ExtendedPlotFrame.removeCurve">
 <a class="viewcode-back" href="../../../../api/diffpy.pdfgui.gui.html#diffpy.pdfgui.gui.extendedplotframe.ExtendedPlotFrame.removeCurve">[docs]</a>
-    <span class="k">def</span> <span class="nf">removeCurve</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">curveRef</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;remove curve from plot</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">removeCurve</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">curveRef</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Remove curve from plot.</span>
 
 <span class="sd">        curveRef -- internal reference to curves</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -344,8 +336,8 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">__updateViewLimits</span><span class="p">()</span></div>
 
 
-    <span class="k">def</span> <span class="nf">__updateViewLimits</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;adjust the subplot range in order to show all curves correctly.&quot;&quot;&quot;</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">__updateViewLimits</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Adjust the subplot range in order to show all curves correctly.&quot;&quot;&quot;</span>
         <span class="c1"># NOTE:</span>
         <span class="c1"># we need to adjust view limits by ourselves because Matplotlib can&#39;t</span>
         <span class="c1"># set the legend nicely when there are multiple curves in the plot.</span>
@@ -372,9 +364,9 @@
         <span class="k">if</span> <span class="n">ymax</span> <span class="o">&gt;</span> <span class="n">ymin</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">subplot</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="n">ymin</span><span class="p">,</span> <span class="n">ymax</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">__translateStyles</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">style</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Private function to translate general probabilities to</span>
-<span class="sd">        Matplotlib specific ones</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">__translateStyles</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">style</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Private function to translate general probabilities to Matplotlib</span>
+<span class="sd">        specific ones.</span>
 
 <span class="sd">        style -- general curve style dictionary (defined in demoplot)</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -440,8 +432,8 @@
 
 <div class="viewcode-block" id="ExtendedPlotFrame.setTitle">
 <a class="viewcode-back" href="../../../../api/diffpy.pdfgui.gui.html#diffpy.pdfgui.gui.extendedplotframe.ExtendedPlotFrame.setTitle">[docs]</a>
-    <span class="k">def</span> <span class="nf">setTitle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">wt</span><span class="p">,</span> <span class="n">gt</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;set graph labels</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">setTitle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">wt</span><span class="p">,</span> <span class="n">gt</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set graph labels.</span>
 
 <span class="sd">        wt -- window title</span>
 <span class="sd">        gt -- graph title</span>
@@ -452,8 +444,8 @@
 
 <div class="viewcode-block" id="ExtendedPlotFrame.setXLabel">
 <a class="viewcode-back" href="../../../../api/diffpy.pdfgui.gui.html#diffpy.pdfgui.gui.extendedplotframe.ExtendedPlotFrame.setXLabel">[docs]</a>
-    <span class="k">def</span> <span class="nf">setXLabel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;set label for x axis</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">setXLabel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set label for x axis.</span>
 
 <span class="sd">        x -- x label</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -462,8 +454,8 @@
 
 <div class="viewcode-block" id="ExtendedPlotFrame.setYLabel">
 <a class="viewcode-back" href="../../../../api/diffpy.pdfgui.gui.html#diffpy.pdfgui.gui.extendedplotframe.ExtendedPlotFrame.setYLabel">[docs]</a>
-    <span class="k">def</span> <span class="nf">setYLabel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;set label for y axis</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">setYLabel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set label for y axis.</span>
 
 <span class="sd">        y -- y label</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -472,8 +464,8 @@
 
 <div class="viewcode-block" id="ExtendedPlotFrame.clear">
 <a class="viewcode-back" href="../../../../api/diffpy.pdfgui.gui.html#diffpy.pdfgui.gui.extendedplotframe.ExtendedPlotFrame.clear">[docs]</a>
-    <span class="k">def</span> <span class="nf">clear</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;erase all curves&quot;&quot;&quot;</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">clear</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Erase all curves.&quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">subplot</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">curverefs</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">replot</span><span class="p">()</span></div>
@@ -486,11 +478,11 @@
 
 <div class="viewcode-block" id="legendBoxProperties">
 <a class="viewcode-back" href="../../../../api/diffpy.pdfgui.gui.html#diffpy.pdfgui.gui.extendedplotframe.legendBoxProperties">[docs]</a>
-<span class="k">def</span> <span class="nf">legendBoxProperties</span><span class="p">():</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">legendBoxProperties</span><span class="p">():</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Legend properties dictionary with keys consistent with MPL version.</span>
 
-<span class="sd">    The argument names have changed in matplotlib 0.98.5.</span>
-<span class="sd">    Old arguments do not work with later versions of matplotlib.</span>
+<span class="sd">    The argument names have changed in matplotlib 0.98.5. Old arguments</span>
+<span class="sd">    do not work with later versions of matplotlib.</span>
 
 <span class="sd">    Return dictionary of legend properties.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -499,8 +491,8 @@
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">_lbp</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">_lbp</span>
     <span class="c1">#  figure out matplotlib version and appropriate names</span>
-    <span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">__version__</span> <span class="k">as</span> <span class="n">mplver</span>
-    <span class="kn">from</span> <span class="nn">packaging.version</span> <span class="kn">import</span> <span class="n">parse</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">matplotlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">__version__</span> <span class="k">as</span> <span class="n">mplver</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">packaging.version</span><span class="w"> </span><span class="kn">import</span> <span class="n">parse</span>
 
     <span class="k">if</span> <span class="n">parse</span><span class="p">(</span><span class="n">mplver</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="n">parse</span><span class="p">(</span><span class="s2">&quot;0.98.5&quot;</span><span class="p">):</span>
         <span class="n">_lbp</span> <span class="o">=</span> <span class="p">{</span>
@@ -533,9 +525,9 @@
 
 <span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
 
-    <span class="k">class</span> <span class="nc">MyApp</span><span class="p">(</span><span class="n">wx</span><span class="o">.</span><span class="n">App</span><span class="p">):</span>
-        <span class="k">def</span> <span class="nf">OnInit</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-            <span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">arange</span><span class="p">,</span> <span class="n">cos</span><span class="p">,</span> <span class="n">pi</span><span class="p">,</span> <span class="n">sin</span>
+    <span class="k">class</span><span class="w"> </span><span class="nc">MyApp</span><span class="p">(</span><span class="n">wx</span><span class="o">.</span><span class="n">App</span><span class="p">):</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">OnInit</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+            <span class="kn">from</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="kn">import</span> <span class="n">arange</span><span class="p">,</span> <span class="n">cos</span><span class="p">,</span> <span class="n">pi</span><span class="p">,</span> <span class="n">sin</span>
 
             <span class="s2">&quot;Create the main window and insert the custom frame&quot;</span>
             <span class="n">x</span> <span class="o">=</span> <span class="n">arange</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">)</span>
@@ -569,7 +561,7 @@
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2024, The Trustees of Columbia University in the City of New York.</p>
+    <p>&#169; Copyright 2025, The Trustees of Columbia University in the City of New York.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

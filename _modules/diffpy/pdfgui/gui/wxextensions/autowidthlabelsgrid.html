@@ -1,22 +1,20 @@
+
+
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" data-content_root="../../../../../">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>diffpy.pdfgui.gui.wxextensions.autowidthlabelsgrid &mdash; diffpy.pdfgui 3.1.0rc5 documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../../../../_static/pygments.css?v=fa44fd50" />
-      <link rel="stylesheet" type="text/css" href="../../../../../_static/css/theme.css?v=19f00094" />
+  <title>diffpy.pdfgui.gui.wxextensions.autowidthlabelsgrid &mdash; diffpy.pdfgui 3.1.0rc6 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../../../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../../../../../_static/css/theme.css?v=e59714d7" />
 
   
-  <!--[if lt IE 9]>
-    <script src="../../../../../_static/js/html5shiv.min.js"></script>
-  <![endif]-->
-  
-        <script src="../../../../../_static/jquery.js?v=5d32c60e"></script>
-        <script src="../../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../../../../../_static/documentation_options.js?v=c31823b9"></script>
-        <script src="../../../../../_static/doctools.js?v=9a2dae69"></script>
-        <script src="../../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../../../_static/documentation_options.js?v=e3a9b952"></script>
+      <script src="../../../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../../../genindex.html" />
     <link rel="search" title="Search" href="../../../../../search.html" /> 
@@ -33,9 +31,6 @@
           <a href="../../../../../index.html" class="icon icon-home">
             diffpy.pdfgui
           </a>
-              <div class="version">
-                3.1.0rc5
-              </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../../../search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
@@ -93,27 +88,25 @@
 <span class="c1"># See LICENSE.txt for license information.</span>
 <span class="c1">#</span>
 <span class="c1">##############################################################################</span>
-
 <span class="sd">&quot;&quot;&quot;This module contains AutoWidthListCtrl, a wxListCtrl object that</span>
-<span class="sd">automatically adjusts the width of its columns.</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">automatically adjusts the width of its columns.&quot;&quot;&quot;</span>
 
 
-<span class="kn">import</span> <span class="nn">wx</span>
-<span class="kn">import</span> <span class="nn">wx.grid</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">wx</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">wx.grid</span>
 
 
 <div class="viewcode-block" id="AutoWidthLabelsGrid">
 <a class="viewcode-back" href="../../../../../api/diffpy.pdfgui.gui.wxextensions.html#diffpy.pdfgui.gui.wxextensions.autowidthlabelsgrid.AutoWidthLabelsGrid">[docs]</a>
-<span class="k">class</span> <span class="nc">AutoWidthLabelsGrid</span><span class="p">(</span><span class="n">wx</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">Grid</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;wx grid which allows lables auto sizing&quot;&quot;&quot;</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">AutoWidthLabelsGrid</span><span class="p">(</span><span class="n">wx</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">Grid</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Wx grid which allows labels auto sizing.&quot;&quot;&quot;</span>
 
     <span class="c1">#    def __init__(self, parent, state, size):</span>
     <span class="c1">#        wx.grid.Grid.__init__(self, parent, state, size)</span>
 
 <div class="viewcode-block" id="AutoWidthLabelsGrid.AutosizeLabels">
 <a class="viewcode-back" href="../../../../../api/diffpy.pdfgui.gui.wxextensions.html#diffpy.pdfgui.gui.wxextensions.autowidthlabelsgrid.AutoWidthLabelsGrid.AutosizeLabels">[docs]</a>
-    <span class="k">def</span> <span class="nf">AutosizeLabels</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rows</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">cols</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">AutosizeLabels</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rows</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">cols</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="c1"># Common setup.</span>
         <span class="n">devContext</span> <span class="o">=</span> <span class="n">wx</span><span class="o">.</span><span class="n">ScreenDC</span><span class="p">()</span>
         <span class="n">devContext</span><span class="o">.</span><span class="n">SetFont</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">GetLabelFont</span><span class="p">())</span>
@@ -155,7 +148,7 @@
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2024, The Trustees of Columbia University in the City of New York.</p>
+    <p>&#169; Copyright 2025, The Trustees of Columbia University in the City of New York.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

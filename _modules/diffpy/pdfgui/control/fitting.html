@@ -1,22 +1,20 @@
+
+
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" data-content_root="../../../../">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>diffpy.pdfgui.control.fitting &mdash; diffpy.pdfgui 3.1.0rc5 documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=fa44fd50" />
-      <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=19f00094" />
+  <title>diffpy.pdfgui.control.fitting &mdash; diffpy.pdfgui 3.1.0rc6 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=e59714d7" />
 
   
-  <!--[if lt IE 9]>
-    <script src="../../../../_static/js/html5shiv.min.js"></script>
-  <![endif]-->
-  
-        <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
-        <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../../../../_static/documentation_options.js?v=c31823b9"></script>
-        <script src="../../../../_static/doctools.js?v=9a2dae69"></script>
-        <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../../_static/documentation_options.js?v=e3a9b952"></script>
+      <script src="../../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../../genindex.html" />
     <link rel="search" title="Search" href="../../../../search.html" /> 
@@ -33,9 +31,6 @@
           <a href="../../../../index.html" class="icon icon-home">
             diffpy.pdfgui
           </a>
-              <div class="version">
-                3.1.0rc5
-              </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
@@ -94,24 +89,24 @@
 <span class="c1">#</span>
 <span class="c1">##############################################################################</span>
 
-<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">print_function</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">print_function</span>
 
-<span class="kn">import</span> <span class="nn">pickle</span>
-<span class="kn">import</span> <span class="nn">threading</span>
-<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pickle</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">threading</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
 
-<span class="kn">from</span> <span class="nn">diffpy.pdfgui.control.controlerrors</span> <span class="kn">import</span> <span class="n">ControlError</span><span class="p">,</span> <span class="n">ControlStatusError</span><span class="p">,</span> <span class="n">ControlValueError</span>
-<span class="kn">from</span> <span class="nn">diffpy.pdfgui.control.organizer</span> <span class="kn">import</span> <span class="n">Organizer</span>
-<span class="kn">from</span> <span class="nn">diffpy.pdfgui.utils</span> <span class="kn">import</span> <span class="n">safeCPickleDumps</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">diffpy.pdfgui.control.controlerrors</span><span class="w"> </span><span class="kn">import</span> <span class="n">ControlError</span><span class="p">,</span> <span class="n">ControlStatusError</span><span class="p">,</span> <span class="n">ControlValueError</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">diffpy.pdfgui.control.organizer</span><span class="w"> </span><span class="kn">import</span> <span class="n">Organizer</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">diffpy.pdfgui.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">safeCPickleDumps</span>
 
 <span class="c1"># helper routines to deal with PDFfit2 exceptions</span>
 
 
 <div class="viewcode-block" id="getEngineExceptions">
 <a class="viewcode-back" href="../../../../api/diffpy.pdfgui.control.html#diffpy.pdfgui.control.fitting.getEngineExceptions">[docs]</a>
-<span class="k">def</span> <span class="nf">getEngineExceptions</span><span class="p">():</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">getEngineExceptions</span><span class="p">():</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Return a tuple of possible exceptions from diffpy.pdffit2.pdffit2.&quot;&quot;&quot;</span>
-    <span class="kn">from</span> <span class="nn">diffpy.pdffit2.pdffit2</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">diffpy.pdffit2.pdffit2</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
         <span class="n">calculationError</span><span class="p">,</span>
         <span class="n">constraintError</span><span class="p">,</span>
         <span class="n">dataError</span><span class="p">,</span>
@@ -132,7 +127,7 @@
 
 <div class="viewcode-block" id="handleEngineException">
 <a class="viewcode-back" href="../../../../api/diffpy.pdfgui.control.html#diffpy.pdfgui.control.fitting.handleEngineException">[docs]</a>
-<span class="k">def</span> <span class="nf">handleEngineException</span><span class="p">(</span><span class="n">error</span><span class="p">,</span> <span class="n">gui</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">handleEngineException</span><span class="p">(</span><span class="n">error</span><span class="p">,</span> <span class="n">gui</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Common handler of PDFfit2 engine exceptions.</span>
 
 <span class="sd">    error -- instance of PDFfit2 exception</span>
@@ -157,12 +152,12 @@
 <span class="c1">##############################################################################</span>
 <div class="viewcode-block" id="Fitting">
 <a class="viewcode-back" href="../../../../api/diffpy.pdfgui.control.html#diffpy.pdfgui.control.fitting.Fitting">[docs]</a>
-<span class="k">class</span> <span class="nc">Fitting</span><span class="p">(</span><span class="n">Organizer</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Fitting</span><span class="p">(</span><span class="n">Organizer</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Fitting is the class to control a PdfFit process running locally.</span>
 <span class="sd">    Fitting will start a new thread to interact with the PdfFit server.</span>
 
 <span class="sd">    rw:         fitness parameter</span>
-<span class="sd">    tolerancy:  accurancy requirement</span>
+<span class="sd">    tolerancy:  accuracy requirement</span>
 <span class="sd">    step:       current refinement step</span>
 <span class="sd">    res:        fitting result string</span>
 <span class="sd">    parameters: parameter dictionary</span>
@@ -182,11 +177,11 @@
 
 <div class="viewcode-block" id="Fitting.Worker">
 <a class="viewcode-back" href="../../../../api/diffpy.pdfgui.control.html#diffpy.pdfgui.control.fitting.Fitting.Worker">[docs]</a>
-    <span class="k">class</span> <span class="nc">Worker</span><span class="p">(</span><span class="n">threading</span><span class="o">.</span><span class="n">Thread</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Worker is the daemon thread of fitting&quot;&quot;&quot;</span>
+    <span class="k">class</span><span class="w"> </span><span class="nc">Worker</span><span class="p">(</span><span class="n">threading</span><span class="o">.</span><span class="n">Thread</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Worker is the daemon thread of fitting.&quot;&quot;&quot;</span>
 
-        <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fitting</span><span class="p">):</span>
-<span class="w">            </span><span class="sd">&quot;&quot;&quot;Worker ( self, fitting) --&gt; initialize</span>
+        <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fitting</span><span class="p">):</span>
+<span class="w">            </span><span class="sd">&quot;&quot;&quot;Worker ( self, fitting) --&gt; initialize.</span>
 
 <span class="sd">            fitting -- fitting object</span>
 <span class="sd">            &quot;&quot;&quot;</span>
@@ -195,8 +190,8 @@
 
 <div class="viewcode-block" id="Fitting.Worker.run">
 <a class="viewcode-back" href="../../../../api/diffpy.pdfgui.control.html#diffpy.pdfgui.control.fitting.Fitting.Worker.run">[docs]</a>
-        <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">            </span><span class="sd">&quot;&quot;&quot;overload function from Thread&quot;&quot;&quot;</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">            </span><span class="sd">&quot;&quot;&quot;Overload function from Thread.&quot;&quot;&quot;</span>
             <span class="k">try</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">fitting</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
             <span class="k">except</span> <span class="n">ControlError</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
@@ -212,8 +207,8 @@
 </div>
 
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;initialize</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;initialize.</span>
 
 <span class="sd">        name -- name of this fitting</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -245,8 +240,8 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">dataNameDict</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">itemIndex</span> <span class="o">=</span> <span class="mi">0</span>
 
-    <span class="k">def</span> <span class="nf">__changeStatus</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fitStatus</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">jobStatus</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;change current status of fitting</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">__changeStatus</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fitStatus</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">jobStatus</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Change current status of fitting.</span>
 
 <span class="sd">        fitStatus -- new  fitting status</span>
 <span class="sd">        jobStatus -- new thread status</span>
@@ -259,13 +254,13 @@
                 <span class="n">gui</span><span class="o">.</span><span class="n">postEvent</span><span class="p">(</span><span class="n">gui</span><span class="o">.</span><span class="n">UPDATE</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span>
                 <span class="n">gui</span><span class="o">.</span><span class="n">postEvent</span><span class="p">(</span><span class="n">gui</span><span class="o">.</span><span class="n">OUTPUT</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">_release</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;release resources&quot;&quot;&quot;</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_release</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Release resources.&quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">server</span><span class="p">:</span>  <span class="c1"># server has been allocated, we need free the memory</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">server</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
 
-    <span class="k">def</span> <span class="nf">_getStrId</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;make a string identifier</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_getStrId</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Make a string identifier.</span>
 
 <span class="sd">        return value: string id</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -273,15 +268,15 @@
 
 <div class="viewcode-block" id="Fitting.copy">
 <a class="viewcode-back" href="../../../../api/diffpy.pdfgui.control.html#diffpy.pdfgui.control.fitting.Fitting.copy">[docs]</a>
-    <span class="k">def</span> <span class="nf">copy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;copy self to other. if other is None, create an instance</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">copy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Copy self to other. if other is None, create an instance.</span>
 
 <span class="sd">        other -- ref to other object</span>
 <span class="sd">        return value: reference to copied object</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">other</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">other</span> <span class="o">=</span> <span class="n">Fitting</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
-        <span class="kn">import</span> <span class="nn">copy</span>
+        <span class="kn">import</span><span class="w"> </span><span class="nn">copy</span>
 
         <span class="n">Organizer</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">)</span>
         <span class="n">other</span><span class="o">.</span><span class="n">parameters</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">)</span>
@@ -294,20 +289,20 @@
 
 <div class="viewcode-block" id="Fitting.load">
 <a class="viewcode-back" href="../../../../api/diffpy.pdfgui.control.html#diffpy.pdfgui.control.fitting.Fitting.load">[docs]</a>
-    <span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">subpath</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;load data from a zipped project file</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">load</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">subpath</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Load data from a zipped project file.</span>
 
 <span class="sd">        z -- zipped project file</span>
 <span class="sd">        subpath -- path to its own storage within project file</span>
 
-<span class="sd">        returns a tree of internal hierachy</span>
+<span class="sd">        returns a tree of internal hierarchy</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># subpath = projName/fitName/</span>
         <span class="n">subs</span> <span class="o">=</span> <span class="n">subpath</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)</span>
         <span class="n">rootDict</span> <span class="o">=</span> <span class="n">z</span><span class="o">.</span><span class="n">fileTree</span><span class="p">[</span><span class="n">subs</span><span class="p">[</span><span class="mi">0</span><span class="p">]][</span><span class="n">subs</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span>
 
         <span class="k">if</span> <span class="s2">&quot;parameters&quot;</span> <span class="ow">in</span> <span class="n">rootDict</span><span class="p">:</span>
-            <span class="kn">from</span> <span class="nn">diffpy.pdfgui.control.pdfguicontrol</span> <span class="kn">import</span> <span class="n">CtrlUnpickler</span>
+            <span class="kn">from</span><span class="w"> </span><span class="nn">diffpy.pdfgui.control.pdfguicontrol</span><span class="w"> </span><span class="kn">import</span> <span class="n">CtrlUnpickler</span>
 
             <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span> <span class="o">=</span> <span class="n">CtrlUnpickler</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">z</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">subpath</span> <span class="o">+</span> <span class="s2">&quot;parameters&quot;</span><span class="p">))</span>
         <span class="k">if</span> <span class="s2">&quot;steps&quot;</span> <span class="ow">in</span> <span class="n">rootDict</span><span class="p">:</span>
@@ -322,8 +317,8 @@
 
 <div class="viewcode-block" id="Fitting.save">
 <a class="viewcode-back" href="../../../../api/diffpy.pdfgui.control.html#diffpy.pdfgui.control.fitting.Fitting.save">[docs]</a>
-    <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">subpath</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;save data from a zipped project file</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">subpath</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Save data from a zipped project file.</span>
 
 <span class="sd">        z       -- zipped project file</span>
 <span class="sd">        subpath -- path to its own storage within project file</span>
@@ -343,7 +338,7 @@
 
 <div class="viewcode-block" id="Fitting.stripped">
 <a class="viewcode-back" href="../../../../api/diffpy.pdfgui.control.html#diffpy.pdfgui.control.fitting.Fitting.stripped">[docs]</a>
-    <span class="k">def</span> <span class="nf">stripped</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">stripped</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Make a copy stripped of all unpickleable data members.</span>
 <span class="sd">        The copy should be suitable for pickling and has the</span>
 <span class="sd">        following data members removed:</span>
@@ -361,7 +356,7 @@
 
 <div class="viewcode-block" id="Fitting.updateParameters">
 <a class="viewcode-back" href="../../../../api/diffpy.pdfgui.control.html#diffpy.pdfgui.control.fitting.Fitting.updateParameters">[docs]</a>
-    <span class="k">def</span> <span class="nf">updateParameters</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">updateParameters</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Update parameters dictionary from active constraints.</span>
 
 <span class="sd">        returns self.parameters</span>
@@ -389,7 +384,7 @@
 
 <div class="viewcode-block" id="Fitting.applyParameters">
 <a class="viewcode-back" href="../../../../api/diffpy.pdfgui.control.html#diffpy.pdfgui.control.fitting.Fitting.applyParameters">[docs]</a>
-    <span class="k">def</span> <span class="nf">applyParameters</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">applyParameters</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Evaluate all constrained variables using current parameters.&quot;&quot;&quot;</span>
         <span class="k">for</span> <span class="n">struc</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">strucs</span><span class="p">:</span>
             <span class="n">struc</span><span class="o">.</span><span class="n">applyParameters</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">)</span>
@@ -400,11 +395,11 @@
 
 <div class="viewcode-block" id="Fitting.changeParameterIndex">
 <a class="viewcode-back" href="../../../../api/diffpy.pdfgui.control.html#diffpy.pdfgui.control.fitting.Fitting.changeParameterIndex">[docs]</a>
-    <span class="k">def</span> <span class="nf">changeParameterIndex</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">oldidx</span><span class="p">,</span> <span class="n">newidx</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">changeParameterIndex</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">oldidx</span><span class="p">,</span> <span class="n">newidx</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Change a parameter index to a new value.</span>
 
-<span class="sd">        This will replace all instances of one parameter name with another in</span>
-<span class="sd">        the containing fit.</span>
+<span class="sd">        This will replace all instances of one parameter name with</span>
+<span class="sd">        another in the containing fit.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># Change the index in the current structure</span>
         <span class="k">for</span> <span class="n">struc</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">strucs</span><span class="p">:</span>
@@ -417,7 +412,7 @@
         <span class="n">fiteq</span> <span class="o">=</span> <span class="s2">&quot;=</span><span class="si">%s</span><span class="s2">:</span><span class="si">%i</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">oldidx</span><span class="p">)</span>
         <span class="n">newfiteq</span> <span class="o">=</span> <span class="s2">&quot;=</span><span class="si">%s</span><span class="s2">:</span><span class="si">%i</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">newidx</span><span class="p">)</span>
 
-        <span class="kn">from</span> <span class="nn">diffpy.pdfgui.control.pdfguicontrol</span> <span class="kn">import</span> <span class="n">pdfguicontrol</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">diffpy.pdfgui.control.pdfguicontrol</span><span class="w"> </span><span class="kn">import</span> <span class="n">pdfguicontrol</span>
 
         <span class="n">fits</span> <span class="o">=</span> <span class="n">pdfguicontrol</span><span class="p">()</span><span class="o">.</span><span class="n">fits</span>
         <span class="k">for</span> <span class="n">fit</span> <span class="ow">in</span> <span class="n">fits</span><span class="p">:</span>
@@ -431,8 +426,8 @@
 
 <div class="viewcode-block" id="Fitting.queue">
 <a class="viewcode-back" href="../../../../api/diffpy.pdfgui.control.html#diffpy.pdfgui.control.fitting.Fitting.queue">[docs]</a>
-    <span class="k">def</span> <span class="nf">queue</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">enter</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;queue or dequeue self</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">queue</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">enter</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Queue or dequeue self.</span>
 
 <span class="sd">        enter -- True to queue, False to dequeue</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -446,12 +441,12 @@
 
 <div class="viewcode-block" id="Fitting.getServer">
 <a class="viewcode-back" href="../../../../api/diffpy.pdfgui.control.html#diffpy.pdfgui.control.fitting.Fitting.getServer">[docs]</a>
-    <span class="k">def</span> <span class="nf">getServer</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;get a PDFfit2 instance either locally or remotely&quot;&quot;&quot;</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">getServer</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get a PDFfit2 instance either locally or remotely.&quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">fitStatus</span> <span class="o">!=</span> <span class="n">Fitting</span><span class="o">.</span><span class="n">INITIALIZED</span><span class="p">:</span>
             <span class="k">return</span>
         <span class="c1"># create a new instance of calculation server</span>
-        <span class="kn">from</span> <span class="nn">diffpy.pdffit2</span> <span class="kn">import</span> <span class="n">PdfFit</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">diffpy.pdffit2</span><span class="w"> </span><span class="kn">import</span> <span class="n">PdfFit</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">server</span> <span class="o">=</span> <span class="n">PdfFit</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__changeStatus</span><span class="p">(</span><span class="n">fitStatus</span><span class="o">=</span><span class="n">Fitting</span><span class="o">.</span><span class="n">CONNECTED</span><span class="p">)</span></div>
@@ -459,8 +454,8 @@
 
 <div class="viewcode-block" id="Fitting.configure">
 <a class="viewcode-back" href="../../../../api/diffpy.pdfgui.control.html#diffpy.pdfgui.control.fitting.Fitting.configure">[docs]</a>
-    <span class="k">def</span> <span class="nf">configure</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;configure fitting&quot;&quot;&quot;</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">configure</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Configure fitting.&quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">fitStatus</span> <span class="o">!=</span> <span class="n">Fitting</span><span class="o">.</span><span class="n">CONNECTED</span><span class="p">:</span>
             <span class="k">return</span>
 
@@ -473,7 +468,7 @@
             <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">struc</span><span class="o">.</span><span class="n">constraints</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">server</span><span class="o">.</span><span class="n">constrain</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">var</span><span class="o">.</span><span class="n">formula</span><span class="p">)</span>
 
-        <span class="c1"># phase paramters configured</span>
+        <span class="c1"># phase parameters configured</span>
 
         <span class="k">for</span> <span class="n">dataset</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">datasets</span><span class="p">:</span>
             <span class="n">dataset</span><span class="o">.</span><span class="n">clearRefined</span><span class="p">()</span>
@@ -512,8 +507,8 @@
 
 <div class="viewcode-block" id="Fitting.resetStatus">
 <a class="viewcode-back" href="../../../../api/diffpy.pdfgui.control.html#diffpy.pdfgui.control.fitting.Fitting.resetStatus">[docs]</a>
-    <span class="k">def</span> <span class="nf">resetStatus</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;reset status back to initialized&quot;&quot;&quot;</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">resetStatus</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Reset status back to initialized.&quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">snapshots</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">step</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">fitStatus</span> <span class="o">==</span> <span class="n">Fitting</span><span class="o">.</span><span class="n">INITIALIZED</span><span class="p">:</span>
@@ -525,8 +520,8 @@
 
 <div class="viewcode-block" id="Fitting.run">
 <a class="viewcode-back" href="../../../../api/diffpy.pdfgui.control.html#diffpy.pdfgui.control.fitting.Fitting.run">[docs]</a>
-    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;function to be run in daemon thread.&quot;&quot;&quot;</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Function to be run in daemon thread.&quot;&quot;&quot;</span>
         <span class="c1"># Begin</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__changeStatus</span><span class="p">(</span><span class="n">jobStatus</span><span class="o">=</span><span class="n">Fitting</span><span class="o">.</span><span class="n">RUNNING</span><span class="p">)</span>
         <span class="k">try</span><span class="p">:</span>
@@ -560,7 +555,7 @@
         <span class="k">return</span></div>
 
 
-    <span class="k">def</span> <span class="nf">_configureBondCalculation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">struc</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_configureBondCalculation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">struc</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Prepare server for bond angle or bond length calculation.</span>
 
 <span class="sd">        struc   -- instance of PDFStructure</span>
@@ -578,10 +573,10 @@
 
 <div class="viewcode-block" id="Fitting.outputBondAngle">
 <a class="viewcode-back" href="../../../../api/diffpy.pdfgui.control.html#diffpy.pdfgui.control.fitting.Fitting.outputBondAngle">[docs]</a>
-    <span class="k">def</span> <span class="nf">outputBondAngle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">struc</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">k</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Output bond angle defined by atoms i, j, k.</span>
-<span class="sd">        The angle is calculated using the shortest lengths ji and jk with</span>
-<span class="sd">        respect to periodic boundary conditions.</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">outputBondAngle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">struc</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">k</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Output bond angle defined by atoms i, j, k. The angle is calculated</span>
+<span class="sd">        using the shortest lengths ji and jk with respect to periodic boundary</span>
+<span class="sd">        conditions.</span>
 
 <span class="sd">        struc   -- instance of PDFStructure</span>
 <span class="sd">        i, j, k -- atom indices starting at 1</span>
@@ -605,9 +600,9 @@
 
 <div class="viewcode-block" id="Fitting.outputBondLengthAtoms">
 <a class="viewcode-back" href="../../../../api/diffpy.pdfgui.control.html#diffpy.pdfgui.control.fitting.Fitting.outputBondLengthAtoms">[docs]</a>
-    <span class="k">def</span> <span class="nf">outputBondLengthAtoms</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">struc</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Output shortest bond between atoms i, j.</span>
-<span class="sd">        Periodic boundary conditions are applied to find the shortest bond.</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">outputBondLengthAtoms</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">struc</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Output shortest bond between atoms i, j. Periodic boundary</span>
+<span class="sd">        conditions are applied to find the shortest bond.</span>
 
 <span class="sd">        struc   -- instance of PDFStructure</span>
 <span class="sd">        i, j    -- atom indices starting at 1</span>
@@ -631,8 +626,8 @@
 
 <div class="viewcode-block" id="Fitting.outputBondLengthTypes">
 <a class="viewcode-back" href="../../../../api/diffpy.pdfgui.control.html#diffpy.pdfgui.control.fitting.Fitting.outputBondLengthTypes">[docs]</a>
-    <span class="k">def</span> <span class="nf">outputBondLengthTypes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">struc</span><span class="p">,</span> <span class="n">a1</span><span class="p">,</span> <span class="n">a2</span><span class="p">,</span> <span class="n">lb</span><span class="p">,</span> <span class="n">ub</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Output all a1-a2 bond lenghts within specified range.</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">outputBondLengthTypes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">struc</span><span class="p">,</span> <span class="n">a1</span><span class="p">,</span> <span class="n">a2</span><span class="p">,</span> <span class="n">lb</span><span class="p">,</span> <span class="n">ub</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Output all a1-a2 bond lengths within specified range.</span>
 
 <span class="sd">        struc  -- instance of PDFStructure</span>
 <span class="sd">        a1     -- symbol of the first element in pair or &quot;ALL&quot;</span>
@@ -659,8 +654,8 @@
 
 <div class="viewcode-block" id="Fitting.pause">
 <a class="viewcode-back" href="../../../../api/diffpy.pdfgui.control.html#diffpy.pdfgui.control.fitting.Fitting.pause">[docs]</a>
-    <span class="k">def</span> <span class="nf">pause</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bPause</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;pause ( self, bPause = None ) --&gt; pause a fitting process</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">pause</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bPause</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Pause ( self, bPause = None ) --&gt; pause a fitting process.</span>
 
 <span class="sd">        bPause -- True to pause, False to restart. If None, it will figure out</span>
 <span class="sd">                by itself.</span>
@@ -677,8 +672,8 @@
 
 <div class="viewcode-block" id="Fitting.start">
 <a class="viewcode-back" href="../../../../api/diffpy.pdfgui.control.html#diffpy.pdfgui.control.fitting.Fitting.start">[docs]</a>
-    <span class="k">def</span> <span class="nf">start</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;start fitting&quot;&quot;&quot;</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">start</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Start fitting.&quot;&quot;&quot;</span>
         <span class="c1"># check if paused</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">jobStatus</span> <span class="o">==</span> <span class="n">Fitting</span><span class="o">.</span><span class="n">PAUSED</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">pause</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
@@ -696,8 +691,8 @@
 
 <div class="viewcode-block" id="Fitting.stop">
 <a class="viewcode-back" href="../../../../api/diffpy.pdfgui.control.html#diffpy.pdfgui.control.fitting.Fitting.stop">[docs]</a>
-    <span class="k">def</span> <span class="nf">stop</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;stop the fitting&quot;&quot;&quot;</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">stop</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Stop the fitting.&quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">stopped</span> <span class="o">=</span> <span class="kc">True</span>
 
         <span class="c1"># wake up daemon thread if it is paused</span>
@@ -707,8 +702,8 @@
 
 <div class="viewcode-block" id="Fitting.isThreadRunning">
 <a class="viewcode-back" href="../../../../api/diffpy.pdfgui.control.html#diffpy.pdfgui.control.fitting.Fitting.isThreadRunning">[docs]</a>
-    <span class="k">def</span> <span class="nf">isThreadRunning</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;check if fitting thread is running</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">isThreadRunning</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Check if fitting thread is running.</span>
 
 <span class="sd">        return: True if running, False otherwise</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -717,8 +712,8 @@
 
 <div class="viewcode-block" id="Fitting.join">
 <a class="viewcode-back" href="../../../../api/diffpy.pdfgui.control.html#diffpy.pdfgui.control.fitting.Fitting.join">[docs]</a>
-    <span class="k">def</span> <span class="nf">join</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;wait for current fitting to finish&quot;&quot;&quot;</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">join</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Wait for current fitting to finish.&quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">thread</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">thread</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">thread</span> <span class="o">=</span> <span class="kc">None</span></div>
@@ -726,8 +721,8 @@
 
 <div class="viewcode-block" id="Fitting.close">
 <a class="viewcode-back" href="../../../../api/diffpy.pdfgui.control.html#diffpy.pdfgui.control.fitting.Fitting.close">[docs]</a>
-    <span class="k">def</span> <span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">force</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;close up the fitting in order to exit</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">force</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Close up the fitting in order to exit.</span>
 
 <span class="sd">        force -- if force to exit</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -745,11 +740,11 @@
 
 <div class="viewcode-block" id="Fitting.buildNameDict">
 <a class="viewcode-back" href="../../../../api/diffpy.pdfgui.control.html#diffpy.pdfgui.control.fitting.Fitting.buildNameDict">[docs]</a>
-    <span class="k">def</span> <span class="nf">buildNameDict</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;build up a data name dictionary, which will map data name to a</span>
-<span class="sd">        unique index</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">buildNameDict</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Build up a data name dictionary, which will map data name to a</span>
+<span class="sd">        unique index.</span>
 
-<span class="sd">        The private dataNameDict has such strcture:</span>
+<span class="sd">        The private dataNameDict has such structure:</span>
 <span class="sd">        { &#39;d_data1&#39;:{&#39;Gobs&#39;:12, &#39;Gcalc&#39;:11, ....},</span>
 <span class="sd">          &#39;d_data2&#39;:{&#39;Gobs&#39;:10, &#39;Gcalc&#39;:9, ....},</span>
 <span class="sd">          ...</span>
@@ -798,9 +793,9 @@
 
 <div class="viewcode-block" id="Fitting.appendStep">
 <a class="viewcode-back" href="../../../../api/diffpy.pdfgui.control.html#diffpy.pdfgui.control.fitting.Fitting.appendStep">[docs]</a>
-    <span class="k">def</span> <span class="nf">appendStep</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">source</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;after a refinement step is done, append all data from self to the</span>
-<span class="sd">        historical storage, i.e., self.snapshots</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">appendStep</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">source</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;After a refinement step is done, append all data from self to the</span>
+<span class="sd">        historical storage, i.e., self.snapshots.</span>
 
 <span class="sd">        source -- where to get the fitted data, in deed it&#39;s a PdfFit2 instance</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -823,7 +818,7 @@
             <span class="n">snapshot</span><span class="p">[</span><span class="n">nameDict</span><span class="p">[</span><span class="s2">&quot;crw&quot;</span><span class="p">]]</span> <span class="o">=</span> <span class="n">dataset</span><span class="o">.</span><span class="n">crw</span>
             <span class="n">seq</span> <span class="o">+=</span> <span class="mi">1</span>
 
-        <span class="c1"># udpate strucs</span>
+        <span class="c1"># update strucs</span>
         <span class="n">seq</span> <span class="o">=</span> <span class="mi">1</span>
         <span class="k">for</span> <span class="n">struc</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">strucs</span><span class="p">:</span>
             <span class="nb">id</span> <span class="o">=</span> <span class="n">struc</span><span class="o">.</span><span class="n">_getStrId</span><span class="p">()</span>
@@ -848,7 +843,7 @@
 
 <div class="viewcode-block" id="Fitting.refine_step">
 <a class="viewcode-back" href="../../../../api/diffpy.pdfgui.control.html#diffpy.pdfgui.control.fitting.Fitting.refine_step">[docs]</a>
-    <span class="k">def</span> <span class="nf">refine_step</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">refine_step</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Run a single step of the fit.</span>
 
 <span class="sd">        return value: True if refinement is finished, otherwise False</span>
@@ -895,8 +890,8 @@
 
 <div class="viewcode-block" id="Fitting.getYNames">
 <a class="viewcode-back" href="../../../../api/diffpy.pdfgui.control.html#diffpy.pdfgui.control.fitting.Fitting.getYNames">[docs]</a>
-    <span class="k">def</span> <span class="nf">getYNames</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;get names of data item which can be plotted as y</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">getYNames</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get names of data item which can be plotted as y.</span>
 
 <span class="sd">        returns a name str list</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -907,8 +902,8 @@
 
 <div class="viewcode-block" id="Fitting.getXNames">
 <a class="viewcode-back" href="../../../../api/diffpy.pdfgui.control.html#diffpy.pdfgui.control.fitting.Fitting.getXNames">[docs]</a>
-    <span class="k">def</span> <span class="nf">getXNames</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;get names of data item which can be plotted as x</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">getXNames</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get names of data item which can be plotted as x.</span>
 
 <span class="sd">        returns a name str list</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -917,8 +912,8 @@
 
 <div class="viewcode-block" id="Fitting.getData">
 <a class="viewcode-back" href="../../../../api/diffpy.pdfgui.control.html#diffpy.pdfgui.control.fitting.Fitting.getData">[docs]</a>
-    <span class="k">def</span> <span class="nf">getData</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">step</span><span class="o">=-</span><span class="mi">1</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;get self&#39;s data member</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">getData</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">step</span><span class="o">=-</span><span class="mi">1</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get self&#39;s data member.</span>
 
 <span class="sd">        name -- data item name</span>
 <span class="sd">        step -- step info, it can be:</span>
@@ -940,8 +935,8 @@
 
 <div class="viewcode-block" id="Fitting.getMetaDataNames">
 <a class="viewcode-back" href="../../../../api/diffpy.pdfgui.control.html#diffpy.pdfgui.control.fitting.Fitting.getMetaDataNames">[docs]</a>
-    <span class="k">def</span> <span class="nf">getMetaDataNames</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;return all applicable meta data names&quot;&quot;&quot;</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">getMetaDataNames</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return all applicable meta data names.&quot;&quot;&quot;</span>
         <span class="n">names</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">dataset</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">datasets</span><span class="p">:</span>
             <span class="c1"># build up the name list</span>
@@ -956,8 +951,8 @@
 
 <div class="viewcode-block" id="Fitting.getMetaData">
 <a class="viewcode-back" href="../../../../api/diffpy.pdfgui.control.html#diffpy.pdfgui.control.fitting.Fitting.getMetaData">[docs]</a>
-    <span class="k">def</span> <span class="nf">getMetaData</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;get meta data value</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">getMetaData</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get meta data value.</span>
 
 <span class="sd">        name -- meta data name</span>
 <span class="sd">        returns meta data value</span>
@@ -968,8 +963,8 @@
             <span class="k">return</span> <span class="kc">None</span></div>
 
 
-    <span class="k">def</span> <span class="nf">_getData</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">id</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">step</span><span class="o">=-</span><span class="mi">1</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;get any data member from snapshots</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_getData</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">id</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">step</span><span class="o">=-</span><span class="mi">1</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get any data member from snapshots.</span>
 
 <span class="sd">        id   -- reference to a Fitting/Calculation/Phase/DataSet object</span>
 <span class="sd">        name -- data item name</span>
@@ -1011,7 +1006,7 @@
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2024, The Trustees of Columbia University in the City of New York.</p>
+    <p>&#169; Copyright 2025, The Trustees of Columbia University in the City of New York.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

@@ -1,22 +1,20 @@
+
+
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" data-content_root="../../../../">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>diffpy.pdfgui.control.pdfguicontrol &mdash; diffpy.pdfgui 3.1.0rc5 documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=fa44fd50" />
-      <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=19f00094" />
+  <title>diffpy.pdfgui.control.pdfguicontrol &mdash; diffpy.pdfgui 3.1.0rc6 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=e59714d7" />
 
   
-  <!--[if lt IE 9]>
-    <script src="../../../../_static/js/html5shiv.min.js"></script>
-  <![endif]-->
-  
-        <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
-        <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../../../../_static/documentation_options.js?v=c31823b9"></script>
-        <script src="../../../../_static/doctools.js?v=9a2dae69"></script>
-        <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../../_static/documentation_options.js?v=e3a9b952"></script>
+      <script src="../../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../../genindex.html" />
     <link rel="search" title="Search" href="../../../../search.html" /> 
@@ -33,9 +31,6 @@
           <a href="../../../../index.html" class="icon icon-home">
             diffpy.pdfgui
           </a>
-              <div class="version">
-                3.1.0rc5
-              </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
@@ -94,36 +89,37 @@
 <span class="c1">#</span>
 <span class="c1">##############################################################################</span>
 
-<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">print_function</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">print_function</span>
 
-<span class="kn">import</span> <span class="nn">io</span>
-<span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">import</span> <span class="nn">pickle</span>
-<span class="kn">import</span> <span class="nn">sys</span>
-<span class="kn">import</span> <span class="nn">threading</span>
-<span class="kn">import</span> <span class="nn">time</span>
-<span class="kn">from</span> <span class="nn">urllib.parse</span> <span class="kn">import</span> <span class="n">quote_plus</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">io</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pickle</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">threading</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">urllib.parse</span><span class="w"> </span><span class="kn">import</span> <span class="n">quote_plus</span>
 
-<span class="kn">from</span> <span class="nn">diffpy.pdfgui.control.calculation</span> <span class="kn">import</span> <span class="n">Calculation</span>
-<span class="kn">from</span> <span class="nn">diffpy.pdfgui.control.controlerrors</span> <span class="kn">import</span> <span class="n">ControlError</span><span class="p">,</span> <span class="n">ControlFileError</span><span class="p">,</span> <span class="n">ControlTypeError</span>
-<span class="kn">from</span> <span class="nn">diffpy.pdfgui.control.fitdataset</span> <span class="kn">import</span> <span class="n">FitDataSet</span>
-<span class="kn">from</span> <span class="nn">diffpy.pdfgui.control.fitstructure</span> <span class="kn">import</span> <span class="n">FitStructure</span>
-<span class="kn">from</span> <span class="nn">diffpy.pdfgui.control.fitting</span> <span class="kn">import</span> <span class="n">Fitting</span>
-<span class="kn">from</span> <span class="nn">diffpy.pdfgui.control.organizer</span> <span class="kn">import</span> <span class="n">Organizer</span>
-<span class="kn">from</span> <span class="nn">diffpy.pdfgui.control.pdflist</span> <span class="kn">import</span> <span class="n">PDFList</span>
-<span class="kn">from</span> <span class="nn">diffpy.pdfgui.utils</span> <span class="kn">import</span> <span class="n">asunicode</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">diffpy.pdfgui.control.calculation</span><span class="w"> </span><span class="kn">import</span> <span class="n">Calculation</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">diffpy.pdfgui.control.controlerrors</span><span class="w"> </span><span class="kn">import</span> <span class="n">ControlError</span><span class="p">,</span> <span class="n">ControlFileError</span><span class="p">,</span> <span class="n">ControlTypeError</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">diffpy.pdfgui.control.fitdataset</span><span class="w"> </span><span class="kn">import</span> <span class="n">FitDataSet</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">diffpy.pdfgui.control.fitstructure</span><span class="w"> </span><span class="kn">import</span> <span class="n">FitStructure</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">diffpy.pdfgui.control.fitting</span><span class="w"> </span><span class="kn">import</span> <span class="n">Fitting</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">diffpy.pdfgui.control.organizer</span><span class="w"> </span><span class="kn">import</span> <span class="n">Organizer</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">diffpy.pdfgui.control.pdflist</span><span class="w"> </span><span class="kn">import</span> <span class="n">PDFList</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">diffpy.pdfgui.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">asunicode</span>
 
 
 <div class="viewcode-block" id="PDFGuiControl">
 <a class="viewcode-back" href="../../../../api/diffpy.pdfgui.control.html#diffpy.pdfgui.control.pdfguicontrol.PDFGuiControl">[docs]</a>
-<span class="k">class</span> <span class="nc">PDFGuiControl</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;PDFGuiControl holds all the data GUI needs to access or change</span>
-<span class="sd">    It has a container of Calculation and Fitting instances.</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">PDFGuiControl</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;PDFGuiControl holds all the data GUI needs to access or change It has a</span>
+<span class="sd">    container of Calculation and Fitting instances.</span>
+
 <span class="sd">    Each Calculation and Fitting has a unique name.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">gui</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;initialize</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">gui</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;initialize.</span>
 
 <span class="sd">        gui: main panel of GUI</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -141,8 +137,8 @@
 
 <div class="viewcode-block" id="PDFGuiControl.reset">
 <a class="viewcode-back" href="../../../../api/diffpy.pdfgui.control.html#diffpy.pdfgui.control.pdfguicontrol.PDFGuiControl.reset">[docs]</a>
-    <span class="k">def</span> <span class="nf">reset</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;clean up for a new project&quot;&quot;&quot;</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">reset</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Clean up for a new project.&quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">fits</span> <span class="o">=</span> <span class="n">PDFList</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">plots</span> <span class="o">=</span> <span class="n">PDFList</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">journal</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
@@ -154,15 +150,15 @@
     <span class="c1"># a simple thread to handle fitting queue</span>
 <div class="viewcode-block" id="PDFGuiControl.QueueManager">
 <a class="viewcode-back" href="../../../../api/diffpy.pdfgui.control.html#diffpy.pdfgui.control.pdfguicontrol.PDFGuiControl.QueueManager">[docs]</a>
-    <span class="k">class</span> <span class="nc">QueueManager</span><span class="p">(</span><span class="n">threading</span><span class="o">.</span><span class="n">Thread</span><span class="p">):</span>
-        <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">control</span><span class="p">):</span>
+    <span class="k">class</span><span class="w"> </span><span class="nc">QueueManager</span><span class="p">(</span><span class="n">threading</span><span class="o">.</span><span class="n">Thread</span><span class="p">):</span>
+        <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">control</span><span class="p">):</span>
             <span class="n">threading</span><span class="o">.</span><span class="n">Thread</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">control</span> <span class="o">=</span> <span class="n">control</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">running</span> <span class="o">=</span> <span class="kc">True</span>
 
 <div class="viewcode-block" id="PDFGuiControl.QueueManager.run">
 <a class="viewcode-back" href="../../../../api/diffpy.pdfgui.control.html#diffpy.pdfgui.control.pdfguicontrol.PDFGuiControl.QueueManager.run">[docs]</a>
-        <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
             <span class="k">while</span> <span class="bp">self</span><span class="o">.</span><span class="n">running</span><span class="p">:</span>
                 <span class="k">try</span><span class="p">:</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">control</span><span class="o">.</span><span class="n">checkQueue</span><span class="p">()</span>
@@ -181,16 +177,16 @@
 
 <div class="viewcode-block" id="PDFGuiControl.startQueue">
 <a class="viewcode-back" href="../../../../api/diffpy.pdfgui.control.html#diffpy.pdfgui.control.pdfguicontrol.PDFGuiControl.startQueue">[docs]</a>
-    <span class="k">def</span> <span class="nf">startQueue</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;start queue manager&quot;&quot;&quot;</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">startQueue</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Start queue manager.&quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">queueManager</span><span class="o">.</span><span class="n">daemon</span> <span class="o">=</span> <span class="kc">True</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">queueManager</span><span class="o">.</span><span class="n">start</span><span class="p">()</span></div>
 
 
 <div class="viewcode-block" id="PDFGuiControl.checkQueue">
 <a class="viewcode-back" href="../../../../api/diffpy.pdfgui.control.html#diffpy.pdfgui.control.pdfguicontrol.PDFGuiControl.checkQueue">[docs]</a>
-    <span class="k">def</span> <span class="nf">checkQueue</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;find next fitting in the queue and start it&quot;&quot;&quot;</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">checkQueue</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Find next fitting in the queue and start it.&quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">currentFitting</span><span class="p">:</span>
             <span class="c1"># wait for currentFitting</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">currentFitting</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
@@ -211,8 +207,8 @@
 
 <div class="viewcode-block" id="PDFGuiControl.enqueue">
 <a class="viewcode-back" href="../../../../api/diffpy.pdfgui.control.html#diffpy.pdfgui.control.pdfguicontrol.PDFGuiControl.enqueue">[docs]</a>
-    <span class="k">def</span> <span class="nf">enqueue</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fits</span><span class="p">,</span> <span class="n">enter</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;enqueue or dequeue fittings</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">enqueue</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fits</span><span class="p">,</span> <span class="n">enter</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Enqueue or dequeue fittings.</span>
 
 <span class="sd">        fits -- list of fittings to be queued/dequeued</span>
 <span class="sd">        enter -- True to queue, False to dequeue</span>
@@ -246,8 +242,8 @@
 
 <div class="viewcode-block" id="PDFGuiControl.close">
 <a class="viewcode-back" href="../../../../api/diffpy.pdfgui.control.html#diffpy.pdfgui.control.pdfguicontrol.PDFGuiControl.close">[docs]</a>
-    <span class="k">def</span> <span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">force</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;close a project</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">force</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Close a project.</span>
 
 <span class="sd">        force -- if exit forciably</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -262,8 +258,8 @@
 
 <div class="viewcode-block" id="PDFGuiControl.exit">
 <a class="viewcode-back" href="../../../../api/diffpy.pdfgui.control.html#diffpy.pdfgui.control.pdfguicontrol.PDFGuiControl.exit">[docs]</a>
-    <span class="k">def</span> <span class="nf">exit</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;exit when program finished&quot;&quot;&quot;</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">exit</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Exit when program finished.&quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">queueManager</span><span class="o">.</span><span class="n">is_alive</span><span class="p">():</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">queueManager</span><span class="o">.</span><span class="n">running</span> <span class="o">=</span> <span class="kc">False</span></div>
@@ -271,8 +267,8 @@
 
 <div class="viewcode-block" id="PDFGuiControl.newFitting">
 <a class="viewcode-back" href="../../../../api/diffpy.pdfgui.control.html#diffpy.pdfgui.control.pdfguicontrol.PDFGuiControl.newFitting">[docs]</a>
-    <span class="k">def</span> <span class="nf">newFitting</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">position</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;insert a new instance of Fitting</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">newFitting</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">position</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Insert a new instance of Fitting.</span>
 
 <span class="sd">        name      --  unique name for this Fitting</span>
 <span class="sd">        position  --  where Fitting is inserted, default is last place</span>
@@ -286,8 +282,8 @@
 
 <div class="viewcode-block" id="PDFGuiControl.newCalculation">
 <a class="viewcode-back" href="../../../../api/diffpy.pdfgui.control.html#diffpy.pdfgui.control.pdfguicontrol.PDFGuiControl.newCalculation">[docs]</a>
-    <span class="k">def</span> <span class="nf">newCalculation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">targetID</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">position</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;insert a new instance of Calculation to a Fitting</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">newCalculation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">targetID</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">position</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Insert a new instance of Calculation to a Fitting.</span>
 
 <span class="sd">        targetID  --  reference to Fitting</span>
 <span class="sd">        name      --  unique name for this Calculation</span>
@@ -303,8 +299,8 @@
 
 <div class="viewcode-block" id="PDFGuiControl.newStructure">
 <a class="viewcode-back" href="../../../../api/diffpy.pdfgui.control.html#diffpy.pdfgui.control.pdfguicontrol.PDFGuiControl.newStructure">[docs]</a>
-    <span class="k">def</span> <span class="nf">newStructure</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">targetID</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">position</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;add blank structure to a Fitting</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">newStructure</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">targetID</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">position</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Add blank structure to a Fitting.</span>
 
 <span class="sd">        targetID  --  reference to Fitting</span>
 <span class="sd">        name      --  name of the new Structure</span>
@@ -322,8 +318,8 @@
 
 <div class="viewcode-block" id="PDFGuiControl.loadStructure">
 <a class="viewcode-back" href="../../../../api/diffpy.pdfgui.control.html#diffpy.pdfgui.control.pdfguicontrol.PDFGuiControl.loadStructure">[docs]</a>
-    <span class="k">def</span> <span class="nf">loadStructure</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">targetID</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">position</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;add blank structure to a Fitting</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">loadStructure</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">targetID</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">position</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Add blank structure to a Fitting.</span>
 
 <span class="sd">        targetID  --  reference to Fitting</span>
 <span class="sd">        name      --  name of the new Structure, default is file basename</span>
@@ -343,8 +339,8 @@
 
 <div class="viewcode-block" id="PDFGuiControl.loadDataset">
 <a class="viewcode-back" href="../../../../api/diffpy.pdfgui.control.html#diffpy.pdfgui.control.pdfguicontrol.PDFGuiControl.loadDataset">[docs]</a>
-    <span class="k">def</span> <span class="nf">loadDataset</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">targetID</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">position</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;load Dataset from a file to a Fitting</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">loadDataset</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">targetID</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">position</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Load Dataset from a file to a Fitting.</span>
 
 <span class="sd">        targetID  --  reference to Fitting</span>
 <span class="sd">        name      --  name of the new Dataset, default is file basename</span>
@@ -366,8 +362,8 @@
 
 <div class="viewcode-block" id="PDFGuiControl.add">
 <a class="viewcode-back" href="../../../../api/diffpy.pdfgui.control.html#diffpy.pdfgui.control.pdfguicontrol.PDFGuiControl.add">[docs]</a>
-    <span class="k">def</span> <span class="nf">add</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ID</span><span class="p">,</span> <span class="n">position</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;add fitting/calculation to internal list</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">add</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ID</span><span class="p">,</span> <span class="n">position</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Add fitting/calculation to internal list.</span>
 
 <span class="sd">        Id -- reference to the object to be inserted</span>
 <span class="sd">        position  --  where the object is to be inserted, default is last</span>
@@ -383,8 +379,8 @@
         <span class="k">return</span> <span class="n">ID</span></div>
 
 
-    <span class="k">def</span> <span class="nf">__findOwner</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ID</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;find where the ID belongs</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">__findOwner</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ID</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Find where the ID belongs.</span>
 
 <span class="sd">        ID -- object which can be Fitting,Calculation,FitDataSet or FitStructure</span>
 <span class="sd">        return: a PDFList holding that object</span>
@@ -399,9 +395,8 @@
 
 <div class="viewcode-block" id="PDFGuiControl.rename">
 <a class="viewcode-back" href="../../../../api/diffpy.pdfgui.control.html#diffpy.pdfgui.control.pdfguicontrol.PDFGuiControl.rename">[docs]</a>
-    <span class="k">def</span> <span class="nf">rename</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ID</span><span class="p">,</span> <span class="n">new_name</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;rename Fitting, Calculation, Dataset or Structure</span>
-<span class="sd">        identified by ID</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">rename</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ID</span><span class="p">,</span> <span class="n">new_name</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Rename Fitting, Calculation, Dataset or Structure identified by ID.</span>
 
 <span class="sd">        ID:       reference to the object to be renamed</span>
 <span class="sd">        new_name: new name to be given to the object</span>
@@ -412,9 +407,8 @@
 
 <div class="viewcode-block" id="PDFGuiControl.remove">
 <a class="viewcode-back" href="../../../../api/diffpy.pdfgui.control.html#diffpy.pdfgui.control.pdfguicontrol.PDFGuiControl.remove">[docs]</a>
-    <span class="k">def</span> <span class="nf">remove</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ID</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;remove Fitting, Calculation, Dataset or Structure</span>
-<span class="sd">        identified by ID</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">remove</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ID</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Remove Fitting, Calculation, Dataset or Structure identified by ID.</span>
 
 <span class="sd">        ID:     reference to the object to be removed</span>
 <span class="sd">        return: removed object</span>
@@ -426,8 +420,8 @@
 
 <div class="viewcode-block" id="PDFGuiControl.index">
 <a class="viewcode-back" href="../../../../api/diffpy.pdfgui.control.html#diffpy.pdfgui.control.pdfguicontrol.PDFGuiControl.index">[docs]</a>
-    <span class="k">def</span> <span class="nf">index</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ID</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;return position index of an object in its owner list</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">index</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ID</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return position index of an object in its owner list.</span>
 
 <span class="sd">        ID  --  ID of object</span>
 <span class="sd">        return: index</span>
@@ -438,8 +432,8 @@
 
 <div class="viewcode-block" id="PDFGuiControl.copy">
 <a class="viewcode-back" href="../../../../api/diffpy.pdfgui.control.html#diffpy.pdfgui.control.pdfguicontrol.PDFGuiControl.copy">[docs]</a>
-    <span class="k">def</span> <span class="nf">copy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">src</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;copy src object</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">copy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">src</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Copy src object.</span>
 
 <span class="sd">        src -- reference to the source object</span>
 <span class="sd">        return: reference to the copy</span>
@@ -450,9 +444,9 @@
 
 <div class="viewcode-block" id="PDFGuiControl.paste">
 <a class="viewcode-back" href="../../../../api/diffpy.pdfgui.control.html#diffpy.pdfgui.control.pdfguicontrol.PDFGuiControl.paste">[docs]</a>
-    <span class="k">def</span> <span class="nf">paste</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dup</span><span class="p">,</span> <span class="n">target</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">new_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">position</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;paste copied object to target under new_name, the default new_name</span>
-<span class="sd">        will be name of src</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">paste</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dup</span><span class="p">,</span> <span class="n">target</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">new_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">position</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Paste copied object to target under new_name, the default new_name</span>
+<span class="sd">        will be name of src.</span>
 
 <span class="sd">        dup -- reference to the copied object</span>
 <span class="sd">        target -- target object where the copy should be inserted</span>
@@ -475,14 +469,14 @@
 
 <div class="viewcode-block" id="PDFGuiControl.load">
 <a class="viewcode-back" href="../../../../api/diffpy.pdfgui.control.html#diffpy.pdfgui.control.pdfguicontrol.PDFGuiControl.load">[docs]</a>
-    <span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">projfile</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;load project from projfile.</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">load</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">projfile</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Load project from projfile.</span>
 
 <span class="sd">        projfile -- a zip file of everything</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="k">def</span> <span class="nf">_nameParser</span><span class="p">(</span><span class="n">namelist</span><span class="p">):</span>
-<span class="w">            </span><span class="sd">&quot;&quot;&quot;parse the zipfile name list to get a file tree&quot;&quot;&quot;</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">_nameParser</span><span class="p">(</span><span class="n">namelist</span><span class="p">):</span>
+<span class="w">            </span><span class="sd">&quot;&quot;&quot;Parse the zipfile name list to get a file tree.&quot;&quot;&quot;</span>
             <span class="n">fileTree</span> <span class="o">=</span> <span class="p">{}</span>
             <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">namelist</span><span class="p">:</span>
                 <span class="n">subs</span> <span class="o">=</span> <span class="n">name</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)</span>
@@ -500,7 +494,7 @@
 
         <span class="bp">self</span><span class="o">.</span><span class="n">projfile</span> <span class="o">=</span> <span class="n">projfile</span>
         <span class="n">organizations</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="kn">import</span> <span class="nn">zipfile</span>
+        <span class="kn">import</span><span class="w"> </span><span class="nn">zipfile</span>
 
         <span class="c1"># IOError can be raised when reading invalid zipfile</span>
         <span class="c1"># check for file existence here.</span>
@@ -562,15 +556,15 @@
 
 <div class="viewcode-block" id="PDFGuiControl.save">
 <a class="viewcode-back" href="../../../../api/diffpy.pdfgui.control.html#diffpy.pdfgui.control.pdfguicontrol.PDFGuiControl.save">[docs]</a>
-    <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">projfile</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Save project to projfile, default projfile is self.projfile</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">projfile</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Save project to projfile, default projfile is self.projfile.</span>
 
 <span class="sd">        This method first writes to a temporary file and only when</span>
-<span class="sd">        successful, it overwrites projfile with the temporary file content.</span>
-<span class="sd">        These steps prevent corruption of existing projects should</span>
-<span class="sd">        something go wrong in the middle of save.  As an added benefit,</span>
-<span class="sd">        all permissions and ownership flags in an existing projfile</span>
-<span class="sd">        are preserved.</span>
+<span class="sd">        successful, it overwrites projfile with the temporary file</span>
+<span class="sd">        content. These steps prevent corruption of existing projects</span>
+<span class="sd">        should something go wrong in the middle of save.  As an added</span>
+<span class="sd">        benefit, all permissions and ownership flags in an existing</span>
+<span class="sd">        projfile are preserved.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">projfile</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">projfile</span> <span class="o">=</span> <span class="n">projfile</span>
@@ -578,9 +572,9 @@
         <span class="c1"># self.projfile is unset here only due to a bug.</span>
         <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">projfile</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
 
-        <span class="kn">import</span> <span class="nn">shutil</span>
-        <span class="kn">import</span> <span class="nn">tempfile</span>
-        <span class="kn">import</span> <span class="nn">zipfile</span>
+        <span class="kn">import</span><span class="w"> </span><span class="nn">shutil</span>
+        <span class="kn">import</span><span class="w"> </span><span class="nn">tempfile</span>
+        <span class="kn">import</span><span class="w"> </span><span class="nn">zipfile</span>
 
         <span class="n">projbase</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">projfile</span><span class="p">)</span>
         <span class="n">projName</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">projbase</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
@@ -619,8 +613,8 @@
 
 <div class="viewcode-block" id="PDFGuiControl.plot">
 <a class="viewcode-back" href="../../../../api/diffpy.pdfgui.control.html#diffpy.pdfgui.control.pdfguicontrol.PDFGuiControl.plot">[docs]</a>
-    <span class="k">def</span> <span class="nf">plot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">xItem</span><span class="p">,</span> <span class="n">yItems</span><span class="p">,</span> <span class="n">Ids</span><span class="p">,</span> <span class="n">shift</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">dry</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Make a 2D plot</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">plot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">xItem</span><span class="p">,</span> <span class="n">yItems</span><span class="p">,</span> <span class="n">Ids</span><span class="p">,</span> <span class="n">shift</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">dry</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Make a 2D plot.</span>
 
 <span class="sd">        xItem --  x data item name</span>
 <span class="sd">        yItems -- list of y data item names</span>
@@ -628,7 +622,7 @@
 <span class="sd">        shift -- y displacement for each curve</span>
 <span class="sd">        dry -- not a real plot, only check if plot is valid</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="kn">from</span> <span class="nn">diffpy.pdfgui.control.plotter</span> <span class="kn">import</span> <span class="n">Plotter</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">diffpy.pdfgui.control.plotter</span><span class="w"> </span><span class="kn">import</span> <span class="n">Plotter</span>
 
         <span class="n">plotter</span> <span class="o">=</span> <span class="n">Plotter</span><span class="p">()</span>
         <span class="n">plotter</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xItem</span><span class="p">,</span> <span class="n">yItems</span><span class="p">,</span> <span class="n">Ids</span><span class="p">,</span> <span class="n">shift</span><span class="p">,</span> <span class="n">dry</span><span class="p">)</span>
@@ -637,8 +631,8 @@
 
 <div class="viewcode-block" id="PDFGuiControl.start">
 <a class="viewcode-back" href="../../../../api/diffpy.pdfgui.control.html#diffpy.pdfgui.control.pdfguicontrol.PDFGuiControl.start">[docs]</a>
-    <span class="k">def</span> <span class="nf">start</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">IDlist</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;execute Calculations and Fittings in IDlist.&quot;&quot;&quot;</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">start</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">IDlist</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Execute Calculations and Fittings in IDlist.&quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">redirectStdout</span><span class="p">()</span>
         <span class="n">fits</span> <span class="o">=</span> <span class="p">[</span><span class="n">ID</span> <span class="k">for</span> <span class="n">ID</span> <span class="ow">in</span> <span class="n">IDlist</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">ID</span><span class="p">,</span> <span class="n">Fitting</span><span class="p">)]</span>
         <span class="c1"># only add calcs which is not in fits, because fits will automatically run calcs under it anyway</span>
@@ -650,27 +644,27 @@
 
 <div class="viewcode-block" id="PDFGuiControl.stop">
 <a class="viewcode-back" href="../../../../api/diffpy.pdfgui.control.html#diffpy.pdfgui.control.pdfguicontrol.PDFGuiControl.stop">[docs]</a>
-    <span class="k">def</span> <span class="nf">stop</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;stop all Fittings&quot;&quot;&quot;</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">stop</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Stop all Fittings.&quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">enqueue</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fits</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
         <span class="k">for</span> <span class="nb">id</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">fits</span><span class="p">:</span>
             <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="nb">id</span><span class="p">,</span> <span class="n">Fitting</span><span class="p">):</span>
                 <span class="nb">id</span><span class="o">.</span><span class="n">stop</span><span class="p">()</span></div>
 
 
-    <span class="k">def</span> <span class="nf">__validateType</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">targetID</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;check if targetID is a Fitting class&quot;&quot;&quot;</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">__validateType</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">targetID</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Check if targetID is a Fitting class.&quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">targetID</span><span class="p">,</span> <span class="n">Organizer</span><span class="p">):</span>
             <span class="k">raise</span> <span class="n">ControlTypeError</span><span class="p">(</span><span class="s2">&quot;Can&#39;t insert to </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">)</span>
 
 <div class="viewcode-block" id="PDFGuiControl.redirectStdout">
 <a class="viewcode-back" href="../../../../api/diffpy.pdfgui.control.html#diffpy.pdfgui.control.pdfguicontrol.PDFGuiControl.redirectStdout">[docs]</a>
-    <span class="k">def</span> <span class="nf">redirectStdout</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">redirectStdout</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Redirect standard out.</span>
 
 <span class="sd">        This redirect engine output to StringIO if not done yet.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="kn">from</span> <span class="nn">diffpy.pdffit2</span> <span class="kn">import</span> <span class="n">output</span><span class="p">,</span> <span class="n">redirect_stdout</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">diffpy.pdffit2</span><span class="w"> </span><span class="kn">import</span> <span class="n">output</span><span class="p">,</span> <span class="n">redirect_stdout</span>
 
         <span class="k">if</span> <span class="n">output</span><span class="o">.</span><span class="n">stdout</span> <span class="ow">is</span> <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="p">:</span>
             <span class="n">redirect_stdout</span><span class="p">(</span><span class="n">io</span><span class="o">.</span><span class="n">StringIO</span><span class="p">())</span>
@@ -679,9 +673,9 @@
 
 <div class="viewcode-block" id="PDFGuiControl.getEngineOutput">
 <a class="viewcode-back" href="../../../../api/diffpy.pdfgui.control.html#diffpy.pdfgui.control.pdfguicontrol.PDFGuiControl.getEngineOutput">[docs]</a>
-    <span class="k">def</span> <span class="nf">getEngineOutput</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">getEngineOutput</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the output from the engine.&quot;&quot;&quot;</span>
-        <span class="kn">from</span> <span class="nn">diffpy.pdffit2</span> <span class="kn">import</span> <span class="n">output</span><span class="p">,</span> <span class="n">redirect_stdout</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">diffpy.pdffit2</span><span class="w"> </span><span class="kn">import</span> <span class="n">output</span><span class="p">,</span> <span class="n">redirect_stdout</span>
 
         <span class="n">txt</span> <span class="o">=</span> <span class="n">output</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">getvalue</span><span class="p">()</span>
         <span class="n">output</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
@@ -696,8 +690,8 @@
 
 <div class="viewcode-block" id="pdfguicontrol">
 <a class="viewcode-back" href="../../../../api/diffpy.pdfgui.control.html#diffpy.pdfgui.control.pdfguicontrol.pdfguicontrol">[docs]</a>
-<span class="k">def</span> <span class="nf">pdfguicontrol</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;This function will return the single instance of class PDFGuiControl&quot;&quot;&quot;</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">pdfguicontrol</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;This function will return the single instance of class PDFGuiControl.&quot;&quot;&quot;</span>
     <span class="k">global</span> <span class="n">_pdfguicontrol</span>
     <span class="k">if</span> <span class="n">_pdfguicontrol</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">_pdfguicontrol</span> <span class="o">=</span> <span class="n">PDFGuiControl</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
@@ -705,7 +699,7 @@
 
 
 
-<span class="k">def</span> <span class="nf">_importByName</span><span class="p">(</span><span class="n">mname</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_importByName</span><span class="p">(</span><span class="n">mname</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">module</span> <span class="o">=</span> <span class="nb">__import__</span><span class="p">(</span><span class="n">mname</span><span class="p">,</span> <span class="nb">globals</span><span class="p">(),</span> <span class="nb">locals</span><span class="p">(),</span> <span class="p">[</span><span class="n">name</span><span class="p">])</span>
     <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
@@ -713,7 +707,7 @@
     <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">module</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
 
 
-<span class="k">def</span> <span class="nf">_find_global</span><span class="p">(</span><span class="n">moduleName</span><span class="p">,</span> <span class="n">clsName</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_find_global</span><span class="p">(</span><span class="n">moduleName</span><span class="p">,</span> <span class="n">clsName</span><span class="p">):</span>
     <span class="c1"># from diffpy.pdfgui.control.parameter import Parameter</span>
     <span class="n">moduleName</span> <span class="o">=</span> <span class="s2">&quot;diffpy.pdfgui.control.&quot;</span> <span class="o">+</span> <span class="n">moduleName</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
     <span class="n">m</span> <span class="o">=</span> <span class="n">_importByName</span><span class="p">(</span><span class="n">moduleName</span><span class="p">,</span> <span class="n">clsName</span><span class="p">)</span>
@@ -722,18 +716,19 @@
 
 <div class="viewcode-block" id="CtrlUnpickler">
 <a class="viewcode-back" href="../../../../api/diffpy.pdfgui.control.html#diffpy.pdfgui.control.pdfguicontrol.CtrlUnpickler">[docs]</a>
-<span class="k">class</span> <span class="nc">CtrlUnpickler</span><span class="p">:</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">CtrlUnpickler</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Occasionally the project file may be generated on a platform where</span>
-<span class="sd">    PYTHONPATH is not correctly set up. CtrlUnpickler will transform the</span>
-<span class="sd">    module path in the project file to be relative to diffpy so that it can</span>
-<span class="sd">    be safely loaded. Only constraints and parameters need this class to un-</span>
-<span class="sd">    pickle.</span>
+<span class="sd">    PYTHONPATH is not correctly set up.</span>
+
+<span class="sd">    CtrlUnpickler will transform the module path in the project file to</span>
+<span class="sd">    be relative to diffpy so that it can be safely loaded. Only</span>
+<span class="sd">    constraints and parameters need this class to un- pickle.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
 <div class="viewcode-block" id="CtrlUnpickler.loads">
 <a class="viewcode-back" href="../../../../api/diffpy.pdfgui.control.html#diffpy.pdfgui.control.pdfguicontrol.CtrlUnpickler.loads">[docs]</a>
     <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">loads</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">loads</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">pickle</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
         <span class="k">except</span> <span class="ne">ImportError</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
@@ -758,7 +753,7 @@
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2024, The Trustees of Columbia University in the City of New York.</p>
+    <p>&#169; Copyright 2025, The Trustees of Columbia University in the City of New York.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
