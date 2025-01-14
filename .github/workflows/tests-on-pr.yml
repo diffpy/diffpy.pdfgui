@@ -25,7 +25,7 @@ jobs:
           auto-update-conda: true
           environment-file: environment.yml
           auto-activate-base: false
-          python-version: 3.12
+          python-version: 3.13
 
       - name: Conda config
         run: >-
@@ -35,8 +35,8 @@ jobs:
       - name: Install diffpy.pdfgui and requirements
         run: |
           conda install --file requirements/test.txt
-          conda install wxpython diffpy.utils matplotlib-base gsl
-          pip install diffpy.pdffit2==1.4.4rc4
+          conda install wxpython diffpy.utils matplotlib-base
+          pip install diffpy.pdffit2==1.5.0rc1
           python -m pip install . --no-deps
 
       - name: Start Xvfb
