@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
   push:
     tags:
-      - '*'  # Trigger on all tags initially, but tag and release privilege are verified in _build-wheel-release-upload.yml
+      - "*" # Trigger on all tags initially, but tag and release privilege are verified in _build-wheel-release-upload.yml
 
 jobs:
   release:
