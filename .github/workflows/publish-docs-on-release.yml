@@ -13,3 +13,4 @@ jobs:
       project: diffpy.pdfgui
       c_extension: false
       headless: true
+      python_version: 3.12
