@@ -1,7 +1,7 @@
 name: Deploy Documentation on Release
 
 on:
-  pull_request:
+  push:
   release:
     types: [published]
   workflow_dispatch:
@@ -13,4 +13,3 @@ jobs:
       project: diffpy.pdfgui
       c_extension: false
       headless: true
-      python_version: 3.12
