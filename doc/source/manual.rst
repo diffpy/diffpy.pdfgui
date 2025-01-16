@@ -13,4 +13,4 @@ Resources used
 - :download:`Nanoparticle structure <manual_resources/Nanoparticle structure.zip>`
 
 .. raw:: html
-    :file: manual_resources/pdfgui.html
+    :file: ../manual/pdfgui.html
