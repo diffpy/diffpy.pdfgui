@@ -35,20 +35,17 @@ def overridewebbrowser(fnc_open):
     "Temporarily replace `webbrowser.open` with given function."
     import webbrowser
 
-    controller = webbrowser.get()
-    save_open = controller.open
+    save_open = webbrowser.open
 
     def open_override(url, new=0, autoraise=True):
         fnc_open(url)
         return True
 
-    controller.open = open_override
+    webbrowser.open = open_override
     try:
-        yield save_open
+        yield
     finally:
-        del controller.open
-        assert controller.open == save_open
-    pass
+        webbrowser.open = save_open
 
 
 @contextmanager
