@@ -11,14 +11,6 @@ diffpy.pdfgui.gui.wxextensions package
 Submodules
 ----------
 
-diffpy.pdfgui.gui.wxextensions.wx12 module
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-.. automodule:: diffpy.pdfgui.gui.wxextensions.wx12
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
 diffpy.pdfgui.gui.wxextensions.listctrls module
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 

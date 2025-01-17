@@ -30,11 +30,10 @@ import wx
 from diffpy.pdfgui.control.controlerrors import ControlError
 from diffpy.pdfgui.control.fitting import Fitting
 from diffpy.pdfgui.gui.pdfguiglobals import iconpath
-from diffpy.pdfgui.gui.wxextensions import wx12
 from diffpy.pdfgui.utils import safeCPickleDumps
 
 
-class FitTree(wx12.TreeCtrl):
+class FitTree(wx.TreeCtrl):
     """TreeCtrl designed to organize pdffit fits.
 
     The root of the tree is hidden. Below that there are several levels

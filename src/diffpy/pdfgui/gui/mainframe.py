@@ -48,7 +48,6 @@ from diffpy.pdfgui.gui.preferencespanel import PreferencesPanel
 from diffpy.pdfgui.gui.rseriespanel import RSeriesPanel
 from diffpy.pdfgui.gui.temperatureseriespanel import TemperatureSeriesPanel
 from diffpy.pdfgui.gui.welcomepanel import WelcomePanel
-from diffpy.pdfgui.gui.wxextensions import wx12
 
 (PDFCustomEvent, EVT_PDFCUSTOM) = wx.lib.newevent.NewEvent()
 
@@ -234,14 +233,14 @@ class MainFrame(wx.Frame):
         """
         # Functions that modify the tree.
         # These are used in the fitting right-click menu and the main menu.
-        self.newFitId = wx12.NewIdRef()  # New Fit
-        self.newCalcId = wx12.NewIdRef()  # New Calculation
-        self.newPhaseId = wx12.NewIdRef()  # New Phase
-        self.newDataId = wx12.NewIdRef()  # New Data Set
+        self.newFitId = wx.NewIdRef()  # New Fit
+        self.newCalcId = wx.NewIdRef()  # New Calculation
+        self.newPhaseId = wx.NewIdRef()  # New Phase
+        self.newDataId = wx.NewIdRef()  # New Data Set
         self.deleteId = wx.ID_DELETE  # Delete tree item
         self.copyId = wx.ID_COPY  # Copy a tree item
         self.pasteId = wx.ID_PASTE  # Paste a tree item into tree
-        self.pasteLinkId = wx12.NewIdRef()  # Paste and link a fit node
+        self.pasteLinkId = wx.NewIdRef()  # Paste and link a fit node
 
         # Misc. functions, these are exclusive to the main menu.
         self.newId = wx.ID_NEW  # Start a new Project
@@ -250,19 +249,19 @@ class MainFrame(wx.Frame):
         self.saveId = wx.ID_SAVE  # Save the project
         self.saveAsId = wx.ID_SAVEAS  # Save the project as...
         self.quitId = wx.ID_CLOSE  # Quit the program
-        self.runFitId = wx12.NewIdRef()  # Run a fit
-        self.stopFitId = wx12.NewIdRef()  # Stop a fit
-        self.quickPlotId = wx12.NewIdRef()  # Quick plot a fit
-        self.exportFitPDFId = wx12.NewIdRef()  # Save a fit PDF
-        self.exportFitStruId = wx12.NewIdRef()  # Save a fit structure
-        self.exportNewStruId = wx12.NewIdRef()  # Export a 'new' structure
-        self.plotIStructId = wx12.NewIdRef()  # Plot initial structure
-        self.plotFStructId = wx12.NewIdRef()  # Plot final structure
-        self.printBLId = wx12.NewIdRef()  # Print the bond lengths of a structure
-        self.printBAId = wx12.NewIdRef()  # Print the bond angles of a structure
-        self.exportResId = wx12.NewIdRef()  # Save the results file
-        self.runCalcId = wx12.NewIdRef()  # Run a calculation
-        self.exportCalcPDFId = wx12.NewIdRef()  # Save a calculated PDF
+        self.runFitId = wx.NewIdRef()  # Run a fit
+        self.stopFitId = wx.NewIdRef()  # Stop a fit
+        self.quickPlotId = wx.NewIdRef()  # Quick plot a fit
+        self.exportFitPDFId = wx.NewIdRef()  # Save a fit PDF
+        self.exportFitStruId = wx.NewIdRef()  # Save a fit structure
+        self.exportNewStruId = wx.NewIdRef()  # Export a 'new' structure
+        self.plotIStructId = wx.NewIdRef()  # Plot initial structure
+        self.plotFStructId = wx.NewIdRef()  # Plot final structure
+        self.printBLId = wx.NewIdRef()  # Print the bond lengths of a structure
+        self.printBAId = wx.NewIdRef()  # Print the bond angles of a structure
+        self.exportResId = wx.NewIdRef()  # Save the results file
+        self.runCalcId = wx.NewIdRef()  # Run a calculation
+        self.exportCalcPDFId = wx.NewIdRef()  # Save a calculated PDF
         return
 
     def __customProperties(self):
@@ -438,12 +437,12 @@ class MainFrame(wx.Frame):
         self.SetMenuBar(self.menuBar)
 
         # File Menu
-        self.fileMenu = wx12.Menu()
+        self.fileMenu = wx.Menu()
         self.newItem = wx.MenuItem(self.fileMenu, self.newId, "&New Project\tCtrl+n", "", wx.ITEM_NORMAL)
         self.fileMenu.Append(self.newItem)
         self.openItem = wx.MenuItem(self.fileMenu, self.openId, "&Open Project\tCtrl+o", "", wx.ITEM_NORMAL)
         self.fileMenu.Append(self.openItem)
-        self.recentMenu = wx12.Menu()
+        self.recentMenu = wx.Menu()
         msub = self.fileMenu.AppendSubMenu(self.recentMenu, "&Recent Files")
         self.recentId = msub.Id
         self.fileMenu.AppendSeparator()
@@ -464,7 +463,7 @@ class MainFrame(wx.Frame):
         # End File Menu
 
         # Edit Menu
-        self.editMenu = wx12.Menu()
+        self.editMenu = wx.Menu()
         self.delItem = wx.MenuItem(self.editMenu, self.deleteId, "&Delete Item(s)\tCtrl+X", "", wx.ITEM_NORMAL)
         self.editMenu.Append(self.delItem)
         self.copyItem = wx.MenuItem(self.editMenu, self.copyId, "&Copy Item\tCtrl+C", "", wx.ITEM_NORMAL)
@@ -474,33 +473,33 @@ class MainFrame(wx.Frame):
         self.pasteLinkItem = wx.MenuItem(self.editMenu, self.pasteLinkId, "Paste &Linked Fit", "", wx.ITEM_NORMAL)
         self.editMenu.Append(self.pasteLinkItem)
         self.editMenu.AppendSeparator()
-        self.prefItem = wx.MenuItem(self.editMenu, wx12.NewIdRef(), "&Preferences", "", wx.ITEM_NORMAL)
+        self.prefItem = wx.MenuItem(self.editMenu, wx.NewIdRef(), "&Preferences", "", wx.ITEM_NORMAL)
         self.editMenu.Append(self.prefItem)
         self.menuBar.Append(self.editMenu, "&Edit")
         # End Edit Menu
 
         # View Menu
-        self.viewMenu = wx12.Menu()
+        self.viewMenu = wx.Menu()
         self.defaultLayoutItem = wx.MenuItem(
-            self.editMenu, wx12.NewIdRef(), "Default Window Layout", "", wx.ITEM_NORMAL
+            self.editMenu, wx.NewIdRef(), "Default Window Layout", "", wx.ITEM_NORMAL
         )
         self.viewMenu.Append(self.defaultLayoutItem)
         self.viewMenu.AppendSeparator()
         # These items are context sensitive.
-        self.showFitItem = wx.MenuItem(self.viewMenu, wx12.NewIdRef(), "Show Fit Tree", "", wx.ITEM_NORMAL)
+        self.showFitItem = wx.MenuItem(self.viewMenu, wx.NewIdRef(), "Show Fit Tree", "", wx.ITEM_NORMAL)
         self.viewMenu.Append(self.showFitItem)
-        self.showPlotItem = wx.MenuItem(self.viewMenu, wx12.NewIdRef(), "Show Plot Control", "", wx.ITEM_NORMAL)
+        self.showPlotItem = wx.MenuItem(self.viewMenu, wx.NewIdRef(), "Show Plot Control", "", wx.ITEM_NORMAL)
         self.viewMenu.Append(self.showPlotItem)
-        self.showOutputItem = wx.MenuItem(self.viewMenu, wx12.NewIdRef(), "Show Output", "", wx.ITEM_NORMAL)
+        self.showOutputItem = wx.MenuItem(self.viewMenu, wx.NewIdRef(), "Show Output", "", wx.ITEM_NORMAL)
         self.viewMenu.Append(self.showOutputItem)
         self.showJournalItem = wx.MenuItem(
-            self.viewMenu, wx12.NewIdRef(), "Show Journal\tCtrl+j", "", wx.ITEM_NORMAL
+            self.viewMenu, wx.NewIdRef(), "Show Journal\tCtrl+j", "", wx.ITEM_NORMAL
         )
         self.viewMenu.Append(self.showJournalItem)
         self.menuBar.Append(self.viewMenu, "&View")
 
         # Fits Menu
-        self.fitsMenu = wx12.Menu()
+        self.fitsMenu = wx.Menu()
         self.newFitItem = wx.MenuItem(self.fitsMenu, self.newFitId, "&New Fit\tCtrl+t", "", wx.ITEM_NORMAL)
         self.fitsMenu.Append(self.newFitItem)
         self.fitsMenu.AppendSeparator()
@@ -513,19 +512,19 @@ class MainFrame(wx.Frame):
         self.fitsMenu.Append(self.expResItem)
         self.fitsMenu.AppendSeparator()
         # Macros sub-menu
-        self.macrosMenu = wx12.Menu()
-        self.rseriesItem = wx.MenuItem(self.macrosMenu, wx12.NewIdRef(), "r-Series", "", wx.ITEM_NORMAL)
+        self.macrosMenu = wx.Menu()
+        self.rseriesItem = wx.MenuItem(self.macrosMenu, wx.NewIdRef(), "r-Series", "", wx.ITEM_NORMAL)
         self.macrosMenu.Append(self.rseriesItem)
-        self.tseriesItem = wx.MenuItem(self.macrosMenu, wx12.NewIdRef(), "Temperature Series", "", wx.ITEM_NORMAL)
+        self.tseriesItem = wx.MenuItem(self.macrosMenu, wx.NewIdRef(), "Temperature Series", "", wx.ITEM_NORMAL)
         self.macrosMenu.Append(self.tseriesItem)
-        self.dseriesItem = wx.MenuItem(self.macrosMenu, wx12.NewIdRef(), "Doping Series", "", wx.ITEM_NORMAL)
+        self.dseriesItem = wx.MenuItem(self.macrosMenu, wx.NewIdRef(), "Doping Series", "", wx.ITEM_NORMAL)
         self.macrosMenu.Append(self.dseriesItem)
         self.fitsMenu.AppendSubMenu(self.macrosMenu, "Macros")
         self.menuBar.Append(self.fitsMenu, "Fi&ts")
         # End Fits Menu
 
         # Phases Menu
-        self.phasesMenu = wx12.Menu()
+        self.phasesMenu = wx.Menu()
         self.newPhaseItem = wx.MenuItem(self.phasesMenu, self.newPhaseId, "&New Phase\tCtrl+p", "", wx.ITEM_NORMAL)
         self.phasesMenu.Append(self.newPhaseItem)
         self.phasesMenu.AppendSeparator()
@@ -580,7 +579,7 @@ class MainFrame(wx.Frame):
         # End Phases Menu
 
         # Data Menu
-        self.dataMenu = wx12.Menu()
+        self.dataMenu = wx.Menu()
         self.newDataItem = wx.MenuItem(self.dataMenu, self.newDataId, "&New Data Set\tCtrl+d", "", wx.ITEM_NORMAL)
         self.dataMenu.Append(self.newDataItem)
         self.dataMenu.AppendSeparator()
@@ -590,7 +589,7 @@ class MainFrame(wx.Frame):
         # End Data Menu
 
         # Calculations Menu
-        self.calcMenu = wx12.Menu()
+        self.calcMenu = wx.Menu()
         self.newCalcItem = wx.MenuItem(
             self.calcMenu,
             self.newCalcId,
@@ -621,20 +620,20 @@ class MainFrame(wx.Frame):
         # End Calculations Menu
 
         # Help Menu
-        self.helpMenu = wx12.Menu()
-        self.docItem = wx.MenuItem(self.helpMenu, wx12.NewIdRef(), "&Documentation\tF1", "", wx.ITEM_NORMAL)
+        self.helpMenu = wx.Menu()
+        self.docItem = wx.MenuItem(self.helpMenu, wx.NewIdRef(), "&Documentation\tF1", "", wx.ITEM_NORMAL)
         self.helpMenu.Append(self.docItem)
         self.requestItem = wx.MenuItem(
             self.helpMenu,
-            wx12.NewIdRef(),
+            wx.NewIdRef(),
             "Request a Feature / Report a Bug",
             "",
             wx.ITEM_NORMAL,
         )
         self.helpMenu.Append(self.requestItem)
-        self.communityItem = wx.MenuItem(self.helpMenu, wx12.NewIdRef(), "PDFgui Community", "", wx.ITEM_NORMAL)
+        self.communityItem = wx.MenuItem(self.helpMenu, wx.NewIdRef(), "PDFgui Community", "", wx.ITEM_NORMAL)
         self.helpMenu.Append(self.communityItem)
-        self.aboutItem = wx.MenuItem(self.helpMenu, wx12.NewIdRef(), "&About", "", wx.ITEM_NORMAL)
+        self.aboutItem = wx.MenuItem(self.helpMenu, wx.NewIdRef(), "&About", "", wx.ITEM_NORMAL)
         self.helpMenu.Append(self.aboutItem)
         self.menuBar.Append(self.helpMenu, "&Help")
         # End Help Menu
@@ -648,7 +647,6 @@ class MainFrame(wx.Frame):
     def __setupToolBar(self):
         """This sets up the tool bar in the parent window."""
         self.toolBar = self.CreateToolBar()
-        wx12.patchToolBarMethods(self.toolBar)
         size = (16, 16)
         bitmap = wx.ArtProvider.GetBitmap(wx.ART_NEW, wx.ART_TOOLBAR, size)
         self.toolBar.AddTool(
@@ -1312,7 +1310,7 @@ class MainFrame(wx.Frame):
         if self.mode == "fitting":
 
             # The menu Ids are defined in __defineLocalIds.
-            menu = wx12.Menu()
+            menu = wx.Menu()
             menu.Append(self.newFitId, "New Fit")
             menu.AppendSeparator()
             menu.Append(self.copyId, "Copy")
@@ -2546,11 +2544,11 @@ class MainFrame(wx.Frame):
 
     # control items
     def lock(self):
-        if not wx12.IsMainThread():
+        if not wx.IsMainThread():
             wx.MutexGuiEnter()
 
     def unlock(self):
-        if not wx12.IsMainThread():
+        if not wx.IsMainThread():
             wx.MutexGuiLeave()
 
     def postEvent(self, type, info):
