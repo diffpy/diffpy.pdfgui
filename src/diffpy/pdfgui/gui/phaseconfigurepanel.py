@@ -321,6 +321,7 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
 
         self.setToolTips(tooltips.phasepanel)
         self.textCtrlA.DefaultStyle.BackgroundColour
+        txtbg = self.textCtrlScaleFactor.DefaultStyle.BackgroundColour
 
         # First the TextCtrls
         for key, var in self.lConstraintsMap.items():
@@ -332,8 +333,7 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
                 tt.SetTip(self.constraints[var].formula)
             else:
                 textCtrl.SetEditable(True)
-                # textCtrl.SetBackgroundColour(txtbg)
-                textCtrl.SetBackgroundColour(wx.WHITE)
+                textCtrl.SetBackgroundColour(txtbg)
 
         # Now the grid
         rows = self.gridAtoms.GetNumberRows()
