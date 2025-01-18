@@ -24,7 +24,6 @@ from diffpy.pdfgui.control.controlerrors import TempControlSelectError
 from diffpy.pdfgui.gui import phasepanelutils, tooltips
 from diffpy.pdfgui.gui.insertrowsdialog import InsertRowsDialog
 from diffpy.pdfgui.gui.pdfpanel import PDFPanel
-from diffpy.pdfgui.gui.wxextensions import wx12
 from diffpy.pdfgui.gui.wxextensions.autowidthlabelsgrid import AutoWidthLabelsGrid
 from diffpy.pdfgui.gui.wxextensions.textctrlutils import textCtrlAsGridCell
 from diffpy.pdfgui.gui.wxextensions.validators import FLOAT_ONLY, TextValidator
@@ -642,13 +641,13 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
         """
         # only do this part the first time so the events are only bound once
         if not hasattr(self, "insertID"):
-            self.insertID = wx12.NewIdRef()
-            self.deleteID = wx12.NewIdRef()
-            self.selectID = wx12.NewIdRef()
-            self.copyID = wx12.NewIdRef()
-            self.pasteID = wx12.NewIdRef()
-            self.supercellID = wx12.NewIdRef()
-            self.spaceGroupID = wx12.NewIdRef()
+            self.insertID = wx.NewIdRef()
+            self.deleteID = wx.NewIdRef()
+            self.selectID = wx.NewIdRef()
+            self.copyID = wx.NewIdRef()
+            self.pasteID = wx.NewIdRef()
+            self.supercellID = wx.NewIdRef()
+            self.spaceGroupID = wx.NewIdRef()
 
             self.Bind(wx.EVT_MENU, self.onPopupInsert, id=self.insertID)
             self.Bind(wx.EVT_MENU, self.onPopupDelete, id=self.deleteID)

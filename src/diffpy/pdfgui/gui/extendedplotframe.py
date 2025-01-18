@@ -25,11 +25,10 @@ from matplotlib.figure import Figure
 from matplotlib.font_manager import FontProperties
 
 from diffpy.pdfgui.gui.pdfguiglobals import iconpath
-from diffpy.pdfgui.gui.wxextensions import wx12
 
 matplotlib.use("WXAgg")
 
-DATA_SAVE_ID = wx12.NewIdRef()
+DATA_SAVE_ID = wx.NewIdRef()
 
 
 class ExtendedToolbar(NavToolbar):
@@ -40,7 +39,6 @@ class ExtendedToolbar(NavToolbar):
 
     def __init__(self, canvas):
         NavToolbar.__init__(self, canvas)
-        wx12.patchToolBarMethods(self)
         # Load customized icon image
         save_icon_fp = iconpath("exportplotdata.png")
         save_icon = wx.Bitmap(save_icon_fp)

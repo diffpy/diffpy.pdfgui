@@ -24,7 +24,6 @@
 import wx.grid
 
 from diffpy.pdfgui.gui.pdfpanel import PDFPanel
-from diffpy.pdfgui.gui.wxextensions import wx12
 from diffpy.pdfgui.gui.wxextensions.autowidthlabelsgrid import AutoWidthLabelsGrid
 from diffpy.utils.wx import gridutils
 
@@ -274,9 +273,9 @@ class ParametersPanel(wx.Panel, PDFPanel):
         # only do this part the first time so the events are only bound once
         if not hasattr(self, "did_popupIDs"):
             self.did_popupIDs = True
-            self.popupID1 = wx12.NewIdRef()
-            self.popupID2 = wx12.NewIdRef()
-            self.popupID3 = wx12.NewIdRef()
+            self.popupID1 = wx.NewIdRef()
+            self.popupID2 = wx.NewIdRef()
+            self.popupID3 = wx.NewIdRef()
 
             self.Bind(wx.EVT_MENU, self.onPopupFixFree, id=self.popupID1)
             self.Bind(wx.EVT_MENU, self.onPopupCopyRefinedToInitial, id=self.popupID2)
