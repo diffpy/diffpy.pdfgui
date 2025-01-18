@@ -12,7 +12,7 @@
 
 **Removed:**
 
-* Reomved wx3 support that was previously deprecated.
+* Removed wx3 support that was previously deprecated.
 
 **Fixed:**
 
