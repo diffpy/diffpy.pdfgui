@@ -1,6 +1,6 @@
 **Added:**
 
-* no news: modification on CI workflow
+* <news item>
 
 **Changed:**
 
@@ -16,7 +16,7 @@
 
 **Fixed:**
 
-* <news item>
+* Use miniforge in CI to avoid strange error of incorrect MacOS version logged from base     env
 
 **Security:**
 
