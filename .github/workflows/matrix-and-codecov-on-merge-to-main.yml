@@ -32,7 +32,7 @@ jobs:
         uses: conda-incubator/setup-miniconda@v3
         with:
           activate-environment: test
-          auto-update-conda: true
+          miniforge-version: latest
           environment-file: environment.yml
           auto-activate-base: false
           python-version: ${{ matrix.python-version }}
