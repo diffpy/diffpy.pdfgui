@@ -22,6 +22,7 @@ import numpy
 from diffpy.pdfgui.control.controlerrors import ControlStatusError
 from diffpy.pdfgui.control.parameter import Parameter
 from diffpy.pdfgui.control.pdfdataset import PDFDataSet
+from diffpy.utils.resampler import wsinterp
 
 
 class FitDataSet(PDFDataSet):
@@ -610,13 +611,14 @@ class FitDataSet(PDFDataSet):
         if frmax - (rcalcfirst + nrcalc * frstep) > frstep * 1e-8:
             nrcalc += 1
         newrcalc = rcalcfirst + frstep * numpy.arange(nrcalc + 1)
+        tp = self.getFitSamplingType()
         # Gcalc:
         if len(self._Gcalc) > 0:
-            newGcalc = grid_interpolation(self._rcalc, self._Gcalc, newrcalc)
+            newGcalc = grid_interpolation(self._rcalc, self._Gcalc, newrcalc, tp)
             self._Gcalc = list(newGcalc)
         # dGcalc
         if len(self._dGcalc) > 0:
-            newdGcalc = grid_interpolation(self._rcalc, self._dGcalc, newrcalc)
+            newdGcalc = grid_interpolation(self._rcalc, self._dGcalc, newrcalc, tp)
             self._dGcalc = list(newdGcalc)
         # invalidate Gtrunc and dGtrunc
         self._Gtrunc = []
@@ -709,7 +711,8 @@ class FitDataSet(PDFDataSet):
     def _get_Gtrunc(self):
         self._updateRcalcSampling()
         if not self._Gtrunc:
-            newGtrunc = grid_interpolation(self.robs, self.Gobs, self.rcalc)
+            tp = self.getFitSamplingType()
+            newGtrunc = grid_interpolation(self.robs, self.Gobs, self.rcalc, tp)
             self._Gtrunc = list(newGtrunc)
         return self._Gtrunc
 
@@ -724,13 +727,15 @@ class FitDataSet(PDFDataSet):
     def _get_dGtrunc(self):
         self._updateRcalcSampling()
         if not self._dGtrunc:
+            tp = self.getFitSamplingType()
             # use sum to avoid index error for empty arrays
             newdGtrunc = grid_interpolation(
                 self.robs,
                 self.dGobs,
                 self.rcalc,
-                youtleft=sum(self.dGobs[:1]),
-                youtright=sum(self.dGobs[-1:]),
+                tp,
+                left=sum(self.dGobs[:1]),
+                right=sum(self.dGobs[-1:]),
             )
             self._dGtrunc = list(newdGtrunc)
         return self._dGtrunc
@@ -775,19 +780,8 @@ class FitDataSet(PDFDataSet):
 ##############################################################################
 # helper functions
 ##############################################################################
+def _linear_interpolation(x0, y0, x1, youtleft, youtright):
 
-
-def grid_interpolation(x0, y0, x1, youtleft=0.0, youtright=0.0):
-    """Linear interpolation of x0, y0 values to a new grid x1.
-
-    x0       -- original x-grid, must be equally spaced
-    y0       -- original y values
-    x1       -- new x-grid, it can have any spacing
-    youtleft -- value for interpolated y1 for x1 below the x0 range
-    youtright -- value for interpolated y1 for x1 above the x0 range
-
-    Return numpy.array of interpolated y1 values.
-    """
     x0 = numpy.asarray(x0, copy=None, dtype=float)
     y0 = numpy.asarray(y0, copy=None, dtype=float)
     n0 = len(x0)
@@ -818,6 +812,47 @@ def grid_interpolation(x0, y0, x1, youtleft=0.0, youtright=0.0):
     w0lo = 1.0 - w0hi
     y1[m1] = w0lo * y0[ilo0] + w0hi * y0[ihi0]
     return y1
+
+def grid_interpolation(x0, y0, x1, tp, left=None, right=None):
+    """
+    Interpolate values from one grid onto another using either linear 
+    or Whittaker–Shannon interpolation.
+
+    Parameters
+    ----------
+    x0 : array_like
+        Original x-grid, must be equally spaced.
+    y0 : array_like
+        Original values defined on x0.
+    x1 : array_like
+        New x-grid upon which to interpolate.
+    tp : {'data', 'Nyquist', 'custom'}, optional
+        Corresponding fit sampling type. Use Whittaker–Shannon interpolation 
+        for Nyquist resampling and linear interpolation otherwise.
+        If not provided, linear interpolation is used.
+    left : float, optional
+        Value for interpolated y1 for x1 below the x0 range. 
+        Default: if tp='Nyquist' then y1[0] is used. Otherwise 0.0 is used.
+    right : float, optional
+        Value for interpolated y1 for x1 above the x0 range.
+        Default: if tp='Nyquist' then y1[-1] is used. Otherwise 0.0 is used.
+
+    Returns
+    -------
+    numpy.ndarray
+        Array of interpolated values on the new grid x1.
+
+    Notes
+    -----
+    When tp='Nyquist', the function calls :func:`wsinterp` to perform Whittaker–Shannon interpolation.
+    Otherwise it uses the internal :func:`_linear_interpolation` routine.
+    """
+    if tp == 'Nyquist':
+        return wsinterp(x1, x0, y0, left, right)
+    else:
+        left = 0.0 if left is None else left
+        right = 0.0 if right is None else right
+        return _linear_interpolation(x0, y0, x1, left, right)
 
 
 # simple test code
