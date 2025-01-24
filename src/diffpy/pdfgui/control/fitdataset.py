@@ -614,11 +614,11 @@ class FitDataSet(PDFDataSet):
         tp = self.getFitSamplingType()
         # Gcalc:
         if len(self._Gcalc) > 0:
-            newGcalc = grid_interpolation(self._rcalc, self._Gcalc, newrcalc, tp)
+            newGcalc = grid_interpolation(self._rcalc, self._Gcalc, newrcalc, tp = tp)
             self._Gcalc = list(newGcalc)
         # dGcalc
         if len(self._dGcalc) > 0:
-            newdGcalc = grid_interpolation(self._rcalc, self._dGcalc, newrcalc, tp)
+            newdGcalc = grid_interpolation(self._rcalc, self._dGcalc, newrcalc, tp = tp)
             self._dGcalc = list(newdGcalc)
         # invalidate Gtrunc and dGtrunc
         self._Gtrunc = []
@@ -712,7 +712,7 @@ class FitDataSet(PDFDataSet):
         self._updateRcalcSampling()
         if not self._Gtrunc:
             tp = self.getFitSamplingType()
-            newGtrunc = grid_interpolation(self.robs, self.Gobs, self.rcalc, tp)
+            newGtrunc = grid_interpolation(self.robs, self.Gobs, self.rcalc, tp = tp)
             self._Gtrunc = list(newGtrunc)
         return self._Gtrunc
 
@@ -733,9 +733,9 @@ class FitDataSet(PDFDataSet):
                 self.robs,
                 self.dGobs,
                 self.rcalc,
-                tp,
                 left=sum(self.dGobs[:1]),
                 right=sum(self.dGobs[-1:]),
+                tp = tp,
             )
             self._dGtrunc = list(newdGtrunc)
         return self._dGtrunc
@@ -814,7 +814,7 @@ def _linear_interpolation(x0, y0, x1, youtleft, youtright):
     return y1
 
 
-def grid_interpolation(x0, y0, x1, tp, left=None, right=None):
+def grid_interpolation(x0, y0, x1, left=None, right=None, tp=None):
     """Interpolate values from one grid onto another using either linear or
     Whittaker–Shannon interpolation.
 
