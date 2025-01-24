@@ -813,10 +813,10 @@ def _linear_interpolation(x0, y0, x1, youtleft, youtright):
     y1[m1] = w0lo * y0[ilo0] + w0hi * y0[ihi0]
     return y1
 
+
 def grid_interpolation(x0, y0, x1, tp, left=None, right=None):
-    """
-    Interpolate values from one grid onto another using either linear 
-    or Whittaker–Shannon interpolation.
+    """Interpolate values from one grid onto another using either linear or
+    Whittaker–Shannon interpolation.
 
     Parameters
     ----------
@@ -827,11 +827,11 @@ def grid_interpolation(x0, y0, x1, tp, left=None, right=None):
     x1 : array_like
         New x-grid upon which to interpolate.
     tp : {'data', 'Nyquist', 'custom'}, optional
-        Corresponding fit sampling type. Use Whittaker–Shannon interpolation 
+        Corresponding fit sampling type. Use Whittaker–Shannon interpolation
         for Nyquist resampling and linear interpolation otherwise.
         If not provided, linear interpolation is used.
     left : float, optional
-        Value for interpolated y1 for x1 below the x0 range. 
+        Value for interpolated y1 for x1 below the x0 range.
         Default: if tp='Nyquist' then y1[0] is used. Otherwise 0.0 is used.
     right : float, optional
         Value for interpolated y1 for x1 above the x0 range.
@@ -847,7 +847,7 @@ def grid_interpolation(x0, y0, x1, tp, left=None, right=None):
     When tp='Nyquist', the function calls :func:`wsinterp` to perform Whittaker–Shannon interpolation.
     Otherwise it uses the internal :func:`_linear_interpolation` routine.
     """
-    if tp == 'Nyquist':
+    if tp == "Nyquist":
         return wsinterp(x1, x0, y0, left, right)
     else:
         left = 0.0 if left is None else left
