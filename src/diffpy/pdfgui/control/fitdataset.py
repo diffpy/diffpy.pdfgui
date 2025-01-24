@@ -614,11 +614,11 @@ class FitDataSet(PDFDataSet):
         tp = self.getFitSamplingType()
         # Gcalc:
         if len(self._Gcalc) > 0:
-            newGcalc = grid_interpolation(self._rcalc, self._Gcalc, newrcalc, tp = tp)
+            newGcalc = grid_interpolation(self._rcalc, self._Gcalc, newrcalc, tp=tp)
             self._Gcalc = list(newGcalc)
         # dGcalc
         if len(self._dGcalc) > 0:
-            newdGcalc = grid_interpolation(self._rcalc, self._dGcalc, newrcalc, tp = tp)
+            newdGcalc = grid_interpolation(self._rcalc, self._dGcalc, newrcalc, tp=tp)
             self._dGcalc = list(newdGcalc)
         # invalidate Gtrunc and dGtrunc
         self._Gtrunc = []
@@ -712,7 +712,7 @@ class FitDataSet(PDFDataSet):
         self._updateRcalcSampling()
         if not self._Gtrunc:
             tp = self.getFitSamplingType()
-            newGtrunc = grid_interpolation(self.robs, self.Gobs, self.rcalc, tp = tp)
+            newGtrunc = grid_interpolation(self.robs, self.Gobs, self.rcalc, tp=tp)
             self._Gtrunc = list(newGtrunc)
         return self._Gtrunc
 
@@ -735,7 +735,7 @@ class FitDataSet(PDFDataSet):
                 self.rcalc,
                 left=sum(self.dGobs[:1]),
                 right=sum(self.dGobs[-1:]),
-                tp = tp,
+                tp=tp,
             )
             self._dGtrunc = list(newdGtrunc)
         return self._dGtrunc
