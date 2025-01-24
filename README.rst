@@ -67,37 +67,69 @@ cite this package as
 Installation
 ------------
 
+Windows, macOS (non-Arm64), Linux
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 The preferred method is to use `Miniconda Python
 <https://docs.conda.io/projects/miniconda/en/latest/miniconda-install.html>`_
 and install from the "conda-forge" channel of Conda packages.
 
-To add "conda-forge" to the conda channels, run the following in a terminal. ::
+Add the "conda-forge" channel by running the following command in a terminal: ::
 
         conda config --add channels conda-forge
 
-We want to install our packages in a suitable conda environment.
-The following creates and activates a new environment named ``diffpy.pdfgui_env`` ::
+Create a new environment named ``diffpy.pdfgui_env`` and install ``diffpy.pdfgui``: ::
 
         conda create -n diffpy.pdfgui_env diffpy.pdfgui
+
+Activate the environment: ::
+
         conda activate diffpy.pdfgui_env
 
-To confirm that the installation was successful, type ::
+Confirm that the installation was successful: ::
 
         python -c "import diffpy.pdfgui; print(diffpy.pdfgui.__version__)"
 
-The output should print the latest version displayed on the badges above.
+macOS (Arm64)
+~~~~~~~~~~~~~
 
-If the above does not work, you can use ``pip`` to download and install the latest release from
-`Python Package Index <https://pypi.python.org>`_.
-To install using ``pip`` into your ``diffpy.pdfgui_env`` environment, type ::
+Create a new conda environment ``diffpy.pdfgui_env``: ::
 
-        pip install diffpy.pdfgui
+        conda create -n diffpy.pdfgui_env python=3.13
 
-If you prefer to install from sources, after installing the dependencies, obtain the source archive from
-`GitHub <https://github.com/diffpy/diffpy.pdfgui/>`_. Once installed, ``cd`` into your ``diffpy.pdfgui`` directory
-and run the following ::
+Activate the environment: ::
 
-        pip install .
+        conda activate diffpy.pdfgui_env
+
+It is necessary to get versions of pdffit2 built for Mac from Python package index (Pypi).  To install
+pdffit2 from Pypi using ``pip`` to download and install the latest version from `Python Package Index <https://pypi.python.org>`_: ::
+
+        pip install diffpy.pdffit2
+
+Confirm that the installation was successful: ::
+
+        python -c "import diffpy.pdffit2; print(diffpy.pdffit2.__version__)"
+
+Now we want to install PDFgui from conda-forge
+
+        conda install diffpy.pdfgui
+
+
+Build from source
+~~~~~~~~~~~~~~~~~
+
+For advanced users, obtain the source archive, and in the ``diffpy.pdffit2`` directory, run ::
+
+        conda create -n diffpy.pdffit2_env python=3.13 \
+                --file requirements/test.txt \
+                --file requirements/conda.txt \
+                --file requirements/build.txt
+
+Activate the environment, build the package, and run unit tests by following commands sequentially: ::
+
+        conda activate diffpy.pdffit2_env
+        pip install . --no-deps
+        pytest
 
 Getting Started
 ---------------
