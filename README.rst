@@ -110,9 +110,10 @@ Confirm that the installation was successful: ::
 
         python -c "import diffpy.pdffit2; print(diffpy.pdffit2.__version__)"
 
-Now we want to install PDFgui from conda-forge
+Now we want to install PDFgui and dependencies from conda-forge: ::
 
-        conda install diffpy.pdfgui
+        conda install wxpython diffpy.utils matplotlib-base
+        conda install diffpy.pdfgui --no-deps
 
 
 Build from source
