@@ -98,6 +98,7 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">diffpy.pdfgui.control.controlerrors</span><span class="w"> </span><span class="kn">import</span> <span class="n">ControlStatusError</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">diffpy.pdfgui.control.parameter</span><span class="w"> </span><span class="kn">import</span> <span class="n">Parameter</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">diffpy.pdfgui.control.pdfdataset</span><span class="w"> </span><span class="kn">import</span> <span class="n">PDFDataSet</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">diffpy.utils.resampler</span><span class="w"> </span><span class="kn">import</span> <span class="n">wsinterp</span>
 
 
 <div class="viewcode-block" id="FitDataSet">
@@ -772,13 +773,14 @@
         <span class="k">if</span> <span class="n">frmax</span> <span class="o">-</span> <span class="p">(</span><span class="n">rcalcfirst</span> <span class="o">+</span> <span class="n">nrcalc</span> <span class="o">*</span> <span class="n">frstep</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">frstep</span> <span class="o">*</span> <span class="mf">1e-8</span><span class="p">:</span>
             <span class="n">nrcalc</span> <span class="o">+=</span> <span class="mi">1</span>
         <span class="n">newrcalc</span> <span class="o">=</span> <span class="n">rcalcfirst</span> <span class="o">+</span> <span class="n">frstep</span> <span class="o">*</span> <span class="n">numpy</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">nrcalc</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">tp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getFitSamplingType</span><span class="p">()</span>
         <span class="c1"># Gcalc:</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_Gcalc</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="n">newGcalc</span> <span class="o">=</span> <span class="n">grid_interpolation</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_rcalc</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_Gcalc</span><span class="p">,</span> <span class="n">newrcalc</span><span class="p">)</span>
+            <span class="n">newGcalc</span> <span class="o">=</span> <span class="n">grid_interpolation</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_rcalc</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_Gcalc</span><span class="p">,</span> <span class="n">newrcalc</span><span class="p">,</span> <span class="n">tp</span><span class="o">=</span><span class="n">tp</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_Gcalc</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">newGcalc</span><span class="p">)</span>
         <span class="c1"># dGcalc</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_dGcalc</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="n">newdGcalc</span> <span class="o">=</span> <span class="n">grid_interpolation</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_rcalc</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dGcalc</span><span class="p">,</span> <span class="n">newrcalc</span><span class="p">)</span>
+            <span class="n">newdGcalc</span> <span class="o">=</span> <span class="n">grid_interpolation</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_rcalc</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dGcalc</span><span class="p">,</span> <span class="n">newrcalc</span><span class="p">,</span> <span class="n">tp</span><span class="o">=</span><span class="n">tp</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_dGcalc</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">newdGcalc</span><span class="p">)</span>
         <span class="c1"># invalidate Gtrunc and dGtrunc</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_Gtrunc</span> <span class="o">=</span> <span class="p">[]</span>
@@ -871,7 +873,8 @@
     <span class="k">def</span><span class="w"> </span><span class="nf">_get_Gtrunc</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_updateRcalcSampling</span><span class="p">()</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_Gtrunc</span><span class="p">:</span>
-            <span class="n">newGtrunc</span> <span class="o">=</span> <span class="n">grid_interpolation</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">robs</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">Gobs</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">rcalc</span><span class="p">)</span>
+            <span class="n">tp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getFitSamplingType</span><span class="p">()</span>
+            <span class="n">newGtrunc</span> <span class="o">=</span> <span class="n">grid_interpolation</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">robs</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">Gobs</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">rcalc</span><span class="p">,</span> <span class="n">tp</span><span class="o">=</span><span class="n">tp</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_Gtrunc</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">newGtrunc</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_Gtrunc</span>
 
@@ -886,13 +889,15 @@
     <span class="k">def</span><span class="w"> </span><span class="nf">_get_dGtrunc</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_updateRcalcSampling</span><span class="p">()</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dGtrunc</span><span class="p">:</span>
+            <span class="n">tp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getFitSamplingType</span><span class="p">()</span>
             <span class="c1"># use sum to avoid index error for empty arrays</span>
             <span class="n">newdGtrunc</span> <span class="o">=</span> <span class="n">grid_interpolation</span><span class="p">(</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">robs</span><span class="p">,</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">dGobs</span><span class="p">,</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">rcalc</span><span class="p">,</span>
-                <span class="n">youtleft</span><span class="o">=</span><span class="nb">sum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dGobs</span><span class="p">[:</span><span class="mi">1</span><span class="p">]),</span>
-                <span class="n">youtright</span><span class="o">=</span><span class="nb">sum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dGobs</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">:]),</span>
+                <span class="n">left</span><span class="o">=</span><span class="nb">sum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dGobs</span><span class="p">[:</span><span class="mi">1</span><span class="p">]),</span>
+                <span class="n">right</span><span class="o">=</span><span class="nb">sum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dGobs</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">:]),</span>
+                <span class="n">tp</span><span class="o">=</span><span class="n">tp</span><span class="p">,</span>
             <span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_dGtrunc</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">newdGtrunc</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dGtrunc</span>
@@ -938,21 +943,8 @@
 <span class="c1">##############################################################################</span>
 <span class="c1"># helper functions</span>
 <span class="c1">##############################################################################</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_linear_interpolation</span><span class="p">(</span><span class="n">x0</span><span class="p">,</span> <span class="n">y0</span><span class="p">,</span> <span class="n">x1</span><span class="p">,</span> <span class="n">youtleft</span><span class="p">,</span> <span class="n">youtright</span><span class="p">):</span>
 
-
-<div class="viewcode-block" id="grid_interpolation">
-<a class="viewcode-back" href="../../../../api/diffpy.pdfgui.control.html#diffpy.pdfgui.control.fitdataset.grid_interpolation">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">grid_interpolation</span><span class="p">(</span><span class="n">x0</span><span class="p">,</span> <span class="n">y0</span><span class="p">,</span> <span class="n">x1</span><span class="p">,</span> <span class="n">youtleft</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">youtright</span><span class="o">=</span><span class="mf">0.0</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Linear interpolation of x0, y0 values to a new grid x1.</span>
-
-<span class="sd">    x0       -- original x-grid, must be equally spaced</span>
-<span class="sd">    y0       -- original y values</span>
-<span class="sd">    x1       -- new x-grid, it can have any spacing</span>
-<span class="sd">    youtleft -- value for interpolated y1 for x1 below the x0 range</span>
-<span class="sd">    youtright -- value for interpolated y1 for x1 above the x0 range</span>
-
-<span class="sd">    Return numpy.array of interpolated y1 values.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">x0</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">x0</span><span class="p">,</span> <span class="n">copy</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
     <span class="n">y0</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">y0</span><span class="p">,</span> <span class="n">copy</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
     <span class="n">n0</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">x0</span><span class="p">)</span>
@@ -982,7 +974,50 @@
     <span class="n">w0hi</span> <span class="o">=</span> <span class="p">(</span><span class="n">x1</span><span class="p">[</span><span class="n">m1</span><span class="p">]</span> <span class="o">-</span> <span class="n">x0</span><span class="p">[</span><span class="n">ilo0</span><span class="p">])</span> <span class="o">/</span> <span class="n">dx0</span>
     <span class="n">w0lo</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">-</span> <span class="n">w0hi</span>
     <span class="n">y1</span><span class="p">[</span><span class="n">m1</span><span class="p">]</span> <span class="o">=</span> <span class="n">w0lo</span> <span class="o">*</span> <span class="n">y0</span><span class="p">[</span><span class="n">ilo0</span><span class="p">]</span> <span class="o">+</span> <span class="n">w0hi</span> <span class="o">*</span> <span class="n">y0</span><span class="p">[</span><span class="n">ihi0</span><span class="p">]</span>
-    <span class="k">return</span> <span class="n">y1</span></div>
+    <span class="k">return</span> <span class="n">y1</span>
+
+
+<div class="viewcode-block" id="grid_interpolation">
+<a class="viewcode-back" href="../../../../api/diffpy.pdfgui.control.html#diffpy.pdfgui.control.fitdataset.grid_interpolation">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">grid_interpolation</span><span class="p">(</span><span class="n">x0</span><span class="p">,</span> <span class="n">y0</span><span class="p">,</span> <span class="n">x1</span><span class="p">,</span> <span class="n">left</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">right</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">tp</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Interpolate values from one grid onto another using either linear or</span>
+<span class="sd">    Whittaker–Shannon interpolation.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    x0 : array_like</span>
+<span class="sd">        Original x-grid, must be equally spaced.</span>
+<span class="sd">    y0 : array_like</span>
+<span class="sd">        Original values defined on x0.</span>
+<span class="sd">    x1 : array_like</span>
+<span class="sd">        New x-grid upon which to interpolate.</span>
+<span class="sd">    tp : {&#39;data&#39;, &#39;Nyquist&#39;, &#39;custom&#39;}, optional</span>
+<span class="sd">        Corresponding fit sampling type. Use Whittaker–Shannon interpolation</span>
+<span class="sd">        for Nyquist resampling and linear interpolation otherwise.</span>
+<span class="sd">        If not provided, linear interpolation is used.</span>
+<span class="sd">    left : float, optional</span>
+<span class="sd">        Value for interpolated y1 for x1 below the x0 range.</span>
+<span class="sd">        Default: if tp=&#39;Nyquist&#39; then y1[0] is used. Otherwise 0.0 is used.</span>
+<span class="sd">    right : float, optional</span>
+<span class="sd">        Value for interpolated y1 for x1 above the x0 range.</span>
+<span class="sd">        Default: if tp=&#39;Nyquist&#39; then y1[-1] is used. Otherwise 0.0 is used.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    numpy.ndarray</span>
+<span class="sd">        Array of interpolated values on the new grid x1.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    When tp=&#39;Nyquist&#39;, the function calls :func:`wsinterp` to perform Whittaker–Shannon interpolation.</span>
+<span class="sd">    Otherwise it uses the internal :func:`_linear_interpolation` routine.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">tp</span> <span class="o">==</span> <span class="s2">&quot;Nyquist&quot;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">wsinterp</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">x0</span><span class="p">,</span> <span class="n">y0</span><span class="p">,</span> <span class="n">left</span><span class="p">,</span> <span class="n">right</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">left</span> <span class="o">=</span> <span class="mf">0.0</span> <span class="k">if</span> <span class="n">left</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">left</span>
+        <span class="n">right</span> <span class="o">=</span> <span class="mf">0.0</span> <span class="k">if</span> <span class="n">right</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">right</span>
+        <span class="k">return</span> <span class="n">_linear_interpolation</span><span class="p">(</span><span class="n">x0</span><span class="p">,</span> <span class="n">y0</span><span class="p">,</span> <span class="n">x1</span><span class="p">,</span> <span class="n">left</span><span class="p">,</span> <span class="n">right</span><span class="p">)</span></div>
 
 
 

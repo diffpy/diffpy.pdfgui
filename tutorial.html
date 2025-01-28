@@ -100,70 +100,127 @@ started with PDFgui.</p>
 </dl>
 </li>
 </ul>
+<p>This manual will help you to get started with <code class="docutils literal notranslate"><span class="pre">PDFgui</span></code>.  We strongly recommend that that you refer to
+the book <cite>Atomic pair distribution function analysis: a primer</cite> by Simon J. L. Billinge, Kirsten Jensen
+Soham Banerjee, Emil S. Bozin, Benjamin A. Frandsen, Maxwell W. Terban and Robert J. Koch, Oxford:
+Oxford University Press, 2024. URL: <a class="reference external" href="https://global.oup.com/academic/product">https://global.oup.com/academic/product</a>/atomicpair-distribution-function-analysis-9780198885801?cc=us&amp;lang=en&amp;
+for much more extensive and detailed descriptions of carrying out fits with PDFgui (and the related program diffpy-cmi).</p>
 <p>Procedure:</p>
 <ol class="arabic">
-<li><p>Open a terminal and type <code class="docutils literal notranslate"><span class="pre">pdfgui</span></code> to start the program.</p></li>
+<li><p>Open <code class="docutils literal notranslate"><span class="pre">pdfgui</span></code>. Instructions for doing this depend on your system, but an example would be
+to open a terminal, activate your pdfgui conda environment, and type <code class="docutils literal notranslate"><span class="pre">pdfgui</span></code> at the prompt,
+or to double-click a project file on windows.</p></li>
 <li><dl class="simple">
 <dt>Create a new Fit:</dt><dd><ol class="arabic simple">
-<li><p>Select “FITTING” in the left-most vertical tab.</p></li>
-<li><p>Click right mouse button in the left panel and choose “New Fit” in the pop-up menu.</p></li>
+<li><p>In the GUI locate the <code class="docutils literal notranslate"><span class="pre">Fit</span> <span class="pre">Tree</span></code> panel.  In the default layout it is at the top left of the page.</p></li>
+<li><p>With your mouse on that panel, right-click the mouse and select “New Fit” from the pop-up menu.</p></li>
+<li><p>By default, your fit will be called <code class="docutils literal notranslate"><span class="pre">Fit</span> <span class="pre">1</span></code>. To give it a more meaningful name, left
+click the <code class="docutils literal notranslate"><span class="pre">Fit</span> <span class="pre">1</span></code> name. It should open an editable box and you can type in a name for your
+fit such as “Fit of Ni structure to Ni data”</p></li>
+<li><p>Note, an alternative workflow to create a new fit is to find <code class="docutils literal notranslate"><span class="pre">New</span> <span class="pre">fit</span></code> under the <code class="docutils literal notranslate"><span class="pre">Fits</span></code> dropdown menu.</p></li>
 </ol>
 </dd>
 </dl>
 </li>
 <li><dl class="simple">
 <dt>Load structure model:</dt><dd><ol class="arabic simple">
-<li><p>Place the cursor of the mouse onto the title of the Fit, click the right button and choose “Insert Phase” in the pop-up menu.</p></li>
-<li><p>Click the “Open” button and load the <cite>Ni.stru</cite> file.</p></li>
+<li><p>Carefully place your cursor on to the title of the Fit and right-click. Select “Insert Phase” from the pop-up menu.</p></li>
+<li><p>Click the “Open” button and navigate to and load the <code class="docutils literal notranslate"><span class="pre">Ni.stru</span></code> file that you downloaded.  You could select
+valid structure model file, a <code class="docutils literal notranslate"><span class="pre">.stru</span></code> or a <code class="docutils literal notranslate"><span class="pre">.cif</span></code> file.</p></li>
+<li><p>Note, an alternative workflow for adding structural models is to select <code class="docutils literal notranslate"><span class="pre">New</span> <span class="pre">Phase</span></code> from the <code class="docutils literal notranslate"><span class="pre">Phases</span></code> dropdown menu.</p></li>
 </ol>
 </dd>
 </dl>
-<p>The right panel has 3 tabs for the initial configuration, constraints panel for expressing structure properties as functions of tunable parameters, and Results panel for refined structure.</p>
+<p>If you select the Phase in the <code class="docutils literal notranslate"><span class="pre">Fit</span> <span class="pre">Tree</span></code> by left clicking on it, you will see in the
+right panel 3 tabs, <code class="docutils literal notranslate"><span class="pre">Configure</span></code> <code class="docutils literal notranslate"><span class="pre">Constraints</span></code>, <code class="docutils literal notranslate"><span class="pre">Results</span></code>.  Feel free to click one
+these tabs and look inside.  The Configure panel has the initial inputs from the loaded str or cif file,
+The <code class="docutils literal notranslate"><span class="pre">Constraints</span></code> panel will hold the constraints we will set up for our fits, it should be empty now,
+and the results tab will contain the results of any fit.</p>
+<p>Note that what you see on the right is “Context Dependent”, it depends on what you have selected on the left.
+By selecting a phase on the left, the tabs on the right contain information about that phase, and so on.</p>
 </li>
 <li><dl class="simple">
 <dt>Load experimental PDF data:</dt><dd><ol class="arabic simple">
-<li><p>Select the title of “Fit 1”, click the right button and choose “Insert Data Set” in the pop-up menu.</p></li>
-<li><p>Load the <cite>Ni-xray.gr</cite> file.</p></li>
+<li><p>As before, hover over your cursor over the title of your fit and right-click.  This time select
+<code class="docutils literal notranslate"><span class="pre">Insert</span> <span class="pre">Data</span> <span class="pre">Set</span></code> from the pop-up menu.</p></li>
+<li><p>Navigate to and load the <cite>Ni-xray.gr</cite> file that you downloaded.</p></li>
 </ol>
 </dd>
 </dl>
-<p>Again, the right panel shows 3 tabs for properties of this dataset.</p>
+<p>Again, the right panel shows 3 tabs, now for properties of this dataset.</p>
 </li>
 <li><dl class="simple">
 <dt>Define what is refined:</dt><dd><ol class="arabic simple">
 <li><p>Click on the <cite>Ni-xray.gr</cite> data and select the “Constraints” tab.</p></li>
-<li><p>Type <code class="docutils literal notranslate"><span class="pre">&#64;1</span></code> into “Scale Factor” edit box.</p></li>
+<li><p>Type <code class="docutils literal notranslate"><span class="pre">&#64;1</span></code> into the “Scale Factor” edit box.</p></li>
 <li><p>Select the <cite>Ni.stru</cite> phase and its “Constraints” tab.</p></li>
 <li><p>Fill “a”, “b”, “c” boxes with <code class="docutils literal notranslate"><span class="pre">&#64;5</span></code>.</p></li>
 </ol>
 </dd>
 </dl>
-<p>A refined variable can be expressed as a math expression:
+<p>Here we are defining “variables” that will be refined and giving them names
+variable “&#64;1”, “&#64;5”, etc. and linking them to model parameters by typing them
+in the text-box associated with the parameter.  So by typing <code class="docutils literal notranslate"><span class="pre">&#64;1</span></code> in the
+data “Scale-Factor” text box we are saying that we are logically assigning the constraint
+equation <code class="docutils literal notranslate"><span class="pre">data.scale_factor</span> <span class="pre">=</span> <span class="pre">variable(&quot;&#64;1&quot;)</span></code>.</p>
+<p>When we assign the three parameters <code class="docutils literal notranslate"><span class="pre">a</span></code>, <code class="docutils literal notranslate"><span class="pre">b</span></code> and <code class="docutils literal notranslate"><span class="pre">c</span></code> to the same variable,
+<code class="docutils literal notranslate"><span class="pre">&#64;5</span></code>, we are implicitly ensuring that the refinement will respect
+the cubic symmetry of the nickel structure and that <code class="docutils literal notranslate"><span class="pre">a</span> <span class="pre">=</span> <span class="pre">b</span> <span class="pre">=</span> <span class="pre">c</span></code>, because the
+three parameters are assigned to the same variable, so however much <code class="docutils literal notranslate"><span class="pre">a</span></code>
+is changed in the refinement, <code class="docutils literal notranslate"><span class="pre">b</span></code> and <code class="docutils literal notranslate"><span class="pre">c</span></code> will be changed by the same amount.
+Note that the variable ensures that changes to <code class="docutils literal notranslate"><span class="pre">a</span></code>, <code class="docutils literal notranslate"><span class="pre">b</span></code> and <code class="docutils literal notranslate"><span class="pre">c</span></code> are always
+the same, so we have to also ensure that the initial values of <code class="docutils literal notranslate"><span class="pre">a</span></code>, <code class="docutils literal notranslate"><span class="pre">b</span></code> and <code class="docutils literal notranslate"><span class="pre">c</span></code>
+are the same as each other to ensure that the structure is cubic and remains so.</p>
+<p>PDFgui allows us to express more complex constraint equations than
+simply assigning a parameter to a variable.
+In general, we can type into be Constraints tab text box any math expression:
 <code class="docutils literal notranslate"><span class="pre">f(&#64;n1,</span> <span class="pre">&#64;n2,</span> <span class="pre">&#64;n3,</span> <span class="pre">...)</span></code> where
-<code class="docutils literal notranslate"><span class="pre">&#64;n1</span></code> stands for fitted parameter and
+<code class="docutils literal notranslate"><span class="pre">&#64;n1</span></code> stands for the fitted parameter, where it is understood that
 <code class="docutils literal notranslate"><span class="pre">n1,</span> <span class="pre">n2,</span> <span class="pre">...</span></code> are arbitrary positive integers.
-This allows simple linking of related variables - for example, since
-cell lengths a, b, c are all expressed as <code class="docutils literal notranslate"><span class="pre">&#64;5</span></code>, the refined structure will remain cubic.</p>
+This allows simple linking of related variables.  For example, if we want to allow a
+crystallographic site to contain either Ni or Pt, we don’t know how much Ni or Pt is
+on the site, but we want it to be always fully occupied, we could create two lattice
+site entries with the same fractional coordinates, with one assigned Ni as the element and the other
+assigned Pt as the element. Then we could assign the Ni occupancy as <code class="docutils literal notranslate"><span class="pre">&#64;100</span></code>.  Then
+typing <code class="docutils literal notranslate"><span class="pre">1-&#64;100</span></code> into the constraint text box of the Pt occupancy ensures that however
+much the occupancy of the Ni site goes down in a refinement, the occupancy of the Pt on that
+same site goes up by the same amount.  This ensures full occupancy of that site, as long
+as the initial occupancies of the Ni and Pt added up to 1.</p>
 </li>
 <li><dl class="simple">
 <dt>Start the refinement:</dt><dd><ol class="arabic simple">
-<li><p>Select “Fit 1” in the left panel.  The parameters panel shows a list of used parameters and their initial values.</p></li>
-<li><p>Click the “gear” icon on the toolbar and watch the fit progress in the terminal window.</p></li>
+<li><p>Select the fit to run by left clicking the title of the fit in the <code class="docutils literal notranslate"><span class="pre">Fit</span> <span class="pre">Tree</span></code> panel.
+The <code class="docutils literal notranslate"><span class="pre">Parameters</span></code> panel on the right shows a list of variables that you have defined
+and their initial values.  Each one also has a check-box that allows you to fix them
+(prevent them from varying in the subsequent refinement).  Unchecked boxes mean the variable
+will be refined.</p></li>
+<li><p>When you are satisfied with the configuration, click the “gear” icon on the toolbar
+and watch the fit progress in the terminal window.</p></li>
 </ol>
 </dd>
 </dl>
 </li>
-<li><dl class="simple">
+<li><dl>
 <dt>Plot the results:</dt><dd><ol class="arabic simple">
-<li><p>Select “PLOTTING” in the left-most vertical tab.</p></li>
-<li><p>Select the <cite>Ni-xray.gr</cite> dataset.</p></li>
-<li><p>Select “r” as the X plotting variable.</p></li>
-<li><p>Hold down shift and select “Gcalc” and “Gtrunc” as the Y plotting variables.</p></li>
-<li><p>Click “Plot” button.</p></li>
+<li><p>Select the data in the fit (in this case the <cite>Ni-xray.gr</cite> dataset) by left clicking it.</p></li>
+<li><p>Click the <code class="docutils literal notranslate"><span class="pre">plot</span></code> icon in the toolbar.  This is the icon that looks a bit like a PDF
+to the right of the Gear and the red/grey X.</p></li>
 </ol>
+<p>A new window pops up with the plots. It will show the data in blue, the best-fit model
+curve in red, and offset below, the difference curve in green.  The offset of the difference
+curve appears at a default value of <code class="docutils literal notranslate"><span class="pre">-5.0</span></code>.  You can make your plot more pretty and meaningful
+by typing a different offset into the <code class="docutils literal notranslate"><span class="pre">offset</span></code> text box and hitting <code class="docutils literal notranslate"><span class="pre">Plot</span></code> again.</p>
+<p>It is possible to configure the plot in the <code class="docutils literal notranslate"><span class="pre">Plot</span> <span class="pre">Control</span></code> panel in the GUI.
+In the default layout it will be at the lower-left of the GUI panel.</p>
+<ol class="arabic simple">
+<li><p>To plot the fit (as was done above) elect “r” as the X plotting variable.</p></li>
+<li><p>Hold down shift and select “Gcalc” and “Gtrunc” as the Y plotting variables.</p></li>
+<li><p>Click the “Plot” button.</p></li>
+</ol>
+<p>This panel allows more plotting options for advanced cases such as plotting the values
+of parameters refined across multiple fits to extract temperature dependent information.</p>
 </dd>
 </dl>
-<p>A new window pops up with plots.  You can try out the buttons in the toolbar below.</p>
 </li>
 <li><p>Save your project for later use.</p></li>
 </ol>

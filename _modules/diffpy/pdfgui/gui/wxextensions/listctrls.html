@@ -101,16 +101,14 @@
 <span class="kn">import</span><span class="w"> </span><span class="nn">wx</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">wx.lib.mixins.listctrl</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">listmix</span>
 
-<span class="kn">from</span><span class="w"> </span><span class="nn">diffpy.pdfgui.gui.wxextensions</span><span class="w"> </span><span class="kn">import</span> <span class="n">wx12</span>
-
 
 <div class="viewcode-block" id="AutoWidthListCtrl">
 <a class="viewcode-back" href="../../../../../api/diffpy.pdfgui.gui.wxextensions.html#diffpy.pdfgui.gui.wxextensions.listctrls.AutoWidthListCtrl">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">AutoWidthListCtrl</span><span class="p">(</span><span class="n">wx12</span><span class="o">.</span><span class="n">ListCtrl</span><span class="p">,</span> <span class="n">listmix</span><span class="o">.</span><span class="n">ListCtrlAutoWidthMixin</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">AutoWidthListCtrl</span><span class="p">(</span><span class="n">wx</span><span class="o">.</span><span class="n">ListCtrl</span><span class="p">,</span> <span class="n">listmix</span><span class="o">.</span><span class="n">ListCtrlAutoWidthMixin</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;WxListCtrl subclass that automatically adjusts its column width.&quot;&quot;&quot;</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent</span><span class="p">,</span> <span class="n">ID</span><span class="p">,</span> <span class="n">pos</span><span class="o">=</span><span class="n">wx</span><span class="o">.</span><span class="n">DefaultPosition</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">wx</span><span class="o">.</span><span class="n">DefaultSize</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="n">wx12</span><span class="o">.</span><span class="n">ListCtrl</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent</span><span class="p">,</span> <span class="n">ID</span><span class="p">,</span> <span class="n">pos</span><span class="p">,</span> <span class="n">size</span><span class="p">,</span> <span class="n">style</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">wx</span><span class="o">.</span><span class="n">ListCtrl</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent</span><span class="p">,</span> <span class="n">ID</span><span class="p">,</span> <span class="n">pos</span><span class="p">,</span> <span class="n">size</span><span class="p">,</span> <span class="n">style</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="n">listmix</span><span class="o">.</span><span class="n">ListCtrlAutoWidthMixin</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 
 <div class="viewcode-block" id="AutoWidthListCtrl.clearSelections">
@@ -294,9 +292,9 @@
 <span class="c1"># End of class KeyEventsListCtrl</span>
 
 <span class="c1"># verify inheritance of all ListCtrl classes</span>
-<span class="k">assert</span> <span class="nb">issubclass</span><span class="p">(</span><span class="n">AutoWidthListCtrl</span><span class="p">,</span> <span class="n">wx12</span><span class="o">.</span><span class="n">ListCtrl</span><span class="p">)</span>
-<span class="k">assert</span> <span class="nb">issubclass</span><span class="p">(</span><span class="n">ColumnSortListCtrl</span><span class="p">,</span> <span class="n">wx12</span><span class="o">.</span><span class="n">ListCtrl</span><span class="p">)</span>
-<span class="k">assert</span> <span class="nb">issubclass</span><span class="p">(</span><span class="n">KeyEventsListCtrl</span><span class="p">,</span> <span class="n">wx12</span><span class="o">.</span><span class="n">ListCtrl</span><span class="p">)</span>
+<span class="k">assert</span> <span class="nb">issubclass</span><span class="p">(</span><span class="n">AutoWidthListCtrl</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">ListCtrl</span><span class="p">)</span>
+<span class="k">assert</span> <span class="nb">issubclass</span><span class="p">(</span><span class="n">ColumnSortListCtrl</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">ListCtrl</span><span class="p">)</span>
+<span class="k">assert</span> <span class="nb">issubclass</span><span class="p">(</span><span class="n">KeyEventsListCtrl</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">ListCtrl</span><span class="p">)</span>
 </pre></div>
 
            </div>

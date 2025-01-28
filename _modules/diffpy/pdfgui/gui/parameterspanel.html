@@ -100,7 +100,6 @@
 <span class="kn">import</span><span class="w"> </span><span class="nn">wx.grid</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">diffpy.pdfgui.gui.pdfpanel</span><span class="w"> </span><span class="kn">import</span> <span class="n">PDFPanel</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">diffpy.pdfgui.gui.wxextensions</span><span class="w"> </span><span class="kn">import</span> <span class="n">wx12</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">diffpy.pdfgui.gui.wxextensions.autowidthlabelsgrid</span><span class="w"> </span><span class="kn">import</span> <span class="n">AutoWidthLabelsGrid</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">diffpy.utils.wx</span><span class="w"> </span><span class="kn">import</span> <span class="n">gridutils</span>
 
@@ -375,9 +374,9 @@
         <span class="c1"># only do this part the first time so the events are only bound once</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;did_popupIDs&quot;</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">did_popupIDs</span> <span class="o">=</span> <span class="kc">True</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">popupID1</span> <span class="o">=</span> <span class="n">wx12</span><span class="o">.</span><span class="n">NewIdRef</span><span class="p">()</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">popupID2</span> <span class="o">=</span> <span class="n">wx12</span><span class="o">.</span><span class="n">NewIdRef</span><span class="p">()</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">popupID3</span> <span class="o">=</span> <span class="n">wx12</span><span class="o">.</span><span class="n">NewIdRef</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">popupID1</span> <span class="o">=</span> <span class="n">wx</span><span class="o">.</span><span class="n">NewIdRef</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">popupID2</span> <span class="o">=</span> <span class="n">wx</span><span class="o">.</span><span class="n">NewIdRef</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">popupID3</span> <span class="o">=</span> <span class="n">wx</span><span class="o">.</span><span class="n">NewIdRef</span><span class="p">()</span>
 
             <span class="bp">self</span><span class="o">.</span><span class="n">Bind</span><span class="p">(</span><span class="n">wx</span><span class="o">.</span><span class="n">EVT_MENU</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">onPopupFixFree</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">popupID1</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">Bind</span><span class="p">(</span><span class="n">wx</span><span class="o">.</span><span class="n">EVT_MENU</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">onPopupCopyRefinedToInitial</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">popupID2</span><span class="p">)</span>

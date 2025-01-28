@@ -850,14 +850,34 @@ subpath – path to its own storage within project file</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="diffpy.pdfgui.control.fitdataset.grid_interpolation">
-<span class="sig-prename descclassname"><span class="pre">diffpy.pdfgui.control.fitdataset.</span></span><span class="sig-name descname"><span class="pre">grid_interpolation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">youtleft</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">youtright</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/pdfgui/control/fitdataset.html#grid_interpolation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.pdfgui.control.fitdataset.grid_interpolation" title="Link to this definition"></a></dt>
-<dd><p>Linear interpolation of x0, y0 values to a new grid x1.</p>
-<p>x0       – original x-grid, must be equally spaced
-y0       – original y values
-x1       – new x-grid, it can have any spacing
-youtleft – value for interpolated y1 for x1 below the x0 range
-youtright – value for interpolated y1 for x1 above the x0 range</p>
-<p>Return numpy.array of interpolated y1 values.</p>
+<span class="sig-prename descclassname"><span class="pre">diffpy.pdfgui.control.fitdataset.</span></span><span class="sig-name descname"><span class="pre">grid_interpolation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">left</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">right</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tp</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/pdfgui/control/fitdataset.html#grid_interpolation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.pdfgui.control.fitdataset.grid_interpolation" title="Link to this definition"></a></dt>
+<dd><p>Interpolate values from one grid onto another using either linear or
+Whittaker–Shannon interpolation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x0</strong> (<em>array_like</em>) – Original x-grid, must be equally spaced.</p></li>
+<li><p><strong>y0</strong> (<em>array_like</em>) – Original values defined on x0.</p></li>
+<li><p><strong>x1</strong> (<em>array_like</em>) – New x-grid upon which to interpolate.</p></li>
+<li><p><strong>tp</strong> (<em>{'data'</em><em>, </em><em>'Nyquist'</em><em>, </em><em>'custom'}</em><em>, </em><em>optional</em>) – Corresponding fit sampling type. Use Whittaker–Shannon interpolation
+for Nyquist resampling and linear interpolation otherwise.
+If not provided, linear interpolation is used.</p></li>
+<li><p><strong>left</strong> (<em>float</em><em>, </em><em>optional</em>) – Value for interpolated y1 for x1 below the x0 range.
+Default: if tp=’Nyquist’ then y1[0] is used. Otherwise 0.0 is used.</p></li>
+<li><p><strong>right</strong> (<em>float</em><em>, </em><em>optional</em>) – Value for interpolated y1 for x1 above the x0 range.
+Default: if tp=’Nyquist’ then y1[-1] is used. Otherwise 0.0 is used.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Array of interpolated values on the new grid x1.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>numpy.ndarray</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>When tp=’Nyquist’, the function calls <code class="xref py py-func docutils literal notranslate"><span class="pre">wsinterp()</span></code> to perform Whittaker–Shannon interpolation.
+Otherwise it uses the internal <code class="xref py py-func docutils literal notranslate"><span class="pre">_linear_interpolation()</span></code> routine.</p>
 </dd></dl>
 
 </section>
