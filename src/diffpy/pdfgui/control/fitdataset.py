@@ -848,6 +848,9 @@ def grid_interpolation(x0, y0, x1, left=None, right=None, tp=None):
     Otherwise it uses the internal :func:`_linear_interpolation` routine.
     """
     if tp == "Nyquist":
+        x0 = numpy.asarray(x0)
+        x1 = numpy.asarray(x1)
+        y0 = numpy.asarray(y0)
         return wsinterp(x1, x0, y0, left, right)
     else:
         left = 0.0 if left is None else left
