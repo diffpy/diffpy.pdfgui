@@ -268,9 +268,9 @@ class ExtendedPlotFrame(wx.Frame):
             "triangle": "^",
         }
         colorDict = {
-            "blue": "b",
-            "green": "g",
-            "red": "r",
+            "blue": "#0B3C5D",
+            "green": "#1C6B0A",
+            "red": "#B82601",
             "cyan": "c",
             "magenta": "m",
             "yellow": "y",
