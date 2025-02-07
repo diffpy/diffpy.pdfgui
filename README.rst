@@ -105,7 +105,7 @@ Activate the environment: ::
 It is necessary to get versions of pdffit2 built for Mac from Python package index (Pypi).  To install
 pdffit2 from Pypi using ``pip`` to download and install the latest version from `Python Package Index <https://pypi.python.org>`_: ::
 
-        conda install wxpython diffpy.utils diffpy.structure matplotlib-base pycifrw numpy
+        conda install wxpython diffpy.utils matplotlib-base pycifrw
         pip install diffpy.pdffit2
 
 Now we want to install PDFgui from conda-forge: ::
