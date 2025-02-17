@@ -6,14 +6,14 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>diffpy.pdfgui.gui package &mdash; diffpy.pdfgui 3.1.0rc8 documentation</title>
+  <title>diffpy.pdfgui.gui package &mdash; diffpy.pdfgui 3.1.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
 
   
       <script src="../_static/jquery.js?v=5d32c60e"></script>
       <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../_static/documentation_options.js?v=e89e3c73"></script>
+      <script src="../_static/documentation_options.js?v=0ffc2956"></script>
       <script src="../_static/doctools.js?v=9bcbadda"></script>
       <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/js/theme.js"></script>
@@ -203,8 +203,177 @@ qbroad      –  float</p>
 </dd></dl>
 
 </section>
-<section id="diffpy-pdfgui-gui-phaseconfigurepanel-module">
-<h3>diffpy.pdfgui.gui.phaseconfigurepanel module<a class="headerlink" href="#diffpy-pdfgui-gui-phaseconfigurepanel-module" title="Link to this heading"></a></h3>
+<section id="module-diffpy.pdfgui.gui.phaseconfigurepanel">
+<span id="diffpy-pdfgui-gui-phaseconfigurepanel-module"></span><h3>diffpy.pdfgui.gui.phaseconfigurepanel module<a class="headerlink" href="#module-diffpy.pdfgui.gui.phaseconfigurepanel" title="Link to this heading"></a></h3>
+<dl class="py class">
+<dt class="sig sig-object py" id="diffpy.pdfgui.gui.phaseconfigurepanel.PhaseConfigurePanel">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">diffpy.pdfgui.gui.phaseconfigurepanel.</span></span><span class="sig-name descname"><span class="pre">PhaseConfigurePanel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwds</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/pdfgui/gui/phaseconfigurepanel.html#PhaseConfigurePanel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.pdfgui.gui.phaseconfigurepanel.PhaseConfigurePanel" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Panel</span></code>, <a class="reference internal" href="#diffpy.pdfgui.gui.pdfpanel.PDFPanel" title="diffpy.pdfgui.gui.pdfpanel.PDFPanel"><code class="xref py py-class docutils literal notranslate"><span class="pre">PDFPanel</span></code></a></p>
+<p>Panel for configuring a phase.</p>
+<dl class="simple">
+<dt>Data members:</dt><dd><p>structure       – reference to PDFStructure
+_focusedText    – value of a cell or textctrl before it changes
+lConstraintsMap – map of TextCtrl name to parameter name
+_row            – row,    where rightclick occurred
+_col            – column, where rightclick occurred</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="diffpy.pdfgui.gui.phaseconfigurepanel.PhaseConfigurePanel.applyCellChange">
+<span class="sig-name descname"><span class="pre">applyCellChange</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">i</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">j</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/pdfgui/gui/phaseconfigurepanel.html#PhaseConfigurePanel.applyCellChange"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.pdfgui.gui.phaseconfigurepanel.PhaseConfigurePanel.applyCellChange" title="Link to this definition"></a></dt>
+<dd><p>Update an atom according to a change in a cell.</p>
+<p>i       –  cell position
+j       –  cell position
+value   –  new value</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="diffpy.pdfgui.gui.phaseconfigurepanel.PhaseConfigurePanel.applyTextCtrlChange">
+<span class="sig-name descname"><span class="pre">applyTextCtrlChange</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/pdfgui/gui/phaseconfigurepanel.html#PhaseConfigurePanel.applyTextCtrlChange"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.pdfgui.gui.phaseconfigurepanel.PhaseConfigurePanel.applyTextCtrlChange" title="Link to this definition"></a></dt>
+<dd><p>Update a structure according to a change in a TextCtrl.</p>
+<p>id      –  textctrl id
+value   –  new value</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="diffpy.pdfgui.gui.phaseconfigurepanel.PhaseConfigurePanel.fillCells">
+<span class="sig-name descname"><span class="pre">fillCells</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/pdfgui/gui/phaseconfigurepanel.html#PhaseConfigurePanel.fillCells"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.pdfgui.gui.phaseconfigurepanel.PhaseConfigurePanel.fillCells" title="Link to this definition"></a></dt>
+<dd><p>Fill cells with a given value.</p>
+<p>value       –  string value to place into cells</p>
+<p>This uses the member variable _selectedCells, a list of (i,j) tuples for
+the selected cells.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="diffpy.pdfgui.gui.phaseconfigurepanel.PhaseConfigurePanel.onCellChange">
+<span class="sig-name descname"><span class="pre">onCellChange</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/pdfgui/gui/phaseconfigurepanel.html#PhaseConfigurePanel.onCellChange"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.pdfgui.gui.phaseconfigurepanel.PhaseConfigurePanel.onCellChange" title="Link to this definition"></a></dt>
+<dd><p>Update focused and selected text when a cell changes.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="diffpy.pdfgui.gui.phaseconfigurepanel.PhaseConfigurePanel.onCellRightClick">
+<span class="sig-name descname"><span class="pre">onCellRightClick</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/pdfgui/gui/phaseconfigurepanel.html#PhaseConfigurePanel.onCellRightClick"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.pdfgui.gui.phaseconfigurepanel.PhaseConfigurePanel.onCellRightClick" title="Link to this definition"></a></dt>
+<dd><p>Bring up right-click menu.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="diffpy.pdfgui.gui.phaseconfigurepanel.PhaseConfigurePanel.onEditorShown">
+<span class="sig-name descname"><span class="pre">onEditorShown</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/pdfgui/gui/phaseconfigurepanel.html#PhaseConfigurePanel.onEditorShown"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.pdfgui.gui.phaseconfigurepanel.PhaseConfigurePanel.onEditorShown" title="Link to this definition"></a></dt>
+<dd><p>Capture the focused text when the grid editor is shown.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="diffpy.pdfgui.gui.phaseconfigurepanel.PhaseConfigurePanel.onKey">
+<span class="sig-name descname"><span class="pre">onKey</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/pdfgui/gui/phaseconfigurepanel.html#PhaseConfigurePanel.onKey"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.pdfgui.gui.phaseconfigurepanel.PhaseConfigurePanel.onKey" title="Link to this definition"></a></dt>
+<dd><p>Catch key events in the panel.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="diffpy.pdfgui.gui.phaseconfigurepanel.PhaseConfigurePanel.onKillFocus">
+<span class="sig-name descname"><span class="pre">onKillFocus</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/pdfgui/gui/phaseconfigurepanel.html#PhaseConfigurePanel.onKillFocus"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.pdfgui.gui.phaseconfigurepanel.PhaseConfigurePanel.onKillFocus" title="Link to this definition"></a></dt>
+<dd><p>Check value of TextCtrl and update structure if necessary.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="diffpy.pdfgui.gui.phaseconfigurepanel.PhaseConfigurePanel.onLabelRightClick">
+<span class="sig-name descname"><span class="pre">onLabelRightClick</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/pdfgui/gui/phaseconfigurepanel.html#PhaseConfigurePanel.onLabelRightClick"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.pdfgui.gui.phaseconfigurepanel.PhaseConfigurePanel.onLabelRightClick" title="Link to this definition"></a></dt>
+<dd><p>Bring up right-click menu.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="diffpy.pdfgui.gui.phaseconfigurepanel.PhaseConfigurePanel.onPopupCopy">
+<span class="sig-name descname"><span class="pre">onPopupCopy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/pdfgui/gui/phaseconfigurepanel.html#PhaseConfigurePanel.onPopupCopy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.pdfgui.gui.phaseconfigurepanel.PhaseConfigurePanel.onPopupCopy" title="Link to this definition"></a></dt>
+<dd><p>Copy selected cells.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="diffpy.pdfgui.gui.phaseconfigurepanel.PhaseConfigurePanel.onPopupDelete">
+<span class="sig-name descname"><span class="pre">onPopupDelete</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/pdfgui/gui/phaseconfigurepanel.html#PhaseConfigurePanel.onPopupDelete"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.pdfgui.gui.phaseconfigurepanel.PhaseConfigurePanel.onPopupDelete" title="Link to this definition"></a></dt>
+<dd><p>Deletes the row under mouse pointer from the grid.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="diffpy.pdfgui.gui.phaseconfigurepanel.PhaseConfigurePanel.onPopupInsert">
+<span class="sig-name descname"><span class="pre">onPopupInsert</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/pdfgui/gui/phaseconfigurepanel.html#PhaseConfigurePanel.onPopupInsert"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.pdfgui.gui.phaseconfigurepanel.PhaseConfigurePanel.onPopupInsert" title="Link to this definition"></a></dt>
+<dd><p>Adds rows to the grid.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="diffpy.pdfgui.gui.phaseconfigurepanel.PhaseConfigurePanel.onPopupPaste">
+<span class="sig-name descname"><span class="pre">onPopupPaste</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/pdfgui/gui/phaseconfigurepanel.html#PhaseConfigurePanel.onPopupPaste"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.pdfgui.gui.phaseconfigurepanel.PhaseConfigurePanel.onPopupPaste" title="Link to this definition"></a></dt>
+<dd><p>Paste previously copied cells.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="diffpy.pdfgui.gui.phaseconfigurepanel.PhaseConfigurePanel.onPopupSelect">
+<span class="sig-name descname"><span class="pre">onPopupSelect</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/pdfgui/gui/phaseconfigurepanel.html#PhaseConfigurePanel.onPopupSelect"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.pdfgui.gui.phaseconfigurepanel.PhaseConfigurePanel.onPopupSelect" title="Link to this definition"></a></dt>
+<dd><p>Limit cell selection to specified atom selection string.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="diffpy.pdfgui.gui.phaseconfigurepanel.PhaseConfigurePanel.onPopupSpaceGroup">
+<span class="sig-name descname"><span class="pre">onPopupSpaceGroup</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/pdfgui/gui/phaseconfigurepanel.html#PhaseConfigurePanel.onPopupSpaceGroup"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.pdfgui.gui.phaseconfigurepanel.PhaseConfigurePanel.onPopupSpaceGroup" title="Link to this definition"></a></dt>
+<dd><p>Create a supercell with the supercell dialog.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="diffpy.pdfgui.gui.phaseconfigurepanel.PhaseConfigurePanel.onPopupSupercell">
+<span class="sig-name descname"><span class="pre">onPopupSupercell</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/pdfgui/gui/phaseconfigurepanel.html#PhaseConfigurePanel.onPopupSupercell"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.pdfgui.gui.phaseconfigurepanel.PhaseConfigurePanel.onPopupSupercell" title="Link to this definition"></a></dt>
+<dd><p>Create a supercell with the supercell dialog.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="diffpy.pdfgui.gui.phaseconfigurepanel.PhaseConfigurePanel.onSelectedPairs">
+<span class="sig-name descname"><span class="pre">onSelectedPairs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/pdfgui/gui/phaseconfigurepanel.html#PhaseConfigurePanel.onSelectedPairs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.pdfgui.gui.phaseconfigurepanel.PhaseConfigurePanel.onSelectedPairs" title="Link to this definition"></a></dt>
+<dd><p>Check to see if the value of the selected pairs is valid.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="diffpy.pdfgui.gui.phaseconfigurepanel.PhaseConfigurePanel.onSetFocus">
+<span class="sig-name descname"><span class="pre">onSetFocus</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/pdfgui/gui/phaseconfigurepanel.html#PhaseConfigurePanel.onSetFocus"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.pdfgui.gui.phaseconfigurepanel.PhaseConfigurePanel.onSetFocus" title="Link to this definition"></a></dt>
+<dd><p>Saves a TextCtrl value, to be compared in onKillFocus later.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="diffpy.pdfgui.gui.phaseconfigurepanel.PhaseConfigurePanel.onTextCtrlKey">
+<span class="sig-name descname"><span class="pre">onTextCtrlKey</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#diffpy.pdfgui.gui.phaseconfigurepanel.PhaseConfigurePanel.onTextCtrlKey" title="Link to this definition"></a></dt>
+<dd><p>Process a textCtrl key event as if the textCtrl was a grid cell.</p>
+<p>This catches ESC and ENTER events in textCtrls and processes them as if the
+textCtrl were a grid cell. This method can be bound to the wx.EVT_KEY_DOWN
+event of any textCtrl. See phaseconfigurepanel.py in diffpy.pdfgui.gui for
+an example.</p>
+<dl class="simple">
+<dt>ESC     –  Cancel the edit and highlight the text. This requires that</dt><dd><p>panel has a _focusedText attribute that stores the previous
+value.</p>
+</dd>
+<dt>ENTER   –  Confirm the edit and move to the next cell (the default TAB</dt><dd><p>behavior).</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="diffpy.pdfgui.gui.phaseconfigurepanel.PhaseConfigurePanel.popupMenu">
+<span class="sig-name descname"><span class="pre">popupMenu</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">window</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/pdfgui/gui/phaseconfigurepanel.html#PhaseConfigurePanel.popupMenu"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.pdfgui.gui.phaseconfigurepanel.PhaseConfigurePanel.popupMenu" title="Link to this definition"></a></dt>
+<dd><p>Creates the popup menu.</p>
+<p>window  –  window, where to popup a menu
+x       –  x coordinate
+y       –  y coordinate</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="diffpy.pdfgui.gui.phaseconfigurepanel.PhaseConfigurePanel.refresh">
+<span class="sig-name descname"><span class="pre">refresh</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/pdfgui/gui/phaseconfigurepanel.html#PhaseConfigurePanel.refresh"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.pdfgui.gui.phaseconfigurepanel.PhaseConfigurePanel.refresh" title="Link to this definition"></a></dt>
+<dd><p>Refreshes widgets on the panel.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="diffpy.pdfgui.gui.phaseconfigurepanel.PhaseConfigurePanel.restrictConstrainedParameters">
+<span class="sig-name descname"><span class="pre">restrictConstrainedParameters</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/pdfgui/gui/phaseconfigurepanel.html#PhaseConfigurePanel.restrictConstrainedParameters"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.pdfgui.gui.phaseconfigurepanel.PhaseConfigurePanel.restrictConstrainedParameters" title="Link to this definition"></a></dt>
+<dd><p>Set ‘read-only’ boxes that correspond to constrained parameters.</p>
+</dd></dl>
+
+</dd></dl>
+
 </section>
 <section id="module-diffpy.pdfgui.gui.supercelldialog">
 <span id="diffpy-pdfgui-gui-supercelldialog-module"></span><h3>diffpy.pdfgui.gui.supercelldialog module<a class="headerlink" href="#module-diffpy.pdfgui.gui.supercelldialog" title="Link to this heading"></a></h3>
@@ -2317,8 +2486,38 @@ textCtrlRcut textCtrlStepcut textCtrlSpdiameter</p>
 </dd></dl>
 
 </section>
-<section id="diffpy-pdfgui-gui-phasenotebookpanel-module">
-<h3>diffpy.pdfgui.gui.phasenotebookpanel module<a class="headerlink" href="#diffpy-pdfgui-gui-phasenotebookpanel-module" title="Link to this heading"></a></h3>
+<section id="module-diffpy.pdfgui.gui.phasenotebookpanel">
+<span id="diffpy-pdfgui-gui-phasenotebookpanel-module"></span><h3>diffpy.pdfgui.gui.phasenotebookpanel module<a class="headerlink" href="#module-diffpy.pdfgui.gui.phasenotebookpanel" title="Link to this heading"></a></h3>
+<dl class="py class">
+<dt class="sig sig-object py" id="diffpy.pdfgui.gui.phasenotebookpanel.PhaseNotebookPanel">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">diffpy.pdfgui.gui.phasenotebookpanel.</span></span><span class="sig-name descname"><span class="pre">PhaseNotebookPanel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwds</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/pdfgui/gui/phasenotebookpanel.html#PhaseNotebookPanel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.pdfgui.gui.phasenotebookpanel.PhaseNotebookPanel" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Panel</span></code>, <a class="reference internal" href="#diffpy.pdfgui.gui.pdfpanel.PDFPanel" title="diffpy.pdfgui.gui.pdfpanel.PDFPanel"><code class="xref py py-class docutils literal notranslate"><span class="pre">PDFPanel</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="diffpy.pdfgui.gui.phasenotebookpanel.PhaseNotebookPanel.Enable">
+<span class="sig-name descname"><span class="pre">Enable</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">enable</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/pdfgui/gui/phasenotebookpanel.html#PhaseNotebookPanel.Enable"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.pdfgui.gui.phasenotebookpanel.PhaseNotebookPanel.Enable" title="Link to this definition"></a></dt>
+<dd><p>Keep the notebook enabled, just not the panels.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="diffpy.pdfgui.gui.phasenotebookpanel.PhaseNotebookPanel.onNotebookPageChanged">
+<span class="sig-name descname"><span class="pre">onNotebookPageChanged</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/pdfgui/gui/phasenotebookpanel.html#PhaseNotebookPanel.onNotebookPageChanged"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.pdfgui.gui.phasenotebookpanel.PhaseNotebookPanel.onNotebookPageChanged" title="Link to this definition"></a></dt>
+<dd><p>Called after the page selection is changed.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="diffpy.pdfgui.gui.phasenotebookpanel.PhaseNotebookPanel.onNotebookPageChanging">
+<span class="sig-name descname"><span class="pre">onNotebookPageChanging</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/pdfgui/gui/phasenotebookpanel.html#PhaseNotebookPanel.onNotebookPageChanging"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.pdfgui.gui.phasenotebookpanel.PhaseNotebookPanel.onNotebookPageChanging" title="Link to this definition"></a></dt>
+<dd><p>Called during the page selection change.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="diffpy.pdfgui.gui.phasenotebookpanel.PhaseNotebookPanel.refresh">
+<span class="sig-name descname"><span class="pre">refresh</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/pdfgui/gui/phasenotebookpanel.html#PhaseNotebookPanel.refresh"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.pdfgui.gui.phasenotebookpanel.PhaseNotebookPanel.refresh" title="Link to this definition"></a></dt>
+<dd><p>Refreshes the currently shown panel.</p>
+</dd></dl>
+
+</dd></dl>
+
 </section>
 <section id="module-diffpy.pdfgui.gui.errorwrapper">
 <span id="diffpy-pdfgui-gui-errorwrapper-module"></span><h3>diffpy.pdfgui.gui.errorwrapper module<a class="headerlink" href="#module-diffpy.pdfgui.gui.errorwrapper" title="Link to this heading"></a></h3>
@@ -2423,8 +2622,741 @@ value.</p>
 </dd></dl>
 
 </section>
-<section id="diffpy-pdfgui-gui-mainframe-module">
-<h3>diffpy.pdfgui.gui.mainframe module<a class="headerlink" href="#diffpy-pdfgui-gui-mainframe-module" title="Link to this heading"></a></h3>
+<section id="module-diffpy.pdfgui.gui.mainframe">
+<span id="diffpy-pdfgui-gui-mainframe-module"></span><h3>diffpy.pdfgui.gui.mainframe module<a class="headerlink" href="#module-diffpy.pdfgui.gui.mainframe" title="Link to this heading"></a></h3>
+<p>This module contains the main window of PDFgui.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="diffpy.pdfgui.gui.mainframe.MainFrame">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">diffpy.pdfgui.gui.mainframe.</span></span><span class="sig-name descname"><span class="pre">MainFrame</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwds</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/pdfgui/gui/mainframe.html#MainFrame"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.pdfgui.gui.mainframe.MainFrame" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Frame</span></code></p>
+<p>The left pane is a FitTree (from fittree.py), the right is a dynamic
+panel, accessed via the data member rightPanel, which can hold one of any
+number of panels. The panels that can appear in the right pane must be
+derived from PDFPanel (in pdfpanel.py) and are defined in the dynamicPanels
+dictionary, which is defined in __customProperties. A panel is placed in
+the right pane by passing its dynamicPanels dictionary key to the
+switchRightPanel method.  This method takes care of displaying the panel,
+giving the data it needs, and calling its refresh() method.</p>
+<p>** NODE TYPES **
+The FitTree is essential to the functionality of the Gui.
+The tree contains one of five types of items:
+“fit”           –  This represents a fit that is to be run by pdffit.
+“dataset”       –  This represents a data for a fit.
+“phase”         –  This represents the theoretical phases needed for a</p>
+<blockquote>
+<div><p>dataset or a calculation.</p>
+</div></blockquote>
+<dl class="simple">
+<dt>“calculation”   –  This represents a calculation which is to be made from</dt><dd><p>using a configured fit.</p>
+</dd>
+</dl>
+<p>Depending upon what type of item is selected in the tree, the right pane
+will display the properties and configuration of that item (if in “fitting
+mode”, see below.) More on these item types is given in the documentation
+for the FitTree in fittree.py. See r</p>
+<p>** MODES **
+The program has various modes of operation.
+“fitting”       –  In this mode the right pane changes depending upon what</p>
+<blockquote>
+<div><p>type of item is selected in the FitTree. When the
+fitting button is pressed, the program is in “fitting”
+mode.</p>
+</div></blockquote>
+<p>“addingdata”    –  This mode is for adding data.
+“addingphase”   –  This mode is for adding the phase
+“config”        –  This mode is used for preferences and structure viewer</p>
+<blockquote>
+<div><p>configuration.</p>
+</div></blockquote>
+<p>“rseries”       –  The mode used when configuring an r-series macro.
+“tseries”       –  The mode used when configuring a temperature series</p>
+<blockquote>
+<div><p>macro.</p>
+</div></blockquote>
+<p>“dseries”       –  The mode used when configuring a doping series macro.</p>
+<p>The mode determines how the tree and other widgets react to user
+interaction. The mode of the program is changed with the method setMode.
+This method outright enables or disables certain widgets that should not be
+used when in certain modes.</p>
+<p>** DATA MEMBERS **
+dynamicPanels – The dictionary of right panels. This is used to change the</p>
+<blockquote>
+<div><blockquote>
+<div><p>right panel in the method switchRightPanel. The panels held
+by the dynamicPanels dictionary are listed below by their
+dictionary keys:</p>
+</div></blockquote>
+<ul class="simple">
+<li><p>Miscellaneous panels:</p></li>
+</ul>
+<p>“blank”         –  A blank panel
+“rseries”       –  The r-series macro panel
+“tseries”       –  The temperature series macro panel
+“dseries”       –  The doping series macro panel
+“welcome”       –  A welcome panel</p>
+<ul class="simple">
+<li><p>‘fitting’ mode panels</p></li>
+</ul>
+<p>“fit”           –  The panel for ‘fit’ nodes
+“phase”         –  The panel for ‘phase’ nodes
+“dataset”       –  The panel for ‘dataset’ nodes
+“calculation”   –  The panel for ‘calculation’ nodes</p>
+<ul class="simple">
+<li><p>Panels specific to other program modes</p></li>
+</ul>
+<p>“adddata”       –  The panel used in ‘addingdata’ mode
+“addphase”      –  The panel used in ‘addingphase’ mode</p>
+<ul class="simple">
+<li><p>Panels for future implementation</p></li>
+</ul>
+<p>“configuration” –  Another ‘config’ mode panel</p>
+</div></blockquote>
+<p>rightPanel  –  The current right panel.
+fullpath    –  The full path to the most recently accessed project file.
+workpath    –  The full path to the working directory. This is modified</p>
+<blockquote>
+<div><p>whenever something is loaded or saved to file. It is
+preserved in the current session and across new projects.</p>
+</div></blockquote>
+<dl class="simple">
+<dt>cP          –  A python SafeConfigurationParser object. This is in charge</dt><dd><p>of storing configuration information about the most recently
+used files list. It is also used by addphasepanel and
+adddatapanel to store their respective fullpath variables.
+The code that handles the MRU files interacts directly
+with cP.</p>
+</dd>
+<dt>mode        –  The current mode of the program. This is modified using the</dt><dd><p>setMode method. See the MODES section above.</p>
+</dd>
+</dl>
+<p>name        –  The name of the program as defined in pdfguiglobals.
+control     –  The pdfguicontrol object needed for interfacing with the</p>
+<blockquote>
+<div><p>engine pdffit2 code.</p>
+</div></blockquote>
+<dl class="simple">
+<dt>isAltered   –  A Boolean flag that indicates when the program has been</dt><dd><p>altered. This should be changed with the method needsSave so
+that the save menu item and toolbar button can be updated
+accordingly.</p>
+</dd>
+<dt>runningDict –  A dictionary of running fits and calculations indexed by</dt><dd><p>name. This dictionary is used to change the status colors of
+running fits and to keep the user from editing a running
+fit.</p>
+</dd>
+<dt>quitting    –  A boolean that is set when the program is quitting. This</dt><dd><p>flag tells the error handlers to ignore any errors that take
+place during shutdown.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="diffpy.pdfgui.gui.mainframe.MainFrame.checkForSave">
+<span class="sig-name descname"><span class="pre">checkForSave</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/pdfgui/gui/mainframe.html#MainFrame.checkForSave"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.pdfgui.gui.mainframe.MainFrame.checkForSave" title="Link to this definition"></a></dt>
+<dd><p>Pop up a dialog if the project needs to be saved.</p>
+<p>returns:
+wx.ID_YES if the user chose to save the project.
+wx.ID_NO if the user chose not to save the project.
+wx.ID_CANCEL if they changed their mind about their action.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="diffpy.pdfgui.gui.mainframe.MainFrame.disableMainMenuItems">
+<span class="sig-name descname"><span class="pre">disableMainMenuItems</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/pdfgui/gui/mainframe.html#MainFrame.disableMainMenuItems"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.pdfgui.gui.mainframe.MainFrame.disableMainMenuItems" title="Link to this definition"></a></dt>
+<dd><p>Disable main menu items.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="diffpy.pdfgui.gui.mainframe.MainFrame.disableSharedMenuItems">
+<span class="sig-name descname"><span class="pre">disableSharedMenuItems</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">menu</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/pdfgui/gui/mainframe.html#MainFrame.disableSharedMenuItems"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.pdfgui.gui.mainframe.MainFrame.disableSharedMenuItems" title="Link to this definition"></a></dt>
+<dd><p>Disable some menu items based upon what is selected in the tree.</p>
+<p>menu        –  The menu which to apply the changes.</p>
+<p>Note that this method is meant to disable only the shared menu items,
+that is, those that use the same menu item Ids. These are defined in the
+top part of __defineLocalIds().  Putting this logic into a single method
+makes it easier to make changes with the menus. If a specific menu needs
+additional logic, put that in a separate method.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="diffpy.pdfgui.gui.mainframe.MainFrame.loadConfiguration">
+<span class="sig-name descname"><span class="pre">loadConfiguration</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/pdfgui/gui/mainframe.html#MainFrame.loadConfiguration"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.pdfgui.gui.mainframe.MainFrame.loadConfiguration" title="Link to this definition"></a></dt>
+<dd><p>Load the configuration from file.</p>
+<p>The MRU list is handled by the local member fileHistory, which
+is a wxFileHistory object.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="diffpy.pdfgui.gui.mainframe.MainFrame.lock">
+<span class="sig-name descname"><span class="pre">lock</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/pdfgui/gui/mainframe.html#MainFrame.lock"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.pdfgui.gui.mainframe.MainFrame.lock" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="diffpy.pdfgui.gui.mainframe.MainFrame.makeTreeSelection">
+<span class="sig-name descname"><span class="pre">makeTreeSelection</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">node</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/pdfgui/gui/mainframe.html#MainFrame.makeTreeSelection"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.pdfgui.gui.mainframe.MainFrame.makeTreeSelection" title="Link to this definition"></a></dt>
+<dd><p>Manually select a node of the tree and update according to
+selection.</p>
+<p>This makes sure that the node is visible after selection.</p>
+<p>If node is None, this does nothing.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="diffpy.pdfgui.gui.mainframe.MainFrame.needsSave">
+<span class="sig-name descname"><span class="pre">needsSave</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">altered</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/pdfgui/gui/mainframe.html#MainFrame.needsSave"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.pdfgui.gui.mainframe.MainFrame.needsSave" title="Link to this definition"></a></dt>
+<dd><p>Tell the gui that the program needs to be saved.</p>
+<p>This changes the state of the save menu and tool bar items.</p>
+<p>altered     –  Whether or not the program needs saving (default True).</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="diffpy.pdfgui.gui.mainframe.MainFrame.onAbout">
+<span class="sig-name descname"><span class="pre">onAbout</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/pdfgui/gui/mainframe.html#MainFrame.onAbout"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.pdfgui.gui.mainframe.MainFrame.onAbout" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="diffpy.pdfgui.gui.mainframe.MainFrame.onBeginLabelEdit">
+<span class="sig-name descname"><span class="pre">onBeginLabelEdit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/pdfgui/gui/mainframe.html#MainFrame.onBeginLabelEdit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.pdfgui.gui.mainframe.MainFrame.onBeginLabelEdit" title="Link to this definition"></a></dt>
+<dd><p>Veto editing of some items and in some modes.</p>
+<p>The following editing attempts are Veto()’d
+* Editing any item in “addingdata”, “addingphase”, or “config” mode.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="diffpy.pdfgui.gui.mainframe.MainFrame.onCommunity">
+<span class="sig-name descname"><span class="pre">onCommunity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/pdfgui/gui/mainframe.html#MainFrame.onCommunity"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.pdfgui.gui.mainframe.MainFrame.onCommunity" title="Link to this definition"></a></dt>
+<dd><p>Open the browser and go to the diffpy-users Google Group.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="diffpy.pdfgui.gui.mainframe.MainFrame.onCopy">
+<span class="sig-name descname"><span class="pre">onCopy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/pdfgui/gui/mainframe.html#MainFrame.onCopy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.pdfgui.gui.mainframe.MainFrame.onCopy" title="Link to this definition"></a></dt>
+<dd><p>Copy the subtree of the current selected item into the clipboard.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="diffpy.pdfgui.gui.mainframe.MainFrame.onCustom">
+<span class="sig-name descname"><span class="pre">onCustom</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/pdfgui/gui/mainframe.html#MainFrame.onCustom"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.pdfgui.gui.mainframe.MainFrame.onCustom" title="Link to this definition"></a></dt>
+<dd><p>This handles the custom events sent by the control.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="diffpy.pdfgui.gui.mainframe.MainFrame.onDSeries">
+<span class="sig-name descname"><span class="pre">onDSeries</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/pdfgui/gui/mainframe.html#MainFrame.onDSeries"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.pdfgui.gui.mainframe.MainFrame.onDSeries" title="Link to this definition"></a></dt>
+<dd><p>Open up the doping series panel.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="diffpy.pdfgui.gui.mainframe.MainFrame.onDefaultLayout">
+<span class="sig-name descname"><span class="pre">onDefaultLayout</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/pdfgui/gui/mainframe.html#MainFrame.onDefaultLayout"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.pdfgui.gui.mainframe.MainFrame.onDefaultLayout" title="Link to this definition"></a></dt>
+<dd><p>Place the fit tree and plot panel in default locations.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="diffpy.pdfgui.gui.mainframe.MainFrame.onDelete">
+<span class="sig-name descname"><span class="pre">onDelete</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/pdfgui/gui/mainframe.html#MainFrame.onDelete"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.pdfgui.gui.mainframe.MainFrame.onDelete" title="Link to this definition"></a></dt>
+<dd><p>Remove the subtrees starting from the selected nodes.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="diffpy.pdfgui.gui.mainframe.MainFrame.onDocumentation">
+<span class="sig-name descname"><span class="pre">onDocumentation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/pdfgui/gui/mainframe.html#MainFrame.onDocumentation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.pdfgui.gui.mainframe.MainFrame.onDocumentation" title="Link to this definition"></a></dt>
+<dd><p>Show information about the documentation.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="diffpy.pdfgui.gui.mainframe.MainFrame.onDoubleClick">
+<span class="sig-name descname"><span class="pre">onDoubleClick</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/pdfgui/gui/mainframe.html#MainFrame.onDoubleClick"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.pdfgui.gui.mainframe.MainFrame.onDoubleClick" title="Link to this definition"></a></dt>
+<dd><p>Select-all type on item double click.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="diffpy.pdfgui.gui.mainframe.MainFrame.onDoubleClick2">
+<span class="sig-name descname"><span class="pre">onDoubleClick2</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/pdfgui/gui/mainframe.html#MainFrame.onDoubleClick2"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.pdfgui.gui.mainframe.MainFrame.onDoubleClick2" title="Link to this definition"></a></dt>
+<dd><p>Select-all type on item double click.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="diffpy.pdfgui.gui.mainframe.MainFrame.onEndLabelEdit">
+<span class="sig-name descname"><span class="pre">onEndLabelEdit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/pdfgui/gui/mainframe.html#MainFrame.onEndLabelEdit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.pdfgui.gui.mainframe.MainFrame.onEndLabelEdit" title="Link to this definition"></a></dt>
+<dd><p>Allow only certain types of renaming.</p>
+<p>The following rename attempts are Veto()’d
+* Giving a node the same name as a sibling. Cousins can share names.
+* Giving a node the name ‘’. Everything needs a name.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="diffpy.pdfgui.gui.mainframe.MainFrame.onExportNewStruct">
+<span class="sig-name descname"><span class="pre">onExportNewStruct</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/pdfgui/gui/mainframe.html#MainFrame.onExportNewStruct"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.pdfgui.gui.mainframe.MainFrame.onExportNewStruct" title="Link to this definition"></a></dt>
+<dd><p>Export a structure that was created from scratch.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="diffpy.pdfgui.gui.mainframe.MainFrame.onExportPDF">
+<span class="sig-name descname"><span class="pre">onExportPDF</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/pdfgui/gui/mainframe.html#MainFrame.onExportPDF"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.pdfgui.gui.mainframe.MainFrame.onExportPDF" title="Link to this definition"></a></dt>
+<dd><p>Export a fit PDF.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="diffpy.pdfgui.gui.mainframe.MainFrame.onExportRes">
+<span class="sig-name descname"><span class="pre">onExportRes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/pdfgui/gui/mainframe.html#MainFrame.onExportRes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.pdfgui.gui.mainframe.MainFrame.onExportRes" title="Link to this definition"></a></dt>
+<dd><p>Export the results file for the selected calculation.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="diffpy.pdfgui.gui.mainframe.MainFrame.onExportStruct">
+<span class="sig-name descname"><span class="pre">onExportStruct</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/pdfgui/gui/mainframe.html#MainFrame.onExportStruct"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.pdfgui.gui.mainframe.MainFrame.onExportStruct" title="Link to this definition"></a></dt>
+<dd><p>Export a fit structure.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="diffpy.pdfgui.gui.mainframe.MainFrame.onInsCalc">
+<span class="sig-name descname"><span class="pre">onInsCalc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/pdfgui/gui/mainframe.html#MainFrame.onInsCalc"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.pdfgui.gui.mainframe.MainFrame.onInsCalc" title="Link to this definition"></a></dt>
+<dd><p>Insert a new calculation item.</p>
+<p>A calculation is given the name “Calculation n”, where n is the
+smallest positive integer such that the name is not already
+taken.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="diffpy.pdfgui.gui.mainframe.MainFrame.onInsData">
+<span class="sig-name descname"><span class="pre">onInsData</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/pdfgui/gui/mainframe.html#MainFrame.onInsData"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.pdfgui.gui.mainframe.MainFrame.onInsData" title="Link to this definition"></a></dt>
+<dd><p>Insert a new dataset item.</p>
+<p>This opens up the new data set panel from adddatapanel.py. That
+panel is in charge of inserting a new phase. See the module for
+details.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="diffpy.pdfgui.gui.mainframe.MainFrame.onInsPhase">
+<span class="sig-name descname"><span class="pre">onInsPhase</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/pdfgui/gui/mainframe.html#MainFrame.onInsPhase"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.pdfgui.gui.mainframe.MainFrame.onInsPhase" title="Link to this definition"></a></dt>
+<dd><p>Insert a new phase item.</p>
+<p>This opens up the new phase panel from addphasepanel.py. That
+panel is in charge of inserting a new phase. See the module for
+details.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="diffpy.pdfgui.gui.mainframe.MainFrame.onKey">
+<span class="sig-name descname"><span class="pre">onKey</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/pdfgui/gui/mainframe.html#MainFrame.onKey"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.pdfgui.gui.mainframe.MainFrame.onKey" title="Link to this definition"></a></dt>
+<dd><p>Catch key events in the panel.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="diffpy.pdfgui.gui.mainframe.MainFrame.onMRUFile">
+<span class="sig-name descname"><span class="pre">onMRUFile</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/pdfgui/gui/mainframe.html#MainFrame.onMRUFile"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.pdfgui.gui.mainframe.MainFrame.onMRUFile" title="Link to this definition"></a></dt>
+<dd><p>Open a recently used file.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="diffpy.pdfgui.gui.mainframe.MainFrame.onMainMenu">
+<span class="sig-name descname"><span class="pre">onMainMenu</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/pdfgui/gui/mainframe.html#MainFrame.onMainMenu"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.pdfgui.gui.mainframe.MainFrame.onMainMenu" title="Link to this definition"></a></dt>
+<dd><p>Prepare the main menu whenever it is activated.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="diffpy.pdfgui.gui.mainframe.MainFrame.onMiddleClick">
+<span class="sig-name descname"><span class="pre">onMiddleClick</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/pdfgui/gui/mainframe.html#MainFrame.onMiddleClick"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.pdfgui.gui.mainframe.MainFrame.onMiddleClick" title="Link to this definition"></a></dt>
+<dd><p>Quickplot on item middle click.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="diffpy.pdfgui.gui.mainframe.MainFrame.onNew">
+<span class="sig-name descname"><span class="pre">onNew</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/pdfgui/gui/mainframe.html#MainFrame.onNew"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.pdfgui.gui.mainframe.MainFrame.onNew" title="Link to this definition"></a></dt>
+<dd><p>Create a new project.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="diffpy.pdfgui.gui.mainframe.MainFrame.onNewFit">
+<span class="sig-name descname"><span class="pre">onNewFit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/pdfgui/gui/mainframe.html#MainFrame.onNewFit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.pdfgui.gui.mainframe.MainFrame.onNewFit" title="Link to this definition"></a></dt>
+<dd><p>Start a new fit tree.</p>
+<p>A fit is given the name “Fit n”, where n is the smallest
+positive integer such that the name is not already taken.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="diffpy.pdfgui.gui.mainframe.MainFrame.onOpen">
+<span class="sig-name descname"><span class="pre">onOpen</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/pdfgui/gui/mainframe.html#MainFrame.onOpen"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.pdfgui.gui.mainframe.MainFrame.onOpen" title="Link to this definition"></a></dt>
+<dd><p>Open a file dialog so an existing project can be opened.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="diffpy.pdfgui.gui.mainframe.MainFrame.onPaste">
+<span class="sig-name descname"><span class="pre">onPaste</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/pdfgui/gui/mainframe.html#MainFrame.onPaste"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.pdfgui.gui.mainframe.MainFrame.onPaste" title="Link to this definition"></a></dt>
+<dd><p>Paste the subtree from the clipboard into the tree.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="diffpy.pdfgui.gui.mainframe.MainFrame.onPasteLink">
+<span class="sig-name descname"><span class="pre">onPasteLink</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/pdfgui/gui/mainframe.html#MainFrame.onPasteLink"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.pdfgui.gui.mainframe.MainFrame.onPasteLink" title="Link to this definition"></a></dt>
+<dd><p>Paste a copied fit and link it to the original.</p>
+<p>This should only be called on a ‘fit’ node, and only if the
+original ‘fit’ node, or at least one with the same name as the
+original still exists in the tree.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="diffpy.pdfgui.gui.mainframe.MainFrame.onPlotFStruct">
+<span class="sig-name descname"><span class="pre">onPlotFStruct</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/pdfgui/gui/mainframe.html#MainFrame.onPlotFStruct"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.pdfgui.gui.mainframe.MainFrame.onPlotFStruct" title="Link to this definition"></a></dt>
+<dd><p>Plots the phase structure.</p>
+<p>Opens Atomeye and plots the structure.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="diffpy.pdfgui.gui.mainframe.MainFrame.onPlotIStruct">
+<span class="sig-name descname"><span class="pre">onPlotIStruct</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/pdfgui/gui/mainframe.html#MainFrame.onPlotIStruct"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.pdfgui.gui.mainframe.MainFrame.onPlotIStruct" title="Link to this definition"></a></dt>
+<dd><p>Plots the phase structure.</p>
+<p>Opens Atomeye and plots the structure.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="diffpy.pdfgui.gui.mainframe.MainFrame.onPreferences">
+<span class="sig-name descname"><span class="pre">onPreferences</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/pdfgui/gui/mainframe.html#MainFrame.onPreferences"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.pdfgui.gui.mainframe.MainFrame.onPreferences" title="Link to this definition"></a></dt>
+<dd><p>Switch the right panel to the ‘preferences’ panel.</p>
+<p>The ‘preferences’ panel uses the ‘config’ mode.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="diffpy.pdfgui.gui.mainframe.MainFrame.onPrintBA">
+<span class="sig-name descname"><span class="pre">onPrintBA</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/pdfgui/gui/mainframe.html#MainFrame.onPrintBA"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.pdfgui.gui.mainframe.MainFrame.onPrintBA" title="Link to this definition"></a></dt>
+<dd><p>Print the bond angles of a selected structure to the output
+panel.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="diffpy.pdfgui.gui.mainframe.MainFrame.onPrintBL">
+<span class="sig-name descname"><span class="pre">onPrintBL</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/pdfgui/gui/mainframe.html#MainFrame.onPrintBL"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.pdfgui.gui.mainframe.MainFrame.onPrintBL" title="Link to this definition"></a></dt>
+<dd><p>Print the bond lengths of a selected structure to the output
+panel.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="diffpy.pdfgui.gui.mainframe.MainFrame.onQuickPlot">
+<span class="sig-name descname"><span class="pre">onQuickPlot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/pdfgui/gui/mainframe.html#MainFrame.onQuickPlot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.pdfgui.gui.mainframe.MainFrame.onQuickPlot" title="Link to this definition"></a></dt>
+<dd><p>Quickly plot information for the selected node.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="diffpy.pdfgui.gui.mainframe.MainFrame.onQuit">
+<span class="sig-name descname"><span class="pre">onQuit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/pdfgui/gui/mainframe.html#MainFrame.onQuit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.pdfgui.gui.mainframe.MainFrame.onQuit" title="Link to this definition"></a></dt>
+<dd><p>Shut down gracefully.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="diffpy.pdfgui.gui.mainframe.MainFrame.onRSeries">
+<span class="sig-name descname"><span class="pre">onRSeries</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/pdfgui/gui/mainframe.html#MainFrame.onRSeries"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.pdfgui.gui.mainframe.MainFrame.onRSeries" title="Link to this definition"></a></dt>
+<dd><p>Open up the r-series panel.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="diffpy.pdfgui.gui.mainframe.MainFrame.onRequest">
+<span class="sig-name descname"><span class="pre">onRequest</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/pdfgui/gui/mainframe.html#MainFrame.onRequest"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.pdfgui.gui.mainframe.MainFrame.onRequest" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="diffpy.pdfgui.gui.mainframe.MainFrame.onRightClick">
+<span class="sig-name descname"><span class="pre">onRightClick</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/pdfgui/gui/mainframe.html#MainFrame.onRightClick"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.pdfgui.gui.mainframe.MainFrame.onRightClick" title="Link to this definition"></a></dt>
+<dd><p>Bring up the right-click menu.</p>
+<p>This menu can give a different menu depending upon which mode the
+program is in. It can even give a different menu depending upon what
+part of the tree is selected.</p>
+<p>“fitting” mode
+The menu appears for right-clicks both on and off of tree items.
+The menu has the following items:
+“New Fit”           –  Append a new fit from anywhere on the tree.
+“Copy”              –  Copy a fit, phase, dataset, or calc branch
+“Paste”             –  Paste a copied branch into the tree. Branches</p>
+<blockquote>
+<div><p>of a given type can only be pasted in certain
+places.</p>
+</div></blockquote>
+<p>“Delete”            –  Delete a branch from the tree.
+“Insert Phase”      –  Insert a phase in the phase section of a fit or</p>
+<blockquote>
+<div><p>calculation branch.</p>
+</div></blockquote>
+<dl class="simple">
+<dt>“Insert Data Set”   –  Insert a dataset in the dataset section of a fit</dt><dd><p>branch.</p>
+</dd>
+<dt>“Insert Calculation”–  Insert a calculation in the calculation section</dt><dd><p>of a fit.</p>
+</dd>
+</dl>
+<p>The menu appears for right-clicks both on and off of tree items.
+The menu has the following items:
+“Select All”        –  The tree automatically selects all items of the</p>
+<blockquote>
+<div><p>type the user clicked on.</p>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="diffpy.pdfgui.gui.mainframe.MainFrame.onRun">
+<span class="sig-name descname"><span class="pre">onRun</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/pdfgui/gui/mainframe.html#MainFrame.onRun"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.pdfgui.gui.mainframe.MainFrame.onRun" title="Link to this definition"></a></dt>
+<dd><p>Run the selected fits/calculations and disable their tree entries.</p>
+<p>This also runs calculations that are children of a running fit.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="diffpy.pdfgui.gui.mainframe.MainFrame.onSave">
+<span class="sig-name descname"><span class="pre">onSave</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/pdfgui/gui/mainframe.html#MainFrame.onSave"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.pdfgui.gui.mainframe.MainFrame.onSave" title="Link to this definition"></a></dt>
+<dd><p>Save the project to a predetermined location.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="diffpy.pdfgui.gui.mainframe.MainFrame.onSaveAs">
+<span class="sig-name descname"><span class="pre">onSaveAs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/pdfgui/gui/mainframe.html#MainFrame.onSaveAs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.pdfgui.gui.mainframe.MainFrame.onSaveAs" title="Link to this definition"></a></dt>
+<dd><p>Open a save dialog so the current project can be saved.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="diffpy.pdfgui.gui.mainframe.MainFrame.onSaveCalc">
+<span class="sig-name descname"><span class="pre">onSaveCalc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/pdfgui/gui/mainframe.html#MainFrame.onSaveCalc"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.pdfgui.gui.mainframe.MainFrame.onSaveCalc" title="Link to this definition"></a></dt>
+<dd><p>Export a calculated PDF.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="diffpy.pdfgui.gui.mainframe.MainFrame.onShowFit">
+<span class="sig-name descname"><span class="pre">onShowFit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/pdfgui/gui/mainframe.html#MainFrame.onShowFit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.pdfgui.gui.mainframe.MainFrame.onShowFit" title="Link to this definition"></a></dt>
+<dd><p>Make sure the fit tree is visible.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="diffpy.pdfgui.gui.mainframe.MainFrame.onShowJournal">
+<span class="sig-name descname"><span class="pre">onShowJournal</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/pdfgui/gui/mainframe.html#MainFrame.onShowJournal"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.pdfgui.gui.mainframe.MainFrame.onShowJournal" title="Link to this definition"></a></dt>
+<dd><p>Bring up or hide the journal window.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="diffpy.pdfgui.gui.mainframe.MainFrame.onShowOutput">
+<span class="sig-name descname"><span class="pre">onShowOutput</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/pdfgui/gui/mainframe.html#MainFrame.onShowOutput"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.pdfgui.gui.mainframe.MainFrame.onShowOutput" title="Link to this definition"></a></dt>
+<dd><p>Make sure the output panel is visible.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="diffpy.pdfgui.gui.mainframe.MainFrame.onShowPlot">
+<span class="sig-name descname"><span class="pre">onShowPlot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/pdfgui/gui/mainframe.html#MainFrame.onShowPlot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.pdfgui.gui.mainframe.MainFrame.onShowPlot" title="Link to this definition"></a></dt>
+<dd><p>Make sure the plot panel is visible.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="diffpy.pdfgui.gui.mainframe.MainFrame.onStop">
+<span class="sig-name descname"><span class="pre">onStop</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/pdfgui/gui/mainframe.html#MainFrame.onStop"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.pdfgui.gui.mainframe.MainFrame.onStop" title="Link to this definition"></a></dt>
+<dd><p>Stop all fits.</p>
+<p>This removes all items from the runningDict and changes the
+status colors back to wxWHITE.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="diffpy.pdfgui.gui.mainframe.MainFrame.onTSeries">
+<span class="sig-name descname"><span class="pre">onTSeries</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/pdfgui/gui/mainframe.html#MainFrame.onTSeries"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.pdfgui.gui.mainframe.MainFrame.onTSeries" title="Link to this definition"></a></dt>
+<dd><p>Open up the temperature series panel.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="diffpy.pdfgui.gui.mainframe.MainFrame.onTreeSelChanged">
+<span class="sig-name descname"><span class="pre">onTreeSelChanged</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/pdfgui/gui/mainframe.html#MainFrame.onTreeSelChanged"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.pdfgui.gui.mainframe.MainFrame.onTreeSelChanged" title="Link to this definition"></a></dt>
+<dd><p>Set the click behavior for each mode.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="diffpy.pdfgui.gui.mainframe.MainFrame.onTreeSelChanging">
+<span class="sig-name descname"><span class="pre">onTreeSelChanging</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/pdfgui/gui/mainframe.html#MainFrame.onTreeSelChanging"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.pdfgui.gui.mainframe.MainFrame.onTreeSelChanging" title="Link to this definition"></a></dt>
+<dd><p>Set the click behavior for each mode.</p>
+<p>Note that this doesn’t work on Windows. Be sure to build in redundancy
+so that the program behaves as if this does not even get called. If the
+Windows bug does not get fixed, this method will probably be
+eliminated.</p>
+<dl>
+<dt>“addingdata” mode:</dt><dd><ul class="simple">
+<li><p>can select nothing</p></li>
+</ul>
+</dd>
+<dt>“addingphase” mode:</dt><dd><blockquote>
+<div><ul class="simple">
+<li><p>can select nothing</p></li>
+</ul>
+</div></blockquote>
+<dl class="simple">
+<dt>“config” mode:</dt><dd><ul class="simple">
+<li><p>can select nothing</p></li>
+</ul>
+</dd>
+<dt>“rseries” mode:</dt><dd><ul class="simple">
+<li><p>can only select fit items</p></li>
+</ul>
+</dd>
+<dt>“tseries” mode:</dt><dd><ul class="simple">
+<li><p>can only select fit items</p></li>
+</ul>
+</dd>
+<dt>“dseries” mode:</dt><dd><ul class="simple">
+<li><p>can only select fit items</p></li>
+</ul>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="diffpy.pdfgui.gui.mainframe.MainFrame.postEvent">
+<span class="sig-name descname"><span class="pre">postEvent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">info</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/pdfgui/gui/mainframe.html#MainFrame.postEvent"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.pdfgui.gui.mainframe.MainFrame.postEvent" title="Link to this definition"></a></dt>
+<dd><p>This method is called by the control.</p>
+<p>Whenever the control needs to communicate directly with the gui
+it can call this method. The event is processed by onCustom and
+then handled by the gui on its own terms.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="diffpy.pdfgui.gui.mainframe.MainFrame.setMode">
+<span class="sig-name descname"><span class="pre">setMode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mode</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/pdfgui/gui/mainframe.html#MainFrame.setMode"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.pdfgui.gui.mainframe.MainFrame.setMode" title="Link to this definition"></a></dt>
+<dd><p>Set the mode of the program.</p>
+<p>This method takes care of any widget properties that must change when
+the mode is changed. If the mode is changing due to the change in the
+right panel, always call setMode before switchRightPanel.</p>
+<dl class="simple">
+<dt>“fitting” mode:</dt><dd><ul class="simple">
+<li><p>treeCtrlMain is enabled</p></li>
+<li><p>plotPanel panel is enabled</p></li>
+<li><p>toolBar is enabled</p></li>
+<li><p>menuBar is enabled</p></li>
+</ul>
+</dd>
+</dl>
+<p>“addingdata” mode:
+“addingphase” mode:
+“config” mode:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>treeCtrlMain is disabled</p></li>
+<li><p>plotPanel panel is disabled</p></li>
+<li><p>toolBar is disabled</p></li>
+<li><p>menuBar is disabled</p></li>
+</ul>
+</div></blockquote>
+<p>“rseries” mode:
+“tseries” mode:
+“dseries” mode:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>treeCtrlMain is enabled</p></li>
+<li><p>plotPanel panel is disabled</p></li>
+<li><p>toolBar is disabled</p></li>
+<li><p>menuBar is disabled</p></li>
+</ul>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="diffpy.pdfgui.gui.mainframe.MainFrame.setPanelSpecificData">
+<span class="sig-name descname"><span class="pre">setPanelSpecificData</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">paneltype</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/pdfgui/gui/mainframe.html#MainFrame.setPanelSpecificData"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.pdfgui.gui.mainframe.MainFrame.setPanelSpecificData" title="Link to this definition"></a></dt>
+<dd><p>This method sets the panel specific data for the right panel.</p>
+<p>This method gets panel-specific data and sends it to the rightPanel. The
+different types of data assignment are listed below.</p>
+<p>“fit” type:
+* Give the fit object to the panel</p>
+<p>“phase” type:
+* initialize constraints dictionary and configuration and results
+* Structure objects.</p>
+<p>“dataset” type:
+* initialize configuration, constraints, and results objects</p>
+<p>“calculation” type:
+* Give the calculation object to the panel</p>
+<p>“rseries” type:
+* Give the fit object to the panel</p>
+<p>“tseries” type:
+* Give the fit object to the panel</p>
+<p>“dseries” type:
+* Give the fit object to the panel</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="diffpy.pdfgui.gui.mainframe.MainFrame.showMessage">
+<span class="sig-name descname"><span class="pre">showMessage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">info</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'PDF</span> <span class="pre">Control</span> <span class="pre">Error'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/pdfgui/gui/mainframe.html#MainFrame.showMessage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.pdfgui.gui.mainframe.MainFrame.showMessage" title="Link to this definition"></a></dt>
+<dd><p>ShowMessage(self, info) –&gt; tell user about an exception and so on.</p>
+<p>title – window title
+info – message</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="diffpy.pdfgui.gui.mainframe.MainFrame.switchRightPanel">
+<span class="sig-name descname"><span class="pre">switchRightPanel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">paneltype</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/pdfgui/gui/mainframe.html#MainFrame.switchRightPanel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.pdfgui.gui.mainframe.MainFrame.switchRightPanel" title="Link to this definition"></a></dt>
+<dd><p>Switch the panel which is visible in the right hand side.</p>
+<p>This sets any panel-specific data and calls the refresh() method of the
+new rightPanel. All right panels must be derived from wxPanel and
+PDFPanel (in pdfpanel module).</p>
+<p>Inputs:
+paneltype   –  The code used in self.dynamicPanels that indicates the</p>
+<blockquote>
+<div><p>panel to be displayed. If paneltype is None, the blank
+panel is displayed.</p>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="diffpy.pdfgui.gui.mainframe.MainFrame.treeSelectionUpdate">
+<span class="sig-name descname"><span class="pre">treeSelectionUpdate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">node</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/pdfgui/gui/mainframe.html#MainFrame.treeSelectionUpdate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.pdfgui.gui.mainframe.MainFrame.treeSelectionUpdate" title="Link to this definition"></a></dt>
+<dd><p>Update the widgets based on a tree selection.</p>
+<p>“fitting” mode:
+* Right panel changes depending upon the type of item selected from the
+tree.</p>
+<p>“rseries”, “tseries”, “dseries” mode:
+* The behavior is defined in the associated panel</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="diffpy.pdfgui.gui.mainframe.MainFrame.unlock">
+<span class="sig-name descname"><span class="pre">unlock</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/pdfgui/gui/mainframe.html#MainFrame.unlock"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.pdfgui.gui.mainframe.MainFrame.unlock" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="diffpy.pdfgui.gui.mainframe.MainFrame.updateConfiguration">
+<span class="sig-name descname"><span class="pre">updateConfiguration</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/pdfgui/gui/mainframe.html#MainFrame.updateConfiguration"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.pdfgui.gui.mainframe.MainFrame.updateConfiguration" title="Link to this definition"></a></dt>
+<dd><p>Update the configuration information.</p>
+<p>This updates the ‘MRU’ section of the configuration.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="diffpy.pdfgui.gui.mainframe.MainFrame.updateFittingStatus">
+<span class="sig-name descname"><span class="pre">updateFittingStatus</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">job</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/pdfgui/gui/mainframe.html#MainFrame.updateFittingStatus"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.pdfgui.gui.mainframe.MainFrame.updateFittingStatus" title="Link to this definition"></a></dt>
+<dd><p>Update the fitting status.</p>
+<p>This will alter the local member runningDict so that the running items
+cannot be altered. The following status ids are defined in the fitting
+module. Some are given a color which gives the user an indication of the
+fit status. job is actually a fitting or a calculation object.</p>
+<p>Fit status
+INITIALIZED     –  ‘LIGHT GRAY’
+CONNECTED       –  ‘GREEN’
+CONFIGURED      –  ‘GREEN’
+DONE            –  ‘WHITE’</p>
+<p>JOB Status
+VOID
+QUEUED
+RUNNING
+PAUSED</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="diffpy.pdfgui.gui.mainframe.MainFrame.updateOutput">
+<span class="sig-name descname"><span class="pre">updateOutput</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/pdfgui/gui/mainframe.html#MainFrame.updateOutput"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.pdfgui.gui.mainframe.MainFrame.updateOutput" title="Link to this definition"></a></dt>
+<dd><p>Update text in outputPanel with text in stdout.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="diffpy.pdfgui.gui.mainframe.MainFrame.updateTitle">
+<span class="sig-name descname"><span class="pre">updateTitle</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/pdfgui/gui/mainframe.html#MainFrame.updateTitle"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.pdfgui.gui.mainframe.MainFrame.updateTitle" title="Link to this definition"></a></dt>
+<dd><p>Update the title according to the name of the current file.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="diffpy.pdfgui.gui.mainframe.MainFrame.updateToolbar">
+<span class="sig-name descname"><span class="pre">updateToolbar</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/pdfgui/gui/mainframe.html#MainFrame.updateToolbar"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.pdfgui.gui.mainframe.MainFrame.updateToolbar" title="Link to this definition"></a></dt>
+<dd><p>Update the toolbar based upon the status of the program.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="diffpy.pdfgui.gui.mainframe.MainFrame.writeConfiguration">
+<span class="sig-name descname"><span class="pre">writeConfiguration</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/diffpy/pdfgui/gui/mainframe.html#MainFrame.writeConfiguration"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#diffpy.pdfgui.gui.mainframe.MainFrame.writeConfiguration" title="Link to this definition"></a></dt>
+<dd><p>Write the program configuration to file.</p>
+</dd></dl>
+
+</dd></dl>
+
 </section>
 </section>
 </section>

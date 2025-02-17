@@ -6,14 +6,14 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Release Notes &mdash; diffpy.pdfgui 3.1.0rc8 documentation</title>
+  <title>Release Notes &mdash; diffpy.pdfgui 3.1.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
 
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="_static/documentation_options.js?v=e89e3c73"></script>
+      <script src="_static/documentation_options.js?v=0ffc2956"></script>
       <script src="_static/doctools.js?v=9bcbadda"></script>
       <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
@@ -78,6 +78,48 @@
              
   <section id="release-notes">
 <span id="index-0"></span><h1>Release Notes<a class="headerlink" href="#release-notes" title="Link to this heading"></a></h1>
+<section id="id1">
+<h2>3.1.0<a class="headerlink" href="#id1" title="Link to this heading"></a></h2>
+<p><strong>Added:</strong></p>
+<ul class="simple">
+<li><p>numpy &gt;= 2.0 support</p></li>
+<li><p>Codecov coverage report in PRs</p></li>
+<li><p>Spelling check with Codespell in pre-commit</p></li>
+<li><p>Added Whittaker-Shannon interpolation option for grid_interpolation.</p></li>
+<li><p>Added support for python 3.13</p></li>
+<li><p>no-news needed: just tweaking installation instructions</p></li>
+</ul>
+<p><strong>Changed:</strong></p>
+<ul class="simple">
+<li><p>Package reformatted to comply with new Billinge Group package structure</p></li>
+<li><p>Changed the removed local manual link to the online page.</p></li>
+<li><p>Use WS interpolation for Nyquist grid.</p></li>
+<li><p>Refreshed tutorial manual and brought documentation up to date</p></li>
+<li><p>Plots now use colors from the billinge-group matplotlib stylesheet, bg-mpl-stylesheets</p></li>
+<li><p>Updated install instructions in README.rst.</p></li>
+</ul>
+<p><strong>Fixed:</strong></p>
+<ul class="simple">
+<li><p>Change background color to match system settings in <cite>Phase Configuration</cite>.</p></li>
+<li><p>inability to find gui resources bug in py &lt; 3.12</p></li>
+<li><p>fixed date rendering in ‘about’ dialog box</p></li>
+<li><p>fix “absent from setuptools’ packages configuration” warnings during python -m build</p></li>
+<li><p>use conda.txt instead of run.txt for conda package dependencies</p></li>
+<li><p>remove conda-recipe folder - feedstock repo has the latest version</p></li>
+<li><p>two warnings with (1) linestyle redundantly defined and (2) no artists with labels found to put in legend</p></li>
+<li><p>Use miniforge in CI to avoid strange error of incorrect MacOS version logged from base     env</p></li>
+<li><p>Re-cookiecut to include GH issues templates, getting started, and install updates</p></li>
+<li><p>Fixed TypeError when using Nyquist interp.</p></li>
+<li><p>Fixed online manual not showing images.</p></li>
+<li><p>Code linted up to PEP8 and group standards</p></li>
+</ul>
+<p><strong>Removed:</strong></p>
+<ul class="simple">
+<li><p>Removed wx3 support that was previously deprecated.</p></li>
+<li><p>Remove diffpy.structure and numpy in macOS Arm64 readme installation since they are installed by other conda-forge dependencies.</p></li>
+<li><p>six dependency in run.txt</p></li>
+</ul>
+</section>
 <section id="v3-0-5">
 <h2>v3.0.5<a class="headerlink" href="#v3-0-5" title="Link to this heading"></a></h2>
 </section>
