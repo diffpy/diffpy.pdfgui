@@ -87,9 +87,10 @@ Table of contents
 .. toctree::
    :titlesonly:
 
+   examples
+   extras
    license
    release
-   manual
    Package API <api/diffpy.pdfgui>
 
 =======
