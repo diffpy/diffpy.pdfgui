@@ -495,7 +495,7 @@ Lesson 4: Multi-stage fitting
 Learn how to string together fits.
 
 1. Create a fit as in Lesson 1.
-   
+
 
 2. Copy the fit:
     1. Right click on the fit name "Fit 1" in the right panel (the fit tree).
