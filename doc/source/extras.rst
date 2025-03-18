@@ -35,7 +35,7 @@ Since several formal
 plotting examples were given through the tutorial exercise, and having simplicity of usage in
 mind, no other plotting examples are provided, hoping that the usage is sufficiently simple
 for users to master individually with ease. An example plot of Rw vs refinement step is
-shown in Figure 4.1 for Ni example.
+shown in Figure 3.1 for Ni example.
 
 
 
@@ -43,7 +43,7 @@ shown in Figure 4.1 for Ni example.
      :align: center
      :figwidth: 100%
 
-     Figure 4.1: Plotting window featuring Rw vs refinement step for Ni example. The basic functionality for manipulating the plot is provided through icons on the tool bar of the plotting window.
+     Figure 3.1: Plotting window featuring Rw vs refinement step for Ni example. The basic functionality for manipulating the plot is provided through icons on the tool bar of the plotting window.
 
 
 
@@ -102,7 +102,7 @@ An example Ni structure visualization with AtomEye is shown in Figure 4.2.
      :align: center
      :figwidth: 100%
 
-     Figure 4.2: Using AtomEye functionality (if installed on your system) for 3D visualization of the initial and refined PDF structures: example of Ni structure.
+     Figure 3.2: Using AtomEye functionality (if installed on your system) for 3D visualization of the initial and refined PDF structures: example of Ni structure.
 
 ================================
 Advanced usage and special needs

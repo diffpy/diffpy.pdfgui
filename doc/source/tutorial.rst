@@ -39,7 +39,7 @@ pane, and the ``PDFfit2 Output`` panel.
    :align: center
    :figwidth: 100%
 
-   Figure 2.1: Appearance of a PDFgui window after a structure model  is loaded.
+   Figure 1.1:  Appearance of a PDFgui window after a structure model  is loaded.
 
 The ``Fit Tree`` is used in setting up a fit protocol. The ``Plot Control`` serves the user’s needs
 for graphically displaying the fits, as well as various fit-related parameters. The content of
@@ -82,7 +82,7 @@ Procedure:
        valid structure model file, a ``.stru`` or a ``.cif`` file.
     3. Note, an alternative workflow for adding structural models is to select ``New Phase`` from the ``Phases`` dropdown menu.
 
-   If you select the Phase in the ``Fit Tree`` by left clicking on it, you will see in the right panel 3 tabs, ``Configure``, ``Constraints``, ``Results``. As shown in the Figure 2.1. Feel free to click one these tabs and look inside.
+   If you select the Phase in the ``Fit Tree`` by left clicking on it, you will see in the right panel 3 tabs, ``Configure``, ``Constraints``, ``Results``. As shown in the Figure 1.1. Feel free to click one these tabs and look inside.
 
    The ``Configure`` panel displays configuration information from the structure file. The top portion contains lattice parameters, phase scale factor, and a set of parameters intended to be used to account for correlated atomic motion effects that typically sharpen the nearest neighbor PDF peak. These are ``delta1``, ``delta2``, ``sratio``, and ``rcut``. The ``spdiameter`` and ``stepcut`` parameters include scatterer size effects in the PDF. These parameters will be described later. The bottom part of the panel contains standard unit cell content related information such as atomic species, their fractional coordinates, anisotropic ADPs, and site occupancies. The ``Constraints`` panel will hold the constraints we will set up for our fits, it should be empty now, and the results tab will contain the results of any fit.
 
@@ -102,7 +102,7 @@ Procedure:
       :align: center
       :figwidth: 100%
 
-      Figure 2.2: Appearance of a PDFgui window after a PDF dataset is loaded.
+      Figure 1.2:  Appearance of a PDFgui window after a PDF dataset is loaded.
 
    The ``Configure``
    panel displays configuration information from the data file. It should be noted that depend-ing on the software used to prepare the experimental PDF from the raw data, the file may
@@ -140,7 +140,7 @@ Procedure:
 	:align: center
 	:figwidth: 100%
 
-	Figure 2.3: Adjusting data set related configuration.
+	Figure 1.3:  Adjusting data set related configuration.
 
    Since there is no physical information in the region of of r below the nearest neighbor PDF peak position (as seen in the plot), and since this region is often affected by noise and experimental artifacts, it is wise to exclude it from fitting.
    We therefore set the value of the lower boundary of the ``Fit range`` to 1.7. (Note that the
@@ -156,7 +156,7 @@ Procedure:
 	:align: center
 	:figwidth: 100%
 
-	Figure 2.4: Setting up the refinement parameters and constraints of the structure model.
+	Figure 1.4:  Setting up the refinement parameters and constraints of the structure model.
 
    Here we are defining "variables" that will be refined and giving them names
    variable "@1", "@2", etc. and linking them to model parameters by typing them
@@ -173,7 +173,7 @@ Procedure:
 	:align: center
 	:figwidth: 100%
 
-	Figure 2.5: Setting up the refinement parameters and constraints of the PDF data.
+	Figure 1.5:  Setting up the refinement parameters and constraints of the PDF data.
 
    When we assign the three parameters ``a``, ``b`` and ``c`` to the same variable,
    ``@2``, we are implicitly ensuring that the refinement will respect
@@ -215,7 +215,7 @@ Procedure:
 	:align: center
 	:figwidth: 100%
 
-	Figure 2.6: Reviewing the fit parameters and conditions.
+	Figure 1.6:  Reviewing the fit parameters and conditions.
 
 
     2. When you are satisfied with the configuration, click the "gear" icon |gear| on the toolbar and watch the fit progress in the terminal window. The refinement can be stopped prematurely by clicking on the “stop” icon |stop| on the tool bar. During the refinement the refinement progress will be directly reported in the PDFfit2 Output panel.
@@ -228,7 +228,7 @@ Procedure:
 	:align: center
 	:figwidth: 100%
 
-	Figure 2.7: Refinement progress is displayed in the PDFfit2 Output panel.
+	Figure 1.7:  Refinement progress is displayed in the PDFfit2 Output panel.
 
 
 
@@ -239,7 +239,7 @@ Procedure:
 	:align: center
 	:figwidth: 100%
 
-	Figure 2.8: Updating the set of initial values of refined parameters.
+	Figure 1.8:  Updating the set of initial values of refined parameters.
 
 7. Plot the results:
     1. Select the data in the fit (in this case the `Ni-xray.gr` dataset) by left clicking it.
@@ -270,13 +270,13 @@ Procedure:
 	:align: center
 	:figwidth: 100%
 
-	Figure 2.9:An example of PDFgui plotting capabilities: displaying a fit.
+	Figure 1.9: An example of PDFgui plotting capabilities:  displaying a fit.
 
     .. figure:: images/fig2-10.png
 	:align: center
 	:figwidth: 100%
 
-	Figure 2.10:An example of PDFgui plotting capabilities: displaying a parameter.
+	Figure 1.10: An example of PDFgui plotting capabilities:  displaying a parameter.
 
 
 8. Save your project for later use.
@@ -309,7 +309,7 @@ In the previous example the initial structure was defined by an existing file. H
 	:align: center
 	:figwidth: 100%
 
-	Figure 3.1: Expanding the unit cell using space group information.
+	Figure 1.11:  Expanding the unit cell using space group information.
 
 4. Generate symmetry constraints:
     1. Select the "Constraints" tab.
@@ -346,7 +346,7 @@ calculate Ni PDF using neutron radiation.
 	:align: center
 	:figwidth: 100%
 
-	Figure 3.2: An example of the calculation configuration panel.
+	Figure 1.12:  An example of the calculation configuration panel.
 
 Conditions to be specified include radiation type, calculation
 range and corresponding r-grid size, as well as instrument resolution and maximum momentum transfer parameters. For the later two, the default values of parameters could be
@@ -390,7 +390,7 @@ Learn how to string together fits.
 	:align: center
 	:figwidth: 100%
 
-	Figure 3.3: An example of linked fits.
+	Figure 1.13:  An example of linked fits.
 
 5. Add more fit parameters:
     1. Select the "Constraints" tab of the `Ni.stru` phase below "Fit 1_copy".

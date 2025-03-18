@@ -7,9 +7,9 @@ Examples
 Sequential fitting
 ===================
 
--------------------------
+---------
 r series
--------------------------
+---------
 
 In certain modeling situations the user could benefit from fitting a data set through a series of refinements that differ one from another by the corresponding fitting ranges. An example of this when one wants to study the details of the local- to average-structure crossover in a complex material. PDFgui has a pre-written macro that automates the setup of this type of refinement.
 
@@ -26,7 +26,7 @@ In certain modeling situations the user could benefit from fitting a data set th
        :align: center
        :figwidth: 100%
 
-       Figure 3.5: Appearance of the setup panel for specifying an incremental r-series fit conditions.
+       Figure 2.1: Appearance of the setup panel for specifying an incremental r-series fit conditions.
 
 
    The first row deals with the increment setup of the upper r of the refinements. User should specify the first and the last fit maximum r-value, and corresponding step (increment), all in units of Angstroms.
@@ -38,9 +38,9 @@ In certain modeling situations the user could benefit from fitting a data set th
 
 
 .. _temperature-series:
-----------------------------------------
+------------------
 temperature series
-----------------------------------------
+------------------
 
 Frequently, one must handle a large number of data sets originating from a single sample collected at various temperatures. One of the common modeling schemes in such cases is to perform sequential fitting of such data series, which is known to yield well behaved modeling parameters.
 
@@ -66,7 +66,7 @@ The data collected at NPDF instrument at LANSCE at Los Alamos National Laborator
      :align: center
      :figwidth: 100%
 
-     Figure 3.6: Setting up a T-series sequential refinement for LaMnO3. Ordering by temperature will ensure that the fits are linked correctly.
+     Figure 2.2: Setting up a T-series sequential refinement for LaMnO3. Ordering by temperature will ensure that the fits are linked correctly.
 
 4. Order the data by temperature. The data can be ordered by temperature by clicking the “Temperature” header.
 
@@ -86,7 +86,7 @@ The data collected at NPDF instrument at LANSCE at Los Alamos National Laborator
      :figwidth: 100%
 
 
-     Figure 3.7: Displaying the refinement results as a function of external parameter: T-series refinement of LaMnO3, example of isotropic ADP of oxygen atom on general position in *Pbnm* setting. Notable are the offsets just above 700 K (Jahn-Teller transition), and at around 1000 K when sample converts from orthorhombic to rhombohedral symmetry.
+     Figure 2.3: Displaying the refinement results as a function of external parameter: T-series refinement of LaMnO3, example of isotropic ADP of oxygen atom on general position in *Pbnm* setting. Notable are the offsets just above 700 K (Jahn-Teller transition), and at around 1000 K when sample converts from orthorhombic to rhombohedral symmetry.
 
 
 Despite quite high temperatures, an onset of the static offset above the transition temperature is clearly marked by this parameter, as apparent in Figure 3.7. Curious user could repeat the same T-series refinement restricting the refinement range upper limit to say 5-6 Angstroms and observe the outcome. The refinement sequence execution should be very quick in this case
@@ -122,7 +122,7 @@ in contrast to 32 inverse Angstroms in previous example.
      :align: center
      :figwidth: 100%
 
-     Figure 3.8: After loading of the Ca-doping data series of LaMnO3 system, proper doping assignment needs to be carried out, as the doping levels introspected from the file names in this example incorrectly reflect the scientific situation. Note that dopant atom has to be present in the template seed used to generate the linked sequence of fits.
+     Figure 2.4: After loading of the Ca-doping data series of LaMnO3 system, proper doping assignment needs to be carried out, as the doping levels introspected from the file names in this example incorrectly reflect the scientific situation. Note that dopant atom has to be present in the template seed used to generate the linked sequence of fits.
 
 
 3. Click on “Add” button. Using “Shift” and mouse-select operation you should select all the data sets mentioned in the above list, and then press “Open” button.
@@ -147,7 +147,7 @@ graphically such that various converged fit parameters are plotted versus Ca con
      :align: center
      :figwidth: 100%
 
-     Figure 3.9: Sequence of refined parameters, such as lattice constants, can be plotted vs doping using PDFgui plotting facilities. Figure features lattice parameter *b* in *Pbnm* space group setting for series of Ca-doped LaMnO3 samples for doping concentrations between 0 and 0.28 at 10 K temperature.
+     Figure 2.5: Sequence of refined parameters, such as lattice constants, can be plotted vs doping using PDFgui plotting facilities. Figure features lattice parameter *b* in *Pbnm* space group setting for series of Ca-doped LaMnO3 samples for doping concentrations between 0 and 0.28 at 10 K temperature.
 
 
 
@@ -258,7 +258,7 @@ and is used here.
      :align: center
      :figwidth: 100%
 
-     Figure 3.10: Fitting the structure of a nanoparticle: 3nm CdSe nanoparticle example.
+     Figure 2.6: Fitting the structure of a nanoparticle: 3nm CdSe nanoparticle example.
 
 
 Further improvements can be obtained by introducing anisotropic ADPs, where again values related to the z-direction will remain abnormally large most probably due to the stacking related disorder.A detailed description of this system and successful PDF modeling can be found in this publication: `Quantitative size-dependent structure and strain determination of CdSe nanoparticles using atomic pair distribution function analysis <https://link.aps.org/doi/10.1103/PhysRevB.76.115413>`_.
