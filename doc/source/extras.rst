@@ -55,11 +55,11 @@ PDFgui can visualize 3D structures by displaying them with an external visualiza
 format in the “Edit → Preferences” menu in PDFgui. The structure plotting feature has
 been tested with the following programs:
 
-============================================ ===============================
-AtomEyeAtomEye structure viewer, XCFG format http://li.mit.edu/A/Graphics/A/
-============================================ ===============================
-PyMOLPyMOL structure viewer, PDB format      https://www.pymol.org
-============================================ ===============================
+=================================== ===============================
+VESTA structure viewer              https://jp-minerals.org/vesta/
+=================================== ===============================
+PyMOL structure viewer, PDB format  https://www.pymol.org
+=================================== ===============================
 
 **A note for AtomEye users:**
 

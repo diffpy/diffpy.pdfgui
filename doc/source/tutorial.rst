@@ -24,7 +24,7 @@ Oxford University Press, 2024. URL: https://global.oup.com/academic/product/atom
 PDFgui layout
 =============
 
-First, Open ``pdfgui``. Instructions for doing this depend on your system, but an example would be to open a terminal, activate your pdfgui conda environment, and type ``pdfgui`` at the prompt, or to double-click a project file on windows.
+First, open ``pdfgui``. Instructions for doing this depend on your system, but an example would be to open a terminal, activate your pdfgui conda environment, and type ``pdfgui`` at the prompt, or to double-click a project file on windows.
 
 Once PDFgui is invoked, a PDFgui window comes up. Its layout consists of a
 ``Menu Bar``, a ``Tool Bar``, and a set of four panes. The menu bar contains
@@ -284,7 +284,7 @@ Procedure:
     The project can be saved at any stage in its present configuration through choice of Save Project as or Save Project as appropriate from the ``File`` drop-down menu. The PDFgui project file has “ddp” extension. In addition to saving a project, various parts of the project, both structure related and data related, can be exported to external files by making an appropriate selection from the ``Phases`` and ``Data`` drop-down menus. The phases (starting or converged) can be saved in one of many formats. The model PDF profile can be exported through ``Data`` menu and will be saved as a five-column “.fgr” file. The first four columns are :math:`r, G(r), dr, \text{and }dG(r)`, and the fifth column is the difference curve between the data and the model. Note that the model PDF and the difference are only calculated within the user-specified fitting range.
 
 ======================================================
-Lesson 2: Build structure model using crystal symmetry
+Lesson 2: Building structure model using crystal symmetry
 ======================================================
 
 In the previous example the initial structure was defined by an existing file. However, PDFgui makes it very easy to build a structure model from scratch and constrain it with arbitrary crystal symmetry.
@@ -327,8 +327,40 @@ In the previous example the initial structure was defined by an existing file. H
 
 5. Continue the fit as in Lesson 1.
 
+
+==========================================
+Lesson 3: Calculating PDF from a structure
+==========================================
+
+There is often a need for obtaining a calculated PDF profile for a given structure instead
+of performing a fit. Suppose that we have a Ni structure populating a fit tree, and that we would like to
+calculate Ni PDF using neutron radiation.
+
+1. Highlight the Ni structure on fit tree.
+2. Either right-click and select Insert Calculation or select New Calculation from “Calculation” menu.
+3. select "Neutron scatterer type", choose 0.01 for the r-grid size, and use 0.08 and 25.0 for resolution and maximum momentum transfer parameters respectively.
+
+
+
+    .. figure:: images/fig3-03.png
+	:align: center
+	:figwidth: 100%
+
+	Figure 3.2: An example of the calculation configuration panel.
+
+Conditions to be specified include radiation type, calculation
+range and corresponding r-grid size, as well as instrument resolution and maximum momentum transfer parameters. For the later two, the default values of parameters could be
+used, or values could be specified that closely mimic the experimental conditions on some
+particular instrument of interest.
+
+4. Press "gear" icon |gear| in the tool bar. Alternatively select Run Selected Calculation from the “Calculations” menu.
+
+5. Click the "plot" icon |plot| in the toolbar.
+
+6. To export the calculated PDF, use the Export Selected Calculation choice on the “Calculations” menu.
+
 =============================
-Lesson 3: Multi-stage fitting
+Lesson 4: Multi-stage fitting
 =============================
 
 Learn how to string together fits.
@@ -358,7 +390,7 @@ Learn how to string together fits.
 	:align: center
 	:figwidth: 100%
 
-	Figure 3.4: An example of linked fits.
+	Figure 3.3: An example of linked fits.
 
 5. Add more fit parameters:
     1. Select the "Constraints" tab of the `Ni.stru` phase below "Fit 1_copy".

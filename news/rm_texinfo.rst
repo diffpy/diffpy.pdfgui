@@ -1,6 +1,6 @@
 **Added:**
 
-* <news item>
+* manual information is added into online docs.
 
 **Changed:**
 
@@ -12,7 +12,7 @@
 
 **Removed:**
 
-* <news item>
+* manual.
 
 **Fixed:**
 
