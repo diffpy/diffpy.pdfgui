@@ -18,7 +18,7 @@ visualization capabilities.
 
 PDFgui is a friendly interface to the PDFfit2 refinement engine, with many
 powerful extensions. To get started, please open the :ref:`manual`
-(:download:`pdf <../manual/pdfgui.pdf>`) from the help menu or follow the :ref:`tutorial`.
+(:download:`pdf <pdfgui.pdf>`) from the help menu or follow the :ref:`tutorial`.
 
 =======
 Authors
@@ -87,9 +87,10 @@ Table of contents
 .. toctree::
    :titlesonly:
 
+   examples
+   extras
    license
    release
-   manual
    Package API <api/diffpy.pdfgui>
 
 =======
