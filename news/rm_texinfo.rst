@@ -1,6 +1,6 @@
 **Added:**
 
-* manual information is added into online docs.
+* Information from the old manual is merged into the nline docs.
 
 **Changed:**
 
@@ -12,7 +12,7 @@
 
 **Removed:**
 
-* manual.
+* Old PDF version of the manual.
 
 **Fixed:**
 
