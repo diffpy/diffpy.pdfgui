@@ -11,11 +11,11 @@ Sequential fitting
 r series
 ---------
 
-It is sometimes desired to understand how structure changes as a 
+It is sometimes desired to understand how structure changes as a
 function of length-scale, for example, if there is local symmetry
-breaking in a structure.  In this case it may be desired to 
+breaking in a structure.  In this case it may be desired to
 carry outa series of refinements that differ one from another by the
-corresponding fitting ranges. 
+corresponding fitting ranges.
 PDFgui has a pre-written macro that automates the setup of this type of
 refinement.
 
@@ -41,7 +41,7 @@ refinement.
 
 
    The first row deals with the incremental setup of the upper r of the
-   refinements. The user should specify the first and the last fit maximum 
+   refinements. The user should specify the first and the last fit maximum
    r-value, and corresponding step (increment), all in units of Angstroms.
 
    In the second row, information is needed to specify the lower r refinement
