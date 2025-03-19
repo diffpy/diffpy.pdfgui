@@ -11,10 +11,11 @@ Sequential fitting
 r series
 ---------
 
-In certain modeling situations the user could benefit from fitting a data set
-through a series of refinements that differ one from another by the
-corresponding fitting ranges. An example of this when one wants to study the
-details of the local- to average-structure crossover in a complex material.
+It is sometimes desired to understand how structure changes as a 
+function of length-scale, for example, if there is local symmetry
+breaking in a structure.  In this case it may be desired to 
+carry outa series of refinements that differ one from another by the
+corresponding fitting ranges. 
 PDFgui has a pre-written macro that automates the setup of this type of
 refinement.
 
@@ -29,7 +30,7 @@ refinement.
    step of "5" Angstroms. Leave the second row blank.
 
 4. click “OK” in the current action panel and 4 new fits with desired
-   incremental limits are geberated below the original fit.
+   incremental limits are generated below the original fit.
 
     .. figure:: images/fig3-05.png
        :align: center
@@ -39,11 +40,11 @@ refinement.
        incremental r-series fit conditions.
 
 
-   The first row deals with the increment setup of the upper r of the
-   refinements. User should specify the first and the last fit maximum r-value
-   , and corresponding step (increment), all in units of Angstroms.
+   The first row deals with the incremental setup of the upper r of the
+   refinements. The user should specify the first and the last fit maximum 
+   r-value, and corresponding step (increment), all in units of Angstroms.
 
-   In the second row information is needed to specify the lower r refinement
+   In the second row, information is needed to specify the lower r refinement
    limit. Again, the user sets the first and the last value, and step. This
    allows for a box car of either fixed or variable width to be defined. If
    the second row is left blank, the corresponding refinement series will be
