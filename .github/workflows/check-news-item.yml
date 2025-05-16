@@ -7,6 +7,6 @@ on:
 
 jobs:
   check-news-item:
-    uses: Billingegroup/release-scripts/.github/workflows/_check-news-item.yml@main
+    uses: Billingegroup/release-scripts/.github/workflows/_check-news-item.yml
     with:
       project: diffpy.pdfgui
