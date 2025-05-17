@@ -128,13 +128,13 @@ class DialogAbout(wx.Dialog):
         self.label_svnrevision.SetLabel(revision)
 
         # set bitmaps for logo buttons
-        logo = wx.Bitmap(iconpath("nsf_logo.png"))
+        logo = wx.Bitmap(iconpath("nsf-logo.png"))
         self.bitmap_button_nsf.SetBitmapLabel(logo)
-        logo = wx.Bitmap(iconpath("danse_logo.png"))
+        logo = wx.Bitmap(iconpath("danse-logo.png"))
         self.bitmap_button_danse.SetBitmapLabel(logo)
-        logo = wx.Bitmap(iconpath("msu_logo.png"))
+        logo = wx.Bitmap(iconpath("msu-logo.png"))
         self.bitmap_button_msu.SetBitmapLabel(logo)
-        logo = wx.Bitmap(iconpath("columbia_logo.png"))
+        logo = wx.Bitmap(iconpath("columbia-logo.png"))
         self.bitmap_button_columbia.SetBitmapLabel(logo)
 
         # resize dialog window to fit version number nicely
