@@ -35,7 +35,7 @@
 .. |Tracking| image:: https://img.shields.io/badge/issue_tracking-github-blue
         :target: https://github.com/diffpy/diffpy.pdfgui/issues
 
-Graphical user interface program for structure refinements to atomic
+Graphical user interface program for structure refinements to the atomic
 pair distribution function.
 
 For users who do not have the expertise or necessity for command
