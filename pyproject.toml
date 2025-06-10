@@ -6,12 +6,12 @@ build-backend = "setuptools.build_meta"
 name = "diffpy.pdfgui"
 dynamic=['version', 'dependencies']
 authors = [
-  { name="Simon J.L. Billinge group", email="simon.billinge@gmail.com" },
+  { name="Simon J.L. Billinge group", email="sb2896@columbia.edu" },
 ]
 maintainers = [
-  { name="Simon J.L. Billinge group", email="simon.billinge@gmail.com" },
+  { name="Simon J.L. Billinge group", email="sb2896@columbia.edu" },
 ]
-description = "GUI for PDF simulation and structure refinement."
+description = "Graphical user interface program for structure refinements to atomic pair distribution function."
 keywords = ['PDF structure refinement GUI']
 readme = "README.rst"
 requires-python = ">=3.11, <3.14"
