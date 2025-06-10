@@ -4,7 +4,7 @@
 
 .. |title| replace:: diffpy.pdfgui documentation
 
-``diffpy.pdfgui`` - Graphical user interface program for structure refinements to atomic pair distribution function.
+``diffpy.pdfgui`` - Graphical user interface program for structure refinements to the atomic pair distribution function.
 
 | Software version |release|
 | Last updated |today|.
