@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #
-# diffpy.pdfgui documentation build configuration file, created by  # noqa: E501
+# diffpy.pdfgui documentation build configuration file, created by
 # sphinx-quickstart on Thu Jan 30 15:49:41 2014.
 #
 # This file is execfile()d with the current directory set to its
@@ -13,26 +13,26 @@
 # All configuration values have a default; values that are commented out
 # serve to show the default.
 
-import sys
-import time
-from importlib.metadata import version
-from pathlib import Path
-
 # Attempt to import the version dynamically from GitHub tag.
 try:
     fullversion = version("diffpy.pdfgui")
 except Exception:
     fullversion = "No version found. The correct version will appear in the released version."  # noqa: E501
 
+import sys
+import time
+from importlib.metadata import version
+from pathlib import Path
+
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
-# documentation root, use Path().resolve() to make it absolute, like shown here.  # noqa: E501
+# documentation root, use Path().resolve() to make it absolute, like shown here.
 # sys.path.insert(0, str(Path(".").resolve()))
 sys.path.insert(0, str(Path("../..").resolve()))
 sys.path.insert(0, str(Path("../../src").resolve()))
 
 # abbreviations
-ab_authors = "Simon J.L. Billinge group"
+ab_authors = "Billinge Group members and community contributors"
 
 # -- General configuration ------------------------------------------------
 
@@ -48,8 +48,8 @@ extensions = [
     "sphinx.ext.todo",
     "sphinx.ext.viewcode",
     "sphinx.ext.intersphinx",
-    "sphinx_rtd_theme",
     "sphinx_copybutton",
+    "sphinx_rtd_theme",
     "m2r",
 ]
 
@@ -71,10 +71,16 @@ master_doc = "index"
 project = "diffpy.pdfgui"
 copyright = "%Y, The Trustees of Columbia University in the City of New York"
 
+# For sphinx_copybutton extension.
+# Do not copy "$" for shell commands in code-blocks.
+copybutton_prompt_text = r"^\$ "
+copybutton_prompt_is_regexp = True
+
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
 # built documents.
 
+fullversion = version(project)
 # The short X.Y version.
 version = "".join(fullversion.split(".post")[:1])
 # The full version, including alpha/beta/rc tags.
@@ -93,11 +99,6 @@ year = today.split()[-1]
 # today_fmt = '%B %d, %Y'
 # substitute YEAR in the copyright string
 copyright = copyright.replace("%Y", year)
-
-# For sphinx_copybutton extension.
-# Do not copy "$" for shell commands in code-blocks.
-copybutton_prompt_text = r"^\$ "
-copybutton_prompt_is_regexp = True
 
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
@@ -177,7 +178,7 @@ html_theme_options = {
 # Add any extra paths that contain custom files (such as robots.txt or
 # .htaccess) here, relative to this directory. These files are copied
 # directly to the root of the documentation.
-# html_extra_path = []
+html_extra_path = []
 
 # If not '', a 'Last updated on:' timestamp is inserted at every page bottom,
 # using the given strftime format.
