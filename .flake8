@@ -1,3 +1,5 @@
+# As of now, flake8 does not natively support configuration via pyproject.toml
+# https://github.com/microsoft/vscode-flake8/issues/135
 [flake8]
 exclude =
     .git,
