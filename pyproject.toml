@@ -11,7 +11,7 @@ authors = [
 maintainers = [
   { name="Simon J.L. Billinge group", email="sb2896@columbia.edu" },
 ]
-description = "Graphical user interface program for structure refinements to atomic pair distribution function."
+description = "Graphical user interface program for structure refinements to the atomic pair distribution function."
 keywords = ['PDF structure refinement GUI']
 readme = "README.rst"
 requires-python = ">=3.11, <3.14"
