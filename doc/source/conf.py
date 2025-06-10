@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #
-# diffpy.pdfgui documentation build configuration file, created by
+# diffpy.pdfgui documentation build configuration file, created by  # noqa: E501
 # sphinx-quickstart on Thu Jan 30 15:49:41 2014.
 #
 # This file is execfile()d with the current directory set to its
@@ -18,15 +18,21 @@ import time
 from importlib.metadata import version
 from pathlib import Path
 
+# Attempt to import the version dynamically from GitHub tag.
+try:
+    fullversion = version("diffpy.pdfgui")
+except Exception:
+    fullversion = "No version found. The correct version will appear in the released version."  # noqa: E501
+
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
-# documentation root, use Path().resolve() to make it absolute, like shown here.
+# documentation root, use Path().resolve() to make it absolute, like shown here.  # noqa: E501
 # sys.path.insert(0, str(Path(".").resolve()))
 sys.path.insert(0, str(Path("../..").resolve()))
 sys.path.insert(0, str(Path("../../src").resolve()))
 
 # abbreviations
-ab_authors = "Billinge Group members and community contributors"
+ab_authors = "Simon J.L. Billinge group"
 
 # -- General configuration ------------------------------------------------
 
@@ -43,6 +49,7 @@ extensions = [
     "sphinx.ext.viewcode",
     "sphinx.ext.intersphinx",
     "sphinx_rtd_theme",
+    "sphinx_copybutton",
     "m2r",
 ]
 
@@ -68,7 +75,6 @@ copyright = "%Y, The Trustees of Columbia University in the City of New York"
 # |version| and |release|, also used in various other places throughout the
 # built documents.
 
-fullversion = version(project)
 # The short X.Y version.
 version = "".join(fullversion.split(".post")[:1])
 # The full version, including alpha/beta/rc tags.
@@ -87,6 +93,11 @@ year = today.split()[-1]
 # today_fmt = '%B %d, %Y'
 # substitute YEAR in the copyright string
 copyright = copyright.replace("%Y", year)
+
+# For sphinx_copybutton extension.
+# Do not copy "$" for shell commands in code-blocks.
+copybutton_prompt_text = r"^\$ "
+copybutton_prompt_is_regexp = True
 
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
@@ -123,6 +134,14 @@ nitpicky = True
 #
 html_theme = "sphinx_rtd_theme"
 
+html_context = {
+    "display_github": True,
+    "github_user": "diffpy",
+    "github_repo": "diffpy.pdfgui",
+    "github_version": "main",
+    "conf_py_path": "/doc/source/",
+}
+
 # Theme options are theme-specific and customize the look and feel of a theme
 # further.  For a list of options available for each theme, see the
 # documentation.
@@ -158,7 +177,7 @@ html_theme_options = {
 # Add any extra paths that contain custom files (such as robots.txt or
 # .htaccess) here, relative to this directory. These files are copied
 # directly to the root of the documentation.
-html_extra_path = ["../manual"]
+# html_extra_path = []
 
 # If not '', a 'Last updated on:' timestamp is inserted at every page bottom,
 # using the given strftime format.
@@ -221,7 +240,13 @@ latex_elements = {
 # (source start file, target name, title,
 # author, documentclass [howto, manual, or own class]).
 latex_documents = [
-    ("index", "diffpy.pdfgui.tex", "diffpy.pdfgui Documentation", ab_authors, "manual"),
+    (
+        "index",
+        "diffpy.pdfgui.tex",
+        "diffpy.pdfgui Documentation",
+        ab_authors,
+        "manual",
+    ),
 ]
 
 # The name of an image file (relative to this directory) to place at the top of
@@ -249,7 +274,15 @@ latex_documents = [
 
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
-man_pages = [("index", "diffpy.pdfgui", "diffpy.pdfgui Documentation", ab_authors, 1)]
+man_pages = [
+    (
+        "index",
+        "diffpy.pdfgui",
+        "diffpy.pdfgui Documentation",
+        ab_authors,
+        1,
+    )
+]
 
 # If true, show URL addresses after external links.
 # man_show_urls = False

@@ -1,7 +1,9 @@
 :tocdepth: -1
 
-diffpy.pdfgui package
-=====================
+|title|
+=======
+
+.. |title| replace:: diffpy.pdfgui package
 
 .. automodule:: diffpy.pdfgui
     :members:
@@ -12,28 +14,17 @@ Subpackages
 -----------
 
 .. toctree::
-    :titlesonly:
-
-    diffpy.pdfgui.icons
-    diffpy.pdfgui.gui
-    diffpy.pdfgui.applications
-    diffpy.pdfgui.control
+   diffpy.pdfgui.example_package
 
 Submodules
 ----------
 
-diffpy.pdfgui.utils module
-^^^^^^^^^^^^^^^^^^^^^^^^^^
+|module|
+--------
 
-.. automodule:: diffpy.pdfgui.utils
-    :members:
-    :undoc-members:
-    :show-inheritance:
+.. |module| replace:: diffpy.pdfgui.example_submodule module
 
-diffpy.pdfgui.tui module
-^^^^^^^^^^^^^^^^^^^^^^^^
-
-.. automodule:: diffpy.pdfgui.tui
+.. automodule:: diffpy.pdfgui.example_submodule
     :members:
     :undoc-members:
     :show-inheritance:
