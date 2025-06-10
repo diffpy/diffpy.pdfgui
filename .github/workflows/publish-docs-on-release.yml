@@ -7,7 +7,7 @@ on:
 
 jobs:
   docs:
-    uses: Billingegroup/release-scripts/.github/workflows/_publish-docs-on-release.yml@v0
+    uses: scikit-package/release-scripts/.github/workflows/_publish-docs-on-release.yml@v0
     with:
       project: diffpy.pdfgui
       c_extension: false
