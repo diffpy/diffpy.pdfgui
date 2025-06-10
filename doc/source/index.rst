@@ -15,6 +15,13 @@ Getting started
 
 Welcome to the ``diffpy.pdfgui`` documentation!
 
+For users who do not have the expertise or necessity for command
+line analysis, PDFgui is a convenient and easy to use graphical front
+end for the PDFfit2 refinement program. It is capable of full-profile
+fitting of the atomic pair distribution function (PDF) derived from x-ray
+or neutron diffraction data and comes with built in graphical and structure
+visualization capabilities.
+
 To get started, please visit the :ref:`Getting started <getting-started>` page.
 
 =======
