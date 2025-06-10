@@ -7,13 +7,7 @@
 ``diffpy.pdfgui`` - Graphical user interface program for structure refinements to the atomic pair distribution function.
 
 | Software version |release|
-| Last updated |today|.
-
-===============
-Getting started
-===============
-
-Welcome to the ``diffpy.pdfgui`` documentation!
+| Last updated |today|
 
 For users who do not have the expertise or necessity for command
 line analysis, PDFgui is a convenient and easy to use graphical front
@@ -22,14 +16,53 @@ fitting of the atomic pair distribution function (PDF) derived from x-ray
 or neutron diffraction data and comes with built in graphical and structure
 visualization capabilities.
 
-To get started, please visit the :ref:`Getting started <getting-started>` page.
+PDFgui is a friendly interface to the PDFfit2 refinement engine, with many
+powerful extensions. To get started, please open the :ref:`manual`
+(:download:`pdf <pdfgui.pdf>`) from the help menu or follow the :ref:`tutorial`.
 
 =======
 Authors
 =======
 
-``diffpy.pdfgui`` is developed by Simon J.L. Billinge group. The maintainer for this project is Simon J.L. Billinge group. For a detailed list of contributors see
+DiffPy was initiated as part of the Distributed Data Analysis of Neutron
+Scattering Experiments (DANSE) project, funded by the National Science
+Foundation under grant DMR-0520547. Any opinions, findings, and conclusions or
+recommendations expressed in this material are those of the author(s)
+and do not necessarily reflect the views of the NSF.
+
+The main contributors to this package were
+
+    Chris Farrow,
+    Jiwu Liu,
+    Pavol Juhas,
+    Dmitriy Bryndin
+
+Other current and former contributors of the DiffPy project include
+
+    Simon Billinge,
+    Chris Farrow,
+    Emil Bozin,
+    Wenduo Zhou,
+    Peng Tian
+
+The DiffPy team is part of the Billinge Group at Columbia University in New York,
+within the Department of Applied Physics and Applied Mathematics.
+
+For a detailed list of contributors see
 https://github.com/diffpy/diffpy.pdfgui/graphs/contributors.
+
+=========
+Reference
+=========
+
+If you use this program for a scientific research that leads to publication,
+we ask that you acknowledge use of the program by citing the following paper
+in your publication:
+
+   C L Farrow, P Juhas, J W Liu, D Bryndin, E S Božin,
+   J Bloch, Th Proffen and S J L Billinge, `PDFfit2 and PDFgui:
+   computer programs for studying nanostructure in crystals <https://doi.org/10.1088/0953-8984/19/33/335219>`_,
+   J. Phys.: Condens. Matter 19 (2007) 335219.
 
 ============
 Installation
@@ -38,22 +71,27 @@ Installation
 See the `README <https://github.com/diffpy/diffpy.pdfgui#installation>`_
 file included with the distribution.
 
-================
-Acknowledgements
-================
+========
+Tutorial
+========
 
-``diffpy.pdfgui`` is built and maintained with `scikit-package <https://scikit-package.github.io/scikit-package/>`_.
+The tutorial for the package can be found here:
+
+.. toctree::
+
+   tutorial
 
 =================
 Table of contents
 =================
 .. toctree::
-   :maxdepth: 2
+   :titlesonly:
 
-   getting-started
-   Package API <api/diffpy.pdfgui>
-   release
+   examples
+   extras
    license
+   release
+   Package API <api/diffpy.pdfgui>
 
 =======
 Indices
