@@ -22,8 +22,8 @@ from diffpy.structure import PDFFitStructure
 
 
 class PDFStructure(PDFComponent, PDFFitStructure):
-    """PDFStructure contains structure information, which can be used for 3D
-    rendering as well as structure refinement."""
+    """PDFStructure contains structure information, which can be used
+    for 3D rendering as well as structure refinement."""
 
     def __init__(self, name, *args, **kwargs):
         """Initialize PDFStructure.
@@ -36,8 +36,8 @@ class PDFStructure(PDFComponent, PDFFitStructure):
         return
 
     def read(self, filename, format="auto"):
-        """Load structure from a file, raise ControlFileError for invalid or
-        unknown structure format.
+        """Load structure from a file, raise ControlFileError for
+        invalid or unknown structure format.
 
         filename -- file to be loaded
         format   -- structure format such as 'pdffit', 'pdb', 'xyz'.  When
@@ -76,8 +76,9 @@ class PDFStructure(PDFComponent, PDFFitStructure):
     _allowed_pdffit_vars = dict.fromkeys(("spdiameter", "stepcut", "delta1", "delta2", "sratio", "rcut"))
 
     def setvar(self, var, value):
-        """Assign to data member using PdfFit-style variable This can be used
-        when applying constraint equations with particular parameter values.
+        """Assign to data member using PdfFit-style variable This can be
+        used when applying constraint equations with particular
+        parameter values.
 
         var   -- string representation of PdfFit variable.  Possible values:
                  pscale, spdiameter, stepcut, delta1, delta2, sratio, rcut,
@@ -128,8 +129,9 @@ class PDFStructure(PDFComponent, PDFFitStructure):
         return
 
     def getvar(self, var):
-        """Obtain value corresponding to PdfFit phase variable var This can be
-        used when guessing Parameter values from constraints dictionary.
+        """Obtain value corresponding to PdfFit phase variable var This
+        can be used when guessing Parameter values from constraints
+        dictionary.
 
         var   -- string representation of PdfFit variable.  Possible values:
                  pscale, spdiameter, stepcut, delta1, delta2, sratio, rcut,

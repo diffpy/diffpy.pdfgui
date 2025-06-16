@@ -17,8 +17,8 @@ from diffpy.pdfgui.control.controlerrors import ControlKeyError
 
 
 class PDFList(list):
-    """List class of PDFComponent, which can be accessed through index or a
-    name string."""
+    """List class of PDFComponent, which can be accessed through index
+    or a name string."""
 
     def __init__(self, *args):
         """Initialize.

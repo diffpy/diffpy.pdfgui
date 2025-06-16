@@ -145,7 +145,8 @@ class DataSetConstraintPanel(wx.Panel, PDFPanel):
 
     # EVENT CODE #############################################################
     def onSetFocus(self, event):
-        """Saves a TextCtrl value, to be compared in onKillFocus later."""
+        """Saves a TextCtrl value, to be compared in onKillFocus
+        later."""
         self._focusedText = event.GetEventObject().GetValue()
         event.Skip()
         return

@@ -42,7 +42,8 @@ class ControlFileError(ControlError):
 
 
 class ControlKeyError(ControlError):
-    """PDFGuiControl exception class -- requested object can't be found."""
+    """PDFGuiControl exception class -- requested object can't be
+    found."""
 
     pass
 
@@ -66,7 +67,8 @@ class ControlStatusError(ControlError):
 
 
 class ControlRuntimeError(ControlError):
-    """PDFGuiControl exception class -- various irrecoverable runtime error."""
+    """PDFGuiControl exception class -- various irrecoverable runtime
+    error."""
 
     pass
 
@@ -85,8 +87,8 @@ class ControlSyntaxError(ControlError):
 
 
 class TempControlSelectError(ControlError):
-    """Temporary define this error to identify the select-control error in
-    python3."""
+    """Temporary define this error to identify the select-control error
+    in python3."""
 
     pass
 

@@ -224,7 +224,8 @@ class ExtendedPlotFrame(wx.Frame):
         self.__updateViewLimits()
 
     def __updateViewLimits(self):
-        """Adjust the subplot range in order to show all curves correctly."""
+        """Adjust the subplot range in order to show all curves
+        correctly."""
         # NOTE:
         # we need to adjust view limits by ourselves because Matplotlib can't
         # set the legend nicely when there are multiple curves in the plot.
@@ -252,8 +253,8 @@ class ExtendedPlotFrame(wx.Frame):
             self.subplot.set_ylim(ymin, ymax)
 
     def __translateStyles(self, style):
-        """Private function to translate general probabilities to Matplotlib
-        specific ones.
+        """Private function to translate general probabilities to
+        Matplotlib specific ones.
 
         style -- general curve style dictionary (defined in demoplot)
         """
@@ -351,7 +352,8 @@ class ExtendedPlotFrame(wx.Frame):
 
 
 def legendBoxProperties():
-    """Legend properties dictionary with keys consistent with MPL version.
+    """Legend properties dictionary with keys consistent with MPL
+    version.
 
     The argument names have changed in matplotlib 0.98.5. Old arguments
     do not work with later versions of matplotlib.

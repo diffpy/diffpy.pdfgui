@@ -116,8 +116,8 @@ class PlotPanel(wx.Panel, PDFPanel):
         return
 
     def updateWidgets(self):
-        """Enable or disable certain widgets depending upon what is selected in
-        the tree and in the plotting widgets."""
+        """Enable or disable certain widgets depending upon what is
+        selected in the tree and in the plotting widgets."""
         # selections: selected nodes in treeCtrl
         # fits:  only different fittings
         # refs:  data item ids ( can be calculation, fit, structure and dataset

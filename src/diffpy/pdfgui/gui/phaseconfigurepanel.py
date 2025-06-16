@@ -316,7 +316,8 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
         return
 
     def restrictConstrainedParameters(self):
-        """Set 'read-only' boxes that correspond to constrained parameters."""
+        """Set 'read-only' boxes that correspond to constrained
+        parameters."""
 
         self.setToolTips(tooltips.phasepanel)
         self.textCtrlA.DefaultStyle.BackgroundColour
@@ -452,7 +453,8 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
 
     # TextCtrl Events
     def onSetFocus(self, event):
-        """Saves a TextCtrl value, to be compared in onKillFocus later."""
+        """Saves a TextCtrl value, to be compared in onKillFocus
+        later."""
         self._focusedText = event.GetEventObject().GetValue()
         event.Skip()
         return

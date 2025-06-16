@@ -30,8 +30,8 @@ def spd_constrained(ds):
 
 
 class Organizer(PDFComponent):
-    """Base class for Fitting. It holds separate lists of datasets, strucs and
-    calculations.
+    """Base class for Fitting. It holds separate lists of datasets,
+    strucs and calculations.
 
     datasets:     dataset list
     strucs:       structure list
@@ -240,7 +240,8 @@ class Organizer(PDFComponent):
         return org
 
     def __forward_spdiameter(self):
-        """Copy spdiameter value loaded from fit or calculation to phase.
+        """Copy spdiameter value loaded from fit or calculation to
+        phase.
 
         This method takes care of loading old PDFgui projects where
         spdiameter belonged to FitDataSet or Calculation classes. It

@@ -66,14 +66,15 @@ from diffpy.pdfgui.gui.welcomepanel import WelcomePanel
 
 
 class MainFrame(wx.Frame):
-    """The left pane is a FitTree (from fittree.py), the right is a dynamic
-    panel, accessed via the data member rightPanel, which can hold one of any
-    number of panels. The panels that can appear in the right pane must be
-    derived from PDFPanel (in pdfpanel.py) and are defined in the dynamicPanels
-    dictionary, which is defined in __customProperties. A panel is placed in
-    the right pane by passing its dynamicPanels dictionary key to the
-    switchRightPanel method.  This method takes care of displaying the panel,
-    giving the data it needs, and calling its refresh() method.
+    """The left pane is a FitTree (from fittree.py), the right is a
+    dynamic panel, accessed via the data member rightPanel, which can
+    hold one of any number of panels. The panels that can appear in the
+    right pane must be derived from PDFPanel (in pdfpanel.py) and are
+    defined in the dynamicPanels dictionary, which is defined in
+    __customProperties. A panel is placed in the right pane by passing
+    its dynamicPanels dictionary key to the switchRightPanel method.
+    This method takes care of displaying the panel, giving the data it
+    needs, and calling its refresh() method.
 
     ** NODE TYPES **
     The FitTree is essential to the functionality of the Gui.
@@ -225,7 +226,8 @@ class MainFrame(wx.Frame):
         return
 
     def __defineLocalIds(self):
-        """Several user functions are duplicated many times throughout the gui.
+        """Several user functions are duplicated many times throughout
+        the gui.
 
         This occurs mostly between the main menu, the right-click menu,
         and the many buttons in the gui. This method defines local Ids
@@ -1092,7 +1094,8 @@ class MainFrame(wx.Frame):
         return code
 
     def updateTitle(self):
-        """Update the title according to the name of the current file."""
+        """Update the title according to the name of the current
+        file."""
         shorttitle = os.path.basename(self.fullpath)
         udirnamed = "~" + os.path.sep
         udir = os.path.expanduser(udirnamed)
@@ -1497,7 +1500,8 @@ class MainFrame(wx.Frame):
         return
 
     def disableSharedMenuItems(self, menu):
-        """Disable some menu items based upon what is selected in the tree.
+        """Disable some menu items based upon what is selected in the
+        tree.
 
         menu        --  The menu which to apply the changes.
 
@@ -1772,7 +1776,8 @@ class MainFrame(wx.Frame):
         return
 
     def onCopy(self, event):
-        """Copy the subtree of the current selected item into the clipboard."""
+        """Copy the subtree of the current selected item into the
+        clipboard."""
         selections = self.treeCtrlMain.GetSelections()
         if len(selections) == 1:
             self.treeCtrlMain.CopyBranch(selections[0])
@@ -1916,7 +1921,8 @@ class MainFrame(wx.Frame):
     # Main menu items
 
     def onRun(self, event):
-        """Run the selected fits/calculations and disable their tree entries.
+        """Run the selected fits/calculations and disable their tree
+        entries.
 
         This also runs calculations that are children of a running fit.
         """
@@ -2532,7 +2538,8 @@ class MainFrame(wx.Frame):
 
     # MISC INTERACTION ITEMS
     def showMessage(self, info, title="PDF Control Error"):
-        """ShowMessage(self, info) --> tell user about an exception and so on.
+        """ShowMessage(self, info) --> tell user about an exception and
+        so on.
 
         title -- window title
         info -- message

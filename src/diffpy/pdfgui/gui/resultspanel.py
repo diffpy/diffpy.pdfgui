@@ -85,7 +85,8 @@ class ResultsPanel(wx.Panel, PDFPanel):
 
     # Methods overloaded from PDFPanel
     def refresh(self):
-        """Fill in the resultsTextCtrl with the fit results if they exist."""
+        """Fill in the resultsTextCtrl with the fit results if they
+        exist."""
         if self.fit:
             self.results = self.fit.res
         else:

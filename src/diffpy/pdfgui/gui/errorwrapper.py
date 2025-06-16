@@ -12,8 +12,8 @@
 # See LICENSE.txt for license information.
 #
 ##############################################################################
-"""This module contains a function wrapper and an object wrapper that catch
-control errors and shows them in an error report dialog.
+"""This module contains a function wrapper and an object wrapper that
+catch control errors and shows them in an error report dialog.
 
 This is used by PDFPanel and MainFrame.
 """
@@ -103,7 +103,8 @@ def catchFunctionErrors(obj, funcName):
 
 
 def catchObjectErrors(obj, exclude=None):
-    """Wrap all functions of an object so that the exceptions are caught.
+    """Wrap all functions of an object so that the exceptions are
+    caught.
 
     obj --  Object containing the function. It is assumed that the object has an
             attribute named 'mainFrame', which is a reference to the MainFrame

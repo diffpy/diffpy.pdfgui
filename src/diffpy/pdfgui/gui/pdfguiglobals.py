@@ -62,8 +62,8 @@ del _req
 
 
 def iconpath(iconfilename):
-    """Full path to the icon file in pdfgui installation. This function should
-    be used whenever GUI needs access to custom icons.
+    """Full path to the icon file in pdfgui installation. This function
+    should be used whenever GUI needs access to custom icons.
 
     iconfilename -- icon file name without any path
 

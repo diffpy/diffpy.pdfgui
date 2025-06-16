@@ -139,7 +139,8 @@ class FitTree(wx.TreeCtrl):
         return ids
 
     def GetAllType(self, node):
-        """Get the id of each item in the tree of the same type as node."""
+        """Get the id of each item in the tree of the same type as
+        node."""
         nodetype = self.GetNodeType(node)
         fits = self.GetChildren(self.root)
         if nodetype == "fit":
@@ -617,7 +618,8 @@ class FitTree(wx.TreeCtrl):
         return cdata
 
     def PasteBranch(self, entrypoint=None):
-        """Paste the branch from the clipboard into tree at the given node.
+        """Paste the branch from the clipboard into tree at the given
+        node.
 
         A certain type of branch can only be copied to specific places.
 
@@ -915,8 +917,8 @@ class FitTreeError(ControlError):
 
 # Utility functions
 def incrementName(name, namelist, start=1):
-    """Increment the name by assigning the lowest number to the end such that
-    the name does not appear in the namelist."""
+    """Increment the name by assigning the lowest number to the end such
+    that the name does not appear in the namelist."""
     newname = name
     match = r"\d+$"
     counter = start
