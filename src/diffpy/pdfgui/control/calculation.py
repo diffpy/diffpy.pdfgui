@@ -12,7 +12,8 @@
 # See LICENSE.txt for license information.
 #
 ##############################################################################
-"""Class Calculation for performing PDF simulation from model structure."""
+"""Class Calculation for performing PDF simulation from model
+structure."""
 
 import copy
 import math
@@ -76,8 +77,8 @@ class Calculation(PDFComponent):
         return "c_" + self.name
 
     def setRGrid(self, rmin=None, rstep=None, rmax=None):
-        """Change specified r-grid parameters (rmin, rstep, rmax). Adjust rmax
-        for integer number of steps.
+        """Change specified r-grid parameters (rmin, rstep, rmax).
+        Adjust rmax for integer number of steps.
 
         rmin  -- new low rcalc boundary
         rstep -- new r-grid step

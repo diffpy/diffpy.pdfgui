@@ -27,7 +27,8 @@ from diffpy.pdfgui.utils import safeCPickleDumps
 
 
 def getEngineExceptions():
-    """Return a tuple of possible exceptions from diffpy.pdffit2.pdffit2."""
+    """Return a tuple of possible exceptions from
+    diffpy.pdffit2.pdffit2."""
     from diffpy.pdffit2.pdffit2 import (
         calculationError,
         constraintError,
@@ -278,7 +279,8 @@ class Fitting(Organizer):
         return self.parameters
 
     def applyParameters(self):
-        """Evaluate all constrained variables using current parameters."""
+        """Evaluate all constrained variables using current
+        parameters."""
         for struc in self.strucs:
             struc.applyParameters(self.parameters)
         for dataset in self.datasets:
@@ -446,9 +448,9 @@ class Fitting(Organizer):
         return
 
     def outputBondAngle(self, struc, i, j, k):
-        """Output bond angle defined by atoms i, j, k. The angle is calculated
-        using the shortest lengths ji and jk with respect to periodic boundary
-        conditions.
+        """Output bond angle defined by atoms i, j, k. The angle is
+        calculated using the shortest lengths ji and jk with respect to
+        periodic boundary conditions.
 
         struc   -- instance of PDFStructure
         i, j, k -- atom indices starting at 1
@@ -586,8 +588,8 @@ class Fitting(Organizer):
                 self.thread.join()
 
     def buildNameDict(self):
-        """Build up a data name dictionary, which will map data name to a
-        unique index.
+        """Build up a data name dictionary, which will map data name to
+        a unique index.
 
         The private dataNameDict has such structure:
         { 'd_data1':{'Gobs':12, 'Gcalc':11, ....},
@@ -636,8 +638,8 @@ class Fitting(Organizer):
         self.dataNameDict = dataNameDict
 
     def appendStep(self, source):
-        """After a refinement step is done, append all data from self to the
-        historical storage, i.e., self.snapshots.
+        """After a refinement step is done, append all data from self to
+        the historical storage, i.e., self.snapshots.
 
         source -- where to get the fitted data, in deed it's a PdfFit2 instance
         """

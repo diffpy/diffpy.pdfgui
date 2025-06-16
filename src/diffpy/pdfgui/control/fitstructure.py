@@ -78,8 +78,8 @@ class FitStructure(PDFStructure):
         return
 
     def _update_custom_spacegroup(self, parser):
-        """Helper method for read() and readStr(), which takes care of setting
-        custom_spacegroup after successful reading.
+        """Helper method for read() and readStr(), which takes care of
+        setting custom_spacegroup after successful reading.
 
         parser -- instance of StructureParser used in reading.
 
@@ -99,9 +99,9 @@ class FitStructure(PDFStructure):
         return
 
     def read(self, filename, format="auto"):
-        """Load structure from a file, raise ControlFileError for invalid or
-        unknown structure format.  Overloads PDFStructure.read() to handle
-        custom_spacegroup attribute.
+        """Load structure from a file, raise ControlFileError for
+        invalid or unknown structure format.  Overloads
+        PDFStructure.read() to handle custom_spacegroup attribute.
 
         filename -- file to be loaded
         format   -- structure format such as 'pdffit', 'pdb', 'xyz'.  When
@@ -119,7 +119,8 @@ class FitStructure(PDFStructure):
         return p
 
     def readStr(self, s, format="auto"):
-        """Same as PDFStructure.readStr, but handle the custom_spacegroup data.
+        """Same as PDFStructure.readStr, but handle the
+        custom_spacegroup data.
 
         Return instance of StructureParser used to load the data. See
         Structure.readStr() for more info.
@@ -169,9 +170,9 @@ class FitStructure(PDFStructure):
         return
 
     def findParameters(self):
-        """Obtain dictionary of parameters used by self.constraints. The keys
-        of returned dictionary are integer parameter indices, and the values
-        are Parameter instances, with guessed initial values.
+        """Obtain dictionary of parameters used by self.constraints. The
+        keys of returned dictionary are integer parameter indices, and
+        the values are Parameter instances, with guessed initial values.
 
         returns dictionary of indices and Parameter instances
         """
@@ -244,9 +245,9 @@ class FitStructure(PDFStructure):
         return rv
 
     def _restoreAtomConstraints(self, acd):
-        """Restore self.constraints from atom constraints dictionary.  This is
-        useful for getting correct atom indices into refvar strings. See also
-        _popAtomConstraints()
+        """Restore self.constraints from atom constraints dictionary.
+        This is useful for getting correct atom indices into refvar
+        strings. See also _popAtomConstraints()
 
         acd -- dictionary obtained from _popAtomConstraints()
         """
@@ -262,7 +263,8 @@ class FitStructure(PDFStructure):
         return
 
     def insertAtoms(self, index, atomlist):
-        """Insert list of atoms before index and adjust self.constraints.
+        """Insert list of atoms before index and adjust
+        self.constraints.
 
         index    -- position in the initial structure, atoms are appended
                     when larger than len(self.initial).
@@ -295,8 +297,8 @@ class FitStructure(PDFStructure):
         """Perform supercell expansion for this structure and adjust
         constraints for positions and lattice parameters.  New lattice
         parameters are multiplied and fractional coordinates divided by
-        corresponding multiplier.  New atoms are grouped with their source in
-        the original cell.
+        corresponding multiplier.  New atoms are grouped with their
+        source in the original cell.
 
         mno -- tuple or list of three positive integer cell multipliers along
         the a, b, c axis
@@ -369,8 +371,8 @@ class FitStructure(PDFStructure):
         return isSpaceGroupLatPar(spacegroup, *self.initial.lattice.abcABG())
 
     def getSpaceGroupList(self):
-        """Return a list of SpaceGroup instances sorted by International Tables
-        number.
+        """Return a list of SpaceGroup instances sorted by International
+        Tables number.
 
         When custom_spacegroup is defined, the list starts with
         custom_spacegroup.
@@ -394,8 +396,9 @@ class FitStructure(PDFStructure):
         return sglist
 
     def getSpaceGroup(self, sgname):
-        """Find space group in getSpaceGroupList() by short_name or number.
-        sgname can be non-standard in case of CIF file defined space group.
+        """Find space group in getSpaceGroupList() by short_name or
+        number. sgname can be non-standard in case of CIF file defined
+        space group.
 
         Return instance of SpaceGroup. Raise ValueError if sgname cannot
         be found or when it is not present in getSpaceGroupList().
@@ -414,11 +417,11 @@ class FitStructure(PDFStructure):
         return sgfound
 
     def expandAsymmetricUnit(self, spacegroup, indices, sgoffset=[0, 0, 0]):
-        """Perform symmetry expansion for atoms at given indices. Temperature
-        factors may be corrected to reflect the symmetry. All constraints for
-        expanded atoms are erased with the exception of the occupancy("occ".
-        Constraints of unaffected atoms are adjusted for new positions
-        self.initial.
+        """Perform symmetry expansion for atoms at given indices.
+        Temperature factors may be corrected to reflect the symmetry.
+        All constraints for expanded atoms are erased with the exception
+        of the occupancy("occ". Constraints of unaffected atoms are
+        adjusted for new positions self.initial.
 
         spacegroup  -- instance of SpaceGroup from diffpy.structure
         indices     -- list of integer indices of atoms to be expanded
@@ -462,10 +465,11 @@ class FitStructure(PDFStructure):
         return
 
     def applySymmetryConstraints(self, spacegroup, indices, posflag, Uijflag, sgoffset=[0, 0, 0]):
-        """Generate symmetry constraints for positions and thermal factors.
-        Both positions and thermal factors may get corrected to reflect space
-        group symmetry.  Old positional and thermal constraints get erased. New
-        parameter indices start at fist decade after the last used parameter.
+        """Generate symmetry constraints for positions and thermal
+        factors. Both positions and thermal factors may get corrected to
+        reflect space group symmetry.  Old positional and thermal
+        constraints get erased. New parameter indices start at fist
+        decade after the last used parameter.
 
         spacegroup  -- instance of SpaceGroup from diffpy.structure
         indices     -- list of integer indices of atoms to be expanded
@@ -539,9 +543,9 @@ class FitStructure(PDFStructure):
         return
 
     def setSelectedPairs(self, s):
-        """Set the value of selected_pairs to s, raise ControlValueError when s
-        has invalid syntax.  The selected_pairs is a comma separated list of
-        words formatted as.
+        """Set the value of selected_pairs to s, raise ControlValueError
+        when s has invalid syntax.  The selected_pairs is a comma
+        separated list of words formatted as.
 
             [!]{element|indexOrRange|all}-[!]{element|indexOrRange|all}
 
@@ -570,9 +574,10 @@ class FitStructure(PDFStructure):
         return self.selected_pairs
 
     def getPairSelectionFlags(self, s=None):
-        """Translate string s to a list of allowed values for first and second
-        pair index.  Raise ControlValueError for invalid syntax of s.  See
-        setSelectedPairs() docstring for a definition of pair selection syntax.
+        """Translate string s to a list of allowed values for first and
+        second pair index.  Raise ControlValueError for invalid syntax
+        of s.  See setSelectedPairs() docstring for a definition of pair
+        selection syntax.
 
         s -- string describing selected pairs (default: self.selected_pairs)
 
@@ -628,7 +633,8 @@ class FitStructure(PDFStructure):
         return
 
     def getSelectedIndices(self, s):
-        """Indices of the atoms that match the specified selection string.
+        """Indices of the atoms that match the specified selection
+        string.
 
         s    -- selection string consisting of one or more atom selection
                 words formatted as [!]{element|indexOrRange|all}
@@ -655,7 +661,8 @@ class FitStructure(PDFStructure):
     _rxatomselection = None
 
     def _parseAtomSelectionString(self, s):
-        """Process string that describes a set of atoms in the structure.
+        """Process string that describes a set of atoms in the
+        structure.
 
         s    -- selection string formatted as [!]{element|indexOrRange|all}
                 "!" negates the selection, indexOrRange can be 1, 1:4,
@@ -847,11 +854,11 @@ class FitStructure(PDFStructure):
 
 
 def _makeParNames(sympars, parzeroindex):
-    """Return a tuple of (symbols, parvalues), where symbols is a list of
-    unique PDFFit parameter strings in "@%i" format and parvalues is a
-    dictionary of parameter indices and their values. The symbols have indices
-    10n + (1, 2, 3) when referring to x, y, z, or 10n + (4, 5, 6, 7, 8, 9) when
-    referring to Uij.
+    """Return a tuple of (symbols, parvalues), where symbols is a list
+    of unique PDFFit parameter strings in "@%i" format and parvalues is
+    a dictionary of parameter indices and their values. The symbols have
+    indices 10n + (1, 2, 3) when referring to x, y, z, or 10n + (4, 5,
+    6, 7, 8, 9) when referring to Uij.
 
     sympars      -- pospars or Upars attribute of a SymmetryConstraints object
                     Must be a sequence of symbols and values.

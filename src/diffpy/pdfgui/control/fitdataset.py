@@ -26,8 +26,8 @@ from diffpy.utils.resampler import wsinterp
 
 
 class FitDataSet(PDFDataSet):
-    """FitDataSet stores experimental and calculated PDF data and related
-    fitting parameters.  Inherited from PDFDataSet.
+    """FitDataSet stores experimental and calculated PDF data and
+    related fitting parameters.  Inherited from PDFDataSet.
 
     Data members (in addition to those in PDFDataSet):
 
@@ -204,8 +204,8 @@ class FitDataSet(PDFDataSet):
         return self.readObs(filename)
 
     def _updateRcalcRange(self):
-        """Helper method for updating fitrmin, fitrmax and fitrstep just after
-        reading observed values.
+        """Helper method for updating fitrmin, fitrmax and fitrstep just
+        after reading observed values.
 
         No return value.
         """
@@ -243,7 +243,8 @@ class FitDataSet(PDFDataSet):
         return self
 
     def write(self, filename):
-        """Same as writeCalc().  Use writeObs() to save experimental PDF data.
+        """Same as writeCalc().  Use writeObs() to save experimental PDF
+        data.
 
         filename -- name of file to write to
 
@@ -266,7 +267,8 @@ class FitDataSet(PDFDataSet):
         return
 
     def writeStr(self):
-        """Same as writeCalcStr.  Use writeObsStr() for experimental PDF.
+        """Same as writeCalcStr.  Use writeObsStr() for experimental
+        PDF.
 
         Return data string.
         """
@@ -377,9 +379,9 @@ class FitDataSet(PDFDataSet):
         return s
 
     def findParameters(self):
-        """Obtain dictionary of parameters used by self.constraints. The keys
-        of returned dictionary are integer parameter indices, and their values
-        Parameter instances, with guessed initial values.
+        """Obtain dictionary of parameters used by self.constraints. The
+        keys of returned dictionary are integer parameter indices, and
+        their values Parameter instances, with guessed initial values.
 
         returns dictionary of indices and Parameter instances
         """
@@ -527,9 +529,9 @@ class FitDataSet(PDFDataSet):
     # interface for data sampling
 
     def getFitSamplingType(self):
-        """Description of r-sampling used in the fit.  This method compares
-        self.fitrstep with r-sampling in the observed data and with Nyquist r
-        step.
+        """Description of r-sampling used in the fit.  This method
+        compares self.fitrstep with r-sampling in the observed data and
+        with Nyquist r step.
 
         Return a string, possible values are "data", "Nyquist" or
         "custom".
@@ -568,7 +570,8 @@ class FitDataSet(PDFDataSet):
         return
 
     def getObsSampling(self):
-        """Return the average r-step used in robs or zero when not defined."""
+        """Return the average r-step used in robs or zero when not
+        defined."""
         n = len(self.robs)
         if n > 1:
             rv = (self.robs[-1] - self.robs[0]) / (n - 1.0)
@@ -577,7 +580,8 @@ class FitDataSet(PDFDataSet):
         return rv
 
     def getNyquistSampling(self):
-        """Return r-step corresponding to Nyquist sampling at the qmax value.
+        """Return r-step corresponding to Nyquist sampling at the qmax
+        value.
 
         When qmax is zero, return r-step in the observed data.
         """
@@ -590,9 +594,9 @@ class FitDataSet(PDFDataSet):
     # Property Attributes
 
     def _updateRcalcSampling(self):
-        """Helper method for resampling rcalc and interpolating related data.
-        This method interpolates Gcalc, dGcalc, Gtrunc, dGtrunc, crw to new r
-        grid.
+        """Helper method for resampling rcalc and interpolating related
+        data. This method interpolates Gcalc, dGcalc, Gtrunc, dGtrunc,
+        crw to new r grid.
 
         No return value.
         """
@@ -815,8 +819,8 @@ def _linear_interpolation(x0, y0, x1, youtleft, youtright):
 
 
 def grid_interpolation(x0, y0, x1, left=None, right=None, tp=None):
-    """Interpolate values from one grid onto another using either linear or
-    Whittaker–Shannon interpolation.
+    """Interpolate values from one grid onto another using either linear
+    or Whittaker–Shannon interpolation.
 
     Parameters
     ----------

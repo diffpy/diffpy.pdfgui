@@ -27,7 +27,8 @@ class LoadProject:
     # public methods
 
     def __init__(self, filename=None):
-        """Initialize LoadProject object, by reading existing project file.
+        """Initialize LoadProject object, by reading existing project
+        file.
 
         filename -- path to PDFgui project file.
         """
