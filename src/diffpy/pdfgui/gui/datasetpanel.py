@@ -96,7 +96,8 @@ class DataSetPanel(wx.Panel, PDFPanel):
         return
 
     def refreshSelectedPage(self):
-        """Refresh the panel corresponding to the currently selected page."""
+        """Refresh the panel corresponding to the currently selected
+        page."""
         # self.configurePanel.refresh()
         # self.constraintPanel.refresh()
         # self.resultsPanel.refresh()

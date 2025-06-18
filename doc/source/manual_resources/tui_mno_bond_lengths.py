@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
-"""Extract the shortest Mn-O bond lengths from all fits in PDFgui project.
+"""Extract the shortest Mn-O bond lengths from all fits in PDFgui
+project.
 
 This script loops through all refined phases in PDFgui project and
 calculates their shortest Mn-O bond lengths using diffpy.pdffit2

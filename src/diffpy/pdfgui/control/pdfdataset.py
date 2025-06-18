@@ -116,8 +116,8 @@ class PDFDataSet(PDFComponent):
         return
 
     def getvar(self, var):
-        """Obtain value corresponding to PdfFit dataset variable. Used by
-        findParameters().
+        """Obtain value corresponding to PdfFit dataset variable. Used
+        by findParameters().
 
         var   -- string representation of dataset PdfFit variable.
                  Possible values: qdamp, qbroad, dscale

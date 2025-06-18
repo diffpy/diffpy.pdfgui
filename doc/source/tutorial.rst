@@ -123,7 +123,7 @@ Procedure:
    factor, and a set of parameters intended to be used to account for
    correlated atomic motion effects that typically sharpen the nearest
    neighbor PDF peak. These are ``delta1``, ``delta2``, ``sratio``, and
-   ``rcut ``. The ``spdiameter`` and ``stepcut`` parameters include scatterer
+   ``rcut``. The ``spdiameter`` and ``stepcut`` parameters include scatterer
    size effects in the PDF. These parameters will be described later. The
    bottom part of the panel contains standard unit cell content related
    information such as atomic species, their fractional coordinates,

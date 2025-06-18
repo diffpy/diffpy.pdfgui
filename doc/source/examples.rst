@@ -313,7 +313,7 @@ approx- imately 3nm in size.
 
 Input files:
 
-- :download:`Doping data series <manual_resources/Nanoparticle structure.zip>` containing:
+- :download:`Nanoparticle structure<manual_resources/Nanoparticle structure.zip>` containing:
 
   1. two PDF data collected from the bulk and naoparticle material.
   2. a project named ``CdSe-nano.ddp``

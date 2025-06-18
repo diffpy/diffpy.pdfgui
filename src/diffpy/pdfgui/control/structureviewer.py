@@ -25,7 +25,8 @@ from diffpy.pdfgui.control.controlerrors import ControlConfigError
 
 
 def getStructureViewer():
-    """Factory returning singleton instance of the StructureViewer class."""
+    """Factory returning singleton instance of the StructureViewer
+    class."""
     global _struviewer
     if _struviewer is None:
         _struviewer = StructureViewer()
@@ -36,10 +37,11 @@ _struviewer = None
 
 
 class StructureViewer(object):
-    """Class for plotting structure in general structure viewer. It takes care
-    of creating temporary structure file in a desired format and launching
-    structure viewer as a background process. The temporary files are removed
-    when StructureViewer instance goes out of scope.
+    """Class for plotting structure in general structure viewer. It
+    takes care of creating temporary structure file in a desired format
+    and launching structure viewer as a background process. The
+    temporary files are removed when StructureViewer instance goes out
+    of scope.
 
     Data attributes:
 
@@ -59,9 +61,9 @@ class StructureViewer(object):
     """
 
     def __init__(self, executable=None, argstr=None, fileformat=None):
-        """Create StructureViewer instance.  All arguments are optional, they
-        override defaults described in class docstring.  The configuration can
-        be changed later using setConfig method.
+        """Create StructureViewer instance.  All arguments are optional,
+        they override defaults described in class docstring.  The
+        configuration can be changed later using setConfig method.
 
         executable -- path to the structure viewer executable
         argstr     -- argument string for the viewer program, it can use
@@ -97,7 +99,8 @@ class StructureViewer(object):
         return rv
 
     def setConfig(self, cfg):
-        """Configure StructureViewer instance using values in a dictionary.
+        """Configure StructureViewer instance using values in a
+        dictionary.
 
         cfg     -- configuration dictionary, with the same keys as returned
                    by getConfig().  Any other keys are ignored.
@@ -119,7 +122,8 @@ class StructureViewer(object):
     getFileFormats = staticmethod(getFileFormats)
 
     def plot(self, stru):
-        """Launch new structure viewer and open a temporary copy of stru.
+        """Launch new structure viewer and open a temporary copy of
+        stru.
 
         stru    -- instance of Structure class from diffpy.structure
 

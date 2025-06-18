@@ -54,9 +54,9 @@ def version():
 
 
 def processArguments(argv1):
-    """Process command line arguments and store results in pdfguiglobals. This
-    method updates cmdopts, cmdargs and dbopts attributes in the pdfguiglobals
-    module.
+    """Process command line arguments and store results in
+    pdfguiglobals. This method updates cmdopts, cmdargs and dbopts
+    attributes in the pdfguiglobals module.
 
     argv1   -- list of command line arguments excluding the executable
 

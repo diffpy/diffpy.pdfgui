@@ -27,7 +27,8 @@ import wx.lib.mixins.listctrl as listmix
 
 
 class AutoWidthListCtrl(wx.ListCtrl, listmix.ListCtrlAutoWidthMixin):
-    """WxListCtrl subclass that automatically adjusts its column width."""
+    """WxListCtrl subclass that automatically adjusts its column
+    width."""
 
     def __init__(self, parent, ID, pos=wx.DefaultPosition, size=wx.DefaultSize, style=0, *args, **kwargs):
         wx.ListCtrl.__init__(self, parent, ID, pos, size, style, *args, **kwargs)
@@ -40,7 +41,8 @@ class AutoWidthListCtrl(wx.ListCtrl, listmix.ListCtrlAutoWidthMixin):
         return
 
     def setSelection(self, itemtext=None):
-        """Convenience function for simple selection of a list item by label.
+        """Convenience function for simple selection of a list item by
+        label.
 
         itemtext    --  The label of the item to select. If itemtext is None
                         (default) then all items will be deselected.
@@ -61,8 +63,8 @@ class AutoWidthListCtrl(wx.ListCtrl, listmix.ListCtrlAutoWidthMixin):
 
 
 class ColumnSortListCtrl(AutoWidthListCtrl, listmix.ColumnSorterMixin):
-    """AutoWidthListCtrl subclass that sorts its columns when the column header
-    is pressed.
+    """AutoWidthListCtrl subclass that sorts its columns when the column
+    header is pressed.
 
     This ListCtrl requires an itemDataMap member dictionary to be
     initialized before the sorting capabilities can be realized. This
@@ -83,7 +85,8 @@ class ColumnSortListCtrl(AutoWidthListCtrl, listmix.ColumnSorterMixin):
         return self
 
     def initializeSorter(self):
-        """Initialize the column sorter mixin after the ListCtrl is filled.
+        """Initialize the column sorter mixin after the ListCtrl is
+        filled.
 
         This method must be called whenever the itemDataMap is altered.
         """
@@ -116,8 +119,8 @@ class ColumnSortListCtrl(AutoWidthListCtrl, listmix.ColumnSorterMixin):
 
 
 class KeyEventsListCtrl(ColumnSortListCtrl):
-    """ColumnSortListCtrl that catches key events and selects the item that
-    matches.
+    """ColumnSortListCtrl that catches key events and selects the item
+    that matches.
 
     It only searches for items in the first column.
     """

@@ -12,8 +12,8 @@
 # See LICENSE.txt for license information.
 #
 ##############################################################################
-"""Class Constraint for storage of a single constraint equation constraints
-will be stored in { variable : constraint } dictionary."""
+"""Class Constraint for storage of a single constraint equation
+constraints will be stored in { variable : constraint } dictionary."""
 
 import math
 import re
@@ -67,8 +67,8 @@ class Constraint:
         return result
 
     def lambdaFormula(self):
-        """Build lambda function from constraint formula. Lambda function
-        expects dictionary argument.
+        """Build lambda function from constraint formula. Lambda
+        function expects dictionary argument.
 
         returns lambda function
         """

@@ -34,8 +34,8 @@ from diffpy.pdfgui.utils import asunicode
 
 
 class PDFGuiControl:
-    """PDFGuiControl holds all the data GUI needs to access or change It has a
-    container of Calculation and Fitting instances.
+    """PDFGuiControl holds all the data GUI needs to access or change It
+    has a container of Calculation and Fitting instances.
 
     Each Calculation and Fitting has a unique name.
     """
@@ -274,7 +274,8 @@ class PDFGuiControl:
                 raise ControlTypeError("Object %s doesn't exit in the list" % ID.name)
 
     def rename(self, ID, new_name):
-        """Rename Fitting, Calculation, Dataset or Structure identified by ID.
+        """Rename Fitting, Calculation, Dataset or Structure identified
+        by ID.
 
         ID:       reference to the object to be renamed
         new_name: new name to be given to the object
@@ -283,7 +284,8 @@ class PDFGuiControl:
         container.rename(ID, new_name)
 
     def remove(self, ID):
-        """Remove Fitting, Calculation, Dataset or Structure identified by ID.
+        """Remove Fitting, Calculation, Dataset or Structure identified
+        by ID.
 
         ID:     reference to the object to be removed
         return: removed object
@@ -311,8 +313,8 @@ class PDFGuiControl:
         return newObject
 
     def paste(self, dup, target=None, new_name=None, position=None):
-        """Paste copied object to target under new_name, the default new_name
-        will be name of src.
+        """Paste copied object to target under new_name, the default
+        new_name will be name of src.
 
         dup -- reference to the copied object
         target -- target object where the copy should be inserted
@@ -532,7 +534,8 @@ _pdfguicontrol = None
 
 
 def pdfguicontrol(*args, **kwargs):
-    """This function will return the single instance of class PDFGuiControl."""
+    """This function will return the single instance of class
+    PDFGuiControl."""
     global _pdfguicontrol
     if _pdfguicontrol is None:
         _pdfguicontrol = PDFGuiControl(*args, **kwargs)
@@ -555,8 +558,8 @@ def _find_global(moduleName, clsName):
 
 
 class CtrlUnpickler:
-    """Occasionally the project file may be generated on a platform where
-    PYTHONPATH is not correctly set up.
+    """Occasionally the project file may be generated on a platform
+    where PYTHONPATH is not correctly set up.
 
     CtrlUnpickler will transform the module path in the project file to
     be relative to diffpy so that it can be safely loaded. Only

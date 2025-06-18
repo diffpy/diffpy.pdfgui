@@ -25,8 +25,9 @@ from diffpy.pdfgui.control.controlerrors import (
 
 class Parameter:
     """Parameter is class for value and properties of refined parameter.
-    Because the initial value of Parameter may come from another Fitting, it is
-    accessed by setInitial(), initialStr() and initialValue() methods.
+    Because the initial value of Parameter may come from another
+    Fitting, it is accessed by setInitial(), initialStr() and
+    initialValue() methods.
 
     Data members:
         idx       -- integer identifier of this parameter in PdfFit
@@ -58,7 +59,8 @@ class Parameter:
         return
 
     def setInitial(self, initial):
-        """Set initial value to float or refined value from another Fitting.
+        """Set initial value to float or refined value from another
+        Fitting.
 
         initial -- initial value, it can be something convertible to float,
                    Fitting reference or string in "=fitname" or
@@ -150,9 +152,10 @@ class Parameter:
         return value
 
     def __findLinkedFitting(self):
-        """Private search for linked Fitting by name and by representation.
-        Should be called only when initial value is linked to another Fitting.
-        Updates self.__initial and self.__fitrepr.
+        """Private search for linked Fitting by name and by
+        representation. Should be called only when initial value is
+        linked to another Fitting. Updates self.__initial and
+        self.__fitrepr.
 
         returns reference to Fitting when found or None
         """

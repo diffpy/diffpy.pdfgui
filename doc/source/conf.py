@@ -13,6 +13,12 @@
 # All configuration values have a default; values that are commented out
 # serve to show the default.
 
+# Attempt to import the version dynamically from GitHub tag.
+try:
+    fullversion = version("diffpy.pdfgui")
+except Exception:
+    fullversion = "No version found. The correct version will appear in the released version."  # noqa: E501
+
 import sys
 import time
 from importlib.metadata import version
@@ -42,6 +48,7 @@ extensions = [
     "sphinx.ext.todo",
     "sphinx.ext.viewcode",
     "sphinx.ext.intersphinx",
+    "sphinx_copybutton",
     "sphinx_rtd_theme",
     "m2r",
 ]
@@ -63,6 +70,11 @@ master_doc = "index"
 # General information about the project.
 project = "diffpy.pdfgui"
 copyright = "%Y, The Trustees of Columbia University in the City of New York"
+
+# For sphinx_copybutton extension.
+# Do not copy "$" for shell commands in code-blocks.
+copybutton_prompt_text = r"^\$ "
+copybutton_prompt_is_regexp = True
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -123,6 +135,14 @@ nitpicky = True
 #
 html_theme = "sphinx_rtd_theme"
 
+html_context = {
+    "display_github": True,
+    "github_user": "diffpy",
+    "github_repo": "diffpy.pdfgui",
+    "github_version": "main",
+    "conf_py_path": "/doc/source/",
+}
+
 # Theme options are theme-specific and customize the look and feel of a theme
 # further.  For a list of options available for each theme, see the
 # documentation.
@@ -158,7 +178,7 @@ html_theme_options = {
 # Add any extra paths that contain custom files (such as robots.txt or
 # .htaccess) here, relative to this directory. These files are copied
 # directly to the root of the documentation.
-html_extra_path = ["../manual"]
+html_extra_path = []
 
 # If not '', a 'Last updated on:' timestamp is inserted at every page bottom,
 # using the given strftime format.
@@ -221,7 +241,13 @@ latex_elements = {
 # (source start file, target name, title,
 # author, documentclass [howto, manual, or own class]).
 latex_documents = [
-    ("index", "diffpy.pdfgui.tex", "diffpy.pdfgui Documentation", ab_authors, "manual"),
+    (
+        "index",
+        "diffpy.pdfgui.tex",
+        "diffpy.pdfgui Documentation",
+        ab_authors,
+        "manual",
+    ),
 ]
 
 # The name of an image file (relative to this directory) to place at the top of
@@ -249,7 +275,15 @@ latex_documents = [
 
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
-man_pages = [("index", "diffpy.pdfgui", "diffpy.pdfgui Documentation", ab_authors, 1)]
+man_pages = [
+    (
+        "index",
+        "diffpy.pdfgui",
+        "diffpy.pdfgui Documentation",
+        ab_authors,
+        1,
+    )
+]
 
 # If true, show URL addresses after external links.
 # man_show_urls = False

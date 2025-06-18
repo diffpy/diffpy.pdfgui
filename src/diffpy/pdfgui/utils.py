@@ -19,9 +19,9 @@
 
 
 def numericStringSort(lst):
-    """Sort list of strings inplace according to general numeric value. Each
-    string gets split to string and integer segments to create keys for
-    comparison.  Signs, decimal points and exponents are ignored.
+    """Sort list of strings inplace according to general numeric value.
+    Each string gets split to string and integer segments to create keys
+    for comparison.  Signs, decimal points and exponents are ignored.
 
     lst  -- sorted list of strings
 
@@ -39,9 +39,9 @@ def numericStringSort(lst):
 
 
 def safeCPickleDumps(obj):
-    """Get pickle representation of an object possibly containing NaN or Inf.
-    By default it uses pickle.HIGHEST_PROTOCOL, but falls back to ASCII
-    protocol 0 if there is SystemError frexp() exception.
+    """Get pickle representation of an object possibly containing NaN or
+    Inf. By default it uses pickle.HIGHEST_PROTOCOL, but falls back to
+    ASCII protocol 0 if there is SystemError frexp() exception.
 
     obj -- object to be pickled
 
