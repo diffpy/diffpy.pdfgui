@@ -1,0 +1,295 @@
+{
+  "id": "fitting-wizard",
+  "title": "PDF Fitting Wizard",
+  "description": "Configure and run PDF structure refinement",
+  "steps": [
+    {
+      "id": "project",
+      "title": "Project Setup",
+      "description": "Create or select a project",
+      "form": {
+        "id": "project-form",
+        "title": "Project Details",
+        "fields": [
+          {
+            "name": "name",
+            "type": "text",
+            "label": "Project Name",
+            "placeholder": "e.g., LaMnO3 Temperature Series",
+            "validation": [
+              {"type": "required", "message": "Project name is required"},
+              {"type": "minLength", "value": 3, "message": "Name must be at least 3 characters"}
+            ]
+          },
+          {
+            "name": "description",
+            "type": "textarea",
+            "label": "Description",
+            "placeholder": "Describe the purpose of this project",
+            "rows": 3
+          }
+        ],
+        "submitLabel": "Create Project"
+      }
+    },
+    {
+      "id": "data",
+      "title": "Import Data",
+      "description": "Upload experimental PDF data",
+      "form": {
+        "id": "data-form",
+        "title": "PDF Data",
+        "fields": [
+          {
+            "name": "dataFile",
+            "type": "file",
+            "label": "PDF Data File",
+            "description": "Supported formats: .gr, .dat, .chi",
+            "accept": ".gr,.dat,.chi",
+            "validation": [
+              {"type": "required", "message": "Data file is required"}
+            ]
+          },
+          {
+            "name": "datasetName",
+            "type": "text",
+            "label": "Dataset Name",
+            "placeholder": "e.g., 300K",
+            "validation": [
+              {"type": "required", "message": "Dataset name is required"}
+            ]
+          },
+          {
+            "name": "sourceType",
+            "type": "select",
+            "label": "Radiation Source",
+            "options": [
+              {"value": "N", "label": "Neutron"},
+              {"value": "X", "label": "X-ray"}
+            ],
+            "defaultValue": "N"
+          },
+          {
+            "name": "qmax",
+            "type": "number",
+            "label": "Qmax (Å⁻¹)",
+            "description": "Maximum momentum transfer",
+            "defaultValue": 32.0,
+            "min": 1,
+            "max": 100,
+            "step": 0.1,
+            "validation": [
+              {"type": "required", "message": "Qmax is required"},
+              {"type": "min", "value": 1, "message": "Qmax must be positive"}
+            ]
+          },
+          {
+            "name": "qdamp",
+            "type": "number",
+            "label": "Qdamp",
+            "description": "Instrument dampening parameter",
+            "defaultValue": 0.01,
+            "min": 0,
+            "max": 1,
+            "step": 0.001
+          },
+          {
+            "name": "qbroad",
+            "type": "number",
+            "label": "Qbroad",
+            "description": "Instrument broadening parameter",
+            "defaultValue": 0.0,
+            "min": 0,
+            "max": 1,
+            "step": 0.001
+          }
+        ],
+        "submitLabel": "Import Data"
+      }
+    },
+    {
+      "id": "structure",
+      "title": "Import Structure",
+      "description": "Upload crystal structure model",
+      "form": {
+        "id": "structure-form",
+        "title": "Crystal Structure",
+        "fields": [
+          {
+            "name": "structureFile",
+            "type": "file",
+            "label": "Structure File",
+            "description": "Supported formats: .stru, .cif, .pdb, .xyz",
+            "accept": ".stru,.cif,.pdb,.xyz",
+            "validation": [
+              {"type": "required", "message": "Structure file is required"}
+            ]
+          },
+          {
+            "name": "phaseName",
+            "type": "text",
+            "label": "Phase Name",
+            "placeholder": "e.g., LaMnO3",
+            "validation": [
+              {"type": "required", "message": "Phase name is required"}
+            ]
+          },
+          {
+            "name": "scaleFactor",
+            "type": "number",
+            "label": "Scale Factor",
+            "defaultValue": 1.0,
+            "min": 0,
+            "step": 0.01
+          },
+          {
+            "name": "delta1",
+            "type": "number",
+            "label": "Delta1",
+            "description": "Linear atomic correlation factor",
+            "defaultValue": 0.0,
+            "step": 0.001
+          },
+          {
+            "name": "delta2",
+            "type": "number",
+            "label": "Delta2",
+            "description": "Quadratic atomic correlation factor",
+            "defaultValue": 0.0,
+            "step": 0.001
+          }
+        ],
+        "submitLabel": "Import Structure"
+      }
+    },
+    {
+      "id": "fitRange",
+      "title": "Fit Range",
+      "description": "Set the fitting range and parameters",
+      "form": {
+        "id": "fit-range-form",
+        "title": "Fitting Range",
+        "fields": [
+          {
+            "name": "fitRmin",
+            "type": "number",
+            "label": "Fit Rmin (Å)",
+            "description": "Minimum r for fitting",
+            "defaultValue": 1.0,
+            "min": 0,
+            "step": 0.1,
+            "validation": [
+              {"type": "required", "message": "Rmin is required"},
+              {"type": "min", "value": 0, "message": "Rmin must be non-negative"}
+            ]
+          },
+          {
+            "name": "fitRmax",
+            "type": "number",
+            "label": "Fit Rmax (Å)",
+            "description": "Maximum r for fitting",
+            "defaultValue": 30.0,
+            "min": 1,
+            "step": 0.1,
+            "validation": [
+              {"type": "required", "message": "Rmax is required"}
+            ]
+          },
+          {
+            "name": "fitRstep",
+            "type": "number",
+            "label": "Fit Rstep (Å)",
+            "description": "Step size for fitting grid",
+            "defaultValue": 0.01,
+            "min": 0.001,
+            "max": 1,
+            "step": 0.001
+          }
+        ],
+        "submitLabel": "Set Range"
+      }
+    },
+    {
+      "id": "parameters",
+      "title": "Parameters",
+      "description": "Configure refinable parameters and constraints",
+      "form": {
+        "id": "parameters-form",
+        "title": "Refinement Parameters",
+        "fields": [
+          {
+            "name": "refineLattice",
+            "type": "checkbox",
+            "label": "Refine Lattice Parameters",
+            "defaultValue": true
+          },
+          {
+            "name": "refinePositions",
+            "type": "checkbox",
+            "label": "Refine Atomic Positions",
+            "defaultValue": false
+          },
+          {
+            "name": "refineADPs",
+            "type": "checkbox",
+            "label": "Refine Thermal Parameters (ADPs)",
+            "defaultValue": true
+          },
+          {
+            "name": "refineScale",
+            "type": "checkbox",
+            "label": "Refine Scale Factor",
+            "defaultValue": true
+          },
+          {
+            "name": "refineDelta",
+            "type": "checkbox",
+            "label": "Refine Correlation Factors",
+            "defaultValue": false
+          }
+        ],
+        "submitLabel": "Configure Parameters"
+      }
+    },
+    {
+      "id": "run",
+      "title": "Run Refinement",
+      "description": "Execute the PDF refinement",
+      "form": {
+        "id": "run-form",
+        "title": "Refinement Options",
+        "fields": [
+          {
+            "name": "fittingName",
+            "type": "text",
+            "label": "Fitting Name",
+            "placeholder": "e.g., fit-d300",
+            "validation": [
+              {"type": "required", "message": "Fitting name is required"}
+            ]
+          },
+          {
+            "name": "maxIterations",
+            "type": "number",
+            "label": "Maximum Iterations",
+            "defaultValue": 100,
+            "min": 1,
+            "max": 10000
+          },
+          {
+            "name": "tolerance",
+            "type": "number",
+            "label": "Convergence Tolerance",
+            "defaultValue": 1e-8,
+            "min": 1e-12,
+            "max": 1e-4,
+            "step": 1e-9
+          }
+        ],
+        "submitLabel": "Run Refinement"
+      }
+    }
+  ],
+  "allowSkip": false,
+  "showProgress": true
+}

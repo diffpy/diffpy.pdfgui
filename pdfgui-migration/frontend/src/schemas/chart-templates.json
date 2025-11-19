@@ -1,0 +1,161 @@
+{
+  "templates": {
+    "pdf-plot": {
+      "id": "pdf-plot",
+      "title": "PDF Plot",
+      "type": "line",
+      "xaxis": {
+        "title": "r (Å)",
+        "autorange": true,
+        "showgrid": true,
+        "zeroline": false
+      },
+      "yaxis": {
+        "title": "G (Å⁻²)",
+        "autorange": true,
+        "showgrid": true,
+        "zeroline": true
+      },
+      "showLegend": true,
+      "legendPosition": "top",
+      "margin": {
+        "t": 50,
+        "b": 60,
+        "l": 70,
+        "r": 30
+      },
+      "defaultSeries": [
+        {
+          "name": "Observed",
+          "type": "scatter",
+          "mode": "markers",
+          "marker": {
+            "color": "#1f77b4",
+            "size": 4,
+            "symbol": "circle"
+          }
+        },
+        {
+          "name": "Calculated",
+          "type": "scatter",
+          "mode": "lines",
+          "line": {
+            "color": "#ff7f0e",
+            "width": 1.5
+          }
+        },
+        {
+          "name": "Difference",
+          "type": "scatter",
+          "mode": "lines",
+          "line": {
+            "color": "#2ca02c",
+            "width": 1
+          }
+        }
+      ]
+    },
+    "parameter-evolution": {
+      "id": "parameter-evolution",
+      "title": "Parameter Evolution",
+      "type": "line",
+      "xaxis": {
+        "title": "Temperature (K)",
+        "autorange": true,
+        "showgrid": true
+      },
+      "yaxis": {
+        "title": "Parameter Value",
+        "autorange": true,
+        "showgrid": true
+      },
+      "showLegend": true,
+      "margin": {
+        "t": 50,
+        "b": 60,
+        "l": 70,
+        "r": 30
+      }
+    },
+    "rw-convergence": {
+      "id": "rw-convergence",
+      "title": "Rw Convergence",
+      "type": "line",
+      "xaxis": {
+        "title": "Iteration",
+        "autorange": true,
+        "showgrid": true
+      },
+      "yaxis": {
+        "title": "Rw",
+        "autorange": true,
+        "showgrid": true,
+        "type": "log"
+      },
+      "showLegend": false,
+      "margin": {
+        "t": 50,
+        "b": 60,
+        "l": 70,
+        "r": 30
+      },
+      "defaultSeries": [
+        {
+          "name": "Rw",
+          "type": "scatter",
+          "mode": "lines+markers",
+          "line": {
+            "color": "#d62728",
+            "width": 2
+          },
+          "marker": {
+            "size": 6
+          }
+        }
+      ]
+    },
+    "lattice-parameters": {
+      "id": "lattice-parameters",
+      "title": "Lattice Parameters vs Temperature",
+      "type": "line",
+      "xaxis": {
+        "title": "Temperature (K)",
+        "autorange": true
+      },
+      "yaxis": {
+        "title": "Lattice Parameter (Å)",
+        "autorange": true
+      },
+      "showLegend": true,
+      "margin": {
+        "t": 50,
+        "b": 60,
+        "l": 70,
+        "r": 30
+      },
+      "defaultSeries": [
+        {
+          "name": "a",
+          "type": "scatter",
+          "mode": "lines+markers",
+          "line": {"color": "#1f77b4"},
+          "marker": {"size": 6}
+        },
+        {
+          "name": "b",
+          "type": "scatter",
+          "mode": "lines+markers",
+          "line": {"color": "#ff7f0e"},
+          "marker": {"size": 6}
+        },
+        {
+          "name": "c",
+          "type": "scatter",
+          "mode": "lines+markers",
+          "line": {"color": "#2ca02c"},
+          "marker": {"size": 6}
+        }
+      ]
+    }
+  }
+}
