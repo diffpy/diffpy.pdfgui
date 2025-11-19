@@ -138,22 +138,22 @@
           "name": "a",
           "type": "scatter",
           "mode": "lines+markers",
-          "line": {"color": "#1f77b4"},
-          "marker": {"size": 6}
+          "line": { "color": "#1f77b4" },
+          "marker": { "size": 6 }
         },
         {
           "name": "b",
           "type": "scatter",
           "mode": "lines+markers",
-          "line": {"color": "#ff7f0e"},
-          "marker": {"size": 6}
+          "line": { "color": "#ff7f0e" },
+          "marker": { "size": 6 }
         },
         {
           "name": "c",
           "type": "scatter",
           "mode": "lines+markers",
-          "line": {"color": "#2ca02c"},
-          "marker": {"size": 6}
+          "line": { "color": "#2ca02c" },
+          "marker": { "size": 6 }
         }
       ]
     }

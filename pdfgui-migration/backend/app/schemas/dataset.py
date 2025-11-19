@@ -1,12 +1,15 @@
 """Dataset-related Pydantic schemas."""
-from pydantic import BaseModel
-from typing import Optional, List, Dict, Any
-from uuid import UUID
+
 from datetime import datetime
+from typing import Any, Dict, List, Optional
+from uuid import UUID
+
+from pydantic import BaseModel
 
 
 class InstrumentParams(BaseModel):
     """Schema for instrument parameters."""
+
     stype: str = "N"  # 'N' for neutron, 'X' for X-ray
     qmax: float = 32.0
     qdamp: float = 0.01
@@ -16,6 +19,7 @@ class InstrumentParams(BaseModel):
 
 class FitRange(BaseModel):
     """Schema for fitting range."""
+
     rmin: float = 1.0
     rmax: float = 30.0
     rstep: float = 0.01
@@ -23,12 +27,14 @@ class FitRange(BaseModel):
 
 class DatasetCreate(BaseModel):
     """Schema for dataset creation."""
+
     name: str
     file_id: Optional[UUID] = None
 
 
 class DatasetResponse(BaseModel):
     """Schema for dataset response."""
+
     id: UUID
     name: str
     source_type: str
@@ -50,6 +56,7 @@ class DatasetResponse(BaseModel):
 
 class DataArrays(BaseModel):
     """Schema for PDF data arrays."""
+
     r: List[float]
     G: List[float]
     dG: Optional[List[float]] = None
@@ -57,6 +64,7 @@ class DataArrays(BaseModel):
 
 class DatasetDataResponse(BaseModel):
     """Schema for full dataset data."""
+
     observed: DataArrays
     calculated: Optional[DataArrays] = None
     difference: Optional[DataArrays] = None

@@ -1,15 +1,19 @@
 """Project and fitting-related database models."""
+
+import enum
 import uuid
 from datetime import datetime
-from sqlalchemy import Column, String, Boolean, DateTime, ForeignKey, Integer, Float, Text, JSON, Enum
-from sqlalchemy.dialects.postgresql import UUID, ARRAY
+
+from sqlalchemy import JSON, Boolean, Column, DateTime, Enum, Float, ForeignKey, Integer, String, Text
+from sqlalchemy.dialects.postgresql import ARRAY, UUID
 from sqlalchemy.orm import relationship
+
 from ..core.database import Base
-import enum
 
 
 class FittingStatus(str, enum.Enum):
     """Fitting job status."""
+
     PENDING = "PENDING"
     QUEUED = "QUEUED"
     RUNNING = "RUNNING"
@@ -20,12 +24,14 @@ class FittingStatus(str, enum.Enum):
 
 class SourceType(str, enum.Enum):
     """PDF data source type."""
+
     NEUTRON = "N"
     XRAY = "X"
 
 
 class Project(Base):
     """Project container model."""
+
     __tablename__ = "projects"
 
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
@@ -46,6 +52,7 @@ class Project(Base):
 
 class Fitting(Base):
     """Fitting/refinement job model."""
+
     __tablename__ = "fittings"
 
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
@@ -75,6 +82,7 @@ class Fitting(Base):
 
 class Phase(Base):
     """Crystal structure phase model."""
+
     __tablename__ = "phases"
 
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
@@ -102,6 +110,7 @@ class Phase(Base):
 
 class Atom(Base):
     """Atom within a phase structure."""
+
     __tablename__ = "atoms"
 
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
@@ -127,6 +136,7 @@ class Atom(Base):
 
 class Dataset(Base):
     """Experimental PDF dataset model."""
+
     __tablename__ = "datasets"
 
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
@@ -154,6 +164,7 @@ class Dataset(Base):
 
 class Calculation(Base):
     """Theoretical PDF calculation model."""
+
     __tablename__ = "calculations"
 
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)

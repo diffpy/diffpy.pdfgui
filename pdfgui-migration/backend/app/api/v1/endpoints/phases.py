@@ -1,31 +1,37 @@
 """Phase/structure endpoints."""
-from fastapi import APIRouter, Depends, HTTPException, status
-from sqlalchemy.orm import Session
+
 from typing import List
 from uuid import UUID
-from ....core.database import get_db
-from ....models.project import Project, Fitting, Phase, Atom
-from ....schemas.phase import (
-    PhaseCreate, PhaseResponse, LatticeParams, AtomCreate, AtomResponse,
-    PDFParameters, PairSelectionRequest
-)
+
+from fastapi import APIRouter, Depends, HTTPException, status
+from sqlalchemy.orm import Session
+
 from ....api.deps import get_current_user
+from ....core.database import get_db
+from ....models.project import Atom, Fitting, Phase, Project
 from ....models.user import User
+from ....schemas.phase import (
+    AtomCreate,
+    AtomResponse,
+    LatticeParams,
+    PairSelectionRequest,
+    PDFParameters,
+    PhaseCreate,
+    PhaseResponse,
+)
 
 router = APIRouter()
 
 
 @router.get("/fitting/{fitting_id}", response_model=List[PhaseResponse])
-def list_phases(
-    fitting_id: UUID,
-    db: Session = Depends(get_db),
-    current_user: User = Depends(get_current_user)
-):
+def list_phases(fitting_id: UUID, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
     """List all phases in a fitting."""
-    fitting = db.query(Fitting).join(Project).filter(
-        Fitting.id == fitting_id,
-        Project.user_id == current_user.id
-    ).first()
+    fitting = (
+        db.query(Fitting)
+        .join(Project)
+        .filter(Fitting.id == fitting_id, Project.user_id == current_user.id)
+        .first()
+    )
 
     if not fitting:
         raise HTTPException(status_code=404, detail="Fitting not found")
@@ -35,18 +41,18 @@ def list_phases(
             id=p.id,
             name=p.name,
             space_group=p.space_group,
-            lattice=LatticeParams(**p.lattice_params) if p.lattice_params else LatticeParams(a=1, b=1, c=1, alpha=90, beta=90, gamma=90),
+            lattice=(
+                LatticeParams(**p.lattice_params)
+                if p.lattice_params
+                else LatticeParams(a=1, b=1, c=1, alpha=90, beta=90, gamma=90)
+            ),
             atom_count=p.atom_count,
             pdf_parameters=PDFParameters(
-                scale=p.scale_factor,
-                delta1=p.delta1,
-                delta2=p.delta2,
-                sratio=p.sratio,
-                spdiameter=p.spdiameter
+                scale=p.scale_factor, delta1=p.delta1, delta2=p.delta2, sratio=p.sratio, spdiameter=p.spdiameter
             ),
             constraints=p.constraints,
             created_at=p.created_at,
-            updated_at=p.updated_at
+            updated_at=p.updated_at,
         )
         for p in fitting.phases
     ]
@@ -57,13 +63,15 @@ def create_phase(
     fitting_id: UUID,
     phase_data: PhaseCreate,
     db: Session = Depends(get_db),
-    current_user: User = Depends(get_current_user)
+    current_user: User = Depends(get_current_user),
 ):
     """Add a phase to a fitting."""
-    fitting = db.query(Fitting).join(Project).filter(
-        Fitting.id == fitting_id,
-        Project.user_id == current_user.id
-    ).first()
+    fitting = (
+        db.query(Fitting)
+        .join(Project)
+        .filter(Fitting.id == fitting_id, Project.user_id == current_user.id)
+        .first()
+    )
 
     if not fitting:
         raise HTTPException(status_code=404, detail="Fitting not found")
@@ -79,8 +87,8 @@ def create_phase(
             "c": lattice.c,
             "alpha": lattice.alpha,
             "beta": lattice.beta,
-            "gamma": lattice.gamma
-        }
+            "gamma": lattice.gamma,
+        },
     )
     db.add(phase)
     db.flush()
@@ -96,7 +104,7 @@ def create_phase(
                 y=atom_data.y,
                 z=atom_data.z,
                 occupancy=atom_data.occupancy,
-                uiso=atom_data.uiso
+                uiso=atom_data.uiso,
             )
             db.add(atom)
         phase.atom_count = len(phase_data.atoms)
@@ -115,25 +123,24 @@ def create_phase(
             delta1=phase.delta1,
             delta2=phase.delta2,
             sratio=phase.sratio,
-            spdiameter=phase.spdiameter
+            spdiameter=phase.spdiameter,
         ),
         constraints=phase.constraints,
         created_at=phase.created_at,
-        updated_at=phase.updated_at
+        updated_at=phase.updated_at,
     )
 
 
 @router.get("/{phase_id}", response_model=PhaseResponse)
-def get_phase(
-    phase_id: UUID,
-    db: Session = Depends(get_db),
-    current_user: User = Depends(get_current_user)
-):
+def get_phase(phase_id: UUID, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
     """Get phase details."""
-    phase = db.query(Phase).join(Fitting).join(Project).filter(
-        Phase.id == phase_id,
-        Project.user_id == current_user.id
-    ).first()
+    phase = (
+        db.query(Phase)
+        .join(Fitting)
+        .join(Project)
+        .filter(Phase.id == phase_id, Project.user_id == current_user.id)
+        .first()
+    )
 
     if not phase:
         raise HTTPException(status_code=404, detail="Phase not found")
@@ -142,18 +149,22 @@ def get_phase(
         id=phase.id,
         name=phase.name,
         space_group=phase.space_group,
-        lattice=LatticeParams(**phase.lattice_params) if phase.lattice_params else LatticeParams(a=1, b=1, c=1, alpha=90, beta=90, gamma=90),
+        lattice=(
+            LatticeParams(**phase.lattice_params)
+            if phase.lattice_params
+            else LatticeParams(a=1, b=1, c=1, alpha=90, beta=90, gamma=90)
+        ),
         atom_count=phase.atom_count,
         pdf_parameters=PDFParameters(
             scale=phase.scale_factor,
             delta1=phase.delta1,
             delta2=phase.delta2,
             sratio=phase.sratio,
-            spdiameter=phase.spdiameter
+            spdiameter=phase.spdiameter,
         ),
         constraints=phase.constraints,
         created_at=phase.created_at,
-        updated_at=phase.updated_at
+        updated_at=phase.updated_at,
     )
 
 
@@ -162,13 +173,16 @@ def update_lattice(
     phase_id: UUID,
     lattice: LatticeParams,
     db: Session = Depends(get_db),
-    current_user: User = Depends(get_current_user)
+    current_user: User = Depends(get_current_user),
 ):
     """Update lattice parameters."""
-    phase = db.query(Phase).join(Fitting).join(Project).filter(
-        Phase.id == phase_id,
-        Project.user_id == current_user.id
-    ).first()
+    phase = (
+        db.query(Phase)
+        .join(Fitting)
+        .join(Project)
+        .filter(Phase.id == phase_id, Project.user_id == current_user.id)
+        .first()
+    )
 
     if not phase:
         raise HTTPException(status_code=404, detail="Phase not found")
@@ -179,7 +193,7 @@ def update_lattice(
         "c": lattice.c,
         "alpha": lattice.alpha,
         "beta": lattice.beta,
-        "gamma": lattice.gamma
+        "gamma": lattice.gamma,
     }
     db.commit()
     db.refresh(phase)
@@ -195,25 +209,24 @@ def update_lattice(
             delta1=phase.delta1,
             delta2=phase.delta2,
             sratio=phase.sratio,
-            spdiameter=phase.spdiameter
+            spdiameter=phase.spdiameter,
         ),
         constraints=phase.constraints,
         created_at=phase.created_at,
-        updated_at=phase.updated_at
+        updated_at=phase.updated_at,
     )
 
 
 @router.get("/{phase_id}/atoms", response_model=List[AtomResponse])
-def list_atoms(
-    phase_id: UUID,
-    db: Session = Depends(get_db),
-    current_user: User = Depends(get_current_user)
-):
+def list_atoms(phase_id: UUID, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
     """List atoms in a phase."""
-    phase = db.query(Phase).join(Fitting).join(Project).filter(
-        Phase.id == phase_id,
-        Project.user_id == current_user.id
-    ).first()
+    phase = (
+        db.query(Phase)
+        .join(Fitting)
+        .join(Project)
+        .filter(Phase.id == phase_id, Project.user_id == current_user.id)
+        .first()
+    )
 
     if not phase:
         raise HTTPException(status_code=404, detail="Phase not found")
@@ -234,7 +247,7 @@ def list_atoms(
             u12=a.u12,
             u13=a.u13,
             u23=a.u23,
-            constraints=a.constraints
+            constraints=a.constraints,
         )
         for a in sorted(phase.atoms, key=lambda x: x.index)
     ]
@@ -245,13 +258,16 @@ def add_atom(
     phase_id: UUID,
     atom_data: AtomCreate,
     db: Session = Depends(get_db),
-    current_user: User = Depends(get_current_user)
+    current_user: User = Depends(get_current_user),
 ):
     """Add atom to phase."""
-    phase = db.query(Phase).join(Fitting).join(Project).filter(
-        Phase.id == phase_id,
-        Project.user_id == current_user.id
-    ).first()
+    phase = (
+        db.query(Phase)
+        .join(Fitting)
+        .join(Project)
+        .filter(Phase.id == phase_id, Project.user_id == current_user.id)
+        .first()
+    )
 
     if not phase:
         raise HTTPException(status_code=404, detail="Phase not found")
@@ -273,7 +289,7 @@ def add_atom(
         u33=atom_data.u33 or 0,
         u12=atom_data.u12 or 0,
         u13=atom_data.u13 or 0,
-        u23=atom_data.u23 or 0
+        u23=atom_data.u23 or 0,
     )
     db.add(atom)
 
@@ -296,21 +312,20 @@ def add_atom(
         u12=atom.u12,
         u13=atom.u13,
         u23=atom.u23,
-        constraints=atom.constraints
+        constraints=atom.constraints,
     )
 
 
 @router.delete("/{phase_id}")
-def delete_phase(
-    phase_id: UUID,
-    db: Session = Depends(get_db),
-    current_user: User = Depends(get_current_user)
-):
+def delete_phase(phase_id: UUID, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
     """Delete phase from fitting."""
-    phase = db.query(Phase).join(Fitting).join(Project).filter(
-        Phase.id == phase_id,
-        Project.user_id == current_user.id
-    ).first()
+    phase = (
+        db.query(Phase)
+        .join(Fitting)
+        .join(Project)
+        .filter(Phase.id == phase_id, Project.user_id == current_user.id)
+        .first()
+    )
 
     if not phase:
         raise HTTPException(status_code=404, detail="Phase not found")

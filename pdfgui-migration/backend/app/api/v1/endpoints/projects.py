@@ -1,15 +1,16 @@
 """Project management endpoints."""
-from fastapi import APIRouter, Depends, HTTPException, status, Query
-from sqlalchemy.orm import Session
+
 from typing import List, Optional
 from uuid import UUID
-from ....core.database import get_db
-from ....models.project import Project, Fitting
-from ....schemas.project import (
-    ProjectCreate, ProjectResponse, ProjectUpdate, ProjectListResponse
-)
+
+from fastapi import APIRouter, Depends, HTTPException, Query, status
+from sqlalchemy.orm import Session
+
 from ....api.deps import get_current_user
+from ....core.database import get_db
+from ....models.project import Fitting, Project
 from ....models.user import User
+from ....schemas.project import ProjectCreate, ProjectListResponse, ProjectResponse, ProjectUpdate
 
 router = APIRouter()
 
@@ -21,13 +22,10 @@ def list_projects(
     archived: bool = False,
     search: Optional[str] = None,
     db: Session = Depends(get_db),
-    current_user: User = Depends(get_current_user)
+    current_user: User = Depends(get_current_user),
 ):
     """List all projects for current user."""
-    query = db.query(Project).filter(
-        Project.user_id == current_user.id,
-        Project.is_archived == archived
-    )
+    query = db.query(Project).filter(Project.user_id == current_user.id, Project.is_archived == archived)
 
     if search:
         query = query.filter(Project.name.ilike(f"%{search}%"))
@@ -46,30 +44,23 @@ def list_projects(
             "created_at": project.created_at,
             "updated_at": project.updated_at,
             "is_archived": project.is_archived,
-            "fitting_count": len(project.fittings)
+            "fitting_count": len(project.fittings),
         }
         items.append(ProjectResponse(**project_dict))
 
-    return ProjectListResponse(
-        items=items,
-        total=total,
-        page=page,
-        per_page=per_page
-    )
+    return ProjectListResponse(items=items, total=total, page=page, per_page=per_page)
 
 
 @router.post("", response_model=ProjectResponse, status_code=status.HTTP_201_CREATED)
 def create_project(
-    project_data: ProjectCreate,
-    db: Session = Depends(get_db),
-    current_user: User = Depends(get_current_user)
+    project_data: ProjectCreate, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)
 ):
     """Create a new project."""
     project = Project(
         user_id=current_user.id,
         name=project_data.name,
         description=project_data.description,
-        metadata=project_data.metadata or {}
+        metadata=project_data.metadata or {},
     )
     db.add(project)
     db.commit()
@@ -83,21 +74,14 @@ def create_project(
         created_at=project.created_at,
         updated_at=project.updated_at,
         is_archived=project.is_archived,
-        fitting_count=0
+        fitting_count=0,
     )
 
 
 @router.get("/{project_id}", response_model=ProjectResponse)
-def get_project(
-    project_id: UUID,
-    db: Session = Depends(get_db),
-    current_user: User = Depends(get_current_user)
-):
+def get_project(project_id: UUID, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
     """Get project details."""
-    project = db.query(Project).filter(
-        Project.id == project_id,
-        Project.user_id == current_user.id
-    ).first()
+    project = db.query(Project).filter(Project.id == project_id, Project.user_id == current_user.id).first()
 
     if not project:
         raise HTTPException(status_code=404, detail="Project not found")
@@ -110,7 +94,7 @@ def get_project(
         created_at=project.created_at,
         updated_at=project.updated_at,
         is_archived=project.is_archived,
-        fitting_count=len(project.fittings)
+        fitting_count=len(project.fittings),
     )
 
 
@@ -119,13 +103,10 @@ def update_project(
     project_id: UUID,
     project_data: ProjectUpdate,
     db: Session = Depends(get_db),
-    current_user: User = Depends(get_current_user)
+    current_user: User = Depends(get_current_user),
 ):
     """Update project metadata."""
-    project = db.query(Project).filter(
-        Project.id == project_id,
-        Project.user_id == current_user.id
-    ).first()
+    project = db.query(Project).filter(Project.id == project_id, Project.user_id == current_user.id).first()
 
     if not project:
         raise HTTPException(status_code=404, detail="Project not found")
@@ -150,21 +131,16 @@ def update_project(
         created_at=project.created_at,
         updated_at=project.updated_at,
         is_archived=project.is_archived,
-        fitting_count=len(project.fittings)
+        fitting_count=len(project.fittings),
     )
 
 
 @router.delete("/{project_id}")
 def delete_project(
-    project_id: UUID,
-    db: Session = Depends(get_db),
-    current_user: User = Depends(get_current_user)
+    project_id: UUID, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)
 ):
     """Delete (archive) project."""
-    project = db.query(Project).filter(
-        Project.id == project_id,
-        Project.user_id == current_user.id
-    ).first()
+    project = db.query(Project).filter(Project.id == project_id, Project.user_id == current_user.id).first()
 
     if not project:
         raise HTTPException(status_code=404, detail="Project not found")

@@ -1,6 +1,8 @@
 """API v1 router."""
+
 from fastapi import APIRouter
-from .endpoints import auth, projects, fittings, phases, datasets, files
+
+from .endpoints import auth, datasets, files, fittings, phases, projects
 
 api_router = APIRouter()
 

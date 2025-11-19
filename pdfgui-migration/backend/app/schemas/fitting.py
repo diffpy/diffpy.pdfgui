@@ -1,24 +1,29 @@
 """Fitting-related Pydantic schemas."""
-from pydantic import BaseModel
-from typing import Optional, List, Dict, Any
-from uuid import UUID
+
 from datetime import datetime
+from typing import Any, Dict, List, Optional
+from uuid import UUID
+
+from pydantic import BaseModel
 
 
 class FittingCreate(BaseModel):
     """Schema for fitting creation."""
+
     name: str
     copy_from: Optional[UUID] = None
 
 
 class FittingRun(BaseModel):
     """Schema for running refinement."""
+
     max_iterations: int = 100
     tolerance: float = 1e-8
 
 
 class FittingResponse(BaseModel):
     """Schema for fitting response."""
+
     id: UUID
     name: str
     status: str
@@ -38,6 +43,7 @@ class FittingResponse(BaseModel):
 
 class FittingStatusResponse(BaseModel):
     """Schema for fitting status during refinement."""
+
     status: str
     iteration: int
     current_rw: Optional[float]
@@ -46,6 +52,7 @@ class FittingStatusResponse(BaseModel):
 
 class FittingResultsResponse(BaseModel):
     """Schema for fitting results."""
+
     rw: float
     chi_squared: float
     iterations: int

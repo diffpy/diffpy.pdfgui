@@ -1,30 +1,36 @@
 """Dataset endpoints."""
-from fastapi import APIRouter, Depends, HTTPException, status
-from sqlalchemy.orm import Session
+
 from typing import List
 from uuid import UUID
-from ....core.database import get_db
-from ....models.project import Project, Fitting, Dataset
-from ....schemas.dataset import (
-    DatasetCreate, DatasetResponse, InstrumentParams, FitRange, DatasetDataResponse, DataArrays
-)
+
+from fastapi import APIRouter, Depends, HTTPException, status
+from sqlalchemy.orm import Session
+
 from ....api.deps import get_current_user
+from ....core.database import get_db
+from ....models.project import Dataset, Fitting, Project
 from ....models.user import User
+from ....schemas.dataset import (
+    DataArrays,
+    DatasetCreate,
+    DatasetDataResponse,
+    DatasetResponse,
+    FitRange,
+    InstrumentParams,
+)
 
 router = APIRouter()
 
 
 @router.get("/fitting/{fitting_id}", response_model=List[DatasetResponse])
-def list_datasets(
-    fitting_id: UUID,
-    db: Session = Depends(get_db),
-    current_user: User = Depends(get_current_user)
-):
+def list_datasets(fitting_id: UUID, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
     """List all datasets in a fitting."""
-    fitting = db.query(Fitting).join(Project).filter(
-        Fitting.id == fitting_id,
-        Project.user_id == current_user.id
-    ).first()
+    fitting = (
+        db.query(Fitting)
+        .join(Project)
+        .filter(Fitting.id == fitting_id, Project.user_id == current_user.id)
+        .first()
+    )
 
     if not fitting:
         raise HTTPException(status_code=404, detail="Fitting not found")
@@ -44,7 +50,7 @@ def list_datasets(
             point_count=d.point_count,
             metadata=d.metadata,
             created_at=d.created_at,
-            updated_at=d.updated_at
+            updated_at=d.updated_at,
         )
         for d in fitting.datasets
     ]
@@ -55,21 +61,20 @@ def create_dataset(
     fitting_id: UUID,
     dataset_data: DatasetCreate,
     db: Session = Depends(get_db),
-    current_user: User = Depends(get_current_user)
+    current_user: User = Depends(get_current_user),
 ):
     """Add a dataset to a fitting."""
-    fitting = db.query(Fitting).join(Project).filter(
-        Fitting.id == fitting_id,
-        Project.user_id == current_user.id
-    ).first()
+    fitting = (
+        db.query(Fitting)
+        .join(Project)
+        .filter(Fitting.id == fitting_id, Project.user_id == current_user.id)
+        .first()
+    )
 
     if not fitting:
         raise HTTPException(status_code=404, detail="Fitting not found")
 
-    dataset = Dataset(
-        fitting_id=fitting_id,
-        name=dataset_data.name
-    )
+    dataset = Dataset(fitting_id=fitting_id, name=dataset_data.name)
     db.add(dataset)
     db.commit()
     db.refresh(dataset)
@@ -88,21 +93,20 @@ def create_dataset(
         point_count=dataset.point_count,
         metadata=dataset.metadata,
         created_at=dataset.created_at,
-        updated_at=dataset.updated_at
+        updated_at=dataset.updated_at,
     )
 
 
 @router.get("/{dataset_id}", response_model=DatasetResponse)
-def get_dataset(
-    dataset_id: UUID,
-    db: Session = Depends(get_db),
-    current_user: User = Depends(get_current_user)
-):
+def get_dataset(dataset_id: UUID, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
     """Get dataset details."""
-    dataset = db.query(Dataset).join(Fitting).join(Project).filter(
-        Dataset.id == dataset_id,
-        Project.user_id == current_user.id
-    ).first()
+    dataset = (
+        db.query(Dataset)
+        .join(Fitting)
+        .join(Project)
+        .filter(Dataset.id == dataset_id, Project.user_id == current_user.id)
+        .first()
+    )
 
     if not dataset:
         raise HTTPException(status_code=404, detail="Dataset not found")
@@ -121,21 +125,22 @@ def get_dataset(
         point_count=dataset.point_count,
         metadata=dataset.metadata,
         created_at=dataset.created_at,
-        updated_at=dataset.updated_at
+        updated_at=dataset.updated_at,
     )
 
 
 @router.get("/{dataset_id}/data", response_model=DatasetDataResponse)
 def get_dataset_data(
-    dataset_id: UUID,
-    db: Session = Depends(get_db),
-    current_user: User = Depends(get_current_user)
+    dataset_id: UUID, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)
 ):
     """Get raw data arrays."""
-    dataset = db.query(Dataset).join(Fitting).join(Project).filter(
-        Dataset.id == dataset_id,
-        Project.user_id == current_user.id
-    ).first()
+    dataset = (
+        db.query(Dataset)
+        .join(Fitting)
+        .join(Project)
+        .filter(Dataset.id == dataset_id, Project.user_id == current_user.id)
+        .first()
+    )
 
     if not dataset:
         raise HTTPException(status_code=404, detail="Dataset not found")
@@ -143,28 +148,20 @@ def get_dataset_data(
     observed = DataArrays(
         r=dataset.observed_data.get("robs", []),
         G=dataset.observed_data.get("Gobs", []),
-        dG=dataset.observed_data.get("dGobs", [])
+        dG=dataset.observed_data.get("dGobs", []),
     )
 
     calculated = None
     if dataset.calculated_data:
         calculated = DataArrays(
-            r=dataset.calculated_data.get("rcalc", []),
-            G=dataset.calculated_data.get("Gcalc", [])
+            r=dataset.calculated_data.get("rcalc", []), G=dataset.calculated_data.get("Gcalc", [])
         )
 
     difference = None
     if dataset.difference_data:
-        difference = DataArrays(
-            r=dataset.difference_data.get("r", []),
-            G=dataset.difference_data.get("G", [])
-        )
+        difference = DataArrays(r=dataset.difference_data.get("r", []), G=dataset.difference_data.get("G", []))
 
-    return DatasetDataResponse(
-        observed=observed,
-        calculated=calculated,
-        difference=difference
-    )
+    return DatasetDataResponse(observed=observed, calculated=calculated, difference=difference)
 
 
 @router.put("/{dataset_id}/instrument", response_model=DatasetResponse)
@@ -172,13 +169,16 @@ def update_instrument_params(
     dataset_id: UUID,
     params: InstrumentParams,
     db: Session = Depends(get_db),
-    current_user: User = Depends(get_current_user)
+    current_user: User = Depends(get_current_user),
 ):
     """Update instrument parameters."""
-    dataset = db.query(Dataset).join(Fitting).join(Project).filter(
-        Dataset.id == dataset_id,
-        Project.user_id == current_user.id
-    ).first()
+    dataset = (
+        db.query(Dataset)
+        .join(Fitting)
+        .join(Project)
+        .filter(Dataset.id == dataset_id, Project.user_id == current_user.id)
+        .first()
+    )
 
     if not dataset:
         raise HTTPException(status_code=404, detail="Dataset not found")
@@ -206,7 +206,7 @@ def update_instrument_params(
         point_count=dataset.point_count,
         metadata=dataset.metadata,
         created_at=dataset.created_at,
-        updated_at=dataset.updated_at
+        updated_at=dataset.updated_at,
     )
 
 
@@ -215,13 +215,16 @@ def update_fit_range(
     dataset_id: UUID,
     fit_range: FitRange,
     db: Session = Depends(get_db),
-    current_user: User = Depends(get_current_user)
+    current_user: User = Depends(get_current_user),
 ):
     """Update fitting range."""
-    dataset = db.query(Dataset).join(Fitting).join(Project).filter(
-        Dataset.id == dataset_id,
-        Project.user_id == current_user.id
-    ).first()
+    dataset = (
+        db.query(Dataset)
+        .join(Fitting)
+        .join(Project)
+        .filter(Dataset.id == dataset_id, Project.user_id == current_user.id)
+        .first()
+    )
 
     if not dataset:
         raise HTTPException(status_code=404, detail="Dataset not found")
@@ -247,21 +250,22 @@ def update_fit_range(
         point_count=dataset.point_count,
         metadata=dataset.metadata,
         created_at=dataset.created_at,
-        updated_at=dataset.updated_at
+        updated_at=dataset.updated_at,
     )
 
 
 @router.delete("/{dataset_id}")
 def delete_dataset(
-    dataset_id: UUID,
-    db: Session = Depends(get_db),
-    current_user: User = Depends(get_current_user)
+    dataset_id: UUID, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)
 ):
     """Delete dataset from fitting."""
-    dataset = db.query(Dataset).join(Fitting).join(Project).filter(
-        Dataset.id == dataset_id,
-        Project.user_id == current_user.id
-    ).first()
+    dataset = (
+        db.query(Dataset)
+        .join(Fitting)
+        .join(Project)
+        .filter(Dataset.id == dataset_id, Project.user_id == current_user.id)
+        .first()
+    )
 
     if not dataset:
         raise HTTPException(status_code=404, detail="Dataset not found")

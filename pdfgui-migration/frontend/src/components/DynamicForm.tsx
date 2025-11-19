@@ -2,11 +2,11 @@
  * Dynamic form renderer - renders forms from JSON schema.
  * All forms in pdfGUI are generated from this component.
  */
-import React from 'react';
-import { useForm, Controller } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { z } from 'zod';
-import type { FormSchema, FieldSchema, ValidationRule } from '../types/forms';
+import React from "react";
+import { useForm, Controller } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+import type { FormSchema, FieldSchema, ValidationRule } from "../types/forms";
 
 interface DynamicFormProps {
   schema: FormSchema;
@@ -20,25 +20,25 @@ interface DynamicFormProps {
 function buildZodSchema(fields: FieldSchema[]): z.ZodObject<any> {
   const shape: Record<string, z.ZodTypeAny> = {};
 
-  fields.forEach(field => {
+  fields.forEach((field) => {
     let fieldSchema: z.ZodTypeAny;
 
     // Base type
     switch (field.type) {
-      case 'number':
-      case 'range':
+      case "number":
+      case "range":
         fieldSchema = z.number();
         break;
-      case 'checkbox':
+      case "checkbox":
         fieldSchema = z.boolean();
         break;
-      case 'email':
+      case "email":
         fieldSchema = z.string().email();
         break;
-      case 'file':
+      case "file":
         fieldSchema = z.any();
         break;
-      case 'array':
+      case "array":
         fieldSchema = z.array(z.any());
         break;
       default:
@@ -47,36 +47,39 @@ function buildZodSchema(fields: FieldSchema[]): z.ZodObject<any> {
 
     // Apply validation rules
     if (field.validation) {
-      field.validation.forEach(rule => {
+      field.validation.forEach((rule) => {
         switch (rule.type) {
-          case 'required':
+          case "required":
             if (fieldSchema instanceof z.ZodString) {
               fieldSchema = fieldSchema.min(1, rule.message);
             }
             break;
-          case 'min':
+          case "min":
             if (fieldSchema instanceof z.ZodNumber) {
               fieldSchema = fieldSchema.min(rule.value, rule.message);
             }
             break;
-          case 'max':
+          case "max":
             if (fieldSchema instanceof z.ZodNumber) {
               fieldSchema = fieldSchema.max(rule.value, rule.message);
             }
             break;
-          case 'minLength':
+          case "minLength":
             if (fieldSchema instanceof z.ZodString) {
               fieldSchema = fieldSchema.min(rule.value, rule.message);
             }
             break;
-          case 'maxLength':
+          case "maxLength":
             if (fieldSchema instanceof z.ZodString) {
               fieldSchema = fieldSchema.max(rule.value, rule.message);
             }
             break;
-          case 'pattern':
+          case "pattern":
             if (fieldSchema instanceof z.ZodString) {
-              fieldSchema = fieldSchema.regex(new RegExp(rule.value), rule.message);
+              fieldSchema = fieldSchema.regex(
+                new RegExp(rule.value),
+                rule.message,
+              );
             }
             break;
         }
@@ -84,7 +87,7 @@ function buildZodSchema(fields: FieldSchema[]): z.ZodObject<any> {
     }
 
     // Make optional if no required validation
-    const hasRequired = field.validation?.some(r => r.type === 'required');
+    const hasRequired = field.validation?.some((r) => r.type === "required");
     if (!hasRequired) {
       fieldSchema = fieldSchema.optional();
     }
@@ -98,7 +101,7 @@ function buildZodSchema(fields: FieldSchema[]): z.ZodObject<any> {
 // Get default values from schema
 function getDefaultValues(fields: FieldSchema[]): Record<string, any> {
   const defaults: Record<string, any> = {};
-  fields.forEach(field => {
+  fields.forEach((field) => {
     if (field.defaultValue !== undefined) {
       defaults[field.name] = field.defaultValue;
     }
@@ -111,20 +114,23 @@ export const DynamicForm: React.FC<DynamicFormProps> = ({
   onSubmit,
   onCancel,
   initialValues,
-  isLoading = false
+  isLoading = false,
 }) => {
   const zodSchema = buildZodSchema(schema.fields);
-  const defaultValues = { ...getDefaultValues(schema.fields), ...initialValues };
+  const defaultValues = {
+    ...getDefaultValues(schema.fields),
+    ...initialValues,
+  };
 
   const {
     register,
     control,
     handleSubmit,
     formState: { errors },
-    watch
+    watch,
   } = useForm({
     resolver: zodResolver(zodSchema),
-    defaultValues
+    defaultValues,
   });
 
   const renderField = (field: FieldSchema) => {
@@ -142,7 +148,7 @@ export const DynamicForm: React.FC<DynamicFormProps> = ({
       <div key={field.name} className="mb-4">
         <label className="block text-sm font-medium mb-1">
           {field.label}
-          {field.validation?.some(r => r.type === 'required') && (
+          {field.validation?.some((r) => r.type === "required") && (
             <span className="text-red-500 ml-1">*</span>
           )}
         </label>
@@ -154,21 +160,20 @@ export const DynamicForm: React.FC<DynamicFormProps> = ({
         {renderInput(field)}
 
         {error && (
-          <p className="text-sm text-red-500 mt-1">
-            {error.message as string}
-          </p>
+          <p className="text-sm text-red-500 mt-1">{error.message as string}</p>
         )}
       </div>
     );
   };
 
   const renderInput = (field: FieldSchema) => {
-    const baseClassName = "w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500";
+    const baseClassName =
+      "w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500";
 
     switch (field.type) {
-      case 'text':
-      case 'email':
-      case 'password':
+      case "text":
+      case "email":
+      case "password":
         return (
           <input
             type={field.type}
@@ -180,8 +185,8 @@ export const DynamicForm: React.FC<DynamicFormProps> = ({
           />
         );
 
-      case 'number':
-      case 'range':
+      case "number":
+      case "range":
         return (
           <Controller
             name={field.name}
@@ -189,8 +194,10 @@ export const DynamicForm: React.FC<DynamicFormProps> = ({
             render={({ field: { onChange, value } }) => (
               <input
                 type="number"
-                value={value ?? ''}
-                onChange={e => onChange(e.target.value ? parseFloat(e.target.value) : '')}
+                value={value ?? ""}
+                onChange={(e) =>
+                  onChange(e.target.value ? parseFloat(e.target.value) : "")
+                }
                 min={field.min}
                 max={field.max}
                 step={field.step}
@@ -201,7 +208,7 @@ export const DynamicForm: React.FC<DynamicFormProps> = ({
           />
         );
 
-      case 'textarea':
+      case "textarea":
         return (
           <textarea
             {...register(field.name)}
@@ -212,7 +219,7 @@ export const DynamicForm: React.FC<DynamicFormProps> = ({
           />
         );
 
-      case 'select':
+      case "select":
         return (
           <select
             {...register(field.name)}
@@ -221,7 +228,7 @@ export const DynamicForm: React.FC<DynamicFormProps> = ({
             className={baseClassName}
           >
             <option value="">Select...</option>
-            {field.options?.map(opt => (
+            {field.options?.map((opt) => (
               <option key={opt.value} value={opt.value}>
                 {opt.label}
               </option>
@@ -229,7 +236,7 @@ export const DynamicForm: React.FC<DynamicFormProps> = ({
           </select>
         );
 
-      case 'checkbox':
+      case "checkbox":
         return (
           <input
             type="checkbox"
@@ -239,10 +246,10 @@ export const DynamicForm: React.FC<DynamicFormProps> = ({
           />
         );
 
-      case 'radio':
+      case "radio":
         return (
           <div className="space-y-2">
-            {field.options?.map(opt => (
+            {field.options?.map((opt) => (
               <label key={opt.value} className="flex items-center">
                 <input
                   type="radio"
@@ -257,7 +264,7 @@ export const DynamicForm: React.FC<DynamicFormProps> = ({
           </div>
         );
 
-      case 'file':
+      case "file":
         return (
           <input
             type="file"
@@ -297,7 +304,7 @@ export const DynamicForm: React.FC<DynamicFormProps> = ({
             disabled={isLoading}
             className="px-4 py-2 border rounded-md hover:bg-gray-50"
           >
-            {schema.cancelLabel || 'Cancel'}
+            {schema.cancelLabel || "Cancel"}
           </button>
         )}
         <button
@@ -305,7 +312,7 @@ export const DynamicForm: React.FC<DynamicFormProps> = ({
           disabled={isLoading}
           className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:opacity-50"
         >
-          {isLoading ? 'Loading...' : (schema.submitLabel || 'Submit')}
+          {isLoading ? "Loading..." : schema.submitLabel || "Submit"}
         </button>
       </div>
     </form>

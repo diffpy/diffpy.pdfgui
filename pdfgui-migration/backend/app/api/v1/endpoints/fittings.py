@@ -1,34 +1,33 @@
 """Fitting/refinement endpoints."""
-from fastapi import APIRouter, Depends, HTTPException, status, BackgroundTasks
-from sqlalchemy.orm import Session
+
 from typing import List
 from uuid import UUID
-from ....core.database import get_db
-from ....models.project import Project, Fitting, FittingStatus
-from ....schemas.fitting import (
-    FittingCreate, FittingResponse, FittingRun,
-    FittingStatusResponse, FittingResultsResponse
-)
-from ....schemas.parameter import ParameterResponse, ConstraintCreate, ConstraintResponse
-from ....services.fitting_service import FittingService
+
+from fastapi import APIRouter, BackgroundTasks, Depends, HTTPException, status
+from sqlalchemy.orm import Session
+
 from ....api.deps import get_current_user
+from ....core.database import get_db
+from ....models.project import Fitting, FittingStatus, Project
 from ....models.user import User
+from ....schemas.fitting import (
+    FittingCreate,
+    FittingResponse,
+    FittingResultsResponse,
+    FittingRun,
+    FittingStatusResponse,
+)
+from ....schemas.parameter import ConstraintCreate, ConstraintResponse, ParameterResponse
+from ....services.fitting_service import FittingService
 
 router = APIRouter()
 fitting_service = FittingService()
 
 
 @router.get("/project/{project_id}", response_model=List[FittingResponse])
-def list_fittings(
-    project_id: UUID,
-    db: Session = Depends(get_db),
-    current_user: User = Depends(get_current_user)
-):
+def list_fittings(project_id: UUID, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
     """List all fittings in a project."""
-    project = db.query(Project).filter(
-        Project.id == project_id,
-        Project.user_id == current_user.id
-    ).first()
+    project = db.query(Project).filter(Project.id == project_id, Project.user_id == current_user.id).first()
 
     if not project:
         raise HTTPException(status_code=404, detail="Project not found")
@@ -46,7 +45,7 @@ def list_fittings(
             results=f.results,
             created_at=f.created_at,
             updated_at=f.updated_at,
-            completed_at=f.completed_at
+            completed_at=f.completed_at,
         )
         for f in project.fittings
     ]
@@ -57,22 +56,15 @@ def create_fitting(
     project_id: UUID,
     fitting_data: FittingCreate,
     db: Session = Depends(get_db),
-    current_user: User = Depends(get_current_user)
+    current_user: User = Depends(get_current_user),
 ):
     """Create a new fitting in a project."""
-    project = db.query(Project).filter(
-        Project.id == project_id,
-        Project.user_id == current_user.id
-    ).first()
+    project = db.query(Project).filter(Project.id == project_id, Project.user_id == current_user.id).first()
 
     if not project:
         raise HTTPException(status_code=404, detail="Project not found")
 
-    fitting = Fitting(
-        project_id=project_id,
-        name=fitting_data.name,
-        status=FittingStatus.PENDING.value
-    )
+    fitting = Fitting(project_id=project_id, name=fitting_data.name, status=FittingStatus.PENDING.value)
     db.add(fitting)
     db.commit()
     db.refresh(fitting)
@@ -89,21 +81,19 @@ def create_fitting(
         results={},
         created_at=fitting.created_at,
         updated_at=fitting.updated_at,
-        completed_at=fitting.completed_at
+        completed_at=fitting.completed_at,
     )
 
 
 @router.get("/{fitting_id}", response_model=FittingResponse)
-def get_fitting(
-    fitting_id: UUID,
-    db: Session = Depends(get_db),
-    current_user: User = Depends(get_current_user)
-):
+def get_fitting(fitting_id: UUID, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
     """Get fitting details."""
-    fitting = db.query(Fitting).join(Project).filter(
-        Fitting.id == fitting_id,
-        Project.user_id == current_user.id
-    ).first()
+    fitting = (
+        db.query(Fitting)
+        .join(Project)
+        .filter(Fitting.id == fitting_id, Project.user_id == current_user.id)
+        .first()
+    )
 
     if not fitting:
         raise HTTPException(status_code=404, detail="Fitting not found")
@@ -120,7 +110,7 @@ def get_fitting(
         results=fitting.results,
         created_at=fitting.created_at,
         updated_at=fitting.updated_at,
-        completed_at=fitting.completed_at
+        completed_at=fitting.completed_at,
     )
 
 
@@ -130,13 +120,15 @@ def run_fitting(
     run_params: FittingRun,
     background_tasks: BackgroundTasks,
     db: Session = Depends(get_db),
-    current_user: User = Depends(get_current_user)
+    current_user: User = Depends(get_current_user),
 ):
     """Start refinement job."""
-    fitting = db.query(Fitting).join(Project).filter(
-        Fitting.id == fitting_id,
-        Project.user_id == current_user.id
-    ).first()
+    fitting = (
+        db.query(Fitting)
+        .join(Project)
+        .filter(Fitting.id == fitting_id, Project.user_id == current_user.id)
+        .first()
+    )
 
     if not fitting:
         raise HTTPException(status_code=404, detail="Fitting not found")
@@ -152,24 +144,20 @@ def run_fitting(
     # In production, this would use Celery
     # background_tasks.add_task(run_refinement_task, str(fitting_id))
 
-    return {
-        "job_id": str(fitting_id),
-        "status": "QUEUED",
-        "message": "Refinement job queued"
-    }
+    return {"job_id": str(fitting_id), "status": "QUEUED", "message": "Refinement job queued"}
 
 
 @router.get("/{fitting_id}/status", response_model=FittingStatusResponse)
 def get_fitting_status(
-    fitting_id: UUID,
-    db: Session = Depends(get_db),
-    current_user: User = Depends(get_current_user)
+    fitting_id: UUID, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)
 ):
     """Get current refinement status."""
-    fitting = db.query(Fitting).join(Project).filter(
-        Fitting.id == fitting_id,
-        Project.user_id == current_user.id
-    ).first()
+    fitting = (
+        db.query(Fitting)
+        .join(Project)
+        .filter(Fitting.id == fitting_id, Project.user_id == current_user.id)
+        .first()
+    )
 
     if not fitting:
         raise HTTPException(status_code=404, detail="Fitting not found")
@@ -178,21 +166,19 @@ def get_fitting_status(
         status=fitting.status,
         iteration=fitting.results.get("iteration", 0),
         current_rw=fitting.rw_value,
-        elapsed_time=fitting.results.get("elapsed_time", 0)
+        elapsed_time=fitting.results.get("elapsed_time", 0),
     )
 
 
 @router.post("/{fitting_id}/stop")
-def stop_fitting(
-    fitting_id: UUID,
-    db: Session = Depends(get_db),
-    current_user: User = Depends(get_current_user)
-):
+def stop_fitting(fitting_id: UUID, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
     """Stop running refinement."""
-    fitting = db.query(Fitting).join(Project).filter(
-        Fitting.id == fitting_id,
-        Project.user_id == current_user.id
-    ).first()
+    fitting = (
+        db.query(Fitting)
+        .join(Project)
+        .filter(Fitting.id == fitting_id, Project.user_id == current_user.id)
+        .first()
+    )
 
     if not fitting:
         raise HTTPException(status_code=404, detail="Fitting not found")
@@ -208,15 +194,15 @@ def stop_fitting(
 
 @router.get("/{fitting_id}/parameters", response_model=List[ParameterResponse])
 def get_parameters(
-    fitting_id: UUID,
-    db: Session = Depends(get_db),
-    current_user: User = Depends(get_current_user)
+    fitting_id: UUID, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)
 ):
     """Get all parameters for fitting."""
-    fitting = db.query(Fitting).join(Project).filter(
-        Fitting.id == fitting_id,
-        Project.user_id == current_user.id
-    ).first()
+    fitting = (
+        db.query(Fitting)
+        .join(Project)
+        .filter(Fitting.id == fitting_id, Project.user_id == current_user.id)
+        .first()
+    )
 
     if not fitting:
         raise HTTPException(status_code=404, detail="Fitting not found")
@@ -229,7 +215,7 @@ def get_parameters(
             refined_value=p.refined_value,
             uncertainty=p.uncertainty,
             is_fixed=p.is_fixed,
-            bounds={"lower": p.lower_bound, "upper": p.upper_bound}
+            bounds={"lower": p.lower_bound, "upper": p.upper_bound},
         )
         for p in fitting.parameters_list
     ]
@@ -240,16 +226,18 @@ def add_constraint(
     fitting_id: UUID,
     constraint_data: ConstraintCreate,
     db: Session = Depends(get_db),
-    current_user: User = Depends(get_current_user)
+    current_user: User = Depends(get_current_user),
 ):
     """Add constraint to fitting."""
     from ....models.parameter import Constraint as ConstraintModel
     from ....services.constraint_service import ConstraintService
 
-    fitting = db.query(Fitting).join(Project).filter(
-        Fitting.id == fitting_id,
-        Project.user_id == current_user.id
-    ).first()
+    fitting = (
+        db.query(Fitting)
+        .join(Project)
+        .filter(Fitting.id == fitting_id, Project.user_id == current_user.id)
+        .first()
+    )
 
     if not fitting:
         raise HTTPException(status_code=404, detail="Fitting not found")
@@ -266,7 +254,7 @@ def add_constraint(
         fitting_id=fitting_id,
         phase_id=constraint_data.phase_id,
         target_variable=constraint_data.target,
-        formula=constraint_data.formula
+        formula=constraint_data.formula,
     )
     db.add(constraint)
     db.commit()
@@ -277,5 +265,5 @@ def add_constraint(
         target=constraint.target_variable,
         formula=constraint.formula,
         phase_id=constraint.phase_id,
-        parameters_used=validation["parameters"]
+        parameters_used=validation["parameters"],
     )

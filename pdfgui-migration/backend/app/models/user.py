@@ -1,14 +1,18 @@
 """User-related database models."""
+
 import uuid
 from datetime import datetime
-from sqlalchemy import Column, String, Boolean, DateTime, ForeignKey, JSON
+
+from sqlalchemy import JSON, Boolean, Column, DateTime, ForeignKey, String
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import relationship
+
 from ..core.database import Base
 
 
 class User(Base):
     """User account model."""
+
     __tablename__ = "users"
 
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
@@ -32,6 +36,7 @@ class User(Base):
 
 class Session(Base):
     """User session/token model."""
+
     __tablename__ = "sessions"
 
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
@@ -48,6 +53,7 @@ class Session(Base):
 
 class UserSettings(Base):
     """User preferences and settings."""
+
     __tablename__ = "user_settings"
 
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)

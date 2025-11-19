@@ -2,9 +2,9 @@
  * PDF Plot component - renders PDF data using Plotly.
  * Uses chart template configuration.
  */
-import React, { useMemo } from 'react';
-import Plot from 'react-plotly.js';
-import type { PDFPlotConfig, DataSeries } from '../types/charts';
+import React, { useMemo } from "react";
+import Plot from "react-plotly.js";
+import type { PDFPlotConfig, DataSeries } from "../types/charts";
 
 interface PDFPlotProps {
   config: PDFPlotConfig;
@@ -23,7 +23,7 @@ export const PDFPlot: React.FC<PDFPlotProps> = ({
   data,
   width = 800,
   height = 500,
-  onZoom
+  onZoom,
 }) => {
   const plotData = useMemo(() => {
     const traces: any[] = [];
@@ -31,38 +31,40 @@ export const PDFPlot: React.FC<PDFPlotProps> = ({
     // Observed data
     if (config.showObserved && data.observed) {
       traces.push({
-        name: 'Observed',
+        name: "Observed",
         x: data.observed.r,
         y: data.observed.G,
-        type: 'scatter',
-        mode: 'markers',
+        type: "scatter",
+        mode: "markers",
         marker: {
-          color: '#1f77b4',
+          color: "#1f77b4",
           size: 4,
-          symbol: 'circle'
+          symbol: "circle",
         },
-        error_y: data.observed.dG ? {
-          type: 'data',
-          array: data.observed.dG,
-          visible: true,
-          color: '#1f77b4',
-          thickness: 1
-        } : undefined
+        error_y: data.observed.dG
+          ? {
+              type: "data",
+              array: data.observed.dG,
+              visible: true,
+              color: "#1f77b4",
+              thickness: 1,
+            }
+          : undefined,
       });
     }
 
     // Calculated data
     if (config.showCalculated && data.calculated) {
       traces.push({
-        name: 'Calculated',
+        name: "Calculated",
         x: data.calculated.r,
         y: data.calculated.G,
-        type: 'scatter',
-        mode: 'lines',
+        type: "scatter",
+        mode: "lines",
         line: {
-          color: '#ff7f0e',
-          width: 1.5
-        }
+          color: "#ff7f0e",
+          width: 1.5,
+        },
       });
     }
 
@@ -70,53 +72,56 @@ export const PDFPlot: React.FC<PDFPlotProps> = ({
     if (config.showDifference && data.difference) {
       const offset = config.differenceOffset || 0;
       traces.push({
-        name: 'Difference',
+        name: "Difference",
         x: data.difference.r,
-        y: data.difference.G.map(g => g - offset),
-        type: 'scatter',
-        mode: 'lines',
+        y: data.difference.G.map((g) => g - offset),
+        type: "scatter",
+        mode: "lines",
         line: {
-          color: '#2ca02c',
-          width: 1
-        }
+          color: "#2ca02c",
+          width: 1,
+        },
       });
     }
 
     return traces;
   }, [config, data]);
 
-  const layout = useMemo(() => ({
-    title: config.title,
-    xaxis: {
-      title: config.xaxis.title,
-      autorange: config.xaxis.autorange,
-      range: config.xaxis.range,
-      showgrid: config.xaxis.showgrid,
-      zeroline: config.xaxis.zeroline
-    },
-    yaxis: {
-      title: config.yaxis.title,
-      autorange: config.yaxis.autorange,
-      range: config.yaxis.range,
-      showgrid: config.yaxis.showgrid,
-      zeroline: config.yaxis.zeroline
-    },
-    showlegend: config.showLegend,
-    legend: {
-      x: 1,
-      xanchor: 'right',
-      y: 1
-    },
-    margin: config.margin || { t: 50, b: 60, l: 70, r: 30 },
-    width,
-    height
-  }), [config, width, height]);
+  const layout = useMemo(
+    () => ({
+      title: config.title,
+      xaxis: {
+        title: config.xaxis.title,
+        autorange: config.xaxis.autorange,
+        range: config.xaxis.range,
+        showgrid: config.xaxis.showgrid,
+        zeroline: config.xaxis.zeroline,
+      },
+      yaxis: {
+        title: config.yaxis.title,
+        autorange: config.yaxis.autorange,
+        range: config.yaxis.range,
+        showgrid: config.yaxis.showgrid,
+        zeroline: config.yaxis.zeroline,
+      },
+      showlegend: config.showLegend,
+      legend: {
+        x: 1,
+        xanchor: "right",
+        y: 1,
+      },
+      margin: config.margin || { t: 50, b: 60, l: 70, r: 30 },
+      width,
+      height,
+    }),
+    [config, width, height],
+  );
 
   const handleRelayout = (event: any) => {
-    if (onZoom && event['xaxis.range[0]'] !== undefined) {
+    if (onZoom && event["xaxis.range[0]"] !== undefined) {
       onZoom(
-        [event['xaxis.range[0]'], event['xaxis.range[1]']],
-        [event['yaxis.range[0]'], event['yaxis.range[1]']]
+        [event["xaxis.range[0]"], event["xaxis.range[1]"]],
+        [event["yaxis.range[0]"], event["yaxis.range[1]"]],
       );
     }
   };
@@ -129,11 +134,11 @@ export const PDFPlot: React.FC<PDFPlotProps> = ({
         onRelayout={handleRelayout}
         config={{
           displayModeBar: true,
-          modeBarButtonsToRemove: ['lasso2d', 'select2d'],
+          modeBarButtonsToRemove: ["lasso2d", "select2d"],
           toImageButtonOptions: {
-            format: 'png',
-            filename: 'pdf_plot'
-          }
+            format: "png",
+            filename: "pdf_plot",
+          },
         }}
       />
     </div>

@@ -1,9 +1,9 @@
 /**
  * Authentication state store using Zustand.
  */
-import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
-import { authApi } from '../services/api';
+import { create } from "zustand";
+import { persist } from "zustand/middleware";
+import { authApi } from "../services/api";
 
 interface User {
   id: string;
@@ -19,7 +19,12 @@ interface AuthState {
   error: string | null;
 
   login: (email: string, password: string) => Promise<void>;
-  register: (email: string, password: string, firstName?: string, lastName?: string) => Promise<void>;
+  register: (
+    email: string,
+    password: string,
+    firstName?: string,
+    lastName?: string,
+  ) => Promise<void>;
   logout: () => Promise<void>;
   clearError: () => void;
 }
@@ -38,26 +43,31 @@ export const useAuthStore = create<AuthState>()(
           const response = await authApi.login({ email, password });
           const { access_token, refresh_token } = response.data;
 
-          localStorage.setItem('access_token', access_token);
-          localStorage.setItem('refresh_token', refresh_token);
+          localStorage.setItem("access_token", access_token);
+          localStorage.setItem("refresh_token", refresh_token);
 
           // For now, we'll just store the email
           // In production, you'd decode the JWT or fetch user profile
           set({
-            user: { id: '', email },
+            user: { id: "", email },
             isAuthenticated: true,
             isLoading: false,
           });
         } catch (error: any) {
           set({
-            error: error.response?.data?.detail || 'Login failed',
+            error: error.response?.data?.detail || "Login failed",
             isLoading: false,
           });
           throw error;
         }
       },
 
-      register: async (email: string, password: string, firstName?: string, lastName?: string) => {
+      register: async (
+        email: string,
+        password: string,
+        firstName?: string,
+        lastName?: string,
+      ) => {
         set({ isLoading: true, error: null });
         try {
           await authApi.register({
@@ -69,7 +79,7 @@ export const useAuthStore = create<AuthState>()(
           set({ isLoading: false });
         } catch (error: any) {
           set({
-            error: error.response?.data?.detail || 'Registration failed',
+            error: error.response?.data?.detail || "Registration failed",
             isLoading: false,
           });
           throw error;
@@ -77,7 +87,7 @@ export const useAuthStore = create<AuthState>()(
       },
 
       logout: async () => {
-        const refreshToken = localStorage.getItem('refresh_token');
+        const refreshToken = localStorage.getItem("refresh_token");
         if (refreshToken) {
           try {
             await authApi.logout(refreshToken);
@@ -86,8 +96,8 @@ export const useAuthStore = create<AuthState>()(
           }
         }
 
-        localStorage.removeItem('access_token');
-        localStorage.removeItem('refresh_token');
+        localStorage.removeItem("access_token");
+        localStorage.removeItem("refresh_token");
 
         set({
           user: null,
@@ -98,11 +108,11 @@ export const useAuthStore = create<AuthState>()(
       clearError: () => set({ error: null }),
     }),
     {
-      name: 'auth-storage',
+      name: "auth-storage",
       partialize: (state) => ({
         user: state.user,
         isAuthenticated: state.isAuthenticated,
       }),
-    }
-  )
+    },
+  ),
 );

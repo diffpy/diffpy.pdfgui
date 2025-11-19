@@ -1,14 +1,18 @@
 """File upload database model."""
+
 import uuid
 from datetime import datetime
-from sqlalchemy import Column, String, Integer, DateTime, ForeignKey, JSON
+
+from sqlalchemy import JSON, Column, DateTime, ForeignKey, Integer, String
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import relationship
+
 from ..core.database import Base
 
 
 class UploadedFile(Base):
     """Uploaded file metadata model."""
+
     __tablename__ = "uploaded_files"
 
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)

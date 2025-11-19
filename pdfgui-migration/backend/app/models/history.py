@@ -1,14 +1,18 @@
 """Run history and plot configuration models."""
+
 import uuid
 from datetime import datetime
-from sqlalchemy import Column, String, Float, DateTime, ForeignKey, Text, JSON
+
+from sqlalchemy import JSON, Column, DateTime, Float, ForeignKey, String, Text
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import relationship
+
 from ..core.database import Base
 
 
 class RunHistory(Base):
     """Run history/audit trail model."""
+
     __tablename__ = "run_history"
 
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
@@ -30,6 +34,7 @@ class RunHistory(Base):
 
 class PlotConfig(Base):
     """Saved plot configuration model."""
+
     __tablename__ = "plot_configs"
 
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
@@ -45,6 +50,7 @@ class PlotConfig(Base):
 
 class SeriesData(Base):
     """Temperature/doping series data model."""
+
     __tablename__ = "series_data"
 
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)

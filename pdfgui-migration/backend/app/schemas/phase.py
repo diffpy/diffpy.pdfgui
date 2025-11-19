@@ -1,12 +1,15 @@
 """Phase/structure-related Pydantic schemas."""
-from pydantic import BaseModel
-from typing import Optional, List, Dict, Any
-from uuid import UUID
+
 from datetime import datetime
+from typing import Any, Dict, List, Optional
+from uuid import UUID
+
+from pydantic import BaseModel
 
 
 class LatticeParams(BaseModel):
     """Schema for lattice parameters."""
+
     a: float
     b: float
     c: float
@@ -17,6 +20,7 @@ class LatticeParams(BaseModel):
 
 class AtomCreate(BaseModel):
     """Schema for atom creation."""
+
     element: str
     x: float
     y: float
@@ -33,6 +37,7 @@ class AtomCreate(BaseModel):
 
 class AtomResponse(BaseModel):
     """Schema for atom response."""
+
     id: UUID
     index: int
     element: str
@@ -52,6 +57,7 @@ class AtomResponse(BaseModel):
 
 class PhaseCreate(BaseModel):
     """Schema for phase creation."""
+
     name: str
     file_id: Optional[UUID] = None
     lattice: Optional[LatticeParams] = None
@@ -60,6 +66,7 @@ class PhaseCreate(BaseModel):
 
 class PDFParameters(BaseModel):
     """Schema for PDF-specific parameters."""
+
     scale: float = 1.0
     delta1: float = 0.0
     delta2: float = 0.0
@@ -69,6 +76,7 @@ class PDFParameters(BaseModel):
 
 class PhaseResponse(BaseModel):
     """Schema for phase response."""
+
     id: UUID
     name: str
     space_group: Optional[str]
@@ -85,4 +93,5 @@ class PhaseResponse(BaseModel):
 
 class PairSelectionRequest(BaseModel):
     """Schema for pair selection."""
+
     selections: List[str]  # e.g., ["all-all", "!La-La"]

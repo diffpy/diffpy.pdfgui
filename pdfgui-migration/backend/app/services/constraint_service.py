@@ -2,8 +2,10 @@
 
 Wraps: diffpy.pdfgui.control.constraint
 """
+
 import math
-from typing import Dict, List, Any, Optional
+from typing import Any, Dict, List, Optional
+
 from diffpy.pdfgui.control.constraint import Constraint
 from diffpy.pdfgui.control.controlerrors import ControlSyntaxError
 
@@ -19,19 +21,9 @@ class ConstraintService:
         """
         try:
             constraint = Constraint(formula)
-            return {
-                "formula": formula,
-                "parameters": constraint.parguess(),
-                "valid": True,
-                "error": None
-            }
+            return {"formula": formula, "parameters": constraint.parguess(), "valid": True, "error": None}
         except ControlSyntaxError as e:
-            return {
-                "formula": formula,
-                "parameters": [],
-                "valid": False,
-                "error": str(e)
-            }
+            return {"formula": formula, "parameters": [], "valid": False, "error": str(e)}
 
     def validate_formula(self, formula: str) -> Dict[str, Any]:
         """Validate constraint formula syntax.
@@ -40,23 +32,11 @@ class ConstraintService:
         """
         try:
             constraint = Constraint(formula)
-            return {
-                "valid": True,
-                "parameters": constraint.parguess(),
-                "error": None
-            }
+            return {"valid": True, "parameters": constraint.parguess(), "error": None}
         except ControlSyntaxError as e:
-            return {
-                "valid": False,
-                "parameters": [],
-                "error": str(e)
-            }
+            return {"valid": False, "parameters": [], "error": str(e)}
 
-    def evaluate_formula(
-        self,
-        formula: str,
-        parameter_values: Dict[int, float]
-    ) -> Dict[str, Any]:
+    def evaluate_formula(self, formula: str, parameter_values: Dict[int, float]) -> Dict[str, Any]:
         """Evaluate constraint formula with parameter values.
 
         Wraps: Constraint.evalFormula()
@@ -64,15 +44,9 @@ class ConstraintService:
         try:
             constraint = Constraint(formula)
             value = constraint.evalFormula(parameter_values)
-            return {
-                "value": float(value),
-                "error": None
-            }
+            return {"value": float(value), "error": None}
         except Exception as e:
-            return {
-                "value": None,
-                "error": str(e)
-            }
+            return {"value": None, "error": str(e)}
 
     def get_parameters_used(self, formula: str) -> List[int]:
         """Get list of parameter indices used in formula.
@@ -85,11 +59,7 @@ class ConstraintService:
         except:
             return []
 
-    def transform_formula(
-        self,
-        formula: str,
-        index_map: Dict[int, int]
-    ) -> str:
+    def transform_formula(self, formula: str, index_map: Dict[int, int]) -> str:
         """Transform parameter indices in formula.
 
         Used when parameters are renumbered.
@@ -101,7 +71,7 @@ class ConstraintService:
             new_idx = index_map.get(old_idx, old_idx)
             return f"@{new_idx}"
 
-        return re.sub(r'@(\d+)', replace_param, formula)
+        return re.sub(r"@(\d+)", replace_param, formula)
 
     def get_standard_functions(self) -> List[Dict[str, str]]:
         """Get list of supported mathematical functions.
@@ -122,10 +92,7 @@ class ConstraintService:
             {"name": "abs", "description": "Absolute value"},
         ]
 
-    def build_constraint_set(
-        self,
-        constraints: List[Dict[str, str]]
-    ) -> Dict[str, Constraint]:
+    def build_constraint_set(self, constraints: List[Dict[str, str]]) -> Dict[str, Constraint]:
         """Build a set of constraints from definitions.
 
         Args:
@@ -141,10 +108,7 @@ class ConstraintService:
             result[target] = Constraint(formula)
         return result
 
-    def check_circular_dependencies(
-        self,
-        constraints: Dict[str, str]
-    ) -> Dict[str, Any]:
+    def check_circular_dependencies(self, constraints: Dict[str, str]) -> Dict[str, Any]:
         """Check for circular dependencies in constraints.
 
         Returns error if circular dependency detected.
@@ -173,10 +137,7 @@ class ConstraintService:
                 for param in params:
                     param_key = f"@{param}"
                     if param_key in path:
-                        return {
-                            "has_cycle": True,
-                            "cycle": path + [param_key]
-                        }
+                        return {"has_cycle": True, "cycle": path + [param_key]}
 
                 visited.add(current)
                 break

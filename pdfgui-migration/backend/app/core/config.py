@@ -1,7 +1,9 @@
 """Application configuration settings."""
-from pydantic_settings import BaseSettings
-from typing import Optional
+
 import os
+from typing import Optional
+
+from pydantic_settings import BaseSettings
 
 
 class Settings(BaseSettings):
@@ -28,9 +30,14 @@ class Settings(BaseSettings):
     UPLOAD_DIR: str = "./uploads"
     MAX_UPLOAD_SIZE: int = 50 * 1024 * 1024  # 50MB
     ALLOWED_EXTENSIONS: list = [
-        ".stru", ".pdb", ".cif", ".xyz",  # Structure files
-        ".gr", ".dat", ".chi",  # PDF data files
-        ".ddp"  # Project files
+        ".stru",
+        ".pdb",
+        ".cif",
+        ".xyz",  # Structure files
+        ".gr",
+        ".dat",
+        ".chi",  # PDF data files
+        ".ddp",  # Project files
     ]
 
     # Redis/Celery

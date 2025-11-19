@@ -1,12 +1,15 @@
 """Project-related Pydantic schemas."""
-from pydantic import BaseModel
-from typing import Optional, List, Dict, Any
-from uuid import UUID
+
 from datetime import datetime
+from typing import Any, Dict, List, Optional
+from uuid import UUID
+
+from pydantic import BaseModel
 
 
 class ProjectCreate(BaseModel):
     """Schema for project creation."""
+
     name: str
     description: Optional[str] = None
     metadata: Optional[Dict[str, Any]] = {}
@@ -14,6 +17,7 @@ class ProjectCreate(BaseModel):
 
 class ProjectUpdate(BaseModel):
     """Schema for project update."""
+
     name: Optional[str] = None
     description: Optional[str] = None
     metadata: Optional[Dict[str, Any]] = None
@@ -22,6 +26,7 @@ class ProjectUpdate(BaseModel):
 
 class ProjectResponse(BaseModel):
     """Schema for project response."""
+
     id: UUID
     name: str
     description: Optional[str]
@@ -37,6 +42,7 @@ class ProjectResponse(BaseModel):
 
 class ProjectListResponse(BaseModel):
     """Schema for paginated project list."""
+
     items: List[ProjectResponse]
     total: int
     page: int

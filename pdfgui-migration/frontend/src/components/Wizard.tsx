@@ -2,9 +2,9 @@
  * Wizard component - multi-step form wizard.
  * Renders steps from JSON wizard schema.
  */
-import React, { useState } from 'react';
-import { DynamicForm } from './DynamicForm';
-import type { WizardSchema } from '../types/forms';
+import React, { useState } from "react";
+import { DynamicForm } from "./DynamicForm";
+import type { WizardSchema } from "../types/forms";
 
 interface WizardProps {
   schema: WizardSchema;
@@ -17,7 +17,7 @@ export const Wizard: React.FC<WizardProps> = ({
   schema,
   onComplete,
   onCancel,
-  initialData = {}
+  initialData = {},
 }) => {
   const [currentStep, setCurrentStep] = useState(0);
   const [formData, setFormData] = useState<Record<string, any>>(initialData);
@@ -32,25 +32,25 @@ export const Wizard: React.FC<WizardProps> = ({
     // Merge step data
     const newData = {
       ...formData,
-      [currentStepSchema.id]: stepData
+      [currentStepSchema.id]: stepData,
     };
     setFormData(newData);
 
     // Mark step as completed
-    setCompletedSteps(prev => new Set([...prev, currentStep]));
+    setCompletedSteps((prev) => new Set([...prev, currentStep]));
 
     if (isLastStep) {
       // Complete wizard
       onComplete(newData);
     } else {
       // Go to next step
-      setCurrentStep(prev => prev + 1);
+      setCurrentStep((prev) => prev + 1);
     }
   };
 
   const handleBack = () => {
     if (!isFirstStep) {
-      setCurrentStep(prev => prev - 1);
+      setCurrentStep((prev) => prev - 1);
     }
   };
 
@@ -79,20 +79,20 @@ export const Wizard: React.FC<WizardProps> = ({
               <div
                 key={step.id}
                 className={`flex flex-col items-center cursor-pointer ${
-                  index <= currentStep ? 'text-blue-600' : 'text-gray-400'
+                  index <= currentStep ? "text-blue-600" : "text-gray-400"
                 }`}
                 onClick={() => handleStepClick(index)}
               >
                 <div
                   className={`w-8 h-8 rounded-full flex items-center justify-center border-2 ${
                     completedSteps.has(index)
-                      ? 'bg-blue-600 border-blue-600 text-white'
+                      ? "bg-blue-600 border-blue-600 text-white"
                       : index === currentStep
-                      ? 'border-blue-600 text-blue-600'
-                      : 'border-gray-300'
+                        ? "border-blue-600 text-blue-600"
+                        : "border-gray-300"
                   }`}
                 >
-                  {completedSteps.has(index) ? '✓' : index + 1}
+                  {completedSteps.has(index) ? "✓" : index + 1}
                 </div>
                 <span className="text-xs mt-1 text-center max-w-20">
                   {step.title}
@@ -148,7 +148,7 @@ export const Wizard: React.FC<WizardProps> = ({
             )}
             {schema.allowSkip && !isLastStep && currentStepSchema.optional && (
               <button
-                onClick={() => setCurrentStep(prev => prev + 1)}
+                onClick={() => setCurrentStep((prev) => prev + 1)}
                 className="px-4 py-2 text-blue-600 hover:text-blue-800"
               >
                 Skip

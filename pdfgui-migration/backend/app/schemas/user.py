@@ -1,12 +1,15 @@
 """User-related Pydantic schemas."""
-from pydantic import BaseModel, EmailStr
+
+from datetime import datetime
 from typing import Optional
 from uuid import UUID
-from datetime import datetime
+
+from pydantic import BaseModel, EmailStr
 
 
 class UserCreate(BaseModel):
     """Schema for user registration."""
+
     email: EmailStr
     password: str
     first_name: Optional[str] = None
@@ -15,12 +18,14 @@ class UserCreate(BaseModel):
 
 class UserLogin(BaseModel):
     """Schema for user login."""
+
     email: EmailStr
     password: str
 
 
 class UserResponse(BaseModel):
     """Schema for user response."""
+
     id: UUID
     email: str
     first_name: Optional[str]
@@ -34,6 +39,7 @@ class UserResponse(BaseModel):
 
 class Token(BaseModel):
     """Schema for authentication tokens."""
+
     access_token: str
     refresh_token: str
     token_type: str
@@ -42,10 +48,12 @@ class Token(BaseModel):
 
 class TokenRefresh(BaseModel):
     """Schema for token refresh."""
+
     refresh_token: str
 
 
 class PasswordChange(BaseModel):
     """Schema for password change."""
+
     old_password: str
     new_password: str

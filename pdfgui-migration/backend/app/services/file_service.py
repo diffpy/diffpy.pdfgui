@@ -1,12 +1,15 @@
 """File service - handles file uploads and parsing."""
-import os
+
 import hashlib
-import aiofiles
-from typing import Dict, Any, Optional
+import os
 from pathlib import Path
+from typing import Any, Dict, Optional
+
+import aiofiles
+
 from ..core.config import settings
-from .structure_service import StructureService
 from .dataset_service import DatasetService
+from .structure_service import StructureService
 
 
 class FileService:
@@ -21,12 +24,7 @@ class FileService:
         """Ensure upload directory exists."""
         os.makedirs(settings.UPLOAD_DIR, exist_ok=True)
 
-    async def save_upload(
-        self,
-        content: bytes,
-        filename: str,
-        user_id: str
-    ) -> Dict[str, Any]:
+    async def save_upload(self, content: bytes, filename: str, user_id: str) -> Dict[str, Any]:
         """Save uploaded file and return metadata."""
         # Generate unique filename
         checksum = hashlib.sha256(content).hexdigest()
@@ -35,7 +33,7 @@ class FileService:
         storage_path = os.path.join(settings.UPLOAD_DIR, storage_name)
 
         # Save file
-        async with aiofiles.open(storage_path, 'wb') as f:
+        async with aiofiles.open(storage_path, "wb") as f:
             await f.write(content)
 
         # Determine file type
@@ -46,7 +44,7 @@ class FileService:
             "file_type": file_type,
             "storage_path": storage_path,
             "file_size": len(content),
-            "checksum": checksum
+            "checksum": checksum,
         }
 
     def _get_file_type(self, ext: str) -> str:
@@ -59,7 +57,7 @@ class FileService:
             ".gr": "gr",
             ".dat": "dat",
             ".chi": "chi",
-            ".ddp": "ddp"
+            ".ddp": "ddp",
         }
         return type_map.get(ext, "unknown")
 
@@ -88,20 +86,12 @@ class FileService:
         except Exception:
             return False
 
-    def get_file_preview(
-        self,
-        filepath: str,
-        file_type: str,
-        max_lines: int = 50
-    ) -> Dict[str, Any]:
+    def get_file_preview(self, filepath: str, file_type: str, max_lines: int = 50) -> Dict[str, Any]:
         """Get file preview with basic info."""
-        preview = {
-            "type": file_type,
-            "lines": []
-        }
+        preview = {"type": file_type, "lines": []}
 
         # Read first N lines
-        with open(filepath, 'r') as f:
+        with open(filepath, "r") as f:
             for i, line in enumerate(f):
                 if i >= max_lines:
                     preview["truncated"] = True
@@ -114,7 +104,7 @@ class FileService:
             preview["parsed"] = {
                 "atom_count": parsed.get("atom_count", 0),
                 "point_count": parsed.get("point_count", 0),
-                "lattice": parsed.get("lattice", {})
+                "lattice": parsed.get("lattice", {}),
             }
         except Exception as e:
             preview["parse_error"] = str(e)

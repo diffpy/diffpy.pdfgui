@@ -1,14 +1,18 @@
 """Parameter and constraint database models."""
+
 import uuid
 from datetime import datetime
-from sqlalchemy import Column, String, Float, Boolean, Integer, DateTime, ForeignKey, JSON
+
+from sqlalchemy import JSON, Boolean, Column, DateTime, Float, ForeignKey, Integer, String
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import relationship
+
 from ..core.database import Base
 
 
 class Parameter(Base):
     """Refinable parameter model."""
+
     __tablename__ = "parameters"
 
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
@@ -29,6 +33,7 @@ class Parameter(Base):
 
 class Constraint(Base):
     """Parameter constraint equation model."""
+
     __tablename__ = "constraints"
 
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)

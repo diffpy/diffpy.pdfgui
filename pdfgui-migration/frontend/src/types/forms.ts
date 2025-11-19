@@ -4,22 +4,29 @@
  */
 
 export type FieldType =
-  | 'text'
-  | 'number'
-  | 'email'
-  | 'password'
-  | 'select'
-  | 'checkbox'
-  | 'radio'
-  | 'textarea'
-  | 'file'
-  | 'range'
-  | 'date'
-  | 'array'
-  | 'object';
+  | "text"
+  | "number"
+  | "email"
+  | "password"
+  | "select"
+  | "checkbox"
+  | "radio"
+  | "textarea"
+  | "file"
+  | "range"
+  | "date"
+  | "array"
+  | "object";
 
 export interface ValidationRule {
-  type: 'required' | 'min' | 'max' | 'minLength' | 'maxLength' | 'pattern' | 'custom';
+  type:
+    | "required"
+    | "min"
+    | "max"
+    | "minLength"
+    | "maxLength"
+    | "pattern"
+    | "custom";
   value?: any;
   message: string;
 }
@@ -37,15 +44,15 @@ export interface FieldSchema {
   placeholder?: string;
   defaultValue?: any;
   validation?: ValidationRule[];
-  options?: SelectOption[];  // For select, radio
-  min?: number;              // For number, range
-  max?: number;              // For number, range
-  step?: number;             // For number, range
-  accept?: string;           // For file
-  multiple?: boolean;        // For file, select
-  rows?: number;             // For textarea
-  fields?: FieldSchema[];    // For object type
-  itemSchema?: FieldSchema;  // For array type
+  options?: SelectOption[]; // For select, radio
+  min?: number; // For number, range
+  max?: number; // For number, range
+  step?: number; // For number, range
+  accept?: string; // For file
+  multiple?: boolean; // For file, select
+  rows?: number; // For textarea
+  fields?: FieldSchema[]; // For object type
+  itemSchema?: FieldSchema; // For array type
   conditional?: {
     field: string;
     value: any;

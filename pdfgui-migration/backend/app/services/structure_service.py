@@ -2,11 +2,14 @@
 
 Wraps: diffpy.pdfgui.control.fitstructure, diffpy.pdfgui.control.pdfstructure
 """
+
+from typing import Any, Dict, List, Optional
+
 import numpy as np
-from typing import Dict, List, Any, Optional
+
 from diffpy.pdfgui.control.fitstructure import FitStructure
 from diffpy.pdfgui.control.pdfstructure import PDFStructure
-from diffpy.structure import Structure, Lattice, Atom
+from diffpy.structure import Atom, Lattice, Structure
 
 
 class StructureService:
@@ -46,11 +49,11 @@ class StructureService:
                 "y": float(atom.xyz[1]),
                 "z": float(atom.xyz[2]),
                 "occupancy": float(atom.occupancy),
-                "uiso": float(atom.Uisoequiv) if hasattr(atom, 'Uisoequiv') else 0.0
+                "uiso": float(atom.Uisoequiv) if hasattr(atom, "Uisoequiv") else 0.0,
             }
 
             # Add anisotropic parameters if available
-            if hasattr(atom, 'U'):
+            if hasattr(atom, "U"):
                 atom_dict["u11"] = float(atom.U[0, 0])
                 atom_dict["u22"] = float(atom.U[1, 1])
                 atom_dict["u33"] = float(atom.U[2, 2])
@@ -67,11 +70,11 @@ class StructureService:
                 "c": float(lattice.c),
                 "alpha": float(lattice.alpha),
                 "beta": float(lattice.beta),
-                "gamma": float(lattice.gamma)
+                "gamma": float(lattice.gamma),
             },
-            "space_group": getattr(structure, 'pdffit', {}).get('spacegroup', ''),
+            "space_group": getattr(structure, "pdffit", {}).get("spacegroup", ""),
             "atoms": atoms,
-            "atom_count": len(structure)
+            "atom_count": len(structure),
         }
 
     def create_fit_structure(self, name: str) -> FitStructure:
@@ -82,10 +85,7 @@ class StructureService:
         return FitStructure(name)
 
     def set_lattice(
-        self,
-        structure: FitStructure,
-        a: float, b: float, c: float,
-        alpha: float, beta: float, gamma: float
+        self, structure: FitStructure, a: float, b: float, c: float, alpha: float, beta: float, gamma: float
     ) -> None:
         """Set lattice parameters.
 
@@ -97,9 +97,11 @@ class StructureService:
         self,
         structure: FitStructure,
         element: str,
-        x: float, y: float, z: float,
+        x: float,
+        y: float,
+        z: float,
         occupancy: float = 1.0,
-        uiso: float = 0.0
+        uiso: float = 0.0,
     ) -> int:
         """Add atom to structure.
 
@@ -111,12 +113,7 @@ class StructureService:
             atom.Uiso = uiso
         return len(structure) - 1
 
-    def insert_atoms(
-        self,
-        structure: FitStructure,
-        index: int,
-        atoms: List[Dict]
-    ) -> None:
+    def insert_atoms(self, structure: FitStructure, index: int, atoms: List[Dict]) -> None:
         """Insert atoms at specified index.
 
         Wraps: FitStructure.insertAtoms()
@@ -126,7 +123,7 @@ class StructureService:
             atom = Atom(
                 atype=atom_data["element"],
                 xyz=[atom_data["x"], atom_data["y"], atom_data["z"]],
-                occupancy=atom_data.get("occupancy", 1.0)
+                occupancy=atom_data.get("occupancy", 1.0),
             )
             atom_objects.append(atom)
 
@@ -146,57 +143,35 @@ class StructureService:
         """
         return structure.findParameters()
 
-    def apply_parameters(
-        self,
-        structure: FitStructure,
-        parameters: Dict[int, float]
-    ) -> None:
+    def apply_parameters(self, structure: FitStructure, parameters: Dict[int, float]) -> None:
         """Apply parameter values.
 
         Wraps: FitStructure.applyParameters()
         """
         structure.applyParameters(parameters)
 
-    def get_pair_selection_flags(
-        self,
-        structure: FitStructure,
-        selections: List[str]
-    ) -> List[int]:
+    def get_pair_selection_flags(self, structure: FitStructure, selections: List[str]) -> List[int]:
         """Get pair selection flags.
 
         Wraps: FitStructure.getPairSelectionFlags()
         """
         return structure.getPairSelectionFlags(selections)
 
-    def change_parameter_index(
-        self,
-        structure: FitStructure,
-        old_index: int,
-        new_index: int
-    ) -> None:
+    def change_parameter_index(self, structure: FitStructure, old_index: int, new_index: int) -> None:
         """Change parameter index in constraints.
 
         Wraps: FitStructure.changeParameterIndex()
         """
         structure.changeParameterIndex(old_index, new_index)
 
-    def write_structure(
-        self,
-        structure: FitStructure,
-        filepath: str,
-        format: str = "pdffit"
-    ) -> None:
+    def write_structure(self, structure: FitStructure, filepath: str, format: str = "pdffit") -> None:
         """Write structure to file.
 
         Wraps: FitStructure.write()
         """
         structure.write(filepath, format=format)
 
-    def structure_to_string(
-        self,
-        structure: FitStructure,
-        format: str = "pdffit"
-    ) -> str:
+    def structure_to_string(self, structure: FitStructure, format: str = "pdffit") -> str:
         """Convert structure to string.
 
         Wraps: FitStructure.writeStr()

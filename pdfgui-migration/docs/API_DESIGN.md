@@ -10,9 +10,11 @@
 ## Authentication Endpoints
 
 ### POST `/auth/register`
+
 Register new user account.
 
 **Request:**
+
 ```json
 {
   "email": "user@example.com",
@@ -23,6 +25,7 @@ Register new user account.
 ```
 
 **Response:** `201 Created`
+
 ```json
 {
   "id": "uuid",
@@ -34,9 +37,11 @@ Register new user account.
 ```
 
 ### POST `/auth/login`
+
 Authenticate user and get JWT token.
 
 **Request:**
+
 ```json
 {
   "email": "user@example.com",
@@ -45,6 +50,7 @@ Authenticate user and get JWT token.
 ```
 
 **Response:** `200 OK`
+
 ```json
 {
   "access_token": "eyJhbGciOiJIUzI1NiIs...",
@@ -55,15 +61,19 @@ Authenticate user and get JWT token.
 ```
 
 ### POST `/auth/refresh`
+
 Refresh access token.
 
 ### POST `/auth/logout`
+
 Invalidate current session.
 
 ### POST `/auth/forgot-password`
+
 Request password reset email.
 
 ### POST `/auth/reset-password`
+
 Reset password with token.
 
 ---
@@ -71,15 +81,18 @@ Reset password with token.
 ## Project Management
 
 ### GET `/projects`
+
 List all projects for current user.
 
 **Query Parameters:**
+
 - `page`: Page number (default: 1)
 - `per_page`: Items per page (default: 20)
 - `archived`: Include archived (default: false)
 - `search`: Search by name
 
 **Response:** `200 OK`
+
 ```json
 {
   "items": [
@@ -99,9 +112,11 @@ List all projects for current user.
 ```
 
 ### POST `/projects`
+
 Create new project.
 
 **Request:**
+
 ```json
 {
   "name": "Ni FCC Study",
@@ -110,24 +125,31 @@ Create new project.
 ```
 
 ### GET `/projects/{project_id}`
+
 Get project details with fittings summary.
 
 ### PUT `/projects/{project_id}`
+
 Update project metadata.
 
 ### DELETE `/projects/{project_id}`
+
 Archive/delete project.
 
 ### POST `/projects/{project_id}/duplicate`
+
 Duplicate entire project.
 
 ### POST `/projects/{project_id}/export`
+
 Export project as .ddp file (original format).
 
 ### POST `/projects/import`
+
 Import from .ddp file.
 
 **Request:** `multipart/form-data`
+
 - `file`: .ddp project file
 
 ---
@@ -135,9 +157,11 @@ Import from .ddp file.
 ## Fitting (Refinement) Management
 
 ### GET `/projects/{project_id}/fittings`
+
 List all fittings in project.
 
 **Response:** `200 OK`
+
 ```json
 {
   "items": [
@@ -156,20 +180,24 @@ List all fittings in project.
 ```
 
 ### POST `/projects/{project_id}/fittings`
+
 Create new fitting.
 
 **Request:**
+
 ```json
 {
   "name": "fit-d300",
-  "copy_from": "uuid"  // Optional: copy from existing fitting
+  "copy_from": "uuid" // Optional: copy from existing fitting
 }
 ```
 
 ### GET `/fittings/{fitting_id}`
+
 Get complete fitting details.
 
 **Response:** `200 OK`
+
 ```json
 {
   "id": "uuid",
@@ -191,12 +219,15 @@ Get complete fitting details.
 ```
 
 ### PUT `/fittings/{fitting_id}`
+
 Update fitting configuration.
 
 ### DELETE `/fittings/{fitting_id}`
+
 Delete fitting.
 
 ### POST `/fittings/{fitting_id}/duplicate`
+
 Duplicate fitting within same project.
 
 ---
@@ -204,9 +235,11 @@ Duplicate fitting within same project.
 ## Refinement Execution
 
 ### POST `/fittings/{fitting_id}/run`
+
 Start refinement job.
 
 **Request:**
+
 ```json
 {
   "max_iterations": 100,
@@ -215,6 +248,7 @@ Start refinement job.
 ```
 
 **Response:** `202 Accepted`
+
 ```json
 {
   "job_id": "uuid",
@@ -224,9 +258,11 @@ Start refinement job.
 ```
 
 ### GET `/fittings/{fitting_id}/status`
+
 Get current refinement status.
 
 **Response:** `200 OK`
+
 ```json
 {
   "status": "RUNNING",
@@ -237,12 +273,15 @@ Get current refinement status.
 ```
 
 ### POST `/fittings/{fitting_id}/stop`
+
 Stop running refinement.
 
 ### WebSocket `/ws/fittings/{fitting_id}`
+
 Real-time updates during refinement.
 
 **Messages:**
+
 ```json
 {
   "type": "iteration",
@@ -259,23 +298,28 @@ Real-time updates during refinement.
 ## Phase (Structure) Management
 
 ### GET `/fittings/{fitting_id}/phases`
+
 List all phases in fitting.
 
 ### POST `/fittings/{fitting_id}/phases`
+
 Add phase to fitting.
 
 **Request:**
+
 ```json
 {
   "name": "LaMnO3",
-  "file_id": "uuid"  // Reference to uploaded structure file
+  "file_id": "uuid" // Reference to uploaded structure file
 }
 ```
 
 ### GET `/phases/{phase_id}`
+
 Get phase details with atoms.
 
 **Response:** `200 OK`
+
 ```json
 {
   "id": "uuid",
@@ -312,15 +356,19 @@ Get phase details with atoms.
 ```
 
 ### PUT `/phases/{phase_id}`
+
 Update phase configuration.
 
 ### DELETE `/phases/{phase_id}`
+
 Remove phase from fitting.
 
 ### PUT `/phases/{phase_id}/lattice`
+
 Update lattice parameters.
 
 **Request:**
+
 ```json
 {
   "a": 5.54,
@@ -333,27 +381,35 @@ Update lattice parameters.
 ```
 
 ### PUT `/phases/{phase_id}/pdf-parameters`
+
 Update PDF-specific parameters.
 
 ### GET `/phases/{phase_id}/atoms`
+
 List atoms in phase.
 
 ### POST `/phases/{phase_id}/atoms`
+
 Add atom(s) to phase.
 
 ### PUT `/phases/{phase_id}/atoms/{atom_index}`
+
 Update atom properties.
 
 ### DELETE `/phases/{phase_id}/atoms/{atom_index}`
+
 Delete atom from phase.
 
 ### POST `/phases/{phase_id}/atoms/bulk`
+
 Bulk insert atoms.
 
 ### PUT `/phases/{phase_id}/selected-pairs`
+
 Set pair selection for PDF calculation.
 
 **Request:**
+
 ```json
 {
   "selections": ["all-all", "!La-La", "Mn-O"]
@@ -365,23 +421,28 @@ Set pair selection for PDF calculation.
 ## Dataset Management
 
 ### GET `/fittings/{fitting_id}/datasets`
+
 List datasets in fitting.
 
 ### POST `/fittings/{fitting_id}/datasets`
+
 Add dataset to fitting.
 
 **Request:**
+
 ```json
 {
   "name": "300K",
-  "file_id": "uuid"  // Reference to uploaded data file
+  "file_id": "uuid" // Reference to uploaded data file
 }
 ```
 
 ### GET `/datasets/{dataset_id}`
+
 Get dataset details with data arrays.
 
 **Response:** `200 OK`
+
 ```json
 {
   "id": "uuid",
@@ -405,21 +466,26 @@ Get dataset details with data arrays.
 ```
 
 ### PUT `/datasets/{dataset_id}`
+
 Update dataset configuration.
 
 ### DELETE `/datasets/{dataset_id}`
+
 Remove dataset from fitting.
 
 ### GET `/datasets/{dataset_id}/data`
+
 Get raw data arrays.
 
 **Query Parameters:**
+
 - `rmin`: Minimum r value
 - `rmax`: Maximum r value
 - `include_calc`: Include calculated PDF
 - `include_diff`: Include difference
 
 **Response:** `200 OK`
+
 ```json
 {
   "observed": {
@@ -439,9 +505,11 @@ Get raw data arrays.
 ```
 
 ### PUT `/datasets/{dataset_id}/instrument`
+
 Update instrument parameters.
 
 **Request:**
+
 ```json
 {
   "qmax": 32.0,
@@ -452,9 +520,11 @@ Update instrument parameters.
 ```
 
 ### PUT `/datasets/{dataset_id}/fit-range`
+
 Update fitting range.
 
 **Request:**
+
 ```json
 {
   "rmin": 1.5,
@@ -468,12 +538,15 @@ Update fitting range.
 ## Calculation Management
 
 ### GET `/fittings/{fitting_id}/calculations`
+
 List calculations in fitting.
 
 ### POST `/fittings/{fitting_id}/calculations`
+
 Create new calculation.
 
 **Request:**
+
 ```json
 {
   "name": "calc-theory",
@@ -484,18 +557,23 @@ Create new calculation.
 ```
 
 ### GET `/calculations/{calculation_id}`
+
 Get calculation details and results.
 
 ### PUT `/calculations/{calculation_id}`
+
 Update calculation parameters.
 
 ### DELETE `/calculations/{calculation_id}`
+
 Delete calculation.
 
 ### POST `/calculations/{calculation_id}/run`
+
 Execute calculation.
 
 ### GET `/calculations/{calculation_id}/data`
+
 Get calculated PDF data.
 
 ---
@@ -503,9 +581,11 @@ Get calculated PDF data.
 ## Parameter Management
 
 ### GET `/fittings/{fitting_id}/parameters`
+
 Get all parameters for fitting.
 
 **Response:** `200 OK`
+
 ```json
 {
   "parameters": [
@@ -516,16 +596,18 @@ Get all parameters for fitting.
       "refined_value": 5.53884,
       "uncertainty": 0.00012,
       "is_fixed": false,
-      "bounds": {"lower": 5.0, "upper": 6.0}
+      "bounds": { "lower": 5.0, "upper": 6.0 }
     }
   ]
 }
 ```
 
 ### PUT `/fittings/{fitting_id}/parameters`
+
 Update multiple parameters.
 
 **Request:**
+
 ```json
 {
   "parameters": [
@@ -533,16 +615,18 @@ Update multiple parameters.
       "index": 1,
       "initial_value": 5.54,
       "is_fixed": false,
-      "bounds": {"lower": 5.0, "upper": 6.0}
+      "bounds": { "lower": 5.0, "upper": 6.0 }
     }
   ]
 }
 ```
 
 ### PUT `/fittings/{fitting_id}/parameters/{index}/fix`
+
 Fix/unfix parameter.
 
 ### PUT `/fittings/{fitting_id}/parameters/{index}/bounds`
+
 Set parameter bounds.
 
 ---
@@ -550,9 +634,11 @@ Set parameter bounds.
 ## Constraint Management
 
 ### GET `/fittings/{fitting_id}/constraints`
+
 List all constraints.
 
 **Response:** `200 OK`
+
 ```json
 {
   "constraints": [
@@ -573,9 +659,11 @@ List all constraints.
 ```
 
 ### POST `/fittings/{fitting_id}/constraints`
+
 Add constraint.
 
 **Request:**
+
 ```json
 {
   "target": "y(2)",
@@ -585,15 +673,19 @@ Add constraint.
 ```
 
 ### PUT `/constraints/{constraint_id}`
+
 Update constraint formula.
 
 ### DELETE `/constraints/{constraint_id}`
+
 Remove constraint.
 
 ### POST `/fittings/{fitting_id}/constraints/validate`
+
 Validate constraint formula.
 
 **Request:**
+
 ```json
 {
   "formula": "@1 * sin(@2)"
@@ -601,6 +693,7 @@ Validate constraint formula.
 ```
 
 **Response:** `200 OK`
+
 ```json
 {
   "valid": true,
@@ -614,13 +707,16 @@ Validate constraint formula.
 ## File Upload & Management
 
 ### POST `/files/upload`
+
 Upload structure or data file.
 
 **Request:** `multipart/form-data`
+
 - `file`: The file to upload
 - `file_type`: 'stru', 'pdb', 'cif', 'xyz', 'gr', 'dat', 'chi'
 
 **Response:** `201 Created`
+
 ```json
 {
   "id": "uuid",
@@ -638,21 +734,27 @@ Upload structure or data file.
 ```
 
 ### GET `/files/{file_id}`
+
 Get file metadata.
 
 ### GET `/files/{file_id}/download`
+
 Download original file.
 
 ### GET `/files/{file_id}/preview`
+
 Get parsed file preview.
 
 ### DELETE `/files/{file_id}`
+
 Delete uploaded file.
 
 ### GET `/files`
+
 List user's uploaded files.
 
 **Query Parameters:**
+
 - `file_type`: Filter by type
 - `project_id`: Filter by project
 
@@ -661,15 +763,18 @@ List user's uploaded files.
 ## Plotting & Visualization
 
 ### GET `/fittings/{fitting_id}/plots/pdf`
+
 Get PDF plot data.
 
 **Query Parameters:**
+
 - `datasets`: Dataset IDs (comma-separated)
 - `show_calculated`: Include calculated (default: true)
 - `show_difference`: Include difference (default: true)
 - `offset`: Vertical offset between datasets
 
 **Response:** `200 OK`
+
 ```json
 {
   "plot_type": "pdf",
@@ -692,22 +797,28 @@ Get PDF plot data.
 ```
 
 ### GET `/fittings/{fitting_id}/plots/structure`
+
 Get 3D structure visualization data.
 
 ### GET `/fittings/{fitting_id}/plots/parameters`
+
 Get parameter evolution plot.
 
 ### GET `/projects/{project_id}/plots/series`
+
 Get temperature/doping series plot.
 
 **Query Parameters:**
+
 - `parameter`: Parameter to plot (e.g., 'lat_a', 'rw')
 - `series_type`: 'temperature' or 'doping'
 
 ### POST `/plots/config`
+
 Save plot configuration.
 
 ### GET `/plots/config/{config_id}`
+
 Load saved plot configuration.
 
 ---
@@ -715,9 +826,11 @@ Load saved plot configuration.
 ## Series Analysis
 
 ### GET `/projects/{project_id}/series`
+
 Get series analysis data.
 
 **Response:** `200 OK`
+
 ```json
 {
   "series_type": "temperature",
@@ -725,16 +838,18 @@ Get series analysis data.
   "fittings": ["uuid1", "uuid2", "uuid3", "uuid4", "uuid5"],
   "parameters": {
     "lat_a": [5.53, 5.54, 5.55, 5.56, 5.57],
-    "lat_b": [7.70, 7.71, 7.72, 7.73, 7.74],
+    "lat_b": [7.7, 7.71, 7.72, 7.73, 7.74],
     "rw": [0.18, 0.19, 0.17, 0.18, 0.19]
   }
 }
 ```
 
 ### POST `/projects/{project_id}/series/extract`
+
 Extract series from multiple fittings.
 
 **Request:**
+
 ```json
 {
   "series_type": "temperature",
@@ -748,15 +863,18 @@ Extract series from multiple fittings.
 ## Run History & Session Management
 
 ### GET `/history`
+
 Get user's run history.
 
 **Query Parameters:**
+
 - `page`, `per_page`: Pagination
 - `fitting_id`: Filter by fitting
 - `action_type`: Filter by action
 - `date_from`, `date_to`: Date range
 
 **Response:** `200 OK`
+
 ```json
 {
   "items": [
@@ -776,12 +894,15 @@ Get user's run history.
 ```
 
 ### GET `/history/{history_id}`
+
 Get detailed history entry with wizard state.
 
 ### POST `/history/{history_id}/replay`
+
 Replay a previous session.
 
 **Response:** `201 Created`
+
 ```json
 {
   "fitting_id": "uuid",
@@ -794,12 +915,15 @@ Replay a previous session.
 ## User Settings
 
 ### GET `/settings`
+
 Get user settings.
 
 ### PUT `/settings`
+
 Update user settings.
 
 **Request:**
+
 ```json
 {
   "plot_preferences": {
@@ -823,35 +947,41 @@ Update user settings.
 ## Export & Import
 
 ### POST `/fittings/{fitting_id}/export/results`
+
 Export fitting results.
 
 **Request:**
+
 ```json
 {
-  "format": "json",  // 'json', 'csv', 'txt'
+  "format": "json", // 'json', 'csv', 'txt'
   "include": ["parameters", "data", "plots"]
 }
 ```
 
 ### POST `/fittings/{fitting_id}/export/structure`
+
 Export refined structure.
 
 **Request:**
+
 ```json
 {
   "phase_id": "uuid",
-  "format": "stru"  // 'stru', 'cif', 'xyz', 'pdb'
+  "format": "stru" // 'stru', 'cif', 'xyz', 'pdb'
 }
 ```
 
 ### POST `/fittings/{fitting_id}/export/data`
+
 Export PDF data.
 
 **Request:**
+
 ```json
 {
   "dataset_id": "uuid",
-  "format": "gr",  // 'gr', 'dat', 'csv'
+  "format": "gr", // 'gr', 'dat', 'csv'
   "include_calculated": true
 }
 ```
@@ -861,12 +991,15 @@ Export PDF data.
 ## Health & Status
 
 ### GET `/health`
+
 API health check.
 
 ### GET `/status`
+
 System status including queue.
 
 **Response:** `200 OK`
+
 ```json
 {
   "status": "healthy",
@@ -883,6 +1016,7 @@ System status including queue.
 ## Error Responses
 
 ### Standard Error Format
+
 ```json
 {
   "error": {
@@ -897,6 +1031,7 @@ System status including queue.
 ```
 
 ### Error Codes
+
 - `400` - Bad Request (validation errors)
 - `401` - Unauthorized (missing/invalid token)
 - `403` - Forbidden (insufficient permissions)
@@ -916,6 +1051,7 @@ System status including queue.
 - **WebSocket connections**: 10 per user
 
 Headers:
+
 ```
 X-RateLimit-Limit: 1000
 X-RateLimit-Remaining: 995
@@ -944,11 +1080,13 @@ All list endpoints use cursor-based or offset pagination:
 ## WebSocket Events
 
 ### Connection
+
 ```
 ws://api.example.com/ws/fittings/{fitting_id}?token=<jwt>
 ```
 
 ### Event Types
+
 - `status_change`: Fitting status changed
 - `iteration`: Refinement iteration completed
 - `parameter_update`: Parameters updated
@@ -956,6 +1094,7 @@ ws://api.example.com/ws/fittings/{fitting_id}?token=<jwt>
 - `complete`: Refinement finished
 
 ### Example Messages
+
 ```json
 {"type": "iteration", "data": {"iteration": 23, "rw": 0.2156}}
 {"type": "complete", "data": {"rw": 0.1823, "iterations": 45}}

@@ -3,14 +3,14 @@
 These tests verify that the migrated API produces EXACTLY the same
 numerical results as the original pdfGUI for all computations.
 """
-import pytest
-import numpy as np
-from numpy.testing import assert_almost_equal, assert_array_almost_equal
 
+import numpy as np
+import pytest
+from app.services.constraint_service import ConstraintService
+from app.services.dataset_service import DatasetService
 from app.services.fitting_service import FittingService
 from app.services.structure_service import StructureService
-from app.services.dataset_service import DatasetService
-from app.services.constraint_service import ConstraintService
+from numpy.testing import assert_almost_equal, assert_array_almost_equal
 
 
 class TestGridInterpolation:
@@ -28,9 +28,7 @@ class TestGridInterpolation:
         y0 = np.sin(x0)
         x1 = [-6, x0[0], -0.2, x0[-1], 37]
 
-        y1 = self.dataset_service.resample_data(
-            x0.tolist(), y0.tolist(), x1
-        )
+        y1 = self.dataset_service.resample_data(x0.tolist(), y0.tolist(), x1)
 
         # Verify exact values from original test
         # Left boundary should be 0
@@ -56,9 +54,7 @@ class TestGridInterpolation:
 
         # Test points at exact grid positions
         x1 = [0.0, 0.5, 1.0, 5.0, 9.9]
-        y1 = self.dataset_service.resample_data(
-            x0.tolist(), y0.tolist(), x1
-        )
+        y1 = self.dataset_service.resample_data(x0.tolist(), y0.tolist(), x1)
 
         # Exact grid points should match perfectly
         assert_almost_equal(y0[0], y1[0], decimal=10)
@@ -77,45 +73,30 @@ class TestConstraintEvaluation:
 
     def test_simple_formula(self):
         """Test simple parameter reference."""
-        result = self.constraint_service.evaluate_formula(
-            "@1",
-            {1: 5.5}
-        )
+        result = self.constraint_service.evaluate_formula("@1", {1: 5.5})
         assert_almost_equal(5.5, result["value"])
 
     def test_formula_with_offset(self):
         """Test formula with addition."""
-        result = self.constraint_service.evaluate_formula(
-            "@3 + 0.4",
-            {3: 1.0}
-        )
+        result = self.constraint_service.evaluate_formula("@3 + 0.4", {3: 1.0})
         assert_almost_equal(1.4, result["value"])
 
     def test_formula_with_multiplication(self):
         """Test formula with multiplication."""
-        result = self.constraint_service.evaluate_formula(
-            "@7 * 3.0",
-            {7: 0.5}
-        )
+        result = self.constraint_service.evaluate_formula("@7 * 3.0", {7: 0.5})
         assert_almost_equal(1.5, result["value"])
 
     def test_trig_functions(self):
         """Test trigonometric functions in formulas."""
         import math
 
-        result = self.constraint_service.evaluate_formula(
-            "sin(@3)",
-            {3: math.pi / 3.0}
-        )
+        result = self.constraint_service.evaluate_formula("sin(@3)", {3: math.pi / 3.0})
         # sin(60 degrees) = sqrt(0.75)
         assert_almost_equal(math.sqrt(0.75), result["value"], decimal=8)
 
     def test_complex_formula(self):
         """Test complex formula with multiple parameters."""
-        result = self.constraint_service.evaluate_formula(
-            "@1 * cos(@2) + @3",
-            {1: 2.0, 2: 0.0, 3: 1.0}
-        )
+        result = self.constraint_service.evaluate_formula("@1 * cos(@2) + @3", {1: 2.0, 2: 0.0, 3: 1.0})
         # 2.0 * cos(0) + 1.0 = 2.0 * 1.0 + 1.0 = 3.0
         assert_almost_equal(3.0, result["value"])
 
@@ -164,11 +145,7 @@ class TestStructureOperations:
         from diffpy.pdfgui.control.fitstructure import FitStructure
 
         structure = FitStructure("test")
-        self.structure_service.set_lattice(
-            structure,
-            5.53884, 7.7042, 5.4835,
-            90.0, 90.0, 90.0
-        )
+        self.structure_service.set_lattice(structure, 5.53884, 7.7042, 5.4835, 90.0, 90.0, 90.0)
 
         assert_almost_equal(5.53884, structure.lattice.a, decimal=5)
         assert_almost_equal(7.7042, structure.lattice.b, decimal=4)
@@ -289,7 +266,8 @@ class TestRefinementResults:
 
     @pytest.mark.skip(reason="Requires full fitting engine setup")
     def test_lamno3_lattice_parameters(self, testdata_file):
-        """Test LaMnO3 refinement produces expected lattice parameters."""
+        """Test LaMnO3 refinement produces expected lattice
+        parameters."""
         # Expected values from test_loadproject.py
         expected_a = 5.53884
 

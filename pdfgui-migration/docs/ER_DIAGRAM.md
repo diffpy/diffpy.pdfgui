@@ -251,13 +251,17 @@ erDiagram
 ### Core User Management
 
 #### USERS
+
 Primary user account table with authentication details.
+
 - `password_hash`: bcrypt hashed password
 - `is_verified`: Email verification status
 - `is_active`: Account active/deactivated status
 
 #### SESSIONS
+
 JWT token sessions for stateless authentication.
+
 - `token`: JWT access token
 - `expires_at`: Token expiration timestamp
 - Supports multiple concurrent sessions per user
@@ -265,12 +269,16 @@ JWT token sessions for stateless authentication.
 ### Project & Fitting Structure
 
 #### PROJECTS
+
 Top-level container for refinement work.
+
 - `metadata`: Additional project info (origin, notes, version)
 - `is_archived`: Soft delete for completed projects
 
 #### FITTINGS
+
 Individual refinement jobs within a project.
+
 - `status`: PENDING, QUEUED, RUNNING, COMPLETED, FAILED, CANCELLED
 - `queue_position`: Position in execution queue
 - `parameters`: All parameter values as JSON
@@ -279,7 +287,9 @@ Individual refinement jobs within a project.
 - `chi_squared`: Goodness of fit metric
 
 #### PHASES (Crystal Structures)
+
 Crystal structure models for PDF fitting.
+
 - `lattice_params`: {a, b, c, alpha, beta, gamma}
 - `initial_structure`: Starting atomic positions
 - `refined_structure`: Optimized atomic positions
@@ -288,14 +298,18 @@ Crystal structure models for PDF fitting.
 - `scale_factor`, `delta1`, `delta2`, `sratio`, `spdiameter`: PDF-specific parameters
 
 #### ATOMS
+
 Individual atoms within a phase structure.
+
 - `x, y, z`: Fractional coordinates
 - `u11-u23`: Anisotropic displacement parameters
 - `uiso`: Isotropic displacement parameter
 - `constraints`: Per-atom parameter constraints
 
 #### DATASETS
+
 Experimental PDF data for fitting.
+
 - `source_type`: 'N' (neutron) or 'X' (X-ray)
 - `qmax`, `qdamp`, `qbroad`: Instrument parameters
 - `dscale`: Data scaling factor
@@ -305,7 +319,9 @@ Experimental PDF data for fitting.
 - `difference_data`: Gobs - Gcalc
 
 #### CALCULATIONS
+
 Theoretical PDF calculations.
+
 - `rmin`, `rmax`, `rstep`: R-grid parameters
 - `rlen`: Number of calculated points
 - `calculated_pdf`: {r: [], G: []}
@@ -313,13 +329,17 @@ Theoretical PDF calculations.
 ### Parameter & Constraint System
 
 #### PARAMETERS
+
 Refinable parameters with bounds.
+
 - `param_index`: Unique parameter identifier (@1, @2, etc.)
 - `is_fixed`: Whether parameter is fixed during refinement
 - `lower_bound`, `upper_bound`: Parameter constraints
 
 #### CONSTRAINTS
+
 Mathematical constraints linking parameters.
+
 - `target_variable`: What is being constrained (e.g., 'lat(1)', 'x(2)')
 - `formula`: Constraint equation (e.g., '@1 + 0.5')
 - `parsed_formula`: Pre-parsed AST for evaluation
@@ -327,14 +347,18 @@ Mathematical constraints linking parameters.
 ### File & History Management
 
 #### UPLOADED_FILES
+
 User uploaded structure and data files.
+
 - `file_type`: 'stru', 'pdb', 'cif', 'xyz', 'gr', 'dat', 'chi'
 - `storage_path`: Server file system path
 - `checksum`: SHA-256 for integrity verification
 - `parsed_content`: Pre-parsed file content
 
 #### RUN_HISTORY
+
 Complete audit trail of user actions.
+
 - `action_type`: CREATE_FIT, RUN_REFINEMENT, MODIFY_PARAMS, etc.
 - `wizard_state`: Complete wizard form state (JSON)
 - `input_params`: All input parameters
@@ -344,19 +368,25 @@ Complete audit trail of user actions.
 ### User Preferences & Visualization
 
 #### USER_SETTINGS
+
 Per-user preferences and defaults.
+
 - `plot_preferences`: Default colors, styles, formats
 - `default_parameters`: Default fitting parameters
 - `ui_preferences`: Theme, layout, shortcuts
 
 #### PLOT_CONFIGS
+
 Saved plot configurations.
+
 - `plot_type`: 'pdf', 'structure', 'parameters', 'series'
 - `config`: Axis ranges, colors, labels, etc.
 - `data_series`: Which data to plot
 
 #### SERIES_DATA
+
 Temperature or doping series metadata.
+
 - `series_type`: 'temperature' or 'doping'
 - `series_values`: [300, 350, 400, ...] K or [0.0, 0.1, 0.2, ...]
 - `fitting_ids`: Associated fitting UUIDs
@@ -393,6 +423,7 @@ CREATE INDEX idx_uploaded_files_project_id ON uploaded_files(project_id);
 ## Data Types & Constraints
 
 ### Status Enums
+
 ```sql
 CREATE TYPE fitting_status AS ENUM (
     'PENDING', 'QUEUED', 'RUNNING',
@@ -413,6 +444,7 @@ CREATE TYPE action_type AS ENUM (
 ### JSONB Schemas
 
 #### lattice_params
+
 ```json
 {
   "a": 5.53884,
@@ -425,6 +457,7 @@ CREATE TYPE action_type AS ENUM (
 ```
 
 #### observed_data
+
 ```json
 {
   "robs": [0.01, 0.02, ...],
@@ -434,6 +467,7 @@ CREATE TYPE action_type AS ENUM (
 ```
 
 #### wizard_state
+
 ```json
 {
   "current_step": 3,
@@ -447,15 +481,15 @@ CREATE TYPE action_type AS ENUM (
 
 ## Storage Estimates
 
-| Table | Rows/User/Year | Avg Row Size | Storage/User/Year |
-|-------|----------------|--------------|-------------------|
-| users | 1 | 500 B | 500 B |
-| projects | 50 | 1 KB | 50 KB |
-| fittings | 500 | 10 KB | 5 MB |
-| phases | 1,000 | 50 KB | 50 MB |
-| atoms | 50,000 | 200 B | 10 MB |
-| datasets | 500 | 500 KB | 250 MB |
-| run_history | 10,000 | 5 KB | 50 MB |
-| uploaded_files | 200 | 100 KB | 20 MB |
+| Table          | Rows/User/Year | Avg Row Size | Storage/User/Year |
+| -------------- | -------------- | ------------ | ----------------- |
+| users          | 1              | 500 B        | 500 B             |
+| projects       | 50             | 1 KB         | 50 KB             |
+| fittings       | 500            | 10 KB        | 5 MB              |
+| phases         | 1,000          | 50 KB        | 50 MB             |
+| atoms          | 50,000         | 200 B        | 10 MB             |
+| datasets       | 500            | 500 KB       | 250 MB            |
+| run_history    | 10,000         | 5 KB         | 50 MB             |
+| uploaded_files | 200            | 100 KB       | 20 MB             |
 
 **Total: ~400 MB/user/year** (excluding actual file storage)

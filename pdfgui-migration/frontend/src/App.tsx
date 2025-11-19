@@ -1,18 +1,18 @@
 /**
  * Main application component.
  */
-import React from 'react';
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { useAuthStore } from './store/authStore';
+import React from "react";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { useAuthStore } from "./store/authStore";
 
 // Lazy load pages
-const LoginPage = React.lazy(() => import('./pages/Login'));
-const RegisterPage = React.lazy(() => import('./pages/Register'));
-const DashboardPage = React.lazy(() => import('./pages/Dashboard'));
-const ProjectPage = React.lazy(() => import('./pages/Project'));
-const FittingPage = React.lazy(() => import('./pages/Fitting'));
-const WizardPage = React.lazy(() => import('./pages/Wizard'));
+const LoginPage = React.lazy(() => import("./pages/Login"));
+const RegisterPage = React.lazy(() => import("./pages/Register"));
+const DashboardPage = React.lazy(() => import("./pages/Dashboard"));
+const ProjectPage = React.lazy(() => import("./pages/Project"));
+const FittingPage = React.lazy(() => import("./pages/Fitting"));
+const WizardPage = React.lazy(() => import("./pages/Wizard"));
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -24,7 +24,9 @@ const queryClient = new QueryClient({
 });
 
 // Protected route wrapper
-const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({
+  children,
+}) => {
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
 
   if (!isAuthenticated) {

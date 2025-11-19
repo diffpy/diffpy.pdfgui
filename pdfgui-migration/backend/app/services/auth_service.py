@@ -1,17 +1,21 @@
 """Authentication service - user management with bcrypt."""
+
 from datetime import datetime, timedelta
 from typing import Optional
 from uuid import UUID
+
 from sqlalchemy.orm import Session
-from ..models.user import User, Session as UserSession, UserSettings
+
+from ..core.config import settings
 from ..core.security import (
-    verify_password,
-    get_password_hash,
     create_access_token,
     create_refresh_token,
-    decode_token
+    decode_token,
+    get_password_hash,
+    verify_password,
 )
-from ..core.config import settings
+from ..models.user import Session as UserSession
+from ..models.user import User, UserSettings
 
 
 class AuthService:
@@ -21,11 +25,7 @@ class AuthService:
         self.db = db
 
     def create_user(
-        self,
-        email: str,
-        password: str,
-        first_name: Optional[str] = None,
-        last_name: Optional[str] = None
+        self, email: str, password: str, first_name: Optional[str] = None, last_name: Optional[str] = None
     ) -> User:
         """Create new user with hashed password."""
         # Check if user exists
@@ -35,10 +35,7 @@ class AuthService:
 
         # Create user with bcrypt hashed password
         user = User(
-            email=email,
-            password_hash=get_password_hash(password),
-            first_name=first_name,
-            last_name=last_name
+            email=email, password_hash=get_password_hash(password), first_name=first_name, last_name=last_name
         )
         self.db.add(user)
 
@@ -48,16 +45,10 @@ class AuthService:
             plot_preferences={
                 "default_colors": ["#1f77b4", "#ff7f0e", "#2ca02c"],
                 "line_width": 1.5,
-                "marker_size": 4
+                "marker_size": 4,
             },
-            default_parameters={
-                "qmax": 32.0,
-                "fit_rmax": 30.0
-            },
-            ui_preferences={
-                "theme": "light",
-                "auto_save": True
-            }
+            default_parameters={"qmax": 32.0, "fit_rmax": 30.0},
+            ui_preferences={"theme": "light", "auto_save": True},
         )
         self.db.add(user_settings)
 
@@ -76,10 +67,7 @@ class AuthService:
         return user
 
     def create_session(
-        self,
-        user: User,
-        ip_address: Optional[str] = None,
-        user_agent: Optional[str] = None
+        self, user: User, ip_address: Optional[str] = None, user_agent: Optional[str] = None
     ) -> dict:
         """Create new session with JWT tokens."""
         # Create tokens
@@ -95,7 +83,7 @@ class AuthService:
             token=refresh_token,
             expires_at=expires_at,
             ip_address=ip_address,
-            user_agent=user_agent
+            user_agent=user_agent,
         )
         self.db.add(session)
 
@@ -108,7 +96,7 @@ class AuthService:
             "access_token": access_token,
             "refresh_token": refresh_token,
             "token_type": "bearer",
-            "expires_in": settings.ACCESS_TOKEN_EXPIRE_MINUTES * 60
+            "expires_in": settings.ACCESS_TOKEN_EXPIRE_MINUTES * 60,
         }
 
     def refresh_access_token(self, refresh_token: str) -> Optional[dict]:
@@ -119,10 +107,11 @@ class AuthService:
             return None
 
         # Find session
-        session = self.db.query(UserSession).filter(
-            UserSession.token == refresh_token,
-            UserSession.expires_at > datetime.utcnow()
-        ).first()
+        session = (
+            self.db.query(UserSession)
+            .filter(UserSession.token == refresh_token, UserSession.expires_at > datetime.utcnow())
+            .first()
+        )
 
         if not session:
             return None
@@ -133,14 +122,12 @@ class AuthService:
         return {
             "access_token": access_token,
             "token_type": "bearer",
-            "expires_in": settings.ACCESS_TOKEN_EXPIRE_MINUTES * 60
+            "expires_in": settings.ACCESS_TOKEN_EXPIRE_MINUTES * 60,
         }
 
     def logout(self, refresh_token: str) -> bool:
         """Invalidate session."""
-        session = self.db.query(UserSession).filter(
-            UserSession.token == refresh_token
-        ).first()
+        session = self.db.query(UserSession).filter(UserSession.token == refresh_token).first()
 
         if session:
             self.db.delete(session)
@@ -157,12 +144,7 @@ class AuthService:
         """Get user by email."""
         return self.db.query(User).filter(User.email == email).first()
 
-    def update_password(
-        self,
-        user: User,
-        old_password: str,
-        new_password: str
-    ) -> bool:
+    def update_password(self, user: User, old_password: str, new_password: str) -> bool:
         """Update user password."""
         if not verify_password(old_password, user.password_hash):
             return False

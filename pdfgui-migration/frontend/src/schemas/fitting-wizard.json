@@ -17,8 +17,12 @@
             "label": "Project Name",
             "placeholder": "e.g., LaMnO3 Temperature Series",
             "validation": [
-              {"type": "required", "message": "Project name is required"},
-              {"type": "minLength", "value": 3, "message": "Name must be at least 3 characters"}
+              { "type": "required", "message": "Project name is required" },
+              {
+                "type": "minLength",
+                "value": 3,
+                "message": "Name must be at least 3 characters"
+              }
             ]
           },
           {
@@ -47,7 +51,7 @@
             "description": "Supported formats: .gr, .dat, .chi",
             "accept": ".gr,.dat,.chi",
             "validation": [
-              {"type": "required", "message": "Data file is required"}
+              { "type": "required", "message": "Data file is required" }
             ]
           },
           {
@@ -56,7 +60,7 @@
             "label": "Dataset Name",
             "placeholder": "e.g., 300K",
             "validation": [
-              {"type": "required", "message": "Dataset name is required"}
+              { "type": "required", "message": "Dataset name is required" }
             ]
           },
           {
@@ -64,8 +68,8 @@
             "type": "select",
             "label": "Radiation Source",
             "options": [
-              {"value": "N", "label": "Neutron"},
-              {"value": "X", "label": "X-ray"}
+              { "value": "N", "label": "Neutron" },
+              { "value": "X", "label": "X-ray" }
             ],
             "defaultValue": "N"
           },
@@ -79,8 +83,8 @@
             "max": 100,
             "step": 0.1,
             "validation": [
-              {"type": "required", "message": "Qmax is required"},
-              {"type": "min", "value": 1, "message": "Qmax must be positive"}
+              { "type": "required", "message": "Qmax is required" },
+              { "type": "min", "value": 1, "message": "Qmax must be positive" }
             ]
           },
           {
@@ -122,7 +126,7 @@
             "description": "Supported formats: .stru, .cif, .pdb, .xyz",
             "accept": ".stru,.cif,.pdb,.xyz",
             "validation": [
-              {"type": "required", "message": "Structure file is required"}
+              { "type": "required", "message": "Structure file is required" }
             ]
           },
           {
@@ -131,7 +135,7 @@
             "label": "Phase Name",
             "placeholder": "e.g., LaMnO3",
             "validation": [
-              {"type": "required", "message": "Phase name is required"}
+              { "type": "required", "message": "Phase name is required" }
             ]
           },
           {
@@ -179,8 +183,12 @@
             "min": 0,
             "step": 0.1,
             "validation": [
-              {"type": "required", "message": "Rmin is required"},
-              {"type": "min", "value": 0, "message": "Rmin must be non-negative"}
+              { "type": "required", "message": "Rmin is required" },
+              {
+                "type": "min",
+                "value": 0,
+                "message": "Rmin must be non-negative"
+              }
             ]
           },
           {
@@ -192,7 +200,7 @@
             "min": 1,
             "step": 0.1,
             "validation": [
-              {"type": "required", "message": "Rmax is required"}
+              { "type": "required", "message": "Rmax is required" }
             ]
           },
           {
@@ -265,7 +273,7 @@
             "label": "Fitting Name",
             "placeholder": "e.g., fit-d300",
             "validation": [
-              {"type": "required", "message": "Fitting name is required"}
+              { "type": "required", "message": "Fitting name is required" }
             ]
           },
           {
