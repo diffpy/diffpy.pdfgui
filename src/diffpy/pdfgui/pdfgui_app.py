@@ -7,7 +7,8 @@ def main():
     parser = argparse.ArgumentParser(
         prog="diffpy.pdfgui",
         description=(
-            "Graphical user interface program for structure refinements to the atomic pair distribution function.\n\n"
+            "Graphical user interface program for structure refinements "
+            "to the atomic pair distribution function.\n\n"
             "For more information, visit: "
             "https://github.com/diffpy/diffpy.pdfgui/"
         ),
