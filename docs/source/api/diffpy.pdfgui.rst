@@ -14,7 +14,10 @@ Subpackages
 -----------
 
 .. toctree::
-   diffpy.pdfgui.example_package
+    diffpy.pdfgui.icons
+    diffpy.pdfgui.gui
+    diffpy.pdfgui.applications
+    diffpy.pdfgui.control
 
 Submodules
 ----------
@@ -22,9 +25,18 @@ Submodules
 |module|
 --------
 
-.. |module| replace:: diffpy.pdfgui.example_submodule module
+diffpy.pdfgui.utils module
+^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-.. automodule:: diffpy.pdfgui.example_submodule
+.. automodule:: diffpy.pdfgui.utils
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+diffpy.pdfgui.tui module
+^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. automodule:: diffpy.pdfgui.tui
     :members:
     :undoc-members:
     :show-inheritance:
