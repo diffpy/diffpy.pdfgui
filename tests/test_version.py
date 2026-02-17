@@ -1,6 +1,6 @@
 """Unit tests for __version__.py."""
 
-import diffpy.pdfgui
+import diffpy.pdfgui  # noqa
 
 
 def test_package_version():

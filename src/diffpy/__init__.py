@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 ##############################################################################
 #
-# (c) 2024 The Trustees of Columbia University in the City of New York.
+# (c) 2024-2026 The Trustees of Columbia University in the City of New York.
 # All rights reserved.
 #
 # File coded by: Billinge Group members and community contributors.

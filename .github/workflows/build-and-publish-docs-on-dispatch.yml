@@ -1,0 +1,18 @@
+name: Build and Publish Docs on Dispatch
+
+on:
+  workflow_dispatch:
+
+jobs:
+  get-python-version:
+    uses: scikit-package/release-scripts/.github/workflows/_get-python-version-latest.yml@v0
+    with:
+      python_version: 0
+
+  docs:
+    uses: scikit-package/release-scripts/.github/workflows/_release-docs.yml@v0
+    with:
+      project: diffpy.pdfgui
+      c_extension: false
+      headless: false
+      python_version: ${{ fromJSON(needs.get-python-version.outputs.latest_python_version) }}

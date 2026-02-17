@@ -1,0 +1,21 @@
+name: Matrix and Codecov
+
+on:
+  # push:
+  #   branches:
+  #     - main
+  release:
+    types:
+      - prereleased
+      - published
+  workflow_dispatch:
+
+jobs:
+  matrix-coverage:
+    uses: scikit-package/release-scripts/.github/workflows/_matrix-and-codecov-on-merge-to-main.yml@v0
+    with:
+      project: diffpy.pdfgui
+      c_extension: false
+      headless: false
+    secrets:
+      CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
