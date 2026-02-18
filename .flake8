@@ -6,7 +6,7 @@ exclude =
     __pycache__,
     build,
     dist,
-    doc/source/conf.py
+    docs/source/conf.py
 max-line-length = 115
 # Ignore some style 'errors' produced while formatting by 'black'
 # https://black.readthedocs.io/en/stable/guides/using_black_with_other_tools.html#labels-why-pycodestyle-warnings

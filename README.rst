@@ -25,6 +25,7 @@
         :target: https://anaconda.org/conda-forge/diffpy.pdfgui
 
 .. |PR| image:: https://img.shields.io/badge/PR-Welcome-29ab47ff
+        :target: https://github.com/diffpy/diffpy.pdfgui/pulls
 
 .. |PyPI| image:: https://img.shields.io/pypi/v/diffpy.pdfgui
         :target: https://pypi.org/project/diffpy.pdfgui/
@@ -35,8 +36,7 @@
 .. |Tracking| image:: https://img.shields.io/badge/issue_tracking-github-blue
         :target: https://github.com/diffpy/diffpy.pdfgui/issues
 
-Graphical user interface program for structure refinements to the atomic
-pair distribution function.
+Graphical user interface program for structure refinements to the atomic pair distribution function.
 
 For users who do not have the expertise or necessity for command
 line analysis, PDFgui is a convenient and easy to use graphical front
@@ -74,19 +74,35 @@ The preferred method is to use `Miniconda Python
 <https://docs.conda.io/projects/miniconda/en/latest/miniconda-install.html>`_
 and install from the "conda-forge" channel of Conda packages.
 
-Add the "conda-forge" channel by running the following command in a terminal: ::
+To add "conda-forge" to the conda channels, run the following in a terminal. ::
 
         conda config --add channels conda-forge
 
-Create a new environment named ``diffpy.pdfgui_env`` and install ``diffpy.pdfgui``: ::
+We want to install our packages in a suitable conda environment.
+The following creates and activates a new environment named ``diffpy.pdfgui_env`` ::
 
         conda create -n diffpy.pdfgui_env diffpy.pdfgui
-
-Activate the environment: ::
-
         conda activate diffpy.pdfgui_env
 
-Confirm that the installation was successful: ::
+The output should print the latest version displayed on the badges above.
+
+If the above does not work, you can use ``pip`` to download and install the latest release from
+`Python Package Index <https://pypi.python.org>`_.
+To install using ``pip`` into your ``diffpy.pdfgui_env`` environment, type ::
+
+        pip install diffpy.pdfgui
+
+If you prefer to install from sources, after installing the dependencies, obtain the source archive from
+`GitHub <https://github.com/diffpy/diffpy.pdfgui/>`_. Once installed, ``cd`` into your ``diffpy.pdfgui`` directory
+and run the following ::
+
+        pip install .
+
+This package also provides command-line utilities. To check the software has been installed correctly, type ::
+
+        diffpy.pdfgui --version
+
+You can also type the following command to verify the installation. ::
 
         python -c "import diffpy.pdfgui; print(diffpy.pdfgui.__version__)"
 
@@ -162,12 +178,12 @@ trying to commit again.
 
 Improvements and fixes are always appreciated.
 
-Before contributing, please read our `Code of Conduct <https://github.com/diffpy/diffpy.pdfgui/blob/main/CODE_OF_CONDUCT.rst>`_.
+Before contributing, please read our `Code of Conduct <https://github.com/diffpy/diffpy.pdfgui/blob/main/CODE-OF-CONDUCT.rst>`_.
 
 Contact
 -------
 
-For more information on diffpy.pdfgui please visit the project `web-page <https://diffpy.github.io/>`_ or email Simon Billinge at sb2896@columbia.edu.
+For more information on diffpy.pdfgui please visit the project `web-page <https://diffpy.github.io/>`_ or email the maintainers ``Simon Billinge(sbillinge@ucsb.edu)``.
 
 Acknowledgements
 ----------------

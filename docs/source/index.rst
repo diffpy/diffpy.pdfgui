@@ -7,7 +7,11 @@
 ``diffpy.pdfgui`` - Graphical user interface program for structure refinements to the atomic pair distribution function.
 
 | Software version |release|
-| Last updated |today|
+| Last updated |today|.
+
+===============
+Getting started
+===============
 
 For users who do not have the expertise or necessity for command
 line analysis, PDFgui is a convenient and easy to use graphical front
@@ -80,11 +84,17 @@ The tutorial for the package can be found here:
 
    tutorial
 
+================
+Acknowledgements
+================
+
+``diffpy.pdfgui`` is built and maintained with `scikit-package <https://scikit-package.github.io/scikit-package/>`_.
+
 =================
 Table of contents
 =================
 .. toctree::
-   :titlesonly:
+   :maxdepth: 2
 
    examples
    extras

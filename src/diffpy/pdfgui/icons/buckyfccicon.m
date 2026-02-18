@@ -37,8 +37,8 @@ Nsc = size(xyzsc,1);
 
 if p.rot
     % generate random rotation axis and angles
-    phi=2*pi*rand(Nsc,1); th=acos(2*rand(Nsc,1)-1); alph=2*pi*rand(Nsc,1);
-    Rua = [sin(th).*cos(phi), sin(th).*sin(phi), cos(th), alph];
+    phi=2*pi*rand(Nsc,1); th=acos(2*rand(Nsc,1)-1); alpha=2*pi*rand(Nsc,1);
+    Rua = [sin(th).*cos(phi), sin(th).*sin(phi), cos(th), alpha];
 else
     % no rotation
     Rua = [ 0, 0, 1, 0 ];
@@ -92,9 +92,9 @@ function r1 = rotateua(ua, r0)
 x = ua(1);
 y = ua(2);
 z = ua(3);
-alph = ua(4);
-cosa = cos(alph);
-sina = sin(alph);
+alpha = ua(4);
+cosa = cos(alpha);
+sina = sin(alpha);
 vera = 1 - cosa;
 rot = [cosa+x^2*vera x*y*vera-z*sina x*z*vera+y*sina; ...
        x*y*vera+z*sina cosa+y^2*vera y*z*vera-x*sina; ...

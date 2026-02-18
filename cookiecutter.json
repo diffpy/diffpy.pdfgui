@@ -1,0 +1,20 @@
+{
+  "author_names": "Simon Billinge",
+  "author_emails": "sbillinge@ucsb.edu",
+  "maintainer_names": "Simon Billinge",
+  "maintainer_emails": "sbillinge@ucsb.edu",
+  "maintainer_github_usernames": "sbillinge",
+  "contributors": "Pavol Juhas, Simon Billinge, Billinge Group members",
+  "license_holders": "The Trustees of Columbia University in the City of New York",
+  "project_name": "diffpy.pdfgui",
+  "github_username_or_orgname": "diffpy",
+  "github_repo_name": "diffpy.pdfgui",
+  "conda_pypi_package_dist_name": "diffpy.pdfgui",
+  "package_dir_name": "diffpy.pdfgui",
+  "project_short_description": "Graphical user interface program for structure refinements to the atomic pair distribution function.",
+  "project_keywords": "PDF structure refinement GUI",
+  "minimum_supported_python_version": "3.12",
+  "maximum_supported_python_version": "3.14",
+  "project_needs_c_code_compiled": "No",
+  "project_has_gui_tests": "No"
+}

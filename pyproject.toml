@@ -6,15 +6,15 @@ build-backend = "setuptools.build_meta"
 name = "diffpy.pdfgui"
 dynamic=['version', 'dependencies']
 authors = [
-  { name="Simon J.L. Billinge group", email="sb2896@columbia.edu" },
+  {name='Simon Billinge', email='sbillinge@ucsb.edu'},
 ]
 maintainers = [
-  { name="Simon J.L. Billinge group", email="sb2896@columbia.edu" },
+  {name='Simon Billinge', email='sbillinge@ucsb.edu'},
 ]
 description = "Graphical user interface program for structure refinements to the atomic pair distribution function."
 keywords = ['PDF structure refinement GUI']
 readme = "README.rst"
-requires-python = ">=3.11, <3.14"
+requires-python = ">=3.12, <3.15"
 classifiers = [
         'Development Status :: 5 - Production/Stable',
         'Environment :: Console',
@@ -25,15 +25,12 @@ classifiers = [
         'Operating System :: Microsoft :: Windows',
         'Operating System :: POSIX',
         'Operating System :: Unix',
-        'Programming Language :: Python :: 3.11',
         'Programming Language :: Python :: 3.12',
         'Programming Language :: Python :: 3.13',
+        'Programming Language :: Python :: 3.14',
         'Topic :: Scientific/Engineering :: Physics',
         'Topic :: Scientific/Engineering :: Chemistry',
 ]
-
-[project.scripts]
-pdfgui = "diffpy.pdfgui.applications.pdfgui:main"
 
 [project.urls]
 Homepage = "https://github.com/diffpy/diffpy.pdfgui/"
@@ -51,13 +48,21 @@ include = ["*"]  # package names should match these glob patterns (["*"] by defa
 exclude = []  # exclude packages matching these glob patterns (empty by default)
 namespaces = false  # to disable scanning PEP 420 namespaces (true by default)
 
+[project.scripts]
+diffpy-pdfgui = "diffpy.pdfgui.app:main"
+
 [tool.setuptools.dynamic]
 dependencies = {file = ["requirements/pip.txt"]}
 
 [tool.codespell]
 exclude-file = ".codespell/ignore_lines.txt"
 ignore-words = ".codespell/ignore_words.txt"
-skip = "*.cif,*.dat,*.html,*.m,*.textinfo"
+skip = "*.cif,*.dat"
+
+[tool.docformatter]
+recursive = true
+wrap-summaries = 72
+wrap-descriptions = 72
 
 [tool.black]
 line-length = 115
@@ -81,7 +86,3 @@ exclude = '''
   | tests/data
 )/
 '''
-[tool.docformatter]
-recursive = true
-wrap-summaries = 72
-wrap-descriptions = 72
