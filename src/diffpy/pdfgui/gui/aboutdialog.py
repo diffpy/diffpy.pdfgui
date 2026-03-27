@@ -16,12 +16,15 @@
 ##############################################################################
 
 import random
+from datetime import datetime, timezone
 
 import wx
 import wx.lib.agw.hyperlink
 
 from diffpy.pdfgui.gui.pdfguiglobals import iconpath
-from diffpy.pdfgui.version import __date__, __version__
+from diffpy.pdfgui.version import __version__
+
+__date__ = datetime.now(timezone.utc).date().isoformat()
 
 _acknowledgement = """\
 This software was developed by the Billinge-group as part of the Distributed
