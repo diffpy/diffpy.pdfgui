@@ -1,6 +1,6 @@
 **Added:**
 
-* <news item>
+* No News Added: fix gui functionality after skpkg
 
 **Changed:**
 
@@ -16,7 +16,7 @@
 
 **Fixed:**
 
-* Fixed linked fits with string input
+* <news item>
 
 **Security:**
 
