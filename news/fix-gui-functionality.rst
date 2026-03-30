@@ -16,7 +16,7 @@
 
 **Fixed:**
 
-* Fixed linked the fits with string input
+* Fixed linked fits with string input
 
 **Security:**
 
