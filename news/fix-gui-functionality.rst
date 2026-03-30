@@ -1,6 +1,6 @@
 **Added:**
 
-* No News Added: hot-fix on gui-functionality
+* <news item>
 
 **Changed:**
 
@@ -16,7 +16,7 @@
 
 **Fixed:**
 
-* <news item>
+* Fixed linked the fits with string input
 
 **Security:**
 

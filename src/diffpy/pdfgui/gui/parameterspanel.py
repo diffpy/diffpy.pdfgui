@@ -250,7 +250,10 @@ class ParametersPanel(wx.Panel, PDFPanel):
             temp = self.parameters[key].initialValue()
             if temp != value:
                 self.parameters[key].setInitial(value)
-                self.grid_parameters.SetCellValue(row, 0, str(float(value)))
+                if value is int or value is float:
+                    self.grid_parameters.SetCellValue(row, 0, str(float(value)))
+                else:
+                    self.grid_parameters.SetCellValue(row, 0, value)
                 self.mainFrame.needsSave()
 
         elif col == 1:  # flag "fixed"
