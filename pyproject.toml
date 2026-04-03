@@ -49,7 +49,7 @@ exclude = []  # exclude packages matching these glob patterns (empty by default)
 namespaces = false  # to disable scanning PEP 420 namespaces (true by default)
 
 [project.scripts]
-diffpy-pdfgui = "diffpy.pdfgui.app:main"
+pdfgui = "diffpy.pdfgui.applications.pdfgui:main"
 
 [tool.setuptools.dynamic]
 dependencies = {file = ["requirements/pip.txt"]}

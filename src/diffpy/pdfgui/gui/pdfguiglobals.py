@@ -14,8 +14,8 @@
 ##############################################################################
 """This module contains global parameters needed by PDFgui."""
 
-import os.path
 from importlib.resources import files
+from pathlib import Path
 
 from diffpy.pdfgui.gui import debugoptions
 
@@ -24,34 +24,24 @@ name = "PDFgui"
 # Maximum number of files to be remembered
 MAXMRU = 5
 # The location of the configuration file
-configfilename = os.path.expanduser("~/.pdfgui_py3.cfg")
+configfilename = Path.home() / ".pdfgui_py3.cfg"
 # Project modification flag
 isAltered = False
 
-# Resolve APPDATADIR base path to application data files.
-try:
-    _mydir = os.path.abspath(str(files(__name__)))
-except TypeError:  # For Python < 3.12
-    _mydir = os.path.abspath(os.path.dirname(__file__))
+_mydir = Path(str(files(__name__))).resolve()
 
-_upbasedir = os.path.normpath(_mydir + "/../../..")
-_development_mode = os.path.basename(_upbasedir) == "src" and os.path.isfile(
-    os.path.join(_upbasedir, "../pyproject.toml")
-)
+_upbasedir = _mydir.parents[2]
+_development_mode = _upbasedir.name == "src" and (_upbasedir.parent / "pyproject.toml").is_file()
 
 # Requirement must have egg-info.  Do not use in _development_mode.
 _req = "diffpy.pdfgui"
 
-# pavol
-# APPDATADIR = (os.path.dirname(_upbasedir) if _development_mode
-#               else str(files(_req)))
-# long
 if _development_mode:
-    APPDATADIR = os.path.dirname(_mydir)
+    APPDATADIR = _mydir.parent
 else:
-    APPDATADIR = str(files(_req))
+    APPDATADIR = Path(str(files(_req))).resolve()
 
-APPDATADIR = os.path.abspath(APPDATADIR)
+APPDATADIR = APPDATADIR.resolve()
 
 # Location of the HTML manual
 docMainFile = "https://diffpy.github.io/diffpy.pdfgui/manual.html"
@@ -62,16 +52,24 @@ del _req
 
 
 def iconpath(iconfilename):
-    """Full path to the icon file in pdfgui installation. This function
-    should be used whenever GUI needs access to custom icons.
+    """Full path to the icon file in pdfgui installation.
 
-    iconfilename -- icon file name without any path
+    This function should be used whenever GUI needs access to custom
+    icons.
 
-    Return string.
+    Parameters
+    ----------
+    iconfilename : str
+        The icon file name without any path.
+
+    Returns
+    -------
+    str
+        The full path to the icon file.
     """
-    rv = os.path.join(APPDATADIR, "icons", iconfilename)
-    assert os.path.isfile(rv), "icon file does not exist"
-    return rv
+    rv = APPDATADIR / "icons" / iconfilename
+    assert rv.is_file(), "icon file does not exist"
+    return str(rv)
 
 
 # options and arguments passed on command line
@@ -79,7 +77,6 @@ cmdopts = []
 cmdargs = []
 
 # debugging options:
-
 dbopts = debugoptions.DebugOptions()
 
 # End of file
