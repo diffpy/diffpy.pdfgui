@@ -58,11 +58,12 @@ class PDFStructure(PDFComponent, PDFFitStructure):
         return p
 
     def copy(self, other=None):
-        """Copy self to other. if other is None, create an instance.
+        """Copy self to other.
 
-        other -- ref to other object
+        if other is None, create an instance.
+                other -- ref to other object
 
-        returns reference to copied object
+                returns reference to copied object
         """
         if other is None:
             other = PDFStructure(self.name)

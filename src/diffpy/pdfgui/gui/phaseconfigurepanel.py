@@ -318,7 +318,6 @@ class PhaseConfigurePanel(wx.Panel, PDFPanel):
     def restrictConstrainedParameters(self):
         """Set 'read-only' boxes that correspond to constrained
         parameters."""
-
         self.setToolTips(tooltips.phasepanel)
         self.textCtrlA.DefaultStyle.BackgroundColour
         txtbg = self.textCtrlScaleFactor.DefaultStyle.BackgroundColour

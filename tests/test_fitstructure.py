@@ -2,7 +2,6 @@
 
 """Unit tests for class FitStructure."""
 
-
 import unittest
 
 from testutils import datafile

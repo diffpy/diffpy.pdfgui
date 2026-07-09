@@ -49,7 +49,7 @@ from diffpy.pdfgui.gui.rseriespanel import RSeriesPanel
 from diffpy.pdfgui.gui.temperatureseriespanel import TemperatureSeriesPanel
 from diffpy.pdfgui.gui.welcomepanel import WelcomePanel
 
-(PDFCustomEvent, EVT_PDFCUSTOM) = wx.lib.newevent.NewEvent()
+PDFCustomEvent, EVT_PDFCUSTOM = wx.lib.newevent.NewEvent()
 
 # WARNING - This file cannot be maintained with wxglade any longer. Do not make
 # modifications with wxglade!!!
@@ -977,7 +977,6 @@ class MainFrame(wx.Frame):
         The MRU list is handled by the local member fileHistory, which
         is a wxFileHistory object.
         """
-
         # Get MRU information
         localpath = os.path.expanduser(pdfguiglobals.configfilename)
         if os.path.exists(localpath):
@@ -1363,9 +1362,9 @@ class MainFrame(wx.Frame):
         # not docked. This is a bit of a hack, since pane.floating_pos is not
         # designed to be a public attribute.
         pane = self.auiManager.GetPane("treeCtrlMain")
-        (x0, y0) = self.treeCtrlMain.GetPosition()
+        x0, y0 = self.treeCtrlMain.GetPosition()
         if pane.IsFloating():
-            (x0, y0) = self.ScreenToClient(pane.floating_pos)
+            x0, y0 = self.ScreenToClient(pane.floating_pos)
         self.PopupMenu(menu, (x0 + x, y0 + y))
         menu.Destroy()
         return
@@ -1599,7 +1598,6 @@ class MainFrame(wx.Frame):
 
     def disableMainMenuItems(self):
         """Disable main menu items."""
-
         menu = self.menuBar
         # First disable the shared items
 

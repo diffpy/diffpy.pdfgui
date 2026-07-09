@@ -14,7 +14,6 @@
 ##############################################################################
 """Unit tests for constraint.py."""
 
-
 import unittest
 
 from diffpy.pdfgui.control.constraint import Constraint

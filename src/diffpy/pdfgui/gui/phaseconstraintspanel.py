@@ -278,7 +278,7 @@ class PhaseConstraintsPanel(wx.Panel, PDFPanel):
         # We need to call attr.IncRef before each SetX(attr)
         # https://github.com/wxWidgets/Phoenix/issues/627#issuecomment-354219493
 
-        # set 'elem' abd 'name' columns to read-only
+        # set 'elem' and 'name' columns to read-only
         attr = wx.grid.GridCellAttr()
         attr.SetReadOnly(True)
         attr.IncRef()
@@ -361,7 +361,6 @@ class PhaseConstraintsPanel(wx.Panel, PDFPanel):
 
     def refreshTextCtrls(self):
         """Refreshes the TextCtrls."""
-
         for widget, var in zip(self._textctrls, self.lConstraints):
             wobj = getattr(self, widget)
             if var in self.constraints:

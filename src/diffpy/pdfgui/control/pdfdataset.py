@@ -99,8 +99,9 @@ class PDFDataSet(PDFComponent):
         return
 
     def setvar(self, var, value):
-        """Assign data member using PdfFit-style variable. Used by
-        applyParameters().
+        """Assign data member using PdfFit-style variable.
+
+        Used by applyParameters().
 
         var   -- string representation of dataset PdfFit variable.
                  Possible values: qdamp, qbroad, dscale
@@ -116,8 +117,9 @@ class PDFDataSet(PDFComponent):
         return
 
     def getvar(self, var):
-        """Obtain value corresponding to PdfFit dataset variable. Used
-        by findParameters().
+        """Obtain value corresponding to PdfFit dataset variable.
+
+        Used by findParameters().
 
         var   -- string representation of dataset PdfFit variable.
                  Possible values: qdamp, qbroad, dscale
@@ -334,10 +336,11 @@ class PDFDataSet(PDFComponent):
         return datastring
 
     def copy(self, other=None):
-        """Copy self to other. if other is None, create new instance.
+        """Copy self to other.
 
-        other -- ref to other object
-        returns reference to copied object
+        if other is None, create new instance.
+                other -- ref to other object
+                returns reference to copied object
         """
         if other is None:
             other = PDFDataSet(self.name)

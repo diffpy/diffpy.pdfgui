@@ -14,7 +14,6 @@
 ##############################################################################
 """Unit tests for tui.py."""
 
-
 import unittest
 
 from testutils import GUITestCase, datafile

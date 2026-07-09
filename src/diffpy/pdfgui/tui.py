@@ -12,8 +12,9 @@
 # See LICENSE.txt for license information.
 #
 ##############################################################################
-"""Text user interface - utilities for extracting data from project files.
-"""
+"""Text user interface - utilities for extracting data from project files."""
+
+# FIXME: remove this line when `docformatter` fixes the blank line bug
 
 
 class LoadProject:

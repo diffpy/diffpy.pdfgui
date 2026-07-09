@@ -112,7 +112,6 @@ class PreferencesPanel(wx.Panel, PDFPanel):
 
     def __customProperties(self):
         """Set the custom properties."""
-
         # Fill the options in the format choice
         viewer = structureviewer.getStructureViewer()
         formats = viewer.getFileFormats()
@@ -140,7 +139,6 @@ class PreferencesPanel(wx.Panel, PDFPanel):
 
     def onOK(self, event):  # wxGlade: PreferencesPanel.<event_handler>
         """Record all of the preferences and return to fitting mode."""
-
         # Record structure viewer stuff
         executable = str(self.textCtrlViewer.GetValue()).strip()
         argstr = str(self.textCtrlArgument.GetValue()).strip()
@@ -172,7 +170,6 @@ class PreferencesPanel(wx.Panel, PDFPanel):
 
     def refresh(self):
         """Refresh the panel."""
-
         # Structure viewer stuff
         viewer = structureviewer.getStructureViewer()
         config = viewer.getConfig()
