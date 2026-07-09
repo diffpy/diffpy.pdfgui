@@ -170,9 +170,11 @@ class FitStructure(PDFStructure):
         return
 
     def findParameters(self):
-        """Obtain dictionary of parameters used by self.constraints. The
-        keys of returned dictionary are integer parameter indices, and
-        the values are Parameter instances, with guessed initial values.
+        """Obtain dictionary of parameters used by self.constraints.
+
+        The keys of returned dictionary are integer parameter indices,
+        and the values are Parameter instances, with guessed initial
+        values.
 
         returns dictionary of indices and Parameter instances
         """
@@ -677,11 +679,13 @@ class FitStructure(PDFStructure):
         # delayed initialization of the class variable
         if self._rxatomselection is None:
             FitStructure._rxatomselection = re.compile(
-                r"""
-            (?P<negate>!?)                      # exclamation point
-            (?:(?P<element>[a-zA-Z]+)$|         # element|all   or
-               (?P<start>\d+)(?P<stop>:\d+)?$   # number range
-            )""",
+                r"""(?P<negate>!?)                      # exclamation
+                point (?:(?P<element>[a-zA-Z]+)$|         # element|all
+                or.
+
+                (?P<start>\d+)(?P<stop>:\d+)?$   # number range )
+                """
+                   ,
                 re.VERBOSE,
             )
         assert self._rxatomselection
@@ -724,11 +728,12 @@ class FitStructure(PDFStructure):
         return rv
 
     def copy(self, other=None):
-        """Copy self to other. if other is None, create new instance.
+        """Copy self to other.
 
-        other -- reference to other object
+        if other is None, create new instance.
+                other -- reference to other object
 
-        returns reference to copied object
+                returns reference to copied object
         """
         # check arguments
         if other is None:

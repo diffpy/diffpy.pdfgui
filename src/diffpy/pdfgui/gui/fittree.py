@@ -124,10 +124,10 @@ class FitTree(wx.TreeCtrl):
         """Get the ids of the children of a given node."""
         cookie = 0
         ids = []
-        (child, cookie) = self.GetFirstChild(node)
+        child, cookie = self.GetFirstChild(node)
         while child.IsOk():
             ids.append(child)
-            (child, cookie) = self.GetNextChild(node, cookie)
+            child, cookie = self.GetNextChild(node, cookie)
 
         return ids
 

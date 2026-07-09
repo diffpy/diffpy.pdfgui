@@ -15,7 +15,6 @@
 """This module contains AutoWidthListCtrl, a wxListCtrl object that
 automatically adjusts the width of its columns."""
 
-
 import wx
 import wx.grid
 
@@ -47,8 +46,8 @@ class AutoWidthLabelsGrid(wx.grid.Grid):
             maxHeight = 0
             curCol = self.GetNumberCols() - 1
             while curCol >= 0:
-                (w, h, d, l) = devContext.GetFullTextExtent(self.GetColLabelValue(curCol))
-                curHeight = h + d + l + 4
+                width, height, descent, leading = devContext.GetFullTextExtent(self.GetColLabelValue(curCol))
+                curHeight = height + descent + leading + 4
                 if curHeight > maxHeight:
                     maxHeight = curHeight
                 curCol = curCol - 1

@@ -52,42 +52,30 @@ def makeRSeries(
 
     # MIN-MIN: FIRST < LAST
     if minfirst is not None and minlast is not None and not minfirst < minlast:
-        message = (
-            "The first value of the minimum (%.2f)\
+        message = "The first value of the minimum (%.2f)\
                  \nmust be less than the last value of the\
-                 \nminimum (%.2f)"
-            % (minfirst, minlast)
-        )
+                 \nminimum (%.2f)" % (minfirst, minlast)
         raise ControlValueError(message)
 
     # MAX-MAX: FIRST < LAST
     if maxfirst is not None and maxlast is not None and not maxfirst < maxlast:
-        message = (
-            "The first value of the maximum (%.2f)\
+        message = "The first value of the maximum (%.2f)\
                  \nmust be less than the last value of the\
-                 \nmaximum (%.2f)"
-            % (maxfirst, maxlast)
-        )
+                 \nmaximum (%.2f)" % (maxfirst, maxlast)
         raise ControlValueError(message)
 
     # MAX > MIN: FIRST-FIRST
     if maxfirst is not None and minfirst is not None and not maxfirst > minfirst:
-        message = (
-            "The first value of the fit maximum (%.2f)\
+        message = "The first value of the fit maximum (%.2f)\
                  \nmust be greater than first value of the fit\
-                 \nminimum (%.2f)."
-            % (maxfirst, minfirst)
-        )
+                 \nminimum (%.2f)." % (maxfirst, minfirst)
         raise ControlValueError(message)
 
     # MAX > MIN: LAST-LAST
     if maxlast is not None and minlast is not None and not maxlast > minlast:
-        message = (
-            "The last value of the fit maximum (%.2f)\
+        message = "The last value of the fit maximum (%.2f)\
                  \nmust be greater than last value of the fit\
-                 \nminimum (%.2f)."
-            % (maxlast, minlast)
-        )
+                 \nminimum (%.2f)." % (maxlast, minlast)
         raise ControlValueError(message)
 
     # STEP > 0
@@ -150,28 +138,19 @@ def makeRSeries(
 
             # Check to see that the values are in bounds and sensical
             if fitrmin < ds.rmin or fitrmin >= ds.rmax:
-                message = (
-                    "Fit minimum (%.2f) is outside the data range\
+                message = "Fit minimum (%.2f) is outside the data range\
                            \n[%.2f, %.2f].\
-                           \nAdjust the range of the series."
-                    % (fitrmin, ds.rmin, ds.rmax)
-                )
+                           \nAdjust the range of the series." % (fitrmin, ds.rmin, ds.rmax)
                 raise ControlValueError(message)
             if fitrmax <= ds.rmin or fitrmax > ds.rmax:
-                message = (
-                    "Fit maximum (%.2f) is outside the data range\
+                message = "Fit maximum (%.2f) is outside the data range\
                            \n[%.2f, %.2f].\
-                           \nAdjust the range of the series."
-                    % (fitrmax, ds.rmin, ds.rmax)
-                )
+                           \nAdjust the range of the series." % (fitrmax, ds.rmin, ds.rmax)
                 raise ControlValueError(message)
             if fitrmin >= fitrmax:
-                message = (
-                    "Fit minimum (%.2f) is greater than the\
+                message = "Fit minimum (%.2f) is greater than the\
                            \nmaximum (%.2f).\
-                           \nIncrease maxstep or reduce minstep."
-                    % (fitrmin, fitrmax)
-                )
+                           \nIncrease maxstep or reduce minstep." % (fitrmin, fitrmax)
                 raise ControlValueError(message)
 
             # Set the values if all is well
@@ -205,7 +184,6 @@ def makeTemperatureSeries(control, fit, paths, temperatures):
 
     returns a list of the new fit organization objects
     """
-
     if len(fit.datasets) != 1:
         message = "Can't apply macro to fits with multiple datasets."
         raise ControlValueError(message)

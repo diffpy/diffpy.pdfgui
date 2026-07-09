@@ -16,7 +16,6 @@
 ##############################################################################
 """This module contains utilities that can be used with wxTextCtrls."""
 
-
 import wx
 
 

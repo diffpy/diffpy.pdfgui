@@ -13,9 +13,11 @@
 #
 ##############################################################################
 """Small shared routines:
-    numericStringSort   -- sort list of strings according to numeric value
-    safeCPickleDumps    -- same as pickle.dumps, but safe for NaN and Inf
+numericStringSort   -- sort list of strings according to numeric value
+safeCPickleDumps    -- same as pickle.dumps, but safe for NaN and Inf
 """
+
+# FIXME: remove this line when `docformatter` fixes the blank line bug
 
 
 def numericStringSort(lst):
@@ -47,7 +49,6 @@ def safeCPickleDumps(obj):
 
     Return pickle string.
     """
-
     import pickle
 
     ascii_protocol = 0

@@ -39,27 +39,19 @@ You can view current bug reports and feature requests at
 Discuss PDFgui and learn about new developments and features at
 <a href="{mlist}">{mlist}</a>.
 </p>
-""".format(
-    issues=ISSUESTRACKER, mlist=USERSMAILINGLIST
-)
+""".format(issues=ISSUESTRACKER, mlist=USERSMAILINGLIST)
 
-_MSG_FEATURE_REQUEST = (
-    """
+_MSG_FEATURE_REQUEST = """
 <p>
 Share you thoughts about PDFgui!
 </p>
-"""
-    + _MSG_TRAILER
-)
+""" + _MSG_TRAILER
 
-_MSG_ERROR_REPORT = (
-    """
+_MSG_ERROR_REPORT = """
 <p>
 PDFgui has encountered a problem.  We are sorry for the inconvenience.
 </p><p>
-"""
-    + _MSG_TRAILER
-)
+""" + _MSG_TRAILER
 
 # ----------------------------------------------------------------------------
 

@@ -14,7 +14,6 @@
 ##############################################################################
 """Unit tests for pdfgui.control.pdfguicontrol.py."""
 
-
 import unittest
 
 from diffpy.pdfgui.control.pdfguicontrol import PDFGuiControl

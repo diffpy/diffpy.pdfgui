@@ -2,7 +2,6 @@
 
 """Unit tests for diffpy.pdfgui.control.structureviewer."""
 
-
 import os
 import unittest
 

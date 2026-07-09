@@ -14,7 +14,6 @@
 ##############################################################################
 """Unit tests for pdfdataset.py."""
 
-
 import unittest
 
 from testutils import datafile
