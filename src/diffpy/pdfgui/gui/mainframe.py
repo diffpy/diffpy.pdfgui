@@ -682,7 +682,7 @@ class MainFrame(wx.Frame):
         # The bitmap has a white transparency color (mask)
         maskcolor = wx.Colour(red=255, green=255, blue=255)
         bitmap = wx.Bitmap(iconpath("run.png"))
-        bitmap.SetSize(size)
+        # bitmap.SetSize(size)
         mask = wx.Mask(bitmap, maskcolor)
         bitmap.SetMask(mask)
         self.toolBar.AddTool(
@@ -694,7 +694,7 @@ class MainFrame(wx.Frame):
             "Start a fit or calculation",
         )
         bitmap = wx.Bitmap(iconpath("stop.png"))
-        bitmap.SetSize(size)
+        # bitmap.SetSize(size)
         mask = wx.Mask(bitmap, maskcolor)
         bitmap.SetMask(mask)
         self.toolBar.AddTool(
@@ -707,7 +707,7 @@ class MainFrame(wx.Frame):
         )
         self.toolBar.AddSeparator()
         bitmap = wx.Bitmap(iconpath("datasetitem.png"))
-        bitmap.SetSize(size)
+        # bitmap.SetSize(size)
         self.toolBar.AddTool(
             self.quickPlotId,
             "Quick plot",
