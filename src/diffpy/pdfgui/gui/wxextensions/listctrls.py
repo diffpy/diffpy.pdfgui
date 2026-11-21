@@ -21,7 +21,6 @@ KeyEventsListCtrl  - A ColumnSortListCtrl that selects and item as you type its
 name.
 """
 
-
 import wx
 import wx.lib.mixins.listctrl as listmix
 

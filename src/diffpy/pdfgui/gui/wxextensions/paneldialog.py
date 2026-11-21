@@ -17,7 +17,6 @@
 """This module contains the PanelDialog class, a simple class that turns
 any panel into a dialog."""
 
-
 import wx
 
 

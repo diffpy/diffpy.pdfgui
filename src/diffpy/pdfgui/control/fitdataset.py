@@ -243,8 +243,9 @@ class FitDataSet(PDFDataSet):
         return self
 
     def write(self, filename):
-        """Same as writeCalc().  Use writeObs() to save experimental PDF
-        data.
+        """Same as writeCalc().
+
+        Use writeObs() to save experimental PDF data.
 
         filename -- name of file to write to
 
@@ -267,8 +268,9 @@ class FitDataSet(PDFDataSet):
         return
 
     def writeStr(self):
-        """Same as writeCalcStr.  Use writeObsStr() for experimental
-        PDF.
+        """Same as writeCalcStr.
+
+        Use writeObsStr() for experimental PDF.
 
         Return data string.
         """
@@ -379,9 +381,11 @@ class FitDataSet(PDFDataSet):
         return s
 
     def findParameters(self):
-        """Obtain dictionary of parameters used by self.constraints. The
-        keys of returned dictionary are integer parameter indices, and
-        their values Parameter instances, with guessed initial values.
+        """Obtain dictionary of parameters used by self.constraints.
+
+        The keys of returned dictionary are integer parameter indices,
+        and their values Parameter instances, with guessed initial
+        values.
 
         returns dictionary of indices and Parameter instances
         """
@@ -434,11 +438,12 @@ class FitDataSet(PDFDataSet):
         return
 
     def copy(self, other=None):
-        """Copy self to other. if other is None, create new instance.
+        """Copy self to other.
 
-        other -- ref to other object
+        if other is None, create new instance.
+                other -- ref to other object
 
-        returns reference to copied object
+                returns reference to copied object
         """
         # check arguments
         if other is None:
@@ -529,9 +534,10 @@ class FitDataSet(PDFDataSet):
     # interface for data sampling
 
     def getFitSamplingType(self):
-        """Description of r-sampling used in the fit.  This method
-        compares self.fitrstep with r-sampling in the observed data and
-        with Nyquist r step.
+        """Description of r-sampling used in the fit.
+
+        This method compares self.fitrstep with r-sampling in the
+        observed data and with Nyquist r step.
 
         Return a string, possible values are "data", "Nyquist" or
         "custom".
@@ -683,7 +689,8 @@ class FitDataSet(PDFDataSet):
         _get_rcalc,
         _set_rcalc,
         doc="""R-grid for refined data, read-only.
-        Use fitrmin, fitrmax, fitrstep to change it""",
+        Use fitrmin, fitrmax, fitrstep to change it"""
+                                                      ,
     )
 
     # Gcalc

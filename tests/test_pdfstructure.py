@@ -2,7 +2,6 @@
 
 """Unit tests for class PDFStructure."""
 
-
 import unittest
 
 from testutils import datafile

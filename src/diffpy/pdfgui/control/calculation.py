@@ -291,11 +291,12 @@ class Calculation(PDFComponent):
         return
 
     def copy(self, other=None):
-        """Copy self to other. if other is None, create new instance.
+        """Copy self to other.
 
-        other -- reference to other object
+        if other is None, create new instance.
+                other -- reference to other object
 
-        returns reference to copied object
+                returns reference to copied object
         """
         if other is None:
             other = Calculation(self.name)

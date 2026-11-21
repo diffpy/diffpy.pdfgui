@@ -18,10 +18,13 @@ There should be exactly one instance of DebugOptions in pdfguiglobals
 module.
 """
 
+# FIXME: remove this line when `docformatter` fixes the blank line bug
+
 
 class DebugOptions:
-    """DebugOptions is a place to store various debugging options. There
-    should be just one instance defined in pdfguiglobals module. It
+    """DebugOptions is a place to store various debugging options.
+
+    There should be just one instance defined in pdfguiglobals module. It
     would be nice to have a simple way of setting them on command line.
 
     Options in short and long forms:
@@ -59,8 +62,9 @@ class DebugOptions:
         return
 
     def __getattr__(self, name):
-        """Resolve values of short options. This is called only when
-        normal lookup fails.
+        """Resolve values of short options.
+
+        This is called only when normal lookup fails.
 
         returns value of short debug option
         """

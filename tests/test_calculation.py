@@ -14,7 +14,6 @@
 ##############################################################################
 """Unit tests for calculation.py."""
 
-
 import unittest
 
 from diffpy.pdfgui.control.calculation import Calculation

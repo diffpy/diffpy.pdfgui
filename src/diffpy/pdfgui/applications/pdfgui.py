@@ -12,9 +12,8 @@
 # See LICENSE.txt for license information.
 #
 ##############################################################################
-"""
-PDFgui Graphical User Interface for Pair Distribution Function fitting
-Usage: pdfgui [project.dpp]
+"""PDFgui Graphical User Interface for Pair Distribution Function
+fitting Usage: pdfgui [project.dpp]
 
 PDFgui is graphical user interface to PDFfit2 - a Python library for PDF
 simulation and structure refinement.  PDFgui has many nice features such

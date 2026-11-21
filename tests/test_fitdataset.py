@@ -14,7 +14,6 @@
 ##############################################################################
 """Unit tests for fitdataset.py."""
 
-
 import unittest
 
 import numpy

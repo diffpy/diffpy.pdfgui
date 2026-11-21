@@ -67,8 +67,9 @@ class Constraint:
         return result
 
     def lambdaFormula(self):
-        """Build lambda function from constraint formula. Lambda
-        function expects dictionary argument.
+        """Build lambda function from constraint formula.
+
+        Lambda function expects dictionary argument.
 
         returns lambda function
         """

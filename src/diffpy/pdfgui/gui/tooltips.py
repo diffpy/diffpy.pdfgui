@@ -14,6 +14,8 @@
 ##############################################################################
 """Tooltips for pdfgui panels."""
 
+# FIXME: remove this line when `docformatter` fixes the blank line bug
+
 
 def isalias(s):
     return s[1:-1] and s[:: len(s) - 1] == "{}" and s[1:-1].replace("_", "").isalnum()
@@ -140,7 +142,10 @@ all-all, -!Na        same as previous
 Na-1:4               pairs of Na and first 4 atoms
 all-all, !Cl-!Cl     exclude any pairs containing Cl
 all-all, !Cl-, -!Cl  same as previous
-1-all                only pairs including the first atom""",  # TextCtrl "all-all"
+1-all                only pairs including the first atom"""
+
+                                                           ,
+        # TextCtrl "all-all"
         #    'gridAtoms' : '', # AutoWidthLabelsGrid
     }
 )
@@ -168,12 +173,17 @@ preferencespanel = {
         "default to the current path."
     ),
     "textCtrlViewer": ("The name of the structure viewer executable, " "e.g., 'atomeye' or 'pymol'."),
-    "textCtrlArgument": """\
-The command-line arguments to the structure viewer.
-'%s' represents the file name that will be passed to the viewer.
-Command-line switches placed here will be passed as well.
-E. g. '%s' or '-c %s' (for pymol).\
-        """,
+    "textCtrlArgument":\
+                        """The command-line arguments to the structure
+                        viewer.
+
+                        '%s' represents the file name that will be
+                        passed to the viewer. Command-line switches
+                        placed here will be passed as well. E. g. '%s'
+                        or '-c %s' (for pymol).
+                        """
+
+                           ,
     "choiceFormat": "Choose a file format the structure viewer accepts.",
 }
 

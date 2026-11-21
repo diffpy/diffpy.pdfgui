@@ -227,12 +227,9 @@ class TemperatureSeriesPanel(wx.Panel, PDFPanel):
             # Some filenames fool this, e.g. "test1.dat" will match '1' since it
             # is preceded by a 't'.
             # Is there a better regexp? Probably...
-            regexp = (
-                r"""(?:[Tt](?:emp(?:erature)?)?(%(f)s))|
+            regexp = r"""(?:[Tt](?:emp(?:erature)?)?(%(f)s))|
                          (?:(?<![a-zA-Z0-9])(%(f)s)[Kk])
-                """
-                % rx
-            )
+                """ % rx
             res = re.search(regexp, os.path.basename(path), re.VERBOSE)
             if res:
                 groups = res.groups()

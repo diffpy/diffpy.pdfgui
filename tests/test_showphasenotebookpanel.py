@@ -14,7 +14,6 @@
 ##############################################################################
 """Display the PhaseNotebookPanel."""
 
-
 import wx
 from testutils import datafile
 

@@ -298,7 +298,6 @@ class ParametersPanel(wx.Panel, PDFPanel):
     # Popup menu events  ##################################################
     def onPopupFill(self, event):
         """Fills cells selected in the grid with a new value."""
-
         # NOTE: GetSelectedCells returns only SINGLE selected cells, not blocks or row/columns !
         if self.grid_parameters.IsSelection():
             dlg = wx.TextEntryDialog(self, "New value:", "Fill Selected Cells", "")
@@ -364,7 +363,6 @@ class ParametersPanel(wx.Panel, PDFPanel):
 
     def onPopupRenameParameters(self, event):
         """Rename parameters."""
-
         if self.grid_parameters.IsSelection():
             dlg = wx.TextEntryDialog(self, "New index:", "Rename Selected Parameters", "")
 

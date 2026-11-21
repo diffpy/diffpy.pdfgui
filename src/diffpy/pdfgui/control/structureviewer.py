@@ -37,8 +37,9 @@ _struviewer = None
 
 
 class StructureViewer(object):
-    """Class for plotting structure in general structure viewer. It
-    takes care of creating temporary structure file in a desired format
+    """Class for plotting structure in general structure viewer.
+
+    It takes care of creating temporary structure file in a desired format
     and launching structure viewer as a background process. The
     temporary files are removed when StructureViewer instance goes out
     of scope.
@@ -61,8 +62,9 @@ class StructureViewer(object):
     """
 
     def __init__(self, executable=None, argstr=None, fileformat=None):
-        """Create StructureViewer instance.  All arguments are optional,
-        they override defaults described in class docstring.  The
+        """Create StructureViewer instance.
+
+        All arguments are optional, they override defaults described in class docstring.  The
         configuration can be changed later using setConfig method.
 
         executable -- path to the structure viewer executable

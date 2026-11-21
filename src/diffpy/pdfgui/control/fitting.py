@@ -178,10 +178,11 @@ class Fitting(Organizer):
         return "f_" + self.name
 
     def copy(self, other=None):
-        """Copy self to other. if other is None, create an instance.
+        """Copy self to other.
 
-        other -- ref to other object
-        return value: reference to copied object
+        if other is None, create an instance.
+                other -- ref to other object
+                return value: reference to copied object
         """
         if other is None:
             other = Fitting(self.name)
@@ -448,8 +449,9 @@ class Fitting(Organizer):
         return
 
     def outputBondAngle(self, struc, i, j, k):
-        """Output bond angle defined by atoms i, j, k. The angle is
-        calculated using the shortest lengths ji and jk with respect to
+        """Output bond angle defined by atoms i, j, k.
+
+        The angle is calculated using the shortest lengths ji and jk with respect to
         periodic boundary conditions.
 
         struc   -- instance of PDFStructure
@@ -472,8 +474,9 @@ class Fitting(Organizer):
         return
 
     def outputBondLengthAtoms(self, struc, i, j):
-        """Output shortest bond between atoms i, j. Periodic boundary
-        conditions are applied to find the shortest bond.
+        """Output shortest bond between atoms i, j.
+
+        Periodic boundary conditions are applied to find the shortest bond.
 
         struc   -- instance of PDFStructure
         i, j    -- atom indices starting at 1
